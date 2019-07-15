@@ -35,7 +35,7 @@ NO                      = 0
 DEBUG                   = NO
 
 TJ_MODE                 = NO                ; some changes which TJ prefers
-AD_MODE                 = NO                ; some changes which AD prefers
+AD_MODE                 = YES                ; some changes which AD prefers
 
  IF TJ_MODE && AD_MODE
      ECHO "ERROR: Both TJ_MODE and AD_MODE set. Can't do both TJ and AD at the same time!"
@@ -79,7 +79,6 @@ SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes boulders and diamonds to be added as falling objects on cave startup
-EASTER_EGG                      SET YES         ; enable easter egg (instead intermission of INT4)
 
 ;-------------------------------------------------------------------------------
 ; The following are optional YES/NO depending on phase of the moon
@@ -110,7 +109,6 @@ SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
 NUM_LIVES                       SET 3           ; use -1 for unlimited lives
 DEMO_DELAY                      SET 2           ; number of music loops without joystick input before demo kicks in
-EASTER_EGG                      SET YES         ; enable easter egg (instead intermission of INT4)
 NTSC_MODE                       SET YES         ; mmh
  ENDIF
 
@@ -127,7 +125,6 @@ SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
 NUM_LIVES                       SET 3           ; use -1 for unlimited lives
 DEMO_DELAY                      SET 2           ; number of music loops without joystick input before demo kicks in
-EASTER_EGG                      SET NO          ; enable easter egg (instead intermission of INT4)
 NTSC_MODE                       SET YES         ; mmh
  ENDIF
 
@@ -140,7 +137,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 6             ; slowdown when pushing on a boulder
+PUSH_LIMIT                      = 3           ; slowdown when pushing on a boulder
 GENERIC_MASK_ROUNDED            = 1             ; lets rocks/diamonds roll off
 GENERIC_MASK_SQUASHABLE         = 2             ; gets pummelled by anything falling on it
 GENERIC_MASK_EXPLODABLE         = 8             ; takes part in an explosion
@@ -1052,28 +1049,6 @@ CAVE_ACTIVE_{1}  SET 0
                 ENDM
     IF FINAL_VERSION = YES || DEMO_VERSION = NO
         INCLUDE_CAVE INTRO
-        INCLUDE_CAVE ROOMS
-        INCLUDE_CAVE MAZE
-        INCLUDE_CAVE BUTTERFLIES
-        INCLUDE_CAVE GUARDS
-        INCLUDE_CAVE FIREFLY_DENS
-        INCLUDE_CAVE AMOEBA
-        INCLUDE_CAVE ENCHANTED_WALL
-        INCLUDE_CAVE GREED
-        INCLUDE_CAVE TRACKS
-        INCLUDE_CAVE CROWD
-        INCLUDE_CAVE WALLS
-        INCLUDE_CAVE APOCALYPSE
-        INCLUDE_CAVE ZIGZAG
-        INCLUDE_CAVE FUNNEL
-        INCLUDE_CAVE ENCHANTED_BOXES
-        INCLUDE_CAVE INTERMISSION_1
-        INCLUDE_CAVE INTERMISSION_2
-        INCLUDE_CAVE INTERMISSION_3
-        INCLUDE_CAVE INTERMISSION_4
-      IF EASTER_EGG = YES
-        INCLUDE_CAVE SPINDIZZY
-      ENDIF
     ELSE
         INCLUDE_CAVE APOCALYPSE
         INCLUDE_CAVE FUNNEL

@@ -234,6 +234,7 @@ OverscanTblC
             lda #<COPYTIMESTART
             sta CopyTime
 
+            jmp ExitCopyRight ; sokoban - skip copyright/atariage
 
     DEFINE_SUBROUTINE NewCopyRightFrame
 

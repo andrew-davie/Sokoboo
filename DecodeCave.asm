@@ -93,30 +93,6 @@ RECT                = .STRUCT_RECTANGLE
                 lda #BANK_DecodeCave                ; the *ROM* bank of this routine (NOT RAM)
                 sta ROM_Bank                        ; GetROMByte returns to this bank
 
-    IF EASTER_EGG = YES
-    ; check for easter egg (all digits identical)
-                cpy tmpScore
-                bne .noEE
-                cpx tmpScore
-                bne .noEE
-                lda tmpScore
-                beq .noEE
-                lsr
-                lsr
-                lsr
-                lsr
-                eor tmpScore
-                and #$0f
-                bne .noEE
-    ; only instead if intermission 4:
-                ldy cave
-                cpy #MAX_CAVENUM-CAVE_DATA_SIZE
-                bne .noEE
-    ; enable easter egg intermission cave:
-                ldy #MAX_CAVENUM
-                sty cave
-.noEE
-    ENDIF
                 ldy cave
                 lda CaveInformation,y
                 sta Board_AddressR
@@ -247,7 +223,8 @@ SMLimit         cpx #0                              ; byte count (self) modified
                 lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
                 NOP_W
 .exitRandom:
-                lda     (ptrCave),y
+  lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
+;                lda     (ptrCave),y
                 sta     POS_Type
 
 ; put new object on board:
@@ -733,14 +710,8 @@ CaveInformation
 
                     ADD_CAVE INTERMISSION_4,SORT+$80|$3
 
-    IF EASTER_EGG = YES
-                    ADD_CAVE SPINDIZZY,SORT+$80|$4
-CAVENUM SET CAVENUM - CAVE_DATA_SIZE
-    ENDIF
-  ELSE
-                    ADD_CAVE APOCALYPSE,13
-                    ADD_CAVE FUNNEL,SORT+15
-  ENDIF
+                    ;ADD_CAVE APOCALYPSE,13
+                    ;ADD_CAVE FUNNEL,SORT+15
     ;---------------------------------------------------------------------------
 
 
@@ -779,8 +750,3 @@ StructureSizeTbl:
 BoundingWall:
     .byte   .STRUCT_RECTANGLE|CHARACTER_STEEL, 0, 2, 99, 99 ; bounding steel wall
     .byte   .STRUCT_DELIMITER
-
-
-
-
-

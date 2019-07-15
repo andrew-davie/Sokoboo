@@ -47,7 +47,7 @@
 ;-------------------------------------------------------------------------------------
 
 
-    .byte   $00, CHARACTER_BOULDER, CHARACTER_FIREFLY, $00          ; Random objects:
+    .byte   $00, CHARACTER_BOX, CHARACTER_FIREFLY, $00          ; Random objects:
     .byte   $64, $50, $02, $00          ;   zSpace : 100/256 = 39%
                                         ;   zBouS  :  80/256 = 31%
                                         ;   zFFly1 :   2/256 =  0%
@@ -120,11 +120,11 @@
 ;   superfluous due to limited cave size
 ;    .byte   FILL+CHARACTER_STEEL, $00, $02, $28, $16, CHARACTER_STEEL; FilledRect of zSteel from ( 0, 2); length = 40; height = 22; fill = zSteel
     .byte   FILL+CHARACTER_STEEL, $00, $02, $14, $0C, CHARACTER_SOIL ; FilledRect of zSteel from ( 0, 2); length = 20; height = 12; fill = zDirt
-    .byte   RECT+CHARACTER_BOULDER, $0B, $03, $03, $02     ; Rect of zBouS from (11, 3); length = 3; height = 2
+    .byte   RECT+CHARACTER_BOX, $0B, $03, $03, $02     ; Rect of zBouS from (11, 3); length = 3; height = 2
     .byte   FILL+CHARACTER_BLANK, $0B, $07, $03, $06, CHARACTER_BLANK; FilledRect of zSpace from (11, 7); length = 3; height = 6; fill = zSpace
     .byte   LINE+CHARACTER_WALL0, $0B, $06, $03, $02     ; Line of zMagic from (11, 6); length = 3; direction = right
     .byte   LINE+CHARACTER_WALL0, $0B, $0A, $03, $02     ; Line of zMagic from (11,10); length = 3; direction = right
-    .byte   LINE+CHARACTER_BOULDER, $08, $07, $03, $03     ; Line of zBouS from ( 8, 7); length = 3; direction = down/right
+    .byte   LINE+CHARACTER_BOX, $08, $07, $03, $03     ; Line of zBouS from ( 8, 7); length = 3; direction = down/right
     .byte   CHARACTER_MANOCCUPIED, $03, $03               ; StoreChar zPRFd1 at ( 3, 3)
     .byte   CHARACTER_EXITDOOR, $09, $0A               ; StoreChar zPreOut at ( 9,10)
 
@@ -258,7 +258,7 @@
 
 ;-------------------------------------------------------------------------------------
 
-    .byte   CHARACTER_BOULDER, $00, $00, $00          ; Random objects:
+    .byte   CHARACTER_BOX, $00, $00, $00          ; Random objects:
     .byte   $32, $00, $00, $00          ;   zBouS  :  50/256 = 19%
                                         ;   second code unused (0%)
                                         ;   third code unused (0%)
@@ -341,7 +341,7 @@
                                         ;
 
     .byte   CHARACTER_BLANK                    ; Random objects:
-    .byte   CHARACTER_BOULDER
+    .byte   CHARACTER_BOX
     .byte   CHARACTER_FIREFLY
     .byte   0                           ; unused
     .byte   $64, $28, $02, $00          ;   zSpace : 100/256 = 39%
@@ -407,7 +407,7 @@
 
 ;-------------------------------------------------------------------------------------
 
-    .byte   $00, CHARACTER_BOULDER, CHARACTER_FIREFLY, $00          ; Random objects:
+    .byte   $00, CHARACTER_BOX, CHARACTER_FIREFLY, $00          ; Random objects:
     .byte   $5A, $32, $02, $00          ;   zSpace :  90/256 = 35%
                                         ;   zBouS  :  50/256 = 19%
                                         ;   zFFly1 :   2/256 =  0%
@@ -474,7 +474,7 @@
 ;-------------------------------------------------------------------------------------
 
 
-    .byte   CHARACTER_BOULDER, CHARACTER_DIAMOND, $00, $00          ; Random objects:
+    .byte   CHARACTER_BOX, CHARACTER_DIAMOND, $00, $00          ; Random objects:
     .byte   $F0, $78, $00, $00          ;   zBouS  : 240/256 = 93-46%
                                         ;   zDiaS  : 120/256 = 46%
                                         ;   third code unused (0%)

@@ -4,10 +4,9 @@ SOURCE= notBoulderDash.asm
 all: $(BIN)
 
 $(BIN):
-	-killall "Stella"
-	tools/dasm ./notBoulderDash.asm -l./BoulderDash.txt -f3 -s./BoulderDashFI.sym -o./BoulderDashFI.bin
-	chmod 777 ./BoulderDashFI.bin
-	open -a Stella ./BoulderDashFI.bin
+	tools/dasm ./sokoboo.asm -l./sokoboo.txt -f3 -s./sokoboo.sym -o./sokoboo.bin
+	chmod 777 ./sokoboo.bin
+	open -a Stella ./sokoboo.bin
 	exit 0
 
 $(SOURCE): macro.h VCS.H

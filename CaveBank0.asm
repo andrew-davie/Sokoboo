@@ -28,7 +28,7 @@
     .byte   $00, $00, $00, $00          ;   SPACE / BOULDERS/ DIAMONDS / unused
 
 
-    ;.byte   FILL+CHARACTER_BOULDER, $01, $03, 38,6, $00
+    ;.byte   FILL+CHARACTER_BOX, $01, $03, 38,6, $00
     STOCH   CHARACTER_MANOCCUPIED, $03, $04       ; StoreChar zPRFd1 at ( 3, 4)
     STOCH   CHARACTER_EXPLOSION3, 1,3          ; special selector creature (overload explosion character)
     END_CAVE SELECTION_SCREEN
@@ -44,13 +44,9 @@
     .byte   $14                                 ; Magic wall/amoeba slow growth for: 20 seconds
     .byte   $10 ;BCD'd $0A                                 ; Diamonds worth: 10 points
     .byte   $15 ;BCD'd $0F                                 ; Extra diamonds worth: 15 points
-    CAVE_RANDOM $0A, $0B, $0C, $0D, $0E         ; Randomiser seed values for difficulty levels 1-5
+    CAVE_RANDOM $2A, $0B, $0C, $0D, $0E         ; Randomiser seed values for difficulty levels 1-5
 
-    IF TEST_BONUS_COUNTDOWN = YES
-        .byte   $01, $0C, $0C, $0C, $0C             ; Diamonds needed: 12, 12, 12, 12, 12 (for difficulty levels 1-5)
-    ELSE
         .byte   $0C, $0C, $0C, $0C, $0C             ; Diamonds needed: 12, 12, 12, 12, 12 (for difficulty levels 1-5)
-    ENDIF
 
     .byte   $96, $6E, $46, $28, $1E             ; Cave time
 
@@ -91,7 +87,7 @@
 ;-------------------------------------------------------------------------------------
 
     .byte   CHARACTER_BLANK                            ; Random objects:
-    .byte   CHARACTER_BOULDER
+    .byte   CHARACTER_BOX
     .byte   CHARACTER_DIAMOND
     .byte   CHARACTER_BLANK
     .byte   $3C, $32, $09, $00                  ;   zSpace :  60/256 = 23-19-3%
@@ -99,32 +95,92 @@
                                                 ;   zDiaS  :   9/256 =  3%
                                                 ;   fourth code unused (0%)
 
-    .byte   LINE+CHARACTER_WALL, $01, $09, $1E, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
-    .byte   LINE+CHARACTER_WALL, $09, $10, $1E, $02    ; Line of zBrick from ( 9,16); length = 30; direction = right
-    STOCH   CHARACTER_MANOCCUPIED, $03, $04               ; StoreChar zPRFd1 at ( 3, 4)
+BASEX = 5
+BASEY = 9
 
 
-    IF TEST_BONUS_COUNTDOWN = YES
- ;Thomas the following 2 are a quick test for bonus countdown...
- ; there's a diamond below the man, and an exit door below that.
- ; so you go to level A1, then down/down and you are at the bonus sequence...
 
- ; The butterfly and boulder are added so you can test...
- ; Hitting the exit door and then having the butterfly come and try to kill you in the exit
- ;  To do this, open a path for the butterfly above/right the boulder, then go to the exit.
+#if 1
+
+ .byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+1, 3, 2
+ ;.byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+2, 3, 2
+ ;.byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+3, 3, 2
 
 
-        STOCH CHARACTER_DIAMOND, 3, 5
-        STOCH   CHARACTER_EXITDOOR, 3, 6                   ; StoreChar zPreOut at (38,18)
-        .byte LINE+CHARACTER_BLANK, 4,5,5,2                 ; blank row
-        .byte   CHARACTER_BOULDER, 4,5
-        .byte   CHARACTER_FLUTTERBY, 9,5
-    ELSE
-        STOCH   CHARACTER_EXITDOOR, $26, $12                   ; StoreChar zPreOut at (38,18)
-    ENDIF
+  .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+0, 5, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+0, 4, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+2, BASEY+3, 3, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+2, BASEY+3, 3, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+0, BASEY+5, 3, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+0, BASEY+5, 4, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+0, BASEY+8, 5, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+8, 3, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+10, 7, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+10, BASEY+8, 3, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+10, BASEY+9, 9, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+12, BASEY+8, 2, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+6, BASEY+8, 3, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+18, BASEY+5, 5, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+13, BASEY+5, 6, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+9, BASEY+6, 5, 2
+  .byte   LINE+CHARACTER_STEEL, BASEX+9, BASEY+3, 4, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+8, BASEY+0, 4, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+5, 2, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+6, BASEY+5, 2, 4
+  .byte   LINE+CHARACTER_STEEL, BASEX+7, BASEY+5, 2, 4
 
-    END_CAVE INTRO
-    ENDIF
+  STOCH   CHARACTER_MANOCCUPIED, BASEX+11, BASEY+8               ; StoreChar zPRFd1 at ( 3, 4)
+
+  STOCH   CHARACTER_BOX, BASEX+5, BASEY+2
+  STOCH   CHARACTER_BOX, BASEX+7, BASEY+3
+  STOCH   CHARACTER_BOX, BASEX+5, BASEY+4
+  STOCH   CHARACTER_BOX, BASEX+7, BASEY+4
+  STOCH   CHARACTER_BOX, BASEX+2, BASEY+7
+  STOCH   CHARACTER_BOX, BASEX+5, BASEY+7
+
+  STOCH   CHARACTER_DIAMOND, BASEX+16, BASEY+6
+  STOCH   CHARACTER_DIAMOND, BASEX+17, BASEY+6
+  STOCH   CHARACTER_DIAMOND, BASEX+16, BASEY+7
+  STOCH   CHARACTER_DIAMOND, BASEX+17, BASEY+7
+  STOCH   CHARACTER_DIAMOND, BASEX+16, BASEY+8
+  STOCH   CHARACTER_DIAMOND, BASEX+17, BASEY+8
+
+#endif
+
+#if 0
+    .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+1, 8, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+    .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+2, 8, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+    .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+3, 8, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+    .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+4, 8, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+    .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+5, 8, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+
+
+
+    .byte   LINE+CHARACTER_STEEL, BASEX+$01, BASEY+0, 7, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+    .byte   LINE+CHARACTER_STEEL, BASEX+$01, BASEY+1, 2, 4    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+3, BASEY+2, 3, 2    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+4, 2, 4    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+0, BASEY+2, 4, 4    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+1, BASEY+5, 1, 4    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+1, BASEY+6, 8, 2    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+8, BASEY+4, 2, 4    ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+7, BASEY+1, 2,2     ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_STEEL, BASEX+9, BASEY+1, 4,4     ; Line of zBrick from ( 1, 9); length = 30; direction = down
+
+    .byte   LINE+CHARACTER_DIAMOND, BASEX+2, BASEY+4, 2,2     ; Line of zBrick from ( 1, 9); length = 30; direction = down
+    .byte   LINE+CHARACTER_DIAMOND, BASEX+2, BASEY+5, 2,2     ; Line of zBrick from ( 1, 9); length = 30; direction = down
+
+    ;.byte   LINE+CHARACTER_WALL, $01, $09, $1E, $02    ; Line of zBrick from ( 1, 9); length = 30; direction = right
+    ;.byte   LINE+CHARACTER_WALL, $09, $10, $1E, $02    ; Line of zBrick from ( 9,16); length = 30; direction = right
+    STOCH   CHARACTER_MANOCCUPIED, BASEX+02, BASEY+3               ; StoreChar zPRFd1 at ( 3, 4)
+
+    STOCH   CHARACTER_BOX, BASEX+2, BASEY+2               ; StoreChar zPRFd1 at ( 3, 4)
+    STOCH   CHARACTER_BOX, BASEX+4, BASEY+3               ; StoreChar zPRFd1 at ( 3, 4)
+    STOCH   CHARACTER_BOX, BASEX+7, BASEY+3               ; StoreChar zPRFd1 at ( 3, 4)
+    STOCH   CHARACTER_BOX, BASEX+6, BASEY+4               ; StoreChar zPRFd1 at ( 3, 4)
+#endif
+
+  END_CAVE INTRO
 
     ;------------------------------------------------------------------------------
 
@@ -173,7 +229,7 @@
 
 
     .byte   CHARACTER_BLANK                            ; Random objects:
-    .byte   CHARACTER_BOULDER
+    .byte   CHARACTER_BOX
     .byte   CHARACTER_DIAMOND
     .byte   CHARACTER_FIREFLY
     .byte   $3C, $32, $09, $02                  ;   zSpace :  60/256 = 23-19-3%
@@ -275,7 +331,7 @@
 ;-------------------------------------------------------------------------------------
 
     .byte   CHARACTER_WALL                             ; Random objects:
-    .byte   CHARACTER_BOULDER
+    .byte   CHARACTER_BOX
     .byte   CHARACTER_DIAMOND
     .byte   CHARACTER_BLANK
     .byte   $64, $32, $09, $00                  ;   zBrick : 100/256 = 39%
@@ -338,7 +394,7 @@
 ;-------------------------------------------------------------------------------------
 
 
-    .byte   CHARACTER_BOULDER                          ; Random objects:
+    .byte   CHARACTER_BOX                          ; Random objects:
     .byte   CHARACTER_BLANK
     .byte   CHARACTER_BLANK
     .byte   CHARACTER_BLANK
@@ -357,78 +413,4 @@
     END_CAVE BUTTERFLIES
     ENDIF
 
-    ;------------------------------------------------------------------------------
-
-    IF FINAL_VERSION = YES || DEMO_VERSION = NO
-      IF EASTER_EGG = YES
-    START_CAVE SPINDIZZY                ; "Spindizzy"
-      .byte   $15                       ; Cave 21
-    CAVE_SIZE 10, 8+1                   ; width, height
-    .byte   4                           ; amoeba slow growth for: 3 seconds
-    .byte   $10                         ; Diamonds worth: 10 points
-    .byte   $50                         ; Extra diamonds worth: 50 points
-    .byte   $00, $00, $00, $00, $00     ; Randomiser seed values for difficulty levels 1-5
-    .byte    8,  9, 10, 11, 12          ; Diamonds needed: 12, 13, 14, 15, 16 (for difficulty levels 1-5)
-    .byte   15, 15, 15, 15, 15          ; Cave time: 15, 15, 15, 15, 15 seconds
-
-;-------------------------------------------------------------------------------------
-; PALETTE DEFINITIONS
-
-    IF FINAL_VERSION || ![TJ_MODE|AD_MODE]
-        .byte   $68, $88                    ; NTSC/PAL
-        .byte   $24, $24                    ; PAL amoeba color is now identical to cave G
-        .byte   $cc, $7a                    ;
-    ELSE
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF AD_MODE
-            .byte   $68, $88
-            .byte   $24, $24
-            .byte   $cc, $7a
-        ENDIF
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF TJ_MODE
-            .byte   $68, $88
-            .byte   $24, $24
-            .byte   $cc, $7a
-        ENDIF
-
- ENDIF
-
-;-------------------------------------------------------------------------------------
-
-
-    .byte   $00, $00, $00, $00          ; Random objects:
-    .byte   $00, $00, $00, $00          ;   first code unused (0%)
-                                        ;   second code unused (0%)
-                                        ;   third code unused (0%)
-                                        ;   fourth code unused (0%)
-
-    .byte   FILL+CHARACTER_WALL, 0, 3, 5, 6, CHARACTER_SOIL
-    .byte   FILL+CHARACTER_WALL, 5, 3, 5, 6, CHARACTER_BLANK
-    .byte   RECT+CHARACTER_STEEL, 0, 2, 10, 8
-
-    .byte   CHARACTER_AMOEBA,1, 4
-    .byte   CHARACTER_AMOEBA,3, 4
-    .byte   CHARACTER_AMOEBA,1, 7
-    .byte   CHARACTER_AMOEBA,3, 7
-
-    .byte   CHARACTER_STEEL, 4, 4
-    .byte   CHARACTER_DIAMOND, 5, 4
-    .byte   CHARACTER_SOIL, 5, 5
-    .byte   CHARACTER_SOIL, 5, 7
-
-    .byte   CHARACTER_FIREFLY, 6, 7
-    .byte   CHARACTER_MANOCCUPIED, 5, 6
-    .byte   CHARACTER_EXITDOOR, 4, 9
-    END_CAVE SPINDIZZY
-      ENDIF
-    ENDIF
-
-
    ; ECHO "MAX CAVE SIZE = ", MAX_CAVE_SIZE
-
-

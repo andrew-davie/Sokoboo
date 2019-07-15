@@ -831,7 +831,7 @@ HighScoreColTbl:
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE GetDiamond
 
-                jsr UpdateScore                 ;looong!
+                ;sok jsr UpdateScore                 ;looong!
 
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE SetupDiamondsPtr
@@ -1092,18 +1092,6 @@ FourR
                 rts
 
     ;---------------------------------------------------------------------------
-
-  IF EASTER_EGG = YES
-    DEFINE_SUBROUTINE GetScore
-                lda ScoreCurrent
-                ldx ScoreCurrent+1
-                ldy ScoreCurrent+2
-;                lda #$33
-;                tax
-;                tay
-                sta tmpScore
-                rts
-  ENDIF
 
 ScoreCurrent    ds 3, 0
 ; start cave and level have to be after ScoreCurrent!

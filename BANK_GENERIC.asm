@@ -150,50 +150,6 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
 ; if new high score was set by SwapPlayers, update it:
                 jmp WriteSaveKey
 
-    ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE CheckDiamondFlash
-
-                START_SOUND SOUND_DIAMOND_PICKUP    ;15
-
-    ; determine additional points, used later!
-                lda diamondsWorth               ;3
-                bit scoringFlags                ;3        ; D7 = Extra diamonds
-                bpl .noExtra                    ;2/3
-                lda diamondsExtraWorth          ;3
-.noExtra:
-                tay
-
-                clc
-                sed
-                lda #$99
-                bit scoringFlags                    ; EXTRA_DIAMONDS?
-                bpl .subtract                       ; NO, so branch
-                lda #$01
-.subtract:
-                adc diamondsNeeded
-                sta diamondsNeeded
-                cld
-                tax                                 ; ???  reported to SA ???  fix, Stella emulates wrong here!
-                bne .noCrack
-                bit scoringFlags                    ; EXTRA_DIAMONDS?
-                bpl .openDoor
-                lda #EXTRA_DIAMONDS|EXTRA_100_DIAMONDS|DISPLAY_SCORE ; must be >= 100 extra diamonds now!
-                bne .setDiamondFlag                 ; unconditional
-
-; required number of diamons collected:
-.openDoor
-                START_SOUND SOUND_CRACK             ; start "crack" sound to indicate open door
-
-;                lda #WHITE
-;                sta BGColour                        ; "flash" to show door is open
-                lda #FLASH_TIME
-                sta ColourTimer
-                lda #EXTRA_DIAMONDS|DISPLAY_SCORE
-.setDiamondFlag
-                sta scoringFlags
-.noCrack
-                tya
-                rts
 
     ;------------------------------------------------------------------------------
 
@@ -653,7 +609,7 @@ OverscanTime
 
                 lda LookingAround
                 bpl nolooker                    ; if not looking around, that will do nicely
-                ldy #$d0
+                ldy #2
 ;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
 nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
 

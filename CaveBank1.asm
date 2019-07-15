@@ -135,7 +135,7 @@
 
 
     .byte   CHARACTER_BLANK                            ; Random objects:
-    .byte   CHARACTER_BOULDER
+    .byte   CHARACTER_BOX
     .byte   CHARACTER_FIREFLY
     .byte   CHARACTER_BLANK
     .byte   $64, $50, $02, $00                  ;   zSpace : 100/256 = 39%
@@ -206,7 +206,7 @@
 ;-------------------------------------------------------------------------------------
 
 
-    .byte   $00, CHARACTER_BOULDER, CHARACTER_DIAMOND, $00                  ; Random objects:
+    .byte   $00, CHARACTER_BOX, CHARACTER_DIAMOND, $00                  ; Random objects:
     .byte   $3C, $32, $09, $00                  ;   zSpace :  60/256 = 23%
                                                 ;   zBouS  :  50/256 = 19%
                                                 ;   zDiaS  :   9/256 =  3%
@@ -280,7 +280,7 @@
 
 
 
-    .byte   CHARACTER_BOULDER, $00, $00, $00                  ; Random objects:
+    .byte   CHARACTER_BOX, $00, $00, $00                  ; Random objects:
     .byte   $28, $00, $00, $00                  ;   zBouS  :  40/256 = 15%
                                                 ;   second code unused (0%)
                                                 ;   third code unused (0%)
@@ -298,7 +298,7 @@
 
     .byte   LINE+CHARACTER_WALL, $05, $12, $1E, $02    ; Line of zBrick from ( 5,18); length = 30; direction = right
     .byte   LINE+CHARACTER_FLUTTERBY, $05, $13, $1E, $02          ; Line of zBFly1 from ( 5,19); length = 30; direction = right
-    .byte   LINE+CHARACTER_BOULDER, $05, $14, $1E, $02 ; Line of zBouS from ( 5,20); length = 30; direction = right
+    .byte   LINE+CHARACTER_BOX, $05, $14, $1E, $02 ; Line of zBouS from ( 5,20); length = 30; direction = right
     .byte   RECT+CHARACTER_SOIL, $05, $15, $1E, $02    ; Rect of zDirt from ( 5,21); length = 30; height = 2
 
     END_CAVE APOCALYPSE
@@ -349,7 +349,7 @@
 ;-------------------------------------------------------------------------------------
 
 
-    .byte   CHARACTER_BOULDER, $00, $00, $00                  ; Random objects:
+    .byte   CHARACTER_BOX, $00, $00, $00                  ; Random objects:
     .byte   $00, $00, $00, $00                  ;   first code unused (0%)
                                                 ;   second code unused (0%) ???
                                                 ;   third code unused (0%) ???
@@ -360,7 +360,7 @@
     .byte   RECT+CHARACTER_SOIL, $0C, $0A, $03, $0D    ; Rect of zDirt from (12,10); length = 3; height = 13
     .byte   RECT+CHARACTER_SOIL, $10, $0A, $03, $0D    ; Rect of zDirt from (16,10); length = 3; height = 13
     .byte   RECT+CHARACTER_SOIL, $14, $0A, $03, $0D    ; Rect of zDirt from (20,10); length = 3; height = 13
-    .byte   LINE+CHARACTER_BOULDER, $16, $08, $0C, $02 ; Line of zBouS from (22, 8); length = 12; direction = right
+    .byte   LINE+CHARACTER_BOX, $16, $08, $0C, $02 ; Line of zBouS from (22, 8); length = 12; direction = right
     .byte   LINE+CHARACTER_FIREFLY, $16, $07, $0C, $02 ; Line of zFFly1 from (22, 7); length = 12; direction = right
     .byte   RECT+CHARACTER_SOIL, $17, $06, $03, $04    ; Rect of zDirt from (23, 6); length = 3; height = 4
     .byte   RECT+CHARACTER_SOIL, $1B, $06, $03, $04    ; Rect of zDirt from (27, 6); length = 3; height = 4
@@ -416,7 +416,7 @@
 
 ;-------------------------------------------------------------------------------------
 
-    .byte   CHARACTER_BOULDER, $00, $00, $00                  ; Random objects:
+    .byte   CHARACTER_BOX, $00, $00, $00                  ; Random objects:
     .byte   $32, $00, $00, $00                  ;   zBouS  :  50/256 = 19%
                                                 ;   second code unused (0%)
                                                 ;   third code unused (0%)
@@ -496,11 +496,11 @@
 ;    .byte   FILL+CHARACTER_STEEL, $00, $02, $28, $16, CHARACTER_STEEL; FilledRect of zSteel from ( 0, 2); length = 40; height = 22; fill = zSteel
     .byte   FILL+CHARACTER_STEEL, $00, $02, $14, 9+3, CHARACTER_BLANK; FilledRect of zSteel from ( 0, 2); length = 20; height = 12; fill = zSpace
 ;    .byte   CHARACTER_FLUTTERBY2, $0A, $0C          ; StoreChar zBFly3 at (10,12)
-;    .byte   CHARACTER_BOULDER, $0A, $05             ; StoreChar zBouS at (10, 4)
+;    .byte   CHARACTER_BOX, $0A, $05             ; StoreChar zBouS at (10, 4)
 ;    .byte   CHARACTER_SOIL, $0A, $6                 ; StoreChar zDirt at (10, 5)
 ;    .byte   CHARACTER_MANOCCUPIED, $03, $05         ; StoreChar zPRFd1 at ( 3, 5)
     .byte   CHARACTER_FLUTTERBY2, $05, $0C          ; StoreChar zBFly3 at (10,12)
-    .byte   CHARACTER_BOULDER, $06, $07             ; StoreChar zBouS at (10, 4)
+    .byte   CHARACTER_BOX, $06, $07             ; StoreChar zBouS at (10, 4)
     .byte   CHARACTER_SOIL, $06, $8                 ; StoreChar zDirt at (10, 5)
     .byte   CHARACTER_MANOCCUPIED, $03, $b          ; StoreChar zPRFd1 at ( 3, 5)
 
@@ -561,13 +561,13 @@
 ;   superfluous due to limited cave size
 ;    .byte   FILL+CHARACTER_STEEL, $00, $02, $28, $16, CHARACTER_STEEL; FilledRect of zSteel from ( 0, 2); length = 40; height = 22; fill = zSteel
     .byte   FILL+CHARACTER_STEEL, $00, $02, $14, $0C, CHARACTER_SOIL; FilledRect of zSteel from ( 0, 2); length = 20; height = 12; fill = zDirt
-    .byte   LINE+CHARACTER_BOULDER, $01, $03, $09, $03 ; Line of zBouS from ( 1, 3); length = 9; direction = down/right
+    .byte   LINE+CHARACTER_BOX, $01, $03, $09, $03 ; Line of zBouS from ( 1, 3); length = 9; direction = down/right
     .byte   LINE+CHARACTER_FIREFLY, $02, $03, $08, $03 ; Line of zFFly1 from ( 2, 3); length = 8; direction = down/right
     .byte   LINE+CHARACTER_DIAMOND, $01, $05, $08, $03 ; Line of zDiaS from ( 1, 5); length = 8; direction = down/right
-    .byte   LINE+CHARACTER_BOULDER, $01, $06, $07, $03 ; Line of zBouS from ( 1, 6); length = 7; direction = down/right
-    .byte   LINE+CHARACTER_BOULDER, $12, $03, $09, $05 ; Line of zBouS from (18, 3); length = 9; direction = down/left
+    .byte   LINE+CHARACTER_BOX, $01, $06, $07, $03 ; Line of zBouS from ( 1, 6); length = 7; direction = down/right
+    .byte   LINE+CHARACTER_BOX, $12, $03, $09, $05 ; Line of zBouS from (18, 3); length = 9; direction = down/left
     .byte   LINE+CHARACTER_DIAMOND, $12, $05, $08, $05 ; Line of zDiaS from (18, 5); length = 8; direction = down/left
-    .byte   LINE+CHARACTER_BOULDER, $12, $06, $07, $05 ; Line of zBouS from (18, 6); length = 7; direction = down/left
+    .byte   LINE+CHARACTER_BOX, $12, $06, $07, $05 ; Line of zBouS from (18, 6); length = 7; direction = down/left
     .byte   CHARACTER_MANOCCUPIED, $01, $04               ; StoreChar zPRFd1 at ( 1, 4)
     .byte   CHARACTER_EXITDOOR, $12, $04                   ; StoreChar zPreOut at (18, 4)
 
@@ -716,4 +716,3 @@
 
 
     ;ECHO "MAX CAVE SIZE = ", MAX_CAVE_SIZE
-

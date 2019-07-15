@@ -511,7 +511,7 @@ nextAmobPos
                 cmp #TOO_MUCH_AMOEBA            ; 2
                 ldx #CHARACTER_DIAMOND          ; 2
                 bcc diam                        ; 2/3
-                ldx #CHARACTER_BOULDER          ; 2
+                ldx #CHARACTER_BOX          ; 2
 diam                                            ;   = 10/11
 ;amoebaToRocksOrDiamonds
 
@@ -735,7 +735,7 @@ OBJTYPE    .SET OBJTYPE + 1
 
                 DEFINE_CHARACTER BLANK
                 DEFINE_CHARACTER SOIL
-                DEFINE_CHARACTER BOULDER
+                DEFINE_CHARACTER BOX
                 DEFINE_CHARACTER AMOEBA
                 DEFINE_CHARACTER DIAMOND
                 DEFINE_CHARACTER DIAMOND2
@@ -757,7 +757,7 @@ OBJTYPE    .SET OBJTYPE + 1
                 DEFINE_CHARACTER EXPLOSION2
                 DEFINE_CHARACTER EXPLOSION3
                 DEFINE_CHARACTER AMOEBA2
-                DEFINE_CHARACTER BOULDER_FALLING
+                DEFINE_CHARACTER BOX_FALLING
                 DEFINE_CHARACTER DIAMOND_FALLING
                 DEFINE_CHARACTER NOGO
 
@@ -765,7 +765,7 @@ OBJTYPE    .SET OBJTYPE + 1
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE PushBoulder ; in INITBANK
+    DEFINE_SUBROUTINE PushBox ; in INITBANK
 
     ; Note: FALLING boulders are not really boulders. They are falling boulders. They are a different
     ; character type, so will not get to this code. So you can't push falling objects :)
@@ -774,21 +774,30 @@ OBJTYPE    .SET OBJTYPE + 1
 
     ; Determine if the boulder is pushable
     ; we use the joystick to calculate the subsequent square
+;;;
 
-                lda BufferedJoystick
-                and BufferedJoystick+1
-                eor #$FF
-                and #%11000000                      ; right/left
-                beq cannotPush2
-                asl
-                rol
-                rol
-                tay
+      lda BufferedJoystick
+      lsr
+      lsr
+      lsr
+      lsr
+      pha
+      tay
 
-                lda POS_X_NEW
-                adc DirPushMod,y
-                pha
-                tay
+      clc
+      lda POS_Y_NEW
+      adc JoyMoveY,y
+      tay
+      jsr GetBoardAddressRW
+
+      pla
+      tay
+
+      clc
+      lda POS_X_NEW
+      adc JoyMoveX,y
+      pha
+      tay
 
     IF MULTI_BANK_BOARD = YES
                 lda RAM_Bank
@@ -796,10 +805,12 @@ OBJTYPE    .SET OBJTYPE + 1
                 lda #BANK_BOARD                 ; 2
     ENDIF
                 jsr GetBoardCharacter           ;6+20(A)
+                cmp #CHARACTER_DIAMOND
+                beq canPush
                 cmp #CHARACTER_BLANK
                 bne cannotPush
 
-                pla
+canPush         pla
                 tay
 
                 inc ManPushCounter
@@ -808,13 +819,12 @@ OBJTYPE    .SET OBJTYPE + 1
                 bne cannotPush2                         ; nice 'get to 0' optimisation
                 sta ManPushCounter
 
-
     IF MULTI_BANK_BOARD = YES
                 ldx RAM_Bank
     ELSE
                 ldx #BANK_BOARD                 ; 2
     ENDIF
-                lda #CHARACTER_BOULDER
+                lda #CHARACTER_BOX
                 jsr PutBoardCharacter           ;6+21(A)
 
                 ldx POS_Y_NEW
@@ -965,7 +975,8 @@ MoveThatWayStraight ;=273[-4](B)
 
 RDirY           .byte -1    ;,0,1,0
 RDirX           .byte 0,1   ;,0,-1
-DirPushMod      .byte 0,-1,1,0
+DirPushModX      .byte 0,-1,1,0
+DirPushModY      .byte -1,0,0,1
 Directional     .byte 1,2,3,0,1,2, 0,0, 11,8,9,10,11,8
 
 
@@ -1011,9 +1022,9 @@ MANMODE_BONUS_RUN   = 9
 .skipReset:
 
                 ldy ManMode
-                lda ManActionTimer,y
-                beq .skipTimer
-                jsr UpdateTimer
+                ;sok lda ManActionTimer,y
+                ;sok beq .skipTimer
+                ;sok jsr UpdateTimer
 .skipTimer:
                 ldy ManMode
                 lda ManActionLO,y

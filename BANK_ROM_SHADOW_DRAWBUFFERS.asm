@@ -332,7 +332,7 @@ CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
 
                 .byte CHARACTER_BLANK       ;  0
                 .byte CHARACTER_SOIL        ;  1
-                .byte CHARACTER_BOULDER     ;  2
+                .byte CHARACTER_BOX     ;  2
 ANIM_AMOEBA     .byte CHARACTER_AMOEBA      ;  3
 ANIM_DIAMOND    .byte CHARACTER_DIAMOND     ;  4
                 .byte 0;CHARACTER_DIAMOND   ;  5
@@ -354,7 +354,7 @@ ANIM_EXITDOOR   .byte CHARACTER_EXITDOOR    ; 11
                 .byte CHARACTER_EXPLOSION2  ; 15
                 .byte CHARACTER_EXPLOSION3  ; 16
                 .byte 0;CHARACTER_AMOEBA    ; 17
-                .byte CHARACTER_BOULDER     ; 18    falling boulder
+                .byte CHARACTER_BOX     ; 18    falling boulder
                 .byte CHARACTER_DIAMOND     ; 19    falling diamond, no anim
                 .byte CHARACTER_NOGO            ;20 the unkillable man for end of level
 

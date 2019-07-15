@@ -529,82 +529,83 @@ EarlyAbortBoulder
                 cmp POS_Type                    ;3
                 bne gnobj                       ;2/3
 
+                jmp NotStraightDown     ; Sokoban ovveride
     ; Test immediately under the current object.
     ;  If there's something we can fall on, then we *do*.
 
-                ldy POS_Y                       ;3
-                iny                             ;2
+                ;;ldy POS_Y                       ;3
+                ;;iny                             ;2
 
-                lda #BANK_GetBoardAddressR      ;
-                sta SET_BANK                    ;
-                jsr GetBoardAddressR            ;11+24[-2](A)
-                sta SET_BANK_RAM                ;3
+                ;;lda #BANK_GetBoardAddressR      ;
+                ;;sta SET_BANK                    ;
+                ;;jsr GetBoardAddressR            ;11+24[-2](A)
+                ;;sta SET_BANK_RAM                ;3
 
-                ldy POS_X                       ;3
-                lax (Board_AddressR),y          ;5              checking immediately below
-                beq FallForSure                 ;2/3            always fall into blank
+                ;;ldy POS_X                       ;3
+                ;;lax (Board_AddressR),y          ;5              checking immediately below
+                ;;beq FallForSure                 ;2/3            always fall into blank
 
     ; ... unless we were just generated, in which case we don't fall
     ; (prevents falling on a butterfly and causing chain reaction)
 
-                lda POS_VAR                     ;3
-                asl                             ;2
-                bmi NotStraightDown             ;2/3
+                ;;lda POS_VAR                     ;3
+                ;;asl                             ;2
+                ;;bmi NotStraightDown             ;2/3
 
-                lda GenericCharFlag,x           ;4
-                and #GENERIC_MASK_SQUASHABLE    ;2              can this object be fallen upon?
-                beq NotStraightDown             ;3(2)           NOT squashable
+                ;;lda GenericCharFlag,x           ;4
+                ;;and #GENERIC_MASK_SQUASHABLE    ;2              can this object be fallen upon?
+                ;;beq NotStraightDown             ;3(2)           NOT squashable
 
 
     ; OK, we could be falling on a magic wall.  If we are, then we actually end up
     ; two characters below (if it is blank).
 
-                lda GenericCharFlag,x           ;4
-                and #GENERIC_MASK_MAGICWALL     ;2              magic wall chars
-                bne doMagicWall                 ;2/3
+                ;;lda GenericCharFlag,x           ;4
+                ;;and #GENERIC_MASK_MAGICWALL     ;2              magic wall chars
+                ;;bne doMagicWall                 ;2/3
 
-                lda POS_VAR                     ;3
-                bpl NotStraightDown             ;2/3            don't fall on anything if we weren't already falling
+                ;;lda POS_VAR                     ;3
+                ;;bpl NotStraightDown             ;2/3            don't fall on anything if we weren't already falling
 
-FallForSure     inc POS_Y_NEW                   ;5              object to move straight down
-                jmp BlankDown                   ;3              unconditional
+;;FallForSure     inc POS_Y_NEW                   ;5              object to move straight down
+;;                jmp BlankDown                   ;3              unconditional
 
-FallForSure2    lda POS_Type
-                eor #TYPE_DIAMOND^TYPE_BOULDER
-                sta POS_Type
-                inc POS_Y_NEW
-                jmp BlankDown
+;;FallForSure2    lda POS_Type
+;;                eor #TYPE_DIAMOND^TYPE_BOULDER
+;;                sta POS_Type
+;;                inc POS_Y_NEW
+;;                jmp BlankDown
 
-doMagicWall
+;;doMagicWall
     ; only fall into magic wall if we are already falling... and if so
     ; and the magic wall isn't turned on, turn it on.
 
-                lda POS_VAR                         ; 3
-                bpl NotStraightDown                 ; 2(3)  disallow objects not already falling
+;;                lda POS_VAR                         ; 3
+;;                bpl NotStraightDown                 ; 2(3)  disallow objects not already falling
 
-                ldx MagicAmoebaFlag                 ; 3
-                beq WallExp                         ; 2(3)
-                inx                                 ; 2     $ff = MAGIC_WALL_DORMANT?
-                bne ActiveWall                      ; 2(3)
-                lda magicAmoebaTime                 ; 2     was wall active before?
-                beq WallExp                         ; 2(3)
+;;                ldx MagicAmoebaFlag                 ; 3
+;;                beq WallExp                         ; 2(3)
+;;                inx                                 ; 2     $ff = MAGIC_WALL_DORMANT?
+;;                bne ActiveWall                      ; 2(3)
+;;                lda magicAmoebaTime                 ; 2     was wall active before?
+;;                beq WallExp                         ; 2(3)
 
-                sta MagicAmoebaFlag                 ; 3     start the timer
-                stx magicAmoebaTime                 ; 3     prevent restart
+;;                sta MagicAmoebaFlag                 ; 3     start the timer
+;;                stx magicAmoebaTime                 ; 3     prevent restart
 
-                START_SOUND SOUND_MAGIC_WALL        ;       start the magic wall sound
+;;                START_SOUND SOUND_MAGIC_WALL        ;       start the magic wall sound
 
-ActiveWall
+;;ActiveWall
 
     ; We must prevent an action which has no 'reversibility' -- that is, don't remove a diamond/boulder
     ; and then find out we're out of time.  Actions must be "units" indivisible.  So we do a segtime check
     ; first, to guarantee we have enough time.
 
-                lda INTIM
-                cmp #SEGTIME_MAGIC
-                bcc NotEnoughTime2              ; otherwise we have disappearing diamonds due to segtime aborts
+;;                lda INTIM
+;;                cmp #SEGTIME_MAGIC
+;;                bcc NotEnoughTime2              ; otherwise we have disappearing diamonds due to segtime aborts
 
-                inc POS_Y_NEW                       ; moves 2 squares
+;;                inc POS_Y_NEW                       ; moves 2 squares
 
     ; The following was the cause of the missing diamonds in, for example, INT4. The issue is that
     ; we remove the original diamond, branch to FallForSure, which then says "aha, not enough time!" and
@@ -617,22 +618,22 @@ ActiveWall
 
     ; Check to see if the new position is available (=blank).  If not, object disappears
 
-                ldy POS_Y
-                iny
-                iny
+  ;;              ldy POS_Y
+  ;;              iny
+  ;;              iny
 
-                lda #BANK_GetBoardAddressR          ;
-                sta SET_BANK                        ;
-                jsr GetBoardAddressR                ;11+24[-2](A)
-                sta SET_BANK_RAM                    ;3
+  ;;              lda #BANK_GetBoardAddressR          ;
+  ;;              sta SET_BANK                        ;
+  ;;              jsr GetBoardAddressR                ;11+24[-2](A)
+  ;;              sta SET_BANK_RAM                    ;3
 
-                ldy POS_X
-                lda (Board_AddressR),y
-                beq FallForSure2
-                jmp ReplaceFallingChar          ; become a 'normal' boulder/diamond
+  ;;              ldy POS_X
+  ;;              lda (Board_AddressR),y
+  ;;              beq FallForSure2
+  ;;              jmp ReplaceFallingChar          ; become a 'normal' boulder/diamond
 
-WallExp         jsr BlankOriginalLocation       ;6+97(A)        blank/stack previous position
-                jmp NextObject                  ; 3           object simply disappears
+;;WallExp         jsr BlankOriginalLocation       ;6+97(A)        blank/stack previous position
+;;                jmp NextObject                  ; 3           object simply disappears
 
 
 NotEnoughTime2
@@ -652,9 +653,9 @@ ProcessBD
 
         ; Note that the object under us may be a NON-ROUNDED (=FALLING) boulder/diamond
 
-                lda GenericCharFlag,x               ; is the object we're sitting on 'rounded'?
-                and #GENERIC_MASK_ROUNDED
-                bne mayRoundOff
+                ;;lda GenericCharFlag,x               ; is the object we're sitting on 'rounded'?
+                ;;and #GENERIC_MASK_ROUNDED
+                ;;bne mayRoundOff
 
         ; Could have been FALLING character/object type, so replace with a default character on the board
 
@@ -685,85 +686,85 @@ wasNotFalling   jmp NextObject                      ; no, so we can't roll off i
         ; to the left.  Rolling involves moving sideways if the square to the side is blank AND
         ; the one below that one is squashable.  Here we get the 4 squares which will be
         ; involved in the calcs...
-mayRoundOff                                         ; y == POS_X
-                dey
-                lda (Board_AddressR),y              ; leftward of row UNDERNEATH
-                sta BoulderLeft
-                iny
-                iny
-                lda (Board_AddressR),y
-                sta BoulderRight                    ; rightward of row UNDERNEATH
+;;mayRoundOff                                         ; y == POS_X
+;;                dey
+;;                lda (Board_AddressR),y              ; leftward of row UNDERNEATH
+;;                sta BoulderLeft
+;;                iny
+;;                iny
+;;                lda (Board_AddressR),y
+;;                sta BoulderRight                    ; rightward of row UNDERNEATH
 
-                ldy POS_Y
+;;                ldy POS_Y
 
-                lda #BANK_GetBoardAddressR          ;
-                sta SET_BANK                        ;
-                jsr GetBoardAddressR                ;11+24[-2](A)
-                sta SET_BANK_RAM                    ;3
+;;                lda #BANK_GetBoardAddressR          ;
+;;                sta SET_BANK                        ;
+;;                jsr GetBoardAddressR                ;11+24[-2](A)
+;;                sta SET_BANK_RAM                    ;3
 
-                ldy POS_X
-                dey
-                lda (Board_AddressR),y              ; leftward of current row
+;;                ldy POS_X
+;;                dey
+;;                lda (Board_AddressR),y              ; leftward of current row
 
-                ora BoulderLeft                     ; check for the movement left/down
-                bne MayRollRight                    ; there must be NOTHING in the left squares
+;;                ora BoulderLeft                     ; check for the movement left/down
+;;                bne MayRollRight                    ; there must be NOTHING in the left squares
 
-                dec POS_X_NEW                       ; new position (LEFT)
-                bpl BlankDownSound                  ; unconditional
+;;                dec POS_X_NEW                       ; new position (LEFT)
+;;                bpl BlankDownSound                  ; unconditional
 
-MayRollRight
+;;MayRollRight
 
     ; check for the movement right/down
-                iny
-                iny
-                lda (Board_AddressR),y              ; rightward of current row
-                ora BoulderRight
-                bne ReplaceFallingChar              ; there must be NOTHING in the right squares
+;;                iny
+;;                iny
+;;                lda (Board_AddressR),y              ; rightward of current row
+;;                ora BoulderRight
+;;                bne ReplaceFallingChar              ; there must be NOTHING in the right squares
 
-                inc POS_X_NEW                       ; new position (RIGHT)
+;;                inc POS_X_NEW                       ; new position (RIGHT)
 
-BlankDownSound:
+;;BlankDownSound:
 
-                jsr StartSoundCheckAlreadyFalling   ; prevent a sound if the object wasn't already falling
-                lda #VAR_FALLING                    ; this prevents a sound in the following
-                sta POS_VAR                         ; ...call to StartSoundCheckFalling
+;;                jsr StartSoundCheckAlreadyFalling   ; prevent a sound if the object wasn't already falling
+;;                lda #VAR_FALLING                    ; this prevents a sound in the following
+;;                sta POS_VAR                         ; ...call to StartSoundCheckFalling
 
-BlankDown
+;;BlankDown
 
-                lda INTIM
-                cmp #SEGTIME_BOULDER4
-                bcc NotEnoughTime
-                STRESS_TIME SEGTIME_BOULDER4
+;;                lda INTIM
+;;                cmp #SEGTIME_BOULDER4
+;;                bcc NotEnoughTime
+;;                STRESS_TIME SEGTIME_BOULDER4
 
     ; The object is 'falling' into position (POS_X_NEW,POS_Y_NEW)
     ; object starts falling, so we play a sound here too:
 
-                lda #<(~VAR_FALLING)                ; do not start if already falling
-                jsr StartSoundCheckFalling
+;;                lda #<(~VAR_FALLING)                ; do not start if already falling
+;;                jsr StartSoundCheckFalling
 
-                lda #VAR_FALLING
-                sta POS_VAR
+;;                lda #VAR_FALLING
+;;                sta POS_VAR
 
                 ;lda POS_VAR
                 ;ora #VAR_FALLING
                 ;sta POS_VAR                         ; indicate object *is* falling
 
-                jsr BlankOriginalLocation       ;6+97(A)        blank/stack previous position
+;;                jsr BlankOriginalLocation       ;6+97(A)        blank/stack previous position
 
-                ldy POS_Y_NEW
-                sty POS_Y
+;;                ldy POS_Y_NEW
+;;                sty POS_Y
 
-                lda #BANK_GetBoardAddressW          ;
-                sta SET_BANK                        ;
-                jsr GetBoardAddressW                ;11+24[-2](A)
-                stx SET_BANK_RAM                    ;3
+;;                lda #BANK_GetBoardAddressW          ;
+;;                sta SET_BANK                        ;
+;;                jsr GetBoardAddressW                ;11+24[-2](A)
+;;                stx SET_BANK_RAM                    ;3
 
-                ldy POS_X_NEW
-                sty POS_X
+;;                ldy POS_X_NEW
+;;                sty POS_X
 
-                ldx POS_Type
-                lda BaseTypeCharacterFalling,x               ; original character base character
-                sta (Board_AddressW),y                       ; draw object in new location (Y = new X posn)
+;;                ldx POS_Type
+;;                lda BaseTypeCharacterFalling,x               ; original character base character
+;;                sta (Board_AddressW),y                       ; draw object in new location (Y = new X posn)
 
 ReInsertObject  jsr InsertObjectStack           ; 6+76(B)  = 98 (if jumping here)        place on stack so it keeps moving
 
@@ -934,13 +935,6 @@ MOVE_DIAMOND
                 bpl timeExit
                 STRESS_TIME SEGTIME_GET_DIAMOND
 
-                lda #BANK_CheckDiamondFlash     ; 2
-                sta SET_BANK                    ; 3
-                jsr CheckDiamondFlash           ; 3     returns points to add in A
-
-                ldy #BANK_SCORING               ; 2
-                sty SET_BANK_RAM                ; 3
-                jsr GetDiamond                  ;       this takes quite long!
 
     IF MULTI_BANK_BOARD = YES
                 lda RAM_Bank
@@ -1048,9 +1042,9 @@ timeExit        rts                             ; 6 = 11
 ; TJ: used by:
 ; - BANK_FIXED.asm
 
-                lda #BANK_PushBoulder
+                lda #BANK_PushBox
                 sta SET_BANK
-                jmp PushBoulder
+                jmp PushBox
 
     ;---------------------------------------------------------------------------
 
@@ -1334,12 +1328,6 @@ skipDemoCheck
                 lda #BANK_LevelInit             ; 2
                 sta SET_BANK                    ; 3
                 jsr LevelInit                   ; 6+x
-
-    IF EASTER_EGG = YES
-                lda #BANK_SCORING
-                sta SET_BANK_RAM
-                jsr GetScore
-    ENDIF
 
                 lda #BANK_DECODE_CAVE
                 sta SET_BANK_RAM
@@ -1707,7 +1695,7 @@ BaseTypeCharacter
     ; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
 
                 .byte CHARACTER_MANOCCUPIED
-                .byte CHARACTER_BOULDER
+                .byte CHARACTER_BOX
                 .byte CHARACTER_AMOEBA
                 .byte CHARACTER_FLUTTERBY
                 .byte CHARACTER_FIREFLY
@@ -1741,7 +1729,7 @@ BaseTypeCharacterFalling
     ; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
 
                 .byte CHARACTER_MANOCCUPIED
-                .byte CHARACTER_BOULDER_FALLING
+                .byte CHARACTER_BOX_FALLING
                 .byte CHARACTER_AMOEBA
                 .byte CHARACTER_FLUTTERBY
                 .byte CHARACTER_FIREFLY
