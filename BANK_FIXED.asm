@@ -12,9 +12,7 @@ ORIGIN          SET FIXED_BANK
     ;------------------------------------------------------------------------------
 ; TJ: used by:
 ; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-    include "Amoeba.asm"        ; 4 * LINES_PER_CHAR bytes
     include "Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
-    include "FireFly.asm"         ; 2 * LINES_PER_CHAR bytes
 
     ;------------------------------------------------------------------------------
 
@@ -34,7 +32,6 @@ ORIGIN          SET FIXED_BANK
     ; +------+------+------+
 
     ; X = ( POS_X,POS_Y )
-    ; IMPORTANT: The indexing is assumed in firefly/butterfly directional turning checks.
 
                 lda #BANK_GetBoardAddress4          ;
                 sta SET_BANK                        ;
@@ -291,7 +288,7 @@ PutBoardCharacterSB ; =18
 
     ;---------------------------------------------------------------------------
     ; Now process the blank stack.  This stack holds all the recently blanked squares
-    ; and determines (and moves) boulders or diamonds into these squares.  The space vacated
+    ; and determines (and moves) BOXs or diamonds into these squares.  The space vacated
     ; by these objects are added again to the blank stack.
 
 doBlanks        inc ScreenDrawPhase
@@ -393,23 +390,6 @@ quickExit       rts                             ;6
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE PROCESS_EXPLOSION
-; TJ: used by:
-; - BANK_INITBANK.asm
-
-                lda INTIM
-                cmp #SEGTIME_EXPLOSION
-                bcc EarlyAbort
-                STRESS_TIME SEGTIME_EXPLOSION
-
-                lda #BANK_ProcessExplosion      ; 2
-                sta SET_BANK                    ; 3
-                jsr ProcessExplosion            ; 6+x
-
-                jmp NextObject
-
-    ;---------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE PROCESS_MAN
 ; TJ: used by:
 ; - BANK_INITBANK.asm
@@ -483,7 +463,7 @@ gnobj           jmp NextObject
                 lda ROM_Bank                    ;3
                 sta SET_BANK                    ;3
 
-EarlyAbortBoulder
+EarlyAbortBOX
 
                 rts                             ;6
 
@@ -497,15 +477,15 @@ EarlyAbortBoulder
 ; if the creature dies then jump NextObject
 
 
-    DEFINE_SUBROUTINE PROCESS_BOULDER
+    DEFINE_SUBROUTINE PROCESS_BOX
     DEFINE_SUBROUTINE PROCESS_DIAMOND
 ; TJ: used by:
 ; - BANK_INITBANK.asm
 
                 lda INTIM                       ;4
-                cmp #SEGTIME_BOULDER1           ;2
-                bcc EarlyAbortBoulder           ;2/3
-                STRESS_TIME SEGTIME_BOULDER1
+                cmp #SEGTIME_BOX1           ;2
+                bcc EarlyAbortBOX           ;2/3
+                STRESS_TIME SEGTIME_BOX1
 
                 lda POS_X                       ;3
                 sta POS_X_NEW                   ;3
@@ -513,7 +493,7 @@ EarlyAbortBoulder
                 sty POS_Y_NEW                   ;3
 
     ; Make sure the character we're working with is still the same type of object
-    ; (for example, a 'boulder' placed on the object stack by the blank stack
+    ; (for example, a 'BOX' placed on the object stack by the blank stack
     ; handler, may no longer be there, so it's really a dummy).
 
                 ;ldy POS_Y                       ;3
@@ -530,110 +510,6 @@ EarlyAbortBoulder
                 bne gnobj                       ;2/3
 
                 jmp NotStraightDown     ; Sokoban ovveride
-    ; Test immediately under the current object.
-    ;  If there's something we can fall on, then we *do*.
-
-                ;;ldy POS_Y                       ;3
-                ;;iny                             ;2
-
-                ;;lda #BANK_GetBoardAddressR      ;
-                ;;sta SET_BANK                    ;
-                ;;jsr GetBoardAddressR            ;11+24[-2](A)
-                ;;sta SET_BANK_RAM                ;3
-
-                ;;ldy POS_X                       ;3
-                ;;lax (Board_AddressR),y          ;5              checking immediately below
-                ;;beq FallForSure                 ;2/3            always fall into blank
-
-    ; ... unless we were just generated, in which case we don't fall
-    ; (prevents falling on a butterfly and causing chain reaction)
-
-                ;;lda POS_VAR                     ;3
-                ;;asl                             ;2
-                ;;bmi NotStraightDown             ;2/3
-
-                ;;lda GenericCharFlag,x           ;4
-                ;;and #GENERIC_MASK_SQUASHABLE    ;2              can this object be fallen upon?
-                ;;beq NotStraightDown             ;3(2)           NOT squashable
-
-
-    ; OK, we could be falling on a magic wall.  If we are, then we actually end up
-    ; two characters below (if it is blank).
-
-                ;;lda GenericCharFlag,x           ;4
-                ;;and #GENERIC_MASK_MAGICWALL     ;2              magic wall chars
-                ;;bne doMagicWall                 ;2/3
-
-                ;;lda POS_VAR                     ;3
-                ;;bpl NotStraightDown             ;2/3            don't fall on anything if we weren't already falling
-
-;;FallForSure     inc POS_Y_NEW                   ;5              object to move straight down
-;;                jmp BlankDown                   ;3              unconditional
-
-;;FallForSure2    lda POS_Type
-;;                eor #TYPE_DIAMOND^TYPE_BOULDER
-;;                sta POS_Type
-;;                inc POS_Y_NEW
-;;                jmp BlankDown
-
-;;doMagicWall
-    ; only fall into magic wall if we are already falling... and if so
-    ; and the magic wall isn't turned on, turn it on.
-
-;;                lda POS_VAR                         ; 3
-;;                bpl NotStraightDown                 ; 2(3)  disallow objects not already falling
-
-;;                ldx MagicAmoebaFlag                 ; 3
-;;                beq WallExp                         ; 2(3)
-;;                inx                                 ; 2     $ff = MAGIC_WALL_DORMANT?
-;;                bne ActiveWall                      ; 2(3)
-;;                lda magicAmoebaTime                 ; 2     was wall active before?
-;;                beq WallExp                         ; 2(3)
-
-;;                sta MagicAmoebaFlag                 ; 3     start the timer
-;;                stx magicAmoebaTime                 ; 3     prevent restart
-
-;;                START_SOUND SOUND_MAGIC_WALL        ;       start the magic wall sound
-
-;;ActiveWall
-
-    ; We must prevent an action which has no 'reversibility' -- that is, don't remove a diamond/boulder
-    ; and then find out we're out of time.  Actions must be "units" indivisible.  So we do a segtime check
-    ; first, to guarantee we have enough time.
-
-;;                lda INTIM
-;;                cmp #SEGTIME_MAGIC
-;;                bcc NotEnoughTime2              ; otherwise we have disappearing diamonds due to segtime aborts
-
-;;                inc POS_Y_NEW                       ; moves 2 squares
-
-    ; The following was the cause of the missing diamonds in, for example, INT4. The issue is that
-    ; we remove the original diamond, branch to FallForSure, which then says "aha, not enough time!" and
-    ; aborts the object. But it's not on the board anymore, and so it disappears!  The solution, just
-    ; removing this line, is OK because actually the original location is already blanked in the code after
-    ; FallForSure... so this was a duplicate anyway.  In short, you can't abort halfway through an irreversible
-    ; action (like removing an object).
-
-                ;jsr BlankOriginalLocation       ;6+97(A)            blank/stack previous position
-
-    ; Check to see if the new position is available (=blank).  If not, object disappears
-
-  ;;              ldy POS_Y
-  ;;              iny
-  ;;              iny
-
-  ;;              lda #BANK_GetBoardAddressR          ;
-  ;;              sta SET_BANK                        ;
-  ;;              jsr GetBoardAddressR                ;11+24[-2](A)
-  ;;              sta SET_BANK_RAM                    ;3
-
-  ;;              ldy POS_X
-  ;;              lda (Board_AddressR),y
-  ;;              beq FallForSure2
-  ;;              jmp ReplaceFallingChar          ; become a 'normal' boulder/diamond
-
-;;WallExp         jsr BlankOriginalLocation       ;6+97(A)        blank/stack previous position
-;;                jmp NextObject                  ; 3           object simply disappears
 
 
 NotEnoughTime2
@@ -641,9 +517,9 @@ NotEnoughTime2
 
 NotStraightDown
                 lda INTIM
-                cmp #SEGTIME_BOULDER3
+                cmp #SEGTIME_BOX3
                 bcc NotEnoughTime2
-                STRESS_TIME SEGTIME_BOULDER3
+                STRESS_TIME SEGTIME_BOX3
 
 ProcessBD
 
@@ -651,7 +527,7 @@ ProcessBD
         ; down), we either fall sideways or not.  Currently we fall if the object we are
         ; on top of is a 'rounded' object AND the two sideways squares are blank.
 
-        ; Note that the object under us may be a NON-ROUNDED (=FALLING) boulder/diamond
+        ; Note that the object under us may be a NON-ROUNDED (=FALLING) BOX/diamond
 
                 ;;lda GenericCharFlag,x               ; is the object we're sitting on 'rounded'?
                 ;;and #GENERIC_MASK_ROUNDED
@@ -689,11 +565,11 @@ wasNotFalling   jmp NextObject                      ; no, so we can't roll off i
 ;;mayRoundOff                                         ; y == POS_X
 ;;                dey
 ;;                lda (Board_AddressR),y              ; leftward of row UNDERNEATH
-;;                sta BoulderLeft
+;;                sta BOXLeft
 ;;                iny
 ;;                iny
 ;;                lda (Board_AddressR),y
-;;                sta BoulderRight                    ; rightward of row UNDERNEATH
+;;                sta BOXRight                    ; rightward of row UNDERNEATH
 
 ;;                ldy POS_Y
 
@@ -706,7 +582,7 @@ wasNotFalling   jmp NextObject                      ; no, so we can't roll off i
 ;;                dey
 ;;                lda (Board_AddressR),y              ; leftward of current row
 
-;;                ora BoulderLeft                     ; check for the movement left/down
+;;                ora BOXLeft                     ; check for the movement left/down
 ;;                bne MayRollRight                    ; there must be NOTHING in the left squares
 
 ;;                dec POS_X_NEW                       ; new position (LEFT)
@@ -718,7 +594,7 @@ wasNotFalling   jmp NextObject                      ; no, so we can't roll off i
 ;;                iny
 ;;                iny
 ;;                lda (Board_AddressR),y              ; rightward of current row
-;;                ora BoulderRight
+;;                ora BOXRight
 ;;                bne ReplaceFallingChar              ; there must be NOTHING in the right squares
 
 ;;                inc POS_X_NEW                       ; new position (RIGHT)
@@ -732,9 +608,9 @@ wasNotFalling   jmp NextObject                      ; no, so we can't roll off i
 ;;BlankDown
 
 ;;                lda INTIM
-;;                cmp #SEGTIME_BOULDER4
+;;                cmp #SEGTIME_BOX4
 ;;                bcc NotEnoughTime
-;;                STRESS_TIME SEGTIME_BOULDER4
+;;                STRESS_TIME SEGTIME_BOX4
 
     ; The object is 'falling' into position (POS_X_NEW,POS_Y_NEW)
     ; object starts falling, so we play a sound here too:
@@ -789,7 +665,7 @@ NextObject
                 cmp #SOUND_MOVE_SOIL+1          ; except for low priority move sounds!
                 bcs .noSound                    ; yes, no new sound
                 eor newSounds
-                ora FallSoundTbl-TYPE_BOULDER,y
+                ora FallSoundTbl-TYPE_BOX,y
                 sta newSounds
 .noSound
                 rts
@@ -797,11 +673,11 @@ NextObject
     ;---------------------------------------------------------------------------
 
 ; Warning: Hardwired dependence on existing TYPE_
-; sounds are played when boulders/diamonds start *and* end falling:
+; sounds are played when BOXs/diamonds start *and* end falling:
 FallSoundTbl:
 ; TJ: used by:
 ; - BANK_FIXED.asm
-                .byte   SOUND_BOULDER           ; TYPE_BOULDER
+                .byte   SOUND_BOX           ; TYPE_BOX
                 .byte   0
                 .byte   0
                 .byte   0
@@ -1041,7 +917,7 @@ timeExit        rts                             ; 6 = 11
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE MOVE_BOULDER
+    DEFINE_SUBROUTINE MOVE_BOX
 ; TJ: used by:
 ; - BANK_FIXED.asm
 
@@ -1337,7 +1213,6 @@ skipDemoCheck
                 jsr DecodeCave
 
     ; Setup player animation and scroll limits.
-    ; Initialise amoeba if present
     ; Mangle the board colours based on level
 
                 lda #BANK_CreateCreatures       ; 2
@@ -1473,14 +1348,6 @@ NewFrameBD
                 sta SET_BANK                ; 3
                 jsr SelfModDrawPlayers      ; 6+x
 
-                bit amoebaFlag              ; AMOEBA_PRESENT?
-                bvc noscanning              ; NO amoeba on this level so skip scan
-
-                lda #BANK_ProcessAmoeba     ; 2
-                sta SET_BANK                ; 3
-                jsr ProcessAmoeba           ; 6+x
-noscanning
-
                 jsr StealCharDraw
     IF SORT_OBJECTS = YES
                 jsr SortObjects2            ;6+15 minimum  Opportunistic sorting
@@ -1509,24 +1376,24 @@ CharacterDataVecLO
                 .byte <CHARACTERSHAPE_BLANK
                 .byte <CHARACTERSHAPE_SOIL
                 .byte <CHARACTERSHAPE_SOIL_MIRRORED
-                .byte <CHARACTERSHAPE_BOULDER
-                .byte <CHARACTERSHAPE_BOULDER_MIRRORED
-                .byte <CHARACTERSHAPE_AMOEBA
-                .byte <CHARACTERSHAPE_AMOEBA_MIRRORED
+                .byte <CHARACTERSHAPE_BOX
+                .byte <CHARACTERSHAPE_BOX_MIRRORED
+                .byte <0
+                .byte <0
                 .byte <CHARACTERSHAPE_DIAMOND
                 .byte <CHARACTERSHAPE_DIAMOND_MIRRORED
                 .byte <CHARACTERSHAPE_DIAMOND2
                 .byte <CHARACTERSHAPE_DIAMOND2_MIRRORED
                 .byte <CHARACTERSHAPE_BLANK
                 .byte <CHARACTERSHAPE_BLANK
-                .byte <CHARACTERSHAPE_FLUTTERBY
-                .byte <CHARACTERSHAPE_FLUTTERBY
-                .byte <CHARACTERSHAPE_FLUTTERBY2
-                .byte <CHARACTERSHAPE_FLUTTERBY2
-                .byte <CHARACTERSHAPE_FIREFLY
-                .byte <CHARACTERSHAPE_FIREFLY
-                .byte <CHARACTERSHAPE_FIREFLY2
-                .byte <CHARACTERSHAPE_FIREFLY2
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
                 .byte <CHARACTERSHAPE_WALL0
                 .byte <CHARACTERSHAPE_WALL0_MIRRORED
                 .byte <CHARACTERSHAPE_WALL1
@@ -1553,11 +1420,11 @@ CharacterDataVecLO
                 .byte <CHARACTERSHAPE_EXPLOSION3
                 .byte <CHARACTERSHAPE_EXPLOSION3_MIRRORED
 
-                .byte <CHARACTERSHAPE_AMOEBA2
-                .byte <CHARACTERSHAPE_AMOEBA2_MIRRORED
+                .byte <0
+                .byte <0
 
-                .byte <CHARACTERSHAPE_BOULDER                   ; falling boulder
-                .byte <CHARACTERSHAPE_BOULDER_MIRRORED          ; falling boulder
+                .byte <CHARACTERSHAPE_BOX                   ; falling BOX
+                .byte <CHARACTERSHAPE_BOX_MIRRORED          ; falling BOX
                 .byte <CHARACTERSHAPE_DIAMOND                   ; falling diamond
                 .byte <CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
 
@@ -1579,24 +1446,24 @@ CharacterDataVecHI
                 .byte ( >CHARACTERSHAPE_BLANK ) & $7F
                 .byte >CHARACTERSHAPE_SOIL
                 .byte >CHARACTERSHAPE_SOIL_MIRRORED
-                .byte >CHARACTERSHAPE_BOULDER
-                .byte >CHARACTERSHAPE_BOULDER_MIRRORED
-                .byte >CHARACTERSHAPE_AMOEBA
-                .byte >CHARACTERSHAPE_AMOEBA_MIRRORED
+                .byte >CHARACTERSHAPE_BOX
+                .byte >CHARACTERSHAPE_BOX_MIRRORED
+                .byte >0
+                .byte >0
                 .byte >CHARACTERSHAPE_DIAMOND
                 .byte >CHARACTERSHAPE_DIAMOND_MIRRORED
                 .byte >CHARACTERSHAPE_DIAMOND2
                 .byte >CHARACTERSHAPE_DIAMOND2_MIRRORED
                 .byte ( >CHARACTERSHAPE_BLANK ) & $7F ;manoccupied
                 .byte ( >CHARACTERSHAPE_BLANK ) & $7F ;manoccupied
-                .byte >CHARACTERSHAPE_FLUTTERBY
-                .byte >CHARACTERSHAPE_FLUTTERBY
-                .byte >CHARACTERSHAPE_FLUTTERBY2
-                .byte >CHARACTERSHAPE_FLUTTERBY2
-                .byte >CHARACTERSHAPE_FIREFLY
-                .byte >CHARACTERSHAPE_FIREFLY
-                .byte >CHARACTERSHAPE_FIREFLY2
-                .byte >CHARACTERSHAPE_FIREFLY2
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
                 .byte >CHARACTERSHAPE_WALL0
                 .byte >CHARACTERSHAPE_WALL0_MIRRORED
                 .byte >CHARACTERSHAPE_WALL1
@@ -1623,11 +1490,11 @@ CharacterDataVecHI
                 .byte >CHARACTERSHAPE_EXPLOSION3
                 .byte >CHARACTERSHAPE_EXPLOSION3_MIRRORED
 
-                .byte >CHARACTERSHAPE_AMOEBA2
-                .byte >CHARACTERSHAPE_AMOEBA2_MIRRORED
+                .byte >0
+                .byte >0
 
-                .byte >CHARACTERSHAPE_BOULDER                   ; falling boulder
-                .byte >CHARACTERSHAPE_BOULDER_MIRRORED          ; falling boulder
+                .byte >CHARACTERSHAPE_BOX                   ; falling BOX
+                .byte >CHARACTERSHAPE_BOX_MIRRORED          ; falling BOX
                 .byte >CHARACTERSHAPE_DIAMOND                   ; falling diamond
                 .byte >CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
 
@@ -1652,18 +1519,18 @@ GenericCharFlag
 
                 .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE                              ; blank
                 .byte GENERIC_MASK_EXPLODABLE                                                      ; soil
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; boulder
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_KILLSBUTTERFLY                          ; Amoeba
+                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; BOX
+                .byte 0                                                                            ; <unused>
                 .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; diamond
                 .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; diamond2
                 .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE|GENERIC_MASK_KILLSBUTTERFLY  ; man
 
     ; Note: Butterflies and fireflies are not explodable, to prevent chain-reactions
 
-                .byte GENERIC_MASK_SQUASHABLE                                                      ; butterfly
-                .byte GENERIC_MASK_SQUASHABLE                                                      ; butterfly
-                .byte GENERIC_MASK_SQUASHABLE                                                      ; firefly
-                .byte GENERIC_MASK_SQUASHABLE                                                      ; firefly
+                .byte 0                                                      ; unused
+                .byte 0                                                      ; unused
+                .byte 0                                                      ; unused
+                .byte 0                                                      ; unused
                 .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
                 .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
                 .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
@@ -1676,9 +1543,9 @@ GenericCharFlag
                 .byte 0                                                                            ; explosion 1
                 .byte 0                                                                            ; explosion 2
                 .byte 0                                                                            ; explosion 3
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_KILLSBUTTERFLY                          ; amoeba2
+                .byte 0
 
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED                                 ; falling boulder
+                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED                                 ; falling BOX
                 .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED                                 ; falling diamond
 
                 .byte 0                                                                            ; unkillable man
@@ -1699,9 +1566,9 @@ BaseTypeCharacter
 
                 .byte CHARACTER_MANOCCUPIED
                 .byte CHARACTER_BOX
-                .byte CHARACTER_AMOEBA
-                .byte CHARACTER_FLUTTERBY
-                .byte CHARACTER_FIREFLY
+                .byte 0
+                .byte 0
+                .byte 0
                 .byte CHARACTER_DIAMOND
                 .byte CHARACTER_WALL0
                 .byte CHARACTER_EXITDOOR        ; exit door
@@ -1733,9 +1600,9 @@ BaseTypeCharacterFalling
 
                 .byte CHARACTER_MANOCCUPIED
                 .byte CHARACTER_BOX_FALLING
-                .byte CHARACTER_AMOEBA
-                .byte CHARACTER_FLUTTERBY
-                .byte CHARACTER_FIREFLY
+                .byte 0
+                .byte 0
+                .byte 0
                 .byte CHARACTER_DIAMOND_FALLING
                 .byte CHARACTER_WALL0
                 .byte CHARACTER_EXITDOOR        ; exit door
@@ -1768,15 +1635,15 @@ BaseTypeCharacterFalling
 
                 .byte TYPE_BLANK            ;  0    blank
                 .byte TYPE_SOIL             ;  1    soil
-                .byte TYPE_BOULDER          ;  2
-                .byte TYPE_AMOEBA           ;  3
+                .byte TYPE_BOX          ;  2
+                .byte 0                    ;  3
                 .byte TYPE_DIAMOND          ;  4
                 .byte TYPE_DIAMOND          ;  5
                 .byte TYPE_MAN              ;  6
-                .byte TYPE_FLUTTERBY        ;  7
-                .byte TYPE_FLUTTERBY        ;  8
-                .byte TYPE_FIREFLY          ;  9
-                .byte TYPE_FIREFLY          ; 0a
+                .byte 0        ;  7
+                .byte 0        ;  8
+                .byte 0          ;  9
+                .byte 0          ; 0a
                 .byte TYPE_MAGICWALL        ; 0b
                 .byte TYPE_MAGICWALL        ; 0c
                 .byte TYPE_MAGICWALL        ; 0d
@@ -1789,9 +1656,9 @@ BaseTypeCharacterFalling
                 .byte TYPE_EXPLOSION1       ; 14
                 .byte TYPE_EXPLOSION2       ; 15
                 .byte TYPE_EXPLOSION3       ; 16
-                .byte TYPE_AMOEBA           ; 17
+                .byte 0           ; 17
 
-                .byte TYPE_BOULDER          ; falling boulder
+                .byte TYPE_BOX          ; falling BOX
                 .byte TYPE_DIAMOND          ; falling diamond
 
                 .byte TYPE_BLANK            ; 20 unkillable man
@@ -1812,18 +1679,6 @@ BaseTypeCharacterFalling
     ; This manages character animation on a per-object basis.  Morph/animate these
     ; characters individually or as required.  Change will affect all characters
     ; of the same type in the visible display.
-
-                lda ANIM_BUTTERFLY0                             ;4
-                eor #CHARACTER_FLUTTERBY^CHARACTER_FLUTTERBY2   ;2
-                sta ANIM_BUTTERFLY0 + RAM_WRITE                 ;4
-                sta ANIM_BUTTERFLY1 + RAM_WRITE                 ;4 = 14         butterfly
-
-                lda ANIM_FIREFLY0                               ;4
-                eor #CHARACTER_FIREFLY^CHARACTER_FIREFLY2       ;2
-                sta ANIM_FIREFLY0 + RAM_WRITE                   ;4
-                sta ANIM_FIREFLY1 + RAM_WRITE                   ;4 = 14         firefly
-
-                    ; handle the mandatory animating things
 
     ; -------------------------------------------
     ; The door will animate when it is 'open'. It's open when the required number of diamonds have been
@@ -1853,47 +1708,7 @@ NoDoor
                 eor #CHARACTER_DIAMOND^CHARACTER_DIAMOND2       ;2
                 sta ANIM_DIAMOND + RAM_WRITE                    ;4 = 15         diamond
 
-                ;lda timer                                       ;3
-                ;and #%1 ;1 ;1                                       ;2
-                ;bne nothingAnimates                             ;2/3
-
-
-                lda ANIM_AMOEBA                                 ;4
-                eor #CHARACTER_AMOEBA^CHARACTER_AMOEBA2         ;2
-                sta ANIM_AMOEBA + RAM_WRITE                     ;4 = 17         amoeba
-
-nothingAnimates
-
-    ; Handle magic wall animation. If the Magic wall is active, only, then cycle the characters used
-    ; for displaying the wall.
-
-                ldx MagicAmoebaFlag                             ;3
-                inx                                             ;2              $FF = dormant?
-                beq noMagicWall                                 ;2/3
-                dex                                             ;2              $00 = set to dormant?
-                bne animateWall                                 ;2/3
-
-                STOP_SOUND 1, OFSS_MAGIC_WALL                   ;10
-
-                lda #CHARACTER_WALL0                            ;2
-                bne forceToChar0                                ;2/3
-
-animateWall
-
-   ; Because we don't have MIRRORED wall characters, so any regular pattern will look very odd when
-   ; displayed across the mirrored PF registers.  With a random pattern, it's totally obscured.
-
-                eor rnd                                         ;3
-reGen           adc #1                                          ;2
-                and #3                                          ;2
-                adc #CHARACTER_WALL0                            ;2
-                cmp ANIM_MAGICWALL                              ;3
-                beq reGen                                       ;2/3            (worst case 1 repeat = +11)
-forceToChar0    sta ANIM_MAGICWALL + RAM_WRITE                  ;3 = 29
-
-noMagicWall
-                jmp retAnim                                     ;3
-
+nothingAnimates jmp retAnim                                     ;3
 
     ;---------------------------------------------------------------------------
 
@@ -2015,7 +1830,7 @@ earlierObject   dec sortPtr                     ;5 =  5         look at earlier 
     ;---------------------------------------------------------------------------
 ; TJ: used by:
 ; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-    include "Boulder.asm"         ; 2 * LINES_PER_CHAR bytes
+    include "BOX.asm"         ; 2 * LINES_PER_CHAR bytes
     include "Butterfly.asm"       ; 2 * LINES_PER_CHAR bytes
     include "Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
     ;---------------------------------------------------------------------------

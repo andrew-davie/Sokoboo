@@ -159,7 +159,7 @@ PLAYER_RIGHT1
 PLAYER_STAND
 ; original 15 pixel tall, ours was 18 pixel, stretched to 20 now
 ; this makes Rockford looks closer to original, slimmer and less fat
-; also boulder/diamonds above his head look less levitating now
+; also BOX/diamonds above his head look less levitating now
 
 ; XX  XX    XX  XX    XX  XX
 ;  X  X      X  X      X  X

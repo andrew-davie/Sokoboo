@@ -58,7 +58,7 @@ TEST_{1} = 1
  ENDM
 
 ;@TJ -- SIMPLY PUT AN X IN FRONT OF THE LINE(S) YOU WANT TO TEST
-; eg: XSEGTIME SEGTIME_BOULDER1,5
+; eg: XSEGTIME SEGTIME_BOX1,5
 ; No other action required.  All code enables/disables automatically.
 
 ; 2012/02/11 -- experimental reduction in times (but not stress tested)
@@ -115,13 +115,13 @@ TEST_{1} = 1
     SEGTIME SEGTIME_MAN,24 ;<< using this as XSEGTIME stops player working ...?!
 ; TJ: I should only prevent processes with an extra check (e.g. get diamond)
 
-; push boulder is slowest (besides get diamond which has an extra timer check)
+; push BOX is slowest (besides get diamond which has an extra timer check)
 ; if we add another check for it, SEGTIME_MAN reduces by ~5
 
-    SEGTIME SEGTIME_BOULDER1,5                  ; ~182 cycles if falling on man + sort overhead!
-    SEGTIME SEGTIME_BOULDER3,8                  ; SEGTIME_BOULDER4 causes freezes if stressed
-    SEGTIME SEGTIME_BOULDER4,7                  ;(*) not 100% sure, maybe one more
-    SEGTIME SEGTIME_MAGIC,SEGTIME_BOULDER4 + 2  ; tied together (diamond falling through magic wall)
+    SEGTIME SEGTIME_BOX1,5                  ; ~182 cycles if falling on man + sort overhead!
+    SEGTIME SEGTIME_BOX3,8                  ; SEGTIME_BOX4 causes freezes if stressed
+    SEGTIME SEGTIME_BOX4,7                  ;(*) not 100% sure, maybe one more
+    SEGTIME SEGTIME_MAGIC,SEGTIME_BOX4 + 2  ; tied together (diamond falling through magic wall)
 
 ; the following values have been tested with the STRESS_TIME macro:
  IF MULTI_BANK_BOARD = YES
@@ -134,4 +134,3 @@ TEST_{1} = 1
     SEGTIME SEGTIME_BUTTERFLY,10                ; * 7/8/11, 525(B)->8.20
 
     SEGTIME SEGTIME_SWITCHOBJECTS,3             ; 16/8/11 by calculation. 72 cycles -->  ceil(72/64)+1 --> 3 Object stack switchover
-

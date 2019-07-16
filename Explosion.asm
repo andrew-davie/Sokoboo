@@ -17,7 +17,7 @@ CHARACTERSHAPE_EXPLOSION1_MIRRORED               ; we don't worry about mirrored
  .byte %10011001
  .byte %00100010
 
- .byte %01000100    ; B (#1 additional wall/boulder color)
+ .byte %01000100    ; B (#1 additional wall/BOX color)
  .byte %10011001
  .byte %00100010
  .byte %10111011

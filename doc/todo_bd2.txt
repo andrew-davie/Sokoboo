@@ -1,7 +1,7 @@
 Changes by AD:
 - changed LookAround to halt timer when being used
   this should actually PAUSE the game, as we don't want level I allowing you to
-  drop the boulders, then "lookaround" and wait for the boulders to drop with timer
+  drop the BOXs, then "lookaround" and wait for the BOXs to drop with timer
   not functional (or even half speed). If you lookaround, the game should stop
   
 

@@ -292,7 +292,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 TJ: +2 worked well
 
 
-1               Mmh.  Cave I.  Start the boulders falling.  Get killed.  Press fire -- half the time it crashes on restart.
+1               Mmh.  Cave I.  Start the BOXs falling.  Get killed.  Press fire -- half the time it crashes on restart.
                 Now, comment out 'jsr SaveScore' -- and it no longer crashes.  No, my mistake. It still does.
                 Fixed. Missing init of DrawStackPointer at start of level. How did this get missed?!!
                 Amazing, but that wasn't the bug.  :(
@@ -308,7 +308,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 
 4               PAL cave B seems to have lost the blue colour in the bricks. It's now a very similar purple to the other
                 purple. Does it look this way on a TV, too?
-                TJ: It does. After looking at it again, the color difference between dirt and boulders is too small now. I
+                TJ: It does. After looking at it again, the color difference between dirt and BOXs is too small now. I
                 think I should make the dirt less red and more orange/brown.
                 Done!
 
@@ -399,7 +399,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 ...and very nice it is, too :)
 
 1               INT4 -- it's possible to trigger a non-collectable diamond.
-                push the first two boulders to the right, then drop everything from the top
+                push the first two BOXs to the right, then drop everything from the top
                 we end up with a non-collectable diamond sitting on the lower platform.
                 I think it's probably left on the board as a "falling" object -- should switch to a normal object
                 YEP. Fixed.
@@ -418,7 +418,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 i2 95%          dirt a bit more blue
                 I  85%          walls much more green, less blue
                 J  95%          dirt less red, more blue
-                K  85%          low contrast, boulders too dark
+                K  85%          low contrast, BOXs too dark
                 L  95%          walls slightly more red
                 i3 90%          walls darker, more brown, less red
                 M  80%          amoeba more yellow than green, dirt less red, more greenish (your colors, Andrew)
@@ -436,13 +436,13 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 TJ: Done!
 
 
-2               When Rockford reaches the exit, the game freezes are bit too late. If e.g. a boulder is falling
+2               When Rockford reaches the exit, the game freezes are bit too late. If e.g. a BOX is falling
                 after him, this will overlap Rockford (not killing) at the exit,
                 AD: Will have a look at it.
-                Looks like the boulder may have been generated after the player killed all creatures, by the
-                blank stack processor seeing there was a fallable boulder -- so it fell. I have now zapped
+                Looks like the BOX may have been generated after the player killed all creatures, by the
+                blank stack processor seeing there was a fallable BOX -- so it fell. I have now zapped
                 the blank stack, too :)  So now nothing should move. Ever!!!!!!
-                Fix didn't work. To test; A1 with TEST_BONUS_COUNTDOWN on. Push the boulder over the diamond.
+                Fix didn't work. To test; A1 with TEST_BONUS_COUNTDOWN on. Push the BOX over the diamond.
                 Get the diamond, move to the exit.
                 DEFINITELY FIXED :)
 
@@ -491,11 +491,11 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 2) The actual positioning of the fireflies dramatically affects their behaviour. The block needs
                  to be resting exactly on the diamonds for the formation to march to the left properly.
 
-1               i4 is not working 100%. For some reason, sometimes the 6 boulders only convert into 4 or 5
+1               i4 is not working 100%. For some reason, sometimes the 6 BOXs only convert into 4 or 5
                 diamonds, making the intermission unsolvable! Could that be a scan order problem?
                 AD: Could be. Any randomness is likely to be the sort aborting (or not working!).
                 A good solution would be to throttle back to (say) level 3 for the intermissions.
-                AD: Had a look at this.  This is a separate problem; I've seen only 4 diamonds/boulders survive
+                AD: Had a look at this.  This is a separate problem; I've seen only 4 diamonds/BOXs survive
                 the fall to the bottom.  I'll get this fixed ASAP.
                 AD: Fixed. Diamond processor blanked the diamond, then realised it didn't have enough time to
                 continue, then aborted. So the diamond never got rewritten -- and so disappeared.
@@ -574,7 +574,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 It no longer hangs around for a random time before showing. So the fast-growth is much faster.
                 It needs to be adjusted.
                 TJ: I reenabled the FAST_GROW limitation, but the limit is not much lower than before. IMO speed
-                    is OK now (and in perfect relation to SLOWGROW :), but the amoeba turns into boulders much
+                    is OK now (and in perfect relation to SLOWGROW :), but the amoeba turns into BOXs much
                     earlier because we have a lower size limit.
                     Shouldn't we change that to the original 200?
                 AD: Yes. Not sure why it's on 133 so I've changed it.
@@ -693,7 +693,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 turn explode, creating even more diamonds)."
                 ...and...
                 "The explosion spaces act like wall in the sense that creatures can not enter an explosion.
-                Should a falling diamond or boulder hit an exlosion, it will stop falling (complete with sound)
+                Should a falling diamond or BOX hit an exlosion, it will stop falling (complete with sound)
                 as if it were a bit of dirt; they do not roll off. Explosions can be exploded again (they get
                 reset to a stage 1 explosion, and set to the appropriate type of explosion: explode to space,
                 or explode to diamonds)."
@@ -739,7 +739,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 1               REMOVE slocum sound system!!  songPlayer
 
 2               sort keeps a track of the throttle, and stops sorting if overtime by too much.
-                this should help-out when we have problems with lots of cascading boulders, when we don't really
+                this should help-out when we have problems with lots of cascading BOXs, when we don't really
                 care about 100% correct physics.
 
 1               after P5/I4.5, the next screen should be A5. Currently it's A1.
@@ -750,10 +750,10 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 had to patch all three digit pairs when switching players.
                 Also found and fixed a bad bug with the 1st digit.
 
-3               +AD: Push boulder bug.  I've seen this or similar about 3 times. When you push a boulder it basically keeps going
+3               +AD: Push BOX bug.  I've seen this or similar about 3 times. When you push a BOX it basically keeps going
                 and you with it (sometimes). Instead of pushed one to the side, it clears 4 or 5 squares.
                 TJ: Never seen that one, I will try to reproduce
-                AD: if you push boulder when it's on top of soil, all is OK. If you push it when it's on a row of boulders
+                AD: if you push BOX when it's on top of soil, all is OK. If you push it when it's on a row of BOXs
                 you can see the super-push.
                 TJ: still not able to reproduce, I tried in A1
 
@@ -789,7 +789,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 The REAL issue here is that player should explode when time = 0.  He doesn't -- just has no control.
                 TJ: We had that already, it is like in the original (just without the bug you describe :)
                 AD: Brings up an issue, really. Why are we reproducing bugs in the original?  It's supposed to be
-                an Atari 2600 version of Boulder Dash, not a bit perfect clone of a particular machine's BD.
+                an Atari 2600 version of BOX Dash, not a bit perfect clone of a particular machine's BD.
                                 TJ: If I would consider it a bug, I would agree. But IMO it's not a bug.
 
 2               You lose a life when the timer gets to 0, but really it's 1 second too early.
@@ -837,10 +837,10 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 TJ: values are from original, IMO we shouldn't change that
                 IGNORE
 
-4               - there appears to be a crackling sound (volume overload...?) with lots of boulders falling
+4               - there appears to be a crackling sound (volume overload...?) with lots of BOXs falling
                 - the volumes of the sounds have been adjusted (TJ), AD please check
-                - checked, but there's still crackle/pop at start with lots of boulders falling.
-                - TJ: can't be a volume overload then, because all boulders use only one channel, maybe it's the sound code itself... or your ears? ;)
+                - checked, but there's still crackle/pop at start with lots of BOXs falling.
+                - TJ: can't be a volume overload then, because all BOXs use only one channel, maybe it's the sound code itself... or your ears? ;)
                 + AD: Have you listened through headphones?
                 IGNORE
 
@@ -892,7 +892,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 Also, I assume if you get killed on intermission, you DO NOT lose a life?
 
                 TJ: Yes and yes. Effectively, if you get killed you loose your bonus life.
-                http://www.elmerproductions.com/sp/peterb/insideBoulderdash.html
+                http://www.elmerproductions.com/sp/peterb/insideBOXdash.html
 
 1               At end of game, there's no way of seeing your score!!!!  The score needs to be shown as a priority
                 above the diamond/timer when the player loses life.
@@ -904,14 +904,14 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 AD: I think this is OK.
                 Changed to end of life- - cycles through score displays.
 
-1               push boulder broken after 1p2p upgrade
+1               push BOX broken after 1p2p upgrade
 
 1               reset (F1F2) occasionally results in black-screen (i.e., never shows selection screen)
                 TJ: corrected stack pointer, that is one bug fixed, not sure if there is another one
 
 1               Something is broken at startup, the selection screen doesn't show and you immediately
                 start at A.something.
-                The A-something is fixed. The missing selection screen is because FINAL_VERSION is set in notboulderdash.asm
+                The A-something is fixed. The missing selection screen is because FINAL_VERSION is set in notBOXdash.asm
                 This new flag overrides all other settings, to guarantee a perfect state for the final game.  Set it to NO.
                 TJ: With FINALE_VERSION = NO it doesn't assemble anymore.
                     BANK_FIXED.asm (300): error: Label mismatch...
@@ -976,7 +976,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 AD: And yet I can do a compile a clean grab just fine.  I will have a look.
                 TJ: Works! :)
 
-1               snatch-up under a boulder.  It doesn't fall. I broke something.
+1               snatch-up under a BOX.  It doesn't fall. I broke something.
 
 1               Butterfly crash on M1
                 This was caused by the optimisation done in blankstack processing. Not exactly sure why, but revert
@@ -1008,7 +1008,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 + AD: I will have a look through the amoeba code. Could be another banking issue? Or a sto var-1,y addressing problem...?
                 + TJ: 12/7, problem still there. Tested with A2, move to upper left, then lookaround to lower right
                 - a) scanlines increased by 1
-                - b) you hear boulders falling (as if you are moving which shouldn't be)
+                - b) you hear BOXs falling (as if you are moving which shouldn't be)
                 - c) sometimes Rockford gets warped somewhere else
                 >> This happens when butterflies change to diamonds (hitting amoeba), too, while you're looking around.
                 >> doesn't happen if diamond object immediately dies
@@ -1032,7 +1032,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 1               Diamonds through magic wall -- are some disappearing?  YES.
                 could it be the wall character....? No.  Appears to be looking at wrong destination square when deciding
                 if where it is moving TO is blank.  Needs to be fixed!
-                Fixed! This was a INTIM abort in the boulder code, but AFTER the boulder had been erased because it was
+                Fixed! This was a INTIM abort in the BOX code, but AFTER the BOX had been erased because it was
                 stepping through the wall. Required another intim check (SEGTIME_MAGIC) to ensure enough time available.
 
 
@@ -1114,7 +1114,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 
 3               Title is showing 263 scanlines.
 
-1               Boulder physics has changed. It's almost like the sort isn't being called anymore. What I suspect is
+1               BOX physics has changed. It's almost like the sort isn't being called anymore. What I suspect is
                 happening is that the recent change to fallable objects (to fix push bug) has caused issues with
                 the physics because now objects are not on top of rounded objects (that is, the falling objects are
                 not rounded objects). They probably should be.
@@ -1141,9 +1141,9 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 
                 + ad use 6-sprite section beneath title screen for FSS logo
 
-                - grab diamond should not grab when diamond is falling (you should be able to push or grab moving boulders and diamonds)
+                - grab diamond should not grab when diamond is falling (you should be able to push or grab moving BOXs and diamonds)
                 TJ: seems really hard (== time consuiming) to fix
-                one would have to check if the boulder or diamond is in the object stack and falling
+                one would have to check if the BOX or diamond is in the object stack and falling
                 or is there another way to find out?
                 e.g. use a different character on the board for pushable objects in the stack...?
 
@@ -1151,13 +1151,13 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 the amoeba finally grows by two squares, which then block the single one
                 those are put one the board delayed when the next scan has just passed their position
                 so only the original cell is checked which is blocked by the two new cells
-                +AD: good catch!  See my suggestion about a counter for creatures about to go on the board. Don't change to diamonds/boulders
+                +AD: good catch!  See my suggestion about a counter for creatures about to go on the board. Don't change to diamonds/BOXs
                 when this is non-0
                 TJ: Fixed by setting NON_ENCLOSED when a new amoeba cell is added to the board
 
                 -TJ: Sometimes the player's explosion sound is not triggered, though it has max. priority
                   - e.g. in A5 (see example above)
-                  + priorities were not checked for boulders/diamonds
+                  + priorities were not checked for BOXs/diamonds
 
                 + TJ: Soemthing is broken for PAL, screen flickers horrible
                   + emulator problem: -format NTSC cause this
@@ -1165,7 +1165,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                    the amoeba finally grows by two squares, which then block the single one
                    those are put one the board delayed when the next scan has just passed their position
                    so only the original cell is checked which is blocked by the two new cells
-                   +AD: good catch!  See my suggestion about a counter for creatures about to go on the board. Don't change to diamonds/boulders
+                   +AD: good catch!  See my suggestion about a counter for creatures about to go on the board. Don't change to diamonds/BOXs
                      when this is non-0
                    +TJ: replace with non-enclosed solution
                 + move SWCHB for full reset into normal game loop
@@ -1189,13 +1189,13 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 + if you die while pressing button, the death waiting skips straight to restart.  it should instead wait for button release
                 - ad move TJ identified section to separate bank from fixed
                 - something wrong with selection of PAL/NTSC. If you switch PAL in the code, first screen comes up as 276 scanlines.
-                - when an amoeba changes to boulders/diamonds, ONLY add a creature if at least one of the surrounding squares in "+" area is blank.
-                - double-sounds on boulders (TJ: this indicates that some boulders/diamonds are processed twice)
-                  - AD: I would much prefer NOT to have a sound when boulders start falling
+                - when an amoeba changes to BOXs/diamonds, ONLY add a creature if at least one of the surrounding squares in "+" area is blank.
+                - double-sounds on BOXs (TJ: this indicates that some BOXs/diamonds are processed twice)
+                  - AD: I would much prefer NOT to have a sound when BOXs start falling
                   - TJ: It's there in the original, I hope you like it more when the crackling is fixed and there is no double sound anymore
                   - AD: Awaiting feedback. I really like it now. I know it's not as the original.
                   + TJ: I like it the other way around, even with the bug, maybe I should add a switch so that we both can have our preferences
-                  + TJ: When a boulder rolls of something, in the original it makes no sound, here it does
+                  + TJ: When a BOX rolls of something, in the original it makes no sound, here it does
                 x Rockford explodes too big (3x3, like a fly), it should be only 1 cell (no, original has 3 too)
                  x  AD: damn. I like the big explosion. Any issues with keeping it?
                  x  TJ: it is YOUR baby (I will alway try to stay as close to the original as possible :)
@@ -1208,7 +1208,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                   + TJ: StopSound for channel 1 should do
                 + Platform switch is done AFTER DecodeCave (has to be before!)
                 +AD Had a completely non-enclosed amoeba on level M1. I set TOO_MANY to 30. The amoeba grew, and instead of changing to
-                  boulders when it got too big, it changed to diamonds.  Whoops!
+                  BOXs when it got too big, it changed to diamonds.  Whoops!
                   + TJ: should be fixed now, please report if it reoccurs
                 + the digging through dirt sound is quieter than the walking through blank sound. I think blank sound should be quieter.
                   - TJ: both have the same volume, but different frequencies. Maybe that's what you hear?
@@ -1299,7 +1299,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 than that, I guess we wait for a reoccurrence of this bug before hunting.
 
 
-2               LOL bug.  I died exactly at time 0 at the same time as being squashed by a boulder.
-                but the boulder didn't explode, because I was dead from time first. So it was sitting on top (overlaying)
+2               LOL bug.  I died exactly at time 0 at the same time as being squashed by a BOX.
+                but the BOX didn't explode, because I was dead from time first. So it was sitting on top (overlaying)
                 my player sprite, with my player's legs churning away underneath it. Looked like rockford was
-                still alive struggling to get out from under the boulder. Neat bug :)
+                still alive struggling to get out from under the BOX. Neat bug :)

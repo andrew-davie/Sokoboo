@@ -278,7 +278,7 @@ ActivateObjects:
     IF SPECIAL_ADD_DECODECAVE = YES
 
     ;-------------------------------------------------------------------------------------------------------------
-    ; 23/June/2011: Some objects (boulders, diamonds) of type SPECIAL_ADD only go onto the creature stack IF they
+    ; 23/June/2011: Some objects (BOXs, diamonds) of type SPECIAL_ADD only go onto the creature stack IF they
     ; have a surrounding blank square which means they MAY fall on startup.  So, we need to see if the LRD squares
     ; (any) are blank. They may not ACTUALLY fall, but that will be checked in due course as they're on the stack.
 
@@ -404,7 +404,7 @@ CharToType2
 
                 .byte NULL_TYPE             ; blank
                 .byte NULL_TYPE             ; soil
-                .byte TYPE_BOULDER              + SPECIAL_ADD
+                .byte TYPE_BOX              + SPECIAL_ADD
                 .byte TYPE_AMOEBA
                 .byte TYPE_DIAMOND              + SPECIAL_ADD
                 .byte TYPE_DIAMOND              + SPECIAL_ADD
@@ -428,7 +428,7 @@ CharToType2
                 .byte TYPE_AMOEBA
 
                 ; The following two will NEVER APPEAR ON BOARD DECODE DATA so can be skipped
-                ;.byte TYPE_BOULDER                              ; falling boulder
+                ;.byte TYPE_BOX                              ; falling BOX
                 ;.byte TYPE_DIAMOND
                 ;.byte TYPE_MAN                                 ; unkillable man
 
@@ -441,7 +441,7 @@ CharToType2
     ; If changing, also see 'DEFINE' definitions of types in BANK_INITBANK.asm
 
                 .byte 0                 ; MAN
-                .byte 0                 ; BOULDER
+                .byte 0                 ; BOX
                 .byte 0                 ; AMOEBA
                 .byte FACE_DOWN         ; FLUTTERBY     starts life facing down
                 .byte FACE_LEFT+8       ; FIREFLY       starts life facing left
@@ -662,9 +662,6 @@ DrawRectangle:
 ;    DEBUG_BRK
 
 
-
-
-SORT            = $40                           ; wait for complete sort on this screen
 CAVENUM         SET 0
 CAVE_DATA_SIZE  = 5
 
@@ -683,35 +680,33 @@ CaveInformation
 
                 ; The ordering here corresponds to the ordering when playing...
   IF FINAL_VERSION = YES || DEMO_VERSION = NO
-                    ADD_CAVE INTRO,SORT+1
-                    ADD_CAVE ROOMS,SORT+2
-                    ADD_CAVE MAZE,SORT+3
-                    ADD_CAVE BUTTERFLIES,SORT+4
-                    ADD_CAVE INTERMISSION_1,SORT+$80|$0
+                    ADD_CAVE INTRO,1
+                    ADD_CAVE ROOMS,2
+                    ADD_CAVE MAZE,3
+                    ADD_CAVE BUTTERFLIES,4
+                    ADD_CAVE INTERMISSION_1,$80|$0
 
-                    ADD_CAVE GUARDS,SORT+5
-                    ADD_CAVE FIREFLY_DENS,SORT+6
-                    ADD_CAVE AMOEBA,SORT+7
-                    ADD_CAVE ENCHANTED_WALL,SORT+8
+                    ADD_CAVE GUARDS,5
+                    ADD_CAVE FIREFLY_DENS,6
+                    ADD_CAVE AMOEBA,7
+                    ADD_CAVE ENCHANTED_WALL,8
 
-                    ADD_CAVE INTERMISSION_2,SORT+$80|$1
+                    ADD_CAVE INTERMISSION_2,$80|$1
 
                     ADD_CAVE GREED,9
-                    ADD_CAVE TRACKS,SORT+10
-                    ADD_CAVE CROWD,SORT+11
-                    ADD_CAVE WALLS,SORT+12
+                    ADD_CAVE TRACKS,10
+                    ADD_CAVE CROWD,11
+                    ADD_CAVE WALLS,12
 
-                    ADD_CAVE INTERMISSION_3,SORT+$80|$2
+                    ADD_CAVE INTERMISSION_3,$80|$2
 
                     ADD_CAVE APOCALYPSE,13
-                    ADD_CAVE ZIGZAG,SORT+14
-                    ADD_CAVE FUNNEL,SORT+15
-                    ADD_CAVE ENCHANTED_BOXES,SORT+16
+                    ADD_CAVE ZIGZAG,14
+                    ADD_CAVE FUNNEL,15
+                    ADD_CAVE ENCHANTED_BOXES,16
 
-                    ADD_CAVE INTERMISSION_4,SORT+$80|$3
+                    ADD_CAVE INTERMISSION_4,$80|$3
 
-                    ;ADD_CAVE APOCALYPSE,13
-                    ;ADD_CAVE FUNNEL,SORT+15
     ;---------------------------------------------------------------------------
 
 

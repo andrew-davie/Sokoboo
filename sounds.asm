@@ -4,9 +4,9 @@
 ; + diamond pickup
 ; o diamond starts falling (double start bug)
 ; + diamond lands
-; o boulder stars falling (double start bug)
-; + boulder lands
-; + boulder is pushed
+; o BOX stars falling (double start bug)
+; + BOX lands
+; + BOX is pushed
 ; + Rockford moves through soil
 ; + Rockford moves through blank
 ; + Rockfords digs into soil
@@ -327,7 +327,7 @@ DecayExplosion:     ; 8/2400ms = 1/144
     .byte   $f1;, $f1, $f1, $f1, $f1 ; 75   shortened!
     .byte   $00
 DecayDiamondPickup: ; 2/6ms??  != 1/30
-DecayBoulder:
+DecayBOX:
 ; Vol: 10, Len: 30
     .byte   $1a                     ;  1
     .byte   $19                     ;  1
@@ -419,10 +419,10 @@ OFSS_MOVE_SOIL         = . - SoundTbl
 ; overwrites existing sounds:
 SOUND_GROUP_LO  = . - SoundTbl
 
-OFSS_BOULDER           = . - SoundTbl
+OFSS_BOX           = . - SoundTbl
     .byte   DIST_NOISE
     .byte   17, 0   ; ~146 Hz (vs. 143)
-    .byte   DecayBoulder-DecayTbl
+    .byte   DecayBOX-DecayTbl
 OFSS_DIAMOND_PICKUP    = . - SoundTbl
     .byte   DIST_DIV6
     .byte   16, 0   ; 308 Hz
@@ -522,7 +522,7 @@ OFSS_TIME_0            = . - SoundTbl
 SOUND_MOVE_BLANK        = OFSS_MOVE_BLANK / 4
 SOUND_MOVE_SOIL         = OFSS_MOVE_SOIL / 4
 ; group lo:
-SOUND_BOULDER           = OFSS_BOULDER / 4
+SOUND_BOX           = OFSS_BOX / 4
 SOUND_EXPLOSION         = OFSS_EXPLOSION / 4
 SOUND_DIAMOND_PICKUP    = OFSS_DIAMOND_PICKUP / 4
 SOUND_DIAMOND_FALLING   = OFSS_DIAMOND_FALLING / 4

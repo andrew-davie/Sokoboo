@@ -342,379 +342,6 @@ ThrottlePerSystem
                 .byte   21
     ENDIF ;}
 
-    ;------------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE ProcessExplosion ; in INITBANK
-
-    ; Explosion object delays for 4 animation frames and
-    ; then replaces itself with a character or diamond (and generates diamond creature).
-    ; If blanks are generated, these are pushed to the blank-stack.
-                sta ROM_Bank
-
-    ; Check if the board character is our (last) written explosion character
-    ; if NOT, then something's happened (another explosion over the top, perhaps...?) so die.
-
-                ldy POS_Y                       ;3
-                jsr GetBoardAddressR            ;6+24[-2](A)
-                ldy POS_X
-                jsr GetBoardCharacter
-                eor POS_VAR
-                asl
-                bne QRet                        ; something happened -- not expected char so die
-
-
-                inc POS_VAR
-                lda POS_VAR                     ; d7 = diamond/blank, rest = animation index
-                and #~$80
-                cmp #CHARACTER_EXPLOSION3+1
-                beq PostExplosion
-                pha
-
-                ldy POS_Y
-                jsr GetBoardAddressW
-                ldy POS_X
-                pla
-                jsr PutBoardCharacter           ; write new post-explosion character
-
-                ;inc POS_VAR                     ; frame and diamond/blank flag
-                jmp InsertObjectStack           ;6+76(B)         re-insert object
-
-
-    DEFINE_SUBROUTINE PostExplosion
-
-                lda POS_VAR
-                bpl ExplosionBlank
-                lda #VAR_JUST_GENERATED
-                sta POS_VAR                     ; NOT a falling diamond -- fixes chained butterfly explosion
-                ldy POS_Y
-                jsr GetBoardAddressW
-                ldy POS_X
-                lda #CHARACTER_DIAMOND
-                jsr PutBoardCharacter           ; write new post-explosion character
-
-    ; Become an active diamond (in case it needs to fall)
-
-                lda #TYPE_DIAMOND
-                sta POS_Type
-                jmp InsertObjectStack           ;3+76(B)         and return
-
-ExplosionBlank
-
-    ; Place this square onto the blank stack so creatures may fall into it
-
-                ldy POS_Y
-                jsr GetBoardAddressW
-                ldy POS_X
-                lda #CHARACTER_BLANK
-                jsr PutBoardCharacter               ; write new post-explosion character
-
-                lda #BANK_DRAW_BUFFERS
-                jmp InsertBlankStack2               ;6+51(A) place object on blank stack and return
-
-    ;------------------------------------------------------------------------------
-;Amoeba is stuff that grows randomly. If trapped such that it can't grow any more, it "suffocates" and turns into
-; diamonds. If it grows too large, it turns into boulders. Fireflies and butterflies will explode on contact with
-; amoeba. Every scan, a count is kept of how many amoeba have been found. For each amoeba found during the current scan,
-; it does these things:
-;
-;If there were too many (see below) amoeba found in the scan during the last frame, the amoeba is considered to have
-; grown too large, and so all amoeba found in this scan frame are quietly replaced with boulders. Failing that, if it
-; was determined in the scan during the last frame that the amoeba was completely enclosed (could not grow), then each
-; amoeba is quietly replaced with a diamond. Failing that, if there have been no amoeba found during the current scan
-; that had the potential to grow, then a check is made to see whether this amoeba could grow. If it is possible for it
-; to grow, then the flag is changed to indicate that there is at least one amoeba in existance that can grow during this
-; frame. If the amoeba did not turn into a diamond or a boulder (in steps 1 or 2 above), it may or may not attempt to
-; grow. A random number is generated to decide whether the amoeba will attempt grow: it has a 4/128 chance (about 3%)
-; normally, or a 4/16 chance (25%) in some circumstances. If the decision is that the amoeba will atempt to grow, it
-; randomly chooses one of the four directions to grow in. If that direction contains a space or dirt, the amoeba grows
-; to fill that spot. The new amoeba just grown does not itself get the chance to grow until the next frame (ie the new
-; amoeba is marked as "amoeba, scanned this frame"). How many is too many? For the Commodore 64 implementation of
-; Boulder Dash, "too many" amoeba (the point where they turn into boulders) is 200 or more. Since other implementations
-; of Boulder Dash may permit cave sizes other than 40 x 22 (= 880 squares), I suggest that "too many" is defined as
-; being 200/880 = 22.7% of the total number of squares available in the cave. In other words, once 22.7% or more of the
-; cave is occupied by amoeba, it should turn into boulders. When is it 3% and when 25%? Initially, the amoeba growth
-; probability is 4/128 (about 3%). Once the "amoeba slow growth time" has elapsed, the amoeba suddenly starts growing a
-; lot quicker (amoeba growth probability = 25%). The "amoeba slow growth time" is set on a cave-by-cave basis, and is in
-; seconds.
-
-; TODOs:
-; ? maybe scan in a different order to hide scanning character (step x rows and y columns)
-; - the processing of the whole board should be done at a fixed speed
-
-    DEFINE_SUBROUTINE ProcessAmoeba ; in INITBANK
-
-; This routine gets priority over everything, so it really needs to use as LITTLE time as it possibly can.
-                sta ROM_Bank
-
-; before we start a new scan wait a minimum number of scan calls (keeps the  Amoeba speed more constant)
-                ldx amoebaStepCount             ; 3
-                beq .doScan                     ; 2/3
-                dex                             ; 2
-                bne .notZero
-                lda amoebaFlag                  ; 3     when the count reaches zero, we are allowed to start a new scan
-                and #(<~SCAN_FINISHED)          ; 2
-                sta amoebaFlag                  ; 3
-                ldx #MIN_AMOEBA_SCAN-1          ; 2
-.notZero
-                stx amoebaStepCount             ; 3                                ;
-                lda amoebaFlag                  ; 3
-                and #SCAN_FINISHED
-                bne ambRet
-.doScan
-                lda #FINISHEDDIAMOND
-                bit amoebaFlag
-                bne ambRet                      ;
-                bpl aCycle                      ; not TODIAMOND, run only once
-
-                jsr nextAmobPos                 ; 3 scans/frame, do quicker if converting to diamonds/boulders
-
-    ; Scan amoeba position
-
-aCycle          jsr nextAmobPos                 ; 2 scans/frame
-
-nextAmobPos
-;                ldy amoebaY                     ; 3    TODO: replace following code
-;                jsr GetBoardAddressR
-;                ldy amoebaX                     ; 3
-
-                ldx amoebaY                     ; 3
-                ldy amoebaX                     ; 3
-                lda BoardLineStartLO,x          ; 4
-                sta Board_AddressR              ; 3
-                lda BoardLineStartHiR,x         ; 4
-                sta Board_AddressR+1            ; 3
-    IF MULTI_BANK_BOARD = YES
-                lda BoardBank,x                 ; 4
-                sta RAM_Bank                    ; 3
-    ELSE
-                lda #BANK_BOARD                 ; 2
-    ENDIF
-
-                jsr GetBoardCharacter           ;6+20(A)
-
-                lda CharToType,x                ; 4
-                cmp #TYPE_AMOEBA                ; 2
-                beq .isAmoeba
-                jmp .nextPos                    ; 2/3=61    All that work to see if square is an amoeba
-
-.isAmoeba:
-
-                lda amoebaY                     ; 3
-                sta POS_Y                       ; 3
-                ldy amoebaX                     ; 3
-                sty POS_X                       ; 3 = 12
-
-                bit amoebaFlag                  ; 3         TODIAMOND?
-                bpl normalOperate               ; 2/3= 5/6
-
-                lda amoebaCount                 ; 3
-                cmp #TOO_MUCH_AMOEBA            ; 2
-                ldx #CHARACTER_DIAMOND          ; 2
-                bcc diam                        ; 2/3
-                ldx #CHARACTER_BOX          ; 2
-diam                                            ;   = 10/11
-;amoebaToRocksOrDiamonds
-
-                lda Board_AddressR              ; 3
-                sta Board_AddressW              ; 3
-                lda Board_AddressR+1            ; 3
-                ora #>RAM_WRITE                 ; 2
-                sta Board_AddressW+1            ; 3
-
-                lda CharToType,x                ;       X = boulder/diamond character shape
-                sta POS_Type
-                txa
-    IF MULTI_BANK_BOARD = YES
-                ldx RAM_Bank
-    ELSE
-                ldx #BANK_BOARD                 ; 2
-    ENDIF
-                jsr PutBoardCharacter           ;29
-
-    ; To reduce object count, and increase speed on conversion, only add objects if they have a blank around them.
-
-                jsr GetSurroundingChars         ;6+161[-28](C)
-
-                lda Surround+1
-                and Surround+2
-                and Surround+3
-                bne .nextPosBne                 ; if NONE of the L/R or D squares are blank, then don't generate creature
-
-                sta POS_VAR
-                beq .insertObject               ; 3     unconditional
-;----------------------------------------------------------
-ambRet
-                rts
-;----------------------------------------------------------
-normalOperate
-                inc amoebaCount
-
-                jsr GetSurroundingChars         ;6+161[-28](C)
-
-    ; if any of the UDLR are soil or blank, then amoeba is NOT enclosed
-
-                lda #CHARACTER_SOIL                    ; blank/soil ?
-                cmp Surround
-                bcs notEnclosed
-                cmp Surround+1
-                bcs notEnclosed
-                cmp Surround+2
-                bcs notEnclosed
-                cmp Surround+3
-                bcc .nextPos                    ;       enclosed
-
-notEnclosed     lda amoebaFlag
-                ora #NOT_ENCLOSED
-                sta amoebaFlag                  ; found a blank for amoeba (OR there are ghosts around) so it's OK to continue
-
-    ; If the amoeba did not turn into a diamond or a boulder (in steps 1 or 2 above), it may or may not attempt to
-    ; grow. A random number is generated to decide whether the amoeba will attempt grow: it has a 4/128 chance (about 3%)
-    ; normally, or a 4/16 chance (25%) in some circumstances. If the decision is that the amoeba will atempt to grow,
-    ; it randomly chooses one of the four directions to grow in. If that direction contains a space or dirt, the amoeba
-    ; grows to fill that spot. The new amoeba just grown does not itself get the chance to grow until the next frame
-    ; (ie the new amoeba is marked as "amoeba, scanned this frame")
-
-                NEXT_RANDOM                     ; need it to change as we do multiple loops of amoeba per call
-                cmp #SLOW_GROW
-                eor rndHi                       ; to become independent from previous random value, due to the simplicity of the LFSR
-                                                ; there is a bg chance of consecutive numbers becoming dependent
-                                                ; @AD: remove it and you will see the "stuck" Amoeba
-                bcc .growAmoeba                 ; slow things down -- only do the amoeba occasionally
-; reenable if FAST_GROW becomes too fast
-                cmp #FAST_GROW
-                bcs .nextPos
-.loopFastGrow
-                ldx MagicAmoebaFlag
-                inx                             ; AMOEBA_FAST_GROW?
-.nextPosBne
-                bne .nextPos                    ;  no
-.growAmoeba
-    ; TJ: The original checks only ONCE. This slows down the grow rate of a large Amoeba, since the
-    ; chance to select and occupied space become larger.
-    ; NEW: ADs loop code, but only for fast grow
-
-    ; we *know* at least one direction is blank.
-    ; Choose circularly until we find one;
-
-    ; neat bit of code, and yes it's correct.
-    ; 1st time through we don't care about carry.  Thereafter it's set.
-
-                adc #0
-                and #3
-                tay
-                ldx Surround,y
-                cpx #CHARACTER_SOIL+1                  ; allow only blank/soil for amoeba growth
-                bcs .loopFastGrow
-;                bcs .nextPos
-
-                ;clc
-                lda amoebaX
-                adc RDirX,y
-                sta POS_X
-
-; Note: The scan box increases during the scan, more efficient would be to increase it afterwards
-;  but that would require at least another byte and gain not that much speed.
-; update scan box width:
-                cmp amoebaMinX
-                bcs .skipNewMinX
-                sta amoebaMinX
-.skipNewMinX
-                cmp amoebaMaxX
-                bcc .skipNewMaxX
-                sta amoebaMaxX
-                clc
-.skipNewMaxX
-
-;                clc
-                lda amoebaY
-                adc RDirY,y
-                sta POS_Y
-; update scan box height:
-                cmp amoebaMinY
-                bcs .skipNewMinY
-                sta amoebaMinY
-.skipNewMinY
-                cmp amoebaMaxY
-                bcc .skipNewMaxY
-                sta amoebaMaxY
-.skipNewMaxY
-
-    ; Bypass object creation -- just write the amoeba character directly
-
-                ldy POS_Y
-                jsr GetBoardAddressW            ;6+24[-2]
-                ldy POS_X
-                lda #CHARACTER_AMOEBA
-                jsr PutBoardCharacter
-                jmp .nextPos
-
-.insertObject
-                jsr InsertObjectStack           ;6+76(B)
-
-.nextPos
-; scan next column:
-                dec amoebaX
-                ldx amoebaX
-                cpx amoebaMinX
-                bcs .exit
-
-; scan next row:
-                ldx amoebaMaxX
-                stx amoebaX
-
-                dec amoebaY
-                ldy amoebaY
-                cpy amoebaMinY
-                bcs .exit
-
-; start complete new boxed scan:
-                ldy amoebaMaxY
-                sty amoebaY
-
-    ; This happens at the completion of each board scan
-    ; IF we're totally enclosed, OR we're too big, then the interesting stuff happens!
-
-                lda amoebaFlag                  ;       TODIAMOND?
-                bmi .convertedToDiamonds
-
-                ldx amoebaCount
-                cpx #TOO_MUCH_AMOEBA
-                bcs .tooMany
-
-                lsr                            ;        NOT_ENCLOSED?
-                bcc .enclosed
-
-    ; reset per-scan variables as we're starting a complete new scan at this point
-                asl                             ; 2     clears NOT_ENCLOSED bit
-dontConvertIt   ora #SCAN_FINISHED              ; 2     indicate that we finshed last scan
-                sta amoebaFlag                  ; 3
-
-                lda #0                          ; 2     has to be done here. Do NOT move!!!
-                sta amoebaCount                 ; 3
-; (re)enable sound with each new scan (e.g. after being disabled by crack or time sound)
-                START_SOUND SOUND_AMOEBA
-                rts
-
-;-------------------------------------------------------------------------------
-.enclosed
-                asl
-.tooMany
-; enclosed or too many, so set todiamonds
-                ora #TODIAMOND
-                sta amoebaFlag                  ;       force "to boulder" or "to diamond"
-.exit
-Rts
-                rts
-
-;-------------------------------------------------------------------------------
-; the amoeba was converted in to either diamonds or boulders, so it dies here
-.convertedToDiamonds
-                ora #FINISHEDDIAMOND
-                sta amoebaFlag
-
-                STOP_SOUND 1, OFSS_AMOEBA
-                rts
-
 ;-------------------------------------------------------------------------------
 
 
@@ -834,7 +461,7 @@ canPush         pla
 
                 jsr BlankOriginalLocationXY       ;6+87[-2](A)        and stacks newly blank position for checking -- also causing boulder to fall!
 
-                START_SOUND SOUND_BOULDER
+                START_SOUND SOUND_BOX
 
                 lda BufferedButton                   ; button pressed?
                 bpl PushWithButton
@@ -848,118 +475,7 @@ cannotPush2
 timeout
                 rts
 
-Bango
-                jsr BigBang                         ;6+1732[-58](B)
-                bcc timeout                         ;2/3
-
-                jmp NextObject                      ;??? >-- should be OK. Creature dies.
-
-    ;------------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE PROCESS_FLUTTERBY ;=521[-32](B) if moving worst case
-    DEFINE_SUBROUTINE PROCESS_FIREFLY
-
-                lda INTIM                       ;4
-                cmp #SEGTIME_BUTTERFLY          ;2
-                bcc timeout                     ;2/3
-                STRESS_TIME SEGTIME_BUTTERFLY
-
-
-    ; The butterfly and firefly are wall-huggers.
-    ; Algorithm:  current direction (0-3) encoded in POS_VAR.  +8 for fireflies.
-    ; Butterfly: Try to turn right (direction++&3). Now try to move forward.
-    ; If no move, then repeat above for all directions.
-    ; Firefly: same as above, but turning anti-clockwise.
-
-                jsr GetSurroundingChars         ;6+161[-28](C) (return BANK is OK)
-
-    ; Check surrounding squares for proximity to anything that causes butterfly/firefly
-    ; to explode.  These include man, amoeba.
-
-;                ldx Surround                    ;3
-                lda GenericCharFlag,x           ;4
-                ldx Surround+1                  ;3
-                ora GenericCharFlag,x           ;4
-                ldx Surround+2                  ;3
-                ora GenericCharFlag,x           ;4
-                ldx Surround+3                  ;3
-                ora GenericCharFlag,x           ;4 = 25
-
-    ;TODO: here we could check if we've hit the man (via GenericCharFlag) and trigger a manual kill
-    ; so even if the man doesn't check the squares he DOES know he's dead.
-
-                and #GENERIC_MASK_KILLSBUTTERFLY;2
-                bne Bango                       ;2/3               (-> 206@Bango)
-
-    ; If the butterfly/firefly board character is not the object's type -- something must have
-    ; happened (eg: boulder/diamond falling, man moving) and so the object should die.
-
-                ldx Surround+4                  ;3     current position
-                lda CharToType,x                ;4
-                cmp POS_Type                    ;3
-                bne Bango                       ;2/3
-
-                ldy POS_VAR                     ;3     Current movement direction
-                lda Directional,y               ;4
-                tax                             ;2
-                and #3                          ;2
-                tay                             ;2
-                lda Surround,y                  ;4
-                beq MoveThatWay                 ;2/(3+277[-4](B))
-
-    ; Failed to turn, try to go straight ahead
-
-                lda POS_VAR                     ;3
-                and #3                          ;2
-                tay                             ;2
-                lda Surround,y                  ;4
-                beq MoveThatWayStraight         ;2/(3+274[-4](B))
-
-    ; turn LEFT, as we can't turn right or go straight ahead
-
-                ldy POS_VAR                     ;3
-                lda Directional+2,y             ;4
-                sta POS_VAR                     ;3
-                jmp ReInsertObject              ;3+98(B)        (animation now happens automatically)
-
-    ;------------------------------------------------------------------------------
-MoveThatWay ;=276[-4](B)
-
-                stx POS_VAR                     ;3
-
-MoveThatWayStraight ;=273[-4](B)
-
-                jsr BlankOriginalLocation       ;6+93[-2](A)
-
-                lda POS_VAR                     ;3
-                and #3                          ;2
-                tax                             ;2
-
-                clc                             ;2
-                lda POS_Y                       ;3
-                adc RDirY,x                     ;4
-                sta POS_Y                       ;3
-
-                tay                             ;2
-
-                lda BoardLineStartLO,y          ;4
-                sta Board_AddressW              ;3
-                lda BoardLineStartHiW,y         ;4
-                sta Board_AddressW+1            ;3              WRITE address
-
-                clc                             ;2
-                lda POS_X                       ;3
-                adc RDirX,x                     ;4
-                sta POS_X                       ;3
-
-    IF MULTI_BANK_BOARD = YES
-                ldx BoardBank,y                 ;4              switch this on return
-    ELSE
-                ldx #BANK_BOARD                 ;2
-    ENDIF
-                tay                             ;2              a == POS_X
-                lda Surround+4                  ;3
-                jmp PutBoardCharacterButterfly  ;3+110[-2](B)
+Bango           jmp NextObject                      ;??? >-- should be OK. Creature dies.
 
 
    ;------------------------------------------------------------------------------
@@ -1366,9 +882,9 @@ deadMan         lda ManX
 
                 jsr BlankPlayerFrame
 
-                jsr BigBang
-                ror specialTimeFlag
-                bpl timeTooShortToDie           ; wait until next time around
+                ;sok jsr BigBang
+                ;sok ror specialTimeFlag
+                ;sok bpl timeTooShortToDie           ; wait until next time around
 
     ; and becomes a man waiting for resurrection...
 
@@ -1606,121 +1122,6 @@ JoyDirX
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE BigBang ;=1630[-85](B)
-    ; requires a lot of complicated to calculate/test extra time if called from PROCESS_MAN!
-
-    ; requires POS_X, POS_Y, POS_Type to be set
-    ; returns C if time too short
-
-                lda INTIM                       ;4
-                cmp #SEGTIME_BIGBANG            ;2
-                bcc AbortExplosion              ;2/3= 8         not enough processing time (carry important)
-
-                STRESS_TIME SEGTIME_BIGBANG
-
-                START_PRIO_SOUND SOUND_EXPLOSION;10= 10
-
-                lda #CHARACTER_EXPLOSION        ;2
-                ldx POS_Type                    ;3
-                cpx #TYPE_FLUTTERBY             ;2
-                bne noDiamExp                   ;2/3
-                ora #$80                        ;2              butterfly generates diamond
-noDiamExp       sta POS_VAR                     ;3 = 14         object type to become, identified by char
-
-                lda #TYPE_EXPLOSION             ;2
-                sta POS_Type                    ;3 =  5
-
-                dec POS_X                       ;5
-                dec POS_Y                       ;5
-                jsr ExplodeADiamond             ;6+186(B)       @x-1,y-1
-                inc POS_X                       ;5
-                jsr ExplodeADiamondSameRow      ;6+161(B)       @x,  y-1
-                inc POS_X                       ;5
-                jsr ExplodeADiamondSameRow      ;6+161(B)       @x+1,y-1
-
-                inc POS_Y                       ;5
-                jsr ExplodeADiamond             ;6+186(B)       @x+1,y
-                dec POS_X                       ;5
-                jsr ExplodeADiamond0            ;6+118(B)       @x,  y
-                dec POS_X                       ;5
-                jsr ExplodeADiamondSameRow      ;6+161(B)       @x-1,y
-
-                inc POS_Y                       ;5
-                jsr ExplodeADiamond             ;6+186(B)       @x-1,y+1
-                inc POS_X                       ;5
-                jsr ExplodeADiamondSameRow      ;6+161(B)       @x,  y+1
-                inc POS_X                       ;5
-                jsr ExplodeADiamondSameRow      ;6+161(B)       @x+1,y+1
-
-                sec                             ;2              flags to callee that creature processed OK
-AbortExplosion
-NotEnoughProcessTime
-                rts                             ;6 =  8
-
-
-ExplodeADiamond ;=186[-10](B)
-
-    ; Explosions generate explode creatures.  This allows the explosion to progress over
-    ; a series of frames. The explode creature subsequently dies and creates a diamond, or
-    ; a blank, as appropriate.  Meanwhile, creatures cannot move into exploding squares.
-
-    ; First check if the creature at this position may be exploded
-
-                ldy POS_Y                       ;3
-                lda BoardLineStartLO,y          ;4
-                sta Board_AddressR              ;3
-                sta Board_AddressW              ;3
-                lda BoardLineStartHiR,y         ;4
-                sta Board_AddressR+1            ;3              READ address
-                ora #>RAM_WRITE                 ;2
-                sta Board_AddressW+1            ;3 = 25         WRITE address
-
-ExplodeADiamondSameRow ;=161[-10](B)
-
-        IF MULTI_BANK_BOARD = YES
-                ldy POS_Y                       ;3              we could save another 9 cycles here at the cost of 10 bytes
-                lda BoardBank,y                 ;4              switch this on return
-        ELSE
-                lda #BANK_BOARD                 ;2
-        ENDIF
-                ldy POS_X                       ;3
-                jsr GetBoardCharacter           ;6+20(A)        sets RAM bank, ROM bank, needs Board_AddressR
-
-                lda GenericCharFlag,x           ;3
-                and #GENERIC_MASK_EXPLODABLE    ;2
-                beq AbortExplosion              ;2/3=43[-5]
-
-    ; It can, so draw an explosion in the square and create an explosion object
-
-ExplodeADiamond0 ;=118[-5](B)
-
-    ; The following puts immediate explosion characters onscreen. This reduces the visual
-    ; delay before the explosion creature(s) activate and draw themselves.
-
-    ; Actually... consider a firefly/butterfly which is next to the player.  The firefly
-    ; checks and finds the player there, so it decides to explode.  Gets to here. But the
-    ; player moves away in the very same cycle (AFTER the firefly/butterfly). He's now one
-    ; away and escapes the (next frame) explosion. By putting in the explosion characters
-    ; immediately, we make sure that the player blows up too.
-
-        IF MULTI_BANK_BOARD = YES
-                ldy POS_Y                       ;3
-                ldx BoardBank,y                 ;4              switch this on return
-        ELSE
-                ldx #BANK_BOARD                 ;2
-        ENDIF
-                ldy POS_X                       ;3
-                lda #CHARACTER_EXPLOSION        ;2
-                jsr PutBoardCharacter           ;6+21(A)=39[-5] write new post-explosion character, sets RAM bank, ROM bank, needs Board_AddressW
-
-
-    ; Create the explosion object.  Note that POS_VAR tells it what sort of object it
-    ; becomes, once it has finished its delay processing.
-
-                jmp InsertObjectStack           ;3+76(B)        place on stack so it stays alive
-
-    ;------------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE VectorProcess ;=19(A)
 
                 ;sta ROM_Bank                    ;3              processors can assume bank is stored
@@ -1753,7 +1154,7 @@ OBJTYPE    .SET OBJTYPE + 1
 
 
                 DEFINE MAN
-                DEFINE BOULDER
+                DEFINE BOX
                 DEFINE AMOEBA
                 DEFINE FLUTTERBY
                 DEFINE FIREFLY
@@ -1778,18 +1179,18 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerLO
                 .byte <PROCESS_MAN
-                .byte <PROCESS_BOULDER
-                .byte 0 ;<PROCESS_AMOEBA
-                .byte <PROCESS_FLUTTERBY
-                .byte <PROCESS_FIREFLY
+                .byte <PROCESS_BOX
+                .byte 0
+                .byte 0
+                .byte 0
                 .byte <PROCESS_DIAMOND
                 .byte 0                         ; magic wall
                 .byte 0                         ; exit door
                 .byte 0 ;<PROCESS_SELECTOR         ; selection screen controller
-                .byte <PROCESS_EXPLOSION
-                .byte <PROCESS_EXPLOSION
-                .byte <PROCESS_EXPLOSION
-                .byte <PROCESS_EXPLOSION
+                .byte 0
+                .byte 0
+                .byte 0
+                .byte 0
 ;                .byte 0
 ;                .byte 0                         ; soil
 ;                .byte 0                         ; steel
@@ -1803,18 +1204,18 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerHI
                 .byte >PROCESS_MAN
-                .byte >PROCESS_BOULDER
-                .byte 0 ;>PROCESS_AMOEBA
-                .byte >PROCESS_FLUTTERBY
-                .byte >PROCESS_FIREFLY
+                .byte >PROCESS_BOX
+                .byte 0
+                .byte 0
+                .byte 0
                 .byte >PROCESS_DIAMOND
-                .byte 0 ;>PROCESS_MAGICWALL
-                .byte 0                         ; exit door
+                .byte 0
+                .byte 0
                 .byte 0 ;>PROCESS_SELECTOR         ; selection screen controller
-                .byte >PROCESS_EXPLOSION
-                .byte >PROCESS_EXPLOSION
-                .byte >PROCESS_EXPLOSION
-                .byte >PROCESS_EXPLOSION
+                .byte 0
+                .byte 0
+                .byte 0
+                .byte 0
 ;                .byte 0
 ;                .byte 0 ;soil
 ;                .byte 0 ;steel
@@ -1858,7 +1259,7 @@ OBJTYPE    .SET OBJTYPE + 1
 
                 .byte <MOVE_BLANK
                 .byte <MOVE_SOIL
-                .byte <MOVE_BOULDER
+                .byte <MOVE_BOX
                 .byte <MOVE_GENERIC             ;amoeba
                 .byte <MOVE_DIAMOND
                 .byte <MOVE_DIAMOND
@@ -1898,7 +1299,7 @@ OBJTYPE    .SET OBJTYPE + 1
 
                 .byte >MOVE_BLANK
                 .byte >MOVE_SOIL
-                .byte >MOVE_BOULDER
+                .byte >MOVE_BOX
                 .byte >MOVE_GENERIC             ;amoeba
                 .byte >MOVE_DIAMOND
                 .byte >MOVE_DIAMOND

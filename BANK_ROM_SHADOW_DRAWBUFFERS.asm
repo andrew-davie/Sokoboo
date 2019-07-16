@@ -98,7 +98,7 @@ BuffersFull     rts                             ; 6
 
 
     ; Now that all characters are drawn, recalculate/move sprite. Doing this here prevents the player
-    ; moving into the middle of dirt, or boulders when pushing, or diamonds when grabbing.
+    ; moving into the middle of dirt, or BOXs when pushing, or diamonds when grabbing.
 
 ;                sec            already set
                 lda ManY                        ;3
@@ -354,7 +354,7 @@ ANIM_EXITDOOR   .byte CHARACTER_EXITDOOR    ; 11
                 .byte CHARACTER_EXPLOSION2  ; 15
                 .byte CHARACTER_EXPLOSION3  ; 16
                 .byte 0;CHARACTER_AMOEBA    ; 17
-                .byte CHARACTER_BOX     ; 18    falling boulder
+                .byte CHARACTER_BOX     ; 18    falling BOX
                 .byte CHARACTER_DIAMOND     ; 19    falling diamond, no anim
                 .byte CHARACTER_NOGO            ;20 the unkillable man for end of level
 
@@ -454,5 +454,3 @@ NoExitYet       rts
             include "CaveBank1.asm"
 
     CHECK_BANK_SIZE "ROM_SHADOW_OF_BANK_DRAW_BUFFERS -- full 2K"
-
-

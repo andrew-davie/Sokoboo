@@ -1,5 +1,5 @@
-BIN= BoulderDashFU.bin
-SOURCE= notBoulderDash.asm
+BIN= BOXDashFU.bin
+SOURCE= notBOXDash.asm
 
 all: $(BIN)
 

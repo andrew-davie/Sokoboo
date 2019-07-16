@@ -1,6 +1,6 @@
 
 ;------------------------------------------------------------------------------
-; not-Boulderdash(R)! Copyright (C)2003-2011 Andrew Davie and Thomas Jentzsch.
+; not-BOXdash(R)! Copyright (C)2003-2011 Andrew Davie and Thomas Jentzsch.
 ; This is an engine for background animation games. The engine uses bankswitch scheme
 ; Tigervision Extended (3E). Display technology developed late 2004, Copyright (C)2005-2011
 ; Andrew Davie, Thomas Jentzsch. Thomas on-board mid-MAY 2005.
@@ -8,7 +8,7 @@
 ; Re-started for demo release June 2011.
 
 ; Some portions of this code may be freely used for private, educational and research
-; purposes, excluding Boulder Dash(R)-specific logic and routines, which may not
+; purposes, excluding BOX Dash(R)-specific logic and routines, which may not
 ; be distributed and which remain Copyright (C) First Star Software 1984-2011.
 ; If you wish to profit from this code, please ask for permission first.
 ;------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
-SPECIAL_ADD_DECODECAVE          SET YES         ; causes boulders and diamonds to be added as falling objects on cave startup
+SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 
 ;-------------------------------------------------------------------------------
 ; The following are optional YES/NO depending on phase of the moon
@@ -103,7 +103,7 @@ CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for const
 SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
-SPECIAL_ADD_DECODECAVE          SET YES         ; causes boulders and diamonds to be added as falling objects on cave startup
+SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
 SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
@@ -119,7 +119,7 @@ CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for const
 SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
-SPECIAL_ADD_DECODECAVE          SET YES         ; causes boulders and diamonds to be added as falling objects on cave startup
+SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
 SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
@@ -137,7 +137,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 3           ; slowdown when pushing on a boulder
+PUSH_LIMIT                      = 3           ; slowdown when pushing on a BOX
 GENERIC_MASK_ROUNDED            = 1             ; lets rocks/diamonds roll off
 GENERIC_MASK_SQUASHABLE         = 2             ; gets pummelled by anything falling on it
 GENERIC_MASK_EXPLODABLE         = 8             ; takes part in an explosion
@@ -152,7 +152,7 @@ VAR_JUST_GENERATED              = %01000000     ; object cannot fall and squash 
 ; amoeba and magic wall constants:
 MAGIC_WALL_DORMANT              = $FF           ; wall dormant, waiting for trigger
 AMOEBA_FAST_GROW                = MAGIC_WALL_DORMANT
-TOO_MUCH_AMOEBA                 = 200           ; squares of amoeba before turns into boulders (original 200)
+TOO_MUCH_AMOEBA                 = 200           ; squares of amoeba before turns into BOXs (original 200)
 ; we should try to adjust the growth first by changing MIN_AMOEBA_SCAN,
 ; maybe we can assume FAST_GROW to be 256 and then can remove the code for it.
 SLOW_GROW                   = 30+1-2            ; should be ~3%
@@ -184,7 +184,7 @@ EXTRA_DIAMONDS              = $80               ; set if collecting extra diamon
 
 ;------------------------------------------------------------------------------
 
-MIRRORED_BOULDER            = YES
+MIRRORED_BOX            = YES
 MIRRORED_AMOEBA             = YES
 MIRRORED_STEEL              = YES
 MIRRORED_WALL               = YES
@@ -552,8 +552,8 @@ DHS_Stack               ds 1                ; for restoring SP
 
     OVERLAY Process
 
-BoulderLeft         ds 1
-BoulderRight        ds 1
+BOXLeft         ds 1
+BOXRight        ds 1
 
     VALIDATE_OVERLAY
 

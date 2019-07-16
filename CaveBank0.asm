@@ -1,7 +1,7 @@
 ; Cave definitions
 ; Sample cave definitions.
 ; Any cave can be in any bank.  System auto-calculates required bank buffer size in RAM.
-; have as many banks as you like.  Add new banks in notBoulderDash.asm.
+; have as many banks as you like.  Add new banks in notBOXDash.asm.
 
 
     ;------------------------------------------------------------------------------
@@ -25,7 +25,7 @@
     .byte   $36, $46                    ; NTSC/PAL
     .byte   $0e, $0e                    ; NTSC/PAL
     .byte   $00, $00, $00, $00          ; Random objects:
-    .byte   $00, $00, $00, $00          ;   SPACE / BOULDERS/ DIAMONDS / unused
+    .byte   $00, $00, $00, $00          ;   SPACE / BOXS/ DIAMONDS / unused
 
 
     ;.byte   FILL+CHARACTER_BOX, $01, $03, 38,6, $00

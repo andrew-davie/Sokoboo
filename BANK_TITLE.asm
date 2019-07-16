@@ -323,7 +323,7 @@ X SET X+1
     CHECKPAGE NextXTbl
 
 ;-----------------------------------------------------------
-; BOULDER DASH PF graphics data:
+; BOX DASH PF graphics data:
 
 title_STRIP_0
     .byte   240
