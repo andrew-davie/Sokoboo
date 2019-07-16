@@ -985,7 +985,10 @@ MOVE_SOIL       ldy #SOUND_MOVE_SOIL            ; 2
     ;---------------------------------------------------------------------------
     ; Handle snatching...
 
-checkForSnatch  ldy POS_X_NEW                   ; 3
+checkForSnatch
+
+
+                ldy POS_X_NEW                   ; 3
                 lda BufferedButton              ; 3             button pressed?
                 bmi MoveNoButton                ; 2/3           NO, so we move to new square, otherwise...
 
@@ -994,7 +997,7 @@ checkForSnatch  ldy POS_X_NEW                   ; 3
                 ldx POS_Y_NEW                   ; 3
                 stx POS_Y                       ; 3             needed for InsertBlankStack
                 sty POS_X                       ; 3             needed for InsertBlankStack
-                jmp BlankOriginalLocationXY     ; 6+87[-2](A)   snatch/grab the new location
+                ;jmp BlankOriginalLocationXY     ; 6+87[-2](A)   snatch/grab the new location
 
     ;---------------------------------------------------------------------------
 

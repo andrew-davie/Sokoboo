@@ -1465,7 +1465,7 @@ PlayerAlive
     ; joystick directions chosen. The variable LookingAround has a negative value ($FF) when looking
     ; is active. Otherwise, it is counting down to the time where it will trigger.
 
-LOOK_DELAY = 6
+LOOK_DELAY = 0
 
                 ldx #LOOK_DELAY
                 lda BufferedButton

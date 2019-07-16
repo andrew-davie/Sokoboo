@@ -609,7 +609,7 @@ OverscanTime
 
                 lda LookingAround
                 bpl nolooker                    ; if not looking around, that will do nicely
-                ldy #2
+                ldy #2 ;sok
 ;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
 nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
 

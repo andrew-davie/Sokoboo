@@ -3892,7 +3892,7 @@
     234  0bea		       a9 e4		      lda	#<COPYTIMESTART
     235  0bec		       85 e3		      sta	CopyTime
     236  0bee
-    237  0bee		       4c f4 fb 	      jmp	ExitCopyRight	; sokoban - skip copyright/atariage
+    237  0bee		       4c f1 fb 	      jmp	ExitCopyRight	; sokoban - skip copyright/atariage
     238  0bf1
       0  0bf1					      DEFINE_SUBROUTINE	NewCopyRightFrame
       1  0bf1		       00 01	   BANK_NewCopyRightFrame =	_CURRENT_BANK
@@ -3939,7 +3939,7 @@
     272  0c13		       d0 f0		      bne	NewAtariAgeFrame
     273  0c15
     274  0c15				   CopyExit
-    275  0c15		       4c f4 fb 	      jmp	ExitCopyRight
+    275  0c15		       4c f1 fb 	      jmp	ExitCopyRight
     276  0c18
     277  0c18							;--------------------------------------------------------------------------
     278  0c18
@@ -8070,7 +8070,7 @@
     343  19c5		       95 87		      sta	endTitleClear+1,x
     344  19c7		       ca		      dex
     345  19c8		       10 fb		      bpl	.loopClear
-    346  19ca		       4c 05 fc 	      jmp	ExitTitleScreen
+    346  19ca		       4c 02 fc 	      jmp	ExitTitleScreen
     347  19cd
     348  19cd				   .notReleased
     349  19cd		       24 4c		      bit	INPT4	; 4	     button released?
@@ -9245,19 +9245,19 @@
     228  20e5		       a8		      tay		; 2 =	6
     229  20e6							;		  clc				  ; 2
     230  20e6
-    231  20e6		       b9 10 fd 	      lda	CharacterDataVecHI,y	; 4
+    231  20e6		       b9 0d fd 	      lda	CharacterDataVecHI,y	; 4
     232  20e9		       9d 0c f4 	      sta	SM_PF0_REDl +RAM_WRITE+2,x	; 5
     233  20ec		       9d 7b f4 	      sta	SM_PF0_GREENl+RAM_WRITE+2,x	; 5
     234  20ef		       9d 48 f4 	      sta	SM_PF0_BLUEl +RAM_WRITE+2,x	; 5 = 19
     235  20f2
-    236  20f2		       b9 da fc 	      lda	CharacterDataVecLO,y	; 4
+    236  20f2		       b9 d7 fc 	      lda	CharacterDataVecLO,y	; 4
     237  20f5		       9d 0b f4 	      sta	SM_PF0_REDl +RAM_WRITE+1,x	; 5
     238  20f8		       69 06		      adc	#LINES_PER_CHAR/3-1	; 2	     CF is set!
     239  20fa		       9d 7a f4 	      sta	SM_PF0_GREENl+RAM_WRITE+1,x	; 5
     240  20fd		       69 07		      adc	#LINES_PER_CHAR/3	; 2
     241  20ff		       9d 47 f4 	      sta	SM_PF0_BLUEl +RAM_WRITE+1,x	; 5 = 23
     242  2102
-    243  2102		       4c 87 fb 	      jmp	DrawAnother	; 3 =	3
+    243  2102		       4c 84 fb 	      jmp	DrawAnother	; 3 =	3
     244  2105
     245  2105							; Timing for PF0Draw
     246  2105							; 7+63 = 70
@@ -9289,12 +9289,12 @@
     263  210c							; 16 + 20 + 20 + 2 + ( 7 * 32 ) - 1  + (42 SUFFIX)
     264  210c							; = 323 --> /64 = 5.04 USE 7
     265  210c
-    266  210c		       b9 10 fd 	      lda	CharacterDataVecHI,y	; 4
+    266  210c		       b9 0d fd 	      lda	CharacterDataVecHI,y	; 4
     267  210f		       8d 3c f5 	      sta	SM3LOAD+RAM_WRITE+2	; 4
     268  2112		       8d 42 f5 	      sta	SM3LOADb+RAM_WRITE+2	; 4
     269  2115		       8d 48 f5 	      sta	SM3LOADc+RAM_WRITE+2	; 4 = 16
     270  2118
-    271  2118		       b9 da fc 	      lda	CharacterDataVecLO,y	; 4
+    271  2118		       b9 d7 fc 	      lda	CharacterDataVecLO,y	; 4
     272  211b		       8d 3b f5 	      sta	SM3LOAD+RAM_WRITE+1	; 4
     273  211e		       69 06		      adc	#LINES_PER_CHAR/3 - 1	; 2	     CF is set!
     274  2120		       8d 41 f5 	      sta	SM3LOADb+RAM_WRITE+1	; 4
@@ -9322,7 +9322,7 @@
       8  214d					      LIST	ON
       9  214d		       10 eb		      bpl	TSFill3
     296  214f
-    297  214f		       4c 87 fb 	      jmp	DrawAnother	; 3
+    297  214f		       4c 84 fb 	      jmp	DrawAnother	; 3
     298  2152
     299  2152							; Timing for DirectDraw
     300  2152							; 17+8+16+20+20+2+(32*7)-1+3 = 309 (was: 302 + 3)
@@ -9347,7 +9347,7 @@
     316  215d		       b0 a6		      bcs	DirectDraw	; 2(3)      when draw stack was built, bit 7 flags direct-drawn character
     317  215f							;	     => +19 starting DirectDraw BUT WHO CARES AS IT'S ONLY AFTER THAT COUNTS
     318  215f
-    319  215f		       b9 10 fd 	      lda	CharacterDataVecHI,y	; 4
+    319  215f		       b9 0d fd 	      lda	CharacterDataVecHI,y	; 4
     320  2162		       10 38		      bpl	QuickDraw	; 2(3)=42   special-case blank characters for extra speed
     321  2164							;	     => 42 starting QuickDraw
     322  2164		       8d 8d f5 	      sta	SMEOR1+RAM_WRITE+2	; 4 =	4
@@ -9370,7 +9370,7 @@
     330  216e							; 8 + 16 + 8 + 2 + (21 * 23) -1 + (42 OVERHEAD WHEN RETURNING)
     331  216e							; = 558 --> /64 = 8.71 INTIM --> USE 10
     332  216e
-    333  216e		       b9 da fc 	      lda	CharacterDataVecLO,y	; 4
+    333  216e		       b9 d7 fc 	      lda	CharacterDataVecLO,y	; 4
     334  2171		       8d 8c f5 	      sta	SMEOR1+RAM_WRITE+1	; 4 =	8
     335  2174
     336  2174		       bd dc f1 	      lda	CharAddressLO,x	; 4	     ScreenBitmap(COL) LO byte
@@ -9399,7 +9399,7 @@
       8  2197					      LIST	ON
       9  2197		       10 ef		      bpl	TSFill
     359  2199
-    360  2199		       4c 87 fb 	      jmp	DrawAnother	; 3
+    360  2199		       4c 84 fb 	      jmp	DrawAnother	; 3
     361  219c
     362  219c							; Timing for "SLOW" draw
     363  219c							; 22+4+8+8+16+8+2+(21*24)-1+3 = 574 (was: 566 + 3)
@@ -9460,7 +9460,7 @@
       8  21d7					      LIST	ON
       9  21d7		       10 e8		      bpl	TSFill2
     409  21d9
-    410  21d9		       4c 87 fb 	      jmp	DrawAnother	; 3
+    410  21d9		       4c 84 fb 	      jmp	DrawAnother	; 3
     411  21dc
     412  21dc							; Timing for QuickDraw
     413  21dc							; 23+8+32+4+2+(7*38)-1+3 = 337 (was: 330 + 3)
@@ -11117,7 +11117,7 @@
     123  2a23				   skipsc
     124  2a23
     125  2a23		       e6 ae		      inc	timer	;5
-    126  2a25		       4c 9e fd 	      jmp	AnimateCharReplacements2	;3+139
+    126  2a25		       4c 9b fd 	      jmp	AnimateCharReplacements2	;3+139
     127  2a28				   retAnim
     128  2a28
     129  2a28		       e6 8e		      inc	ScreenDrawPhase	;5
@@ -11315,14 +11315,14 @@
     306  2ac7
     307  2ac7				   CheckIt		;=110(A)
     308  2ac7
-    309  2ac7		       bd 46 fd 	      lda	GenericCharFlag,x	; 4	 check char as a fallable item
+    309  2ac7		       bd 43 fd 	      lda	GenericCharFlag,x	; 4	 check char as a fallable item
     310  2aca		       10 c6		      bpl	NoBlanks	; 2/3	 NOT a fallable object!
     311  2acc
     312  2acc							; Only FALLABLE objects detected in the candidate position are added to the object list.
     313  2acc							; These objects then make their own minds up if they're ACTUALLY going to fall.
     314  2acc
     315  2acc
-    316  2acc		       bd 83 fd 	      lda	CharToType,x	;4	 get type of object based on character
+    316  2acc		       bd 80 fd 	      lda	CharToType,x	;4	 get type of object based on character
     317  2acf		       85 93		      sta	POS_Type	;3
     318  2ad1
     319  2ad1		       4c 92 fa 	      jmp	InsertObjectStackFromRAM	;3+94(B)
@@ -11650,7 +11650,7 @@
     424  2bb7		       a9 05		      lda	#BANK_MoveExit
     425  2bb9		       85 c3		      sta	ROM_Bank
     426  2bbb
-    427  2bbb		       20 32 fb 	      jsr	MoveNoButton2	; move man over exit door area
+    427  2bbb		       20 2f fb 	      jsr	MoveNoButton2	; move man over exit door area
     428  2bbe
     429  2bbe							; Stop the sort, so it doesn't accidentally swap "in" any creatures
     430  2bbe
@@ -14563,11 +14563,11 @@
     220  398b		       90 06		      bcc	.exitRandom
     221  398d		       88		      dey
     222  398e		       10 f9		      bpl	.loopRandom
-    223  3990		       a9 01		      lda	#CHARACTER_SOIL	;	 default character (dirt), = 0
+    223  3990		       a9 00		      lda	#CHARACTER_BLANK	;	 default character (dirt), = 0
       0  3992					      NOP_W
       1  3992		       0c		      .byte.b	$0c
     225  3993				   .exitRandom
-    226  3993		       a9 01		      lda	#CHARACTER_SOIL	;	 default character (dirt), = 0
+    226  3993		       a9 00		      lda	#CHARACTER_BLANK	;	 default character (dirt), = 0
     227  3995							;		  lda	  (ptrCave),y
     228  3995		       85 93		      sta	POS_Type
     229  3997
@@ -15867,8 +15867,8 @@
     532  3de0		       27		      .byte.b	<ProcessObjStack
     533  3de1		       6d		      .byte.b	<ProcessBlankStack
     534  3de2		       0f		      .byte.b	<DrawFullScreen
-    535  3de3		       b2		      .byte.b	<BuildDrawStack
-    536  3de4		       b9		      .byte.b	<DrawAIntoStack
+    535  3de3		       af		      .byte.b	<BuildDrawStack
+    536  3de4		       b6		      .byte.b	<DrawAIntoStack
     537  3de5		       84		      .byte.b	<SwitchObjects
     538  3de6
     539  3de6				   TS_PhaseVectorHI
@@ -15947,7 +15947,7 @@
     609  3e15
     610  3e15		       a5 aa		      lda	LookingAround
     611  3e17		       10 02		      bpl	nolooker	; if not looking around, that will do nicely
-    612  3e19		       a0 02		      ldy	#2
+    612  3e19		       a0 02		      ldy	#2	;sok
     613  3e1b							;		  ldy lookColour2,x		  ; otherwise, use the lookaround colour as the base
     614  3e1b		       84 af	   nolooker   sty	BGColour	; 'BASE' colour pause reverts TO when unpaused
     615  3e1d
@@ -17683,7 +17683,7 @@
     492  41a7
     493  41a7		       20 e4 f8 	      jsr	GetBoardCharacter	;6+20(A)
     494  41aa
-    495  41aa		       bd 83 fd 	      lda	CharToType,x	; 4
+    495  41aa		       bd 80 fd 	      lda	CharToType,x	; 4
     496  41ad		       c9 02		      cmp	#TYPE_AMOEBA	; 2
     497  41af		       f0 03		      beq	.isAmoeba
     498  41b1		       4c 6a f2 	      jmp	.nextPos	; 2/3=61    All that work to see if square is an amoeba
@@ -17712,7 +17712,7 @@
     521  41d0		       09 04		      ora	#>RAM_WRITE	; 2
     522  41d2		       85 c2		      sta	Board_AddressW+1	; 3
     523  41d4
-    524  41d4		       bd 83 fd 	      lda	CharToType,x	;	 X = boulder/diamond character shape
+    524  41d4		       bd 80 fd 	      lda	CharToType,x	;	 X = boulder/diamond character shape
     525  41d7		       85 93		      sta	POS_Type
     526  41d9		       8a		      txa
     527  41da				  -	      IF	MULTI_BANK_BOARD = YES
@@ -18193,13 +18193,13 @@
     877  432e							; to explode.	These include man, amoeba.
     878  432e
     879  432e							;		  ldx Surround			  ;3
-    880  432e		       bd 46 fd 	      lda	GenericCharFlag,x	;4
+    880  432e		       bd 43 fd 	      lda	GenericCharFlag,x	;4
     881  4331		       a6 83		      ldx	Surround+1	;3
-    882  4333		       1d 46 fd 	      ora	GenericCharFlag,x	;4
+    882  4333		       1d 43 fd 	      ora	GenericCharFlag,x	;4
     883  4336		       a6 84		      ldx	Surround+2	;3
-    884  4338		       1d 46 fd 	      ora	GenericCharFlag,x	;4
+    884  4338		       1d 43 fd 	      ora	GenericCharFlag,x	;4
     885  433b		       a6 85		      ldx	Surround+3	;3
-    886  433d		       1d 46 fd 	      ora	GenericCharFlag,x	;4 = 25
+    886  433d		       1d 43 fd 	      ora	GenericCharFlag,x	;4 = 25
     887  4340
     888  4340							;TODO: here we could check if we've hit the man (via GenericCharFlag) and trigger a manual kill
     889  4340							; so even if the man doesn't check the squares he DOES know he's dead.
@@ -18211,7 +18211,7 @@
     895  4344							; happened (eg: boulder/diamond falling, man moving) and so the object should die.
     896  4344
     897  4344		       a6 86		      ldx	Surround+4	;3	current position
-    898  4346		       bd 83 fd 	      lda	CharToType,x	;4
+    898  4346		       bd 80 fd 	      lda	CharToType,x	;4
     899  4349		       c5 93		      cmp	POS_Type	;3
     900  434b		       d0 cf		      bne	Bango	;2/3
     901  434d
@@ -18335,7 +18335,7 @@
    1016  43c0				  -	      lda	#MANMODE_NEXTLEVEL
    1017  43c0				  -	      sta	ManMode
    1018  43c0					      ELSE
-   1019  43c0		       4c fb fb 	      jmp	Restart	; RESET = end game, jump to title screen
+   1019  43c0		       4c f8 fb 	      jmp	Restart	; RESET = end game, jump to title screen
    1020  43c3					      ENDIF
    1021  43c3
    1022  43c3				   .skipReset
@@ -18371,7 +18371,7 @@
    1052  43e2		       e0		      .byte.b	<waitingManPress	; 4		 timer
    1053  43e3		       bd		      .byte.b	<waitingMan	; 5		 no timer
    1054  43e4		       e0		      .byte.b	<waitingManPress	; 6		 no timer
-   1055  43e5		       0f		      .byte.b	<nextLevelMan	; 7		 no timer
+   1055  43e5		       0c		      .byte.b	<nextLevelMan	; 7		 no timer
    1056  43e6		       57		      .byte.b	<BonusCountdownStart	; 8		 fast timer
    1057  43e7		       74		      .byte.b	<BonusCountdownRun	; 9		 fast timer
    1058  43e8
@@ -18427,7 +18427,7 @@
    1105  441e		       a5 b1		      lda	level	; each second left adds 'level' to score
    1106  4420		       18		      clc
    1107  4421		       69 01		      adc	#1
-   1108  4423		       20 03 fe 	      jsr	ScoreAdd
+   1108  4423		       20 00 fe 	      jsr	ScoreAdd
    1109  4426				   .notScoring
    1110  4426		       f8		      sed
    1111  4427		       38		      sec
@@ -18595,7 +18595,7 @@
    1253  44d5		       09 02		      ora	#DISPLAY_LIVES
    1254  44d7		       85 c8		      sta	scoringFlags	;
    1255  44d9					      ENDIF
-   1256  44d9		       20 6b fe 	      jsr	goGeneralScoringSetups	; update the life display. Roundabout way of doing it.
+   1256  44d9		       20 68 fe 	      jsr	goGeneralScoringSetups	; update the life display. Roundabout way of doing it.
    1257  44dc				   intermission
    1258  44dc
    1259  44dc		       a9 78		      lda	#120	; something long.  anything.
@@ -18625,7 +18625,7 @@
    1283  44f8		       29 f1		      and	#$f1
    1284  44fa		       85 c8	   gameOver   sta	scoringFlags	;
    1285  44fc
-   1286  44fc		       20 6b fe 	      jsr	goGeneralScoringSetups	; update the score display.
+   1286  44fc		       20 68 fe 	      jsr	goGeneralScoringSetups	; update the score display.
    1287  44ff
    1288  44ff				   stillKicking
    1289  44ff
@@ -18691,7 +18691,7 @@
    1345  4536					      ENDIF
    1346  4536		       20 e4 f8 	      jsr	GetBoardCharacter	;6+20(A)
    1347  4539
-   1348  4539		       bd 83 fd 	      lda	CharToType,x
+   1348  4539		       bd 80 fd 	      lda	CharToType,x
    1349  453c		       c9 00		      cmp	#TYPE_MAN
    1350  453e		       f0 55		      beq	PlayerAlive
    1351  4540
@@ -18840,9 +18840,9 @@
    1465  459d							; joystick directions chosen. The variable LookingAround has a negative value ($FF) when looking
    1466  459d							; is active. Otherwise, it is counting down to the time where it will trigger.
    1467  459d
-   1468  459d		       00 06	   LOOK_DELAY =	6
+   1468  459d		       00 00	   LOOK_DELAY =	0
    1469  459d
-   1470  459d		       a2 06		      ldx	#LOOK_DELAY
+   1470  459d		       a2 00		      ldx	#LOOK_DELAY
    1471  459f		       a5 97		      lda	BufferedButton
    1472  45a1		       30 0d		      bmi	noLook	; button?
    1473  45a3		       a5 aa		      lda	LookingAround
@@ -18992,7 +18992,7 @@
    1602  4646				  -	      sta	BDF_BoardBank	; 3
    1603  4646					      ENDIF
    1604  4646		       a0 04		      ldy	#SCREEN_WIDTH/2-1	; 2
-   1605  4648		       4c c0 fb 	      jmp	CopyRow2	; 3 = 12[-7]
+   1605  4648		       4c bd fb 	      jmp	CopyRow2	; 3 = 12[-7]
    1606  464b
    1607  464b							;------------------------------------------------------------------------------
    1608  464b
@@ -19096,7 +19096,7 @@
    1686  46af		       a4 8f		      ldy	POS_X	;3
    1687  46b1		       20 e4 f8 	      jsr	GetBoardCharacter	;6+20(A)	 sets RAM bank, ROM bank, needs Board_AddressR
    1688  46b4
-   1689  46b4		       bd 46 fd 	      lda	GenericCharFlag,x	;3
+   1689  46b4		       bd 43 fd 	      lda	GenericCharFlag,x	;3
    1690  46b7		       29 08		      and	#GENERIC_MASK_EXPLODABLE	;2
    1691  46b9		       f0 df		      beq	AbortExplosion	;2/3=43[-5]
    1692  46bb
@@ -19316,34 +19316,34 @@
    1858  46ee
    1859  46ee		       07		      .byte.b	<MOVE_BLANK
    1860  46ef		       0a		      .byte.b	<MOVE_SOIL
-   1861  46f0		       59		      .byte.b	<MOVE_BOULDER
-   1862  46f1		       4d		      .byte.b	<MOVE_GENERIC	;amoeba
+   1861  46f0		       56		      .byte.b	<MOVE_BOULDER
+   1862  46f1		       4a		      .byte.b	<MOVE_GENERIC	;amoeba
    1863  46f2		       f8		      .byte.b	<MOVE_DIAMOND
    1864  46f3		       f8		      .byte.b	<MOVE_DIAMOND
-   1865  46f4		       4d		      .byte.b	<MOVE_GENERIC
-   1866  46f5		       4d		      .byte.b	<MOVE_GENERIC
-   1867  46f6		       4d		      .byte.b	<MOVE_GENERIC
-   1868  46f7		       4d		      .byte.b	<MOVE_GENERIC
-   1869  46f8		       4d		      .byte.b	<MOVE_GENERIC
-   1870  46f9		       4d		      .byte.b	<MOVE_GENERIC
-   1871  46fa		       4d		      .byte.b	<MOVE_GENERIC
-   1872  46fb		       4d		      .byte.b	<MOVE_GENERIC
-   1873  46fc		       4d		      .byte.b	<MOVE_GENERIC
-   1874  46fd		       4d		      .byte.b	<MOVE_GENERIC
-   1875  46fe		       4d		      .byte.b	<MOVE_GENERIC
-   1876  46ff		       52		      .byte.b	<MOVE_EXIT
-   1877  4700		       52		      .byte.b	<MOVE_EXIT
+   1865  46f4		       4a		      .byte.b	<MOVE_GENERIC
+   1866  46f5		       4a		      .byte.b	<MOVE_GENERIC
+   1867  46f6		       4a		      .byte.b	<MOVE_GENERIC
+   1868  46f7		       4a		      .byte.b	<MOVE_GENERIC
+   1869  46f8		       4a		      .byte.b	<MOVE_GENERIC
+   1870  46f9		       4a		      .byte.b	<MOVE_GENERIC
+   1871  46fa		       4a		      .byte.b	<MOVE_GENERIC
+   1872  46fb		       4a		      .byte.b	<MOVE_GENERIC
+   1873  46fc		       4a		      .byte.b	<MOVE_GENERIC
+   1874  46fd		       4a		      .byte.b	<MOVE_GENERIC
+   1875  46fe		       4a		      .byte.b	<MOVE_GENERIC
+   1876  46ff		       4f		      .byte.b	<MOVE_EXIT
+   1877  4700		       4f		      .byte.b	<MOVE_EXIT
    1878  4701
-   1879  4701		       4d		      .byte.b	<MOVE_GENERIC
-   1880  4702		       4d		      .byte.b	<MOVE_GENERIC
-   1881  4703		       4d		      .byte.b	<MOVE_GENERIC
-   1882  4704		       4d		      .byte.b	<MOVE_GENERIC
-   1883  4705		       4d		      .byte.b	<MOVE_GENERIC	; amoeba???
+   1879  4701		       4a		      .byte.b	<MOVE_GENERIC
+   1880  4702		       4a		      .byte.b	<MOVE_GENERIC
+   1881  4703		       4a		      .byte.b	<MOVE_GENERIC
+   1882  4704		       4a		      .byte.b	<MOVE_GENERIC
+   1883  4705		       4a		      .byte.b	<MOVE_GENERIC	; amoeba???
    1884  4706
-   1885  4706		       4d		      .byte.b	<MOVE_GENERIC	; falling boulder
-   1886  4707		       4d		      .byte.b	<MOVE_GENERIC	; falling diamond
+   1885  4706		       4a		      .byte.b	<MOVE_GENERIC	; falling boulder
+   1886  4707		       4a		      .byte.b	<MOVE_GENERIC	; falling diamond
    1887  4708
-   1888  4708		       4d		      .byte.b	<MOVE_GENERIC	; unkillable man
+   1888  4708		       4a		      .byte.b	<MOVE_GENERIC	; unkillable man
    1889  4709
    1890  4709				  -	      IF	* - MoveVecLO < CHARACTER_MAXIMUM
    1891  4709				  -	      ECHO	"ERROR: Missing entry in MoveVecLO table!"
@@ -19413,7 +19413,7 @@
       6  4724				   ORIGIN     SET	FIXED_BANK
       7  4724
       0  4724					      NEWBANK	THE_FIXED_BANK
-      1  7efe ????				      SEG	THE_FIXED_BANK
+      1  7efb ????				      SEG	THE_FIXED_BANK
       2  7800					      ORG	ORIGIN
       3  7800					      RORG	$F000
       4  7800				   BANK_START SET	*
@@ -20833,7 +20833,7 @@
     525  7a3d
     526  7a3d		       a4 8f		      ldy	POS_X	;3
     527  7a3f		       b3 bf		      lax	(Board_AddressR),y	;5
-    528  7a41		       bd 83 fd 	      lda	CharToType,x	;4
+    528  7a41		       bd 80 fd 	      lda	CharToType,x	;4
     529  7a44		       c5 93		      cmp	POS_Type	;3
     530  7a46		       d0 b4		      bne	gnobj	;2/3
     531  7a48
@@ -20987,7 +20987,7 @@
     670  7a5e
     671  7a5e		       a4 8f		      ldy	POS_X
     672  7a60		       a6 93		      ldx	POS_Type
-    673  7a62		       bd 61 fd 	      lda	BaseTypeCharacter,x	; original character base character
+    673  7a62		       bd 5e fd 	      lda	BaseTypeCharacter,x	; original character base character
     674  7a65		       91 c1		      sta	(Board_AddressW),y	; draw object in new location (Y = new X posn)
     675  7a67
     676  7a67							; We have just...
@@ -21264,7 +21264,7 @@
     932  7af8		       ad 84 02 	      lda	INTIM
     933  7afb		       c9 11		      cmp	#SEGTIME_GET_DIAMOND
     934  7afd		       66 dc		      ror	specialTimeFlag	; mark any overtime!
-    935  7aff		       10 50		      bpl	timeExit
+    935  7aff		       10 4d		      bpl	timeExit
       0  7b01					      STRESS_TIME	SEGTIME_GET_DIAMOND
       1  7b01				  -	      IF	TEST_SEGTIME_GET_DIAMOND = 1
       2  7b01				  -
@@ -21327,1369 +21327,1372 @@
     985  7b23							;---------------------------------------------------------------------------
     986  7b23							; Handle snatching...
     987  7b23
-    988  7b23		       a4 91	   checkForSnatch ldy	POS_X_NEW	; 3
-    989  7b25		       a5 97		      lda	BufferedButton	; 3		 button pressed?
-    990  7b27		       30 0d		      bmi	MoveNoButton	; 2/3		 NO, so we move to new square, otherwise...
-    991  7b29
-    992  7b29							; We only 'snatch' and the player doesn't move. Blank the snatched square...
-    993  7b29
-    994  7b29		       a6 92		      ldx	POS_Y_NEW	; 3
-    995  7b2b		       86 90		      stx	POS_Y	; 3		 needed for InsertBlankStack
-    996  7b2d		       84 8f		      sty	POS_X	; 3		 needed for InsertBlankStack
-    997  7b2f		       4c 03 fa 	      jmp	BlankOriginalLocationXY	; 6+87[-2](A)	 snatch/grab the new location
-    998  7b32
-    999  7b32							;---------------------------------------------------------------------------
-   1000  7b32
-   1001  7b32				   MoveNoButton2
-   1002  7b32							; TJ: used by:
-   1003  7b32							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-   1004  7b32		       a9 0d		      lda	#BANK_BOARD
-   1005  7b34		       85 3e		      sta	SET_BANK_RAM
-   1006  7b36
-   1007  7b36		       a9 06	   MoveNoButton lda	#CHARACTER_MANOCCUPIED	; 2
-   1008  7b38		       91 c1		      sta	(Board_AddressW),y	; 6 =	8	 the man's new square
-   1009  7b3a
-   1010  7b3a		       a6 a0		      ldx	ManY	; 3
-   1011  7b3c		       86 90		      stx	POS_Y	; 3
-   1012  7b3e		       a4 9f		      ldy	ManX	; 3
-   1013  7b40		       84 8f		      sty	POS_X	; 3 = 12
-   1014  7b42
-   1015  7b42		       20 03 fa 	      jsr	BlankOriginalLocationXY	; 6+87[-2](A)	 and stacks newly blank position for checking
-   1016  7b45
-   1017  7b45		       a5 91		      lda	POS_X_NEW	; 3
-   1018  7b47		       85 9f		      sta	ManX	; 3
-   1019  7b49		       a5 92		      lda	POS_Y_NEW	; 3
-   1020  7b4b		       85 a0		      sta	ManY	; 3 = 12	 actually MOVE!
-   1021  7b4d
-   1022  7b4d				   MOVE_GENERIC
-   1023  7b4d							; TJ: used by:
-   1024  7b4d							; - BANK_FIXED.asm
-   1025  7b4d		       a9 00		      lda	#0	; 2
-   1026  7b4f		       85 a9		      sta	ManPushCounter	; 3
-   1027  7b51		       60	   timeExit   rts		; 6 = 11
-   1028  7b52
-   1029  7b52							;---------------------------------------------------------------------------
-   1030  7b52
-      0  7b52					      DEFINE_SUBROUTINE	MOVE_EXIT
-      1  7b52		       00 0f	   BANK_MOVE_EXIT =	_CURRENT_BANK
-      2  7b52					      SUBROUTINE
-      3  7b52				   MOVE_EXIT
-   1032  7b52							; TJ: used by:
-   1033  7b52							; - BANK_FIXED.asm
-   1034  7b52
-   1035  7b52		       a9 05		      lda	#BANK_MoveExit
-   1036  7b54		       85 3f		      sta	SET_BANK
-   1037  7b56		       4c 8f f3 	      jmp	MoveExit
-   1038  7b59
-   1039  7b59							;---------------------------------------------------------------------------
-   1040  7b59
-      0  7b59					      DEFINE_SUBROUTINE	MOVE_BOULDER
-      1  7b59		       00 0f	   BANK_MOVE_BOULDER =	_CURRENT_BANK
-      2  7b59					      SUBROUTINE
-      3  7b59				   MOVE_BOULDER
-   1042  7b59							; TJ: used by:
-   1043  7b59							; - BANK_FIXED.asm
-   1044  7b59
-   1045  7b59		       a9 08		      lda	#BANK_PushBox
-   1046  7b5b		       85 3f		      sta	SET_BANK
-   1047  7b5d		       4c bc f2 	      jmp	PushBox
-   1048  7b60
-   1049  7b60							;---------------------------------------------------------------------------
-   1050  7b60
-      0  7b60					      DEFINE_SUBROUTINE	StealCharDraw	; in FIXED_BANK
-      1  7b60		       00 0f	   BANK_StealCharDraw =	_CURRENT_BANK
-      2  7b60					      SUBROUTINE
-      3  7b60				   StealCharDraw
-   1052  7b60							; TJ: used by:
-   1053  7b60							; - BANK_FIXED.asm
-   1054  7b60
-   1055  7b60		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2
-   1056  7b62		       85 3e		      sta	SET_BANK_RAM	; 3
-   1057  7b64		       a4 89		      ldy	DrawStackPointer	; 3	     MUST have been set by BuildDrawStack!
-   1058  7b66		       10 35		      bpl	EnterStealCharDraw	; 3 = 10(11)
-   1059  7b68
-   1060  7b68				   ExitStealCharDraw
-   1061  7b68
-   1062  7b68							; fall through...
-   1063  7b68
-   1064  7b68							;---------------------------------------------------------------------------
-   1065  7b68
-      0  7b68					      DEFINE_SUBROUTINE	TimeSlice
-      1  7b68		       00 0f	   BANK_TimeSlice =	_CURRENT_BANK
-      2  7b68					      SUBROUTINE
-      3  7b68				   TimeSlice
-   1067  7b68							; TJ: used by:
-   1068  7b68							; - BANK_FIXED.asm
-   1069  7b68
-   1070  7b68							; FIRST check the time is sufficient for the smallest of the timeslices. Not much point
-   1071  7b68							; going ahead if there's insufficient time. This allows the previous character drawing to
-   1072  7b68							; be much smaller in time, as they don't have to include the timeslice code overhead.
-   1073  7b68
-   1074  7b68		       ad 84 02 	      lda	INTIM	; 4
-   1075  7b6b		       c9 05		      cmp	#SEGTIME_MINIMUM_TIMESLICE	; 2
-   1076  7b6d		       90 e2		      bcc	timeExit	; 2(3)
-   1077  7b6f
-   1078  7b6f							; Uses the phase variable to vector to the correct processing code for the given timeslice
-   1079  7b6f							; Code may be in any bank. Avoid the fixed bank at all costs!	Once a section is complete
-   1080  7b6f							; it should increment ScreenDrawPhase.
-   1081  7b6f
-   1082  7b6f							; Switched-in bank(s) are undefined after this function is called!
-   1083  7b6f
-   1084  7b6f		       a9 07		      lda	#BANK_TS_PhaseVectorLO	; 2
-   1085  7b71		       85 3f		      sta	SET_BANK	; 3
-   1086  7b73
-   1087  7b73		       a6 8e		      ldx	ScreenDrawPhase	; 3		 current phase of drawing
-   1088  7b75		       bd e0 f5 	      lda	TS_PhaseVectorLO,x	; 4
-   1089  7b78		       85 df		      sta	TS_Vector	; 3
-   1090  7b7a		       bd e6 f5 	      lda	TS_PhaseVectorHI,x	; 4
-   1091  7b7d		       85 e0		      sta	TS_Vector+1	; 3
-   1092  7b7f
-   1093  7b7f		       bd ec f5 	      lda	TS_PhaseBank,x	; 4
-   1094  7b82		       85 3f		      sta	SET_BANK	; 3		 switch bank
-   1095  7b84
-   1096  7b84		       6c df 00 	      jmp	(TS_Vector)	; 3 = 40	 vector to timeslice handler
-   1097  7b87
-   1098  7b87							; = 55 minimum return time (if segtime abort)
-   1099  7b87
-   1100  7b87							;---------------------------------------------------------------------------
-   1101  7b87
-   1102  7b87
-   1103  7b87				   DrawAnother
-   1104  7b87							; TJ: used by:
-   1105  7b87							; - BANK_ROM_SHADOW_RAMBANK.asm
-   1106  7b87
-   1107  7b87		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2	     A = SCREEN_LINES
-   1108  7b89		       85 3e		      sta	SET_BANK_RAM	; 3 =	5
-   1109  7b8b
-   1110  7b8b		       a4 89		      ldy	DrawStackPointer	; 3 =	3    MUST have been set by BuildDrawStack!
-   1111  7b8d
-   1112  7b8d		       be 00 f1 	      ldx	DrawStack,y	; 4	     in actuality a character index
-   1113  7b90		       bd a0 f1 	      lda	ScreenBuffer,x	; 4	     new character to draw
-   1114  7b93		       29 7f		      and	#~128	; 2
-   1115  7b95		       9d a0 f5 	      sta	ScreenBuffer+RAM_WRITE,x	; 4 = 14    clear hint bit
-   1116  7b98
-   1117  7b98		       88		      dey		; 2
-   1118  7b99		       84 89		      sty	DrawStackPointer	; 3	     one less to draw
-   1119  7b9b		       30 cb		      bmi	ExitStealCharDraw	; 2(3)=7
-   1120  7b9d
-   1121  7b9d				   EnterStealCharDraw		;	     RAM bank MUST be at BANK_DRAW_BUFFERS
-   1122  7b9d							; TJ: used by:
-   1123  7b9d							; - BANK_FIXED.asm
-   1124  7b9d
-   1125  7b9d		       ad 84 02 	      lda	INTIM	; 4
-   1126  7ba0		       c9 05		      cmp	#SEGTIME_SCD_MIN	; 2
-   1127  7ba2		       90 c4		      bcc	ExitStealCharDraw	; 2/3= 8
-   1128  7ba4
-   1129  7ba4		       be 00 f1 	      ldx	DrawStack,y	; 4	     in actuality a character index
-   1130  7ba7		       bc a0 f1 	      ldy	ScreenBuffer,x	; 4 =	8    new character to draw
-   1131  7baa
-   1132  7baa		       bd 3f f3 	      lda	ROW_BankChar,x	; 4	     A = 0..SCREEN_LINES-1
-   1133  7bad		       85 3e		      sta	SET_BANK_RAM	; 3
-   1134  7baf		       4c 53 f1 	      jmp	StealPart3	; 3 = 10    --> 18 cycles after check for SEGTIME_SCD_MIN
-   1135  7bb2
-   1136  7bb2
-   1137  7bb2							;---------------------------------------------------------------------------
-   1138  7bb2
-      0  7bb2					      DEFINE_SUBROUTINE	BuildDrawStack	; in FIXED BANK
-      1  7bb2		       00 0f	   BANK_BuildDrawStack =	_CURRENT_BANK
-      2  7bb2					      SUBROUTINE
-      3  7bb2				   BuildDrawStack
-   1140  7bb2							; TJ: used by:
-   1141  7bb2							; - BANK_FIXED.asm
-   1142  7bb2
-   1143  7bb2		       a9 08		      lda	#BANK_DRAW_BUFFERS
-   1144  7bb4		       85 3e		      sta	SET_BANK_RAM
-   1145  7bb6		       4c 01 f2 	      jmp	DrawStackUpdate
-   1146  7bb9
-   1147  7bb9							;---------------------------------------------------------------------------
-   1148  7bb9
-      0  7bb9					      DEFINE_SUBROUTINE	DrawAIntoStack	; in FIXED BANK
-      1  7bb9		       00 0f	   BANK_DrawAIntoStack =	_CURRENT_BANK
-      2  7bb9					      SUBROUTINE
-      3  7bb9				   DrawAIntoStack
-   1150  7bb9							; TJ: used by:
-   1151  7bb9							; - BANK_FIXED.asm
-   1152  7bb9
-   1153  7bb9		       a9 08		      lda	#BANK_DRAW_BUFFERS
-   1154  7bbb		       85 3e		      sta	SET_BANK_RAM
-   1155  7bbd		       4c 2e f2 	      jmp	DrawIntoStack
-   1156  7bc0
-   1157  7bc0
-   1158  7bc0							;---------------------------------------------------------------------------
-   1159  7bc0
-   1160  7bc0
-      0  7bc0					      DEFINE_SUBROUTINE	DrawFullScreenMain	;=2484[-89]
-      1  7bc0		       00 0f	   BANK_DrawFullScreenMain =	_CURRENT_BANK
-      2  7bc0					      SUBROUTINE
-      3  7bc0				   DrawFullScreenMain
-   1162  7bc0
-   1163  7bc0							; Check the screen for all those characters that need to be redrawn
-   1164  7bc0							; Just copies the mxn grid from the board to a DrawFlags array.  If the entry in
-   1165  7bc0							; the drawflags array is different to the ScreenBuffer array entry, then the
-   1166  7bc0							; screenbuffer will need redrawing.
-   1167  7bc0
-   1168  7bc0				   CopyRow2
-   1169  7bc0							; TJ: used by:
-   1170  7bc0							; - BANK_INITBANK.asm
-   1171  7bc0
-   1172  7bc0				  -	      IF	MULTI_BANK_BOARD = YES
-   1173  7bc0				  -	      lda	BDF_BoardBank	; 3
-   1174  7bc0					      ELSE
-   1175  7bc0		       a9 0d		      lda	#BANK_BOARD	; 2	 saves 5*8 = 40 cyles
-   1176  7bc2					      ENDIF
-   1177  7bc2		       85 3e		      sta	SET_BANK_RAM	; 3
-   1178  7bc4		       b3 e3		      lax	(BDF_BoardAddress),y	; 5
-   1179  7bc6		       9a		      txs		; 2
-   1180  7bc7		       b3 e5		      lax	(BDF_BoardAddress2),y	; 5(= 18[-1])
-   1181  7bc9
-   1182  7bc9		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2
-   1183  7bcb		       85 3e		      sta	SET_BANK_RAM	; 3
-   1184  7bcd		       bd d4 f2 	      lda	CharReplacement,x	; 4
-   1185  7bd0		       91 e1		      sta	(BDF_DrawFlagAddress2),y	; 6
-   1186  7bd2		       ba		      tsx		; 2
-   1187  7bd3		       bd d4 f2 	      lda	CharReplacement,x	; 4
-   1188  7bd6		       91 df		      sta	(BDF_DrawFlagAddress),y	; 6(= 27)
-   1189  7bd8
-   1190  7bd8		       88		      dey		; 2
-   1191  7bd9		       10 e5		      bpl	CopyRow2	; 2/3=49/50[-1]
-   1192  7bdb							; total: 5*49[-1]-1 = 244[-5]
-   1193  7bdb
-   1194  7bdb							; TJ: examples for multi RAM bank access.
-   1195  7bdb							;CopyRow2
-   1196  7bdb							;		  lax (BDF_BoardAddress),y	  ; 5
-   1197  7bdb							;		  txs				  ; 2
-   1198  7bdb							;		  lax (BDF_BoardAddress2),y	  ; 5(= 12)
-   1199  7bdb							;		  lda CharReplacement,x 	  ; 4
-   1200  7bdb							;		  sta (BDF_DrawFlagAddress2),y	  ; 6
-   1201  7bdb							;		  tsx				  ; 2
-   1202  7bdb							;		  lda CharReplacement,x 	  ; 4
-   1203  7bdb							;		  sta (BDF_DrawFlagAddress),y	  ; 6(= 22)
-   1204  7bdb							;		  dey				  ; 2
-   1205  7bdb							;		  bpl CopyRow2			  ; 2/3=38/39
-   1206  7bdb							;; total: 5*39 - 1 = 194
-   1207  7bdb							;
-   1208  7bdb							;CopyRow2
-   1209  7bdb							;		  lax (BDF_BoardAddress),y	  ; 5
-   1210  7bdb							;		  lda CharReplacement,x 	  ; 4
-   1211  7bdb							;		  sta (BDF_DrawFlagAddress),y	  ; 6(= 15)
-   1212  7bdb							;		  dey				  ; 2
-   1213  7bdb							;		  bpl CopyRow2			  ; 2/3=19/20
-   1214  7bdb							;; total: 10*20 - 1 = 199 (and much less setup code)
-   1215  7bdb
-   1216  7bdb		       a7 e8		      lax	DHS_Line	; 3
-   1217  7bdd		       f0 07		      beq	.exitCopy	; 2/3= 5/6
-   1218  7bdf
-   1219  7bdf		       a0 08		      ldy	#BANK_DrawScreenRowPreparation	;2
-   1220  7be1		       84 3f		      sty	SET_BANK	; 3
-   1221  7be3		       4c 25 f6 	      jmp	DrawScreenRowPreparation	;55[-7] = 60[-7]
-   1222  7be6
-   1223  7be6							; total: (244[-5]+5)*8 + 60[-7]*7 + 1 + 11 = 2424[-89]
-   1224  7be6
-   1225  7be6
-      0  7be6					      CHECKPAGE	CopyRow2
-      8  7be6					      LIST	ON
-   1227  7be6
-   1228  7be6		       a6 e9	   .exitCopy  ldx	DHS_Stack	; 3
-   1229  7be8		       9a		      txs		; 2
-   1230  7be9
-   1231  7be9		       4c b2 fb 	      jmp	BuildDrawStack
-   1232  7bec
-   1233  7bec		       60	   SwitchPhaseR rts		; 6 = 11
-   1234  7bed
-   1235  7bed							;---------------------------------------------------------------------------
-   1236  7bed
-   1237  7bed				   Reset
-   1238  7bed							; TJ: used by:
-   1239  7bed							; - BANK_FIXED.asm
-   1240  7bed
-   1241  7bed				  -	      IF	SHOW_COPYRIGHT = NO
-   1242  7bed				  -	      CLEAN_START
-   1243  7bed					      ELSE
-   1244  7bed		       a9 01		      lda	#BANK_DrawCopyright	; 2
-   1245  7bef		       85 3f		      sta	SET_BANK	; 3
-   1246  7bf1		       4c d0 f3 	      jmp	DrawCopyright	; 3+x
-   1247  7bf4				   ExitCopyRight
-   1248  7bf4					      ENDIF
-   1249  7bf4
-   1250  7bf4
-   1251  7bf4
-   1252  7bf4
-   1253  7bf4							; Scoring bank is copied once (not per game, not per level...)
-   1254  7bf4							; otherwise non-SaveKey high score gets zapped
-   1255  7bf4
-   1256  7bf4		       a2 06		      ldx	#ROM_SHADOW_OF_BANK_SCORING
-   1257  7bf6		       a0 09		      ldy	#BANK_SCORING
-   1258  7bf8		       20 77 fe 	      jsr	CopyROM2RAM_F000
-   1259  7bfb
-   1260  7bfb				   Restart		; go here on RESET + SELECT
-   1261  7bfb							; TJ: used by:
-   1262  7bfb							; - BANK_INITBANK.asm
-   1263  7bfb
-   1264  7bfb
-   1265  7bfb				   Title
-   1266  7bfb		       a2 ff		      ldx	#$ff	; adjust stack pointer after RESET + SELECT
-   1267  7bfd		       9a		      txs
-   1268  7bfe
-   1269  7bfe		       a9 02		      lda	#BANK_TitleScreen	; 2
-   1270  7c00		       85 3f		      sta	SET_BANK	; 3
-   1271  7c02		       4c af f1 	      jmp	TitleScreen	; 3+x
-   1272  7c05				   ExitTitleScreen
-   1273  7c05							; temporary vars from title screen are used to init level/cave
-   1274  7c05		       a9 07		      lda	#BANK_Cart_Init	; 2
-   1275  7c07		       85 3f		      sta	SET_BANK	; 3
-   1276  7c09		       20 fc f3 	      jsr	Cart_Init	; 6+x
-   1277  7c0c
-   1278  7c0c
-   1279  7c0c							;---------------------------------------------------------------------------
-   1280  7c0c
-   1281  7c0c
-   1282  7c0c		       f0 00	   SEGMENT_DECODE_CAVE_SHADOW =	$F000	; if not = $F000, this will cause an assertion failure
-   1283  7c0c
-   1284  7c0c		       a2 07		      ldx	#BANK_DECODE_CAVE_SHADOW
-   1285  7c0e		       a0 0a		      ldy	#BANK_DECODE_CAVE
-   1286  7c10		       20 77 fe 	      jsr	CopyROM2RAM_F000
-   1287  7c13
-   1288  7c13
-   1289  7c13							;---------------------------------------------------------------------------
-   1290  7c13							; Once-only game initialisation goes here...
-   1291  7c13							; now we have two players so things get a bit tricky
-   1292  7c13
-   1293  7c13		       a9 09		      lda	#BANK_SCORING
-   1294  7c15		       85 3e		      sta	SET_BANK_RAM
-   1295  7c17		       20 b6 f3 	      jsr	GameInitialise
-   1296  7c1a
-   1297  7c1a
-   1298  7c1a							;---------------------------------------------------------------------------
-   1299  7c1a
-   1300  7c1a				   RestartCaveNextPlayer
-   1301  7c1a							; TJ: used by:
-   1302  7c1a							; - BANK_FIXED.asm
-   1303  7c1a
-   1304  7c1a							; a player has lost a life.
-   1305  7c1a							; store his vars, swap to other player, continue
-   1306  7c1a
-   1307  7c1a		       a9 09		      lda	#BANK_SCORING
-   1308  7c1c		       85 3e		      sta	SET_BANK_RAM
-   1309  7c1e		       20 5c f2 	      jsr	SwapPlayers
-   1310  7c21
-   1311  7c21		       a9 07		      lda	#BANK_SwapPlayersGeneric
-   1312  7c23		       85 3f		      sta	SET_BANK
-   1313  7c25		       20 4f f4 	      jsr	SwapPlayersGeneric
-   1314  7c28
-   1315  7c28
-   1316  7c28		       a5 ab		      lda	MenCurrent
-   1317  7c2a		       f0 cf		      beq	Title	; all lives lost! (works for both P1P2)
-   1318  7c2c		       d0 04		      bne	skipDemoCheck
-   1319  7c2e
-   1320  7c2e				   NextCaveLevel
-   1321  7c2e		       24 ac		      bit	demoMode
-   1322  7c30		       30 c9		      bmi	Title
-   1323  7c32				   skipDemoCheck
-   1324  7c32
-   1325  7c32							; Initialise all in-game variables; those that must be re-initialised at the start of each level,
-   1326  7c32							; including those for general systems function. But NOT those which do not need re-initialising between
-   1327  7c32							; levels.
-   1328  7c32		       a9 07		      lda	#BANK_LevelInit	; 2
-   1329  7c34		       85 3f		      sta	SET_BANK	; 3
-   1330  7c36		       20 cc f4 	      jsr	LevelInit	; 6+x
-   1331  7c39
-   1332  7c39		       a9 0a		      lda	#BANK_DECODE_CAVE
-   1333  7c3b		       85 3e		      sta	SET_BANK_RAM
-   1334  7c3d		       20 c3 f0 	      jsr	DecodeCave
-   1335  7c40
-   1336  7c40							; Setup player animation and scroll limits.
-   1337  7c40							; Initialise amoeba if present
-   1338  7c40							; Mangle the board colours based on level
-   1339  7c40
-   1340  7c40		       a9 07		      lda	#BANK_CreateCreatures	; 2
-   1341  7c42		       85 3f		      sta	SET_BANK	; 3
-   1342  7c44		       20 7f f4 	      jsr	CreateCreatures	; 6+x
-   1343  7c47
-   1344  7c47
-   1345  7c47							; Setup the various digit and display pointers
-   1346  7c47							; Grab current player's score/cave/level from backup
-   1347  7c47
-   1348  7c47		       20 6b fe 	      jsr	goGeneralScoringSetups
-   1349  7c4a
-   1350  7c4a							; copy the screen draw ROM shadow to RAM
-   1351  7c4a
-   1352  7c4a		       a0 07		      ldy	#SCREEN_LINES-1
-   1353  7c4c				   CopyScreenBanks
-   1354  7c4c
-   1355  7c4c		       a2 04		      ldx	#ROM_SHADOW_OF_RAMBANK_CODE
-   1356  7c4e		       20 77 fe 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
-   1357  7c51
-   1358  7c51							;		  lda #BANK_SetPlatformColours	     ; same bank!
-   1359  7c51							;		  sta SET_BANK
-   1360  7c51		       20 77 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
-   1361  7c54
-   1362  7c54		       88		      dey
-   1363  7c55		       10 f5		      bpl	CopyScreenBanks
-   1364  7c57
-   1365  7c57							;---------------------------------------------------------------------------
-   1366  7c57
-   1367  7c57							;		  lda #BANK_CopyROMShadowToRAM	     ; same bank!
-   1368  7c57							;		  ;sta ROM_Bank 				   ; <-- pretty sure this one can go.
-   1369  7c57							;		  sta SET_BANK
-   1370  7c57
-   1371  7c57		       a2 05		      ldx	#ROM_SHADOW_OF_BANK_DRAW_BUFFERS
-   1372  7c59		       a0 08		      ldy	#BANK_DRAW_BUFFERS
-   1373  7c5b		       20 43 f0 	      jsr	CopyROMShadowToRAM_F000
-   1374  7c5e
-   1375  7c5e							;---------------------------------------------------------------------------
-   1376  7c5e
-   1377  7c5e		       a9 07		      lda	#BANK_Resync	; 2
-   1378  7c60		       85 3f		      sta	SET_BANK	; 3
-   1379  7c62		       20 05 f5 	      jsr	Resync	; 6+x
-   1380  7c65
-   1381  7c65				   NewFrameBD
-   1382  7c65							; the (at least) 220 cycles wasted in the above... bugs me!
-   1383  7c65							; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
-   1384  7c65							; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
-   1385  7c65
-   1386  7c65		       24 c9		      bit	NextLevelTrigger
-   1387  7c67		       10 c5		      bpl	NextCaveLevel	; game-triggered next level
-   1388  7c69		       70 af		      bvs	RestartCaveNextPlayer	; loss of life
-   1389  7c6b
-   1390  7c6b							; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
-   1391  7c6b		       a9 0e		      lda	#%1110	; VSYNC ON
-   1392  7c6d				   .loopVSync
-   1393  7c6d							;		  ldx #BANK_PlaySounds
-   1394  7c6d							;		  stx SET_BANK
-   1395  7c6d
-   1396  7c6d							;		  ldx Platform
-   1397  7c6d							;		  ldy VBlankTime,x
-   1398  7c6d
-   1399  7c6d		       85 42		      sta	WSYNC
-   1400  7c6f		       85 40		      sta	VSYNC
-   1401  7c71
-   1402  7c71							;		  sty TIM64T			  ; better set timer after (last) WSYNC
-   1403  7c71
-   1404  7c71							; Ignorant comment removed. (TJ: and you were wrong anyway. :)
-   1405  7c71
-   1406  7c71		       4a		      lsr
-   1407  7c72		       d0 f9		      bne	.loopVSync	; branch until VYSNC has been reset
-   1408  7c74
-   1409  7c74							; moved *after* the loop since this allows to *increase* timer values by 1!
-   1410  7c74		       a6 81		      ldx	Platform
-   1411  7c76		       bc d6 fc 	      ldy	VBlankTime,x
-   1412  7c79		       8c 96 02 	      sty	TIM64T
-   1413  7c7c
-   1414  7c7c		       a2 00		      ldx	#BANK_PlaySounds
-   1415  7c7e		       86 3f		      stx	SET_BANK
-   1416  7c80
-   1417  7c80							;---------------------------------------------------------------------------
-   1418  7c80							; Do not separate code, as bank assumption is made
-   1419  7c80
-   1420  7c80		       20 2a f3 	      jsr	PlaySounds	; 6+x	 Jentzsch sound system
-   1421  7c83
-   1422  7c83		       20 60 fb 	      jsr	StealCharDraw	; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
-   1423  7c86					      IF	SORT_OBJECTS = YES
-   1424  7c86		       20 16 fe 	      jsr	SortObjects2	; 6+15 mininum. Opportunistic sorting
-   1425  7c89					      ENDIF
-   1426  7c89
-   1427  7c89							;---------------------------------------------------------------------------
-   1428  7c89							; START OF DISPLAY
-   1429  7c89
-   1430  7c89		       a9 09		      lda	#BANK_SCORING	; 2
-   1431  7c8b		       85 3e		      sta	SET_BANK_RAM	; 3
-   1432  7c8d		       20 d3 f1 	      jsr	DrawDigits	; 6 = 11
-   1433  7c90
-   1434  7c90							;---------------------------------------------------------------------------
-   1435  7c90							; A 42-cycle timing window in the screen draw code.  Perform any general
-   1436  7c90							; per-frame code here, provided it takes exactly 42 cycles to execute.
-   1437  7c90							; TJ: Well, not exactly 42 cycles, but it works! :)
-   1438  7c90							;	 @09
-   1439  7c90		       85 49		      sta	COLUBK	; 3	 value comes from subroutine
-   1440  7c92							; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
-   1441  7c92
-   1442  7c92
-   1443  7c92							;		  inc Throttle		      ; 5     speed limiter
-      0  7c92					      SLEEP	5	;	 TODO: optimize for space
-      1  7c92				   .CYCLES    SET	5
-      2  7c92
-      3  7c92				  -	      IF	.CYCLES < 2
-      4  7c92				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
-      5  7c92				  -	      ERR
-      6  7c92					      ENDIF
-      7  7c92
-      8  7c92					      IF	.CYCLES & 1
-      9  7c92					      IFNCONST	NO_ILLEGAL_OPCODES
-     10  7c92		       04 00		      nop	0
-     11  7c94				  -	      ELSE
-     12  7c94				  -	      bit	VSYNC
-     13  7c94					      ENDIF
-     14  7c94				   .CYCLES    SET	.CYCLES - 3
-     15  7c94					      ENDIF
-     16  7c94
-     17  7c94					      REPEAT	.CYCLES / 2
-     18  7c94		       ea		      nop
-     19  7c95					      REPEND
-   1445  7c95
-   1446  7c95		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
-   1447  7c97		       ca		      dex		; 2	 = $6f, stars effect!
-   1448  7c98		       86 62		      stx	HMM0	; 3	 @24, exactly 21 cycles after the HMOVE
-   1449  7c9a
-   1450  7c9a		       85 44		      sta	NUSIZ0	; 3
-   1451  7c9c		       84 65		      sty	VDELP0	; 3	 y = 0!
-   1452  7c9e
-   1453  7c9e		       c8		      iny		; 2	 this relies on Y == 0 before...
-   1454  7c9f		       c4 c6		      cpy	extraLifeTimer	; 3	 ..,and bit 0 is set in A
-   1455  7ca1		       69 02		      adc	#2	; 2
-   1456  7ca3		       85 5d		      sta	ENAM0	; 3	 dis/enable Cosmic Ark star effect
-   1457  7ca5
-   1458  7ca5		       a5 a8		      lda	ManLastDirection	; 3
-   1459  7ca7		       85 4b		      sta	REFP0	; 3
-   1460  7ca9
-   1461  7ca9		       a9 00		      lda	#BANK_SCREENMARKII1	; 2
-   1462  7cab		       85 3e		      sta	SET_BANK_RAM	; 3
-   1463  7cad		       20 00 f0 	      jsr	DrawTheScreen	; 6	 @57 from RAM, no less!!
-   1464  7cb0							;	 @66
-   1465  7cb0		       a9 07		      lda	#BANK_PostScreenCleanup	; 2
-   1466  7cb2		       85 3f		      sta	SET_BANK	; 3
-   1467  7cb4		       20 fa f5 	      jsr	PostScreenCleanup	; 6+x
-   1468  7cb7
-   1469  7cb7		       a9 04		      lda	#BANK_SelfModDrawPlayers	; 2
-   1470  7cb9		       85 3f		      sta	SET_BANK	; 3
-   1471  7cbb		       20 fb f2 	      jsr	SelfModDrawPlayers	; 6+x
-   1472  7cbe
-   1473  7cbe		       24 cc		      bit	amoebaFlag	; AMOEBA_PRESENT?
-   1474  7cc0		       50 07		      bvc	noscanning	; NO amoeba on this level so skip scan
-   1475  7cc2
-   1476  7cc2		       a9 08		      lda	#BANK_ProcessAmoeba	; 2
-   1477  7cc4		       85 3f		      sta	SET_BANK	; 3
-   1478  7cc6		       20 70 f1 	      jsr	ProcessAmoeba	; 6+x
-   1479  7cc9				   noscanning
-   1480  7cc9
-   1481  7cc9		       20 60 fb 	      jsr	StealCharDraw
-   1482  7ccc					      IF	SORT_OBJECTS = YES
-   1483  7ccc		       20 16 fe 	      jsr	SortObjects2	;6+15 minimum	Opportunistic sorting
-   1484  7ccf					      ENDIF
-   1485  7ccf
-   1486  7ccf		       ad 84 02    OverscanBD lda	INTIM	;4
-   1487  7cd2		       d0 fb		      bne	OverscanBD	;2/3
-   1488  7cd4		       f0 8f		      beq	NewFrameBD	;3	 unconditional
-   1489  7cd6
-   1490  7cd6				   VBlankTime
-   1491  7cd6							; TJ: used by:
-   1492  7cd6							; - BANK_FIXED.asm
-   1493  7cd6		       3e 3e		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
-   1494  7cd8		       55 3e		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_NTSC
-   1495  7cda
-   1496  7cda							;---------------------------------------------------------------------------
-   1497  7cda
-   1498  7cda				   CharacterDataVecLO
-   1499  7cda							; TJ: used by:
-   1500  7cda							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-   1501  7cda
-   1502  7cda							; Two entries per character.  2nd is ptr to mirrored character
-   1503  7cda							; Characters don't have to be mirrored, obviously -- use the same pointer for both!
-   1504  7cda
-   1505  7cda		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
-   1506  7cdb		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
-   1507  7cdc		       25		      .byte.b	<CHARACTERSHAPE_SOIL
-   1508  7cdd		       25		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
-   1509  7cde		       80		      .byte.b	<CHARACTERSHAPE_BOULDER
-   1510  7cdf		       95		      .byte.b	<CHARACTERSHAPE_BOULDER_MIRRORED
-   1511  7ce0		       00		      .byte.b	<CHARACTERSHAPE_AMOEBA
-   1512  7ce1		       15		      .byte.b	<CHARACTERSHAPE_AMOEBA_MIRRORED
-   1513  7ce2		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND
-   1514  7ce3		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED
-   1515  7ce4		       e5		      .byte.b	<CHARACTERSHAPE_DIAMOND2
-   1516  7ce5		       d0		      .byte.b	<CHARACTERSHAPE_DIAMOND2_MIRRORED
-   1517  7ce6		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
-   1518  7ce7		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
-   1519  7ce8		       aa		      .byte.b	<CHARACTERSHAPE_FLUTTERBY
-   1520  7ce9		       aa		      .byte.b	<CHARACTERSHAPE_FLUTTERBY
-   1521  7cea		       bf		      .byte.b	<CHARACTERSHAPE_FLUTTERBY2
-   1522  7ceb		       bf		      .byte.b	<CHARACTERSHAPE_FLUTTERBY2
-   1523  7cec		       7e		      .byte.b	<CHARACTERSHAPE_FIREFLY
-   1524  7ced		       7e		      .byte.b	<CHARACTERSHAPE_FIREFLY
-   1525  7cee		       93		      .byte.b	<CHARACTERSHAPE_FIREFLY2
-   1526  7cef		       93		      .byte.b	<CHARACTERSHAPE_FIREFLY2
-   1527  7cf0		       54		      .byte.b	<CHARACTERSHAPE_WALL0
-   1528  7cf1		       69		      .byte.b	<CHARACTERSHAPE_WALL0_MIRRORED
-   1529  7cf2		       e2		      .byte.b	<CHARACTERSHAPE_WALL1
-   1530  7cf3		       e2		      .byte.b	<CHARACTERSHAPE_WALL1
-   1531  7cf4		       54		      .byte.b	<CHARACTERSHAPE_WALL0
-   1532  7cf5		       54		      .byte.b	<CHARACTERSHAPE_WALL0
-   1533  7cf6		       cd		      .byte.b	<CHARACTERSHAPE_WALL2
-   1534  7cf7		       cd		      .byte.b	<CHARACTERSHAPE_WALL2
-   1535  7cf8		       d4		      .byte.b	<CHARACTERSHAPE_STEEL
-   1536  7cf9		       e9		      .byte.b	<CHARACTERSHAPE_STEEL_MIRRORED
-   1537  7cfa		       54		      .byte.b	<CHARACTERSHAPE_WALL
-   1538  7cfb		       69		      .byte.b	<CHARACTERSHAPE_WALL_MIRRORED
-   1539  7cfc		       d4		      .byte.b	<CHARACTERSHAPE_EXITDOOR
-   1540  7cfd		       e9		      .byte.b	<CHARACTERSHAPE_EXITDOOR_MIRRORED
-   1541  7cfe		       3a		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
-   1542  7cff		       3a		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
-   1543  7d00
-   1544  7d00		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION
-   1545  7d01		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION_MIRRORED
-   1546  7d02		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1
-   1547  7d03		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1_MIRRORED
-   1548  7d04		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2
-   1549  7d05		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2_MIRRORED
-   1550  7d06		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3
-   1551  7d07		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3_MIRRORED
-   1552  7d08
-   1553  7d08		       2a		      .byte.b	<CHARACTERSHAPE_AMOEBA2
-   1554  7d09		       3f		      .byte.b	<CHARACTERSHAPE_AMOEBA2_MIRRORED
-   1555  7d0a
-   1556  7d0a		       80		      .byte.b	<CHARACTERSHAPE_BOULDER	; falling boulder
-   1557  7d0b		       95		      .byte.b	<CHARACTERSHAPE_BOULDER_MIRRORED	; falling boulder
-   1558  7d0c		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND	; falling diamond
-   1559  7d0d		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
-   1560  7d0e
-   1561  7d0e		       3a		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
-   1562  7d0f		       3a		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
-   1563  7d10
-   1564  7d10				  -	      IF	* - CharacterDataVecLO < CHARACTER_MAXIMUM*2
-   1565  7d10				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecLO table!"
-   1566  7d10				  -	      EXIT
-   1567  7d10					      ENDIF
-   1568  7d10
-   1569  7d10							;---------------------------------------------------------------------------
-   1570  7d10
-   1571  7d10				   CharacterDataVecHI
-   1572  7d10							; TJ: used by:
-   1573  7d10							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-   1574  7d10
-   1575  7d10		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
-   1576  7d11		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
-   1577  7d12		       f3		      .byte.b	>CHARACTERSHAPE_SOIL
-   1578  7d13		       f3		      .byte.b	>CHARACTERSHAPE_SOIL_MIRRORED
-   1579  7d14		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER
-   1580  7d15		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER_MIRRORED
-   1581  7d16		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA
-   1582  7d17		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA_MIRRORED
-   1583  7d18		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND
-   1584  7d19		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED
-   1585  7d1a		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2
-   1586  7d1b		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2_MIRRORED
-   1587  7d1c		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
-   1588  7d1d		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
-   1589  7d1e		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY
-   1590  7d1f		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY
-   1591  7d20		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY2
-   1592  7d21		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY2
-   1593  7d22		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY
-   1594  7d23		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY
-   1595  7d24		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY2
-   1596  7d25		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY2
-   1597  7d26		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
-   1598  7d27		       f8		      .byte.b	>CHARACTERSHAPE_WALL0_MIRRORED
-   1599  7d28		       f3		      .byte.b	>CHARACTERSHAPE_WALL1
-   1600  7d29		       f3		      .byte.b	>CHARACTERSHAPE_WALL1
-   1601  7d2a		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
-   1602  7d2b		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
-   1603  7d2c		       f3		      .byte.b	>CHARACTERSHAPE_WALL2
-   1604  7d2d		       f3		      .byte.b	>CHARACTERSHAPE_WALL2
-   1605  7d2e		       fe		      .byte.b	>CHARACTERSHAPE_STEEL
-   1606  7d2f		       fe		      .byte.b	>CHARACTERSHAPE_STEEL_MIRRORED
-   1607  7d30		       f8		      .byte.b	>CHARACTERSHAPE_WALL
-   1608  7d31		       f8		      .byte.b	>CHARACTERSHAPE_WALL_MIRRORED
-   1609  7d32		       fe		      .byte.b	>CHARACTERSHAPE_EXITDOOR
-   1610  7d33		       fe		      .byte.b	>CHARACTERSHAPE_EXITDOOR_MIRRORED
-   1611  7d34		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
-   1612  7d35		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
-   1613  7d36
-   1614  7d36		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION
-   1615  7d37		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION_MIRRORED
-   1616  7d38		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1
-   1617  7d39		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1_MIRRORED
-   1618  7d3a		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2
-   1619  7d3b		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2_MIRRORED
-   1620  7d3c		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3
-   1621  7d3d		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3_MIRRORED
-   1622  7d3e
-   1623  7d3e		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA2
-   1624  7d3f		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA2_MIRRORED
-   1625  7d40
-   1626  7d40		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER	; falling boulder
-   1627  7d41		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER_MIRRORED	; falling boulder
-   1628  7d42		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND	; falling diamond
-   1629  7d43		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
-   1630  7d44
-   1631  7d44		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
-   1632  7d45		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
-   1633  7d46
-   1634  7d46				  -	      IF	* - CharacterDataVecHI < CHARACTER_MAXIMUM*2
-   1635  7d46				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecHI table!"
-   1636  7d46				  -	      EXIT
-   1637  7d46					      ENDIF
-   1638  7d46
-   1639  7d46							;---------------------------------------------------------------------------
-   1640  7d46
-   1641  7d46				   GenericCharFlag
-   1642  7d46							; TJ: used by:
-   1643  7d46							; - BANK_FIXED.asm
-   1644  7d46							; - BANK_INITBANK.asm
-   1645  7d46							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-   1646  7d46
-   1647  7d46							; Tells us information about a particular character.  Multiple bits define characteristics
-   1648  7d46							; of how the character behaves during gameplay.
-   1649  7d46
-   1650  7d46		       0a		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE	; blank
-   1651  7d47		       08		      .byte.b	GENERIC_MASK_EXPLODABLE	; soil
-   1652  7d48		       89		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE	; boulder
-   1653  7d49		       18		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_KILLSBUTTERFLY	; Amoeba
-   1654  7d4a		       89		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE	; diamond
-   1655  7d4b		       89		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE	; diamond2
-   1656  7d4c		       1a		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE|GENERIC_MASK_KILLSBUTTERFLY	; man
-   1657  7d4d
-   1658  7d4d							; Note: Butterflies and fireflies are not explodable, to prevent chain-reactions
-   1659  7d4d
-   1660  7d4d		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; butterfly
-   1661  7d4e		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; butterfly
-   1662  7d4f		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; firefly
-   1663  7d50		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; firefly
-   1664  7d51		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
-   1665  7d52		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
-   1666  7d53		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
-   1667  7d54		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
-   1668  7d55		       00		      .byte.b	0	; steel wall
-   1669  7d56		       09		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED	; plain brick wall
-   1670  7d57		       00		      .byte.b	0	; exit
-   1671  7d58		       00		      .byte.b	0	; exit
-   1672  7d59		       00		      .byte.b	0	; explosion
-   1673  7d5a		       00		      .byte.b	0	; explosion 1
-   1674  7d5b		       00		      .byte.b	0	; explosion 2
-   1675  7d5c		       00		      .byte.b	0	; explosion 3
-   1676  7d5d		       18		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_KILLSBUTTERFLY	; amoeba2
-   1677  7d5e
-   1678  7d5e		       09		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED	; falling boulder
-   1679  7d5f		       09		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED	; falling diamond
-   1680  7d60
-   1681  7d60		       00		      .byte.b	0	; unkillable man
-   1682  7d61
-   1683  7d61				  -	      IF	* - GenericCharFlag < CHARACTER_MAXIMUM
-   1684  7d61				  -	      ECHO	"ERROR: Missing entry in GenericCharFlag table!"
-   1685  7d61				  -	      EXIT
-   1686  7d61					      ENDIF
-   1687  7d61
-   1688  7d61							;---------------------------------------------------------------------------
-   1689  7d61
-   1690  7d61				   BaseTypeCharacter
-   1691  7d61							; TJ: used by:
-   1692  7d61							; - BANK_FIXED.asm
-   1693  7d61
-   1694  7d61							; Given an object type, gives a base character to use for that type
-   1695  7d61							; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
-   1696  7d61
-   1697  7d61		       06		      .byte.b	CHARACTER_MANOCCUPIED
-   1698  7d62		       02		      .byte.b	CHARACTER_BOX
-   1699  7d63		       03		      .byte.b	CHARACTER_AMOEBA
-   1700  7d64		       07		      .byte.b	CHARACTER_FLUTTERBY
-   1701  7d65		       09		      .byte.b	CHARACTER_FIREFLY
-   1702  7d66		       04		      .byte.b	CHARACTER_DIAMOND
-   1703  7d67		       0b		      .byte.b	CHARACTER_WALL0
-   1704  7d68		       11		      .byte.b	CHARACTER_EXITDOOR	; exit door
-   1705  7d69		       00		      .byte.b	CHARACTER_BLANK	; select
-   1706  7d6a		       13		      .byte.b	CHARACTER_EXPLOSION
-   1707  7d6b		       14		      .byte.b	CHARACTER_EXPLOSION1
-   1708  7d6c		       15		      .byte.b	CHARACTER_EXPLOSION2
-   1709  7d6d		       16		      .byte.b	CHARACTER_EXPLOSION3
-   1710  7d6e		       00		      .byte.b	CHARACTER_BLANK
-   1711  7d6f		       01		      .byte.b	CHARACTER_SOIL
-   1712  7d70		       0f		      .byte.b	CHARACTER_STEEL
-   1713  7d71		       10		      .byte.b	CHARACTER_WALL
-   1714  7d72
-   1715  7d72							;--> if adding types, also see InitialFace in DecodeCave.asm
-   1716  7d72
-   1717  7d72				  -	      IF	* - BaseTypeCharacter < TYPE_MAXIMUM
-   1718  7d72				  -	      ECHO	"ERROR: Missing entry in BaseTypeCharacter table!"
-   1719  7d72				  -	      EXIT
-   1720  7d72					      ENDIF
-   1721  7d72
-   1722  7d72							;---------------------------------------------------------------------------
-   1723  7d72
-   1724  7d72				   BaseTypeCharacterFalling
-   1725  7d72							; TJ: used by:
-   1726  7d72							; - BANK_FIXED.asm
-   1727  7d72
-   1728  7d72							; Given an object type, gives a base character to use for that type
-   1729  7d72							; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
-   1730  7d72
-   1731  7d72		       06		      .byte.b	CHARACTER_MANOCCUPIED
-   1732  7d73		       18		      .byte.b	CHARACTER_BOX_FALLING
-   1733  7d74		       03		      .byte.b	CHARACTER_AMOEBA
-   1734  7d75		       07		      .byte.b	CHARACTER_FLUTTERBY
-   1735  7d76		       09		      .byte.b	CHARACTER_FIREFLY
-   1736  7d77		       19		      .byte.b	CHARACTER_DIAMOND_FALLING
-   1737  7d78		       0b		      .byte.b	CHARACTER_WALL0
-   1738  7d79		       11		      .byte.b	CHARACTER_EXITDOOR	; exit door
-   1739  7d7a		       00		      .byte.b	CHARACTER_BLANK	; select
-   1740  7d7b		       13		      .byte.b	CHARACTER_EXPLOSION
-   1741  7d7c		       14		      .byte.b	CHARACTER_EXPLOSION1
-   1742  7d7d		       15		      .byte.b	CHARACTER_EXPLOSION2
-   1743  7d7e		       16		      .byte.b	CHARACTER_EXPLOSION3
-   1744  7d7f		       00		      .byte.b	CHARACTER_BLANK
-   1745  7d80		       01		      .byte.b	CHARACTER_SOIL
-   1746  7d81		       0f		      .byte.b	CHARACTER_STEEL
-   1747  7d82		       10		      .byte.b	CHARACTER_WALL
-   1748  7d83
-   1749  7d83							;--> if adding types, also see InitialFace in DecodeCave.asm
-   1750  7d83
-   1751  7d83				  -	      IF	* - BaseTypeCharacterFalling < TYPE_MAXIMUM
-   1752  7d83				  -	      ECHO	"ERROR: Missing entry in BaseTypeCharacterFalling table!"
-   1753  7d83				  -	      EXIT
-   1754  7d83					      ENDIF
-   1755  7d83
-   1756  7d83							;---------------------------------------------------------------------------
-   1757  7d83
-      0  7d83					      DEFINE_SUBROUTINE	CharToType	; in FIXED_BANK
-      1  7d83		       00 0f	   BANK_CharToType =	_CURRENT_BANK
-      2  7d83					      SUBROUTINE
-      3  7d83				   CharToType
-   1759  7d83							; TJ: used by:
-   1760  7d83							; - BANK_FIXED.asm
-   1761  7d83							; - BANK_INITBANK.asm
-   1762  7d83
-   1763  7d83							; Converts a character # to a creature type
-   1764  7d83							; add 128 if character is NOT to be added as a creature on board draw
-   1765  7d83
-   1766  7d83		       0d		      .byte.b	TYPE_BLANK	;  0	 blank
-   1767  7d84		       0e		      .byte.b	TYPE_SOIL	;  1	 soil
-   1768  7d85		       01		      .byte.b	TYPE_BOULDER	;  2
-   1769  7d86		       02		      .byte.b	TYPE_AMOEBA	;  3
-   1770  7d87		       05		      .byte.b	TYPE_DIAMOND	;  4
-   1771  7d88		       05		      .byte.b	TYPE_DIAMOND	;  5
-   1772  7d89		       00		      .byte.b	TYPE_MAN	;  6
-   1773  7d8a		       03		      .byte.b	TYPE_FLUTTERBY	;  7
-   1774  7d8b		       03		      .byte.b	TYPE_FLUTTERBY	;  8
-   1775  7d8c		       04		      .byte.b	TYPE_FIREFLY	;  9
-   1776  7d8d		       04		      .byte.b	TYPE_FIREFLY	; 0a
-   1777  7d8e		       06		      .byte.b	TYPE_MAGICWALL	; 0b
-   1778  7d8f		       06		      .byte.b	TYPE_MAGICWALL	; 0c
-   1779  7d90		       06		      .byte.b	TYPE_MAGICWALL	; 0d
-   1780  7d91		       06		      .byte.b	TYPE_MAGICWALL	; 0e
-   1781  7d92		       0f		      .byte.b	TYPE_STEELWALL	; 0f	  ; steel wall
-   1782  7d93		       10		      .byte.b	TYPE_BRICKWALL	; 10	  ; plain brick wall
-   1783  7d94		       07		      .byte.b	TYPE_EXITDOOR	; 11
-   1784  7d95		       07		      .byte.b	TYPE_EXITDOOR	; 12
-   1785  7d96		       09		      .byte.b	TYPE_EXPLOSION	; 13
-   1786  7d97		       0a		      .byte.b	TYPE_EXPLOSION1	; 14
-   1787  7d98		       0b		      .byte.b	TYPE_EXPLOSION2	; 15
-   1788  7d99		       0c		      .byte.b	TYPE_EXPLOSION3	; 16
-   1789  7d9a		       02		      .byte.b	TYPE_AMOEBA	; 17
-   1790  7d9b
-   1791  7d9b		       01		      .byte.b	TYPE_BOULDER	; falling boulder
-   1792  7d9c		       05		      .byte.b	TYPE_DIAMOND	; falling diamond
-   1793  7d9d
-   1794  7d9d		       0d		      .byte.b	TYPE_BLANK	; 20 unkillable man
-   1795  7d9e							; --> see also MoveVec
-   1796  7d9e							; --> see also DecodeCave's table
-   1797  7d9e
-   1798  7d9e				  -	      IF	* - CharToType < CHARACTER_MAXIMUM
-   1799  7d9e				  -	      ECHO	"ERROR: Missing entry in CharToType table!"
-   1800  7d9e				  -	      EXIT
-   1801  7d9e					      ENDIF
-   1802  7d9e
-   1803  7d9e							;---------------------------------------------------------------------------
-   1804  7d9e
-      0  7d9e					      DEFINE_SUBROUTINE	AnimateCharReplacements2	;139
-      1  7d9e		       00 0f	   BANK_AnimateCharReplacements2 =	_CURRENT_BANK
-      2  7d9e					      SUBROUTINE
-      3  7d9e				   AnimateCharReplacements2
-   1806  7d9e							; TJ: used by:
-   1807  7d9e							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-   1808  7d9e
-   1809  7d9e							; This manages character animation on a per-object basis.  Morph/animate these
-   1810  7d9e							; characters individually or as required.  Change will affect all characters
-   1811  7d9e							; of the same type in the visible display.
-   1812  7d9e
-   1813  7d9e		       ad db f2 	      lda	ANIM_BUTTERFLY0	;4
-   1814  7da1		       49 0f		      eor	#CHARACTER_FLUTTERBY^CHARACTER_FLUTTERBY2	;2
-   1815  7da3		       8d db f6 	      sta	ANIM_BUTTERFLY0 + RAM_WRITE	;4
-   1816  7da6		       8d dc f6 	      sta	ANIM_BUTTERFLY1 + RAM_WRITE	;4 = 14	 butterfly
-   1817  7da9
-   1818  7da9		       ad dd f2 	      lda	ANIM_FIREFLY0	;4
-   1819  7dac		       49 03		      eor	#CHARACTER_FIREFLY^CHARACTER_FIREFLY2	;2
-   1820  7dae		       8d dd f6 	      sta	ANIM_FIREFLY0 + RAM_WRITE	;4
-   1821  7db1		       8d de f6 	      sta	ANIM_FIREFLY1 + RAM_WRITE	;4 = 14	 firefly
-   1822  7db4
-   1823  7db4							; handle the mandatory animating things
-   1824  7db4
-   1825  7db4							; -------------------------------------------
-   1826  7db4							; The door will animate when it is 'open'. It's open when the required number of diamonds have been
-   1827  7db4							; collected. This in turn triggers the "extra diamonds" flag for scoring, so that is used to determine
-   1828  7db4							; when the door should flash.
-   1829  7db4
-   1830  7db4		       24 c8		      bit	scoringFlags	;3
-   1831  7db6		       10 08		      bpl	NoDoor	;2/3		 extra diamonds (D7) set when door animates
-   1832  7db8
-   1833  7db8		       ad e5 f2 	      lda	ANIM_EXITDOOR	;4
-   1834  7dbb		       49 03		      eor	#CHARACTER_EXITDOOR2^CHARACTER_EXITDOOR	;2
-   1835  7dbd		       8d e5 f6 	      sta	ANIM_EXITDOOR + RAM_WRITE	;4 = 22	 exit door
-   1836  7dc0				   NoDoor
-   1837  7dc0
-   1838  7dc0							; -------------------------------------------
-   1839  7dc0
-   1840  7dc0							; handle the non-mandatory animating things
-   1841  7dc0
-   1842  7dc0		       a5 ae		      lda	timer	;3
-   1843  7dc2		       29 03		      and	#%11	;2
-   1844  7dc4		       d0 14		      bne	nothingAnimates	;2/3
-   1845  7dc6
-   1846  7dc6		       a5 9c		      lda	scrollBits	;3
-   1847  7dc8		       d0 10		      bne	nothingAnimates	;2/3		 DON'T animate if we scrolled
-   1848  7dca
-   1849  7dca		       ad d8 f2 	      lda	ANIM_DIAMOND	;4
-   1850  7dcd		       49 01		      eor	#CHARACTER_DIAMOND^CHARACTER_DIAMOND2	;2
-   1851  7dcf		       8d d8 f6 	      sta	ANIM_DIAMOND + RAM_WRITE	;4 = 15	 diamond
-   1852  7dd2
-   1853  7dd2							;lda timer					  ;3
-   1854  7dd2							;and #%1 ;1 ;1 				      ;2
-   1855  7dd2							;bne nothingAnimates				  ;2/3
-   1856  7dd2
-   1857  7dd2
-   1858  7dd2		       ad d7 f2 	      lda	ANIM_AMOEBA	;4
-   1859  7dd5		       49 14		      eor	#CHARACTER_AMOEBA^CHARACTER_AMOEBA2	;2
-   1860  7dd7		       8d d7 f6 	      sta	ANIM_AMOEBA + RAM_WRITE	;4 = 17	 amoeba
-   1861  7dda
-   1862  7dda				   nothingAnimates
-   1863  7dda
-   1864  7dda							; Handle magic wall animation. If the Magic wall is active, only, then cycle the characters used
-   1865  7dda							; for displaying the wall.
-   1866  7dda
-   1867  7dda		       a6 9d		      ldx	MagicAmoebaFlag	;3
-   1868  7ddc		       e8		      inx		;2		 $FF = dormant?
-   1869  7ddd		       f0 21		      beq	noMagicWall	;2/3
-   1870  7ddf		       ca		      dex		;2		 $00 = set to dormant?
-   1871  7de0		       d0 0e		      bne	animateWall	;2/3
-   1872  7de2
-      0  7de2					      STOP_SOUND	1, OFSS_MAGIC_WALL	;10
-      1  7de2
-      2  7de2		       a9 2c		      lda	#OFSS_MAGIC_WALL
-      3  7de4		       45 d6		      eor	soundIdxLst+1
-      4  7de6		       d0 04		      bne	.skipStop
-      5  7de8		       85 d6		      sta	soundIdxLst+1
-      6  7dea		       85 5a		      sta	AUDV0+1
-      7  7dec				   .skipStop
-   1874  7dec
-   1875  7dec		       a9 0b		      lda	#CHARACTER_WALL0	;2
-   1876  7dee		       d0 0d		      bne	forceToChar0	;2/3
-   1877  7df0
-   1878  7df0				   animateWall
-   1879  7df0
-   1880  7df0							; Because we don't have MIRRORED wall characters, so any regular pattern will look very odd when
-   1881  7df0							; displayed across the mirrored PF registers.	With a random pattern, it's totally obscured.
-   1882  7df0
-   1883  7df0		       45 87		      eor	rnd	;3
-   1884  7df2		       69 01	   reGen      adc	#1	;2
-   1885  7df4		       29 03		      and	#3	;2
-   1886  7df6		       69 0b		      adc	#CHARACTER_WALL0	;2
-   1887  7df8		       cd df f2 	      cmp	ANIM_MAGICWALL	;3
-   1888  7dfb		       f0 f5		      beq	reGen	;2/3		 (worst case 1 repeat = +11)
-   1889  7dfd		       8d df f6    forceToChar0 sta	ANIM_MAGICWALL + RAM_WRITE	;3 = 29
-   1890  7e00
-   1891  7e00				   noMagicWall
-   1892  7e00		       4c 28 f2 	      jmp	retAnim	;3
-   1893  7e03
-   1894  7e03
-   1895  7e03							;---------------------------------------------------------------------------
-   1896  7e03
-      0  7e03					      DEFINE_SUBROUTINE	ScoreAdd
-      1  7e03		       00 0f	   BANK_ScoreAdd =	_CURRENT_BANK
-      2  7e03					      SUBROUTINE
-      3  7e03				   ScoreAdd
-   1898  7e03							; TJ: used by:
-   1899  7e03							; - BANK_INITBANK.asm
-   1900  7e03		       a2 09		      ldx	#BANK_SCORING
-   1901  7e05		       86 3e		      stx	SET_BANK_RAM
-   1902  7e07		       20 0f f2 	      jsr	UpdateScore
-   1903  7e0a		       a5 c3	   rbret      lda	ROM_Bank
-   1904  7e0c		       85 3f		      sta	SET_BANK
-   1905  7e0e		       60		      rts
-   1906  7e0f
-   1907  7e0f							;---------------------------------------------------------------------------
-   1908  7e0f
-      0  7e0f					      DEFINE_SUBROUTINE	nextLevelMan
-      1  7e0f		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
-      2  7e0f					      SUBROUTINE
-      3  7e0f				   nextLevelMan
-   1910  7e0f							; TJ: used by:
-   1911  7e0f							; - BANK_INITBANK.asm
-   1912  7e0f		       a9 03		      lda	#BANK_NextCave
-   1913  7e11		       85 3f		      sta	SET_BANK
-   1914  7e13		       4c b3 f4 	      jmp	NextCave
-   1915  7e16
-   1916  7e16							;---------------------------------------------------------------------------
-   1917  7e16
-      0  7e16					      DEFINE_SUBROUTINE	SortObjects2	;=128(A), minimum 15 @ segtime exit
-      1  7e16		       00 0f	   BANK_SortObjects2 =	_CURRENT_BANK
-      2  7e16					      SUBROUTINE
-      3  7e16				   SortObjects2
-   1919  7e16							; TJ: used by:
-   1920  7e16							; - BANK_FIXED.asm
-   1921  7e16
-   1922  7e16		       ad 84 02 	      lda	INTIM	;4
-   1923  7e19		       c9 03		      cmp	#MINIMUM_SORT_TIME	;2
-   1924  7e1b		       90 4d		      bcc	.sortExit	;2(3)=8	insufficient time
-      0  7e1d					      STRESS_TIME	MINIMUM_SORT_TIME
-      1  7e1d				  -	      IF	TEST_MINIMUM_SORT_TIME = 1
-      2  7e1d				  -
-      3  7e1d				  -
-      4  7e1d				  -
-      5  7e1d				  -
-      6  7e1d				  -
-      7  7e1d				  -	      echo	"***** WARNING! STRESS_TIME enabled @", ., "! *****"
-      8  7e1d				  -	      bne	. - 7
-      9  7e1d					      ENDIF
-   1926  7e1d
-   1927  7e1d		       a6 8a		      ldx	ObjStackNum	;3
-   1928  7e1f		       bd ca fa 	      lda	BankObjStack,x	;4
-   1929  7e22		       85 3e		      sta	SET_BANK_RAM	;3
-   1930  7e24		       4c 62 fe 	      jmp	.enterSort	;3 = 13
-   1931  7e27
-   1932  7e27				   restartSort		;  = 11
-   1933  7e27
-   1934  7e27							; So there's another sort 'starting' and we reset the ptr to the end of the obj list
-   1935  7e27
-   1936  7e27							; retrieve size of list to sort
-   1937  7e27		       a9 ff		      lda	#<(-1)	;2
-   1938  7e29		       85 d3		      sta	sortRequired	;3		 flag that we're DOING it
-   1939  7e2b
-   1940  7e2b		       a6 8a		      ldx	ObjStackNum	;3
-   1941  7e2d		       b4 8b		      ldy	ObjStackPtr,x	;4		 index of 1st free slot = # slots in use
-   1942  7e2f		       88		      dey		;2
-   1943  7e30		       84 d4		      sty	sortPtr	;3		 earlier potential swappable object
-   1944  7e32		       f0 36		      beq	.sortExit	;2/3
-   1945  7e34
-   1946  7e34				   midSort		;  =  6
-   1947  7e34
-   1948  7e34		       b9 80 11 	      lda	SortedObjPtr,y	;4		 y = sortPtr!
-   1949  7e37		       be 7f 11 	      ldx	SortedObjPtr-1,y	;4		 the 'current' object looking to be sorted correctly
-   1950  7e3a		       a8		      tay		;2
-   1951  7e3b
-   1952  7e3b		       bd 80 10 	      lda	ObjStackY,x	;4
-   1953  7e3e		       d9 80 10 	      cmp	ObjStackY,y	;4
-   1954  7e41		       90 16		      bcc	earlierObject	;2(3)
-   1955  7e43		       d0 08		      bne	swapAround	;2(3)
-   1956  7e45
-   1957  7e45		       b9 00 10 	      lda	ObjStackX,y	;4
-   1958  7e48		       dd 00 10 	      cmp	ObjStackX,x	;4
-   1959  7e4b		       b0 0c		      bcs	earlierObject	;2(3)		 WE DO NOT WANT TO SWAP IF == OTHERWISE LOCKUP
-   1960  7e4d
-   1961  7e4d				   swapAround		;   = 32 max.
-   1962  7e4d		       98		      tya		;2		 y = SortedObjPtr[sortPtr]
-   1963  7e4e		       a4 d4		      ldy	sortPtr	;3
-   1964  7e50		       99 7f 15 	      sta	SortedObjPtr+RAM_WRITE-1,y	;5
-   1965  7e53		       8a		      txa		;2		 x = SortedObjPtr[sortPtr-1]
-   1966  7e54		       99 80 15 	      sta	SortedObjPtr+RAM_WRITE,y	;5
-   1967  7e57		       84 d3		      sty	sortRequired	;3 = 20	 as we've done a swap, ensure another pass (ANY non-neg value)
-   1968  7e59
-   1969  7e59		       c6 d4	   earlierObject dec	sortPtr	;5 =  5	 look at earlier object
-   1970  7e5b
-   1971  7e5b		       ad 84 02 	      lda	INTIM	;4
-   1972  7e5e		       c9 03		      cmp	#MINIMUM_SORT_TIME	;2
-   1973  7e60		       90 08		      bcc	.sortExit	;2(3)=8	insufficient time
-      0  7e62					      STRESS_TIME	MINIMUM_SORT_TIME
-      1  7e62				  -	      IF	TEST_MINIMUM_SORT_TIME = 1
-      2  7e62				  -
-      3  7e62				  -
-      4  7e62				  -
-      5  7e62				  -
-      6  7e62				  -
-      7  7e62				  -	      echo	"***** WARNING! STRESS_TIME enabled @", ., "! *****"
-      8  7e62				  -	      bne	. - 7
-      9  7e62					      ENDIF
-   1975  7e62							; loop max: 71 cycles, + 15 for exit + overhead outside
-   1976  7e62							; -> MINIMUM_SORT_TIME = ceiling(86/64)+1 = 3
-   1977  7e62							; TJ: I do not count the 1st INTIM, that's why I have 4 cylces less.
-   1978  7e62				   .enterSort
-   1979  7e62		       a4 d4		      ldy	sortPtr	;3		 sort 'stops' when potential swappable objects run out
-   1980  7e64		       d0 ce		      bne	midSort	;2(3)=5
-   1981  7e66		       a5 d3		      lda	sortRequired	;3		 AND there were no more sort requests
-   1982  7e68		       10 bd		      bpl	restartSort	;2(3)=5
-   1983  7e6a
-   1984  7e6a		       60	   .sortExit  rts		;6		 completed sort! (or time exit)
-   1985  7e6b
-   1986  7e6b
-   1987  7e6b							;---------------------------------------------------------------------------
-   1988  7e6b
-      0  7e6b					      DEFINE_SUBROUTINE	goGeneralScoringSetups
-      1  7e6b		       00 0f	   BANK_goGeneralScoringSetups =	_CURRENT_BANK
-      2  7e6b					      SUBROUTINE
-      3  7e6b				   goGeneralScoringSetups
-   1990  7e6b							; TJ: used by:
-   1991  7e6b							; - BANK_INITBANK.asm
-   1992  7e6b		       a9 09		      lda	#BANK_SCORING
-   1993  7e6d		       85 3e		      sta	SET_BANK_RAM
-   1994  7e6f		       20 ae f2 	      jsr	GeneralScoringSetups
-   1995  7e72		       a5 c3		      lda	ROM_Bank
-   1996  7e74		       85 3f		      sta	SET_BANK
-   1997  7e76		       60		      rts
-   1998  7e77
-   1999  7e77
-   2000  7e77							;---------------------------------------------------------------------------
-   2001  7e77
-      0  7e77					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
-      1  7e77		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
-      2  7e77					      SUBROUTINE
-      3  7e77				   CopyROM2RAM_F000
-   2003  7e77							; TJ: used by:
-   2004  7e77							; - BANK_FIXED.asm
-   2005  7e77
-   2006  7e77		       a9 08		      lda	#BANK_CopyROMShadowToRAM
-   2007  7e79		       85 3f		      sta	SET_BANK
-   2008  7e7b		       85 c3		      sta	ROM_Bank
-   2009  7e7d		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
-   2010  7e80
-   2011  7e80
-   2012  7e80							;---------------------------------------------------------------------------
-   2013  7e80							; TJ: used by:
-   2014  7e80							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+    988  7b23				   checkForSnatch
+    989  7b23
+    990  7b23
+    991  7b23		       a4 91		      ldy	POS_X_NEW	; 3
+    992  7b25		       a5 97		      lda	BufferedButton	; 3		 button pressed?
+    993  7b27		       30 0a		      bmi	MoveNoButton	; 2/3		 NO, so we move to new square, otherwise...
+    994  7b29
+    995  7b29							; We only 'snatch' and the player doesn't move. Blank the snatched square...
+    996  7b29
+    997  7b29		       a6 92		      ldx	POS_Y_NEW	; 3
+    998  7b2b		       86 90		      stx	POS_Y	; 3		 needed for InsertBlankStack
+    999  7b2d		       84 8f		      sty	POS_X	; 3		 needed for InsertBlankStack
+   1000  7b2f							;jmp BlankOriginalLocationXY	  ; 6+87[-2](A)   snatch/grab the new location
+   1001  7b2f
+   1002  7b2f							;---------------------------------------------------------------------------
+   1003  7b2f
+   1004  7b2f				   MoveNoButton2
+   1005  7b2f							; TJ: used by:
+   1006  7b2f							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+   1007  7b2f		       a9 0d		      lda	#BANK_BOARD
+   1008  7b31		       85 3e		      sta	SET_BANK_RAM
+   1009  7b33
+   1010  7b33		       a9 06	   MoveNoButton lda	#CHARACTER_MANOCCUPIED	; 2
+   1011  7b35		       91 c1		      sta	(Board_AddressW),y	; 6 =	8	 the man's new square
+   1012  7b37
+   1013  7b37		       a6 a0		      ldx	ManY	; 3
+   1014  7b39		       86 90		      stx	POS_Y	; 3
+   1015  7b3b		       a4 9f		      ldy	ManX	; 3
+   1016  7b3d		       84 8f		      sty	POS_X	; 3 = 12
+   1017  7b3f
+   1018  7b3f		       20 03 fa 	      jsr	BlankOriginalLocationXY	; 6+87[-2](A)	 and stacks newly blank position for checking
+   1019  7b42
+   1020  7b42		       a5 91		      lda	POS_X_NEW	; 3
+   1021  7b44		       85 9f		      sta	ManX	; 3
+   1022  7b46		       a5 92		      lda	POS_Y_NEW	; 3
+   1023  7b48		       85 a0		      sta	ManY	; 3 = 12	 actually MOVE!
+   1024  7b4a
+   1025  7b4a				   MOVE_GENERIC
+   1026  7b4a							; TJ: used by:
+   1027  7b4a							; - BANK_FIXED.asm
+   1028  7b4a		       a9 00		      lda	#0	; 2
+   1029  7b4c		       85 a9		      sta	ManPushCounter	; 3
+   1030  7b4e		       60	   timeExit   rts		; 6 = 11
+   1031  7b4f
+   1032  7b4f							;---------------------------------------------------------------------------
+   1033  7b4f
+      0  7b4f					      DEFINE_SUBROUTINE	MOVE_EXIT
+      1  7b4f		       00 0f	   BANK_MOVE_EXIT =	_CURRENT_BANK
+      2  7b4f					      SUBROUTINE
+      3  7b4f				   MOVE_EXIT
+   1035  7b4f							; TJ: used by:
+   1036  7b4f							; - BANK_FIXED.asm
+   1037  7b4f
+   1038  7b4f		       a9 05		      lda	#BANK_MoveExit
+   1039  7b51		       85 3f		      sta	SET_BANK
+   1040  7b53		       4c 8f f3 	      jmp	MoveExit
+   1041  7b56
+   1042  7b56							;---------------------------------------------------------------------------
+   1043  7b56
+      0  7b56					      DEFINE_SUBROUTINE	MOVE_BOULDER
+      1  7b56		       00 0f	   BANK_MOVE_BOULDER =	_CURRENT_BANK
+      2  7b56					      SUBROUTINE
+      3  7b56				   MOVE_BOULDER
+   1045  7b56							; TJ: used by:
+   1046  7b56							; - BANK_FIXED.asm
+   1047  7b56
+   1048  7b56		       a9 08		      lda	#BANK_PushBox
+   1049  7b58		       85 3f		      sta	SET_BANK
+   1050  7b5a		       4c bc f2 	      jmp	PushBox
+   1051  7b5d
+   1052  7b5d							;---------------------------------------------------------------------------
+   1053  7b5d
+      0  7b5d					      DEFINE_SUBROUTINE	StealCharDraw	; in FIXED_BANK
+      1  7b5d		       00 0f	   BANK_StealCharDraw =	_CURRENT_BANK
+      2  7b5d					      SUBROUTINE
+      3  7b5d				   StealCharDraw
+   1055  7b5d							; TJ: used by:
+   1056  7b5d							; - BANK_FIXED.asm
+   1057  7b5d
+   1058  7b5d		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2
+   1059  7b5f		       85 3e		      sta	SET_BANK_RAM	; 3
+   1060  7b61		       a4 89		      ldy	DrawStackPointer	; 3	     MUST have been set by BuildDrawStack!
+   1061  7b63		       10 35		      bpl	EnterStealCharDraw	; 3 = 10(11)
+   1062  7b65
+   1063  7b65				   ExitStealCharDraw
+   1064  7b65
+   1065  7b65							; fall through...
+   1066  7b65
+   1067  7b65							;---------------------------------------------------------------------------
+   1068  7b65
+      0  7b65					      DEFINE_SUBROUTINE	TimeSlice
+      1  7b65		       00 0f	   BANK_TimeSlice =	_CURRENT_BANK
+      2  7b65					      SUBROUTINE
+      3  7b65				   TimeSlice
+   1070  7b65							; TJ: used by:
+   1071  7b65							; - BANK_FIXED.asm
+   1072  7b65
+   1073  7b65							; FIRST check the time is sufficient for the smallest of the timeslices. Not much point
+   1074  7b65							; going ahead if there's insufficient time. This allows the previous character drawing to
+   1075  7b65							; be much smaller in time, as they don't have to include the timeslice code overhead.
+   1076  7b65
+   1077  7b65		       ad 84 02 	      lda	INTIM	; 4
+   1078  7b68		       c9 05		      cmp	#SEGTIME_MINIMUM_TIMESLICE	; 2
+   1079  7b6a		       90 e2		      bcc	timeExit	; 2(3)
+   1080  7b6c
+   1081  7b6c							; Uses the phase variable to vector to the correct processing code for the given timeslice
+   1082  7b6c							; Code may be in any bank. Avoid the fixed bank at all costs!	Once a section is complete
+   1083  7b6c							; it should increment ScreenDrawPhase.
+   1084  7b6c
+   1085  7b6c							; Switched-in bank(s) are undefined after this function is called!
+   1086  7b6c
+   1087  7b6c		       a9 07		      lda	#BANK_TS_PhaseVectorLO	; 2
+   1088  7b6e		       85 3f		      sta	SET_BANK	; 3
+   1089  7b70
+   1090  7b70		       a6 8e		      ldx	ScreenDrawPhase	; 3		 current phase of drawing
+   1091  7b72		       bd e0 f5 	      lda	TS_PhaseVectorLO,x	; 4
+   1092  7b75		       85 df		      sta	TS_Vector	; 3
+   1093  7b77		       bd e6 f5 	      lda	TS_PhaseVectorHI,x	; 4
+   1094  7b7a		       85 e0		      sta	TS_Vector+1	; 3
+   1095  7b7c
+   1096  7b7c		       bd ec f5 	      lda	TS_PhaseBank,x	; 4
+   1097  7b7f		       85 3f		      sta	SET_BANK	; 3		 switch bank
+   1098  7b81
+   1099  7b81		       6c df 00 	      jmp	(TS_Vector)	; 3 = 40	 vector to timeslice handler
+   1100  7b84
+   1101  7b84							; = 55 minimum return time (if segtime abort)
+   1102  7b84
+   1103  7b84							;---------------------------------------------------------------------------
+   1104  7b84
+   1105  7b84
+   1106  7b84				   DrawAnother
+   1107  7b84							; TJ: used by:
+   1108  7b84							; - BANK_ROM_SHADOW_RAMBANK.asm
+   1109  7b84
+   1110  7b84		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2	     A = SCREEN_LINES
+   1111  7b86		       85 3e		      sta	SET_BANK_RAM	; 3 =	5
+   1112  7b88
+   1113  7b88		       a4 89		      ldy	DrawStackPointer	; 3 =	3    MUST have been set by BuildDrawStack!
+   1114  7b8a
+   1115  7b8a		       be 00 f1 	      ldx	DrawStack,y	; 4	     in actuality a character index
+   1116  7b8d		       bd a0 f1 	      lda	ScreenBuffer,x	; 4	     new character to draw
+   1117  7b90		       29 7f		      and	#~128	; 2
+   1118  7b92		       9d a0 f5 	      sta	ScreenBuffer+RAM_WRITE,x	; 4 = 14    clear hint bit
+   1119  7b95
+   1120  7b95		       88		      dey		; 2
+   1121  7b96		       84 89		      sty	DrawStackPointer	; 3	     one less to draw
+   1122  7b98		       30 cb		      bmi	ExitStealCharDraw	; 2(3)=7
+   1123  7b9a
+   1124  7b9a				   EnterStealCharDraw		;	     RAM bank MUST be at BANK_DRAW_BUFFERS
+   1125  7b9a							; TJ: used by:
+   1126  7b9a							; - BANK_FIXED.asm
+   1127  7b9a
+   1128  7b9a		       ad 84 02 	      lda	INTIM	; 4
+   1129  7b9d		       c9 05		      cmp	#SEGTIME_SCD_MIN	; 2
+   1130  7b9f		       90 c4		      bcc	ExitStealCharDraw	; 2/3= 8
+   1131  7ba1
+   1132  7ba1		       be 00 f1 	      ldx	DrawStack,y	; 4	     in actuality a character index
+   1133  7ba4		       bc a0 f1 	      ldy	ScreenBuffer,x	; 4 =	8    new character to draw
+   1134  7ba7
+   1135  7ba7		       bd 3f f3 	      lda	ROW_BankChar,x	; 4	     A = 0..SCREEN_LINES-1
+   1136  7baa		       85 3e		      sta	SET_BANK_RAM	; 3
+   1137  7bac		       4c 53 f1 	      jmp	StealPart3	; 3 = 10    --> 18 cycles after check for SEGTIME_SCD_MIN
+   1138  7baf
+   1139  7baf
+   1140  7baf							;---------------------------------------------------------------------------
+   1141  7baf
+      0  7baf					      DEFINE_SUBROUTINE	BuildDrawStack	; in FIXED BANK
+      1  7baf		       00 0f	   BANK_BuildDrawStack =	_CURRENT_BANK
+      2  7baf					      SUBROUTINE
+      3  7baf				   BuildDrawStack
+   1143  7baf							; TJ: used by:
+   1144  7baf							; - BANK_FIXED.asm
+   1145  7baf
+   1146  7baf		       a9 08		      lda	#BANK_DRAW_BUFFERS
+   1147  7bb1		       85 3e		      sta	SET_BANK_RAM
+   1148  7bb3		       4c 01 f2 	      jmp	DrawStackUpdate
+   1149  7bb6
+   1150  7bb6							;---------------------------------------------------------------------------
+   1151  7bb6
+      0  7bb6					      DEFINE_SUBROUTINE	DrawAIntoStack	; in FIXED BANK
+      1  7bb6		       00 0f	   BANK_DrawAIntoStack =	_CURRENT_BANK
+      2  7bb6					      SUBROUTINE
+      3  7bb6				   DrawAIntoStack
+   1153  7bb6							; TJ: used by:
+   1154  7bb6							; - BANK_FIXED.asm
+   1155  7bb6
+   1156  7bb6		       a9 08		      lda	#BANK_DRAW_BUFFERS
+   1157  7bb8		       85 3e		      sta	SET_BANK_RAM
+   1158  7bba		       4c 2e f2 	      jmp	DrawIntoStack
+   1159  7bbd
+   1160  7bbd
+   1161  7bbd							;---------------------------------------------------------------------------
+   1162  7bbd
+   1163  7bbd
+      0  7bbd					      DEFINE_SUBROUTINE	DrawFullScreenMain	;=2484[-89]
+      1  7bbd		       00 0f	   BANK_DrawFullScreenMain =	_CURRENT_BANK
+      2  7bbd					      SUBROUTINE
+      3  7bbd				   DrawFullScreenMain
+   1165  7bbd
+   1166  7bbd							; Check the screen for all those characters that need to be redrawn
+   1167  7bbd							; Just copies the mxn grid from the board to a DrawFlags array.  If the entry in
+   1168  7bbd							; the drawflags array is different to the ScreenBuffer array entry, then the
+   1169  7bbd							; screenbuffer will need redrawing.
+   1170  7bbd
+   1171  7bbd				   CopyRow2
+   1172  7bbd							; TJ: used by:
+   1173  7bbd							; - BANK_INITBANK.asm
+   1174  7bbd
+   1175  7bbd				  -	      IF	MULTI_BANK_BOARD = YES
+   1176  7bbd				  -	      lda	BDF_BoardBank	; 3
+   1177  7bbd					      ELSE
+   1178  7bbd		       a9 0d		      lda	#BANK_BOARD	; 2	 saves 5*8 = 40 cyles
+   1179  7bbf					      ENDIF
+   1180  7bbf		       85 3e		      sta	SET_BANK_RAM	; 3
+   1181  7bc1		       b3 e3		      lax	(BDF_BoardAddress),y	; 5
+   1182  7bc3		       9a		      txs		; 2
+   1183  7bc4		       b3 e5		      lax	(BDF_BoardAddress2),y	; 5(= 18[-1])
+   1184  7bc6
+   1185  7bc6		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2
+   1186  7bc8		       85 3e		      sta	SET_BANK_RAM	; 3
+   1187  7bca		       bd d4 f2 	      lda	CharReplacement,x	; 4
+   1188  7bcd		       91 e1		      sta	(BDF_DrawFlagAddress2),y	; 6
+   1189  7bcf		       ba		      tsx		; 2
+   1190  7bd0		       bd d4 f2 	      lda	CharReplacement,x	; 4
+   1191  7bd3		       91 df		      sta	(BDF_DrawFlagAddress),y	; 6(= 27)
+   1192  7bd5
+   1193  7bd5		       88		      dey		; 2
+   1194  7bd6		       10 e5		      bpl	CopyRow2	; 2/3=49/50[-1]
+   1195  7bd8							; total: 5*49[-1]-1 = 244[-5]
+   1196  7bd8
+   1197  7bd8							; TJ: examples for multi RAM bank access.
+   1198  7bd8							;CopyRow2
+   1199  7bd8							;		  lax (BDF_BoardAddress),y	  ; 5
+   1200  7bd8							;		  txs				  ; 2
+   1201  7bd8							;		  lax (BDF_BoardAddress2),y	  ; 5(= 12)
+   1202  7bd8							;		  lda CharReplacement,x 	  ; 4
+   1203  7bd8							;		  sta (BDF_DrawFlagAddress2),y	  ; 6
+   1204  7bd8							;		  tsx				  ; 2
+   1205  7bd8							;		  lda CharReplacement,x 	  ; 4
+   1206  7bd8							;		  sta (BDF_DrawFlagAddress),y	  ; 6(= 22)
+   1207  7bd8							;		  dey				  ; 2
+   1208  7bd8							;		  bpl CopyRow2			  ; 2/3=38/39
+   1209  7bd8							;; total: 5*39 - 1 = 194
+   1210  7bd8							;
+   1211  7bd8							;CopyRow2
+   1212  7bd8							;		  lax (BDF_BoardAddress),y	  ; 5
+   1213  7bd8							;		  lda CharReplacement,x 	  ; 4
+   1214  7bd8							;		  sta (BDF_DrawFlagAddress),y	  ; 6(= 15)
+   1215  7bd8							;		  dey				  ; 2
+   1216  7bd8							;		  bpl CopyRow2			  ; 2/3=19/20
+   1217  7bd8							;; total: 10*20 - 1 = 199 (and much less setup code)
+   1218  7bd8
+   1219  7bd8		       a7 e8		      lax	DHS_Line	; 3
+   1220  7bda		       f0 07		      beq	.exitCopy	; 2/3= 5/6
+   1221  7bdc
+   1222  7bdc		       a0 08		      ldy	#BANK_DrawScreenRowPreparation	;2
+   1223  7bde		       84 3f		      sty	SET_BANK	; 3
+   1224  7be0		       4c 25 f6 	      jmp	DrawScreenRowPreparation	;55[-7] = 60[-7]
+   1225  7be3
+   1226  7be3							; total: (244[-5]+5)*8 + 60[-7]*7 + 1 + 11 = 2424[-89]
+   1227  7be3
+   1228  7be3
+      0  7be3					      CHECKPAGE	CopyRow2
+      8  7be3					      LIST	ON
+   1230  7be3
+   1231  7be3		       a6 e9	   .exitCopy  ldx	DHS_Stack	; 3
+   1232  7be5		       9a		      txs		; 2
+   1233  7be6
+   1234  7be6		       4c af fb 	      jmp	BuildDrawStack
+   1235  7be9
+   1236  7be9		       60	   SwitchPhaseR rts		; 6 = 11
+   1237  7bea
+   1238  7bea							;---------------------------------------------------------------------------
+   1239  7bea
+   1240  7bea				   Reset
+   1241  7bea							; TJ: used by:
+   1242  7bea							; - BANK_FIXED.asm
+   1243  7bea
+   1244  7bea				  -	      IF	SHOW_COPYRIGHT = NO
+   1245  7bea				  -	      CLEAN_START
+   1246  7bea					      ELSE
+   1247  7bea		       a9 01		      lda	#BANK_DrawCopyright	; 2
+   1248  7bec		       85 3f		      sta	SET_BANK	; 3
+   1249  7bee		       4c d0 f3 	      jmp	DrawCopyright	; 3+x
+   1250  7bf1				   ExitCopyRight
+   1251  7bf1					      ENDIF
+   1252  7bf1
+   1253  7bf1
+   1254  7bf1
+   1255  7bf1
+   1256  7bf1							; Scoring bank is copied once (not per game, not per level...)
+   1257  7bf1							; otherwise non-SaveKey high score gets zapped
+   1258  7bf1
+   1259  7bf1		       a2 06		      ldx	#ROM_SHADOW_OF_BANK_SCORING
+   1260  7bf3		       a0 09		      ldy	#BANK_SCORING
+   1261  7bf5		       20 74 fe 	      jsr	CopyROM2RAM_F000
+   1262  7bf8
+   1263  7bf8				   Restart		; go here on RESET + SELECT
+   1264  7bf8							; TJ: used by:
+   1265  7bf8							; - BANK_INITBANK.asm
+   1266  7bf8
+   1267  7bf8
+   1268  7bf8				   Title
+   1269  7bf8		       a2 ff		      ldx	#$ff	; adjust stack pointer after RESET + SELECT
+   1270  7bfa		       9a		      txs
+   1271  7bfb
+   1272  7bfb		       a9 02		      lda	#BANK_TitleScreen	; 2
+   1273  7bfd		       85 3f		      sta	SET_BANK	; 3
+   1274  7bff		       4c af f1 	      jmp	TitleScreen	; 3+x
+   1275  7c02				   ExitTitleScreen
+   1276  7c02							; temporary vars from title screen are used to init level/cave
+   1277  7c02		       a9 07		      lda	#BANK_Cart_Init	; 2
+   1278  7c04		       85 3f		      sta	SET_BANK	; 3
+   1279  7c06		       20 fc f3 	      jsr	Cart_Init	; 6+x
+   1280  7c09
+   1281  7c09
+   1282  7c09							;---------------------------------------------------------------------------
+   1283  7c09
+   1284  7c09
+   1285  7c09		       f0 00	   SEGMENT_DECODE_CAVE_SHADOW =	$F000	; if not = $F000, this will cause an assertion failure
+   1286  7c09
+   1287  7c09		       a2 07		      ldx	#BANK_DECODE_CAVE_SHADOW
+   1288  7c0b		       a0 0a		      ldy	#BANK_DECODE_CAVE
+   1289  7c0d		       20 74 fe 	      jsr	CopyROM2RAM_F000
+   1290  7c10
+   1291  7c10
+   1292  7c10							;---------------------------------------------------------------------------
+   1293  7c10							; Once-only game initialisation goes here...
+   1294  7c10							; now we have two players so things get a bit tricky
+   1295  7c10
+   1296  7c10		       a9 09		      lda	#BANK_SCORING
+   1297  7c12		       85 3e		      sta	SET_BANK_RAM
+   1298  7c14		       20 b6 f3 	      jsr	GameInitialise
+   1299  7c17
+   1300  7c17
+   1301  7c17							;---------------------------------------------------------------------------
+   1302  7c17
+   1303  7c17				   RestartCaveNextPlayer
+   1304  7c17							; TJ: used by:
+   1305  7c17							; - BANK_FIXED.asm
+   1306  7c17
+   1307  7c17							; a player has lost a life.
+   1308  7c17							; store his vars, swap to other player, continue
+   1309  7c17
+   1310  7c17		       a9 09		      lda	#BANK_SCORING
+   1311  7c19		       85 3e		      sta	SET_BANK_RAM
+   1312  7c1b		       20 5c f2 	      jsr	SwapPlayers
+   1313  7c1e
+   1314  7c1e		       a9 07		      lda	#BANK_SwapPlayersGeneric
+   1315  7c20		       85 3f		      sta	SET_BANK
+   1316  7c22		       20 4f f4 	      jsr	SwapPlayersGeneric
+   1317  7c25
+   1318  7c25
+   1319  7c25		       a5 ab		      lda	MenCurrent
+   1320  7c27		       f0 cf		      beq	Title	; all lives lost! (works for both P1P2)
+   1321  7c29		       d0 04		      bne	skipDemoCheck
+   1322  7c2b
+   1323  7c2b				   NextCaveLevel
+   1324  7c2b		       24 ac		      bit	demoMode
+   1325  7c2d		       30 c9		      bmi	Title
+   1326  7c2f				   skipDemoCheck
+   1327  7c2f
+   1328  7c2f							; Initialise all in-game variables; those that must be re-initialised at the start of each level,
+   1329  7c2f							; including those for general systems function. But NOT those which do not need re-initialising between
+   1330  7c2f							; levels.
+   1331  7c2f		       a9 07		      lda	#BANK_LevelInit	; 2
+   1332  7c31		       85 3f		      sta	SET_BANK	; 3
+   1333  7c33		       20 cc f4 	      jsr	LevelInit	; 6+x
+   1334  7c36
+   1335  7c36		       a9 0a		      lda	#BANK_DECODE_CAVE
+   1336  7c38		       85 3e		      sta	SET_BANK_RAM
+   1337  7c3a		       20 c3 f0 	      jsr	DecodeCave
+   1338  7c3d
+   1339  7c3d							; Setup player animation and scroll limits.
+   1340  7c3d							; Initialise amoeba if present
+   1341  7c3d							; Mangle the board colours based on level
+   1342  7c3d
+   1343  7c3d		       a9 07		      lda	#BANK_CreateCreatures	; 2
+   1344  7c3f		       85 3f		      sta	SET_BANK	; 3
+   1345  7c41		       20 7f f4 	      jsr	CreateCreatures	; 6+x
+   1346  7c44
+   1347  7c44
+   1348  7c44							; Setup the various digit and display pointers
+   1349  7c44							; Grab current player's score/cave/level from backup
+   1350  7c44
+   1351  7c44		       20 68 fe 	      jsr	goGeneralScoringSetups
+   1352  7c47
+   1353  7c47							; copy the screen draw ROM shadow to RAM
+   1354  7c47
+   1355  7c47		       a0 07		      ldy	#SCREEN_LINES-1
+   1356  7c49				   CopyScreenBanks
+   1357  7c49
+   1358  7c49		       a2 04		      ldx	#ROM_SHADOW_OF_RAMBANK_CODE
+   1359  7c4b		       20 74 fe 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
+   1360  7c4e
+   1361  7c4e							;		  lda #BANK_SetPlatformColours	     ; same bank!
+   1362  7c4e							;		  sta SET_BANK
+   1363  7c4e		       20 77 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
+   1364  7c51
+   1365  7c51		       88		      dey
+   1366  7c52		       10 f5		      bpl	CopyScreenBanks
+   1367  7c54
+   1368  7c54							;---------------------------------------------------------------------------
+   1369  7c54
+   1370  7c54							;		  lda #BANK_CopyROMShadowToRAM	     ; same bank!
+   1371  7c54							;		  ;sta ROM_Bank 				   ; <-- pretty sure this one can go.
+   1372  7c54							;		  sta SET_BANK
+   1373  7c54
+   1374  7c54		       a2 05		      ldx	#ROM_SHADOW_OF_BANK_DRAW_BUFFERS
+   1375  7c56		       a0 08		      ldy	#BANK_DRAW_BUFFERS
+   1376  7c58		       20 43 f0 	      jsr	CopyROMShadowToRAM_F000
+   1377  7c5b
+   1378  7c5b							;---------------------------------------------------------------------------
+   1379  7c5b
+   1380  7c5b		       a9 07		      lda	#BANK_Resync	; 2
+   1381  7c5d		       85 3f		      sta	SET_BANK	; 3
+   1382  7c5f		       20 05 f5 	      jsr	Resync	; 6+x
+   1383  7c62
+   1384  7c62				   NewFrameBD
+   1385  7c62							; the (at least) 220 cycles wasted in the above... bugs me!
+   1386  7c62							; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
+   1387  7c62							; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
+   1388  7c62
+   1389  7c62		       24 c9		      bit	NextLevelTrigger
+   1390  7c64		       10 c5		      bpl	NextCaveLevel	; game-triggered next level
+   1391  7c66		       70 af		      bvs	RestartCaveNextPlayer	; loss of life
+   1392  7c68
+   1393  7c68							; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
+   1394  7c68		       a9 0e		      lda	#%1110	; VSYNC ON
+   1395  7c6a				   .loopVSync
+   1396  7c6a							;		  ldx #BANK_PlaySounds
+   1397  7c6a							;		  stx SET_BANK
+   1398  7c6a
+   1399  7c6a							;		  ldx Platform
+   1400  7c6a							;		  ldy VBlankTime,x
+   1401  7c6a
+   1402  7c6a		       85 42		      sta	WSYNC
+   1403  7c6c		       85 40		      sta	VSYNC
+   1404  7c6e
+   1405  7c6e							;		  sty TIM64T			  ; better set timer after (last) WSYNC
+   1406  7c6e
+   1407  7c6e							; Ignorant comment removed. (TJ: and you were wrong anyway. :)
+   1408  7c6e
+   1409  7c6e		       4a		      lsr
+   1410  7c6f		       d0 f9		      bne	.loopVSync	; branch until VYSNC has been reset
+   1411  7c71
+   1412  7c71							; moved *after* the loop since this allows to *increase* timer values by 1!
+   1413  7c71		       a6 81		      ldx	Platform
+   1414  7c73		       bc d3 fc 	      ldy	VBlankTime,x
+   1415  7c76		       8c 96 02 	      sty	TIM64T
+   1416  7c79
+   1417  7c79		       a2 00		      ldx	#BANK_PlaySounds
+   1418  7c7b		       86 3f		      stx	SET_BANK
+   1419  7c7d
+   1420  7c7d							;---------------------------------------------------------------------------
+   1421  7c7d							; Do not separate code, as bank assumption is made
+   1422  7c7d
+   1423  7c7d		       20 2a f3 	      jsr	PlaySounds	; 6+x	 Jentzsch sound system
+   1424  7c80
+   1425  7c80		       20 5d fb 	      jsr	StealCharDraw	; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
+   1426  7c83					      IF	SORT_OBJECTS = YES
+   1427  7c83		       20 13 fe 	      jsr	SortObjects2	; 6+15 mininum. Opportunistic sorting
+   1428  7c86					      ENDIF
+   1429  7c86
+   1430  7c86							;---------------------------------------------------------------------------
+   1431  7c86							; START OF DISPLAY
+   1432  7c86
+   1433  7c86		       a9 09		      lda	#BANK_SCORING	; 2
+   1434  7c88		       85 3e		      sta	SET_BANK_RAM	; 3
+   1435  7c8a		       20 d3 f1 	      jsr	DrawDigits	; 6 = 11
+   1436  7c8d
+   1437  7c8d							;---------------------------------------------------------------------------
+   1438  7c8d							; A 42-cycle timing window in the screen draw code.  Perform any general
+   1439  7c8d							; per-frame code here, provided it takes exactly 42 cycles to execute.
+   1440  7c8d							; TJ: Well, not exactly 42 cycles, but it works! :)
+   1441  7c8d							;	 @09
+   1442  7c8d		       85 49		      sta	COLUBK	; 3	 value comes from subroutine
+   1443  7c8f							; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
+   1444  7c8f
+   1445  7c8f
+   1446  7c8f							;		  inc Throttle		      ; 5     speed limiter
+      0  7c8f					      SLEEP	5	;	 TODO: optimize for space
+      1  7c8f				   .CYCLES    SET	5
+      2  7c8f
+      3  7c8f				  -	      IF	.CYCLES < 2
+      4  7c8f				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  7c8f				  -	      ERR
+      6  7c8f					      ENDIF
+      7  7c8f
+      8  7c8f					      IF	.CYCLES & 1
+      9  7c8f					      IFNCONST	NO_ILLEGAL_OPCODES
+     10  7c8f		       04 00		      nop	0
+     11  7c91				  -	      ELSE
+     12  7c91				  -	      bit	VSYNC
+     13  7c91					      ENDIF
+     14  7c91				   .CYCLES    SET	.CYCLES - 3
+     15  7c91					      ENDIF
+     16  7c91
+     17  7c91					      REPEAT	.CYCLES / 2
+     18  7c91		       ea		      nop
+     19  7c92					      REPEND
+   1448  7c92
+   1449  7c92		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
+   1450  7c94		       ca		      dex		; 2	 = $6f, stars effect!
+   1451  7c95		       86 62		      stx	HMM0	; 3	 @24, exactly 21 cycles after the HMOVE
+   1452  7c97
+   1453  7c97		       85 44		      sta	NUSIZ0	; 3
+   1454  7c99		       84 65		      sty	VDELP0	; 3	 y = 0!
+   1455  7c9b
+   1456  7c9b		       c8		      iny		; 2	 this relies on Y == 0 before...
+   1457  7c9c		       c4 c6		      cpy	extraLifeTimer	; 3	 ..,and bit 0 is set in A
+   1458  7c9e		       69 02		      adc	#2	; 2
+   1459  7ca0		       85 5d		      sta	ENAM0	; 3	 dis/enable Cosmic Ark star effect
+   1460  7ca2
+   1461  7ca2		       a5 a8		      lda	ManLastDirection	; 3
+   1462  7ca4		       85 4b		      sta	REFP0	; 3
+   1463  7ca6
+   1464  7ca6		       a9 00		      lda	#BANK_SCREENMARKII1	; 2
+   1465  7ca8		       85 3e		      sta	SET_BANK_RAM	; 3
+   1466  7caa		       20 00 f0 	      jsr	DrawTheScreen	; 6	 @57 from RAM, no less!!
+   1467  7cad							;	 @66
+   1468  7cad		       a9 07		      lda	#BANK_PostScreenCleanup	; 2
+   1469  7caf		       85 3f		      sta	SET_BANK	; 3
+   1470  7cb1		       20 fa f5 	      jsr	PostScreenCleanup	; 6+x
+   1471  7cb4
+   1472  7cb4		       a9 04		      lda	#BANK_SelfModDrawPlayers	; 2
+   1473  7cb6		       85 3f		      sta	SET_BANK	; 3
+   1474  7cb8		       20 fb f2 	      jsr	SelfModDrawPlayers	; 6+x
+   1475  7cbb
+   1476  7cbb		       24 cc		      bit	amoebaFlag	; AMOEBA_PRESENT?
+   1477  7cbd		       50 07		      bvc	noscanning	; NO amoeba on this level so skip scan
+   1478  7cbf
+   1479  7cbf		       a9 08		      lda	#BANK_ProcessAmoeba	; 2
+   1480  7cc1		       85 3f		      sta	SET_BANK	; 3
+   1481  7cc3		       20 70 f1 	      jsr	ProcessAmoeba	; 6+x
+   1482  7cc6				   noscanning
+   1483  7cc6
+   1484  7cc6		       20 5d fb 	      jsr	StealCharDraw
+   1485  7cc9					      IF	SORT_OBJECTS = YES
+   1486  7cc9		       20 13 fe 	      jsr	SortObjects2	;6+15 minimum	Opportunistic sorting
+   1487  7ccc					      ENDIF
+   1488  7ccc
+   1489  7ccc		       ad 84 02    OverscanBD lda	INTIM	;4
+   1490  7ccf		       d0 fb		      bne	OverscanBD	;2/3
+   1491  7cd1		       f0 8f		      beq	NewFrameBD	;3	 unconditional
+   1492  7cd3
+   1493  7cd3				   VBlankTime
+   1494  7cd3							; TJ: used by:
+   1495  7cd3							; - BANK_FIXED.asm
+   1496  7cd3		       3e 3e		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
+   1497  7cd5		       55 3e		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_NTSC
+   1498  7cd7
+   1499  7cd7							;---------------------------------------------------------------------------
+   1500  7cd7
+   1501  7cd7				   CharacterDataVecLO
+   1502  7cd7							; TJ: used by:
+   1503  7cd7							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+   1504  7cd7
+   1505  7cd7							; Two entries per character.  2nd is ptr to mirrored character
+   1506  7cd7							; Characters don't have to be mirrored, obviously -- use the same pointer for both!
+   1507  7cd7
+   1508  7cd7		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
+   1509  7cd8		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
+   1510  7cd9		       25		      .byte.b	<CHARACTERSHAPE_SOIL
+   1511  7cda		       25		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
+   1512  7cdb		       7d		      .byte.b	<CHARACTERSHAPE_BOULDER
+   1513  7cdc		       92		      .byte.b	<CHARACTERSHAPE_BOULDER_MIRRORED
+   1514  7cdd		       00		      .byte.b	<CHARACTERSHAPE_AMOEBA
+   1515  7cde		       15		      .byte.b	<CHARACTERSHAPE_AMOEBA_MIRRORED
+   1516  7cdf		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND
+   1517  7ce0		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED
+   1518  7ce1		       e5		      .byte.b	<CHARACTERSHAPE_DIAMOND2
+   1519  7ce2		       d0		      .byte.b	<CHARACTERSHAPE_DIAMOND2_MIRRORED
+   1520  7ce3		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
+   1521  7ce4		       3a		      .byte.b	<CHARACTERSHAPE_BLANK
+   1522  7ce5		       a7		      .byte.b	<CHARACTERSHAPE_FLUTTERBY
+   1523  7ce6		       a7		      .byte.b	<CHARACTERSHAPE_FLUTTERBY
+   1524  7ce7		       bc		      .byte.b	<CHARACTERSHAPE_FLUTTERBY2
+   1525  7ce8		       bc		      .byte.b	<CHARACTERSHAPE_FLUTTERBY2
+   1526  7ce9		       7e		      .byte.b	<CHARACTERSHAPE_FIREFLY
+   1527  7cea		       7e		      .byte.b	<CHARACTERSHAPE_FIREFLY
+   1528  7ceb		       93		      .byte.b	<CHARACTERSHAPE_FIREFLY2
+   1529  7cec		       93		      .byte.b	<CHARACTERSHAPE_FIREFLY2
+   1530  7ced		       54		      .byte.b	<CHARACTERSHAPE_WALL0
+   1531  7cee		       69		      .byte.b	<CHARACTERSHAPE_WALL0_MIRRORED
+   1532  7cef		       e2		      .byte.b	<CHARACTERSHAPE_WALL1
+   1533  7cf0		       e2		      .byte.b	<CHARACTERSHAPE_WALL1
+   1534  7cf1		       54		      .byte.b	<CHARACTERSHAPE_WALL0
+   1535  7cf2		       54		      .byte.b	<CHARACTERSHAPE_WALL0
+   1536  7cf3		       cd		      .byte.b	<CHARACTERSHAPE_WALL2
+   1537  7cf4		       cd		      .byte.b	<CHARACTERSHAPE_WALL2
+   1538  7cf5		       d1		      .byte.b	<CHARACTERSHAPE_STEEL
+   1539  7cf6		       e6		      .byte.b	<CHARACTERSHAPE_STEEL_MIRRORED
+   1540  7cf7		       54		      .byte.b	<CHARACTERSHAPE_WALL
+   1541  7cf8		       69		      .byte.b	<CHARACTERSHAPE_WALL_MIRRORED
+   1542  7cf9		       d1		      .byte.b	<CHARACTERSHAPE_EXITDOOR
+   1543  7cfa		       e6		      .byte.b	<CHARACTERSHAPE_EXITDOOR_MIRRORED
+   1544  7cfb		       3a		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
+   1545  7cfc		       3a		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
+   1546  7cfd
+   1547  7cfd		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION
+   1548  7cfe		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION_MIRRORED
+   1549  7cff		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1
+   1550  7d00		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1_MIRRORED
+   1551  7d01		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2
+   1552  7d02		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2_MIRRORED
+   1553  7d03		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3
+   1554  7d04		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3_MIRRORED
+   1555  7d05
+   1556  7d05		       2a		      .byte.b	<CHARACTERSHAPE_AMOEBA2
+   1557  7d06		       3f		      .byte.b	<CHARACTERSHAPE_AMOEBA2_MIRRORED
+   1558  7d07
+   1559  7d07		       7d		      .byte.b	<CHARACTERSHAPE_BOULDER	; falling boulder
+   1560  7d08		       92		      .byte.b	<CHARACTERSHAPE_BOULDER_MIRRORED	; falling boulder
+   1561  7d09		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND	; falling diamond
+   1562  7d0a		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
+   1563  7d0b
+   1564  7d0b		       3a		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
+   1565  7d0c		       3a		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
+   1566  7d0d
+   1567  7d0d				  -	      IF	* - CharacterDataVecLO < CHARACTER_MAXIMUM*2
+   1568  7d0d				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecLO table!"
+   1569  7d0d				  -	      EXIT
+   1570  7d0d					      ENDIF
+   1571  7d0d
+   1572  7d0d							;---------------------------------------------------------------------------
+   1573  7d0d
+   1574  7d0d				   CharacterDataVecHI
+   1575  7d0d							; TJ: used by:
+   1576  7d0d							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+   1577  7d0d
+   1578  7d0d		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
+   1579  7d0e		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
+   1580  7d0f		       f3		      .byte.b	>CHARACTERSHAPE_SOIL
+   1581  7d10		       f3		      .byte.b	>CHARACTERSHAPE_SOIL_MIRRORED
+   1582  7d11		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER
+   1583  7d12		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER_MIRRORED
+   1584  7d13		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA
+   1585  7d14		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA_MIRRORED
+   1586  7d15		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND
+   1587  7d16		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED
+   1588  7d17		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2
+   1589  7d18		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2_MIRRORED
+   1590  7d19		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
+   1591  7d1a		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
+   1592  7d1b		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY
+   1593  7d1c		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY
+   1594  7d1d		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY2
+   1595  7d1e		       fe		      .byte.b	>CHARACTERSHAPE_FLUTTERBY2
+   1596  7d1f		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY
+   1597  7d20		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY
+   1598  7d21		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY2
+   1599  7d22		       f8		      .byte.b	>CHARACTERSHAPE_FIREFLY2
+   1600  7d23		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
+   1601  7d24		       f8		      .byte.b	>CHARACTERSHAPE_WALL0_MIRRORED
+   1602  7d25		       f3		      .byte.b	>CHARACTERSHAPE_WALL1
+   1603  7d26		       f3		      .byte.b	>CHARACTERSHAPE_WALL1
+   1604  7d27		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
+   1605  7d28		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
+   1606  7d29		       f3		      .byte.b	>CHARACTERSHAPE_WALL2
+   1607  7d2a		       f3		      .byte.b	>CHARACTERSHAPE_WALL2
+   1608  7d2b		       fe		      .byte.b	>CHARACTERSHAPE_STEEL
+   1609  7d2c		       fe		      .byte.b	>CHARACTERSHAPE_STEEL_MIRRORED
+   1610  7d2d		       f8		      .byte.b	>CHARACTERSHAPE_WALL
+   1611  7d2e		       f8		      .byte.b	>CHARACTERSHAPE_WALL_MIRRORED
+   1612  7d2f		       fe		      .byte.b	>CHARACTERSHAPE_EXITDOOR
+   1613  7d30		       fe		      .byte.b	>CHARACTERSHAPE_EXITDOOR_MIRRORED
+   1614  7d31		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
+   1615  7d32		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
+   1616  7d33
+   1617  7d33		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION
+   1618  7d34		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION_MIRRORED
+   1619  7d35		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1
+   1620  7d36		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1_MIRRORED
+   1621  7d37		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2
+   1622  7d38		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2_MIRRORED
+   1623  7d39		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3
+   1624  7d3a		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3_MIRRORED
+   1625  7d3b
+   1626  7d3b		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA2
+   1627  7d3c		       f8		      .byte.b	>CHARACTERSHAPE_AMOEBA2_MIRRORED
+   1628  7d3d
+   1629  7d3d		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER	; falling boulder
+   1630  7d3e		       fe		      .byte.b	>CHARACTERSHAPE_BOULDER_MIRRORED	; falling boulder
+   1631  7d3f		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND	; falling diamond
+   1632  7d40		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
+   1633  7d41
+   1634  7d41		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
+   1635  7d42		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
+   1636  7d43
+   1637  7d43				  -	      IF	* - CharacterDataVecHI < CHARACTER_MAXIMUM*2
+   1638  7d43				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecHI table!"
+   1639  7d43				  -	      EXIT
+   1640  7d43					      ENDIF
+   1641  7d43
+   1642  7d43							;---------------------------------------------------------------------------
+   1643  7d43
+   1644  7d43				   GenericCharFlag
+   1645  7d43							; TJ: used by:
+   1646  7d43							; - BANK_FIXED.asm
+   1647  7d43							; - BANK_INITBANK.asm
+   1648  7d43							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+   1649  7d43
+   1650  7d43							; Tells us information about a particular character.  Multiple bits define characteristics
+   1651  7d43							; of how the character behaves during gameplay.
+   1652  7d43
+   1653  7d43		       0a		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE	; blank
+   1654  7d44		       08		      .byte.b	GENERIC_MASK_EXPLODABLE	; soil
+   1655  7d45		       89		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE	; boulder
+   1656  7d46		       18		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_KILLSBUTTERFLY	; Amoeba
+   1657  7d47		       89		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE	; diamond
+   1658  7d48		       89		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE	; diamond2
+   1659  7d49		       1a		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE|GENERIC_MASK_KILLSBUTTERFLY	; man
+   1660  7d4a
+   1661  7d4a							; Note: Butterflies and fireflies are not explodable, to prevent chain-reactions
+   1662  7d4a
+   1663  7d4a		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; butterfly
+   1664  7d4b		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; butterfly
+   1665  7d4c		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; firefly
+   1666  7d4d		       02		      .byte.b	GENERIC_MASK_SQUASHABLE	; firefly
+   1667  7d4e		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
+   1668  7d4f		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
+   1669  7d50		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
+   1670  7d51		       22		      .byte.b	GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL	; magic wall
+   1671  7d52		       00		      .byte.b	0	; steel wall
+   1672  7d53		       09		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED	; plain brick wall
+   1673  7d54		       00		      .byte.b	0	; exit
+   1674  7d55		       00		      .byte.b	0	; exit
+   1675  7d56		       00		      .byte.b	0	; explosion
+   1676  7d57		       00		      .byte.b	0	; explosion 1
+   1677  7d58		       00		      .byte.b	0	; explosion 2
+   1678  7d59		       00		      .byte.b	0	; explosion 3
+   1679  7d5a		       18		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_KILLSBUTTERFLY	; amoeba2
+   1680  7d5b
+   1681  7d5b		       09		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED	; falling boulder
+   1682  7d5c		       09		      .byte.b	GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED	; falling diamond
+   1683  7d5d
+   1684  7d5d		       00		      .byte.b	0	; unkillable man
+   1685  7d5e
+   1686  7d5e				  -	      IF	* - GenericCharFlag < CHARACTER_MAXIMUM
+   1687  7d5e				  -	      ECHO	"ERROR: Missing entry in GenericCharFlag table!"
+   1688  7d5e				  -	      EXIT
+   1689  7d5e					      ENDIF
+   1690  7d5e
+   1691  7d5e							;---------------------------------------------------------------------------
+   1692  7d5e
+   1693  7d5e				   BaseTypeCharacter
+   1694  7d5e							; TJ: used by:
+   1695  7d5e							; - BANK_FIXED.asm
+   1696  7d5e
+   1697  7d5e							; Given an object type, gives a base character to use for that type
+   1698  7d5e							; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
+   1699  7d5e
+   1700  7d5e		       06		      .byte.b	CHARACTER_MANOCCUPIED
+   1701  7d5f		       02		      .byte.b	CHARACTER_BOX
+   1702  7d60		       03		      .byte.b	CHARACTER_AMOEBA
+   1703  7d61		       07		      .byte.b	CHARACTER_FLUTTERBY
+   1704  7d62		       09		      .byte.b	CHARACTER_FIREFLY
+   1705  7d63		       04		      .byte.b	CHARACTER_DIAMOND
+   1706  7d64		       0b		      .byte.b	CHARACTER_WALL0
+   1707  7d65		       11		      .byte.b	CHARACTER_EXITDOOR	; exit door
+   1708  7d66		       00		      .byte.b	CHARACTER_BLANK	; select
+   1709  7d67		       13		      .byte.b	CHARACTER_EXPLOSION
+   1710  7d68		       14		      .byte.b	CHARACTER_EXPLOSION1
+   1711  7d69		       15		      .byte.b	CHARACTER_EXPLOSION2
+   1712  7d6a		       16		      .byte.b	CHARACTER_EXPLOSION3
+   1713  7d6b		       00		      .byte.b	CHARACTER_BLANK
+   1714  7d6c		       01		      .byte.b	CHARACTER_SOIL
+   1715  7d6d		       0f		      .byte.b	CHARACTER_STEEL
+   1716  7d6e		       10		      .byte.b	CHARACTER_WALL
+   1717  7d6f
+   1718  7d6f							;--> if adding types, also see InitialFace in DecodeCave.asm
+   1719  7d6f
+   1720  7d6f				  -	      IF	* - BaseTypeCharacter < TYPE_MAXIMUM
+   1721  7d6f				  -	      ECHO	"ERROR: Missing entry in BaseTypeCharacter table!"
+   1722  7d6f				  -	      EXIT
+   1723  7d6f					      ENDIF
+   1724  7d6f
+   1725  7d6f							;---------------------------------------------------------------------------
+   1726  7d6f
+   1727  7d6f				   BaseTypeCharacterFalling
+   1728  7d6f							; TJ: used by:
+   1729  7d6f							; - BANK_FIXED.asm
+   1730  7d6f
+   1731  7d6f							; Given an object type, gives a base character to use for that type
+   1732  7d6f							; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
+   1733  7d6f
+   1734  7d6f		       06		      .byte.b	CHARACTER_MANOCCUPIED
+   1735  7d70		       18		      .byte.b	CHARACTER_BOX_FALLING
+   1736  7d71		       03		      .byte.b	CHARACTER_AMOEBA
+   1737  7d72		       07		      .byte.b	CHARACTER_FLUTTERBY
+   1738  7d73		       09		      .byte.b	CHARACTER_FIREFLY
+   1739  7d74		       19		      .byte.b	CHARACTER_DIAMOND_FALLING
+   1740  7d75		       0b		      .byte.b	CHARACTER_WALL0
+   1741  7d76		       11		      .byte.b	CHARACTER_EXITDOOR	; exit door
+   1742  7d77		       00		      .byte.b	CHARACTER_BLANK	; select
+   1743  7d78		       13		      .byte.b	CHARACTER_EXPLOSION
+   1744  7d79		       14		      .byte.b	CHARACTER_EXPLOSION1
+   1745  7d7a		       15		      .byte.b	CHARACTER_EXPLOSION2
+   1746  7d7b		       16		      .byte.b	CHARACTER_EXPLOSION3
+   1747  7d7c		       00		      .byte.b	CHARACTER_BLANK
+   1748  7d7d		       01		      .byte.b	CHARACTER_SOIL
+   1749  7d7e		       0f		      .byte.b	CHARACTER_STEEL
+   1750  7d7f		       10		      .byte.b	CHARACTER_WALL
+   1751  7d80
+   1752  7d80							;--> if adding types, also see InitialFace in DecodeCave.asm
+   1753  7d80
+   1754  7d80				  -	      IF	* - BaseTypeCharacterFalling < TYPE_MAXIMUM
+   1755  7d80				  -	      ECHO	"ERROR: Missing entry in BaseTypeCharacterFalling table!"
+   1756  7d80				  -	      EXIT
+   1757  7d80					      ENDIF
+   1758  7d80
+   1759  7d80							;---------------------------------------------------------------------------
+   1760  7d80
+      0  7d80					      DEFINE_SUBROUTINE	CharToType	; in FIXED_BANK
+      1  7d80		       00 0f	   BANK_CharToType =	_CURRENT_BANK
+      2  7d80					      SUBROUTINE
+      3  7d80				   CharToType
+   1762  7d80							; TJ: used by:
+   1763  7d80							; - BANK_FIXED.asm
+   1764  7d80							; - BANK_INITBANK.asm
+   1765  7d80
+   1766  7d80							; Converts a character # to a creature type
+   1767  7d80							; add 128 if character is NOT to be added as a creature on board draw
+   1768  7d80
+   1769  7d80		       0d		      .byte.b	TYPE_BLANK	;  0	 blank
+   1770  7d81		       0e		      .byte.b	TYPE_SOIL	;  1	 soil
+   1771  7d82		       01		      .byte.b	TYPE_BOULDER	;  2
+   1772  7d83		       02		      .byte.b	TYPE_AMOEBA	;  3
+   1773  7d84		       05		      .byte.b	TYPE_DIAMOND	;  4
+   1774  7d85		       05		      .byte.b	TYPE_DIAMOND	;  5
+   1775  7d86		       00		      .byte.b	TYPE_MAN	;  6
+   1776  7d87		       03		      .byte.b	TYPE_FLUTTERBY	;  7
+   1777  7d88		       03		      .byte.b	TYPE_FLUTTERBY	;  8
+   1778  7d89		       04		      .byte.b	TYPE_FIREFLY	;  9
+   1779  7d8a		       04		      .byte.b	TYPE_FIREFLY	; 0a
+   1780  7d8b		       06		      .byte.b	TYPE_MAGICWALL	; 0b
+   1781  7d8c		       06		      .byte.b	TYPE_MAGICWALL	; 0c
+   1782  7d8d		       06		      .byte.b	TYPE_MAGICWALL	; 0d
+   1783  7d8e		       06		      .byte.b	TYPE_MAGICWALL	; 0e
+   1784  7d8f		       0f		      .byte.b	TYPE_STEELWALL	; 0f	  ; steel wall
+   1785  7d90		       10		      .byte.b	TYPE_BRICKWALL	; 10	  ; plain brick wall
+   1786  7d91		       07		      .byte.b	TYPE_EXITDOOR	; 11
+   1787  7d92		       07		      .byte.b	TYPE_EXITDOOR	; 12
+   1788  7d93		       09		      .byte.b	TYPE_EXPLOSION	; 13
+   1789  7d94		       0a		      .byte.b	TYPE_EXPLOSION1	; 14
+   1790  7d95		       0b		      .byte.b	TYPE_EXPLOSION2	; 15
+   1791  7d96		       0c		      .byte.b	TYPE_EXPLOSION3	; 16
+   1792  7d97		       02		      .byte.b	TYPE_AMOEBA	; 17
+   1793  7d98
+   1794  7d98		       01		      .byte.b	TYPE_BOULDER	; falling boulder
+   1795  7d99		       05		      .byte.b	TYPE_DIAMOND	; falling diamond
+   1796  7d9a
+   1797  7d9a		       0d		      .byte.b	TYPE_BLANK	; 20 unkillable man
+   1798  7d9b							; --> see also MoveVec
+   1799  7d9b							; --> see also DecodeCave's table
+   1800  7d9b
+   1801  7d9b				  -	      IF	* - CharToType < CHARACTER_MAXIMUM
+   1802  7d9b				  -	      ECHO	"ERROR: Missing entry in CharToType table!"
+   1803  7d9b				  -	      EXIT
+   1804  7d9b					      ENDIF
+   1805  7d9b
+   1806  7d9b							;---------------------------------------------------------------------------
+   1807  7d9b
+      0  7d9b					      DEFINE_SUBROUTINE	AnimateCharReplacements2	;139
+      1  7d9b		       00 0f	   BANK_AnimateCharReplacements2 =	_CURRENT_BANK
+      2  7d9b					      SUBROUTINE
+      3  7d9b				   AnimateCharReplacements2
+   1809  7d9b							; TJ: used by:
+   1810  7d9b							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+   1811  7d9b
+   1812  7d9b							; This manages character animation on a per-object basis.  Morph/animate these
+   1813  7d9b							; characters individually or as required.  Change will affect all characters
+   1814  7d9b							; of the same type in the visible display.
+   1815  7d9b
+   1816  7d9b		       ad db f2 	      lda	ANIM_BUTTERFLY0	;4
+   1817  7d9e		       49 0f		      eor	#CHARACTER_FLUTTERBY^CHARACTER_FLUTTERBY2	;2
+   1818  7da0		       8d db f6 	      sta	ANIM_BUTTERFLY0 + RAM_WRITE	;4
+   1819  7da3		       8d dc f6 	      sta	ANIM_BUTTERFLY1 + RAM_WRITE	;4 = 14	 butterfly
+   1820  7da6
+   1821  7da6		       ad dd f2 	      lda	ANIM_FIREFLY0	;4
+   1822  7da9		       49 03		      eor	#CHARACTER_FIREFLY^CHARACTER_FIREFLY2	;2
+   1823  7dab		       8d dd f6 	      sta	ANIM_FIREFLY0 + RAM_WRITE	;4
+   1824  7dae		       8d de f6 	      sta	ANIM_FIREFLY1 + RAM_WRITE	;4 = 14	 firefly
+   1825  7db1
+   1826  7db1							; handle the mandatory animating things
+   1827  7db1
+   1828  7db1							; -------------------------------------------
+   1829  7db1							; The door will animate when it is 'open'. It's open when the required number of diamonds have been
+   1830  7db1							; collected. This in turn triggers the "extra diamonds" flag for scoring, so that is used to determine
+   1831  7db1							; when the door should flash.
+   1832  7db1
+   1833  7db1		       24 c8		      bit	scoringFlags	;3
+   1834  7db3		       10 08		      bpl	NoDoor	;2/3		 extra diamonds (D7) set when door animates
+   1835  7db5
+   1836  7db5		       ad e5 f2 	      lda	ANIM_EXITDOOR	;4
+   1837  7db8		       49 03		      eor	#CHARACTER_EXITDOOR2^CHARACTER_EXITDOOR	;2
+   1838  7dba		       8d e5 f6 	      sta	ANIM_EXITDOOR + RAM_WRITE	;4 = 22	 exit door
+   1839  7dbd				   NoDoor
+   1840  7dbd
+   1841  7dbd							; -------------------------------------------
+   1842  7dbd
+   1843  7dbd							; handle the non-mandatory animating things
+   1844  7dbd
+   1845  7dbd		       a5 ae		      lda	timer	;3
+   1846  7dbf		       29 03		      and	#%11	;2
+   1847  7dc1		       d0 14		      bne	nothingAnimates	;2/3
+   1848  7dc3
+   1849  7dc3		       a5 9c		      lda	scrollBits	;3
+   1850  7dc5		       d0 10		      bne	nothingAnimates	;2/3		 DON'T animate if we scrolled
+   1851  7dc7
+   1852  7dc7		       ad d8 f2 	      lda	ANIM_DIAMOND	;4
+   1853  7dca		       49 01		      eor	#CHARACTER_DIAMOND^CHARACTER_DIAMOND2	;2
+   1854  7dcc		       8d d8 f6 	      sta	ANIM_DIAMOND + RAM_WRITE	;4 = 15	 diamond
+   1855  7dcf
+   1856  7dcf							;lda timer					  ;3
+   1857  7dcf							;and #%1 ;1 ;1 				      ;2
+   1858  7dcf							;bne nothingAnimates				  ;2/3
+   1859  7dcf
+   1860  7dcf
+   1861  7dcf		       ad d7 f2 	      lda	ANIM_AMOEBA	;4
+   1862  7dd2		       49 14		      eor	#CHARACTER_AMOEBA^CHARACTER_AMOEBA2	;2
+   1863  7dd4		       8d d7 f6 	      sta	ANIM_AMOEBA + RAM_WRITE	;4 = 17	 amoeba
+   1864  7dd7
+   1865  7dd7				   nothingAnimates
+   1866  7dd7
+   1867  7dd7							; Handle magic wall animation. If the Magic wall is active, only, then cycle the characters used
+   1868  7dd7							; for displaying the wall.
+   1869  7dd7
+   1870  7dd7		       a6 9d		      ldx	MagicAmoebaFlag	;3
+   1871  7dd9		       e8		      inx		;2		 $FF = dormant?
+   1872  7dda		       f0 21		      beq	noMagicWall	;2/3
+   1873  7ddc		       ca		      dex		;2		 $00 = set to dormant?
+   1874  7ddd		       d0 0e		      bne	animateWall	;2/3
+   1875  7ddf
+      0  7ddf					      STOP_SOUND	1, OFSS_MAGIC_WALL	;10
+      1  7ddf
+      2  7ddf		       a9 2c		      lda	#OFSS_MAGIC_WALL
+      3  7de1		       45 d6		      eor	soundIdxLst+1
+      4  7de3		       d0 04		      bne	.skipStop
+      5  7de5		       85 d6		      sta	soundIdxLst+1
+      6  7de7		       85 5a		      sta	AUDV0+1
+      7  7de9				   .skipStop
+   1877  7de9
+   1878  7de9		       a9 0b		      lda	#CHARACTER_WALL0	;2
+   1879  7deb		       d0 0d		      bne	forceToChar0	;2/3
+   1880  7ded
+   1881  7ded				   animateWall
+   1882  7ded
+   1883  7ded							; Because we don't have MIRRORED wall characters, so any regular pattern will look very odd when
+   1884  7ded							; displayed across the mirrored PF registers.	With a random pattern, it's totally obscured.
+   1885  7ded
+   1886  7ded		       45 87		      eor	rnd	;3
+   1887  7def		       69 01	   reGen      adc	#1	;2
+   1888  7df1		       29 03		      and	#3	;2
+   1889  7df3		       69 0b		      adc	#CHARACTER_WALL0	;2
+   1890  7df5		       cd df f2 	      cmp	ANIM_MAGICWALL	;3
+   1891  7df8		       f0 f5		      beq	reGen	;2/3		 (worst case 1 repeat = +11)
+   1892  7dfa		       8d df f6    forceToChar0 sta	ANIM_MAGICWALL + RAM_WRITE	;3 = 29
+   1893  7dfd
+   1894  7dfd				   noMagicWall
+   1895  7dfd		       4c 28 f2 	      jmp	retAnim	;3
+   1896  7e00
+   1897  7e00
+   1898  7e00							;---------------------------------------------------------------------------
+   1899  7e00
+      0  7e00					      DEFINE_SUBROUTINE	ScoreAdd
+      1  7e00		       00 0f	   BANK_ScoreAdd =	_CURRENT_BANK
+      2  7e00					      SUBROUTINE
+      3  7e00				   ScoreAdd
+   1901  7e00							; TJ: used by:
+   1902  7e00							; - BANK_INITBANK.asm
+   1903  7e00		       a2 09		      ldx	#BANK_SCORING
+   1904  7e02		       86 3e		      stx	SET_BANK_RAM
+   1905  7e04		       20 0f f2 	      jsr	UpdateScore
+   1906  7e07		       a5 c3	   rbret      lda	ROM_Bank
+   1907  7e09		       85 3f		      sta	SET_BANK
+   1908  7e0b		       60		      rts
+   1909  7e0c
+   1910  7e0c							;---------------------------------------------------------------------------
+   1911  7e0c
+      0  7e0c					      DEFINE_SUBROUTINE	nextLevelMan
+      1  7e0c		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
+      2  7e0c					      SUBROUTINE
+      3  7e0c				   nextLevelMan
+   1913  7e0c							; TJ: used by:
+   1914  7e0c							; - BANK_INITBANK.asm
+   1915  7e0c		       a9 03		      lda	#BANK_NextCave
+   1916  7e0e		       85 3f		      sta	SET_BANK
+   1917  7e10		       4c b3 f4 	      jmp	NextCave
+   1918  7e13
+   1919  7e13							;---------------------------------------------------------------------------
+   1920  7e13
+      0  7e13					      DEFINE_SUBROUTINE	SortObjects2	;=128(A), minimum 15 @ segtime exit
+      1  7e13		       00 0f	   BANK_SortObjects2 =	_CURRENT_BANK
+      2  7e13					      SUBROUTINE
+      3  7e13				   SortObjects2
+   1922  7e13							; TJ: used by:
+   1923  7e13							; - BANK_FIXED.asm
+   1924  7e13
+   1925  7e13		       ad 84 02 	      lda	INTIM	;4
+   1926  7e16		       c9 03		      cmp	#MINIMUM_SORT_TIME	;2
+   1927  7e18		       90 4d		      bcc	.sortExit	;2(3)=8	insufficient time
+      0  7e1a					      STRESS_TIME	MINIMUM_SORT_TIME
+      1  7e1a				  -	      IF	TEST_MINIMUM_SORT_TIME = 1
+      2  7e1a				  -
+      3  7e1a				  -
+      4  7e1a				  -
+      5  7e1a				  -
+      6  7e1a				  -
+      7  7e1a				  -	      echo	"***** WARNING! STRESS_TIME enabled @", ., "! *****"
+      8  7e1a				  -	      bne	. - 7
+      9  7e1a					      ENDIF
+   1929  7e1a
+   1930  7e1a		       a6 8a		      ldx	ObjStackNum	;3
+   1931  7e1c		       bd ca fa 	      lda	BankObjStack,x	;4
+   1932  7e1f		       85 3e		      sta	SET_BANK_RAM	;3
+   1933  7e21		       4c 5f fe 	      jmp	.enterSort	;3 = 13
+   1934  7e24
+   1935  7e24				   restartSort		;  = 11
+   1936  7e24
+   1937  7e24							; So there's another sort 'starting' and we reset the ptr to the end of the obj list
+   1938  7e24
+   1939  7e24							; retrieve size of list to sort
+   1940  7e24		       a9 ff		      lda	#<(-1)	;2
+   1941  7e26		       85 d3		      sta	sortRequired	;3		 flag that we're DOING it
+   1942  7e28
+   1943  7e28		       a6 8a		      ldx	ObjStackNum	;3
+   1944  7e2a		       b4 8b		      ldy	ObjStackPtr,x	;4		 index of 1st free slot = # slots in use
+   1945  7e2c		       88		      dey		;2
+   1946  7e2d		       84 d4		      sty	sortPtr	;3		 earlier potential swappable object
+   1947  7e2f		       f0 36		      beq	.sortExit	;2/3
+   1948  7e31
+   1949  7e31				   midSort		;  =  6
+   1950  7e31
+   1951  7e31		       b9 80 11 	      lda	SortedObjPtr,y	;4		 y = sortPtr!
+   1952  7e34		       be 7f 11 	      ldx	SortedObjPtr-1,y	;4		 the 'current' object looking to be sorted correctly
+   1953  7e37		       a8		      tay		;2
+   1954  7e38
+   1955  7e38		       bd 80 10 	      lda	ObjStackY,x	;4
+   1956  7e3b		       d9 80 10 	      cmp	ObjStackY,y	;4
+   1957  7e3e		       90 16		      bcc	earlierObject	;2(3)
+   1958  7e40		       d0 08		      bne	swapAround	;2(3)
+   1959  7e42
+   1960  7e42		       b9 00 10 	      lda	ObjStackX,y	;4
+   1961  7e45		       dd 00 10 	      cmp	ObjStackX,x	;4
+   1962  7e48		       b0 0c		      bcs	earlierObject	;2(3)		 WE DO NOT WANT TO SWAP IF == OTHERWISE LOCKUP
+   1963  7e4a
+   1964  7e4a				   swapAround		;   = 32 max.
+   1965  7e4a		       98		      tya		;2		 y = SortedObjPtr[sortPtr]
+   1966  7e4b		       a4 d4		      ldy	sortPtr	;3
+   1967  7e4d		       99 7f 15 	      sta	SortedObjPtr+RAM_WRITE-1,y	;5
+   1968  7e50		       8a		      txa		;2		 x = SortedObjPtr[sortPtr-1]
+   1969  7e51		       99 80 15 	      sta	SortedObjPtr+RAM_WRITE,y	;5
+   1970  7e54		       84 d3		      sty	sortRequired	;3 = 20	 as we've done a swap, ensure another pass (ANY non-neg value)
+   1971  7e56
+   1972  7e56		       c6 d4	   earlierObject dec	sortPtr	;5 =  5	 look at earlier object
+   1973  7e58
+   1974  7e58		       ad 84 02 	      lda	INTIM	;4
+   1975  7e5b		       c9 03		      cmp	#MINIMUM_SORT_TIME	;2
+   1976  7e5d		       90 08		      bcc	.sortExit	;2(3)=8	insufficient time
+      0  7e5f					      STRESS_TIME	MINIMUM_SORT_TIME
+      1  7e5f				  -	      IF	TEST_MINIMUM_SORT_TIME = 1
+      2  7e5f				  -
+      3  7e5f				  -
+      4  7e5f				  -
+      5  7e5f				  -
+      6  7e5f				  -
+      7  7e5f				  -	      echo	"***** WARNING! STRESS_TIME enabled @", ., "! *****"
+      8  7e5f				  -	      bne	. - 7
+      9  7e5f					      ENDIF
+   1978  7e5f							; loop max: 71 cycles, + 15 for exit + overhead outside
+   1979  7e5f							; -> MINIMUM_SORT_TIME = ceiling(86/64)+1 = 3
+   1980  7e5f							; TJ: I do not count the 1st INTIM, that's why I have 4 cylces less.
+   1981  7e5f				   .enterSort
+   1982  7e5f		       a4 d4		      ldy	sortPtr	;3		 sort 'stops' when potential swappable objects run out
+   1983  7e61		       d0 ce		      bne	midSort	;2(3)=5
+   1984  7e63		       a5 d3		      lda	sortRequired	;3		 AND there were no more sort requests
+   1985  7e65		       10 bd		      bpl	restartSort	;2(3)=5
+   1986  7e67
+   1987  7e67		       60	   .sortExit  rts		;6		 completed sort! (or time exit)
+   1988  7e68
+   1989  7e68
+   1990  7e68							;---------------------------------------------------------------------------
+   1991  7e68
+      0  7e68					      DEFINE_SUBROUTINE	goGeneralScoringSetups
+      1  7e68		       00 0f	   BANK_goGeneralScoringSetups =	_CURRENT_BANK
+      2  7e68					      SUBROUTINE
+      3  7e68				   goGeneralScoringSetups
+   1993  7e68							; TJ: used by:
+   1994  7e68							; - BANK_INITBANK.asm
+   1995  7e68		       a9 09		      lda	#BANK_SCORING
+   1996  7e6a		       85 3e		      sta	SET_BANK_RAM
+   1997  7e6c		       20 ae f2 	      jsr	GeneralScoringSetups
+   1998  7e6f		       a5 c3		      lda	ROM_Bank
+   1999  7e71		       85 3f		      sta	SET_BANK
+   2000  7e73		       60		      rts
+   2001  7e74
+   2002  7e74
+   2003  7e74							;---------------------------------------------------------------------------
+   2004  7e74
+      0  7e74					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
+      1  7e74		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
+      2  7e74					      SUBROUTINE
+      3  7e74				   CopyROM2RAM_F000
+   2006  7e74							; TJ: used by:
+   2007  7e74							; - BANK_FIXED.asm
+   2008  7e74
+   2009  7e74		       a9 08		      lda	#BANK_CopyROMShadowToRAM
+   2010  7e76		       85 3f		      sta	SET_BANK
+   2011  7e78		       85 c3		      sta	ROM_Bank
+   2012  7e7a		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
+   2013  7e7d
+   2014  7e7d
+   2015  7e7d							;---------------------------------------------------------------------------
+   2016  7e7d							; TJ: used by:
+   2017  7e7d							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
 ------- FILE Boulder.asm LEVEL 3 PASS 3
-      0  7e80					      include	"Boulder.asm"	; 2 * LINES_PER_CHAR bytes
-      0  7e80					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOULDER", LINES_PER_CHAR
-     10  7e80					      LIST	ON
-      2  7e80				   CHARACTERSHAPE_BOULDER
-      3  7e80				  -	      if	MIRRORED_BOULDER = NO
-      4  7e80				  -CHARACTERSHAPE_BOULDER_MIRRORED
-      5  7e80					      endif
-      6  7e80		       00 88 00 88*	      .byte.b	%00000000,%10001000,%00000000,%10001000,%11001100,%11111111,%11111111	;R
-      7  7e87		       00 00 00 00*	      .byte.b	%00000000,%00000000,%00000000,%00000000,%00000000,%00000000,%00000000	;G
-      8  7e8e		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111	;B
-      9  7e95
-     10  7e95							;--------------------------------------------------------------------------
-     11  7e95					      if	MIRRORED_BOULDER = YES
-      0  7e95					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOULDER_MIRRORED", LINES_PER_CHAR
-     10  7e95					      LIST	ON
-     13  7e95				   CHARACTERSHAPE_BOULDER_MIRRORED
-     14  7e95		       00 11 00 11*	      .byte.b	%00000000,%00010001,%00000000,%00010001,%00110011,%11111111,%11111111	;R
-     15  7e9c		       00 00 00 00*	      .byte.b	%00000000,%00000000,%00000000,%00000000,%00000000,%00000000,%00000000	;G
-     16  7ea3		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111	;B
-     17  7eaa					      endif
+      0  7e7d					      include	"Boulder.asm"	; 2 * LINES_PER_CHAR bytes
+      0  7e7d					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOULDER", LINES_PER_CHAR
+     10  7e7d					      LIST	ON
+      2  7e7d				   CHARACTERSHAPE_BOULDER
+      3  7e7d				  -	      if	MIRRORED_BOULDER = NO
+      4  7e7d				  -CHARACTERSHAPE_BOULDER_MIRRORED
+      5  7e7d					      endif
+      6  7e7d		       00 88 00 88*	      .byte.b	%00000000,%10001000,%00000000,%10001000,%11001100,%11111111,%11111111	;R
+      7  7e84		       00 00 00 00*	      .byte.b	%00000000,%00000000,%00000000,%00000000,%00000000,%00000000,%00000000	;G
+      8  7e8b		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111	;B
+      9  7e92
+     10  7e92							;--------------------------------------------------------------------------
+     11  7e92					      if	MIRRORED_BOULDER = YES
+      0  7e92					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOULDER_MIRRORED", LINES_PER_CHAR
+     10  7e92					      LIST	ON
+     13  7e92				   CHARACTERSHAPE_BOULDER_MIRRORED
+     14  7e92		       00 11 00 11*	      .byte.b	%00000000,%00010001,%00000000,%00010001,%00110011,%11111111,%11111111	;R
+     15  7e99		       00 00 00 00*	      .byte.b	%00000000,%00000000,%00000000,%00000000,%00000000,%00000000,%00000000	;G
+     16  7ea0		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111	;B
+     17  7ea7					      endif
 ------- FILE BANK_FIXED.asm
 ------- FILE Butterfly.asm LEVEL 3 PASS 3
-      0  7eaa					      include	"Butterfly.asm"	; 2 * LINES_PER_CHAR bytes
-      1  7eaa		       00 02	   BUTTERFLY_DEF =	2
-      2  7eaa
-      3  7eaa				  -	      if	BUTTERFLY_DEF = 0
-      4  7eaa				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY", LINES_PER_CHAR
-      5  7eaa				  -CHARACTERSHAPE_FLUTTERBY
-      6  7eaa				  -
-      7  7eaa				  -			; an x shape
-      8  7eaa				  -
-      9  7eaa				  -	      .byte	%00000000	;R
-     10  7eaa				  -	      .byte	%10011001
-     11  7eaa				  -	      .byte	%11111111
-     12  7eaa				  -	      .byte	%01100110
-     13  7eaa				  -	      .byte	%10011001
-     14  7eaa				  -	      .byte	%00000000
-     15  7eaa				  -	      .byte	0
-     16  7eaa				  -
-     17  7eaa				  -	      .byte	%10011001	;G
-     18  7eaa				  -	      .byte	%10011001
-     19  7eaa				  -	      .byte	%11111111
-     20  7eaa				  -	      .byte	%11111111
-     21  7eaa				  -	      .byte	%10011001
-     22  7eaa				  -	      .byte	%10011001
-     23  7eaa				  -	      .byte	0
-     24  7eaa				  -
-     25  7eaa				  -	      .byte	%00000000	;B
-     26  7eaa				  -	      .byte	%10011001
-     27  7eaa				  -	      .byte	%01100110
-     28  7eaa				  -	      .byte	%11111111
-     29  7eaa				  -	      .byte	%10011001
-     30  7eaa				  -	      .byte	%00000000
-     31  7eaa				  -	      .byte	0
-     32  7eaa				  -
-     33  7eaa				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY2", LINES_PER_CHAR
-     34  7eaa				  -CHARACTERSHAPE_FLUTTERBY2
-     35  7eaa				  -
-     36  7eaa				  -			; an x shape (flutter)
-     37  7eaa				  -
-     38  7eaa				  -	      .byte	%00000000	;R
-     39  7eaa				  -	      .byte	%01100110
-     40  7eaa				  -	      .byte	%01100110
-     41  7eaa				  -	      .byte	%01100110
-     42  7eaa				  -	      .byte	%01100110
-     43  7eaa				  -	      .byte	%01100110
-     44  7eaa				  -	      .byte	0
-     45  7eaa				  -
-     46  7eaa				  -	      .byte	%01100110	;G
-     47  7eaa				  -	      .byte	%01100110
-     48  7eaa				  -	      .byte	%01100110
-     49  7eaa				  -	      .byte	%01100110
-     50  7eaa				  -	      .byte	%01100110
-     51  7eaa				  -	      .byte	%01100110
-     52  7eaa				  -	      .byte	0
-     53  7eaa				  -
-     54  7eaa				  -	      .byte	%01100110	;B
-     55  7eaa				  -	      .byte	%01100110
-     56  7eaa				  -	      .byte	%01100110
-     57  7eaa				  -	      .byte	%01100110
-     58  7eaa				  -	      .byte	%01100110
-     59  7eaa				  -	      .byte	%00000000
-     60  7eaa				  -	      .byte	0
-     61  7eaa					      endif
-     62  7eaa
-     63  7eaa				  -	      if	BUTTERFLY_DEF = 1
-     64  7eaa				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY", LINES_PER_CHAR
-     65  7eaa				  -CHARACTERSHAPE_FLUTTERBY
-     66  7eaa				  -
-     67  7eaa				  -			; an x shape
-     68  7eaa				  -
-     69  7eaa				  -	      .byte	%10011001	;R (#3 bright color)
-     70  7eaa				  -	      .byte	%11011101
-     71  7eaa				  -	      .byte	%11111111
-     72  7eaa				  -	      .byte	%01100110
-     73  7eaa				  -	      .byte	%11111111
-     74  7eaa				  -	      .byte	%10111011
-     75  7eaa				  -	      .byte	%10011001
-     76  7eaa				  -
-     77  7eaa				  -	      .byte	%00000000	;G (#2 dirt color)
-     78  7eaa				  -	      .byte	%10001000
-     79  7eaa				  -	      .byte	%11111111
-     80  7eaa				  -	      .byte	%01100110
-     81  7eaa				  -	      .byte	%01000100
-     82  7eaa				  -	      .byte	%10101010
-     83  7eaa				  -	      .byte	%10011001
-     84  7eaa				  -
-     85  7eaa				  -	      .byte	%10011001	;B (#1 wall color)
-     86  7eaa				  -	      .byte	%11011101
-     87  7eaa				  -	      .byte	%11111111
-     88  7eaa				  -	      .byte	%01100110
-     89  7eaa				  -	      .byte	%11111111
-     90  7eaa				  -	      .byte	%10111011
-     91  7eaa				  -	      .byte	%10011001
-     92  7eaa				  -
-     93  7eaa				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY2", LINES_PER_CHAR
-     94  7eaa				  -CHARACTERSHAPE_FLUTTERBY2
-     95  7eaa				  -
-     96  7eaa				  -			; an x shape (flutter)
-     97  7eaa				  -
-     98  7eaa				  -	      .byte	%00000000	;R
-     99  7eaa				  -	      .byte	%00000000
-    100  7eaa				  -	      .byte	%00000000
-    101  7eaa				  -	      .byte	%00000000
-    102  7eaa				  -	      .byte	%00000000
-    103  7eaa				  -	      .byte	%00000000
-    104  7eaa				  -	      .byte	%00100010
-    105  7eaa				  -
-    106  7eaa				  -	      .byte	%01100110	;G
-    107  7eaa				  -	      .byte	%01100110
-    108  7eaa				  -	      .byte	%01000100
-    109  7eaa				  -	      .byte	%00100010
-    110  7eaa				  -	      .byte	%01100110
-    111  7eaa				  -	      .byte	%01100110
-    112  7eaa				  -	      .byte	%01000100
-    113  7eaa				  -
-    114  7eaa				  -	      .byte	%01100110	;B
-    115  7eaa				  -	      .byte	%01100110
-    116  7eaa				  -	      .byte	%01100110
-    117  7eaa				  -	      .byte	%01000100
-    118  7eaa				  -	      .byte	%00100010
-    119  7eaa				  -	      .byte	%01100110
-    120  7eaa				  -	      .byte	%01100110
-    121  7eaa					      endif
-    122  7eaa
-    123  7eaa					      if	BUTTERFLY_DEF = 2
-      0  7eaa					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY", LINES_PER_CHAR
-     10  7eaa					      LIST	ON
-    125  7eaa				   CHARACTERSHAPE_FLUTTERBY
-    126  7eaa
-    127  7eaa		       99		      .byte.b	%10011001	;R (#3 bright color)
-    128  7eab		       99		      .byte.b	%10011001
-    129  7eac		       99		      .byte.b	%10011001
-    130  7ead		       00		      .byte.b	%00000000
-    131  7eae		       99		      .byte.b	%10011001
-    132  7eaf		       99		      .byte.b	%10011001
-    133  7eb0		       99		      .byte.b	%10011001
-    134  7eb1
-    135  7eb1		       99		      .byte.b	%10011001	;G (#2 dirt color)
-    136  7eb2		       ff		      .byte.b	%11111111
-    137  7eb3		       ff		      .byte.b	%11111111
-    138  7eb4		       66		      .byte.b	%01100110
-    139  7eb5		       66		      .byte.b	%01100110
-    140  7eb6		       00		      .byte.b	%00000000
-    141  7eb7		       00		      .byte.b	%00000000
-    142  7eb8
-    143  7eb8		       00		      .byte.b	%00000000	;B (#1 wall color)
-    144  7eb9		       66		      .byte.b	%01100110
-    145  7eba		       66		      .byte.b	%01100110
-    146  7ebb		       66		      .byte.b	%01100110
-    147  7ebc		       ff		      .byte.b	%11111111
-    148  7ebd		       99		      .byte.b	%10011001
-    149  7ebe		       99		      .byte.b	%10011001
-    150  7ebf
-      0  7ebf					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY2", LINES_PER_CHAR
-     10  7ebf					      LIST	ON
-    152  7ebf				   CHARACTERSHAPE_FLUTTERBY2
-    153  7ebf
-    154  7ebf		       66		      .byte.b	%01100110	;R
-    155  7ec0		       66		      .byte.b	%01100110
-    156  7ec1		       66		      .byte.b	%01100110
-    157  7ec2		       00		      .byte.b	%00000000
-    158  7ec3		       66		      .byte.b	%01100110
-    159  7ec4		       66		      .byte.b	%01100110
-    160  7ec5		       66		      .byte.b	%01100110
-    161  7ec6
-    162  7ec6		       66		      .byte.b	%01100110	;G
-    163  7ec7		       66		      .byte.b	%01100110
-    164  7ec8		       66		      .byte.b	%01100110
-    165  7ec9		       66		      .byte.b	%01100110
-    166  7eca		       66		      .byte.b	%01100110
-    167  7ecb		       00		      .byte.b	%00000000
-    168  7ecc		       00		      .byte.b	%00000000
-    169  7ecd
-    170  7ecd		       00		      .byte.b	%00000000	;B
-    171  7ece		       66		      .byte.b	%01100110
-    172  7ecf		       66		      .byte.b	%01100110
-    173  7ed0		       66		      .byte.b	%01100110
-    174  7ed1		       66		      .byte.b	%01100110
-    175  7ed2		       66		      .byte.b	%01100110
-    176  7ed3		       66		      .byte.b	%01100110
-    177  7ed4					      endif
+      0  7ea7					      include	"Butterfly.asm"	; 2 * LINES_PER_CHAR bytes
+      1  7ea7		       00 02	   BUTTERFLY_DEF =	2
+      2  7ea7
+      3  7ea7				  -	      if	BUTTERFLY_DEF = 0
+      4  7ea7				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY", LINES_PER_CHAR
+      5  7ea7				  -CHARACTERSHAPE_FLUTTERBY
+      6  7ea7				  -
+      7  7ea7				  -			; an x shape
+      8  7ea7				  -
+      9  7ea7				  -	      .byte	%00000000	;R
+     10  7ea7				  -	      .byte	%10011001
+     11  7ea7				  -	      .byte	%11111111
+     12  7ea7				  -	      .byte	%01100110
+     13  7ea7				  -	      .byte	%10011001
+     14  7ea7				  -	      .byte	%00000000
+     15  7ea7				  -	      .byte	0
+     16  7ea7				  -
+     17  7ea7				  -	      .byte	%10011001	;G
+     18  7ea7				  -	      .byte	%10011001
+     19  7ea7				  -	      .byte	%11111111
+     20  7ea7				  -	      .byte	%11111111
+     21  7ea7				  -	      .byte	%10011001
+     22  7ea7				  -	      .byte	%10011001
+     23  7ea7				  -	      .byte	0
+     24  7ea7				  -
+     25  7ea7				  -	      .byte	%00000000	;B
+     26  7ea7				  -	      .byte	%10011001
+     27  7ea7				  -	      .byte	%01100110
+     28  7ea7				  -	      .byte	%11111111
+     29  7ea7				  -	      .byte	%10011001
+     30  7ea7				  -	      .byte	%00000000
+     31  7ea7				  -	      .byte	0
+     32  7ea7				  -
+     33  7ea7				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY2", LINES_PER_CHAR
+     34  7ea7				  -CHARACTERSHAPE_FLUTTERBY2
+     35  7ea7				  -
+     36  7ea7				  -			; an x shape (flutter)
+     37  7ea7				  -
+     38  7ea7				  -	      .byte	%00000000	;R
+     39  7ea7				  -	      .byte	%01100110
+     40  7ea7				  -	      .byte	%01100110
+     41  7ea7				  -	      .byte	%01100110
+     42  7ea7				  -	      .byte	%01100110
+     43  7ea7				  -	      .byte	%01100110
+     44  7ea7				  -	      .byte	0
+     45  7ea7				  -
+     46  7ea7				  -	      .byte	%01100110	;G
+     47  7ea7				  -	      .byte	%01100110
+     48  7ea7				  -	      .byte	%01100110
+     49  7ea7				  -	      .byte	%01100110
+     50  7ea7				  -	      .byte	%01100110
+     51  7ea7				  -	      .byte	%01100110
+     52  7ea7				  -	      .byte	0
+     53  7ea7				  -
+     54  7ea7				  -	      .byte	%01100110	;B
+     55  7ea7				  -	      .byte	%01100110
+     56  7ea7				  -	      .byte	%01100110
+     57  7ea7				  -	      .byte	%01100110
+     58  7ea7				  -	      .byte	%01100110
+     59  7ea7				  -	      .byte	%00000000
+     60  7ea7				  -	      .byte	0
+     61  7ea7					      endif
+     62  7ea7
+     63  7ea7				  -	      if	BUTTERFLY_DEF = 1
+     64  7ea7				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY", LINES_PER_CHAR
+     65  7ea7				  -CHARACTERSHAPE_FLUTTERBY
+     66  7ea7				  -
+     67  7ea7				  -			; an x shape
+     68  7ea7				  -
+     69  7ea7				  -	      .byte	%10011001	;R (#3 bright color)
+     70  7ea7				  -	      .byte	%11011101
+     71  7ea7				  -	      .byte	%11111111
+     72  7ea7				  -	      .byte	%01100110
+     73  7ea7				  -	      .byte	%11111111
+     74  7ea7				  -	      .byte	%10111011
+     75  7ea7				  -	      .byte	%10011001
+     76  7ea7				  -
+     77  7ea7				  -	      .byte	%00000000	;G (#2 dirt color)
+     78  7ea7				  -	      .byte	%10001000
+     79  7ea7				  -	      .byte	%11111111
+     80  7ea7				  -	      .byte	%01100110
+     81  7ea7				  -	      .byte	%01000100
+     82  7ea7				  -	      .byte	%10101010
+     83  7ea7				  -	      .byte	%10011001
+     84  7ea7				  -
+     85  7ea7				  -	      .byte	%10011001	;B (#1 wall color)
+     86  7ea7				  -	      .byte	%11011101
+     87  7ea7				  -	      .byte	%11111111
+     88  7ea7				  -	      .byte	%01100110
+     89  7ea7				  -	      .byte	%11111111
+     90  7ea7				  -	      .byte	%10111011
+     91  7ea7				  -	      .byte	%10011001
+     92  7ea7				  -
+     93  7ea7				  -	      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY2", LINES_PER_CHAR
+     94  7ea7				  -CHARACTERSHAPE_FLUTTERBY2
+     95  7ea7				  -
+     96  7ea7				  -			; an x shape (flutter)
+     97  7ea7				  -
+     98  7ea7				  -	      .byte	%00000000	;R
+     99  7ea7				  -	      .byte	%00000000
+    100  7ea7				  -	      .byte	%00000000
+    101  7ea7				  -	      .byte	%00000000
+    102  7ea7				  -	      .byte	%00000000
+    103  7ea7				  -	      .byte	%00000000
+    104  7ea7				  -	      .byte	%00100010
+    105  7ea7				  -
+    106  7ea7				  -	      .byte	%01100110	;G
+    107  7ea7				  -	      .byte	%01100110
+    108  7ea7				  -	      .byte	%01000100
+    109  7ea7				  -	      .byte	%00100010
+    110  7ea7				  -	      .byte	%01100110
+    111  7ea7				  -	      .byte	%01100110
+    112  7ea7				  -	      .byte	%01000100
+    113  7ea7				  -
+    114  7ea7				  -	      .byte	%01100110	;B
+    115  7ea7				  -	      .byte	%01100110
+    116  7ea7				  -	      .byte	%01100110
+    117  7ea7				  -	      .byte	%01000100
+    118  7ea7				  -	      .byte	%00100010
+    119  7ea7				  -	      .byte	%01100110
+    120  7ea7				  -	      .byte	%01100110
+    121  7ea7					      endif
+    122  7ea7
+    123  7ea7					      if	BUTTERFLY_DEF = 2
+      0  7ea7					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY", LINES_PER_CHAR
+     10  7ea7					      LIST	ON
+    125  7ea7				   CHARACTERSHAPE_FLUTTERBY
+    126  7ea7
+    127  7ea7		       99		      .byte.b	%10011001	;R (#3 bright color)
+    128  7ea8		       99		      .byte.b	%10011001
+    129  7ea9		       99		      .byte.b	%10011001
+    130  7eaa		       00		      .byte.b	%00000000
+    131  7eab		       99		      .byte.b	%10011001
+    132  7eac		       99		      .byte.b	%10011001
+    133  7ead		       99		      .byte.b	%10011001
+    134  7eae
+    135  7eae		       99		      .byte.b	%10011001	;G (#2 dirt color)
+    136  7eaf		       ff		      .byte.b	%11111111
+    137  7eb0		       ff		      .byte.b	%11111111
+    138  7eb1		       66		      .byte.b	%01100110
+    139  7eb2		       66		      .byte.b	%01100110
+    140  7eb3		       00		      .byte.b	%00000000
+    141  7eb4		       00		      .byte.b	%00000000
+    142  7eb5
+    143  7eb5		       00		      .byte.b	%00000000	;B (#1 wall color)
+    144  7eb6		       66		      .byte.b	%01100110
+    145  7eb7		       66		      .byte.b	%01100110
+    146  7eb8		       66		      .byte.b	%01100110
+    147  7eb9		       ff		      .byte.b	%11111111
+    148  7eba		       99		      .byte.b	%10011001
+    149  7ebb		       99		      .byte.b	%10011001
+    150  7ebc
+      0  7ebc					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_FLUTTERBY2", LINES_PER_CHAR
+     10  7ebc					      LIST	ON
+    152  7ebc				   CHARACTERSHAPE_FLUTTERBY2
+    153  7ebc
+    154  7ebc		       66		      .byte.b	%01100110	;R
+    155  7ebd		       66		      .byte.b	%01100110
+    156  7ebe		       66		      .byte.b	%01100110
+    157  7ebf		       00		      .byte.b	%00000000
+    158  7ec0		       66		      .byte.b	%01100110
+    159  7ec1		       66		      .byte.b	%01100110
+    160  7ec2		       66		      .byte.b	%01100110
+    161  7ec3
+    162  7ec3		       66		      .byte.b	%01100110	;G
+    163  7ec4		       66		      .byte.b	%01100110
+    164  7ec5		       66		      .byte.b	%01100110
+    165  7ec6		       66		      .byte.b	%01100110
+    166  7ec7		       66		      .byte.b	%01100110
+    167  7ec8		       00		      .byte.b	%00000000
+    168  7ec9		       00		      .byte.b	%00000000
+    169  7eca
+    170  7eca		       00		      .byte.b	%00000000	;B
+    171  7ecb		       66		      .byte.b	%01100110
+    172  7ecc		       66		      .byte.b	%01100110
+    173  7ecd		       66		      .byte.b	%01100110
+    174  7ece		       66		      .byte.b	%01100110
+    175  7ecf		       66		      .byte.b	%01100110
+    176  7ed0		       66		      .byte.b	%01100110
+    177  7ed1					      endif
 ------- FILE BANK_FIXED.asm
 ------- FILE Steel_Wall.asm LEVEL 3 PASS 3
-      0  7ed4					      include	"Steel_Wall.asm"	; 2 * LINES_PER_CHAR bytes
-      1  7ed4							;--------------------------------------------------------------------------
-      0  7ed4					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL", LINES_PER_CHAR
-     10  7ed4					      LIST	ON
-      3  7ed4				   CHARACTERSHAPE_STEEL
-      4  7ed4				   CHARACTERSHAPE_EXITDOOR
-      5  7ed4				  -	      if	MIRRORED_STEEL = NO
-      6  7ed4				  -CHARACTERSHAPE_STEEL_MIRRORED
-      7  7ed4				  -CHARACTERSHAPE_EXITDOOR_MIRRORED
-      8  7ed4					      endif
-      9  7ed4		       00 11 00 00*	      .byte.b	%00000000,%00010001,%00000000,%00000000,%01000100,%00000000,%00000000	;R
-     10  7edb		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;G
-     11  7ee2		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;B
-     12  7ee9
-     13  7ee9							;--------------------------------------------------------------------------
-     14  7ee9					      if	MIRRORED_STEEL = YES
-      0  7ee9					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL_MIRRORED", LINES_PER_CHAR
-     10  7ee9					      LIST	ON
-     16  7ee9				   CHARACTERSHAPE_STEEL_MIRRORED
-     17  7ee9				   CHARACTERSHAPE_EXITDOOR_MIRRORED
-     18  7ee9		       00 88 00 00*	      .byte.b	%00000000,%10001000,%00000000,%00000000,%00100010,%00000000,%00000000	;R
-     19  7ef0		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;G
-     20  7ef7		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;B
-     21  7efe					      endif
+      0  7ed1					      include	"Steel_Wall.asm"	; 2 * LINES_PER_CHAR bytes
+      1  7ed1							;--------------------------------------------------------------------------
+      0  7ed1					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL", LINES_PER_CHAR
+     10  7ed1					      LIST	ON
+      3  7ed1				   CHARACTERSHAPE_STEEL
+      4  7ed1				   CHARACTERSHAPE_EXITDOOR
+      5  7ed1				  -	      if	MIRRORED_STEEL = NO
+      6  7ed1				  -CHARACTERSHAPE_STEEL_MIRRORED
+      7  7ed1				  -CHARACTERSHAPE_EXITDOOR_MIRRORED
+      8  7ed1					      endif
+      9  7ed1		       00 11 00 00*	      .byte.b	%00000000,%00010001,%00000000,%00000000,%01000100,%00000000,%00000000	;R
+     10  7ed8		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;G
+     11  7edf		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;B
+     12  7ee6
+     13  7ee6							;--------------------------------------------------------------------------
+     14  7ee6					      if	MIRRORED_STEEL = YES
+      0  7ee6					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL_MIRRORED", LINES_PER_CHAR
+     10  7ee6					      LIST	ON
+     16  7ee6				   CHARACTERSHAPE_STEEL_MIRRORED
+     17  7ee6				   CHARACTERSHAPE_EXITDOOR_MIRRORED
+     18  7ee6		       00 88 00 00*	      .byte.b	%00000000,%10001000,%00000000,%00000000,%00100010,%00000000,%00000000	;R
+     19  7eed		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;G
+     20  7ef4		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;B
+     21  7efb					      endif
 ------- FILE BANK_FIXED.asm
-   2018  7efe							;---------------------------------------------------------------------------
-   2019  7efe
-   2020  7efe
- FREE BYTES IN FIXED BANK =  $fd
-   2021  7efe					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
-   2022  7efe
-   2023  7efe							;---------------------------------------------------------------------------
-   2024  7efe							; The reset vectors
-   2025  7efe							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
-   2026  7efe
-   2027  8000 ????				      SEG	InterruptVectors
-   2028  7ffc					      ORG	FIXED_BANK + $7FC
-   2029  7ffc					      RORG	$7ffC
-   2030  7ffc
-   2031  7ffc							;		 .word Reset	       ; NMI	    (not used)
-   2032  7ffc		       ed fb		      .word.w	Reset	; RESET
-   2033  7ffe		       ed fb		      .word.w	Reset	; IRQ	      (not used)
-   2034  8000
-   2035  8000							;---------------------------------------------------------------------------
+   2021  7efb							;---------------------------------------------------------------------------
+   2022  7efb
+   2023  7efb
+ FREE BYTES IN FIXED BANK =  $100
+   2024  7efb					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
+   2025  7efb
+   2026  7efb							;---------------------------------------------------------------------------
+   2027  7efb							; The reset vectors
+   2028  7efb							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
+   2029  7efb
+   2030  8000 ????				      SEG	InterruptVectors
+   2031  7ffc					      ORG	FIXED_BANK + $7FC
+   2032  7ffc					      RORG	$7ffC
+   2033  7ffc
+   2034  7ffc							;		 .word Reset	       ; NMI	    (not used)
+   2035  7ffc		       ea fb		      .word.w	Reset	; RESET
+   2036  7ffe		       ea fb		      .word.w	Reset	; IRQ	      (not used)
+   2037  8000
+   2038  8000							;---------------------------------------------------------------------------
 ------- FILE ./sokoboo.asm
    1085  8000
    1086  8000					      END

@@ -220,10 +220,10 @@ SMLimit         cpx #0                              ; byte count (self) modified
                 bcc     .exitRandom
                 dey
                 bpl     .loopRandom
-                lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
+                lda     #CHARACTER_BLANK             ;       default character (dirt), = 0
                 NOP_W
 .exitRandom:
-  lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
+  lda     #CHARACTER_BLANK             ;       default character (dirt), = 0
 ;                lda     (ptrCave),y
                 sta     POS_Type
 
