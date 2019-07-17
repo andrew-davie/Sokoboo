@@ -607,12 +607,6 @@ notSlowTime
                 sta caveTimeFrac
                 bcc .forceTimeDraw
 
-; count down magic wall time in sync with cave time:
-                ldx MagicAmoebaFlag
-                inx                             ; $FF = dormant?
-                beq .notActive
-                dec MagicAmoebaFlag
-.notActive
                 ldx #1
 .setLoops
                 stx timerLoops

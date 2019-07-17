@@ -60,30 +60,9 @@
 ;-------------------------------------------------------------------------------------
 ; PALETTE DEFINITIONS
 
-    IF FINAL_VERSION || ![TJ_MODE|AD_MODE]
-        .byte   $a8, $b6
-        .byte   $36, $46
-        .byte   $0e, $0e
-    ELSE
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF AD_MODE
-        .byte   $a8, $b6
-        .byte   $36, $46
-        .byte   $0e, $0e
-        ENDIF
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF TJ_MODE
-            .byte   $a8, $b6
-            .byte   $36, $46
-            .byte   $0e, $0e
-        ENDIF
-
- ENDIF
-
+        .byte   $18, $66
+        .byte   $30, $a0
+        .byte   $0e, $9C
 ;-------------------------------------------------------------------------------------
 
     .byte   CHARACTER_BLANK                            ; Random objects:
