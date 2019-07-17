@@ -103,8 +103,14 @@ BASEY = 9
 #if 1
 
  .byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+1, 3, 2
- ;.byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+2, 3, 2
- ;.byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+3, 3, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+2, 3, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+3, 3, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+3, BASEY+4, 6, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+3, BASEY+5, 6, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+6, 15, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+7, 15, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+1, BASEY+8, 15, 2
+ .byte   LINE+CHARACTER_BLANK, BASEX+5, BASEY+9, 5, 2
 
 
   .byte   LINE+CHARACTER_STEEL, BASEX+4, BASEY+0, 5, 2
@@ -187,160 +193,13 @@ BASEY = 9
     IF FINAL_VERSION = YES || DEMO_VERSION = NO
 
     START_CAVE ROOMS
-
-    .byte   $02                                 ; Cave 02 B
-    CAVE_SIZE_ROOM                              ; width, height
-    .byte   $14                                 ; Magic wall/amoeba slow growth for: 20 seconds
-    .byte   $20 ;BCD'd $14                                 ; Diamonds worth: 20 points
-    .byte   $50 ;BCD'd $32                                 ; Extra diamonds worth: 50 points
-    CAVE_RANDOM $03, $00, $01, $57, $58         ; Randomiser seed values for difficulty levels 1-5
-    .byte   $0A, $0C, $09, $0D, $0A             ; Diamonds needed: 10, 12, 9, 13, 10 (for difficulty levels 1-5)
-    .byte   $96, $6E, $46, $46, $46             ; Cave time: 150, 110, 70, 70, 70 seconds
-
-
-;-------------------------------------------------------------------------------------
-; PALETTE DEFINITIONS
-
-    IF FINAL_VERSION || ![TJ_MODE|AD_MODE]
-        .byte   $78, $a8
-        .byte   $34, $44
-        .byte   $ce, $7e
-    ELSE
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF AD_MODE
-            .byte   $78, $a8
-            .byte   $34, $44
-            .byte   $ce, $7e
-        ENDIF
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF TJ_MODE
-            .byte   $78, $a8
-            .byte   $34, $44
-            .byte   $ce, $7e
-        ENDIF
-
-    ENDIF
-
-;-------------------------------------------------------------------------------------
-
-
-    .byte   CHARACTER_BLANK                            ; Random objects:
-    .byte   CHARACTER_BOX
-    .byte   CHARACTER_DIAMOND
-    .byte   CHARACTER_FIREFLY
-    .byte   $3C, $32, $09, $02                  ;   zSpace :  60/256 = 23-19-3%
-                                                ;   zBouS  :  50/256 = 19-3%
-                                                ;   zDiaS  :   9/256 =  3%
-                                                ;   zFFly1 :   2/256 =  0%
-    .byte   LINE+CHARACTER_WALL, $01, $08, $26, $02    ; Line of zBrick from ( 1, 8); length = 38; direction = right
-    .byte   LINE+CHARACTER_WALL, $01, $0F, $26, $02    ; Line of zBrick from ( 1,15); length = 38; direction = right
-    .byte   LINE+CHARACTER_WALL, $08, $03, $14, $04    ; Line of zBrick from ( 8, 3); length = 20; direction = down
-    .byte   LINE+CHARACTER_WALL, $10, $03, $14, $04    ; Line of zBrick from (16, 3); length = 20; direction = down
-    .byte   LINE+CHARACTER_WALL, $18, $03, $14, $04    ; Line of zBrick from (24, 3); length = 20; direction = down
-    .byte   LINE+CHARACTER_WALL, $20, $03, $14, $04    ; Line of zBrick from (32, 3); length = 20; direction = down
-    .byte   LINE+CHARACTER_BLANK, $01, $05, $26, $02   ; Line of zSpace from ( 1, 5); length = 38; direction = right
-    .byte   LINE+CHARACTER_BLANK, $01, $0B, $26, $02   ; Line of zSpace from ( 1,11); length = 38; direction = right
-    .byte   LINE+CHARACTER_BLANK, $01, $12, $26, $02   ; Line of zSpace from ( 1,18); length = 38; direction = right
-    .byte   LINE+CHARACTER_BLANK, $14, $03, $14, $04   ; Line of zSpace from (20, 3); length = 20; direction = down
-    .byte   CHARACTER_MANOCCUPIED, $12, $15               ; StoreChar zPRFd1 at (18,21)
-    .byte   CHARACTER_EXITDOOR, $12, $16                   ; StoreChar zPreOut at (18,22)
     END_CAVE ROOMS
-;  ELSE
-;    START_CAVE ROOMS
-;
-;    .byte   $02                                 ; Cave 02 B
-;    CAVE_SIZE_ROOM                              ; width, height
-;    .byte   $14                                 ; Magic wall/amoeba slow growth for: 20 seconds
-;    .byte   $20 ;BCD'd $14                                 ; Diamonds worth: 20 points
-;    .byte   $50 ;BCD'd $32                                 ; Extra diamonds worth: 50 points
-;    CAVE_RANDOM $04, $00, $01, $57, $58         ; Randomiser seed values for difficulty levels 1-5
-;    .byte   99, $0C, $09, $0D, $0A             ; Diamonds needed: 10, 12, 9, 13, 10 (for difficulty levels 1-5)
-;    .byte   120, $6E, $46, $46, $46             ; Cave time: 150, 110, 70, 70, 70 seconds
-;
-;;; z26 palette/z26 palette
-;;    .byte   $8a, $ca                            ; NTSC/PAL
-;;    .byte   $46, $66                            ; NTSC/PAL
-;;    .byte   $de, $3e                            ; NTSC/PAL
-;; z26 palette/TJ's PAL TV palette
-;    .byte   $78, $a8                            ; NTSC/PAL
-;    .byte   $34, $44                            ; NTSC/PAL
-;    .byte   $ce, $7e                            ; NTSC/PAL
-;
-;    .byte   CHARACTER_DIAMOND                            ; Random objects:
-;    .byte   CHARACTER_FIREFLY
-;    .byte   0
-;    .byte   0
-;    .byte   255, 50, $00, $00                  ;   zSpace :  60/256 = 23-19-3%
-;                                                ;   zBouS  :  50/256 = 19-3%
-;                                                ;   zDiaS  :   9/256 =  3%
-;                                                ;   zFFly1 :   2/256 =  0%
-;
-;;    .byte   FILL+CHARACTER_DIAMOND, 1, 3, 28, 10, CHARACTER_DIAMOND; FilledRect of zDirt from ( 8,10); length = 4; height = 4; fill = zSpace
-;    .byte   CHARACTER_MANOCCUPIED, 1, 3               ; StoreChar zPRFd1 at (18,21)
-;    .byte   CHARACTER_EXITDOOR, 38, 22                   ; StoreChar zPreOut at (18,22)
-;    END_CAVE ROOMS
-;  ENDIF
     ENDIF
 
     ;------------------------------------------------------------------------------
 
     IF FINAL_VERSION = YES || DEMO_VERSION = NO
     START_CAVE MAZE
-
-    .byte   $03                                 ; Cave 03 C
-    CAVE_SIZE_ROOM                              ; width, height
-    .byte   $00                                 ; Magic wall/amoeba slow growth for: 0 seconds
-    .byte   $15 ;BCD'd $0F                                 ; Diamonds worth: 15 points
-    .byte   $0 ;BCD'd $00                                 ; Extra diamonds worth: 0 points
-    CAVE_RANDOM $00, $32, $36, $34, $37         ; Randomiser seed values for difficulty levels 1-5
-    .byte   $18, $17, $18, $17, $15             ; Diamonds needed: 24, 23, 24, 23, 21 (for difficulty levels 1-5)
-    .byte   $96, $64, $5A, $50, $46             ; Cave time: 150, 100, 90, 80, 70 seconds
-
-
-;-------------------------------------------------------------------------------------
-; PALETTE DEFINITIONS
-
-    IF FINAL_VERSION || ![TJ_MODE|AD_MODE]
-    .byte   $f6, $48                            ; NTSC/PAL
-    .byte   $24, $24                            ; NTSC/PAL
-    .byte   $9e, $be                            ; NTSC/PAL
-    ELSE
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF AD_MODE
-            .byte   $c4, $52
-            .byte   $26, $44
-            .byte   $8e, $de
-        ENDIF
-
-        ; COMMENT FOLLOWING OUT IF NOT WANTED!
-        ; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-        IF TJ_MODE
-            .byte   $c4, $52
-            .byte   $26, $44
-            .byte   $8e, $de
-        ENDIF
-
-    ENDIF
-
-;-------------------------------------------------------------------------------------
-
-    .byte   CHARACTER_WALL                             ; Random objects:
-    .byte   CHARACTER_BOX
-    .byte   CHARACTER_DIAMOND
-    .byte   CHARACTER_BLANK
-    .byte   $64, $32, $09, $00                  ;   zBrick : 100/256 = 39%
-                                                ;   zBouS  :  50/256 = 19%
-                                                ;   zDiaS  :   9/256 =  3%
-                                                ;   fourth code unused (0%)
-    .byte   CHARACTER_MANOCCUPIED, $03, $04               ; StoreChar zPRFd1 at ( 3, 4)
-
-    .byte   CHARACTER_EXITDOOR, $27, $14                   ; StoreChar zPreOut at (39,20)
     END_CAVE MAZE
     ENDIF
 

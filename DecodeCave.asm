@@ -220,10 +220,10 @@ SMLimit         cpx #0                              ; byte count (self) modified
                 bcc     .exitRandom
                 dey
                 bpl     .loopRandom
-                lda     #CHARACTER_BLANK             ;       default character (dirt), = 0
+                lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
                 NOP_W
 .exitRandom:
-  lda     #CHARACTER_BLANK             ;       default character (dirt), = 0
+  lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
 ;                lda     (ptrCave),y
                 sta     POS_Type
 
@@ -693,19 +693,9 @@ CaveInformation
 
                     ADD_CAVE INTERMISSION_2,$80|$1
 
-                    ADD_CAVE GREED,9
-                    ADD_CAVE TRACKS,10
-                    ADD_CAVE CROWD,11
-                    ADD_CAVE WALLS,12
 
-                    ADD_CAVE INTERMISSION_3,$80|$2
 
-                    ADD_CAVE APOCALYPSE,13
-                    ADD_CAVE ZIGZAG,14
-                    ADD_CAVE FUNNEL,15
-                    ADD_CAVE ENCHANTED_BOXES,16
-
-                    ADD_CAVE INTERMISSION_4,$80|$3
+    ENDIF
 
     ;---------------------------------------------------------------------------
 
