@@ -345,4 +345,4 @@ PLAYER_TAP1
                 .byte 0
 
 ;    CHECKPAGE PLAYER_BLANK
-    CHECKPAGE CHARACTERSHAPE_SOIL ; since we share some 0 bytes!
+    CHECKPAGEX CHARACTERSHAPE_SOIL, "Rockford in Rockford.asm" ; since we share some 0 bytes!

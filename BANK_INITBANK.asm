@@ -15,7 +15,7 @@
                 .byte <.BOARD_LOCATION
 .BOARD_LOCATION SET .BOARD_LOCATION + SIZE_BOARD_X
             REPEND
-    CHECKPAGE BoardLineStartLO
+    CHECKPAGEX BoardLineStartLO, "BoardLineStartLO in BANK_INITBANK.asm"
 
 SIZE_BOARD = .BOARD_LOCATION-Board  ; verify calculated value
 
@@ -35,7 +35,7 @@ BoardLineStartHiR
                 .byte >( .BOARD_LOCATION & $13FF )      ; cater for mirroring of memory images
 .BOARD_LOCATION SET .BOARD_LOCATION + SIZE_BOARD_X
             REPEND
-    CHECKPAGE BoardLineStartHiR
+    CHECKPAGEX BoardLineStartHiR, "BoardLineStartHiR in BANK_INITBANK"
 ;------------------------------------------------------------------------------
 
 BoardLineStartHiW
@@ -52,7 +52,7 @@ BoardLineStartHiW
                 .byte >( ( .BOARD_LOCATION & $13FF ) + RAM_WRITE )      ; cater for mirroring of memory images
 .BOARD_LOCATION SET .BOARD_LOCATION + SIZE_BOARD_X
             REPEND
-    CHECKPAGE BoardLineStartHiW
+    CHECKPAGEX BoardLineStartHiW, "BoardLineStartHiW in BANK_INITBANK"
 
 ;------------------------------------------------------------------------------
     IF MULTI_BANK_BOARD = YES
@@ -71,7 +71,7 @@ BoardBank
 .BOARD_LOCATION SET .BOARD_LOCATION + SIZE_BOARD_X      ; note, we CANNOT cross a page boundary within a row
             REPEND
     IF MULTI_BANK_BOARD = YES
-    CHECKPAGE BoardBank
+    CHECKPAGEX BoardBank, "BoardBank in BANK_INITBANK.asm"
     ENDIF
 
 
@@ -461,10 +461,10 @@ canPush         pla
 
                 jsr BlankOriginalLocationXY       ;6+87[-2](A)        and stacks newly blank position for checking -- also causing boulder to fall!
 
-                START_SOUND SOUND_BOX
+                ;START_SOUND SOUND_BOX
 
-                lda BufferedButton                   ; button pressed?
-                bpl PushWithButton
+                ;lda BufferedButton                   ; button pressed?
+                ;bpl PushWithButton
                 jmp MovePlayer              ; now there's a gap, player should move in
 
 cannotPush      pla
@@ -537,7 +537,7 @@ MANMODE_BONUS_RUN   = 9
 
 .skipReset:
 
-                ldy ManMode
+                ;sokldy ManMode
                 ;sok lda ManActionTimer,y
                 ;sok beq .skipTimer
                 ;sok jsr UpdateTimer
@@ -858,6 +858,7 @@ stayAlive
                 lda CharToType,x
                 cmp #TYPE_MAN
                 beq PlayerAlive
+                ;jmp PlayerAlive ;sok
 
     ; character he's on isn't a MAN character, so he dies...
 
@@ -1268,8 +1269,8 @@ OBJTYPE    .SET OBJTYPE + 1
                 .byte <MOVE_GENERIC
                 .byte <MOVE_GENERIC
                 .byte <MOVE_GENERIC
-                .byte <MOVE_EXIT
-                .byte <MOVE_EXIT
+                .byte <MOVE_GENERIC
+                .byte <MOVE_GENERIC
 
                 .byte <MOVE_GENERIC
                 .byte <MOVE_GENERIC
@@ -1308,8 +1309,8 @@ OBJTYPE    .SET OBJTYPE + 1
                 .byte >MOVE_GENERIC
                 .byte >MOVE_GENERIC
                 .byte >MOVE_GENERIC
-                .byte >MOVE_EXIT
-                .byte >MOVE_EXIT
+                .byte >MOVE_GENERIC
+                .byte >MOVE_GENERIC
 
                 .byte >MOVE_GENERIC
                 .byte >MOVE_GENERIC

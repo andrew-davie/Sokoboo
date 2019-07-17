@@ -255,11 +255,11 @@ SwitchToDrawLogoBank SUBROUTINE
 
 ; color tables for NTSC/PAL:
 BkColTbl
-    .byte   $82
-    .byte   $d2
+    .byte   0;$82
+    .byte   0;$d2
 StarsColTbl
-    .byte   $9a
-    .byte   $da
+    .byte   0;$9a
+    .byte   0;$da
 
 TradeMarkA = . - 4
     ds 28, 0                ; bottom 7 bytes don't matter
@@ -326,233 +326,29 @@ X SET X+1
 ; BOX DASH PF graphics data:
 
 title_STRIP_0
-    .byte   240
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   16
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
-    .byte   208
+    ds 35,0
     CHECKPAGE title_STRIP_0
 
     ALIGN_FREE 256
 
 title_STRIP_1
-    .byte   255
-    .byte   0
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   3
-    .byte   0
-    .byte   207
-    .byte   239
-    .byte   239
-    .byte   239
-    .byte   45
-    .byte   45
-    .byte   45
-    .byte   45
-    .byte   237
-    .byte   237
-    .byte   205
-    .byte   237
-    .byte   45
-    .byte   47
-    .byte   239
-    .byte   192
+  ds 35,0
     CHECKPAGE title_STRIP_1
 
 title_STRIP_2
-    .byte   255
-    .byte   0
-    .byte   179
-    .byte   183
-    .byte   183
-    .byte   183
-    .byte   183
-    .byte   180
-    .byte   180
-    .byte   244
-    .byte   244
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   228
-    .byte   %01100111
-    .byte   3
-    .byte   0
-    .byte   222
-    .byte   222
-    .byte   222
-    .byte   222
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   214
-    .byte   0
+  ds 35,0
     CHECKPAGE title_STRIP_2
 
 title_STRIP_3
-    .byte   240
-    .byte   0
-    .byte   224
-    .byte   224
-    .byte   224
-    .byte   224
-    .byte   0
-    .byte   0
-    .byte   0
-    .byte   224
-    .byte   224
-    .byte   224
-    .byte   96
-    .byte   96
-    .byte   96
-    .byte   224
-    .byte   224
-    .byte   0
-    .byte   0
-    .byte   176
-    .byte   176
-    .byte   176
-    .byte   176
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   0
+  ds 35,0
     CHECKPAGE title_STRIP_3
 
 title_STRIP_4
-    .byte   255
-    .byte   0
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   180
-    .byte   188
-    .byte   188
-    .byte   188
-    .byte   52
-    .byte   52
-    .byte   52
-    .byte   180
-    .byte   180
-    .byte   0
-    .byte   0
-    .byte   231
-    .byte   247
-    .byte   247
-    .byte   247
-    .byte   150
-    .byte   150
-    .byte   150
-    .byte   151
-    .byte   151
-    .byte   151
-    .byte   150
-    .byte   150
-    .byte   150
-    .byte   247
-    .byte   231
-    .byte   0
+  ds 35,0
     CHECKPAGE title_STRIP_4
 
 title_STRIP_5
-    .byte   255
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   128
-    .byte   173
-    .byte   173
-    .byte   173
-    .byte   173
-    .byte   188
-    .byte   188
-    .byte   156
-    .byte   188
-    .byte   172
-    .byte   172
-    .byte   172
-    .byte   172
-    .byte   172
-    .byte   189
-    .byte   157
-    .byte   128
+  ds 35,0
     CHECKPAGE title_STRIP_5
 
 ;    ALIGN_FREE 256

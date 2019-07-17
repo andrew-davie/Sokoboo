@@ -75,7 +75,6 @@ SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
 ;-------------------------------------------------------------------------------
 ; The following should be YES for the final or DEMO version
-SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
@@ -100,7 +99,6 @@ DEMO_VERSION                    SET NO          ; force a dual-level playable de
 TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a special setup for testing the bonus countdown
 F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
 CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
-SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
@@ -116,7 +114,6 @@ NTSC_MODE                       SET YES         ; mmh
 TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a special setup for testing the bonus countdown
 F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
 CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
-SHOW_COPYRIGHT                  SET YES         ; must be YES for final release
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
@@ -137,7 +134,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 3           ; slowdown when pushing on a BOX
+PUSH_LIMIT                      = 2           ; slowdown when pushing on a BOX
 GENERIC_MASK_ROUNDED            = 1             ; lets rocks/diamonds roll off
 GENERIC_MASK_SQUASHABLE         = 2             ; gets pummelled by anything falling on it
 GENERIC_MASK_EXPLODABLE         = 8             ; takes part in an explosion
@@ -148,6 +145,7 @@ GENERIC_MASK_FALLABLE           = 128           ; objects can fall into blanks (
 ; POS_VAR flags:
 VAR_FALLING                     = %10000000     ; hardwired! negative assumed
 VAR_JUST_GENERATED              = %01000000     ; object cannot fall and squash things yet
+VAR_ON_DIAMOND                  = %00100000     ; object is 'standing' on diamond
 
 ; amoeba and magic wall constants:
 MAGIC_WALL_DORMANT              = $FF           ; wall dormant, waiting for trigger
@@ -339,6 +337,19 @@ EARLY_LOCATION  SET *
         ENDIF
         LIST ON
     ENDM
+
+    MAC CHECKPAGEX
+        LIST OFF
+        IF >. != >{1}
+            ECHO ""
+            ECHO "ERROR: different pages! (", {1}, ",", ., ")"
+            ECHO {2}
+            ECHO ""
+        ERR
+        ENDIF
+        LIST ON
+    ENDM
+
 
     MAC CHECKPAGE_BNE
         LIST OFF
@@ -1061,17 +1072,9 @@ MAX_CAVENUM                     EQU CAVENUM
 
 ;--------------------------------------------------------------------------------
 
-
-
 ORIGIN      SET $00000
 
-
-
-
-            ; Eight 2K Banks = 16K
-
             include "BANK_MUSIC.asm"
-            include "48x128.asm"
             include "BANK_TITLE.asm"
             include "BANK_TITLE_LOGO.asm"
             include "BANK_Demo.asm"             ; upper half of BANK_TITLE_LOGO
@@ -1079,7 +1082,6 @@ ORIGIN      SET $00000
             include "BANK_ROM_SHADOW_DRAWBUFFERS.asm"
             include "BANK_ROM_SHADOW_SCORING.asm"
             include "BANK_GENERIC.asm"
-
             include "BANK_INITBANK.asm"         ; MUST be after banks that include caves -- otherwise MAX_CAVEBANK is not calculated properly
             include "BANK_FIXED.asm"
 

@@ -317,15 +317,15 @@ ItIsBlank       lda POS_Type
 
 .Activate
                 tay
-                lda InitialFace,y
+                lda #0 ;InitialFace,y
                 sta POS_VAR
 
                 lda CharToType2,x
                 and #ALTERNATE_FACE
                 beq noAlternate
 
-                inc POS_VAR
-                inc POS_VAR
+                ;inc POS_VAR
+                ;inc POS_VAR
 
 noAlternate     tya
                 tax

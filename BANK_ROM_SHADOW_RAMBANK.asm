@@ -470,7 +470,7 @@ ScreenBitmapRED     = ScreenBitmap + LINES_PER_CHAR/3*0
 ScreenBitmapGREEN   = ScreenBitmap + LINES_PER_CHAR/3*1
 ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
 
-    CHECKPAGE ScreenBitmap
+    CHECKPAGEX ScreenBitmap, "ScreenBitmap"
 
 ;--------------------------------------------------------------------------
 ;    CHARACTER_SET
@@ -526,8 +526,8 @@ SetSelfModPlayer
 NoMod
                 rts
 
-    include "Dirt.asm"            ; 2 * LINES_PER_CHAR bytes
     include "Rockford.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
+    include "Dirt.asm"            ; 2 * LINES_PER_CHAR bytes
     include "Magic_Wall.asm"      ; 3 * LINES_PER_CHAR bytes
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
@@ -554,4 +554,3 @@ NoMod
 
 
            CHECK_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"
-

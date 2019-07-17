@@ -362,7 +362,7 @@ ANIM_EXITDOOR   .byte CHARACTER_EXITDOOR    ; 11
         ECHO "ERROR: Missing entry in CharReplacement table!"
         EXIT
     ENDIF
-    CHECKPAGE CharReplacement
+    CHECKPAGEX CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
 
     ;------------------------------------------------------------------------------
 
@@ -424,7 +424,7 @@ lifeMaxedOut
                 lda #BANK_MoveExit
                 sta ROM_Bank
 
-                jsr MoveNoButton2                ; move man over exit door area
+                ;jsr MoveNoButton2                ; move man over exit door area
 
     ; Stop the sort, so it doesn't accidentally swap "in" any creatures
 

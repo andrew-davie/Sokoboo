@@ -213,33 +213,6 @@ PutBoardCharacterSB ; =18
 
     ;---------------------------------------------------------------------------
 
-;  IF TJ_MODE
-;; experimental code
-;    DEFINE_SUBROUTINE GetRAMByteFromRAM ; = 19
-;
-;                sty SET_BANK_RAM                    ; 3
-;                ldy #0                              ; 2
-;                lda (addressR),y                    ; 5
-;                stx SET_BANK_RAM                    ; 3     return to RAM caller
-;                rts                                 ; 6
-;
-;    ;---------------------------------------------------------------------------
-;
-;    DEFINE_SUBROUTINE PutRAMByteFromRAM ; = 20
-;
-;                sty SET_BANK_RAM                    ; 3
-;                ldy #0                              ; 2
-;                sta (addressW),y                    ; 6
-;                stx SET_BANK_RAM                    ; 3     return to RAM caller
-;                rts                                 ; 6
-;
-;    ;---------------------------------------------------------------------------
-;  ENDIF
-
-
-    ;---------------------------------------------------------------------------
-
-
     DEFINE_SUBROUTINE ProcessObjStack ; 15 minimum segtime abort
 ; TJ: used by:
 ; - BANK_FIXED.asm
@@ -429,6 +402,41 @@ gnobj           jmp NextObject
 
     ;---------------------------------------------------------------------------
 
+
+    DEFINE_SUBROUTINE RestoreOriginalCharacter     ;=93[-2](A)
+; TJ: used by:
+; - BANK_FIXED.asm
+; - BANK_INITBANK.asm
+
+                ldx POS_Y                       ;3
+                ldy POS_X                       ;3
+
+                lda #BANK_BoardLineStartLO      ;2
+                sta SET_BANK                    ;3
+
+                lda BoardLineStartLO,x          ;4
+                sta Board_AddressW              ;3
+                lda BoardLineStartHiW,x         ;4
+                sta Board_AddressW+1            ;3 WRITE address
+        IF MULTI_BANK_BOARD = YES
+                lda BoardBank,x                 ;4 switch this on return
+        ELSE
+                lda #BANK_BOARD                 ;2
+        ENDIF
+                sta SET_BANK_RAM                ;3
+
+                lda POS_VAR           ;3
+                sta (Board_AddressW),y          ;6 clear vacated board position
+
+                ;lda #BANK_DRAW_BUFFERS          ;2
+                ;sta SET_BANK_RAM                ;3
+                ;jsr InsertBlankStack            ;6+30(A)
+
+                lda ROM_Bank                    ;3
+                sta SET_BANK                    ;3
+                rts                             ;6
+
+
     DEFINE_SUBROUTINE BlankOriginalLocation     ;=93[-2](A)
 ; TJ: used by:
 ; - BANK_FIXED.asm
@@ -456,9 +464,9 @@ gnobj           jmp NextObject
                 lda #CHARACTER_BLANK            ;2
                 sta (Board_AddressW),y          ;6 clear vacated board position
 
-                lda #BANK_DRAW_BUFFERS          ;2
-                sta SET_BANK_RAM                ;3
-                jsr InsertBlankStack            ;6+30(A)
+                ;lda #BANK_DRAW_BUFFERS          ;2
+                ;sta SET_BANK_RAM                ;3
+                ;jsr InsertBlankStack            ;6+30(A)
 
                 lda ROM_Bank                    ;3
                 sta SET_BANK                    ;3
@@ -507,7 +515,7 @@ EarlyAbortBOX
                 lax (Board_AddressR),y          ;5
                 lda CharToType,x                ;4
                 cmp POS_Type                    ;3
-                bne gnobj                       ;2/3
+                ;bne gnobj                       ;2/3
 
                 jmp NotStraightDown     ; Sokoban ovveride
 
@@ -805,12 +813,12 @@ MOVE_DIAMOND
 ; TJ: used by:
 ; - BANK_FIXED.asm
 
+
                 lda INTIM
                 cmp #SEGTIME_GET_DIAMOND
                 ror specialTimeFlag             ; mark any overtime!
                 bpl timeExit
                 STRESS_TIME SEGTIME_GET_DIAMOND
-
 
     IF MULTI_BANK_BOARD = YES
                 lda RAM_Bank
@@ -864,36 +872,29 @@ MOVE_SOIL       ldy #SOUND_MOVE_SOIL            ; 2
 checkForSnatch
 
 
-                ldy POS_X_NEW                   ; 3
-                lda BufferedButton              ; 3             button pressed?
-                bmi MoveNoButton                ; 2/3           NO, so we move to new square, otherwise...
-
-    ; We only 'snatch' and the player doesn't move. Blank the snatched square...
-
-                ldx POS_Y_NEW                   ; 3
-                stx POS_Y                       ; 3             needed for InsertBlankStack
-                sty POS_X                       ; 3             needed for InsertBlankStack
-                ;jmp BlankOriginalLocationXY     ; 6+87[-2](A)   snatch/grab the new location
-
-    ;---------------------------------------------------------------------------
-
-MoveNoButton2
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
                 lda #BANK_BOARD
                 sta SET_BANK_RAM
 
-MoveNoButton    lda #CHARACTER_MANOCCUPIED      ; 2
+                ldy POS_X_NEW
+                lda (Board_AddressR),y
+                pha
+
+                lda #CHARACTER_MANOCCUPIED      ; 2
                 sta (Board_AddressW),y          ; 6 =  8        the man's new square
+
 
                 ldx ManY                        ; 3
                 stx POS_Y                       ; 3
                 ldy ManX                        ; 3
                 sty POS_X                       ; 3 = 12
 
-                jsr BlankOriginalLocationXY     ; 6+87[-2](A)   and stacks newly blank position for checking
+                jsr RestoreOriginalCharacter
 
-                lda POS_X_NEW                   ; 3
+                pla
+                sta POS_VAR
+
+
+pastblank                lda POS_X_NEW                   ; 3
                 sta ManX                        ; 3
                 lda POS_Y_NEW                   ; 3
                 sta ManY                        ; 3 = 12        actually MOVE!
@@ -904,16 +905,6 @@ MOVE_GENERIC
                 lda #0                          ; 2
                 sta ManPushCounter              ; 3
 timeExit        rts                             ; 6 = 11
-
-    ;---------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE MOVE_EXIT
-; TJ: used by:
-; - BANK_FIXED.asm
-
-                lda #BANK_MoveExit
-                sta SET_BANK
-                jmp MoveExit
 
     ;---------------------------------------------------------------------------
 
@@ -1102,7 +1093,7 @@ CopyRow2
 ; total: (244[-5]+5)*8 + 60[-7]*7 + 1 + 11 = 2424[-89]
 
 
-                CHECKPAGE CopyRow2
+                CHECKPAGEX CopyRow2, "CopyRow2 in BANK_FIXED.asm"
 
 .exitCopy       ldx DHS_Stack                   ; 3
                 txs                             ; 2
@@ -1117,17 +1108,7 @@ Reset
 ; TJ: used by:
 ; - BANK_FIXED.asm
 
-    IF SHOW_COPYRIGHT = NO
                 CLEAN_START
-    ELSE
-                lda #BANK_DrawCopyright         ; 2
-                sta SET_BANK                    ; 3
-                jmp DrawCopyright               ; 3+x
-ExitCopyRight
-    ENDIF
-
-
-
 
     ; Scoring bank is copied once (not per game, not per level...)
     ; otherwise non-SaveKey high score gets zapped
@@ -1183,9 +1164,9 @@ RestartCaveNextPlayer
     ; a player has lost a life.
     ; store his vars, swap to other player, continue
 
-                lda #BANK_SCORING
-                sta SET_BANK_RAM
-                jsr SwapPlayers
+                ;lda #BANK_SCORING
+                ;sta SET_BANK_RAM
+                ;jsr SwapPlayers
 
                 lda #BANK_SwapPlayersGeneric
                 sta SET_BANK
@@ -1228,23 +1209,11 @@ skipDemoCheck
     ; copy the screen draw ROM shadow to RAM
 
                 ldy #SCREEN_LINES-1
-CopyScreenBanks
-
-                ldx #ROM_SHADOW_OF_RAMBANK_CODE
+CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 jsr CopyROM2RAM_F000               ; copy draw ROMShadow to RAM
-
-;                lda #BANK_SetPlatformColours       ; same bank!
-;                sta SET_BANK
                 jsr SetPlatformColours             ; set NTSC or PAL RGB values for draw + index
-
                 dey
                 bpl CopyScreenBanks
-
-    ;---------------------------------------------------------------------------
-
-;                lda #BANK_CopyROMShadowToRAM       ; same bank!
-;                ;sta ROM_Bank                                    ; <-- pretty sure this one can go.
-;                sta SET_BANK
 
                 ldx #ROM_SHADOW_OF_BANK_DRAW_BUFFERS
                 ldy #BANK_DRAW_BUFFERS
@@ -1266,25 +1235,15 @@ NewFrameBD
                 bvs RestartCaveNextPlayer       ; loss of life
 
     ; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
+
                 lda #%1110                       ; VSYNC ON
-.loopVSync
-;                ldx #BANK_PlaySounds
-;                stx SET_BANK
-
-;                ldx Platform
-;                ldy VBlankTime,x
-
-                sta WSYNC
+.loopVSync      sta WSYNC
                 sta VSYNC
-
-;                sty TIM64T                      ; better set timer after (last) WSYNC
-
-    ; Ignorant comment removed. (TJ: and you were wrong anyway. :)
-
                 lsr
                 bne .loopVSync                  ; branch until VYSNC has been reset
 
  ; moved *after* the loop since this allows to *increase* timer values by 1!
+
                 ldx Platform
                 ldy VBlankTime,x
                 sty TIM64T

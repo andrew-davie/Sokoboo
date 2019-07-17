@@ -126,28 +126,8 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
                 and #<(~BIT_NEXTLIFE)
                 sta NextLevelTrigger
 
-    ; swap player and lives, returns C-flag = 1 if player is dead
+    ; if new high score was set by SwapPlayers, update it:
 
-                lda MenCurrent
-                and #$F0                        ; other player has lives left?
-                beq .playerDead2                ; NO, so we don't swap scores
-
-                lda whichPlayer
-                eor #1
-                sta whichPlayer
-
-    ; switch nybbles over -- the low 4 bits holds current player's life count
-
-                lda MenCurrent
-                ldx #4
-.swapNybble     cmp #$80
-                rol
-                dex
-                bne .swapNybble
-                sta MenCurrent                  ; only 0 when BOTH players dead :))
-
-.playerDead2
-; if new high score was set by SwapPlayers, update it:
                 jmp WriteSaveKey
 
 
@@ -368,7 +348,7 @@ AnimateBLANK
     .byte AnimateBLANK-Manimate ;word AnimateBLANK
 
 AnimateEND
-    CHECKPAGE Manimate
+    CHECKPAGEX Manimate, "AnimateEND @ BANK_GENERIC"
     ;---------------------------------------------------------------------------
 
 
@@ -381,7 +361,7 @@ AnimateEND
 
 ; scrolling constants:
 .SCRL_START_LEFT    = 3                                 ; 3
-.SCRL_STOP_LEFT     = SCREEN_WIDTH-5                    ; 5 scrolls 5-3+1 = 3 pixel
+.SCRL_STOP_LEFT     = 3 ;SCREEN_WIDTH-5                    ; 5 scrolls 5-3+1 = 3 pixel
 .SCRL_START_RIGHT   = SCREEN_WIDTH-.SCRL_START_LEFT     ; 7
 .SCRL_STOP_RIGHT    = SCREEN_WIDTH-.SCRL_STOP_LEFT      ; 5
 .SCRL_LEFT_BIT      = %00010001
@@ -389,7 +369,7 @@ AnimateEND
 .SCRL_X_BITS        = .SCRL_LEFT_BIT|.SCRL_RIGHT_BIT
 
 .SCRL_START_UP      = 2                                 ; 2
-.SCRL_STOP_UP       = SCREEN_LINES-5                    ; 3 scrolls 3-2+1 = 2 pixel
+.SCRL_STOP_UP       = 2 ;SCREEN_LINES-5                    ; 3 scrolls 3-2+1 = 2 pixel
 .SCRL_START_DOWN    = SCREEN_LINES-.SCRL_START_UP       ; 6
 .SCRL_STOP_DOWN     = SCREEN_LINES-.SCRL_STOP_UP        ; 5
 .SCRL_UP_BIT        = %01000100
@@ -609,7 +589,7 @@ OverscanTime
 
                 lda LookingAround
                 bpl nolooker                    ; if not looking around, that will do nicely
-                ldy #2 ;sok
+                ldy #0 ;sok
 ;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
 nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
 
