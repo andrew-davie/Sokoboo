@@ -90,7 +90,6 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
                 lda #0
 ;                sta ObjStackPtr                 ; object stack index of last entry
 ;                sta ObjStackPtr+1
-;                sta BlankStackPtr               ; blank stack index of last entry
 ;                sta ObjStackNum
 ;                sta ObjIterator
 
@@ -238,8 +237,6 @@ notU0           sta BoardScrollY
                 sta ColourTimer
                 sta extraLifeTimer              ; Cosmic Ark stars off
 
-                sta BlankStackPtr
-
                 sta soundIdxLst
                 sta soundIdxLst+1
                 sta newSounds
@@ -281,27 +278,27 @@ AnimateSTAND
 AnimateSTOPPED
     .byte 127
     .byte <PLAYER_STAND
-    .byte 10
-    .byte < PLAYER_BLINK
-    .byte 127
-    .byte < PLAYER_STAND
+    ;.byte 10
+    ;.byte < PLAYER_BLINK
+    ;.byte 127
+    ;.byte < PLAYER_STAND
     ;.byte 0
     ;.word AnimateTAP
 
 AnimateTAP
-    .byte 128, %0                   ; reflect off, always tap with left foot
-    .byte 8
-    .byte < PLAYER_TAP0
-    .byte 8
-    .byte < PLAYER_TAP1
-    .byte 8
-    .byte < PLAYER_TAP0
-    .byte 8
-    .byte < PLAYER_TAP1
-    .byte 8
-    .byte < PLAYER_TAP0
-    .byte 8
-    .byte < PLAYER_TAP1
+    ;.byte 128, %0                   ; reflect off, always tap with left foot
+    ;.byte 8
+    ;.byte < PLAYER_TAP0
+    ;.byte 8
+    ;.byte < PLAYER_TAP1
+    ;.byte 8
+    ;.byte < PLAYER_TAP0
+    ;.byte 8
+    ;.byte < PLAYER_TAP1
+    ;.byte 8
+    ;.byte < PLAYER_TAP0
+    ;.byte 8
+    ;.byte < PLAYER_TAP1
     .byte 0
     .byte AnimateSTAND-Manimate ;word AnimateSTAND
 
@@ -510,7 +507,6 @@ EarlyAbortx     rts                             ; 6 =  6
     ; Gives LO byte of addresses of subroutines for timeslice processing
 
                 .byte <ProcessObjStack
-                .byte <ProcessBlankStack
                 .byte <DrawFullScreen
                 .byte <BuildDrawStack
                 .byte <DrawAIntoStack
@@ -521,7 +517,6 @@ TS_PhaseVectorHI
     ; Gives HI byte of addresses of subroutines for timeslice processing
 
                 .byte >ProcessObjStack
-                .byte >ProcessBlankStack
                 .byte >DrawFullScreen
                 .byte >BuildDrawStack
                 .byte >DrawAIntoStack
@@ -532,7 +527,6 @@ TS_PhaseBank
     ; Gives bank of subroutines for timeslice processing
 
                 .byte BANK_ProcessObjStack
-                .byte BANK_ProcessBlankStack
                 .byte BANK_DrawFullScreen
                 .byte BANK_DRAW_BUFFERS ;BANK_BuildDrawStack
                 .byte BANK_DRAW_BUFFERS ;BANK_BuildDrawStack2

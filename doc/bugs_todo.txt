@@ -553,7 +553,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 AD: Checked -- its OK because BoardLineStart tables cater for page crossing.
                   Fixed the size calculation so it's strictly correct.
 
-1               ThrottleSpeed has to be set AFTER DecodeCave if we want to use CaveDisplay, else we have to check
+1               ThrottleSpeed has to be set AFTER DecodeCave if we want to use levelDisplay, else we have to check
                 cave numbers. -> Game currently much too fast! :)
 1               Throttle is staggering on M for NTSC.
                 AD: Moved platformselect to the end of DecodeCave. Staggering gone, too.

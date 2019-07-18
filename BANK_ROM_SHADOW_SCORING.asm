@@ -786,7 +786,7 @@ HighScoreColTbl:
     ; modify cave character pointer (XX XX cX)
 
                 ldx #<IntermissionL-1
-                lda caveDisplay
+                lda levelDisplay
                 cmp #$80
                 and #$1f
                 tay

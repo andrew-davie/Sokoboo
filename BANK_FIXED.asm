@@ -83,19 +83,6 @@ ORIGIN          SET FIXED_BANK
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE InsertBlankStack2         ;=51(A)
-; TJ: used by:
-; - BANK_INITBANK.asm
-
-                sta SET_BANK_RAM                ; 3
-                jsr InsertBlankStack            ; 6+30(A)
-                lda ROM_Bank                    ; 3
-                sta SET_BANK                    ; 3
-                rts                             ; 6
-
-    ;------------------------------------------------------------------------------
-
-
     DEFINE_SUBROUTINE GetROMByte ;=23(A)
 ; TJ: used by:
 ; - BANK_INITBANK.asm
@@ -228,7 +215,7 @@ PutBoardCharacterSB ; =18
 
                 lda ObjIterator                 ;3
                 cmp ObjStackPtr,x               ;5
-                bcs doBlanks                    ;2/3           check for blanks
+                bcs nextPhase                   ;2/3
 
     ; Process an object...
     ; Actual object code (the handlers) starts 82 cycles after previous segtime check!
@@ -264,29 +251,8 @@ PutBoardCharacterSB ; =18
     ; and determines (and moves) BOXs or diamonds into these squares.  The space vacated
     ; by these objects are added again to the blank stack.
 
-doBlanks        inc ScreenDrawPhase
-                ldy BlankStackPtr               ; 3
-                beq nextPhase                   ; 2/3           blanks finished!!
-
-    DEFINE_SUBROUTINE ProcessBlankStack ;=892
-
-                lda INTIM                       ;4
-                cmp #MINIMUM_SEGTIMEBLANK       ;2
-                bcc EarlyAbort                  ;2/3
-                STRESS_TIME MINIMUM_SEGTIMEBLANK
-
-                lda #BANK_DRAW_BUFFERS          ;2
-                sta SET_BANK_RAM                ;3
-                sta RAM_Bank                    ;3
-                jsr BlankCreatureInsertion      ;6+853
-
-NextBlank       dec BlankStackPtr               ;5              one less object on the blank stack
-                bne ProcessBlankStack           ;2/3
-
 nextPhase       inc ScreenDrawPhase             ;5              obj/blank finished -- let the draw stuff proceed
 EarlyAbort      rts                             ;6
-
-
 
     ;---------------------------------------------------------------------------
 
@@ -311,13 +277,13 @@ EarlyAbort      rts                             ;6
                 sbc #MAX_THROTTLE               ;2
                 bcc EarlyAbort                  ;2/3            plenty of time left!
 
-    ; Time is up. But we may be in a cave which requires perfect sorting (e.g., intermission 4)
-    ; So we check for these caves, and wait for the sort to complete for those.
+    ; Time is up. But we may be in a level which requires perfect sorting
+    ; So we check for these levels, and wait for the sort to complete for those.
 
-                bit caveDisplay                 ;3
+                bit levelDisplay                 ;3
                 bvc keepFractional              ;2/3            screen does not require complete sort
 
-    ; We have an intermission or screen which requires the sort to go to completion
+    ; We have a level which requires the sort to go to completion
     ; Check to see if the sort is finished...
 
                 ldy sortPtr                     ;3
@@ -327,14 +293,13 @@ EarlyAbort      rts                             ;6
 
 keepFractional  sta Throttle                    ;3              save fractional 'left over' bit
 
-
     ; Pause the game with B/W switch:
 
                 lda gameMode
 ;                ora LookingAround               ; New behavour of looking around pauses creatures when activated.
                 bmi .paused                     ; pause flag set
 
-    ; Now that we have completed processing both the object and blanks stacks, we switch
+    ; Now that we have completed processing the object stack, we switch
     ; the stack bank pointers for the next time around.
 
                 lda ObjStackNum                 ;3
@@ -402,11 +367,7 @@ gnobj           jmp NextObject
 
     ;---------------------------------------------------------------------------
 
-
     DEFINE_SUBROUTINE RestoreOriginalCharacter     ;=93[-2](A)
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_INITBANK.asm
 
                 ldx POS_Y                       ;3
                 ldy POS_X                       ;3
@@ -425,55 +386,13 @@ gnobj           jmp NextObject
         ENDIF
                 sta SET_BANK_RAM                ;3
 
-                lda POS_VAR           ;3
+                lda POS_VAR
                 sta (Board_AddressW),y          ;6 clear vacated board position
-
-                ;lda #BANK_DRAW_BUFFERS          ;2
-                ;sta SET_BANK_RAM                ;3
-                ;jsr InsertBlankStack            ;6+30(A)
 
                 lda ROM_Bank                    ;3
                 sta SET_BANK                    ;3
-                rts                             ;6
+EarlyAbortBOX   rts                             ;6
 
-
-    DEFINE_SUBROUTINE BlankOriginalLocation     ;=93[-2](A)
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_INITBANK.asm
-
-                ldx POS_Y                       ;3
-                ldy POS_X                       ;3
-
-    DEFINE_SUBROUTINE BlankOriginalLocationXY   ;=87[-2](A)
-
-                lda #BANK_BoardLineStartLO      ;2
-                sta SET_BANK                    ;3
-
-                lda BoardLineStartLO,x          ;4
-                sta Board_AddressW              ;3
-                lda BoardLineStartHiW,x         ;4
-                sta Board_AddressW+1            ;3 WRITE address
-        IF MULTI_BANK_BOARD = YES
-                lda BoardBank,x                 ;4 switch this on return
-        ELSE
-                lda #BANK_BOARD                 ;2
-        ENDIF
-                sta SET_BANK_RAM                ;3
-
-                lda #CHARACTER_BLANK            ;2
-                sta (Board_AddressW),y          ;6 clear vacated board position
-
-                ;lda #BANK_DRAW_BUFFERS          ;2
-                ;sta SET_BANK_RAM                ;3
-                ;jsr InsertBlankStack            ;6+30(A)
-
-                lda ROM_Bank                    ;3
-                sta SET_BANK                    ;3
-
-EarlyAbortBOX
-
-                rts                             ;6
 
     ;---------------------------------------------------------------------------
 
@@ -501,10 +420,6 @@ EarlyAbortBOX
                 sty POS_Y_NEW                   ;3
 
     ; Make sure the character we're working with is still the same type of object
-    ; (for example, a 'BOX' placed on the object stack by the blank stack
-    ; handler, may no longer be there, so it's really a dummy).
-
-                ;ldy POS_Y                       ;3
 
                 lda #BANK_GetBoardAddressR      ;
                 sta SET_BANK                    ;
@@ -565,91 +480,6 @@ ReplaceFallingChar
                 jsr StartSoundCheckAlreadyFalling
 silentAlways
 wasNotFalling   jmp NextObject                      ; no, so we can't roll off it. Object becomes quiescent.
-
-        ; The object underneath is rounded, so we may roll off it.  We preferentially roll
-        ; to the left.  Rolling involves moving sideways if the square to the side is blank AND
-        ; the one below that one is squashable.  Here we get the 4 squares which will be
-        ; involved in the calcs...
-;;mayRoundOff                                         ; y == POS_X
-;;                dey
-;;                lda (Board_AddressR),y              ; leftward of row UNDERNEATH
-;;                sta BOXLeft
-;;                iny
-;;                iny
-;;                lda (Board_AddressR),y
-;;                sta BOXRight                    ; rightward of row UNDERNEATH
-
-;;                ldy POS_Y
-
-;;                lda #BANK_GetBoardAddressR          ;
-;;                sta SET_BANK                        ;
-;;                jsr GetBoardAddressR                ;11+24[-2](A)
-;;                sta SET_BANK_RAM                    ;3
-
-;;                ldy POS_X
-;;                dey
-;;                lda (Board_AddressR),y              ; leftward of current row
-
-;;                ora BOXLeft                     ; check for the movement left/down
-;;                bne MayRollRight                    ; there must be NOTHING in the left squares
-
-;;                dec POS_X_NEW                       ; new position (LEFT)
-;;                bpl BlankDownSound                  ; unconditional
-
-;;MayRollRight
-
-    ; check for the movement right/down
-;;                iny
-;;                iny
-;;                lda (Board_AddressR),y              ; rightward of current row
-;;                ora BOXRight
-;;                bne ReplaceFallingChar              ; there must be NOTHING in the right squares
-
-;;                inc POS_X_NEW                       ; new position (RIGHT)
-
-;;BlankDownSound:
-
-;;                jsr StartSoundCheckAlreadyFalling   ; prevent a sound if the object wasn't already falling
-;;                lda #VAR_FALLING                    ; this prevents a sound in the following
-;;                sta POS_VAR                         ; ...call to StartSoundCheckFalling
-
-;;BlankDown
-
-;;                lda INTIM
-;;                cmp #SEGTIME_BOX4
-;;                bcc NotEnoughTime
-;;                STRESS_TIME SEGTIME_BOX4
-
-    ; The object is 'falling' into position (POS_X_NEW,POS_Y_NEW)
-    ; object starts falling, so we play a sound here too:
-
-;;                lda #<(~VAR_FALLING)                ; do not start if already falling
-;;                jsr StartSoundCheckFalling
-
-;;                lda #VAR_FALLING
-;;                sta POS_VAR
-
-                ;lda POS_VAR
-                ;ora #VAR_FALLING
-                ;sta POS_VAR                         ; indicate object *is* falling
-
-;;                jsr BlankOriginalLocation       ;6+97(A)        blank/stack previous position
-
-;;                ldy POS_Y_NEW
-;;                sty POS_Y
-
-;;                lda #BANK_GetBoardAddressW          ;
-;;                sta SET_BANK                        ;
-;;                jsr GetBoardAddressW                ;11+24[-2](A)
-;;                stx SET_BANK_RAM                    ;3
-
-;;                ldy POS_X_NEW
-;;                sty POS_X
-
-;;                ldx POS_Type
-;;                lda BaseTypeCharacterFalling,x               ; original character base character
-;;                sta (Board_AddressW),y                       ; draw object in new location (Y = new X posn)
-
 ReInsertObject  jsr InsertObjectStack           ; 6+76(B)  = 98 (if jumping here)        place on stack so it keeps moving
 
 NextObject
@@ -768,9 +598,7 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
 
 
 MovePlayer
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_INITBANK.asm
+
                 lda ManMode
                 cmp #MANMODE_DEAD
                 bcs ManIsDead2
@@ -788,8 +616,7 @@ MovePlayer
 
                 ldy POS_X_NEW
                 lax (Board_AddressR),y
-; TODO: would it makes sense to add a move conversion table?
-; that way, the move tables would become much smaller
+
                 lda #BANK_MoveVecLO
                 sta SET_BANK
 
@@ -831,8 +658,6 @@ MOVE_DIAMOND
     ;---------------------------------------------------------------------------
 
 MOVE_BLANK
-; TJ: used by:
-; - BANK_FIXED.asm
 
     ; The movement sounds are lowest priority. They only trigger if there is a free channel.
     ; The code below checks the two channels and if either is free, uses it for the move sound.
@@ -909,9 +734,15 @@ timeExit        rts                             ; 6 = 11
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE MOVE_BOX
-; TJ: used by:
-; - BANK_FIXED.asm
 
+                ldx #CHARACTER_BLANK        ; restoration character
+                lda #BANK_PushBox
+                sta SET_BANK
+                jmp PushBox
+
+    DEFINE_SUBROUTINE MOVE_BOX_ON_TARGET
+
+                ldx #CHARACTER_DIAMOND      ; restoration character
                 lda #BANK_PushBox
                 sta SET_BANK
                 jmp PushBox
@@ -1558,7 +1389,7 @@ BaseTypeCharacterFalling
     ; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
 
                 .byte CHARACTER_MANOCCUPIED
-                .byte CHARACTER_BOX_FALLING
+                .byte CHARACTER_BOX
                 .byte 0
                 .byte 0
                 .byte 0
@@ -1617,7 +1448,7 @@ BaseTypeCharacterFalling
                 .byte TYPE_EXPLOSION3       ; 16
                 .byte 0           ; 17
 
-                .byte TYPE_BOX          ; falling BOX
+                .byte TYPE_DIAMOND              ; BOX on target --> target, giving our restore :)
                 .byte TYPE_DIAMOND          ; falling diamond
 
                 .byte TYPE_BLANK            ; 20 unkillable man

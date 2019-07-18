@@ -315,10 +315,10 @@ QRet            rts                             ;6
 
                 lda POS_VAR
                 and #31
-                sta caveDisplay
+                sta levelDisplay
                 asl
                 asl
-                adc caveDisplay                ; *5
+                adc levelDisplay                ; *5
                 sta cave
 
     ; Note: we can only select level 1,2,3,4
@@ -384,7 +384,7 @@ OBJTYPE    .SET OBJTYPE + 1
                 DEFINE_CHARACTER EXPLOSION2
                 DEFINE_CHARACTER EXPLOSION3
                 DEFINE_CHARACTER AMOEBA2
-                DEFINE_CHARACTER BOX_FALLING
+                DEFINE_CHARACTER BOX_ON_TARGET
                 DEFINE_CHARACTER DIAMOND_FALLING
                 DEFINE_CHARACTER NOGO
 
@@ -394,37 +394,37 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE PushBox ; in INITBANK
 
-    ; Note: FALLING boulders are not really boulders. They are falling boulders. They are a different
-    ; character type, so will not get to this code. So you can't push falling objects :)
-
                 sta ROM_Bank
 
-    ; Determine if the boulder is pushable
+                lda POS_VAR
+                pha
+                stx POS_VAR
+
+    ; Determine if the box is pushable
     ; we use the joystick to calculate the subsequent square
-;;;
 
-      lda BufferedJoystick
-      lsr
-      lsr
-      lsr
-      lsr
-      pha
-      tay
+                lda BufferedJoystick
+                lsr
+                lsr
+                lsr
+                lsr
+                pha
+                tay
 
-      clc
-      lda POS_Y_NEW
-      adc JoyMoveY,y
-      tay
-      jsr GetBoardAddressRW
+                clc
+                lda POS_Y_NEW
+                adc JoyMoveY,y
+                tay
+                jsr GetBoardAddressRW
 
-      pla
-      tay
+                pla
+                tay
 
-      clc
-      lda POS_X_NEW
-      adc JoyMoveX,y
-      pha
-      tay
+                clc
+                lda POS_X_NEW
+                adc JoyMoveX,y
+                pha
+                tay
 
     IF MULTI_BANK_BOARD = YES
                 lda RAM_Bank
@@ -432,26 +432,36 @@ OBJTYPE    .SET OBJTYPE + 1
                 lda #BANK_BOARD                 ; 2
     ENDIF
                 jsr GetBoardCharacter           ;6+20(A)
-                cmp #CHARACTER_DIAMOND
-                beq canPush
-                cmp #CHARACTER_BLANK
-                bne cannotPush
 
-canPush         pla
+                pla
                 tay
 
+                cpx #CHARACTER_DIAMOND
+                beq canPush
+                cpx #CHARACTER_BLANK
+                bne cannotPush
+
+canPush
                 inc ManPushCounter
                 lda ManPushCounter
                 eor #PUSH_LIMIT
-                bne cannotPush2                         ; nice 'get to 0' optimisation
+                bne cannotPush                         ; nice 'get to 0' optimisation
                 sta ManPushCounter
 
-    IF MULTI_BANK_BOARD = YES
-                ldx RAM_Bank
-    ELSE
-                ldx #BANK_BOARD                 ; 2
-    ENDIF
                 lda #CHARACTER_BOX
+                cpx #CHARACTER_DIAMOND2
+                beq isonTarget
+                cpx #CHARACTER_DIAMOND
+                bne notAtarget
+isonTarget                lda #CHARACTER_BOX_ON_TARGET
+notAtarget
+
+
+  IF MULTI_BANK_BOARD = YES
+              ldx RAM_Bank
+  ELSE
+              ldx #BANK_BOARD                 ; 2
+  ENDIF
                 jsr PutBoardCharacter           ;6+21(A)
 
                 ldx POS_Y_NEW
@@ -459,20 +469,18 @@ canPush         pla
                 ldy POS_X_NEW
                 sty POS_X
 
-                jsr BlankOriginalLocationXY       ;6+87[-2](A)        and stacks newly blank position for checking -- also causing boulder to fall!
+                jsr RestoreOriginalCharacter     ;6+87[-2](A)
 
                 ;START_SOUND SOUND_BOX
 
-                ;lda BufferedButton                   ; button pressed?
-                ;bpl PushWithButton
+                pla
+                sta POS_VAR
                 jmp MovePlayer              ; now there's a gap, player should move in
 
-cannotPush      pla
+cannotPush       pla
+                sta POS_VAR
                 ;lda #0
                 ;sta ManPushCounter
-PushWithButton
-cannotPush2
-timeout
                 rts
 
 Bango           jmp NextObject                      ;??? >-- should be OK. Creature dies.
@@ -593,7 +601,7 @@ ManActionHI
                 beq .setLoops
 
                 ldx #NUM_LEVELS-1               ; intermissions run at full speed
-                bit caveDisplay
+                bit levelDisplay
                 bmi .intermission2
                 ldx level
 .intermission2
@@ -707,6 +715,10 @@ TimeFracTbl:
                 jmp PutBoardCharacterFromRAM    ;70 --> switches this bank out but who cares!
 
 CreateRockford
+
+                lda #CHARACTER_BLANK
+                sta POS_VAR
+
                 inc ManMode                 ; --> MANMODE_NORMAL
 RTS_CF
                 rts
@@ -753,7 +765,7 @@ waitingMan      dec ManDelayCount
     ; Man loses a life and re-starts level if lives available
     ; Special-case: Bonus levels go to next level.
 
-                lda caveDisplay
+                lda levelDisplay
                 bmi intermission                ; don't lose a life on intermission screens
     IF NUM_LIVES != -1
                 dec MenCurrent                  ; works for P1P2 format
@@ -804,7 +816,7 @@ stillKicking
 
     ; If it's a bonus level, even though we've died... we go to the next cave
 
-                lda caveDisplay
+                lda levelDisplay
                 bpl nonextlevel
                 ldx #MANMODE_NEXTLEVEL
                 stx ManMode
@@ -1278,7 +1290,7 @@ OBJTYPE    .SET OBJTYPE + 1
                 .byte <MOVE_GENERIC
                 .byte <MOVE_GENERIC             ; amoeba???
 
-                .byte <MOVE_GENERIC             ; falling boulder
+                .byte <MOVE_BOX_ON_TARGET                 ; box on top of target position
                 .byte <MOVE_GENERIC             ; falling diamond
 
                 .byte <MOVE_GENERIC             ; unkillable man
@@ -1318,7 +1330,7 @@ OBJTYPE    .SET OBJTYPE + 1
                 .byte >MOVE_GENERIC
                 .byte >MOVE_GENERIC             ;amoeba
 
-                .byte >MOVE_GENERIC             ; falling boulder
+                .byte >MOVE_BOX_ON_TARGET                 ; box on top of target position
                 .byte >MOVE_GENERIC             ; falling diamond
 
                 .byte >MOVE_GENERIC             ; unkillable man

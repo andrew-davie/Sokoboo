@@ -5,24 +5,7 @@
                 NEWBANK ROM_SHADOW_OF_BANK_DRAW_BUFFERS
 
     ; NOTE: Access to these buffers must NOT overlap pages...
-
-
-    ; The blank stack is a stack of recently blanked-out squares.  These squares
-    ; are processed to determine if any of the surrounding squares should also
-    ; be processed (for example, an action causing a blank square may cause some
-    ; other action in surrounding squares, a sort of chain reaction).  The blank
-    ; stack is usually added to when objects move.  Objects on the blank stack
-    ; are not persistant (the blanks reference squares on the board, not physical
-    ; objects doing things).
-
-
-    ; THe BlankStack lists can NOT overlap page boundaries. Be careful.
-BLANK_STACK_MAX = 128 ; may NOT be extended
-
-BlankStackX     ds BLANK_STACK_MAX
-BlankStackY     ds BLANK_STACK_MAX
-
-   ; NOTE: We get auto-initialisation of these variables from the ROM values by
+    ; NOTE: We get auto-initialisation of these variables from the ROM values by
     ; copying the whole bank into the RAM bank.  Neato.
 
 DRAW_STACK_SIZE      =   SCREEN_ARRAY_SIZE      ; <-- TJ TRY CHANGING THIS TO (SAY) 15  (!!)
@@ -53,28 +36,8 @@ ScreenBuffer    ds SCREEN_ARRAY_SIZE,0                    ; the char buffer for 
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE InsertBlankStack ;=32(A) ; in RAM
 
-        ; places a blank square (POS_X,POS_Y) into the blank object stack
-
-                ldy BlankStackPtr               ; 3
-
-#if BLANK_STACK_MAX = 128
-                bmi BuffersFull                 ; 2/3
-#else
-                cpy #BLANK_STACK_MAX
-                beq BuffersFull                     ; A REAL PROBLEM, BUT GRACEFULLY HANDLE IT
-#endif
-
-                lda POS_Y                       ; 3
-                sta BlankStackY+RAM_WRITE,y     ; 5
-                lda POS_X                       ; 3
-                sta BlankStackX+RAM_WRITE,y     ; 5
-
-                inc BlankStackPtr               ; 5
-
-waitForDraw
-BuffersFull     rts                             ; 6
+waitForDraw    rts                             ; 6
 
     ;------------------------------------------------------------------------------
 
@@ -246,77 +209,7 @@ retAnim
                 stx DrawStackPointer            ;3
                 ldx save_SP                     ;3
                 txs                             ;2 = 10
-NoBlanks        rts                             ;6 =  6
-
-        ;------------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE BlankCreatureInsertion ;=853(A)
-
-                ldy BlankStackPtr               ;3
-                dey                             ;2
-
-    ; Processes a blank stack object.
-
-                lda BlankStackY,y               ;4
-                sta POS_Y                       ;3
-                lda BlankStackX,y               ;4
-                sta POS_X                       ;3
-
-    ; We have the position of a blank square on the board that has been placed onto
-    ; the blank stack in the previous iteration.  IFF the square is still blank, then
-    ; we check the squares immediately above and to the sides and place those object(s)
-    ; into the object stack
-
-                lda #0                          ;2
-                sta POS_VAR                     ;3              for object stack insertion
-
-    ;  +---+---+---+
-    ;  | 1 | 2 | 3 |
-    ;  +---+---+---+
-    ;  | 0 | B | 4 |
-    ;  +---+---+---+
-
-    ; Given a position 'B', checks the surrounding squares 0-4 for objects that could
-    ; possibly be caused to "fall" by the creation of a blank at 'B'.  These objects
-    ; are pushed onto the object stack to let them do their stuff.
-
-                dec POS_X                       ;5
-                jsr GetBoardCharacter__CALL_FROM_RAM__          ;6+61
-                jsr CheckIt                     ;6+108(A)       @ "0"
-
-                inc POS_X                       ;5
-                inc POS_X                       ;5
-                jsr CheckIt2                    ;6+141          # "4"
-
-                dec POS_Y                       ;5
-                jsr GetBoardCharacter__CALL_FROM_RAM__          ;6+61
-                jsr CheckIt                     ;6+110(A)       @ "3"
-
-                dec POS_X                       ;5
-                jsr CheckIt2                    ;6+141          @ "2"
-
-                dec POS_X                       ;5
-
-    ; fall through (@ "1")
-
-CheckIt2 ;=141
-
-                lda #BANK_BOARD                         ;2                      Warning -- will not work for multiple bank board!
-                jsr PartialGetBoardCharacter            ;6+23
-
-CheckIt ;=110(A)
-
-                lda GenericCharFlag,x                   ; 4     check char as a fallable item
-                bpl NoBlanks                            ; 2/3   NOT a fallable object!
-
-    ; Only FALLABLE objects detected in the candidate position are added to the object list.
-    ; These objects then make their own minds up if they're ACTUALLY going to fall.
-
-
-                lda CharToType,x                        ;4      get type of object based on character
-                sta POS_Type                            ;3
-
-                jmp InsertObjectStackFromRAM            ;3+94(B)
+                rts                             ;6 =  6
 
     ;------------------------------------------------------------------------------
     ; Gives character replacements used during screen drawing.
@@ -397,7 +290,7 @@ SOFF    SET SOFF + SCREEN_WIDTH
                 bit scoringFlags
                 bpl NoExitYet                                   ; D7 (extra diamond) triggers exit open
 
-                lda caveDisplay
+                lda levelDisplay
                 bpl lifeMaxedOut                ; not a bonus level
                 lda MenCurrent
                 and #$0f
@@ -432,7 +325,6 @@ lifeMaxedOut
                 sta sortRequired
                 lda #0
                 sta sortPtr
-                sta BlankStackPtr               ; don't allow any new objects either!
 
     ; We want *everything* to stop, but the player to keep processing
     ; So, kill every creature in the two object stacks, re-add the man (automatic), and continue

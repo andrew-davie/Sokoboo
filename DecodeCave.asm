@@ -103,7 +103,7 @@ RECT                = .STRUCT_RECTANGLE
                 sta SMLimit+RAM_WRITE+1             ; might as well use self-modifying
 
                 lda CaveInformation+4,y
-                sta caveDisplay                     ; what to display as the cave ID.
+                sta levelDisplay                     ; what to display as the cave ID.
 
                 ldx #0
                 stx caveTimeFrac                    ; now the 1st second is fully available
@@ -372,7 +372,7 @@ skipAmoebaSpecial
 ; adjusts playing speed based on level:
 
                 lda #NUM_LEVELS-1               ; intermissions run at full speed
-                bit caveDisplay
+                bit levelDisplay
                 bmi .intermission3
                 lda level
 .intermission3

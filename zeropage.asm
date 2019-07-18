@@ -71,7 +71,7 @@ BGColour                        ds 1
 ; cave and level have to be consecutive variables!
 cave                            ds 1            ; current player's cave (other in scoring bank)
 level                           ds 1            ; current player's level (other in scoring bank)
-caveDisplay                     ds 1            ; what to display as the cave ID
+levelDisplay                     ds 1            ; what to display as the cave ID
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
 ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
