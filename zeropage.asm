@@ -29,8 +29,8 @@ BufferedJoystick                ds 2        ; player joystick input
 BufferedButton                  ds 1        ; player button press
 
     ; Scrolling is limited to only show board within the following area...
-BoardLimit_Width                ds 1        ; width of current playfield (only used in DecodeCave)
-BoardLimit_Height               ds 1        ; height of current playfield (only used in DecodeCave)
+BoardLimit_Width                ds 1        ; width of current playfield (only used in UnpackLevel)
+BoardLimit_Height               ds 1        ; height of current playfield (only used in UnpackLevel)
 BoardScrollY                    ds 1        ; scroll position in board (Y)
 BoardScrollX                    ds 1        ; scroll position in board (X)
 BoardEdge_Right                 = BoardLimit_Width  ; absolute rightmost scroll value

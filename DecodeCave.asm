@@ -22,7 +22,7 @@ BOARD_DATA_AREA
 ;    .byte   26, 30  ; level 4 (E4: 4.17s) 1,15  1.37/1.36 (1.34)
 ;    .byte   27, 31  ; level 5 (E5: 4.00s) 1,14; 1.42/1.41 (1.40)
 
-    DEFINE_SUBROUTINE DecodeCave
+    DEFINE_SUBROUTINE UnpackLevel
 
 ; *** local constants for cava data: ***
 
@@ -90,7 +90,7 @@ RECT                = .STRUCT_RECTANGLE
 
 
 
-                lda #BANK_DecodeCave                ; the *ROM* bank of this routine (NOT RAM)
+                lda #BANK_UnpackLevel                ; the *ROM* bank of this routine (NOT RAM)
                 sta ROM_Bank                        ; GetROMByte returns to this bank
 
                 ldy cave
@@ -353,7 +353,7 @@ CharToType2
                 ;.byte TYPE_MAN                                 ; unkillable man
 
                  ; --> see also MoveVec
-                 ; --> see also DecodeCave's table
+                 ; --> see also UnpackLevel's table
 
 
 GetLevelDataBCD; SUBROUTINE

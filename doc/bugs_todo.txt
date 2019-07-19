@@ -553,10 +553,10 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 AD: Checked -- its OK because BoardLineStart tables cater for page crossing.
                   Fixed the size calculation so it's strictly correct.
 
-1               ThrottleSpeed has to be set AFTER DecodeCave if we want to use levelDisplay, else we have to check
+1               ThrottleSpeed has to be set AFTER UnpackLevel if we want to use levelDisplay, else we have to check
                 cave numbers. -> Game currently much too fast! :)
 1               Throttle is staggering on M for NTSC.
-                AD: Moved platformselect to the end of DecodeCave. Staggering gone, too.
+                AD: Moved platformselect to the end of UnpackLevel. Staggering gone, too.
 
 3               In the original, when Rockford dies, he does NOT explode. Only the objects killing him explode..
                 This included falling objects, though it makes no difference, since they explode at
@@ -722,7 +722,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 Currently people are not aware of the bonus life.
                 Put the star effect upon reaching the exit door -- IMHO that's when you earn the life.
 
-2               DecodeCave's fill is broken. It draws the outline OK (I think) but in the inner
+2               UnpackLevel's fill is broken. It draws the outline OK (I think) but in the inner
                 part it either fails completely (guess) or draws butterflies (definite). This explains the large areas
                 of unexplained butterflies in caves (set width/height large and have a look around).
                 e.g., intermission 1 - set width to 28,12 and scroll right -- columns of butterflies
@@ -733,7 +733,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 
 1               pretty sure intermission3 is broken.  Did I see butterflies on that screen?
                 There are no butterflies in the cave definition. And I'm pretty sure the FILL is not working
-                in decodecave. So FILL+CHARACTER_FIREFLY will not work.
+                in UnpackLevel. So FILL+CHARACTER_FIREFLY will not work.
                 TJ: see above! :)
 
 1               REMOVE slocum sound system!!  songPlayer
@@ -816,7 +816,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 We aren't using F1F2 for next level so this doesn't apply
 
 1               Amoeba levels (G,M) crash immediately (Amoeba code broken?)
-                incorrect register in decodecave. whoops.
+                incorrect register in UnpackLevel. whoops.
 
 1               + TJ: @AD, your colors for the demo levels H and M are (almost) identical, IMO, a bit more difference wouldn't hurt
                 +AD: agreed. I will play with colours before release.
@@ -921,11 +921,11 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                     PROCESS_SELECTOR = 0
                         ENDIF
                 but then I get
-                  0  3046                         DEFINE_SUBROUTINE DecodeCave
-                  1  3046              00 06       BANK_DecodeCave =    _CURRENT_BANK
+                  0  3046                         DEFINE_SUBROUTINE UnpackLevel
+                  1  3046              00 06       BANK_UnpackLevel =    _CURRENT_BANK
                   2  3046                         SUBROUTINE
-                    DecodeCave.asm (17): error: Label mismatch...
-                     --> DecodeCave f041
+                    UnpackLevel.asm (17): error: Label mismatch...
+                     --> UnpackLevel f041
                 It seems that the cave size calculation is the root cause.
                 Your FINAL_VERSION changes seems to overstress DASMs capabilities.
                 So DASM seems to be freaking out again.
@@ -983,7 +983,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 to the old code 'fixed' the problem.
 
 1               firefly merged, but not facing correctly - fix
-                Firefly is now initialised with direction+8 (in DecodeCave) and uses same butterfly code.
+                Firefly is now initialised with direction+8 (in UnpackLevel) and uses same butterfly code.
 
 3               I notice much more flicker in TJ_MODE now, it seems you have broken some segtimes. Really, those with
                 a * where tested VERY thouroughly.
@@ -1023,7 +1023,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                 by the time we hit processamoeba (putting an amoeba object on the board) it's too late.
                 knocking this out is OK, but it indicates a problem elsewhere.
                 So. Mmmh. Two issues.
-                #1 should not generate amoeba object in decodecave -- amoebas are handled by separate code
+                #1 should not generate amoeba object in UnpackLevel -- amoebas are handled by separate code
                 #2 there was a bank save at the start of PROCESS_AMOEBA.  What was I thinking?
                 Appears to be OK now.
 
@@ -1206,7 +1206,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
                         Anyway, due to the missing cover/uncover effect, we probably better stick with what we have.
                 + amoeba sound continued after end of life -> back to selection screen
                   + TJ: StopSound for channel 1 should do
-                + Platform switch is done AFTER DecodeCave (has to be before!)
+                + Platform switch is done AFTER UnpackLevel (has to be before!)
                 +AD Had a completely non-enclosed amoeba on level M1. I set TOO_MANY to 30. The amoeba grew, and instead of changing to
                   BOXs when it got too big, it changed to diamonds.  Whoops!
                   + TJ: should be fixed now, please report if it reoccurs

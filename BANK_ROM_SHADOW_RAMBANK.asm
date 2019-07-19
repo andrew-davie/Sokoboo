@@ -461,6 +461,8 @@ MOD10
 
     ;------------------------------------------------------------------------------
 
+    include "Diamond.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
+    include "Explosion.asm"       ; 3 * LINES_PER_CHAR bytes
 
 
     OPTIONAL_PAGEBREAK "SCREEN_BITMAP", SCREEN_BITMAP_SIZE
@@ -475,8 +477,6 @@ ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
 ;--------------------------------------------------------------------------
 ;    CHARACTER_SET
 
-    include "Explosion.asm"       ; 3 * LINES_PER_CHAR bytes
-    include "Diamond.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
     ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
 
 
@@ -526,12 +526,12 @@ SetSelfModPlayer
 NoMod
                 rts
 
-    include "Rockford.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
-    include "Dirt.asm"            ; 2 * LINES_PER_CHAR bytes
-    include "Magic_Wall.asm"      ; 3 * LINES_PER_CHAR bytes
+    ;include "Magic_Wall.asm"      ; 3 * LINES_PER_CHAR bytes
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
+    include "man.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
+    include "Dirt.asm"            ; 2 * LINES_PER_CHAR bytes
    ;------------------------------------------------------------------------------
 
     ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START

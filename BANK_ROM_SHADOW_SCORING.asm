@@ -856,18 +856,18 @@ HighScoreColTbl:
                 ldy #SM_OFS_TIME
                 lda caveTimeHi
                 bne BGOK
-                lda caveTime
-                cmp #RED_TIME_WARNING
-                bcs BGOK
-                lda caveTimeFrac
-                adc #$20
-                and #$60                            ; 75% on, 25% off
-                bne BGOK
+                ;lda caveTime
+                ;cmp #RED_TIME_WARNING
+                ;bcs BGOK
+                ;lda caveTimeFrac
+                ;adc #$20
+                ;and #$60                            ; 75% on, 25% off
+                ;bne BGOK
 
-                lda #ID_BLANK<<4|ID_BLANK
-                jsr SetupBCDPtr
-                lda #ID_CLOCK<<4|ID_BLANK
-                bne SetupBCDPtr                     ; ASSUMES ID_BLANK != 0
+                ;lda #ID_BLANK<<4|ID_BLANK
+                ;jsr SetupBCDPtr
+                ;lda #ID_CLOCK<<4|ID_BLANK
+                ;bne SetupBCDPtr                     ; ASSUMES ID_BLANK != 0
 BGOK
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE SetupTimePtr
@@ -1113,10 +1113,10 @@ HighScore       ds 3+2, 0 ; two extra bytes to save code
 
     ; CAVE DATA banks can go anywhere - *EXCEPT* for the same bank as the cave
     ; decoder.  Ironic, isn't it?  They calculate a constant -- MAX_CAVE_SIZE
-    ; which is used as a buffer size inside DecodeCave.  It's not important if
+    ; which is used as a buffer size inside UnpackLevel.  It's not important if
     ; this is defined before or after, as once the caves have processed it will be
     ; correct. Note, that caves should all be defined BEFORE *OR* AFTER the
-    ; DecodeCave code -- but that they should not be both, nor in the same bank.
+    ; UnpackLevel code -- but that they should not be both, nor in the same bank.
 
     include "CaveBank0.asm"
 

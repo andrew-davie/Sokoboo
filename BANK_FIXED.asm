@@ -736,8 +736,7 @@ SEGMENT_DECODE_CAVE_SHADOW = $F000      ; if not = $F000, this will cause an ass
     ;---------------------------------------------------------------------------
 
 RestartCaveNextPlayer
-; TJ: used by:
-; - BANK_FIXED.asm
+
 
     ; a player has lost a life.
     ; store his vars, swap to other player, continue
@@ -769,7 +768,7 @@ skipDemoCheck
 
                 lda #BANK_DECODE_CAVE
                 sta SET_BANK_RAM
-                jsr DecodeCave
+                jsr UnpackLevel
 
     ; Setup player animation and scroll limits.
     ; Mangle the board colours based on level

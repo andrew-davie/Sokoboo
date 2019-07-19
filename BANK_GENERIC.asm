@@ -132,13 +132,13 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE CreateCreatures ; GENERIC_BANK_1
-
+    DEFINE_SUBROUTINE CreateCreatures
 
     ; Calculate rightmost value for scrolling edge.  .
 
                 sta ROM_Bank
 
+#if 0
                 sec
                 lda BoardLimit_Width
                 sbc #SCREEN_WIDTH-1
@@ -163,6 +163,7 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
                 sta BoardScrollY
 .Yok
   ENDIF
+#endif
 
     ; kludge position scroll roughly at player
 
@@ -252,10 +253,6 @@ notU0           sta BoardScrollY
                 lda #<(-1)
                 sta sortRequired                ; nothing needed
                 sta DrawStackPointer
-
-
-                lda #MAGIC_WALL_DORMANT
-                sta MagicAmoebaFlag
 
                 lda #DISPLAY_LIVES
                 sta scoringFlags
@@ -833,7 +830,7 @@ NoSKfound
   ENDIF
 
     align 256
-    
+
 Manimate
 AnimateSTAND
 AnimateSTOPPED

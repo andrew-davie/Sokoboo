@@ -45,7 +45,7 @@ AD_MODE                 = YES                ; some changes which AD prefers
 
                   ; Note: you may also need to change the emulator "-format" switch in the Makefile.
 
-NTSC_MODE               SET YES
+NTSC_MODE               SET NO
 
   IF TJ_MODE
 NTSC_MODE               SET NO                ; force NTSC or PAL for difficulty switch
@@ -76,8 +76,7 @@ SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 ;-------------------------------------------------------------------------------
 ; The following should be YES for the final or DEMO version
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
-SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
+;SPECIAL_ADD_UnpackLevel          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 
 ;-------------------------------------------------------------------------------
 ; The following are optional YES/NO depending on phase of the moon
@@ -100,8 +99,7 @@ TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a spec
 F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
 CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
-SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
+;SPECIAL_ADD_UnpackLevel          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
 SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
@@ -116,7 +114,7 @@ F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigge
 CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
 SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
-SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
+;SPECIAL_ADD_UnpackLevel          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
 SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 
@@ -135,27 +133,9 @@ RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritt
 
 
 PUSH_LIMIT                      = 2           ; slowdown when pushing on a BOX
-GENERIC_MASK_ROUNDED            = 1             ; lets rocks/diamonds roll off
-GENERIC_MASK_SQUASHABLE         = 2             ; gets pummelled by anything falling on it
-GENERIC_MASK_EXPLODABLE         = 8             ; takes part in an explosion
-GENERIC_MASK_KILLSBUTTERFLY     = 16            ; causes nearby butterfly/firefly to explode
-GENERIC_MASK_MAGICWALL          = 32            ; a magic wall character
-GENERIC_MASK_FALLABLE           = 128           ; objects can fall into blanks (BMI usage assumed!!)
 
 ; POS_VAR flags:
-VAR_FALLING                     = %10000000     ; hardwired! negative assumed
-VAR_JUST_GENERATED              = %01000000     ; object cannot fall and squash things yet
 VAR_ON_DIAMOND                  = %00100000     ; object is 'standing' on diamond
-
-; amoeba and magic wall constants:
-MAGIC_WALL_DORMANT              = $FF           ; wall dormant, waiting for trigger
-AMOEBA_FAST_GROW                = MAGIC_WALL_DORMANT
-TOO_MUCH_AMOEBA                 = 200           ; squares of amoeba before turns into BOXs (original 200)
-; we should try to adjust the growth first by changing MIN_AMOEBA_SCAN,
-; maybe we can assume FAST_GROW to be 256 and then can remove the code for it.
-SLOW_GROW                   = 30+1-2            ; should be ~3%
-FAST_GROW                   = 240+1-8           ; should be ~25% (8x SLOW_GROW)
-MIN_AMOEBA_SCAN             = 30                ; minimum required checks/scan (this slows down small Amoebas)
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -164,12 +144,9 @@ SCORING_TIMER_FIRST         = 150               ; begin level timer is long to s
 
 DIRECTION_BITS              = %111              ; for ManLastDirection
 
-FACE_DOWN                   = 2
 FACE_LEFT                   = 3
 
 MAX_THROTTLE                = 160               ; must be small enough to allow ~2 * max add value overflow (<256 - 2*max throttle value!)
-FLASH_TIME                  =  6                ; flash time for BG colour when door opens
-RED_TIME_WARNING            = 10                ; time remaining before time remaining flashes
 
 ;scoring flags contants:
 DISPLAY_FLAGS               = %11
@@ -183,7 +160,6 @@ EXTRA_DIAMONDS              = $80               ; set if collecting extra diamon
 ;------------------------------------------------------------------------------
 
 MIRRORED_BOX            = YES
-MIRRORED_AMOEBA             = YES
 MIRRORED_STEEL              = YES
 MIRRORED_WALL               = YES
 
@@ -666,7 +642,7 @@ loop            ds 1
 ;------------------------------------------------------------------------------
 
 
-                OVERLAY DecodeCaveOverlay
+                OVERLAY UnpackLevelOverlay
 
 ; used everywhere
 ptrCave         ds 4    ; two pointers
@@ -688,7 +664,7 @@ height          = ptrCave+2
 direction       = ptrCave+3
 tmpLength       ds 1
 
-    ;ECHO "FREE BYTES IN DecodeCaveOverlay = ", OVERLAY_SIZE - ( * - Overlay )
+    ;ECHO "FREE BYTES IN UnpackLevelOverlay = ", OVERLAY_SIZE - ( * - Overlay )
                 VALIDATE_OVERLAY
 
 ;------------------------------------------------------------------------------
@@ -1053,7 +1029,7 @@ MAX_CAVE_SIZE SET CAVE_SIZE_{1}
 
 ;-------------------------------------------------------------------------------
 ; Define which screens are to be included in assembly. This sets the INCLUSION.
-; The ORDERING is defined in a similar table in DecodeCave.asm.
+; The ORDERING is defined in a similar table in UnpackLevel.asm.
 
                 MAC INCLUDE_CAVE ; {name}
 CAVE_ACTIVE_{1}  SET 0

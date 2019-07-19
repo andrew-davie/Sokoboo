@@ -23,7 +23,7 @@ Address     Bank    Code
 3000-33ff    6      BANK_ROM_SHADOW_SCORING
 3400-355d           CaveBank0
 
-3800-3bf6    7      DecodeCave (ROM shadow)
+3800-3bf6    7      UnpackLevel (ROM shadow)
 3bf7-3fd6           BANK_GENERIC
 
 4000-472a    8      BANK_INITBANK

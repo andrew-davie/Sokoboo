@@ -211,6 +211,14 @@ retAnim
                 txs                             ;2 = 10
                 rts                             ;6 =  6
 
+PairedCharacter
+
+SOFF   SET 0
+    REPEAT SCREEN_LINES
+        .byte SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+SOFF    SET SOFF + SCREEN_WIDTH
+    REPEND
+
     ;------------------------------------------------------------------------------
     ; Gives character replacements used during screen drawing.
     ; The character from the board is morphed via this array into an actual character
@@ -259,13 +267,6 @@ ANIM_EXITDOOR   .byte 0    ; 11
 
     ;------------------------------------------------------------------------------
 
-PairedCharacter
-
-SOFF   SET 0
-    REPEAT SCREEN_LINES
-        .byte SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-SOFF    SET SOFF + SCREEN_WIDTH
-    REPEND
 
     OPTIONAL_PAGEBREAK "ROW_BankChar", SCREEN_LINES * SCREEN_WIDTH
     DEFINE_SUBROUTINE ROW_BankChar
