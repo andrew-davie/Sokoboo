@@ -235,7 +235,7 @@ notU0           sta BoardScrollY
 
                 sta BGColour
                 sta ColourTimer
-                sta extraLifeTimer              ; Cosmic Ark stars off
+                ;sta extraLifeTimer              ; Cosmic Ark stars off
 
                 sta soundIdxLst
                 sta soundIdxLst+1
@@ -273,81 +273,6 @@ notU0           sta BoardScrollY
 Ret             rts
 
     ;---------------------------------------------------------------------------
-Manimate
-AnimateSTAND
-AnimateSTOPPED
-    .byte 127
-    .byte <PLAYER_STAND
-    ;.byte 10
-    ;.byte < PLAYER_BLINK
-    ;.byte 127
-    ;.byte < PLAYER_STAND
-    ;.byte 0
-    ;.word AnimateTAP
-
-AnimateTAP
-    ;.byte 128, %0                   ; reflect off, always tap with left foot
-    ;.byte 8
-    ;.byte < PLAYER_TAP0
-    ;.byte 8
-    ;.byte < PLAYER_TAP1
-    ;.byte 8
-    ;.byte < PLAYER_TAP0
-    ;.byte 8
-    ;.byte < PLAYER_TAP1
-    ;.byte 8
-    ;.byte < PLAYER_TAP0
-    ;.byte 8
-    ;.byte < PLAYER_TAP1
-    .byte 0
-    .byte AnimateSTAND-Manimate ;word AnimateSTAND
-
-AnimateRIGHT
-    .byte 128, %0                   ; reflect off
-    .byte 5
-    .byte < PLAYER_RIGHT0
-    .byte 5
-    .byte < PLAYER_RIGHT1
-    .byte 0
-    .byte AnimateRIGHT-Manimate ;word AnimateRIGHT
-
-AnimateLEFT
-    .byte 128, %1000                ; reflect ON
-    .byte 5
-    .byte < PLAYER_RIGHT0
-    .byte 5
-    .byte < PLAYER_RIGHT1
-    .byte 0
-    .byte AnimateLEFT-Manimate ;word AnimateLEFT
-
-;AnimateUP
-;    .byte 128, %0                ; reflect off
-;    .byte 5
-;    .byte < PLAYER_TAP
-;    .byte 128, %1000
-;    .byte 5
-;    .byte < PLAYER_TAP
-;    .byte 0
-;    .word AnimateUP
-
-AnimateUP                           ; keep last reflection, like in original game
-    .byte 5
-    .byte < PLAYER_RIGHT0
-    .byte 5
-    .byte < PLAYER_RIGHT1
-    .byte 0
-    .byte AnimateUP-Manimate ;word AnimateUP
-
-AnimateBLANK
-    .byte 127
-    .byte < PLAYER_BLANK
-    .byte 0
-    .byte AnimateBLANK-Manimate ;word AnimateBLANK
-
-AnimateEND
-    CHECKPAGEX Manimate, "AnimateEND @ BANK_GENERIC"
-    ;---------------------------------------------------------------------------
-
 
     DEFINE_SUBROUTINE TrackPlayer ; =145; in GENERIC_BANK_1
 
@@ -666,10 +591,10 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
                 sta BGColour
 noFlashBG
 
-                lda extraLifeTimer
-                beq alreadyBlack2
-                dec extraLifeTimer
-alreadyBlack2
+;                lda extraLifeTimer
+;                beq alreadyBlack2
+;                dec extraLifeTimer
+;alreadyBlack2
 
     ; Handle the player joystick reading. We do it *every frame* so that we can incorporate a two-frame
     ; buffer.  This is designed to give a little better responsiveness to the 'quick tap' movement.
@@ -906,6 +831,82 @@ SAVEKEY_ADR     = $0600         ;           reserved address for Boulder Dash (6
 NoSKfound
     rts
   ENDIF
+
+    align 256
+    
+Manimate
+AnimateSTAND
+AnimateSTOPPED
+    .byte 127
+    .byte <PLAYER_STAND
+    ;.byte 10
+    ;.byte < PLAYER_BLINK
+    ;.byte 127
+    ;.byte < PLAYER_STAND
+    ;.byte 0
+    ;.word AnimateTAP
+
+AnimateTAP
+    ;.byte 128, %0                   ; reflect off, always tap with left foot
+    ;.byte 8
+    ;.byte < PLAYER_TAP0
+    ;.byte 8
+    ;.byte < PLAYER_TAP1
+    ;.byte 8
+    ;.byte < PLAYER_TAP0
+    ;.byte 8
+    ;.byte < PLAYER_TAP1
+    ;.byte 8
+    ;.byte < PLAYER_TAP0
+    ;.byte 8
+    ;.byte < PLAYER_TAP1
+    .byte 0
+    .byte AnimateSTAND-Manimate ;word AnimateSTAND
+
+AnimateRIGHT
+    .byte 128, %0                   ; reflect off
+    .byte 5
+    .byte < PLAYER_RIGHT0
+    .byte 5
+    .byte < PLAYER_RIGHT1
+    .byte 0
+    .byte AnimateRIGHT-Manimate ;word AnimateRIGHT
+
+AnimateLEFT
+    .byte 128, %1000                ; reflect ON
+    .byte 5
+    .byte < PLAYER_RIGHT0
+    .byte 5
+    .byte < PLAYER_RIGHT1
+    .byte 0
+    .byte AnimateLEFT-Manimate ;word AnimateLEFT
+
+;AnimateUP
+;    .byte 128, %0                ; reflect off
+;    .byte 5
+;    .byte < PLAYER_TAP
+;    .byte 128, %1000
+;    .byte 5
+;    .byte < PLAYER_TAP
+;    .byte 0
+;    .word AnimateUP
+
+AnimateUP                           ; keep last reflection, like in original game
+    .byte 5
+    .byte < PLAYER_RIGHT0
+    .byte 5
+    .byte < PLAYER_RIGHT1
+    .byte 0
+    .byte AnimateUP-Manimate ;word AnimateUP
+
+AnimateBLANK
+    .byte 127
+    .byte < PLAYER_BLANK
+    .byte 0
+    .byte AnimateBLANK-Manimate ;word AnimateBLANK
+
+AnimateEND
+    CHECKPAGEX Manimate, "AnimateEND @ BANK_GENERIC"
 
 
             CHECK_BANK_SIZE "GENERIC_BANK_1 -- full 2K"

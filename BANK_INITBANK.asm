@@ -295,53 +295,6 @@ DrawLineStartLO
     ENDIF
 QRet            rts                             ;6
 
-    ;------------------------------------------------------------------------------
-
-    IF 0 ;{
-    ;IF DEMO_VERSION = YES && FINAL_VERSION = NO
-    DEFINE_SUBROUTINE ProcessSelector ; in INITBANK
-
-                sta ROM_Bank
-
-    ; This object handles the selection of screen and level
-
-                jsr MoveViaJoystick
-                jsr InsertObjectStack           ;6+76(B)         re-insert object at same position
-
-                asl NextLevelTrigger
-                lda BufferedButton                       ; button pressed?
-                asl
-                ror NextLevelTrigger
-
-                lda POS_VAR
-                and #31
-                sta levelDisplay
-                asl
-                asl
-                adc levelDisplay                ; *5
-                sta cave
-
-    ; Note: we can only select level 1,2,3,4
-    ; Didn't have enough bits in the POS_VAR variable to hold 0-4 for level and 0-34 for cave... eh?
-                lda POS_VAR
-                lsr
-                lsr
-                lsr
-                lsr
-                lsr
-                sta level
-
-
-                ldx Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
-                lda ThrottlePerSystem,x
-                sta ThrottleSpeed               ; only for selection screen
-
-                rts
-ThrottlePerSystem
-                .byte   19
-                .byte   21
-    ENDIF ;}
-
 ;-------------------------------------------------------------------------------
 
 
@@ -483,9 +436,6 @@ cannotPush       pla
                 ;sta ManPushCounter
                 rts
 
-Bango           jmp NextObject                      ;??? >-- should be OK. Creature dies.
-
-
    ;------------------------------------------------------------------------------
 
 ; IF the creature runs out of time to do stuff, then rts HOWEVER the creature must eventually do something
@@ -523,8 +473,8 @@ MANMODE_BONUS_RUN   = 9
 
     DEFINE_SUBROUTINE ManProcess ; in INITBANK
 
-                lda #$FF
-                sta specialTimeFlag             ; detects time overflow in bigbang (and diamond grab)
+                ;lda #$FF
+                ;sta specialTimeFlag             ; detects time overflow in bigbang (and diamond grab)
 
 
     ; ManMode tells the player what it is currently doing.  State machine.
@@ -566,8 +516,6 @@ ManActionTimer
                 .byte 0 ;<waitingManNoTim       ; 5             no timer
                 .byte 0 ;<waitingManPressNoTim  ; 6             no timer
                 .byte 0 ;<nextLevelMan          ; 7             no timer
-                .byte 2 ;<BonusCountdownStart   ; 8             fast timer
-                .byte 2 ;<BonusCountdownRun     ; 9             fast timer
 ManActionLO
                 .byte <manStartup               ; 0             no timer
                 .byte <normalMan                ; 1             timer
@@ -577,8 +525,6 @@ ManActionLO
                 .byte <waitingMan               ; 5             no timer
                 .byte <waitingManPress          ; 6             no timer
                 .byte <nextLevelMan             ; 7             no timer
-                .byte <BonusCountdownStart      ; 8             fast timer
-                .byte <BonusCountdownRun        ; 9             fast timer
 
 ManActionHI
                 .byte >manStartup               ; no timer
@@ -589,8 +535,6 @@ ManActionHI
                 .byte >waitingMan               ; no timer
                 .byte >waitingManPress          ; no timer
                 .byte >nextLevelMan             ; no timer
-                .byte >BonusCountdownStart      ; fast timer
-                .byte >BonusCountdownRun        ; fast timer
 
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE UpdateTimer
@@ -851,26 +795,26 @@ stayAlive
 
     ;------------------------------------------------------------------------------
 
-                ldx ManY
-                ldy ManX
+                ;ldx ManY
+                ;ldy ManX
 
-                lda BoardLineStartLO,x
-                sta Board_AddressR
-                lda BoardLineStartHiR,x
-                sta Board_AddressR+1
+                ;lda BoardLineStartLO,x
+                ;sta Board_AddressR
+                ;lda BoardLineStartHiR,x
+                ;sta Board_AddressR+1
 
     IF MULTI_BANK_BOARD = YES
-                lda BoardBank,x                 ;4
-                sta RAM_Bank                    ;3
+                ;lda BoardBank,x                 ;4
+                ;sta RAM_Bank                    ;3
     ELSE
-                lda #BANK_BOARD                 ;2
+                ;lda #BANK_BOARD                 ;2
     ENDIF
-                jsr GetBoardCharacter           ;6+20(A)
+                ;jsr GetBoardCharacter           ;6+20(A)
 
-                lda CharToType,x
-                cmp #TYPE_MAN
-                beq PlayerAlive
-                ;jmp PlayerAlive ;sok
+                ;lda CharToType,x
+                ;cmp #TYPE_MAN
+                ;beq PlayerAlive
+                jmp PlayerAlive ;sok
 
     ; character he's on isn't a MAN character, so he dies...
 
@@ -887,11 +831,7 @@ deadMan         lda ManX
                 lda ManY
                 sta POS_Y
 
-                jsr BlankPlayerFrame
-
-                ;sok jsr BigBang
-                ;sok ror specialTimeFlag
-                ;sok bpl timeTooShortToDie           ; wait until next time around
+                ;jsr BlankPlayerFrame
 
     ; and becomes a man waiting for resurrection...
 
@@ -899,38 +839,6 @@ deadMan         lda ManX
 
 timeTooShortToDie
                 rts
-
-    ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE BonusCountdownStart
-                inc ManMode                                     ; waiting for countdown to complete
-
-                START_SOUND SOUND_BONUS_POINTS                  ; one-off trigger of bonus countdown sound
-
-                lda #AnimateSTAND-Manimate
-                sta ManAnimation
-                ;lda #>AnimateSTAND
-                ;sta ManAnimation+1
-
-
-                rts
-
-    ;------------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE BlankPlayerFrame
-
-                lda #AnimateBLANK-Manimate
-                sta ManAnimation
-                ;lda #>AnimateBLANK
-                ;sta ManAnimation+1
-                lda #0
-                sta ManDelayCount
-                ;rts
-
-    ; do NOT fall through!  Above removed just while there's a plain rts following...
-
-    ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE BonusCountdownRun
-                 rts
 
     ;------------------------------------------------------------------------------
 
@@ -1162,21 +1070,21 @@ OBJTYPE    .SET OBJTYPE + 1
 
                 DEFINE MAN
                 DEFINE BOX
-                DEFINE AMOEBA
-                DEFINE FLUTTERBY
-                DEFINE FIREFLY
+                ;DEFINE AMOEBA
+                ;DEFINE FLUTTERBY
+                ;DEFINE FIREFLY
                 DEFINE DIAMOND
-                DEFINE MAGICWALL
-                DEFINE EXITDOOR
+                ;DEFINE MAGICWALL
+                ;DEFINE EXITDOOR
                 DEFINE SELECTOR
-                DEFINE EXPLOSION
-                DEFINE EXPLOSION1
-                DEFINE EXPLOSION2
-                DEFINE EXPLOSION3
-                DEFINE BLANK
-                DEFINE SOIL
-                DEFINE STEELWALL
-                DEFINE BRICKWALL
+                ;DEFINE EXPLOSION
+                ;DEFINE EXPLOSION1
+                ;DEFINE EXPLOSION2
+                ;DEFINE EXPLOSION3
+                ;DEFINE BLANK
+                ;DEFINE SOIL
+                ;DEFINE STEELWALL
+                ;DEFINE BRICKWALL
 
                 DEFINE MAXIMUM
 ;    IF DEMO_VERSION = NO
@@ -1186,18 +1094,18 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerLO
                 .byte <PROCESS_MAN
-                .byte <PROCESS_BOX
                 .byte 0
+                ;.byte 0
+                ;.byte 0
+                ;.byte 0
                 .byte 0
-                .byte 0
-                .byte <PROCESS_DIAMOND
-                .byte 0                         ; magic wall
-                .byte 0                         ; exit door
+                ;.byte 0                         ; magic wall
+                ;.byte 0                         ; exit door
                 .byte 0 ;<PROCESS_SELECTOR         ; selection screen controller
-                .byte 0
-                .byte 0
-                .byte 0
-                .byte 0
+                ;.byte 0
+                ;.byte 0
+                ;.byte 0
+                ;.byte 0
 ;                .byte 0
 ;                .byte 0                         ; soil
 ;                .byte 0                         ; steel
@@ -1211,18 +1119,18 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerHI
                 .byte >PROCESS_MAN
-                .byte >PROCESS_BOX
                 .byte 0
+                ;.byte 0
+                ;.byte 0
+                ;.byte 0
                 .byte 0
-                .byte 0
-                .byte >PROCESS_DIAMOND
-                .byte 0
-                .byte 0
+                ;.byte 0
+                ;.byte 0
                 .byte 0 ;>PROCESS_SELECTOR         ; selection screen controller
-                .byte 0
-                .byte 0
-                .byte 0
-                .byte 0
+                ;.byte 0
+                ;.byte 0
+                ;.byte 0
+                ;.byte 0
 ;                .byte 0
 ;                .byte 0 ;soil
 ;                .byte 0 ;steel

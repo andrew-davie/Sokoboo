@@ -627,28 +627,28 @@ SMCOLOR
         sta ScoreCurrent-SM_OFS_SCORE+RAM_WRITE,y
         php
     ; *** bonus life every 500 points: ***
-        cpy #SM_OFS_SCORE+1
-        bne .skipBonusLife
-        tax
+;        cpy #SM_OFS_SCORE+1
+;        bne .skipBonusLife
+;        tax
 
-        and #$0f
-        beq .bonusLife                      ; 000?
-        cmp #$05
-        bne .noBonusLife                    ; 500?
-.bonusLife:
+;        and #$0f
+;        beq .bonusLife                      ; 000?
+;        cmp #$05
+;        bne .noBonusLife                    ; 500?
+;.bonusLife:
     ; add extra life, limited to 9
 
-        lda MenCurrent
-        and #$0f
-        cmp #9
-        bcs .noBonusLife
-        inc MenCurrent
+;        lda MenCurrent
+;        and #$0f
+;        cmp #9
+;        bcs .noBonusLife
+;        inc MenCurrent
 
     ; bonus life has priority over score:
-        lda #DISPLAY_LIVES
-        sta newDisplay
-        lda #EXTRA_LIFE_TIMER
-        sta extraLifeTimer
+;        lda #DISPLAY_LIVES
+;        sta newDisplay
+        ;lda #EXTRA_LIFE_TIMER
+        ;sta extraLifeTimer
 
 .noBonusLife:
         txa

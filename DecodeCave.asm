@@ -14,13 +14,13 @@ BOARD_DATA_AREA
 
     ;---------------------------------------------------------------------------
 
-ThrottleSpeedTbl
-; based on MAX_THROTTLE = 160, NTSC_276/PAL (312/276=1.13)
-    .byte   19, 22  ; level 1 (E1: 5.60s) 1,16; 1.00/1.00 (1.00)
-    .byte   22, 26  ; level 2 (E2  4.80s) 1,18  1.16/1.18 (1.17)
-    .byte   24, 28  ; level 3 (E3: 4.40s) 1,16  1.26/1.27 (1.27)
-    .byte   26, 30  ; level 4 (E4: 4.17s) 1,15  1.37/1.36 (1.34)
-    .byte   27, 31  ; level 5 (E5: 4.00s) 1,14; 1.42/1.41 (1.40)
+;ThrottleSpeedTbl
+;; based on MAX_THROTTLE = 160, NTSC_276/PAL (312/276=1.13)
+;    .byte   19, 22  ; level 1 (E1: 5.60s) 1,16; 1.00/1.00 (1.00)
+;    .byte   22, 26  ; level 2 (E2  4.80s) 1,18  1.16/1.18 (1.17)
+;    .byte   24, 28  ; level 3 (E3: 4.40s) 1,16  1.26/1.27 (1.27)
+;    .byte   26, 30  ; level 4 (E4: 4.17s) 1,15  1.37/1.36 (1.34)
+;    .byte   27, 31  ; level 5 (E5: 4.00s) 1,14; 1.42/1.41 (1.40)
 
     DEFINE_SUBROUTINE DecodeCave
 
@@ -240,11 +240,11 @@ SMLimit         cpx #0                              ; byte count (self) modified
                 bcc     .loopRows
 
 ; *** 3. draw the bounding steel wall: ***
-                lda     #<(BoundingWall)
-                sta     ptrCave
-                lda     #>(BoundingWall)
-                sta     ptrCave+1
-                jsr     DecodeBoundary
+                ;lda     #<(BoundingWall)
+                ;sta     ptrCave
+                ;lda     #>(BoundingWall)
+                ;sta     ptrCave+1
+                ;jsr     DecodeBoundary
 
 ; ...and decode the structures...
                 lda     #<(BOARD_DATA_AREA)
@@ -270,92 +270,17 @@ ActivateObjects:
                 lda CharToType2,x
                 bmi .skipActivate
 
-                cmp #SPECIAL_ADD
-                and #TYPEMASK
                 sta POS_Type                    ;       creature TYPE
-                bcc .Activate
-
-    IF SPECIAL_ADD_DECODECAVE = YES
-
-    ;-------------------------------------------------------------------------------------------------------------
-    ; 23/June/2011: Some objects (BOXs, diamonds) of type SPECIAL_ADD only go onto the creature stack IF they
-    ; have a surrounding blank square which means they MAY fall on startup.  So, we need to see if the LRD squares
-    ; (any) are blank. They may not ACTUALLY fall, but that will be checked in due course as they're on the stack.
-
-    ;  +---+---+---+
-    ;  | 1 | X | 2 |
-    ;  +---+---+---+
-    ;      | 0 |
-    ;      +---+
-
-
-                inc POS_Y
-                jsr GetBoardCharacter__CALL_FROM_RAM__                          ;6+61(A)[0]
-                dec POS_Y
-                cmp #0
-                beq ItIsBlank
-
-                dec POS_X
-                jsr GetBoardCharacter__CALL_FROM_RAM__                          ;6+61(A)[1]
-                inc POS_X
-                cmp #0
-                beq ItIsBlank
-
-                inc POS_X
-                jsr GetBoardCharacter__CALL_FROM_RAM__                          ;6+61(A)[2]
-                dec POS_X
-                cmp #0
-                bne .skipActivate
-
-ItIsBlank       lda POS_Type
-
-    ELSE
-                jmp .skipActivate
-    ENDIF
-
-    ;-------------------------------------------------------------------------------------------------------------
-
-.Activate
-                tay
-                lda #0 ;InitialFace,y
+                tax
+                lda #0
                 sta POS_VAR
 
-                lda CharToType2,x
-                and #ALTERNATE_FACE
-                beq noAlternate
-
-                ;inc POS_VAR
-                ;inc POS_VAR
-
-noAlternate     tya
-                tax
-                cpx #TYPE_AMOEBA
-                beq skipAmoebaSpecial
-
                 jsr InsertObjectStackFromRAM    ;6+94(B)
-
-skipAmoebaSpecial
-;tes
 
 ; handle special types:
                 ldx POS_X                       ;       x coordinate
                 ldy POS_Y                       ;       y coordinate
                 lda POS_Type
-                cmp #TYPE_AMOEBA
-                bne .skipAmoeba
-
-                lda #AMOEBA_PRESENT
-                sta amoebaFlag                  ; this turns ON the scanning for this level
-; Remember initial Amoeba position for bounding box.
-; Since always the left most cell is added last and there are no more than two cells in same row at the beginning,
-; simply increasing the maximum X by 1 solves the problem
-                stx amoebaMinX
-                inx
-                stx amoebaMaxX
-                sty amoebaMinY
-                sty amoebaMaxY
-
-.skipAmoeba
                 cmp #TYPE_MAN
                 bne .skipActivate
 
@@ -376,26 +301,21 @@ skipAmoebaSpecial
                 bmi .intermission3
                 lda level
 .intermission3
-                asl
-                asl
-                ora Platform
-                lsr
-                tax
-                lda ThrottleSpeedTbl,x
+                ;asl
+                ;asl
+                ;ora Platform
+                ;lsr
+                ;tax
+                ;lda ThrottleSpeedTbl,x
+                lda #24 ; arbitrary
                 sta ThrottleSpeed
-
                 rts
 
 
     ;------------------------------------------------------------------------------
 
 
-NOT_ADDED = 128
 NULL_TYPE = 255
-SPECIAL_ADD = 64
-ALTERNATE_FACE = 32
-TYPEMASK = 31
-
 
 CharToType2
 
@@ -404,28 +324,28 @@ CharToType2
 
                 .byte NULL_TYPE             ; blank
                 .byte NULL_TYPE             ; soil
-                .byte TYPE_BOX              + SPECIAL_ADD
-                .byte TYPE_AMOEBA
-                .byte TYPE_DIAMOND              + SPECIAL_ADD
-                .byte TYPE_DIAMOND              + SPECIAL_ADD
+                .byte NULL_TYPE              ;+ SPECIAL_ADD
+                .byte NULL_TYPE
+                .byte NULL_TYPE              ;+ SPECIAL_ADD
+                .byte NULL_TYPE              ;+ SPECIAL_ADD
                 .byte TYPE_MAN
-                .byte TYPE_FLUTTERBY
-                .byte TYPE_FLUTTERBY            + ALTERNATE_FACE                ; character_flutterby2
-                .byte TYPE_FIREFLY
-                .byte TYPE_FIREFLY              + ALTERNATE_FACE                ; character_firefly2
-                .byte TYPE_MAGICWALL            + NOT_ADDED
-                .byte TYPE_MAGICWALL            + NOT_ADDED
-                .byte TYPE_MAGICWALL            + NOT_ADDED
-                .byte TYPE_MAGICWALL            + NOT_ADDED
+                .byte NULL_TYPE
+                .byte NULL_TYPE            ;+ ALTERNATE_FACE                ; character_flutterby2
+                .byte NULL_TYPE
+                .byte NULL_TYPE              ;+ ALTERNATE_FACE                ; character_firefly2
+                .byte NULL_TYPE            ;+ NOT_ADDED
+                .byte NULL_TYPE            ;+ NOT_ADDED
+                .byte NULL_TYPE            ;+ NOT_ADDED
+                .byte NULL_TYPE            ;+ NOT_ADDED
                 .byte NULL_TYPE              ; steel wall
                 .byte NULL_TYPE              ; plain brick wall
-                .byte TYPE_EXITDOOR             + NOT_ADDED
-                .byte TYPE_EXITDOOR             + NOT_ADDED
-                .byte TYPE_EXPLOSION
-                .byte TYPE_EXPLOSION1
-                .byte TYPE_EXPLOSION2
+                .byte NULL_TYPE             ;+ NOT_ADDED
+                .byte NULL_TYPE             ;+ NOT_ADDED
+                .byte NULL_TYPE
+                .byte NULL_TYPE
+                .byte NULL_TYPE
                 .byte TYPE_SELECTOR ;EXPLOSION3                 ; overload explosion character
-                .byte TYPE_AMOEBA
+                .byte NULL_TYPE
 
                 ; The following two will NEVER APPEAR ON BOARD DECODE DATA so can be skipped
                 ;.byte TYPE_BOX                              ; falling BOX
@@ -434,29 +354,6 @@ CharToType2
 
                  ; --> see also MoveVec
                  ; --> see also DecodeCave's table
-
-    DEFINE_SUBROUTINE InitialFace ;[type]
-
-    ; Given an object type, gives an initial facing direction for that type.
-    ; If changing, also see 'DEFINE' definitions of types in BANK_INITBANK.asm
-
-                .byte 0                 ; MAN
-                .byte 0                 ; BOX
-                .byte 0                 ; AMOEBA
-                .byte FACE_DOWN         ; FLUTTERBY     starts life facing down
-                .byte FACE_LEFT+8       ; FIREFLY       starts life facing left
-                .byte 0                 ; DIAMOND
-                .byte 1                 ; WALL0                                                 facing????
-                .byte 0                 ; EXITDOOR
-                .byte 0                 ; SELECT
-                .byte 0                 ; EXPLOSION
-                .byte 0                 ; EXPLOSION1
-                .byte 0                 ; EXPLOSION2
-                .byte 0                 ; EXPLOSION3
-                .byte 0                 ; BLANK
-                .byte 0                 ; SOIL
-                .byte 0                 ; STEEL
-                .byte 0                 ; WALL
 
 
 GetLevelDataBCD; SUBROUTINE
@@ -710,26 +607,6 @@ StructureSizeTbl:
 
 
 ;foreground color is ignored (white instead), except for amoeba levels G and M (light green)
-
-;C64 palette:
-;       website     x64         ccs64
-;00     00 00 00    00 00 00    19 1d 19    black
-;01     FF FF FF    ff ff ff    fc f9 fc    white
-;02     74 43 35                a0 3a 4c    red
-;03     7c ac ba                b6 fa fa    cyan
-;04     7b 48 90    8a 46 ae    d2 7d ed    magenta/purple
-;05     64 97 4e                6a cf 6f    green
-;06     40 32 85                4f 44 d8    blue
-;07     bf cd 7a                fb fb 8b    yellow
-;08     7b 5b 2f    90 5f 35    d8 9c 5b    orange
-;09     4f 45 00    92 71 00    7f 53 07    brown
-;0a     a3 72 65    bb 77 6d    ef 83 9f    light-red
-;0b     50 50 50    55 55 55    57 57 53    dark-gray
-;0c     78 78 78                a3 a7 a7    gray
-;0d     a4 d7 d7                b7 fb bf    light-cyan
-;0e     78 6a bd                a3 9f ff    light-blue
-;0f     9f 9f 9f                ef f9 e7    light-gray
-
 
 ; structure for the bounding steel wall:
 BoundingWall:

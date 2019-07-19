@@ -9,7 +9,6 @@ gameMode                        ds 1        ; bit7=0: 7800; bit7=1: 2600.  bit 6
 Platform                        ds 1        ; TV system (%0x=NTSC, %10=PAL-50, %11=PAL-60)
 ; above variables are preserved ALL the time!
 
-Surround                        ds 5
 rnd                             ds 1
 rndHi                           ds 1        ; to get better random values
 
@@ -153,7 +152,6 @@ newSounds                       ds 1
 
 ;------------------------------------------------------------------------------
 
-specialTimeFlag                 ds 1            ; detects time problem with man
 ObjIterator                     ds 1            ; count UP iterator over objects
 DSL                             ds 1            ; stack line counter
 

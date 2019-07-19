@@ -76,7 +76,7 @@ SHOWDIAMONDP                    SET NO          ; debug show diamond on P
 ;-------------------------------------------------------------------------------
 ; The following should be YES for the final or DEMO version
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
+SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 
 ;-------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a spec
 F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
 CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
+SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
 SHOWDIAMONDP                    SET NO          ; debug show diamond on P
@@ -115,7 +115,7 @@ TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a spec
 F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
 CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-SORT_OBJECTS                    SET YES         ; Warning: can be slow on complex screens
+SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
 SPECIAL_ADD_DECODECAVE          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
 SHOWDIAMONDP                    SET NO          ; debug show diamond on P

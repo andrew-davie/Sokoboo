@@ -16,62 +16,6 @@ ORIGIN          SET FIXED_BANK
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE GetSurroundingChars ;=156[-28](C)
-; TJ: used by:
-; - BANK_INITBANK.asm
-
-    ; Retrieve the surrounding characters from the board around a given position.
-    ; These are placed into the Surround array with the indexes as shown...
-
-    ; +------+------+------+
-    ; |*     | a(0) |      |   *= where Temp_board_address1 points
-    ; +------+------+------+
-    ; | d(3) | X(4) | b(1) |
-    ; +------+------+------+
-    ; |      | c(2) |      |
-    ; +------+------+------+
-
-    ; X = ( POS_X,POS_Y )
-
-                lda #BANK_GetBoardAddress4          ;
-                sta SET_BANK                        ;
-                jsr GetBoardAddress4                ;11+72[-16](C)
-
-                sta SET_BANK_RAM                    ;3
-                lax (Temp_Board_Address1),y         ;5
-                sta Surround                        ;3
-
-    IF MULTI_BANK_BOARD = YES
-                lda Temp_Bank3                      ;3
-                sta SET_BANK_RAM                    ;3
-    ENDIF
-                lda (Temp_Board_Address3),y         ;5
-                sta Surround+2                      ;3
-
-    IF MULTI_BANK_BOARD = YES
-                lda Temp_Bank2                      ;3
-                sta SET_BANK_RAM                    ;3
-    ENDIF
-                lda (Temp_Board_Address2),y         ;5
-                sta Surround+4                      ;3
-
-                dey                                 ;2
-                lda (Temp_Board_Address2),y         ;5
-                sta Surround+3                      ;3
-
-                iny                                 ;2
-                iny                                 ;2
-                lda (Temp_Board_Address2),y         ;5
-                sta Surround+1                      ;3
-
-                lda ROM_Bank                        ;3
-                sta SET_BANK                        ;3
-
-; returns: X = Surround
-                rts                                 ;6 = 156[-12]
-
-    ;------------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE DrawTimeFromROM
 ; TJ: used by:
 ; - BANK_INITBANK.asm
@@ -337,23 +281,12 @@ quickExit       rts                             ;6
                 bcc EarlyAbort
                 STRESS_TIME SEGTIME_MAN
 
-                lda #BANK_GetJoystickForDemoMode
-                sta SET_BANK
-                jsr GetJoystickForDemoMode      ; 2 player/2 joysticks
-
                 lda #BANK_ManProcess
                 sta ROM_Bank
                 sta SET_BANK
                 jsr ManProcess
 
                 jsr MovePlayer                  ; 6+{}
-
-                lda specialTimeFlag
-                bpl quickExit                  ; time problem (e.g., bigbang)
-
-                lda #BANK_AdvanceJoystick       ;
-                sta SET_BANK                    ;
-                jsr AdvanceJoystick             ;11+49      2 player/2 joysticks
 
                 lda #BANK_TrackPlayer           ;
                 sta SET_BANK                    ;
@@ -404,129 +337,15 @@ EarlyAbortBOX   rts                             ;6
 ; if the creature dies then jump NextObject
 
 
-    DEFINE_SUBROUTINE PROCESS_BOX
-    DEFINE_SUBROUTINE PROCESS_DIAMOND
-; TJ: used by:
-; - BANK_INITBANK.asm
-
-                lda INTIM                       ;4
-                cmp #SEGTIME_BOX1           ;2
-                bcc EarlyAbortBOX           ;2/3
-                STRESS_TIME SEGTIME_BOX1
-
-                lda POS_X                       ;3
-                sta POS_X_NEW                   ;3
-                ldy POS_Y                       ;3
-                sty POS_Y_NEW                   ;3
-
-    ; Make sure the character we're working with is still the same type of object
-
-                lda #BANK_GetBoardAddressR      ;
-                sta SET_BANK                    ;
-                jsr GetBoardAddressR            ;11+24[-2](A)
-                sta SET_BANK_RAM                ;3
-
-                ldy POS_X                       ;3
-                lax (Board_AddressR),y          ;5
-                lda CharToType,x                ;4
-                cmp POS_Type                    ;3
-                ;bne gnobj                       ;2/3
-
-                jmp NotStraightDown     ; Sokoban ovveride
-
-
-NotEnoughTime2
-                rts
-
-NotStraightDown
-                lda INTIM
-                cmp #SEGTIME_BOX3
-                bcc NotEnoughTime2
-                STRESS_TIME SEGTIME_BOX3
-
-ProcessBD
-
-        ; Depending on the character UNDER this object (since this object can't fall straight
-        ; down), we either fall sideways or not.  Currently we fall if the object we are
-        ; on top of is a 'rounded' object AND the two sideways squares are blank.
-
-        ; Note that the object under us may be a NON-ROUNDED (=FALLING) BOX/diamond
-
-                ;;lda GenericCharFlag,x               ; is the object we're sitting on 'rounded'?
-                ;;and #GENERIC_MASK_ROUNDED
-                ;;bne mayRoundOff
-
-        ; Could have been FALLING character/object type, so replace with a default character on the board
-
-ReplaceFallingChar
-
-                ldy POS_Y
-
-                lda #BANK_GetBoardAddressW          ;
-                sta SET_BANK                        ;
-                jsr GetBoardAddressW                ;11+24[-2](A)
-                stx SET_BANK_RAM                    ;3
-
-                ldy POS_X
-                ldx POS_Type
-                lda BaseTypeCharacter,x             ; original character base character
-                sta (Board_AddressW),y              ; draw object in new location (Y = new X posn)
-
-                ; We have just...
-                ; a) Rolled off a rounded object, or...  (TJ, TODO: Original makes no sound here)
-                ; b) Hit an object which we can't squash
-                ; So, play a terminating sound but only if the object was already falling
-
-                jsr StartSoundCheckAlreadyFalling
-silentAlways
-wasNotFalling   jmp NextObject                      ; no, so we can't roll off it. Object becomes quiescent.
 ReInsertObject  jsr InsertObjectStack           ; 6+76(B)  = 98 (if jumping here)        place on stack so it keeps moving
 
-NextObject
-                inc ObjIterator                 ; 5
+NextObject      inc ObjIterator                 ; 5
 ;                dec ObjStackPtr,x               ; 6
                 jmp ProcessObjStack             ; 3 = 16
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE StartSoundCheckAlreadyFalling
-; TJ: used by:
-; - BANK_FIXED.asm
-                lda #VAR_FALLING                ; play ONLY if we were already falling
-    DEFINE_SUBROUTINE StartSoundCheckFalling
-                eor POS_VAR                     ; check if already falling or not
-                bmi .noSound                    ; <--- DANGEROUS assumption of flag value
-    DEFINE_SUBROUTINE StartSoundAlways
-                ldy POS_Type
-                lda newSounds
-                and #SND_MASK_LO                ; already a new sound triggerd?
-                cmp #SOUND_MOVE_SOIL+1          ; except for low priority move sounds!
-                bcs .noSound                    ; yes, no new sound
-                eor newSounds
-                ora FallSoundTbl-TYPE_BOX,y
-                sta newSounds
-.noSound
-                rts
-
-    ;---------------------------------------------------------------------------
-
-; Warning: Hardwired dependence on existing TYPE_
-; sounds are played when BOXs/diamonds start *and* end falling:
-FallSoundTbl:
-; TJ: used by:
-; - BANK_FIXED.asm
-                .byte   SOUND_BOX           ; TYPE_BOX
-                .byte   0
-                .byte   0
-                .byte   0
-                .byte   SOUND_DIAMOND_FALLING   ; TYPE_DIAMOND
-
-    ;---------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE InsertObjectStackFromRAM ;=94(B)
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
 
                 jsr InsertObjectStack           ;6+76(B)
                 lda RAM_Bank                    ;3
@@ -537,9 +356,6 @@ NotEnoughTime   rts                             ;6
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE InsertObjectStack ;=81(B)
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_INITBANK.asm
 
         ; POS_X     x position
         ; POS_Y     y position
@@ -579,9 +395,6 @@ alwaysAllowMan
                 sta SortedObjPtr+RAM_WRITE,y    ; 5         indirection pointer for later sorting
 
                 inc ObjStackPtr,x               ; 7         overflow is assumed not to happen!
-    IF SORT_OBJECTS = YES
-                sty sortRequired                ; 3         flag that a sort is required
-    ENDIF
 
 insertDone      ldy ROM_Bank                    ; 3
                 sty SET_BANK                    ; 3
@@ -591,15 +404,10 @@ ManIsDead2      rts                             ; 6 = 29
     ;---------------------------------------------------------------------------
 
 BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
-; TJ: used by:
-; - BANK_FIXED.asm
 
      ;---------------------------------------------------------------------------
 
-
-MovePlayer
-
-                lda ManMode
+MovePlayer      lda ManMode
                 cmp #MANMODE_DEAD
                 bcs ManIsDead2
 
@@ -637,14 +445,8 @@ MovePlayer
 
 
 MOVE_DIAMOND
-; TJ: used by:
-; - BANK_FIXED.asm
-
-
                 lda INTIM
                 cmp #SEGTIME_GET_DIAMOND
-                ror specialTimeFlag             ; mark any overtime!
-                bpl timeExit
                 STRESS_TIME SEGTIME_GET_DIAMOND
 
     IF MULTI_BANK_BOARD = YES
@@ -658,15 +460,7 @@ MOVE_DIAMOND
     ;---------------------------------------------------------------------------
 
 MOVE_BLANK
-
-    ; The movement sounds are lowest priority. They only trigger if there is a free channel.
-    ; The code below checks the two channels and if either is free, uses it for the move sound.
-
-                ldy #SOUND_MOVE_BLANK           ; 2
-                NOP_W                           ; 2
 MOVE_SOIL       ldy #SOUND_MOVE_SOIL            ; 2
-; TJ: used by:
-; - BANK_FIXED.asm
 
     ; lowest priority, look for a free channel, 0 first
 
@@ -707,7 +501,6 @@ checkForSnatch
                 lda #CHARACTER_MANOCCUPIED      ; 2
                 sta (Board_AddressW),y          ; 6 =  8        the man's new square
 
-
                 ldx ManY                        ; 3
                 stx POS_Y                       ; 3
                 ldy ManX                        ; 3
@@ -719,7 +512,7 @@ checkForSnatch
                 sta POS_VAR
 
 
-pastblank                lda POS_X_NEW                   ; 3
+pastblank       lda POS_X_NEW                   ; 3
                 sta ManX                        ; 3
                 lda POS_Y_NEW                   ; 3
                 sta ManY                        ; 3 = 12        actually MOVE!
@@ -750,8 +543,6 @@ timeExit        rts                             ; 6 = 11
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE StealCharDraw; in FIXED_BANK
-; TJ: used by:
-; - BANK_FIXED.asm
 
                 lda #BANK_DRAW_BUFFERS          ; 2
                 sta SET_BANK_RAM                ; 3
@@ -765,8 +556,6 @@ ExitStealCharDraw
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE TimeSlice
-; TJ: used by:
-; - BANK_FIXED.asm
 
     ; FIRST check the time is sufficient for the smallest of the timeslices. Not much point
     ; going ahead if there's insufficient time. This allows the previous character drawing to
@@ -802,8 +591,6 @@ ExitStealCharDraw
 
 
 DrawAnother
-; TJ: used by:
-; - BANK_ROM_SHADOW_RAMBANK.asm
 
                 lda #BANK_DRAW_BUFFERS          ; 2         A = SCREEN_LINES
                 sta SET_BANK_RAM                ; 3 =  5
@@ -820,8 +607,6 @@ DrawAnother
                 bmi ExitStealCharDraw           ; 2(3)=7
 
 EnterStealCharDraw:                             ;           RAM bank MUST be at BANK_DRAW_BUFFERS
-; TJ: used by:
-; - BANK_FIXED.asm
 
                 lda INTIM                       ; 4
                 cmp #SEGTIME_SCD_MIN            ; 2
@@ -835,28 +620,6 @@ EnterStealCharDraw:                             ;           RAM bank MUST be at 
                 jmp StealPart3                  ; 3 = 10    --> 18 cycles after check for SEGTIME_SCD_MIN
 
 
-    ;---------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE BuildDrawStack ; in FIXED BANK
-; TJ: used by:
-; - BANK_FIXED.asm
-
-                lda #BANK_DRAW_BUFFERS
-                sta SET_BANK_RAM
-                jmp DrawStackUpdate
-
-    ;---------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE DrawAIntoStack ; in FIXED BANK
-; TJ: used by:
-; - BANK_FIXED.asm
-
-                lda #BANK_DRAW_BUFFERS
-                sta SET_BANK_RAM
-                jmp DrawIntoStack
-
-
-    ;---------------------------------------------------------------------------
 
 
     DEFINE_SUBROUTINE DrawFullScreenMain ;=2484[-89]
@@ -867,8 +630,6 @@ EnterStealCharDraw:                             ;           RAM bank MUST be at 
     ; screenbuffer will need redrawing.
 
 CopyRow2
-; TJ: used by:
-; - BANK_INITBANK.asm
 
     IF MULTI_BANK_BOARD = YES
                 lda BDF_BoardBank               ; 3
@@ -892,28 +653,6 @@ CopyRow2
                 bpl CopyRow2                    ; 2/3=49/50[-1]
 ; total: 5*49[-1]-1 = 244[-5]
 
-; TJ: examples for multi RAM bank access.
-;CopyRow2
-;                lax (BDF_BoardAddress),y        ; 5
-;                txs                             ; 2
-;                lax (BDF_BoardAddress2),y       ; 5(= 12)
-;                lda CharReplacement,x           ; 4
-;                sta (BDF_DrawFlagAddress2),y    ; 6
-;                tsx                             ; 2
-;                lda CharReplacement,x           ; 4
-;                sta (BDF_DrawFlagAddress),y     ; 6(= 22)
-;                dey                             ; 2
-;                bpl CopyRow2                    ; 2/3=38/39
-;; total: 5*39 - 1 = 194
-;
-;CopyRow2
-;                lax (BDF_BoardAddress),y        ; 5
-;                lda CharReplacement,x           ; 4
-;                sta (BDF_DrawFlagAddress),y     ; 6(= 15)
-;                dey                             ; 2
-;                bpl CopyRow2                    ; 2/3=19/20
-;; total: 10*20 - 1 = 199 (and much less setup code)
-
                 lax DHS_Line                    ; 3
                 beq .exitCopy                   ; 2/3= 5/6
 
@@ -929,16 +668,27 @@ CopyRow2
 .exitCopy       ldx DHS_Stack                   ; 3
                 txs                             ; 2
 
-                jmp BuildDrawStack
+    ; fall through
 
-SwitchPhaseR    rts                             ; 6 = 11
+    DEFINE_SUBROUTINE BuildDrawStack
+
+                lda #BANK_DRAW_BUFFERS
+                sta SET_BANK_RAM
+                jmp DrawStackUpdate
 
     ;---------------------------------------------------------------------------
 
-Reset
-; TJ: used by:
-; - BANK_FIXED.asm
+    DEFINE_SUBROUTINE DrawAIntoStack
 
+                lda #BANK_DRAW_BUFFERS
+                sta SET_BANK_RAM
+                jmp DrawIntoStack
+
+
+    ;---------------------------------------------------------------------------
+
+
+Reset
                 CLEAN_START
 
     ; Scoring bank is copied once (not per game, not per level...)
@@ -949,9 +699,6 @@ Reset
                 jsr CopyROM2RAM_F000
 
 Restart     ; go here on RESET + SELECT
-; TJ: used by:
-; - BANK_INITBANK.asm
-
 
 Title
                 ldx #$ff                    ; adjust stack pointer after RESET + SELECT
@@ -1061,9 +808,9 @@ NewFrameBD
     ; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
     ; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
 
-                bit NextLevelTrigger
-                bpl NextCaveLevel               ; game-triggered next level
-                bvs RestartCaveNextPlayer       ; loss of life
+                ;bit NextLevelTrigger
+                ;bpl NextCaveLevel               ; game-triggered next level
+                ;bvs RestartCaveNextPlayer       ; loss of life
 
     ; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
 
@@ -1088,9 +835,6 @@ NewFrameBD
                 jsr PlaySounds                  ; 6+x   Jentzsch sound system
 
                 jsr StealCharDraw               ; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
-    IF SORT_OBJECTS = YES
-                jsr SortObjects2                ; 6+15 mininum. Opportunistic sorting
-    ENDIF
 
     ;---------------------------------------------------------------------------
     ; START OF DISPLAY
@@ -1118,10 +862,11 @@ NewFrameBD
                 sta NUSIZ0                  ; 3
                 sty VDELP0                  ; 3     y = 0!
 
-                iny                         ; 2     this relies on Y == 0 before...
-                cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
-                adc #2                      ; 2
-                sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
+                SLEEP 10
+                ;iny                         ; 2     this relies on Y == 0 before...
+                ;cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
+                ;adc #2                      ; 2
+                ;sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
 
                 lda ManLastDirection        ; 3
                 sta REFP0                   ; 3
@@ -1139,25 +884,18 @@ NewFrameBD
                 jsr SelfModDrawPlayers      ; 6+x
 
                 jsr StealCharDraw
-    IF SORT_OBJECTS = YES
-                jsr SortObjects2            ;6+15 minimum  Opportunistic sorting
-    ENDIF
 
 OverscanBD      lda INTIM                   ;4
-                bne OverscanBD              ;2/3
                 beq NewFrameBD              ;3      unconditional
+                bne OverscanBD              ;2/3
 
 VBlankTime
-; TJ: used by:
-; - BANK_FIXED.asm
                 .byte VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
-                .byte VBLANK_TIM_PAL, VBLANK_TIM_NTSC
+                .byte VBLANK_TIM_PAL, VBLANK_TIM_PAL
 
     ;---------------------------------------------------------------------------
 
 CharacterDataVecLO
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
 
     ; Two entries per character.  2nd is ptr to mirrored character
     ; Characters don't have to be mirrored, obviously -- use the same pointer for both!
@@ -1213,8 +951,8 @@ CharacterDataVecLO
                 .byte <0
                 .byte <0
 
-                .byte <CHARACTERSHAPE_BOX                   ; falling BOX
-                .byte <CHARACTERSHAPE_BOX_MIRRORED          ; falling BOX
+                .byte <CHARACTERSHAPE_BOX_ON_TARGET                  ; falling BOX
+                .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED          ; falling BOX
                 .byte <CHARACTERSHAPE_DIAMOND                   ; falling diamond
                 .byte <CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
 
@@ -1283,8 +1021,8 @@ CharacterDataVecHI
                 .byte >0
                 .byte >0
 
-                .byte >CHARACTERSHAPE_BOX                   ; falling BOX
-                .byte >CHARACTERSHAPE_BOX_MIRRORED          ; falling BOX
+                .byte >CHARACTERSHAPE_BOX_ON_TARGET                   ; falling BOX
+                .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED          ; falling BOX
                 .byte >CHARACTERSHAPE_DIAMOND                   ; falling diamond
                 .byte >CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
 
@@ -1298,123 +1036,6 @@ CharacterDataVecHI
 
     ;---------------------------------------------------------------------------
 
-GenericCharFlag
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_INITBANK.asm
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-
-    ; Tells us information about a particular character.  Multiple bits define characteristics
-    ; of how the character behaves during gameplay.
-
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE                              ; blank
-                .byte GENERIC_MASK_EXPLODABLE                                                      ; soil
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; BOX
-                .byte 0                                                                            ; <unused>
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; diamond
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED|GENERIC_MASK_FALLABLE           ; diamond2
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_SQUASHABLE|GENERIC_MASK_KILLSBUTTERFLY  ; man
-
-    ; Note: Butterflies and fireflies are not explodable, to prevent chain-reactions
-
-                .byte 0                                                      ; unused
-                .byte 0                                                      ; unused
-                .byte 0                                                      ; unused
-                .byte 0                                                      ; unused
-                .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
-                .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
-                .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
-                .byte GENERIC_MASK_SQUASHABLE|GENERIC_MASK_MAGICWALL                               ; magic wall
-                .byte 0                                                                            ; steel wall
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED                                 ; plain brick wall
-                .byte 0                                                                            ; exit
-                .byte 0                                                                            ; exit
-                .byte 0                                                                            ; explosion
-                .byte 0                                                                            ; explosion 1
-                .byte 0                                                                            ; explosion 2
-                .byte 0                                                                            ; explosion 3
-                .byte 0
-
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED                                 ; falling BOX
-                .byte GENERIC_MASK_EXPLODABLE|GENERIC_MASK_ROUNDED                                 ; falling diamond
-
-                .byte 0                                                                            ; unkillable man
-
-    IF * - GenericCharFlag < CHARACTER_MAXIMUM
-        ECHO "ERROR: Missing entry in GenericCharFlag table!"
-        EXIT
-    ENDIF
-
-    ;---------------------------------------------------------------------------
-
-BaseTypeCharacter
-; TJ: used by:
-; - BANK_FIXED.asm
-
-    ; Given an object type, gives a base character to use for that type
-    ; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
-
-                .byte CHARACTER_MANOCCUPIED
-                .byte CHARACTER_BOX
-                .byte 0
-                .byte 0
-                .byte 0
-                .byte CHARACTER_DIAMOND
-                .byte CHARACTER_WALL0
-                .byte CHARACTER_EXITDOOR        ; exit door
-                .byte CHARACTER_BLANK           ; select
-                .byte CHARACTER_EXPLOSION
-                .byte CHARACTER_EXPLOSION1
-                .byte CHARACTER_EXPLOSION2
-                .byte CHARACTER_EXPLOSION3
-                .byte CHARACTER_BLANK
-                .byte CHARACTER_SOIL
-                .byte CHARACTER_STEEL
-                .byte CHARACTER_WALL
-
-                ;--> if adding types, also see InitialFace in DecodeCave.asm
-
-    IF * - BaseTypeCharacter < TYPE_MAXIMUM
-        ECHO "ERROR: Missing entry in BaseTypeCharacter table!"
-        EXIT
-    ENDIF
-
-    ;---------------------------------------------------------------------------
-
-BaseTypeCharacterFalling
-; TJ: used by:
-; - BANK_FIXED.asm
-
-    ; Given an object type, gives a base character to use for that type
-    ; essentially the conversion BaseTypeCharacer[ TYPE ] --> character
-
-                .byte CHARACTER_MANOCCUPIED
-                .byte CHARACTER_BOX
-                .byte 0
-                .byte 0
-                .byte 0
-                .byte CHARACTER_DIAMOND_FALLING
-                .byte CHARACTER_WALL0
-                .byte CHARACTER_EXITDOOR        ; exit door
-                .byte CHARACTER_BLANK           ; select
-                .byte CHARACTER_EXPLOSION
-                .byte CHARACTER_EXPLOSION1
-                .byte CHARACTER_EXPLOSION2
-                .byte CHARACTER_EXPLOSION3
-                .byte CHARACTER_BLANK
-                .byte CHARACTER_SOIL
-                .byte CHARACTER_STEEL
-                .byte CHARACTER_WALL
-
-                ;--> if adding types, also see InitialFace in DecodeCave.asm
-
-    IF * - BaseTypeCharacterFalling < TYPE_MAXIMUM
-        ECHO "ERROR: Missing entry in BaseTypeCharacterFalling table!"
-        EXIT
-    ENDIF
-
-    ;---------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE CharToType ; in FIXED_BANK
 ; TJ: used by:
 ; - BANK_FIXED.asm
@@ -1423,8 +1044,8 @@ BaseTypeCharacterFalling
     ; Converts a character # to a creature type
     ; add 128 if character is NOT to be added as a creature on board draw
 
-                .byte TYPE_BLANK            ;  0    blank
-                .byte TYPE_SOIL             ;  1    soil
+                .byte 0            ;  0    blank
+                .byte 0             ;  1    soil
                 .byte TYPE_BOX          ;  2
                 .byte 0                    ;  3
                 .byte TYPE_DIAMOND          ;  4
@@ -1434,24 +1055,24 @@ BaseTypeCharacterFalling
                 .byte 0        ;  8
                 .byte 0          ;  9
                 .byte 0          ; 0a
-                .byte TYPE_MAGICWALL        ; 0b
-                .byte TYPE_MAGICWALL        ; 0c
-                .byte TYPE_MAGICWALL        ; 0d
-                .byte TYPE_MAGICWALL        ; 0e
-                .byte TYPE_STEELWALL        ; 0f     ; steel wall
-                .byte TYPE_BRICKWALL        ; 10     ; plain brick wall
-                .byte TYPE_EXITDOOR         ; 11
-                .byte TYPE_EXITDOOR         ; 12
-                .byte TYPE_EXPLOSION        ; 13
-                .byte TYPE_EXPLOSION1       ; 14
-                .byte TYPE_EXPLOSION2       ; 15
-                .byte TYPE_EXPLOSION3       ; 16
+                .byte 0;TYPE_MAGICWALL        ; 0b
+                .byte 0;TYPE_MAGICWALL        ; 0c
+                .byte 0;TYPE_MAGICWALL        ; 0d
+                .byte 0;TYPE_MAGICWALL        ; 0e
+                .byte 0        ; 0f     ; steel wall
+                .byte 0        ; 10     ; plain brick wall
+                .byte 0;TYPE_EXITDOOR         ; 11
+                .byte 0;TYPE_EXITDOOR         ; 12
+                .byte 0;TYPE_EXPLOSION        ; 13
+                .byte 0;TYPE_EXPLOSION1       ; 14
+                .byte 0;TYPE_EXPLOSION2       ; 15
+                .byte 0;TYPE_EXPLOSION3       ; 16
                 .byte 0           ; 17
 
                 .byte TYPE_DIAMOND              ; BOX on target --> target, giving our restore :)
                 .byte TYPE_DIAMOND          ; falling diamond
 
-                .byte TYPE_BLANK            ; 20 unkillable man
+                .byte 0            ; 20 unkillable man
                  ; --> see also MoveVec
                  ; --> see also DecodeCave's table
 
@@ -1463,25 +1084,10 @@ BaseTypeCharacterFalling
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE AnimateCharReplacements2 ;139
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
 
     ; This manages character animation on a per-object basis.  Morph/animate these
     ; characters individually or as required.  Change will affect all characters
     ; of the same type in the visible display.
-
-    ; -------------------------------------------
-    ; The door will animate when it is 'open'. It's open when the required number of diamonds have been
-    ; collected. This in turn triggers the "extra diamonds" flag for scoring, so that is used to determine
-    ; when the door should flash.
-
-                bit scoringFlags                                ;3
-                bpl NoDoor                                      ;2/3            extra diamonds (D7) set when door animates
-
-                lda ANIM_EXITDOOR                               ;4
-                eor #CHARACTER_EXITDOOR2^CHARACTER_EXITDOOR     ;2
-                sta ANIM_EXITDOOR + RAM_WRITE                   ;4 = 22         exit door
-NoDoor
 
     ; -------------------------------------------
 
@@ -1515,88 +1121,16 @@ rbret           lda ROM_Bank
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE nextLevelMan
-; TJ: used by:
-; - BANK_INITBANK.asm
+
                 lda #BANK_NextCave
                 sta SET_BANK
                 jmp NextCave
-
-    ;---------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE SortObjects2 ;=128(A), minimum 15 @ segtime exit
-; TJ: used by:
-; - BANK_FIXED.asm
-
-                lda INTIM                       ;4
-                cmp #MINIMUM_SORT_TIME          ;2
-                bcc .sortExit                   ;2(3)=8        insufficient time
-                STRESS_TIME MINIMUM_SORT_TIME
-
-                ldx ObjStackNum                 ;3
-                lda BankObjStack,x              ;4
-                sta SET_BANK_RAM                ;3
-                jmp .enterSort                  ;3 = 13
-
-restartSort                                     ;  = 11
-
-    ; So there's another sort 'starting' and we reset the ptr to the end of the obj list
-
-    ; retrieve size of list to sort
-                lda #<(-1)                      ;2
-                sta sortRequired                ;3              flag that we're DOING it
-
-                ldx ObjStackNum                 ;3
-                ldy ObjStackPtr,x               ;4              index of 1st free slot = # slots in use
-                dey                             ;2
-                sty sortPtr                     ;3              earlier potential swappable object
-                beq .sortExit                   ;2/3
-
-midSort                                         ;  =  6
-
-                lda SortedObjPtr,y              ;4              y = sortPtr!
-                ldx SortedObjPtr-1,y            ;4              the 'current' object looking to be sorted correctly
-                tay                             ;2
-
-                lda ObjStackY,x                 ;4
-                cmp ObjStackY,y                 ;4
-                bcc earlierObject               ;2(3)
-                bne swapAround                  ;2(3)
-
-                lda ObjStackX,y                 ;4
-                cmp ObjStackX,x                 ;4
-                bcs earlierObject               ;2(3)           WE DO NOT WANT TO SWAP IF == OTHERWISE LOCKUP
-
-swapAround                                      ;   = 32 max.
-                tya                             ;2              y = SortedObjPtr[sortPtr]
-                ldy sortPtr                     ;3
-                sta SortedObjPtr+RAM_WRITE-1,y  ;5
-                txa                             ;2              x = SortedObjPtr[sortPtr-1]
-                sta SortedObjPtr+RAM_WRITE,y    ;5
-                sty sortRequired                ;3 = 20         as we've done a swap, ensure another pass (ANY non-neg value)
-
-earlierObject   dec sortPtr                     ;5 =  5         look at earlier object
-
-                lda INTIM                       ;4
-                cmp #MINIMUM_SORT_TIME          ;2
-                bcc .sortExit                   ;2(3)=8        insufficient time
-                STRESS_TIME MINIMUM_SORT_TIME
-; loop max: 71 cycles, + 15 for exit + overhead outside
-; -> MINIMUM_SORT_TIME = ceiling(86/64)+1 = 3
-; TJ: I do not count the 1st INTIM, that's why I have 4 cylces less.
-.enterSort
-                ldy sortPtr                     ;3              sort 'stops' when potential swappable objects run out
-                bne midSort                     ;2(3)=5
-                lda sortRequired                ;3              AND there were no more sort requests
-                bpl restartSort                 ;2(3)=5
-
-.sortExit       rts                             ;6              completed sort! (or time exit)
 
 
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE goGeneralScoringSetups
-; TJ: used by:
-; - BANK_INITBANK.asm
+
                 lda #BANK_SCORING
                 sta SET_BANK_RAM
                 jsr GeneralScoringSetups
@@ -1608,8 +1142,6 @@ earlierObject   dec sortPtr                     ;5 =  5         look at earlier 
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE CopyROM2RAM_F000
-; TJ: used by:
-; - BANK_FIXED.asm
 
                 lda #BANK_CopyROMShadowToRAM
                 sta SET_BANK
@@ -1618,10 +1150,8 @@ earlierObject   dec sortPtr                     ;5 =  5         look at earlier 
 
 
     ;---------------------------------------------------------------------------
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+
     include "BOX.asm"         ; 2 * LINES_PER_CHAR bytes
-    include "Butterfly.asm"       ; 2 * LINES_PER_CHAR bytes
     include "Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
     ;---------------------------------------------------------------------------
 

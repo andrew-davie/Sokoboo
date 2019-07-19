@@ -226,30 +226,30 @@ CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
                 .byte CHARACTER_BLANK       ;  0
                 .byte CHARACTER_SOIL        ;  1
                 .byte CHARACTER_BOX     ;  2
-ANIM_AMOEBA     .byte CHARACTER_AMOEBA      ;  3
+ANIM_AMOEBA     .byte 0      ;  3
 ANIM_DIAMOND    .byte CHARACTER_DIAMOND     ;  4
                 .byte 0;CHARACTER_DIAMOND   ;  5
                 .byte CHARACTER_MANOCCUPIED ;  6
-ANIM_BUTTERFLY0 .byte CHARACTER_FLUTTERBY   ;  7
-ANIM_BUTTERFLY1 .byte CHARACTER_FLUTTERBY   ;  8
-ANIM_FIREFLY0   .byte CHARACTER_FIREFLY     ;  9
-ANIM_FIREFLY1   .byte CHARACTER_FIREFLY     ; 0a
+ANIM_BUTTERFLY0 .byte 0   ;  7
+ANIM_BUTTERFLY1 .byte 0   ;  8
+ANIM_FIREFLY0   .byte 0     ;  9
+ANIM_FIREFLY1   .byte 0     ; 0a
 ANIM_MAGICWALL  .byte CHARACTER_WALL0       ; 0b
                 .byte 0;CHARACTER_WALL0     ; 0c
                 .byte 0;CHARACTER_WALL0     ; 0d
                 .byte 0;CHARACTER_WALL0     ; 0e
                 .byte CHARACTER_STEEL       ; 0f
                 .byte CHARACTER_WALL        ; 10
-ANIM_EXITDOOR   .byte CHARACTER_EXITDOOR    ; 11
+ANIM_EXITDOOR   .byte 0    ; 11
                 .byte 0;CHARACTER_EXITDOOR  ; 12
-                .byte CHARACTER_EXPLOSION   ; 13
-                .byte CHARACTER_EXPLOSION1  ; 14
-                .byte CHARACTER_EXPLOSION2  ; 15
-                .byte CHARACTER_EXPLOSION3  ; 16
+                .byte 0   ; 13
+                .byte 0  ; 14
+                .byte 0  ; 15
+                .byte 0  ; 16
                 .byte 0;CHARACTER_AMOEBA    ; 17
                 .byte CHARACTER_BOX     ; 18    falling BOX
                 .byte CHARACTER_DIAMOND     ; 19    falling diamond, no anim
-                .byte CHARACTER_NOGO            ;20 the unkillable man for end of level
+                .byte 0            ;20 the unkillable man for end of level
 
     IF * - CharReplacement < CHARACTER_MAXIMUM
         ECHO "ERROR: Missing entry in CharReplacement table!"
@@ -283,65 +283,6 @@ SOFF    SET SOFF + SCREEN_WIDTH
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_BANK_DRAW_BUFFERS"
 
-    ; Here there is another 1K of usable ROM
-
-    DEFINE_SUBROUTINE MoveExit
-
-                bit scoringFlags
-                bpl NoExitYet                                   ; D7 (extra diamond) triggers exit open
-
-                lda levelDisplay
-                bpl lifeMaxedOut                ; not a bonus level
-                lda MenCurrent
-                and #$0f
-                cmp #9
-                bcs lifeMaxedOut
-                inc MenCurrent
-
-                ; bonus life has priority over score:
-                lda scoringFlags
-                and #DISPLAY_FLAGS
-                eor scoringFlags                    ; remove existing score mode
-                ora #DISPLAY_LIVES                  ; switch to new score mode
-                sta scoringFlags
-                lda #SCORING_TIMER
-                sta scoringTimer
-                lda #EXTRA_LIFE_TIMER
-                sta extraLifeTimer
-
-lifeMaxedOut
-
-                lda #MANMODE_BONUS_START
-                sta ManMode
-
-                lda #BANK_MoveExit
-                sta ROM_Bank
-
-                ;jsr MoveNoButton2                ; move man over exit door area
-
-    ; Stop the sort, so it doesn't accidentally swap "in" any creatures
-
-                lda #<(-1)
-                sta sortRequired
-                lda #0
-                sta sortPtr
-
-    ; We want *everything* to stop, but the player to keep processing
-    ; So, kill every creature in the two object stacks, re-add the man (automatic), and continue
-
-                ldx ObjStackNum
-                sta ObjStackPtr,x               ; =0, kill new object stack
-                txa
-                eor #1
-                tax
-                lda ObjStackPtr,x
-                sta ObjIterator                 ; set the iterator to the END of the current object stack so it ends
-
-    ; all creatures now dead and we'll only have the (reinserted) man left
-
-                asl ThrottleSpeed               ; double game loop speed
-
-NoExitYet       rts
 
             include "CaveBank1.asm"
 
