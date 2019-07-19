@@ -706,7 +706,7 @@ Title
 
                 lda #BANK_TitleScreen           ; 2
                 sta SET_BANK                    ; 3
-                jmp TitleScreen                 ; 3+x
+                ;jmp TitleScreen                 ; 3+x
 ExitTitleScreen:
     ; temporary vars from title screen are used to init level/cave
                 lda #BANK_Cart_Init             ; 2
@@ -924,12 +924,12 @@ CharacterDataVecLO
                 .byte <0
                 .byte <CHARACTERSHAPE_WALL0
                 .byte <CHARACTERSHAPE_WALL0_MIRRORED
-                .byte <CHARACTERSHAPE_WALL1
-                .byte <CHARACTERSHAPE_WALL1
-                .byte <CHARACTERSHAPE_WALL0
-                .byte <CHARACTERSHAPE_WALL0
-                .byte <CHARACTERSHAPE_WALL2
-                .byte <CHARACTERSHAPE_WALL2
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
                 .byte <CHARACTERSHAPE_STEEL
                 .byte <CHARACTERSHAPE_STEEL_MIRRORED
                 .byte <CHARACTERSHAPE_WALL
@@ -994,12 +994,12 @@ CharacterDataVecHI
                 .byte >0
                 .byte >CHARACTERSHAPE_WALL0
                 .byte >CHARACTERSHAPE_WALL0_MIRRORED
-                .byte >CHARACTERSHAPE_WALL1
-                .byte >CHARACTERSHAPE_WALL1
-                .byte >CHARACTERSHAPE_WALL0
-                .byte >CHARACTERSHAPE_WALL0
-                .byte >CHARACTERSHAPE_WALL2
-                .byte >CHARACTERSHAPE_WALL2
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
                 .byte >CHARACTERSHAPE_STEEL
                 .byte >CHARACTERSHAPE_STEEL_MIRRORED
                 .byte >CHARACTERSHAPE_WALL

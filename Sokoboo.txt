@@ -5795,7 +5795,7 @@
     343  11c5		       95 87		      sta	endTitleClear+1,x
     344  11c7		       ca		      dex
     345  11c8		       10 fb		      bpl	.loopClear
-    346  11ca		       4c a3 fa 	      jmp	ExitTitleScreen
+    346  11ca		       4c a0 fa 	      jmp	ExitTitleScreen
     347  11cd
     348  11cd				   .notReleased
     349  11cd		       24 4c		      bit	INPT4	; 4	     button released?
@@ -6203,7 +6203,7 @@
       2  142c							;##############################################################################
       3  142c							;------------------------------------------------------------------------------
       0  142c					      NEWBANK	ROM_SHADOW_OF_RAMBANK_CODE
-      1  1e8c ????				      SEG	ROM_SHADOW_OF_RAMBANK_CODE
+      1  1e62 ????				      SEG	ROM_SHADOW_OF_RAMBANK_CODE
       2  1800					      ORG	ORIGIN
       3  1800					      RORG	$F000
       4  1800				   BANK_START SET	*
@@ -6599,12 +6599,12 @@
     228  18e5		       a8		      tay		; 2 =	6
     229  18e6							;		  clc				  ; 2
     230  18e6
-    231  18e6		       b9 8e fb 	      lda	CharacterDataVecHI,y	; 4
+    231  18e6		       b9 8b fb 	      lda	CharacterDataVecHI,y	; 4
     232  18e9		       9d 0c f4 	      sta	SM_PF0_REDl +RAM_WRITE+2,x	; 5
     233  18ec		       9d 7b f4 	      sta	SM_PF0_GREENl+RAM_WRITE+2,x	; 5
     234  18ef		       9d 48 f4 	      sta	SM_PF0_BLUEl +RAM_WRITE+2,x	; 5 = 19
     235  18f2
-    236  18f2		       b9 58 fb 	      lda	CharacterDataVecLO,y	; 4
+    236  18f2		       b9 55 fb 	      lda	CharacterDataVecLO,y	; 4
     237  18f5		       9d 0b f4 	      sta	SM_PF0_REDl +RAM_WRITE+1,x	; 5
     238  18f8		       69 06		      adc	#LINES_PER_CHAR/3-1	; 2	     CF is set!
     239  18fa		       9d 7a f4 	      sta	SM_PF0_GREENl+RAM_WRITE+1,x	; 5
@@ -6643,12 +6643,12 @@
     263  190c							; 16 + 20 + 20 + 2 + ( 7 * 32 ) - 1  + (42 SUFFIX)
     264  190c							; = 323 --> /64 = 5.04 USE 7
     265  190c
-    266  190c		       b9 8e fb 	      lda	CharacterDataVecHI,y	; 4
+    266  190c		       b9 8b fb 	      lda	CharacterDataVecHI,y	; 4
     267  190f		       8d 3c f5 	      sta	SM3LOAD+RAM_WRITE+2	; 4
     268  1912		       8d 42 f5 	      sta	SM3LOADb+RAM_WRITE+2	; 4
     269  1915		       8d 48 f5 	      sta	SM3LOADc+RAM_WRITE+2	; 4 = 16
     270  1918
-    271  1918		       b9 58 fb 	      lda	CharacterDataVecLO,y	; 4
+    271  1918		       b9 55 fb 	      lda	CharacterDataVecLO,y	; 4
     272  191b		       8d 3b f5 	      sta	SM3LOAD+RAM_WRITE+1	; 4
     273  191e		       69 06		      adc	#LINES_PER_CHAR/3 - 1	; 2	     CF is set!
     274  1920		       8d 41 f5 	      sta	SM3LOADb+RAM_WRITE+1	; 4
@@ -6701,7 +6701,7 @@
     316  195d		       b0 a6		      bcs	DirectDraw	; 2(3)      when draw stack was built, bit 7 flags direct-drawn character
     317  195f							;	     => +19 starting DirectDraw BUT WHO CARES AS IT'S ONLY AFTER THAT COUNTS
     318  195f
-    319  195f		       b9 8e fb 	      lda	CharacterDataVecHI,y	; 4
+    319  195f		       b9 8b fb 	      lda	CharacterDataVecHI,y	; 4
     320  1962		       10 38		      bpl	QuickDraw	; 2(3)=42   special-case blank characters for extra speed
     321  1964							;	     => 42 starting QuickDraw
     322  1964		       8d 8d f5 	      sta	SMEOR1+RAM_WRITE+2	; 4 =	4
@@ -6724,7 +6724,7 @@
     330  196e							; 8 + 16 + 8 + 2 + (21 * 23) -1 + (42 OVERHEAD WHEN RETURNING)
     331  196e							; = 558 --> /64 = 8.71 INTIM --> USE 10
     332  196e
-    333  196e		       b9 58 fb 	      lda	CharacterDataVecLO,y	; 4
+    333  196e		       b9 55 fb 	      lda	CharacterDataVecLO,y	; 4
     334  1971		       8d 8c f5 	      sta	SMEOR1+RAM_WRITE+1	; 4 =	8
     335  1974
     336  1974		       bd dc f1 	      lda	CharAddressLO,x	; 4	     ScreenBitmap(COL) LO byte
@@ -7668,665 +7668,640 @@
     133  1bcd				  -			; .byte %00000000,%00000000,%00000000,%00000000,%00000000,%00000000,%00000000 ;B shared with Rockford.asm!
     134  1bcd					      endif
 ------- FILE BANK_ROM_SHADOW_RAMBANK.asm
-------- FILE Magic_Wall.asm LEVEL 3 PASS 3
-      0  1bcd					      include	"Magic_Wall.asm"	; 3 * LINES_PER_CHAR bytes
-      1  1bcd							;    OPTIONAL_PAGEBREAK "CHARACTERSHAPE_WALL3", LINES_PER_CHAR
-      2  1bcd							;CHARACTERSHAPE_WALL3
-      3  1bcd							; .byte %00000000,%11101110,%11101110,%00000000,%10111011,%10111011,%10111011 ;R
-      4  1bcd							; .byte %11101110,%11101110,%11101110,%00000000,%10111011,%10111011,%10111011 ;G
-      5  1bcd							; .byte %11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%00000000 ;B
-      6  1bcd
-      7  1bcd							;--------------------------------------------------------------------------
-      0  1bcd					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_WALL2", LINES_PER_CHAR
-     10  1bcd					      LIST	ON
-      9  1bcd				   CHARACTERSHAPE_WALL2
-     10  1bcd		       00 dd dd 00*	      .byte.b	%00000000,%11011101,%11011101,%00000000,%01110111,%01110111,%01110111	;R
-     11  1bd4		       dd dd dd 00*	      .byte.b	%11011101,%11011101,%11011101,%00000000,%01110111,%01110111,%01110111	;G
-     12  1bdb		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111	;,%0 ;B
-     13  1be2
-     14  1be2							;--------------------------------------------------------------------------
-     15  1be2							;     OPTIONAL_PAGEBREAK "CHARACTERSHAPE_WALL1", LINES_PER_CHAR
-     16  1be2				   CHARACTERSHAPE_WALL1
-     17  1be2		       00 bb bb 00*	      .byte.b	%00000000,%10111011,%10111011,%00000000,%11101110,%11101110,%11101110	;R
-     18  1be9		       bb bb bb 00*	      .byte.b	%10111011,%10111011,%10111011,%00000000,%11101110,%11101110,%11101110	;G
-     19  1bf0		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111	;B
-     20  1bf7
-      0  1bf7					      CHECKPAGE	CHARACTERSHAPE_WALL2	; since we share one byte!
-      8  1bf7					      LIST	ON
-------- FILE BANK_ROM_SHADOW_RAMBANK.asm
-    532  1bf7
-      0  1bf7					      CHECK_HALF_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE (1K)"
-      1  1bf7
-      2  1bf7
-      3  1bf7		       03 f7	   .TEMP      =	* - BANK_START
- ROM_SHADOW_OF_RAMBANK_CODE (1K) (1K) SIZE =  $3f7 , FREE= $9
-      4  1bf7					      ECHO	"ROM_SHADOW_OF_RAMBANK_CODE (1K)", "(1K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE/2 - .TEMP
-      5  1bf7				  -	      if	( .TEMP ) > ROM_BANK_SIZE/2
-      6  1bf7				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
-      7  1bf7				  -	      ERR
-      8  1bf7					      endif
-    534  1bf7
-    535  1bf7							;------------------------------------------------------------------------------
-    536  1bf7
-    537  1bf7							;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
-    538  1bf7
-    539  1bf7							;------------------------------------------------------------------------------
-    540  1bf7
-    541  1bf7
-    542  1bf7
-    543  1bf7							;	 CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE"
-    544  1bf7
-    545  1bf7
-    546  1bf7							; Here there's another 1K of usable ROM....
-    547  1bf7							; BUT!!! WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
-    548  1bf7
-    549  1bf7							;-----------------------------------------------------------
-    550  1bf7							; Stella 3E autodetect signature, can live anywhere
-    551  1bf7		       85 3e a9 00	      .byte.b	$85, $3E, $A9, $00
-    552  1bfb							;-----------------------------------------------------------
+    531  1bcd					      include	"Magic_Wall.asm"	; 3 * LINES_PER_CHAR bytes
+    532  1bcd
+      0  1bcd					      CHECK_HALF_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE (1K)"
+      1  1bcd
+      2  1bcd
+      3  1bcd		       03 cd	   .TEMP      =	* - BANK_START
+ ROM_SHADOW_OF_RAMBANK_CODE (1K) (1K) SIZE =  $3cd , FREE= $33
+      4  1bcd					      ECHO	"ROM_SHADOW_OF_RAMBANK_CODE (1K)", "(1K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE/2 - .TEMP
+      5  1bcd				  -	      if	( .TEMP ) > ROM_BANK_SIZE/2
+      6  1bcd				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
+      7  1bcd				  -	      ERR
+      8  1bcd					      endif
+    534  1bcd
+    535  1bcd							;------------------------------------------------------------------------------
+    536  1bcd
+    537  1bcd							;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
+    538  1bcd
+    539  1bcd							;------------------------------------------------------------------------------
+    540  1bcd
+    541  1bcd
+    542  1bcd
+    543  1bcd							;	 CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE"
+    544  1bcd
+    545  1bcd
+    546  1bcd							; Here there's another 1K of usable ROM....
+    547  1bcd							; BUT!!! WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
+    548  1bcd
+    549  1bcd							;-----------------------------------------------------------
+    550  1bcd							; Stella 3E autodetect signature, can live anywhere
+    551  1bcd		       85 3e a9 00	      .byte.b	$85, $3E, $A9, $00
+    552  1bd1							;-----------------------------------------------------------
 ------- FILE CaveBank2.asm LEVEL 3 PASS 3
-      0  1bfb					      include	"CaveBank2.asm"
-      1  1bfb							; Cave definitions
-      2  1bfb
-      3  1bfb
-      4  1bfb							;------------------------------------------------------------------------------
-      5  1bfb							;##############################################################################
-      6  1bfb							;------------------------------------------------------------------------------
-      7  1bfb
-      8  1bfb							;IFCONST CAVE_NAMED_FUNNEL
-      0  1bfb					      START_CAVE	FUNNEL
-      1  1bfb				   CAVE_START SET	*
-      2  1bfb		       00 03	   BANK_CAVE_FUNNEL =	_CURRENT_BANK
-      3  1bfb				   CAVE_FUNNEL SUBROUTINE
-      4  1bfb				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1bfb
-     10  1bfb
-     11  1bfb		       0f		      .byte.b	$0F	; Cave 15 O
-      0  1bfc					      CAVE_SIZE_ROOM		; width, height
-      0  1bfc					      CAVE_SIZE	40, 22
-      1  1bfc		       28 16		      .byte.b	40,22
-     13  1bfe		       08		      .byte.b	$08	; Magic wall/amoeba slow growth for: 8 seconds
-     14  1bff		       10		      .byte.b	$10	;BCD'd $0A			    ; Diamonds worth: 10 points
-     15  1c00		       20		      .byte.b	$20	;BCD'd $14			    ; Extra diamonds worth: 20 points
-     16  1c01		       01 1d 1e 1f*	      .byte.b	$01, $1D, $1E, $1F, $20	; Randomiser seed values for difficulty levels 1-5
-     17  1c06		       0f 14 14 19*	      .byte.b	$0F, $14, $14, $19, $1E	; Diamonds needed: 15, 20, 20, 25, 30 (for difficulty levels 1-5)
-     18  1c0b		       78 78 78 78*	      .byte.b	$78, $78, $78, $78, $8C	; Cave time: 120, 120, 120, 120, 140 seconds
-     19  1c10
-     20  1c10							;-------------------------------------------------------------------------------------
-     21  1c10							; PALETTE DEFINITIONS
-     22  1c10
-     23  1c10				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-     24  1c10				  -	      .byte	$88, $c6
-     25  1c10				  -	      .byte	$24, $44
-     26  1c10				  -	      .byte	$ee, $5e
-     27  1c10					      ELSE
-     28  1c10
-     29  1c10							; COMMENT FOLLOWING OUT IF NOT WANTED!
-     30  1c10							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-     31  1c10					      IF	AD_MODE
-     32  1c10		       88 c6		      .byte.b	$88, $c6
-     33  1c12		       24 44		      .byte.b	$24, $44
-     34  1c14		       ee 5e		      .byte.b	$ee, $5e
-     35  1c16					      ENDIF
-     36  1c16
-     37  1c16							; COMMENT FOLLOWING OUT IF NOT WANTED!
-     38  1c16							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-     39  1c16				  -	      IF	TJ_MODE
-     40  1c16				  -	      .byte	$88, $c6
-     41  1c16				  -	      .byte	$24, $44
-     42  1c16				  -	      .byte	$ee, $5e
-     43  1c16					      ENDIF
-     44  1c16
-     45  1c16					      ENDIF
-     46  1c16
-     47  1c16							;-------------------------------------------------------------------------------------
-     48  1c16
-     49  1c16
-     50  1c16		       00 02 09 00	      .byte.b	$00, CHARACTER_BOX, CHARACTER_FIREFLY, $00	; Random objects:
-     51  1c1a		       64 50 02 00	      .byte.b	$64, $50, $02, $00	;   zSpace : 100/256 = 39%
-     52  1c1e							;   zBouS  :  80/256 = 31%
-     53  1c1e							;   zFFly1 :	2/256 =  0%
-     54  1c1e							;   fourth code unused (0%)
-     55  1c1e
-     56  1c1e		       50 02 04 0a*	      .byte.b	LINE+CHARACTER_WALL, $02, $04, $0A, $03	; Line of zBrick from ( 2, 4); length = 10; direction = down/right
-     57  1c23		       50 0f 0d 0a*	      .byte.b	LINE+CHARACTER_WALL, $0F, $0D, $0A, $01	; Line of zBrick from (15,13); length = 10; direction = up/right
-     58  1c28		       41 0c 0e 03*	      .byte.b	LINE+CHARACTER_SOIL, $0C, $0E, $03, $02	; Line of zDirt from (12,14); length = 3; direction = right
-     59  1c2d		       4b 0c 0f 03*	      .byte.b	LINE+CHARACTER_WALL0, $0C, $0F, $03, $02	; Line of zMagic from (12,15); length = 3; direction = right
-     60  1c32		       11 14 16 	      .byte.b	CHARACTER_EXITDOOR, $14, $16	; StoreChar zPreOut at (20,22)
-     61  1c35		       06 14 03 	      .byte.b	CHARACTER_MANOCCUPIED, $14, $03	; StoreChar zPRFd1 at (20, 3)
-     62  1c38
-      0  1c38					      END_CAVE	FUNNEL
-      1  1c38		       ff		      .byte.b	$FF
-      2  1c38		       00 3e	   CAVE_SIZE_FUNNEL =	* - CAVE_START
-      3  1c39					      IF	CAVE_SIZE_FUNNEL > MAX_CAVE_SIZE
-      4  1c39				   MAX_CAVE_SIZE SET	CAVE_SIZE_FUNNEL
-      5  1c39					      ENDIF
-     64  1c39							;ENDIF
-     65  1c39
-     66  1c39							;------------------------------------------------------------------------------
-     67  1c39
-     68  1c39					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
-     69  1c39
-      0  1c39					      START_CAVE	INTERMISSION_4
-      1  1c39				   CAVE_START SET	*
-      2  1c39		       00 03	   BANK_CAVE_INTERMISSION_4 =	_CURRENT_BANK
-      3  1c39				   CAVE_INTERMISSION_4 SUBROUTINE
-      4  1c39				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1c39
-     71  1c39
-     72  1c39		       14		      .byte.b	$14	; Cave 20
-      0  1c3a					      CAVE_SIZE_INTERMISSION		; width, height
-      0  1c3a					      CAVE_SIZE	20, 12
-      1  1c3a		       14 0c		      .byte.b	20,12
-     74  1c3c		       03		      .byte.b	$03	; Magic wall/amoeba slow growth for: 3 seconds
-     75  1c3d		       30		      .byte.b	$30	;BCD'd $1E			    ; Diamonds worth: 30 points
-     76  1c3e		       00		      .byte.b	$00	; Extra diamonds worth: 0 points
-     77  1c3f		       00 00 00 00*	      .byte.b	$00, $00, $00, $00, $00	; Randomiser seed values for difficulty levels 1-5
-     78  1c44		       06 06 06 06*	      .byte.b	$06, $06, $06, $06, $06	; Diamonds needed: 6, 6, 6, 6, 6 (for difficulty levels 1-5)
-     79  1c49		       14 14 14 14*	      .byte.b	$14, $14, $14, $14, $14	; Cave time: 20, 20, 20, 20, 20 seconds
-     80  1c4e
-     81  1c4e							;-------------------------------------------------------------------------------------
-     82  1c4e							; PALETTE DEFINITIONS
-     83  1c4e
-     84  1c4e				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-     85  1c4e				  -	      .byte	$28, $48
-     86  1c4e				  -	      .byte	$a6, $b6
-     87  1c4e				  -	      .byte	$0e, $0e
-     88  1c4e					      ELSE
-     89  1c4e
-     90  1c4e							; COMMENT FOLLOWING OUT IF NOT WANTED!
-     91  1c4e							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-     92  1c4e					      IF	AD_MODE
-     93  1c4e		       28 48		      .byte.b	$28, $48
-     94  1c50		       a6 b6		      .byte.b	$a6, $b6
-     95  1c52		       0e 0e		      .byte.b	$0e, $0e
-     96  1c54					      ENDIF
-     97  1c54
-     98  1c54							; COMMENT FOLLOWING OUT IF NOT WANTED!
-     99  1c54							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    100  1c54				  -	      IF	TJ_MODE
-    101  1c54				  -	      .byte	$28, $48
-    102  1c54				  -	      .byte	$a6, $b6
-    103  1c54				  -	      .byte	$0e, $0e
-    104  1c54					      ENDIF
-    105  1c54
-    106  1c54					      ENDIF
-    107  1c54
-    108  1c54							;-------------------------------------------------------------------------------------
-    109  1c54
-    110  1c54
-    111  1c54
-    112  1c54							; ENDIF
-    113  1c54
-    114  1c54		       00 00 00 00	      .byte.b	$00, $00, $00, $00	; Random objects:
-    115  1c58		       00 00 00 00	      .byte.b	$00, $00, $00, $00	;   first code unused (0%)
-    116  1c5c							;   second code unused (0%)
-    117  1c5c							;   third code unused (0%)
-    118  1c5c							;   fourth code unused (0%)
-    119  1c5c
-    120  1c5c							;   superfluous due to limited cave size
-    121  1c5c							;    .byte   FILL+CHARACTER_STEEL, $00, $02, $28, $16, CHARACTER_STEEL; FilledRect of zSteel from ( 0, 2); length = 40; height = 22; fill = zSteel
-    122  1c5c		       8f 00 02 14*	      .byte.b	FILL+CHARACTER_STEEL, $00, $02, $14, $0C, CHARACTER_SOIL	; FilledRect of zSteel from ( 0, 2); length = 20; height = 12; fill = zDirt
-    123  1c62		       c2 0b 03 03*	      .byte.b	RECT+CHARACTER_BOX, $0B, $03, $03, $02	; Rect of zBouS from (11, 3); length = 3; height = 2
-    124  1c67		       80 0b 07 03*	      .byte.b	FILL+CHARACTER_BLANK, $0B, $07, $03, $06, CHARACTER_BLANK	; FilledRect of zSpace from (11, 7); length = 3; height = 6; fill = zSpace
-    125  1c6d		       4b 0b 06 03*	      .byte.b	LINE+CHARACTER_WALL0, $0B, $06, $03, $02	; Line of zMagic from (11, 6); length = 3; direction = right
-    126  1c72		       4b 0b 0a 03*	      .byte.b	LINE+CHARACTER_WALL0, $0B, $0A, $03, $02	; Line of zMagic from (11,10); length = 3; direction = right
-    127  1c77		       42 08 07 03*	      .byte.b	LINE+CHARACTER_BOX, $08, $07, $03, $03	; Line of zBouS from ( 8, 7); length = 3; direction = down/right
-    128  1c7c		       06 03 03 	      .byte.b	CHARACTER_MANOCCUPIED, $03, $03	; StoreChar zPRFd1 at ( 3, 3)
-    129  1c7f		       11 09 0a 	      .byte.b	CHARACTER_EXITDOOR, $09, $0A	; StoreChar zPreOut at ( 9,10)
-    130  1c82
-      0  1c82					      END_CAVE	INTERMISSION_4
-      1  1c82		       ff		      .byte.b	$FF
-      2  1c82		       00 4a	   CAVE_SIZE_INTERMISSION_4 =	* - CAVE_START
-      3  1c83					      IF	CAVE_SIZE_INTERMISSION_4 > MAX_CAVE_SIZE
-      4  1c83				   MAX_CAVE_SIZE SET	CAVE_SIZE_INTERMISSION_4
-      5  1c83					      ENDIF
-    132  1c83
-    133  1c83							;------------------------------------------------------------------------------
-    134  1c83
-    135  1c83					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
-      0  1c83					      START_CAVE	GUARDS
-      1  1c83				   CAVE_START SET	*
-      2  1c83		       00 03	   BANK_CAVE_GUARDS =	_CURRENT_BANK
-      3  1c83				   CAVE_GUARDS SUBROUTINE
-      4  1c83				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1c83
-    137  1c83
-    138  1c83		       05		      .byte.b	$05	; Cave 05 E
-      0  1c84					      CAVE_SIZE_ROOM		; width, height
-      0  1c84					      CAVE_SIZE	40, 22
-      1  1c84		       28 16		      .byte.b	40,22
-    140  1c86		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
-    141  1c87		       50		      .byte.b	$50	;BCD'd $32			    ; Diamonds worth: 50 points
-    142  1c88		       90		      .byte.b	$90	;BCD'd $5A			    ; Extra diamonds worth: 90 points
-    143  1c89		       00 00 00 00*	      .byte.b	$00, $00, $00, $00, $00	; Randomiser seed values for difficulty levels 1-5
-    144  1c8e		       04 05 06 07*	      .byte.b	$04, $05, $06, $07, $08	; Diamonds needed: 4, 5, 6, 7, 8 (for difficulty levels 1-5)
-    145  1c93		       96 78 5a 3c*	      .byte.b	$96, $78, $5A, $3C, $1E	; Cave time: 150, 120, 90, 60, 30 seconds
-    146  1c98
-    147  1c98							;-------------------------------------------------------------------------------------
-    148  1c98							; PALETTE DEFINITIONS
-    149  1c98
-    150  1c98				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-    151  1c98				  -	      .byte	$48, $68	; NTSC/PAL
-    152  1c98				  -	      .byte	$24, $46	; NTSC/PAL
-    153  1c98				  -	      .byte	$ae, $be	; NTSC/PAL
-    154  1c98					      ELSE
-    155  1c98
-    156  1c98							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    157  1c98							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    158  1c98					      IF	AD_MODE
-    159  1c98							;good
-    160  1c98							;	  .byte   $e8, $38
-    161  1c98							;	  .byte   $58, $86
-    162  1c98							;	  .byte   $ca, $5a
-    163  1c98		       26 68		      .byte.b	$26, $68
-    164  1c9a		       04 24		      .byte.b	$04, $24
-    165  1c9c		       9e 0e		      .byte.b	$9e, $0e
-    166  1c9e					      ENDIF
-    167  1c9e
-    168  1c9e							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    169  1c9e							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    170  1c9e				  -	      IF	TJ_MODE
-    171  1c9e				  -	      .byte	$48, $68
-    172  1c9e				  -	      .byte	$24, $46
-    173  1c9e				  -	      .byte	$ae, $9e
-    174  1c9e					      ENDIF
-    175  1c9e
-    176  1c9e					      ENDIF
-    177  1c9e
-    178  1c9e							;-------------------------------------------------------------------------------------
-    179  1c9e
-    180  1c9e		       00 00 00 00	      .byte.b	$00, $00, $00, $00	; Random objects:
-    181  1ca2		       00 00 00 00	      .byte.b	$00, $00, $00, $00	;   first code unused (0%)
-    182  1ca6							;   second code unused (0%)
-    183  1ca6							;   third code unused (0%)
-    184  1ca6							;   fourth code unused (0%)
-    185  1ca6
-    186  1ca6		       06 01 03 	      .byte.b	CHARACTER_MANOCCUPIED, $01, $03	; StoreChar zPRFd1 at ( 1, 3)
-    187  1ca9		       11 27 16 	      .byte.b	CHARACTER_EXITDOOR, $27, $16	; StoreChar zPreOut at (39,22)
-    188  1cac		       80 08 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $08, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from ( 8,10); length = 3; height = 3; fill = zSpace
-    189  1cb2		       80 10 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $10, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (16,10); length = 3; height = 3; fill = zSpace
-    190  1cb8		       80 18 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $18, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (24,10); length = 3; height = 3; fill = zSpace
-    191  1cbe		       80 20 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $20, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (32,10); length = 3; height = 3; fill = zSpace
-    192  1cc4		       04 09 0c 	      .byte.b	CHARACTER_DIAMOND, $09, $0C	; StoreChar zDiaS at ( 9,12)
-    193  1cc7		       09 0a 0a 	      .byte.b	CHARACTER_FIREFLY, $0A, $0A	; StoreChar zFFly1 at (10,10)
-    194  1cca		       04 11 0c 	      .byte.b	CHARACTER_DIAMOND, $11, $0C	; StoreChar zDiaS at (17,12)
-    195  1ccd		       09 12 0a 	      .byte.b	CHARACTER_FIREFLY, $12, $0A	; StoreChar zFFly1 at (18,10)
-    196  1cd0		       04 19 0c 	      .byte.b	CHARACTER_DIAMOND, $19, $0C	; StoreChar zDiaS at (25,12)
-    197  1cd3		       09 1a 0a 	      .byte.b	CHARACTER_FIREFLY, $1A, $0A	; StoreChar zFFly1 at (26,10)
-    198  1cd6		       04 21 0c 	      .byte.b	CHARACTER_DIAMOND, $21, $0C	; StoreChar zDiaS at (33,12)
-    199  1cd9		       09 22 0a 	      .byte.b	CHARACTER_FIREFLY, $22, $0A	; StoreChar zFFly1 at (34,10)
-    200  1cdc		       80 08 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $08, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from ( 8,16); length = 3; height = 3; fill = zSpace
-    201  1ce2		       80 10 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $10, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (16,16); length = 3; height = 3; fill = zSpace
-    202  1ce8		       80 18 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $18, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (24,16); length = 3; height = 3; fill = zSpace
-    203  1cee		       80 20 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $20, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (32,16); length = 3; height = 3; fill = zSpace
-    204  1cf4		       04 09 12 	      .byte.b	CHARACTER_DIAMOND, $09, $12	; StoreChar zDiaS at ( 9,18)
-    205  1cf7		       09 0a 10 	      .byte.b	CHARACTER_FIREFLY, $0A, $10	; StoreChar zFFly1 at (10,16)
-    206  1cfa		       04 11 12 	      .byte.b	CHARACTER_DIAMOND, $11, $12	; StoreChar zDiaS at (17,18)
-    207  1cfd		       09 12 10 	      .byte.b	CHARACTER_FIREFLY, $12, $10	; StoreChar zFFly1 at (18,16)
-    208  1d00		       04 19 12 	      .byte.b	CHARACTER_DIAMOND, $19, $12	; StoreChar zDiaS at (25,18)
-    209  1d03		       09 1a 10 	      .byte.b	CHARACTER_FIREFLY, $1A, $10	; StoreChar zFFly1 at (26,16)
-    210  1d06		       04 21 12 	      .byte.b	CHARACTER_DIAMOND, $21, $12	; StoreChar zDiaS at (33,18)
-    211  1d09		       09 22 10 	      .byte.b	CHARACTER_FIREFLY, $22, $10	; StoreChar zFFly1 at (34,16)
-    212  1d0c
-    213  1d0c							;    .byte   LINE+CHARACTER_WALL, $09, $10, $1E, $02	 ; Line of zBrick from ( 9,16); length = 30; direction = right
-    214  1d0c
-      0  1d0c					      END_CAVE	GUARDS
-      1  1d0c		       ff		      .byte.b	$FF
-      2  1d0c		       00 8a	   CAVE_SIZE_GUARDS =	* - CAVE_START
-      3  1d0d					      IF	CAVE_SIZE_GUARDS > MAX_CAVE_SIZE
-      4  1d0d				   MAX_CAVE_SIZE SET	CAVE_SIZE_GUARDS
-      5  1d0d					      ENDIF
-    216  1d0d					      ENDIF
-    217  1d0d
-    218  1d0d							;------------------------------------------------------------------------------
-    219  1d0d
-    220  1d0d					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
-      0  1d0d					      START_CAVE	FIREFLY_DENS
-      1  1d0d				   CAVE_START SET	*
-      2  1d0d		       00 03	   BANK_CAVE_FIREFLY_DENS =	_CURRENT_BANK
-      3  1d0d				   CAVE_FIREFLY_DENS SUBROUTINE
-      4  1d0d				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1d0d
-    222  1d0d
-    223  1d0d		       06		      .byte.b	$06	; Cave 06 F
-      0  1d0e					      CAVE_SIZE_ROOM		; width, height
-      0  1d0e					      CAVE_SIZE	40, 22
-      1  1d0e		       28 16		      .byte.b	40,22
-    225  1d10		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
-    226  1d11		       40		      .byte.b	$40	;BCD'd $28			    ; Diamonds worth: 40 points
-    227  1d12		       60		      .byte.b	$60	;BCD'd $3C			    ; Extra diamonds worth: 60 points
-    228  1d13		       00 14 15 16*	      .byte.b	$00, $14, $15, $16, $17	; Randomiser seed values for difficulty levels 1-5
-    229  1d18		       04 06 07 08*	      .byte.b	$04, $06, $07, $08, $08	; Diamonds needed: 4, 6, 7, 8, 8 (for difficulty levels 1-5)
-    230  1d1d		       96 78 64 5a*	      .byte.b	$96, $78, $64, $5A, $50	; Cave time: 150, 120, 100, 90, 80 seconds
-    231  1d22
-    232  1d22							;-------------------------------------------------------------------------------------
-    233  1d22							; PALETTE DEFINITIONS
-    234  1d22
-    235  1d22				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-    236  1d22				  -	      .byte	$26, $48
-    237  1d22				  -	      .byte	$78, $a4
-    238  1d22				  -	      .byte	$de, $5e
-    239  1d22					      ELSE
-    240  1d22
-    241  1d22							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    242  1d22							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    243  1d22					      IF	AD_MODE
-    244  1d22		       26 48		      .byte.b	$26, $48
-    245  1d24		       78 a4		      .byte.b	$78, $a4
-    246  1d26		       de 5e		      .byte.b	$de, $5e
-    247  1d28					      ENDIF
-    248  1d28
-    249  1d28							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    250  1d28							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    251  1d28				  -	      IF	TJ_MODE
-    252  1d28				  -	      .byte	$26, $48
-    253  1d28				  -	      .byte	$78, $a4
-    254  1d28				  -	      .byte	$de, $5e
-    255  1d28					      ENDIF
-    256  1d28
-    257  1d28					      ENDIF
-    258  1d28
-    259  1d28							;-------------------------------------------------------------------------------------
-    260  1d28
-    261  1d28		       02 00 00 00	      .byte.b	CHARACTER_BOX, $00, $00, $00	; Random objects:
-    262  1d2c		       32 00 00 00	      .byte.b	$32, $00, $00, $00	;   zBouS  :  50/256 = 19%
-    263  1d30							;   second code unused (0%)
-    264  1d30							;   third code unused (0%)
-    265  1d30							;   fourth code unused (0%)
-    266  1d30
-    267  1d30		       90 01 03 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $03, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1, 3); length = 10; height = 4; fill = zSpace
-    268  1d36		       90 01 06 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $06, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1, 6); length = 10; height = 4; fill = zSpace
-    269  1d3c		       90 01 09 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $09, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1, 9); length = 10; height = 4; fill = zSpace
-    270  1d42		       90 01 0c 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $0C, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1,12); length = 10; height = 4; fill = zSpace
-    271  1d48		       41 0a 03 0d*	      .byte.b	LINE+CHARACTER_SOIL, $0A, $03, $0D, $04	; Line of zDirt from (10, 3); length = 13; direction = down
-    272  1d4d		       04 03 05 	      .byte.b	CHARACTER_DIAMOND, $03, $05	; StoreChar zDiaS at ( 3, 5)
-    273  1d50		       09 04 05 	      .byte.b	CHARACTER_FIREFLY, $04, $05	; StoreChar zFFly1 at ( 4, 5)
-    274  1d53		       04 03 08 	      .byte.b	CHARACTER_DIAMOND, $03, $08	; StoreChar zDiaS at ( 3, 8)
-    275  1d56		       09 04 08 	      .byte.b	CHARACTER_FIREFLY, $04, $08	; StoreChar zFFly1 at ( 4, 8)
-    276  1d59		       04 03 0b 	      .byte.b	CHARACTER_DIAMOND, $03, $0B	; StoreChar zDiaS at ( 3,11)
-    277  1d5c		       09 04 0b 	      .byte.b	CHARACTER_FIREFLY, $04, $0B	; StoreChar zFFly1 at ( 4,11)
-    278  1d5f		       04 03 0e 	      .byte.b	CHARACTER_DIAMOND, $03, $0E	; StoreChar zDiaS at ( 3,14)
-    279  1d62		       09 04 0e 	      .byte.b	CHARACTER_FIREFLY, $04, $0E	; StoreChar zFFly1 at ( 4,14)
-    280  1d65		       90 1d 03 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $03, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29, 3); length = 10; height = 4; fill = zSpace
-    281  1d6b		       90 1d 06 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $06, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29, 6); length = 10; height = 4; fill = zSpace
-    282  1d71		       90 1d 09 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $09, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29, 9); length = 10; height = 4; fill = zSpace
-    283  1d77		       90 1d 0c 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $0C, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29,12); length = 10; height = 4; fill = zSpace
-    284  1d7d		       41 1d 03 0d*	      .byte.b	LINE+CHARACTER_SOIL, $1D, $03, $0D, $04	; Line of zDirt from (29, 3); length = 13; direction = down
-    285  1d82		       04 24 05 	      .byte.b	CHARACTER_DIAMOND, $24, $05	; StoreChar zDiaS at (36, 5)
-    286  1d85		       09 23 05 	      .byte.b	CHARACTER_FIREFLY, $23, $05	; StoreChar zFFly1 at (35, 5)
-    287  1d88		       04 24 08 	      .byte.b	CHARACTER_DIAMOND, $24, $08	; StoreChar zDiaS at (36, 8)
-    288  1d8b		       09 23 08 	      .byte.b	CHARACTER_FIREFLY, $23, $08	; StoreChar zFFly1 at (35, 8)
-    289  1d8e		       04 24 0b 	      .byte.b	CHARACTER_DIAMOND, $24, $0B	; StoreChar zDiaS at (36,11)
-    290  1d91		       09 23 0b 	      .byte.b	CHARACTER_FIREFLY, $23, $0B	; StoreChar zFFly1 at (35,11)
-    291  1d94		       04 24 0e 	      .byte.b	CHARACTER_DIAMOND, $24, $0E	; StoreChar zDiaS at (36,14)
-    292  1d97		       09 23 0e 	      .byte.b	CHARACTER_FIREFLY, $23, $0E	; StoreChar zFFly1 at (35,14)
-    293  1d9a		       06 03 14 	      .byte.b	CHARACTER_MANOCCUPIED, $03, $14	; StoreChar zPRFd1 at ( 3,20)
-    294  1d9d		       11 26 14 	      .byte.b	CHARACTER_EXITDOOR, $26, $14	; StoreChar zPreOut at (38,20)
-    295  1da0
-      0  1da0					      END_CAVE	FIREFLY_DENS
-      1  1da0		       ff		      .byte.b	$FF
-      2  1da0		       00 94	   CAVE_SIZE_FIREFLY_DENS =	* - CAVE_START
-      3  1da1					      IF	CAVE_SIZE_FIREFLY_DENS > MAX_CAVE_SIZE
-      4  1da1				   MAX_CAVE_SIZE SET	CAVE_SIZE_FIREFLY_DENS
-      5  1da1					      ENDIF
-    297  1da1					      ENDIF
-    298  1da1
-    299  1da1							;------------------------------------------------------------------------------
-    300  1da1
-    301  1da1					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
-      0  1da1					      START_CAVE	AMOEBA
-      1  1da1				   CAVE_START SET	*
-      2  1da1		       00 03	   BANK_CAVE_AMOEBA =	_CURRENT_BANK
-      3  1da1				   CAVE_AMOEBA SUBROUTINE
-      4  1da1				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1da1
-    303  1da1
-    304  1da1		       07		      .byte.b	$07	; Cave 07 G
-      0  1da2					      CAVE_SIZE_ROOM		; width, height
-      0  1da2					      CAVE_SIZE	40, 22
-      1  1da2		       28 16		      .byte.b	40,22
-    306  1da4		       4b		      .byte.b	$4B	; Magic wall/amoeba slow growth for: 75 seconds
-    307  1da5		       10		      .byte.b	$10	;BCD'd $0A			    ; Diamonds worth: 10 points
-    308  1da6		       20		      .byte.b	$20	;BCD'd $14			    ; Extra diamonds worth: 20 points
-    309  1da7		       02 07 08 0a*	      .byte.b	$02, $07, $08, $0A, $09	; Randomiser seed values for difficulty levels 1-5
-    310  1dac		       0f 14 19 19*	      .byte.b	$0F, $14, $19, $19, $19	; Diamonds needed: 15, 20, 25, 25, 25 (for difficulty levels 1-5)
-    311  1db1		       78 78 78 78*	      .byte.b	$78, $78, $78, $78, $78	; Cave time: 120, 120, 120, 120, 120 seconds
-    312  1db6
-    313  1db6							;-------------------------------------------------------------------------------------
-    314  1db6							; PALETTE DEFINITIONS
-    315  1db6
-    316  1db6				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-    317  1db6				  -	      .byte	$48, $68
-    318  1db6				  -	      .byte	$04, $06
-    319  1db6				  -	      .byte	$c8, $5a
-    320  1db6					      ELSE
-    321  1db6
-    322  1db6							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    323  1db6							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    324  1db6					      IF	AD_MODE
-    325  1db6		       48 66		      .byte.b	$48, $66
-    326  1db8		       04 04		      .byte.b	$04, $04
-    327  1dba		       c8 58		      .byte.b	$c8, $58
-    328  1dbc					      ENDIF
-    329  1dbc
-    330  1dbc							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    331  1dbc							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    332  1dbc				  -	      IF	TJ_MODE
-    333  1dbc				  -	      .byte	$4a, $68
-    334  1dbc				  -	      .byte	$26, $24
-    335  1dbc				  -	      .byte	$d8, $7a
-    336  1dbc					      ENDIF
-    337  1dbc
-    338  1dbc					      ENDIF
-    339  1dbc
-    340  1dbc							;-------------------------------------------------------------------------------------
-    341  1dbc							;
-    342  1dbc
-    343  1dbc		       00		      .byte.b	CHARACTER_BLANK	; Random objects:
-    344  1dbd		       02		      .byte.b	CHARACTER_BOX
-    345  1dbe		       09		      .byte.b	CHARACTER_FIREFLY
-    346  1dbf		       00		      .byte.b	0	; unused
-    347  1dc0		       64 28 02 00	      .byte.b	$64, $28, $02, $00	;   zSpace : 100/256 = 39%
-    348  1dc4							;   zBouS  :  40/256 = 15%
-    349  1dc4							;   zFFly1 :	2/256 =  0%
-    350  1dc4							;   fourth code unused (0%)
-    351  1dc4
-    352  1dc4		       50 01 07 0c*	      .byte.b	LINE+CHARACTER_WALL, $01, $07, $0C, $02	; Line of zBrick from ( 1, 7); length = 12; direction = right
-    353  1dc9		       50 1c 05 0b*	      .byte.b	LINE+CHARACTER_WALL, $1C, $05, $0B, $02	; Line of zBrick from (28, 5); length = 11; direction = right
-    354  1dce		       43 13 15 02*	      .byte.b	LINE+CHARACTER_AMOEBA, $13, $15, $02, $02	; Line of zAmoe from (19,21); length = 2; direction = right
-    355  1dd3		       04 04 06 	      .byte.b	CHARACTER_DIAMOND, $04, $06	; StoreChar zDiaS at ( 4, 6)
-    356  1dd6		       04 04 0e 	      .byte.b	CHARACTER_DIAMOND, $04, $0E	; StoreChar zDiaS at ( 4,14)
-    357  1dd9		       04 04 16 	      .byte.b	CHARACTER_DIAMOND, $04, $16	; StoreChar zDiaS at ( 4,22)
-    358  1ddc		       04 22 04 	      .byte.b	CHARACTER_DIAMOND, $22, $04	; StoreChar zDiaS at (34, 4)
-    359  1ddf		       04 22 0c 	      .byte.b	CHARACTER_DIAMOND, $22, $0C	; StoreChar zDiaS at (34,12)
-    360  1de2		       04 22 16 	      .byte.b	CHARACTER_DIAMOND, $22, $16	; StoreChar zDiaS at (34,22)
-    361  1de5		       06 14 06 	      .byte.b	CHARACTER_MANOCCUPIED, $14, $06	; StoreChar zPRFd1 at (20, 3)
-    362  1de8		       11 27 07 	      .byte.b	CHARACTER_EXITDOOR, $27, $07	; StoreChar zPreOut at (39, 7)
-    363  1deb
-      0  1deb					      END_CAVE	AMOEBA
-      1  1deb		       ff		      .byte.b	$FF
-      2  1deb		       00 4b	   CAVE_SIZE_AMOEBA =	* - CAVE_START
-      3  1dec				  -	      IF	CAVE_SIZE_AMOEBA > MAX_CAVE_SIZE
-      4  1dec				  -MAX_CAVE_SIZE SET	CAVE_SIZE_AMOEBA
-      5  1dec					      ENDIF
-    365  1dec					      ENDIF
-    366  1dec
-    367  1dec							;------------------------------------------------------------------------------
-    368  1dec
-    369  1dec					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
-      0  1dec					      START_CAVE	ENCHANTED_WALL
-      1  1dec				   CAVE_START SET	*
-      2  1dec		       00 03	   BANK_CAVE_ENCHANTED_WALL =	_CURRENT_BANK
-      3  1dec				   CAVE_ENCHANTED_WALL SUBROUTINE
-      4  1dec				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1dec
-    371  1dec
-    372  1dec		       08		      .byte.b	$08	; Cave 08 H
-      0  1ded					      CAVE_SIZE_ROOM		; width, height
-      0  1ded					      CAVE_SIZE	40, 22
-      1  1ded		       28 16		      .byte.b	40,22
-    374  1def		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
-    375  1df0		       10		      .byte.b	$10	;BCD'd $0A			    ; Diamonds worth: 10 points
-    376  1df1		       20		      .byte.b	$20	;BCD'd $14			    ; Extra diamonds worth: 20 points
-    377  1df2		       01 03 04 05*	      .byte.b	$01, $03, $04, $05, $06	; Randomiser seed values for difficulty levels 1-5
-    378  1df7		       0a 0f 14 14*	      .byte.b	$0A, $0F, $14, $14, $14	; Diamonds needed: 10, 15, 20, 20, 20 (for difficulty levels 1-5)
-    379  1dfc		       78 6e 64 5a*	      .byte.b	$78, $6E, $64, $5A, $50	; Cave time: 120, 110, 100, 90, 80 seconds
-    380  1e01
-    381  1e01							;-------------------------------------------------------------------------------------
-    382  1e01							; PALETTE DEFINITIONS
-    383  1e01
-    384  1e01				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-    385  1e01				  -	      .byte	$98, $d8
-    386  1e01				  -	      .byte	$44, $66
-    387  1e01				  -	      .byte	$de, $3e
-    388  1e01					      ELSE
-    389  1e01
-    390  1e01							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    391  1e01							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    392  1e01					      IF	AD_MODE
-    393  1e01		       98 d8		      .byte.b	$98, $d8
-    394  1e03		       44 66		      .byte.b	$44, $66
-    395  1e05		       de 3e		      .byte.b	$de, $3e
-    396  1e07					      ENDIF
-    397  1e07
-    398  1e07							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    399  1e07							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    400  1e07				  -	      IF	TJ_MODE
-    401  1e07				  -	      .byte	$98, $d8
-    402  1e07				  -	      .byte	$44, $66
-    403  1e07				  -	      .byte	$de, $3e
-    404  1e07					      ENDIF
-    405  1e07
-    406  1e07					      ENDIF
-    407  1e07
-    408  1e07							;-------------------------------------------------------------------------------------
-    409  1e07
-    410  1e07		       00 02 09 00	      .byte.b	$00, CHARACTER_BOX, CHARACTER_FIREFLY, $00	; Random objects:
-    411  1e0b		       5a 32 02 00	      .byte.b	$5A, $32, $02, $00	;   zSpace :  90/256 = 35%
-    412  1e0f							;   zBouS  :  50/256 = 19%
-    413  1e0f							;   zFFly1 :	2/256 =  0%
-    414  1e0f							;   fourth code unused (0%)
-    415  1e0f		       04 04 06 	      .byte.b	CHARACTER_DIAMOND, $04, $06	; StoreChar zDiaS at ( 4, 6)
-    416  1e12		       04 22 04 	      .byte.b	CHARACTER_DIAMOND, $22, $04	; StoreChar zDiaS at (34, 4)
-    417  1e15		       04 22 0c 	      .byte.b	CHARACTER_DIAMOND, $22, $0C	; StoreChar zDiaS at (34,12)
-    418  1e18		       11 00 05 	      .byte.b	CHARACTER_EXITDOOR, $00, $05	; StoreChar zPreOut at ( 0, 5)
-    419  1e1b		       06 14 03 	      .byte.b	CHARACTER_MANOCCUPIED, $14, $03	; StoreChar zPRFd1 at (20, 3)
-    420  1e1e		       50 01 07 0c*	      .byte.b	LINE+CHARACTER_WALL, $01, $07, $0C, $02	; Line of zBrick from ( 1, 7); length = 12; direction = right
-    421  1e23		       50 01 0f 0c*	      .byte.b	LINE+CHARACTER_WALL, $01, $0F, $0C, $02	; Line of zBrick from ( 1,15); length = 12; direction = right
-    422  1e28		       50 1c 05 0b*	      .byte.b	LINE+CHARACTER_WALL, $1C, $05, $0B, $02	; Line of zBrick from (28, 5); length = 11; direction = right
-    423  1e2d		       50 1c 0d 0b*	      .byte.b	LINE+CHARACTER_WALL, $1C, $0D, $0B, $02	; Line of zBrick from (28,13); length = 11; direction = right
-    424  1e32		       4b 0e 11 08*	      .byte.b	LINE+CHARACTER_WALL0, $0E, $11, $08, $02	; Line of zMagic from (14,17); length = 8; direction = right
-    425  1e37		       04 0c 10 	      .byte.b	CHARACTER_DIAMOND, $0C, $10	; StoreChar zDiaS at (12,16)
-    426  1e3a		       00 0e 12 	      .byte.b	CHARACTER_BLANK, $0E, $12	; StoreChar zSpace at (14,18)
-    427  1e3d		       04 13 12 	      .byte.b	CHARACTER_DIAMOND, $13, $12	; StoreChar zDiaS at (19,18)
-    428  1e40		       41 0e 0f 08*	      .byte.b	LINE+CHARACTER_SOIL, $0E, $0F, $08, $02	; Line of zDirt from (14,15); length = 8; direction = right
-    429  1e45
-      0  1e45					      END_CAVE	ENCHANTED_WALL
-      1  1e45		       ff		      .byte.b	$FF
-      2  1e45		       00 5a	   CAVE_SIZE_ENCHANTED_WALL =	* - CAVE_START
-      3  1e46				  -	      IF	CAVE_SIZE_ENCHANTED_WALL > MAX_CAVE_SIZE
-      4  1e46				  -MAX_CAVE_SIZE SET	CAVE_SIZE_ENCHANTED_WALL
-      5  1e46					      ENDIF
-    431  1e46					      ENDIF
-    432  1e46
-    433  1e46							;------------------------------------------------------------------------------
-    434  1e46
-    435  1e46					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
-      0  1e46					      START_CAVE	GREED
-      1  1e46				   CAVE_START SET	*
-      2  1e46		       00 03	   BANK_CAVE_GREED =	_CURRENT_BANK
-      3  1e46				   CAVE_GREED SUBROUTINE
-      4  1e46				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
-      5  1e46
-    437  1e46
-    438  1e46		       09		      .byte.b	$09	; Cave 09 I
-      0  1e47					      CAVE_SIZE_ROOM		; width, height
-      0  1e47					      CAVE_SIZE	40, 22
-      1  1e47		       28 16		      .byte.b	40,22
-    440  1e49		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
-    441  1e4a		       05		      .byte.b	$05	; Diamonds worth: 5 points
-    442  1e4b		       10		      .byte.b	$10	;BCD'd $0A			    ; Extra diamonds worth: 10 points
-    443  1e4c		       64 89 8c fb*	      .byte.b	$64, $89, $8C, $FB, $33	; Randomiser seed values for difficulty levels 1-5
-    444  1e51		       4b 4b 50 55*	      .byte.b	$4B, $4B, $50, $55, $5A	; Diamonds needed: 75, 75, 80, 85, 90 (for difficulty levels 1-5)
-    445  1e56		       96 96 82 82*	      .byte.b	$96, $96, $82, $82, $78	; Cave time: 150, 150, 130, 130, 120 seconds
-    446  1e5b
-    447  1e5b							;-------------------------------------------------------------------------------------
-    448  1e5b							; PALETTE DEFINITIONS
-    449  1e5b
-    450  1e5b				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
-    451  1e5b				  -	      .byte	$d6, $34
-    452  1e5b				  -	      .byte	$88, $d8
-    453  1e5b				  -	      .byte	$2e, $2e
-    454  1e5b					      ELSE
-    455  1e5b
-    456  1e5b							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    457  1e5b							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    458  1e5b					      IF	AD_MODE
-    459  1e5b		       d6 34		      .byte.b	$d6, $34
-    460  1e5d		       88 d8		      .byte.b	$88, $d8
-    461  1e5f		       2e 2e		      .byte.b	$2e, $2e
-    462  1e61					      ENDIF
-    463  1e61
-    464  1e61							; COMMENT FOLLOWING OUT IF NOT WANTED!
-    465  1e61							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
-    466  1e61				  -	      IF	TJ_MODE
-    467  1e61				  -	      .byte	$d8, $78
-    468  1e61				  -	      .byte	$94, $d4
-    469  1e61				  -	      .byte	$3e, $4e
-    470  1e61					      ENDIF
-    471  1e61
-    472  1e61					      ENDIF
-    473  1e61
-    474  1e61							;-------------------------------------------------------------------------------------
-    475  1e61
-    476  1e61
-    477  1e61		       02 04 00 00	      .byte.b	CHARACTER_BOX, CHARACTER_DIAMOND, $00, $00	; Random objects:
-    478  1e65		       f0 78 00 00	      .byte.b	$F0, $78, $00, $00	;   zBouS  : 240/256 = 93-46%
-    479  1e69							;   zDiaS  : 120/256 = 46%
-    480  1e69							;   third code unused (0%)
-    481  1e69							;   fourth code unused (0%)
-    482  1e69
-    483  1e69		       90 05 0a 0d*	      .byte.b	FILL+CHARACTER_WALL, $05, $0A, $0D, $0D, CHARACTER_BLANK	; FilledRect of zBrick from ( 5,10); length = 13; height = 13; fill = zSpace
-    484  1e6f		       01 0c 0a 	      .byte.b	CHARACTER_SOIL, $0C, $0A	; StoreChar zDirt at (12,10)
-    485  1e72		       90 19 0a 0d*	      .byte.b	FILL+CHARACTER_WALL, $19, $0A, $0D, $0D, CHARACTER_BLANK	; FilledRect of zBrick from (25,10); length = 13; height = 13; fill = zSpace
-    486  1e78		       01 1f 0a 	      .byte.b	CHARACTER_SOIL, $1F, $0A	; StoreChar zDirt at (31,10)
-    487  1e7b		       50 11 12 09*	      .byte.b	LINE+CHARACTER_WALL, $11, $12, $09, $02	; Line of zBrick from (17,18); length = 9; direction = right
-    488  1e80		       40 11 13 09*	      .byte.b	LINE+CHARACTER_BLANK, $11, $13, $09, $02	; Line of zSpace from (17,19); length = 9; direction = right
-    489  1e85		       06 07 0c 	      .byte.b	CHARACTER_MANOCCUPIED, $07, $0C	; StoreChar zPRFd1 at ( 7,12)
-    490  1e88		       11 08 0c 	      .byte.b	CHARACTER_EXITDOOR, $08, $0C	; StoreChar zPreOut at ( 8,12)
-    491  1e8b
-      0  1e8b					      END_CAVE	GREED
-      1  1e8b		       ff		      .byte.b	$FF
-      2  1e8b		       00 46	   CAVE_SIZE_GREED =	* - CAVE_START
-      3  1e8c				  -	      IF	CAVE_SIZE_GREED > MAX_CAVE_SIZE
-      4  1e8c				  -MAX_CAVE_SIZE SET	CAVE_SIZE_GREED
-      5  1e8c					      ENDIF
-    493  1e8c					      ENDIF
-    494  1e8c
-    495  1e8c							;ECHO "MAX CAVE SIZE = ", MAX_CAVE_SIZE
-    496  1e8c							;ECHO "MAX_CAVE_NUMBER = ", MAX_CAVE_NUMBER
-    497  1e8c
-    498  1e8c
+      0  1bd1					      include	"CaveBank2.asm"
+      1  1bd1							; Cave definitions
+      2  1bd1
+      3  1bd1
+      4  1bd1							;------------------------------------------------------------------------------
+      5  1bd1							;##############################################################################
+      6  1bd1							;------------------------------------------------------------------------------
+      7  1bd1
+      8  1bd1							;IFCONST CAVE_NAMED_FUNNEL
+      0  1bd1					      START_CAVE	FUNNEL
+      1  1bd1				   CAVE_START SET	*
+      2  1bd1		       00 03	   BANK_CAVE_FUNNEL =	_CURRENT_BANK
+      3  1bd1				   CAVE_FUNNEL SUBROUTINE
+      4  1bd1				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1bd1
+     10  1bd1
+     11  1bd1		       0f		      .byte.b	$0F	; Cave 15 O
+      0  1bd2					      CAVE_SIZE_ROOM		; width, height
+      0  1bd2					      CAVE_SIZE	40, 22
+      1  1bd2		       28 16		      .byte.b	40,22
+     13  1bd4		       08		      .byte.b	$08	; Magic wall/amoeba slow growth for: 8 seconds
+     14  1bd5		       10		      .byte.b	$10	;BCD'd $0A			    ; Diamonds worth: 10 points
+     15  1bd6		       20		      .byte.b	$20	;BCD'd $14			    ; Extra diamonds worth: 20 points
+     16  1bd7		       01 1d 1e 1f*	      .byte.b	$01, $1D, $1E, $1F, $20	; Randomiser seed values for difficulty levels 1-5
+     17  1bdc		       0f 14 14 19*	      .byte.b	$0F, $14, $14, $19, $1E	; Diamonds needed: 15, 20, 20, 25, 30 (for difficulty levels 1-5)
+     18  1be1		       78 78 78 78*	      .byte.b	$78, $78, $78, $78, $8C	; Cave time: 120, 120, 120, 120, 140 seconds
+     19  1be6
+     20  1be6							;-------------------------------------------------------------------------------------
+     21  1be6							; PALETTE DEFINITIONS
+     22  1be6
+     23  1be6				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+     24  1be6				  -	      .byte	$88, $c6
+     25  1be6				  -	      .byte	$24, $44
+     26  1be6				  -	      .byte	$ee, $5e
+     27  1be6					      ELSE
+     28  1be6
+     29  1be6							; COMMENT FOLLOWING OUT IF NOT WANTED!
+     30  1be6							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+     31  1be6					      IF	AD_MODE
+     32  1be6		       88 c6		      .byte.b	$88, $c6
+     33  1be8		       24 44		      .byte.b	$24, $44
+     34  1bea		       ee 5e		      .byte.b	$ee, $5e
+     35  1bec					      ENDIF
+     36  1bec
+     37  1bec							; COMMENT FOLLOWING OUT IF NOT WANTED!
+     38  1bec							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+     39  1bec				  -	      IF	TJ_MODE
+     40  1bec				  -	      .byte	$88, $c6
+     41  1bec				  -	      .byte	$24, $44
+     42  1bec				  -	      .byte	$ee, $5e
+     43  1bec					      ENDIF
+     44  1bec
+     45  1bec					      ENDIF
+     46  1bec
+     47  1bec							;-------------------------------------------------------------------------------------
+     48  1bec
+     49  1bec
+     50  1bec		       00 02 09 00	      .byte.b	$00, CHARACTER_BOX, CHARACTER_FIREFLY, $00	; Random objects:
+     51  1bf0		       64 50 02 00	      .byte.b	$64, $50, $02, $00	;   zSpace : 100/256 = 39%
+     52  1bf4							;   zBouS  :  80/256 = 31%
+     53  1bf4							;   zFFly1 :	2/256 =  0%
+     54  1bf4							;   fourth code unused (0%)
+     55  1bf4
+     56  1bf4		       50 02 04 0a*	      .byte.b	LINE+CHARACTER_WALL, $02, $04, $0A, $03	; Line of zBrick from ( 2, 4); length = 10; direction = down/right
+     57  1bf9		       50 0f 0d 0a*	      .byte.b	LINE+CHARACTER_WALL, $0F, $0D, $0A, $01	; Line of zBrick from (15,13); length = 10; direction = up/right
+     58  1bfe		       41 0c 0e 03*	      .byte.b	LINE+CHARACTER_SOIL, $0C, $0E, $03, $02	; Line of zDirt from (12,14); length = 3; direction = right
+     59  1c03		       4b 0c 0f 03*	      .byte.b	LINE+CHARACTER_WALL0, $0C, $0F, $03, $02	; Line of zMagic from (12,15); length = 3; direction = right
+     60  1c08		       11 14 16 	      .byte.b	CHARACTER_EXITDOOR, $14, $16	; StoreChar zPreOut at (20,22)
+     61  1c0b		       06 14 03 	      .byte.b	CHARACTER_MANOCCUPIED, $14, $03	; StoreChar zPRFd1 at (20, 3)
+     62  1c0e
+      0  1c0e					      END_CAVE	FUNNEL
+      1  1c0e		       ff		      .byte.b	$FF
+      2  1c0e		       00 3e	   CAVE_SIZE_FUNNEL =	* - CAVE_START
+      3  1c0f					      IF	CAVE_SIZE_FUNNEL > MAX_CAVE_SIZE
+      4  1c0f				   MAX_CAVE_SIZE SET	CAVE_SIZE_FUNNEL
+      5  1c0f					      ENDIF
+     64  1c0f							;ENDIF
+     65  1c0f
+     66  1c0f							;------------------------------------------------------------------------------
+     67  1c0f
+     68  1c0f					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
+     69  1c0f
+      0  1c0f					      START_CAVE	INTERMISSION_4
+      1  1c0f				   CAVE_START SET	*
+      2  1c0f		       00 03	   BANK_CAVE_INTERMISSION_4 =	_CURRENT_BANK
+      3  1c0f				   CAVE_INTERMISSION_4 SUBROUTINE
+      4  1c0f				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1c0f
+     71  1c0f
+     72  1c0f		       14		      .byte.b	$14	; Cave 20
+      0  1c10					      CAVE_SIZE_INTERMISSION		; width, height
+      0  1c10					      CAVE_SIZE	20, 12
+      1  1c10		       14 0c		      .byte.b	20,12
+     74  1c12		       03		      .byte.b	$03	; Magic wall/amoeba slow growth for: 3 seconds
+     75  1c13		       30		      .byte.b	$30	;BCD'd $1E			    ; Diamonds worth: 30 points
+     76  1c14		       00		      .byte.b	$00	; Extra diamonds worth: 0 points
+     77  1c15		       00 00 00 00*	      .byte.b	$00, $00, $00, $00, $00	; Randomiser seed values for difficulty levels 1-5
+     78  1c1a		       06 06 06 06*	      .byte.b	$06, $06, $06, $06, $06	; Diamonds needed: 6, 6, 6, 6, 6 (for difficulty levels 1-5)
+     79  1c1f		       14 14 14 14*	      .byte.b	$14, $14, $14, $14, $14	; Cave time: 20, 20, 20, 20, 20 seconds
+     80  1c24
+     81  1c24							;-------------------------------------------------------------------------------------
+     82  1c24							; PALETTE DEFINITIONS
+     83  1c24
+     84  1c24				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+     85  1c24				  -	      .byte	$28, $48
+     86  1c24				  -	      .byte	$a6, $b6
+     87  1c24				  -	      .byte	$0e, $0e
+     88  1c24					      ELSE
+     89  1c24
+     90  1c24							; COMMENT FOLLOWING OUT IF NOT WANTED!
+     91  1c24							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+     92  1c24					      IF	AD_MODE
+     93  1c24		       28 48		      .byte.b	$28, $48
+     94  1c26		       a6 b6		      .byte.b	$a6, $b6
+     95  1c28		       0e 0e		      .byte.b	$0e, $0e
+     96  1c2a					      ENDIF
+     97  1c2a
+     98  1c2a							; COMMENT FOLLOWING OUT IF NOT WANTED!
+     99  1c2a							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    100  1c2a				  -	      IF	TJ_MODE
+    101  1c2a				  -	      .byte	$28, $48
+    102  1c2a				  -	      .byte	$a6, $b6
+    103  1c2a				  -	      .byte	$0e, $0e
+    104  1c2a					      ENDIF
+    105  1c2a
+    106  1c2a					      ENDIF
+    107  1c2a
+    108  1c2a							;-------------------------------------------------------------------------------------
+    109  1c2a
+    110  1c2a
+    111  1c2a
+    112  1c2a							; ENDIF
+    113  1c2a
+    114  1c2a		       00 00 00 00	      .byte.b	$00, $00, $00, $00	; Random objects:
+    115  1c2e		       00 00 00 00	      .byte.b	$00, $00, $00, $00	;   first code unused (0%)
+    116  1c32							;   second code unused (0%)
+    117  1c32							;   third code unused (0%)
+    118  1c32							;   fourth code unused (0%)
+    119  1c32
+    120  1c32							;   superfluous due to limited cave size
+    121  1c32							;    .byte   FILL+CHARACTER_STEEL, $00, $02, $28, $16, CHARACTER_STEEL; FilledRect of zSteel from ( 0, 2); length = 40; height = 22; fill = zSteel
+    122  1c32		       8f 00 02 14*	      .byte.b	FILL+CHARACTER_STEEL, $00, $02, $14, $0C, CHARACTER_SOIL	; FilledRect of zSteel from ( 0, 2); length = 20; height = 12; fill = zDirt
+    123  1c38		       c2 0b 03 03*	      .byte.b	RECT+CHARACTER_BOX, $0B, $03, $03, $02	; Rect of zBouS from (11, 3); length = 3; height = 2
+    124  1c3d		       80 0b 07 03*	      .byte.b	FILL+CHARACTER_BLANK, $0B, $07, $03, $06, CHARACTER_BLANK	; FilledRect of zSpace from (11, 7); length = 3; height = 6; fill = zSpace
+    125  1c43		       4b 0b 06 03*	      .byte.b	LINE+CHARACTER_WALL0, $0B, $06, $03, $02	; Line of zMagic from (11, 6); length = 3; direction = right
+    126  1c48		       4b 0b 0a 03*	      .byte.b	LINE+CHARACTER_WALL0, $0B, $0A, $03, $02	; Line of zMagic from (11,10); length = 3; direction = right
+    127  1c4d		       42 08 07 03*	      .byte.b	LINE+CHARACTER_BOX, $08, $07, $03, $03	; Line of zBouS from ( 8, 7); length = 3; direction = down/right
+    128  1c52		       06 03 03 	      .byte.b	CHARACTER_MANOCCUPIED, $03, $03	; StoreChar zPRFd1 at ( 3, 3)
+    129  1c55		       11 09 0a 	      .byte.b	CHARACTER_EXITDOOR, $09, $0A	; StoreChar zPreOut at ( 9,10)
+    130  1c58
+      0  1c58					      END_CAVE	INTERMISSION_4
+      1  1c58		       ff		      .byte.b	$FF
+      2  1c58		       00 4a	   CAVE_SIZE_INTERMISSION_4 =	* - CAVE_START
+      3  1c59					      IF	CAVE_SIZE_INTERMISSION_4 > MAX_CAVE_SIZE
+      4  1c59				   MAX_CAVE_SIZE SET	CAVE_SIZE_INTERMISSION_4
+      5  1c59					      ENDIF
+    132  1c59
+    133  1c59							;------------------------------------------------------------------------------
+    134  1c59
+    135  1c59					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
+      0  1c59					      START_CAVE	GUARDS
+      1  1c59				   CAVE_START SET	*
+      2  1c59		       00 03	   BANK_CAVE_GUARDS =	_CURRENT_BANK
+      3  1c59				   CAVE_GUARDS SUBROUTINE
+      4  1c59				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1c59
+    137  1c59
+    138  1c59		       05		      .byte.b	$05	; Cave 05 E
+      0  1c5a					      CAVE_SIZE_ROOM		; width, height
+      0  1c5a					      CAVE_SIZE	40, 22
+      1  1c5a		       28 16		      .byte.b	40,22
+    140  1c5c		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
+    141  1c5d		       50		      .byte.b	$50	;BCD'd $32			    ; Diamonds worth: 50 points
+    142  1c5e		       90		      .byte.b	$90	;BCD'd $5A			    ; Extra diamonds worth: 90 points
+    143  1c5f		       00 00 00 00*	      .byte.b	$00, $00, $00, $00, $00	; Randomiser seed values for difficulty levels 1-5
+    144  1c64		       04 05 06 07*	      .byte.b	$04, $05, $06, $07, $08	; Diamonds needed: 4, 5, 6, 7, 8 (for difficulty levels 1-5)
+    145  1c69		       96 78 5a 3c*	      .byte.b	$96, $78, $5A, $3C, $1E	; Cave time: 150, 120, 90, 60, 30 seconds
+    146  1c6e
+    147  1c6e							;-------------------------------------------------------------------------------------
+    148  1c6e							; PALETTE DEFINITIONS
+    149  1c6e
+    150  1c6e				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+    151  1c6e				  -	      .byte	$48, $68	; NTSC/PAL
+    152  1c6e				  -	      .byte	$24, $46	; NTSC/PAL
+    153  1c6e				  -	      .byte	$ae, $be	; NTSC/PAL
+    154  1c6e					      ELSE
+    155  1c6e
+    156  1c6e							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    157  1c6e							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    158  1c6e					      IF	AD_MODE
+    159  1c6e							;good
+    160  1c6e							;	  .byte   $e8, $38
+    161  1c6e							;	  .byte   $58, $86
+    162  1c6e							;	  .byte   $ca, $5a
+    163  1c6e		       26 68		      .byte.b	$26, $68
+    164  1c70		       04 24		      .byte.b	$04, $24
+    165  1c72		       9e 0e		      .byte.b	$9e, $0e
+    166  1c74					      ENDIF
+    167  1c74
+    168  1c74							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    169  1c74							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    170  1c74				  -	      IF	TJ_MODE
+    171  1c74				  -	      .byte	$48, $68
+    172  1c74				  -	      .byte	$24, $46
+    173  1c74				  -	      .byte	$ae, $9e
+    174  1c74					      ENDIF
+    175  1c74
+    176  1c74					      ENDIF
+    177  1c74
+    178  1c74							;-------------------------------------------------------------------------------------
+    179  1c74
+    180  1c74		       00 00 00 00	      .byte.b	$00, $00, $00, $00	; Random objects:
+    181  1c78		       00 00 00 00	      .byte.b	$00, $00, $00, $00	;   first code unused (0%)
+    182  1c7c							;   second code unused (0%)
+    183  1c7c							;   third code unused (0%)
+    184  1c7c							;   fourth code unused (0%)
+    185  1c7c
+    186  1c7c		       06 01 03 	      .byte.b	CHARACTER_MANOCCUPIED, $01, $03	; StoreChar zPRFd1 at ( 1, 3)
+    187  1c7f		       11 27 16 	      .byte.b	CHARACTER_EXITDOOR, $27, $16	; StoreChar zPreOut at (39,22)
+    188  1c82		       80 08 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $08, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from ( 8,10); length = 3; height = 3; fill = zSpace
+    189  1c88		       80 10 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $10, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (16,10); length = 3; height = 3; fill = zSpace
+    190  1c8e		       80 18 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $18, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (24,10); length = 3; height = 3; fill = zSpace
+    191  1c94		       80 20 0a 03*	      .byte.b	FILL+CHARACTER_BLANK, $20, $0A, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (32,10); length = 3; height = 3; fill = zSpace
+    192  1c9a		       04 09 0c 	      .byte.b	CHARACTER_DIAMOND, $09, $0C	; StoreChar zDiaS at ( 9,12)
+    193  1c9d		       09 0a 0a 	      .byte.b	CHARACTER_FIREFLY, $0A, $0A	; StoreChar zFFly1 at (10,10)
+    194  1ca0		       04 11 0c 	      .byte.b	CHARACTER_DIAMOND, $11, $0C	; StoreChar zDiaS at (17,12)
+    195  1ca3		       09 12 0a 	      .byte.b	CHARACTER_FIREFLY, $12, $0A	; StoreChar zFFly1 at (18,10)
+    196  1ca6		       04 19 0c 	      .byte.b	CHARACTER_DIAMOND, $19, $0C	; StoreChar zDiaS at (25,12)
+    197  1ca9		       09 1a 0a 	      .byte.b	CHARACTER_FIREFLY, $1A, $0A	; StoreChar zFFly1 at (26,10)
+    198  1cac		       04 21 0c 	      .byte.b	CHARACTER_DIAMOND, $21, $0C	; StoreChar zDiaS at (33,12)
+    199  1caf		       09 22 0a 	      .byte.b	CHARACTER_FIREFLY, $22, $0A	; StoreChar zFFly1 at (34,10)
+    200  1cb2		       80 08 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $08, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from ( 8,16); length = 3; height = 3; fill = zSpace
+    201  1cb8		       80 10 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $10, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (16,16); length = 3; height = 3; fill = zSpace
+    202  1cbe		       80 18 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $18, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (24,16); length = 3; height = 3; fill = zSpace
+    203  1cc4		       80 20 10 03*	      .byte.b	FILL+CHARACTER_BLANK, $20, $10, $03, $03, CHARACTER_BLANK	; FilledRect of zSpace from (32,16); length = 3; height = 3; fill = zSpace
+    204  1cca		       04 09 12 	      .byte.b	CHARACTER_DIAMOND, $09, $12	; StoreChar zDiaS at ( 9,18)
+    205  1ccd		       09 0a 10 	      .byte.b	CHARACTER_FIREFLY, $0A, $10	; StoreChar zFFly1 at (10,16)
+    206  1cd0		       04 11 12 	      .byte.b	CHARACTER_DIAMOND, $11, $12	; StoreChar zDiaS at (17,18)
+    207  1cd3		       09 12 10 	      .byte.b	CHARACTER_FIREFLY, $12, $10	; StoreChar zFFly1 at (18,16)
+    208  1cd6		       04 19 12 	      .byte.b	CHARACTER_DIAMOND, $19, $12	; StoreChar zDiaS at (25,18)
+    209  1cd9		       09 1a 10 	      .byte.b	CHARACTER_FIREFLY, $1A, $10	; StoreChar zFFly1 at (26,16)
+    210  1cdc		       04 21 12 	      .byte.b	CHARACTER_DIAMOND, $21, $12	; StoreChar zDiaS at (33,18)
+    211  1cdf		       09 22 10 	      .byte.b	CHARACTER_FIREFLY, $22, $10	; StoreChar zFFly1 at (34,16)
+    212  1ce2
+    213  1ce2							;    .byte   LINE+CHARACTER_WALL, $09, $10, $1E, $02	 ; Line of zBrick from ( 9,16); length = 30; direction = right
+    214  1ce2
+      0  1ce2					      END_CAVE	GUARDS
+      1  1ce2		       ff		      .byte.b	$FF
+      2  1ce2		       00 8a	   CAVE_SIZE_GUARDS =	* - CAVE_START
+      3  1ce3					      IF	CAVE_SIZE_GUARDS > MAX_CAVE_SIZE
+      4  1ce3				   MAX_CAVE_SIZE SET	CAVE_SIZE_GUARDS
+      5  1ce3					      ENDIF
+    216  1ce3					      ENDIF
+    217  1ce3
+    218  1ce3							;------------------------------------------------------------------------------
+    219  1ce3
+    220  1ce3					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
+      0  1ce3					      START_CAVE	FIREFLY_DENS
+      1  1ce3				   CAVE_START SET	*
+      2  1ce3		       00 03	   BANK_CAVE_FIREFLY_DENS =	_CURRENT_BANK
+      3  1ce3				   CAVE_FIREFLY_DENS SUBROUTINE
+      4  1ce3				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1ce3
+    222  1ce3
+    223  1ce3		       06		      .byte.b	$06	; Cave 06 F
+      0  1ce4					      CAVE_SIZE_ROOM		; width, height
+      0  1ce4					      CAVE_SIZE	40, 22
+      1  1ce4		       28 16		      .byte.b	40,22
+    225  1ce6		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
+    226  1ce7		       40		      .byte.b	$40	;BCD'd $28			    ; Diamonds worth: 40 points
+    227  1ce8		       60		      .byte.b	$60	;BCD'd $3C			    ; Extra diamonds worth: 60 points
+    228  1ce9		       00 14 15 16*	      .byte.b	$00, $14, $15, $16, $17	; Randomiser seed values for difficulty levels 1-5
+    229  1cee		       04 06 07 08*	      .byte.b	$04, $06, $07, $08, $08	; Diamonds needed: 4, 6, 7, 8, 8 (for difficulty levels 1-5)
+    230  1cf3		       96 78 64 5a*	      .byte.b	$96, $78, $64, $5A, $50	; Cave time: 150, 120, 100, 90, 80 seconds
+    231  1cf8
+    232  1cf8							;-------------------------------------------------------------------------------------
+    233  1cf8							; PALETTE DEFINITIONS
+    234  1cf8
+    235  1cf8				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+    236  1cf8				  -	      .byte	$26, $48
+    237  1cf8				  -	      .byte	$78, $a4
+    238  1cf8				  -	      .byte	$de, $5e
+    239  1cf8					      ELSE
+    240  1cf8
+    241  1cf8							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    242  1cf8							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    243  1cf8					      IF	AD_MODE
+    244  1cf8		       26 48		      .byte.b	$26, $48
+    245  1cfa		       78 a4		      .byte.b	$78, $a4
+    246  1cfc		       de 5e		      .byte.b	$de, $5e
+    247  1cfe					      ENDIF
+    248  1cfe
+    249  1cfe							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    250  1cfe							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    251  1cfe				  -	      IF	TJ_MODE
+    252  1cfe				  -	      .byte	$26, $48
+    253  1cfe				  -	      .byte	$78, $a4
+    254  1cfe				  -	      .byte	$de, $5e
+    255  1cfe					      ENDIF
+    256  1cfe
+    257  1cfe					      ENDIF
+    258  1cfe
+    259  1cfe							;-------------------------------------------------------------------------------------
+    260  1cfe
+    261  1cfe		       02 00 00 00	      .byte.b	CHARACTER_BOX, $00, $00, $00	; Random objects:
+    262  1d02		       32 00 00 00	      .byte.b	$32, $00, $00, $00	;   zBouS  :  50/256 = 19%
+    263  1d06							;   second code unused (0%)
+    264  1d06							;   third code unused (0%)
+    265  1d06							;   fourth code unused (0%)
+    266  1d06
+    267  1d06		       90 01 03 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $03, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1, 3); length = 10; height = 4; fill = zSpace
+    268  1d0c		       90 01 06 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $06, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1, 6); length = 10; height = 4; fill = zSpace
+    269  1d12		       90 01 09 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $09, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1, 9); length = 10; height = 4; fill = zSpace
+    270  1d18		       90 01 0c 0a*	      .byte.b	FILL+CHARACTER_WALL, $01, $0C, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from ( 1,12); length = 10; height = 4; fill = zSpace
+    271  1d1e		       41 0a 03 0d*	      .byte.b	LINE+CHARACTER_SOIL, $0A, $03, $0D, $04	; Line of zDirt from (10, 3); length = 13; direction = down
+    272  1d23		       04 03 05 	      .byte.b	CHARACTER_DIAMOND, $03, $05	; StoreChar zDiaS at ( 3, 5)
+    273  1d26		       09 04 05 	      .byte.b	CHARACTER_FIREFLY, $04, $05	; StoreChar zFFly1 at ( 4, 5)
+    274  1d29		       04 03 08 	      .byte.b	CHARACTER_DIAMOND, $03, $08	; StoreChar zDiaS at ( 3, 8)
+    275  1d2c		       09 04 08 	      .byte.b	CHARACTER_FIREFLY, $04, $08	; StoreChar zFFly1 at ( 4, 8)
+    276  1d2f		       04 03 0b 	      .byte.b	CHARACTER_DIAMOND, $03, $0B	; StoreChar zDiaS at ( 3,11)
+    277  1d32		       09 04 0b 	      .byte.b	CHARACTER_FIREFLY, $04, $0B	; StoreChar zFFly1 at ( 4,11)
+    278  1d35		       04 03 0e 	      .byte.b	CHARACTER_DIAMOND, $03, $0E	; StoreChar zDiaS at ( 3,14)
+    279  1d38		       09 04 0e 	      .byte.b	CHARACTER_FIREFLY, $04, $0E	; StoreChar zFFly1 at ( 4,14)
+    280  1d3b		       90 1d 03 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $03, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29, 3); length = 10; height = 4; fill = zSpace
+    281  1d41		       90 1d 06 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $06, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29, 6); length = 10; height = 4; fill = zSpace
+    282  1d47		       90 1d 09 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $09, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29, 9); length = 10; height = 4; fill = zSpace
+    283  1d4d		       90 1d 0c 0a*	      .byte.b	FILL+CHARACTER_WALL, $1D, $0C, $0A, $04, CHARACTER_BLANK	; FilledRect of zBrick from (29,12); length = 10; height = 4; fill = zSpace
+    284  1d53		       41 1d 03 0d*	      .byte.b	LINE+CHARACTER_SOIL, $1D, $03, $0D, $04	; Line of zDirt from (29, 3); length = 13; direction = down
+    285  1d58		       04 24 05 	      .byte.b	CHARACTER_DIAMOND, $24, $05	; StoreChar zDiaS at (36, 5)
+    286  1d5b		       09 23 05 	      .byte.b	CHARACTER_FIREFLY, $23, $05	; StoreChar zFFly1 at (35, 5)
+    287  1d5e		       04 24 08 	      .byte.b	CHARACTER_DIAMOND, $24, $08	; StoreChar zDiaS at (36, 8)
+    288  1d61		       09 23 08 	      .byte.b	CHARACTER_FIREFLY, $23, $08	; StoreChar zFFly1 at (35, 8)
+    289  1d64		       04 24 0b 	      .byte.b	CHARACTER_DIAMOND, $24, $0B	; StoreChar zDiaS at (36,11)
+    290  1d67		       09 23 0b 	      .byte.b	CHARACTER_FIREFLY, $23, $0B	; StoreChar zFFly1 at (35,11)
+    291  1d6a		       04 24 0e 	      .byte.b	CHARACTER_DIAMOND, $24, $0E	; StoreChar zDiaS at (36,14)
+    292  1d6d		       09 23 0e 	      .byte.b	CHARACTER_FIREFLY, $23, $0E	; StoreChar zFFly1 at (35,14)
+    293  1d70		       06 03 14 	      .byte.b	CHARACTER_MANOCCUPIED, $03, $14	; StoreChar zPRFd1 at ( 3,20)
+    294  1d73		       11 26 14 	      .byte.b	CHARACTER_EXITDOOR, $26, $14	; StoreChar zPreOut at (38,20)
+    295  1d76
+      0  1d76					      END_CAVE	FIREFLY_DENS
+      1  1d76		       ff		      .byte.b	$FF
+      2  1d76		       00 94	   CAVE_SIZE_FIREFLY_DENS =	* - CAVE_START
+      3  1d77					      IF	CAVE_SIZE_FIREFLY_DENS > MAX_CAVE_SIZE
+      4  1d77				   MAX_CAVE_SIZE SET	CAVE_SIZE_FIREFLY_DENS
+      5  1d77					      ENDIF
+    297  1d77					      ENDIF
+    298  1d77
+    299  1d77							;------------------------------------------------------------------------------
+    300  1d77
+    301  1d77					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
+      0  1d77					      START_CAVE	AMOEBA
+      1  1d77				   CAVE_START SET	*
+      2  1d77		       00 03	   BANK_CAVE_AMOEBA =	_CURRENT_BANK
+      3  1d77				   CAVE_AMOEBA SUBROUTINE
+      4  1d77				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1d77
+    303  1d77
+    304  1d77		       07		      .byte.b	$07	; Cave 07 G
+      0  1d78					      CAVE_SIZE_ROOM		; width, height
+      0  1d78					      CAVE_SIZE	40, 22
+      1  1d78		       28 16		      .byte.b	40,22
+    306  1d7a		       4b		      .byte.b	$4B	; Magic wall/amoeba slow growth for: 75 seconds
+    307  1d7b		       10		      .byte.b	$10	;BCD'd $0A			    ; Diamonds worth: 10 points
+    308  1d7c		       20		      .byte.b	$20	;BCD'd $14			    ; Extra diamonds worth: 20 points
+    309  1d7d		       02 07 08 0a*	      .byte.b	$02, $07, $08, $0A, $09	; Randomiser seed values for difficulty levels 1-5
+    310  1d82		       0f 14 19 19*	      .byte.b	$0F, $14, $19, $19, $19	; Diamonds needed: 15, 20, 25, 25, 25 (for difficulty levels 1-5)
+    311  1d87		       78 78 78 78*	      .byte.b	$78, $78, $78, $78, $78	; Cave time: 120, 120, 120, 120, 120 seconds
+    312  1d8c
+    313  1d8c							;-------------------------------------------------------------------------------------
+    314  1d8c							; PALETTE DEFINITIONS
+    315  1d8c
+    316  1d8c				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+    317  1d8c				  -	      .byte	$48, $68
+    318  1d8c				  -	      .byte	$04, $06
+    319  1d8c				  -	      .byte	$c8, $5a
+    320  1d8c					      ELSE
+    321  1d8c
+    322  1d8c							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    323  1d8c							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    324  1d8c					      IF	AD_MODE
+    325  1d8c		       48 66		      .byte.b	$48, $66
+    326  1d8e		       04 04		      .byte.b	$04, $04
+    327  1d90		       c8 58		      .byte.b	$c8, $58
+    328  1d92					      ENDIF
+    329  1d92
+    330  1d92							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    331  1d92							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    332  1d92				  -	      IF	TJ_MODE
+    333  1d92				  -	      .byte	$4a, $68
+    334  1d92				  -	      .byte	$26, $24
+    335  1d92				  -	      .byte	$d8, $7a
+    336  1d92					      ENDIF
+    337  1d92
+    338  1d92					      ENDIF
+    339  1d92
+    340  1d92							;-------------------------------------------------------------------------------------
+    341  1d92							;
+    342  1d92
+    343  1d92		       00		      .byte.b	CHARACTER_BLANK	; Random objects:
+    344  1d93		       02		      .byte.b	CHARACTER_BOX
+    345  1d94		       09		      .byte.b	CHARACTER_FIREFLY
+    346  1d95		       00		      .byte.b	0	; unused
+    347  1d96		       64 28 02 00	      .byte.b	$64, $28, $02, $00	;   zSpace : 100/256 = 39%
+    348  1d9a							;   zBouS  :  40/256 = 15%
+    349  1d9a							;   zFFly1 :	2/256 =  0%
+    350  1d9a							;   fourth code unused (0%)
+    351  1d9a
+    352  1d9a		       50 01 07 0c*	      .byte.b	LINE+CHARACTER_WALL, $01, $07, $0C, $02	; Line of zBrick from ( 1, 7); length = 12; direction = right
+    353  1d9f		       50 1c 05 0b*	      .byte.b	LINE+CHARACTER_WALL, $1C, $05, $0B, $02	; Line of zBrick from (28, 5); length = 11; direction = right
+    354  1da4		       43 13 15 02*	      .byte.b	LINE+CHARACTER_AMOEBA, $13, $15, $02, $02	; Line of zAmoe from (19,21); length = 2; direction = right
+    355  1da9		       04 04 06 	      .byte.b	CHARACTER_DIAMOND, $04, $06	; StoreChar zDiaS at ( 4, 6)
+    356  1dac		       04 04 0e 	      .byte.b	CHARACTER_DIAMOND, $04, $0E	; StoreChar zDiaS at ( 4,14)
+    357  1daf		       04 04 16 	      .byte.b	CHARACTER_DIAMOND, $04, $16	; StoreChar zDiaS at ( 4,22)
+    358  1db2		       04 22 04 	      .byte.b	CHARACTER_DIAMOND, $22, $04	; StoreChar zDiaS at (34, 4)
+    359  1db5		       04 22 0c 	      .byte.b	CHARACTER_DIAMOND, $22, $0C	; StoreChar zDiaS at (34,12)
+    360  1db8		       04 22 16 	      .byte.b	CHARACTER_DIAMOND, $22, $16	; StoreChar zDiaS at (34,22)
+    361  1dbb		       06 14 06 	      .byte.b	CHARACTER_MANOCCUPIED, $14, $06	; StoreChar zPRFd1 at (20, 3)
+    362  1dbe		       11 27 07 	      .byte.b	CHARACTER_EXITDOOR, $27, $07	; StoreChar zPreOut at (39, 7)
+    363  1dc1
+      0  1dc1					      END_CAVE	AMOEBA
+      1  1dc1		       ff		      .byte.b	$FF
+      2  1dc1		       00 4b	   CAVE_SIZE_AMOEBA =	* - CAVE_START
+      3  1dc2				  -	      IF	CAVE_SIZE_AMOEBA > MAX_CAVE_SIZE
+      4  1dc2				  -MAX_CAVE_SIZE SET	CAVE_SIZE_AMOEBA
+      5  1dc2					      ENDIF
+    365  1dc2					      ENDIF
+    366  1dc2
+    367  1dc2							;------------------------------------------------------------------------------
+    368  1dc2
+    369  1dc2					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
+      0  1dc2					      START_CAVE	ENCHANTED_WALL
+      1  1dc2				   CAVE_START SET	*
+      2  1dc2		       00 03	   BANK_CAVE_ENCHANTED_WALL =	_CURRENT_BANK
+      3  1dc2				   CAVE_ENCHANTED_WALL SUBROUTINE
+      4  1dc2				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1dc2
+    371  1dc2
+    372  1dc2		       08		      .byte.b	$08	; Cave 08 H
+      0  1dc3					      CAVE_SIZE_ROOM		; width, height
+      0  1dc3					      CAVE_SIZE	40, 22
+      1  1dc3		       28 16		      .byte.b	40,22
+    374  1dc5		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
+    375  1dc6		       10		      .byte.b	$10	;BCD'd $0A			    ; Diamonds worth: 10 points
+    376  1dc7		       20		      .byte.b	$20	;BCD'd $14			    ; Extra diamonds worth: 20 points
+    377  1dc8		       01 03 04 05*	      .byte.b	$01, $03, $04, $05, $06	; Randomiser seed values for difficulty levels 1-5
+    378  1dcd		       0a 0f 14 14*	      .byte.b	$0A, $0F, $14, $14, $14	; Diamonds needed: 10, 15, 20, 20, 20 (for difficulty levels 1-5)
+    379  1dd2		       78 6e 64 5a*	      .byte.b	$78, $6E, $64, $5A, $50	; Cave time: 120, 110, 100, 90, 80 seconds
+    380  1dd7
+    381  1dd7							;-------------------------------------------------------------------------------------
+    382  1dd7							; PALETTE DEFINITIONS
+    383  1dd7
+    384  1dd7				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+    385  1dd7				  -	      .byte	$98, $d8
+    386  1dd7				  -	      .byte	$44, $66
+    387  1dd7				  -	      .byte	$de, $3e
+    388  1dd7					      ELSE
+    389  1dd7
+    390  1dd7							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    391  1dd7							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    392  1dd7					      IF	AD_MODE
+    393  1dd7		       98 d8		      .byte.b	$98, $d8
+    394  1dd9		       44 66		      .byte.b	$44, $66
+    395  1ddb		       de 3e		      .byte.b	$de, $3e
+    396  1ddd					      ENDIF
+    397  1ddd
+    398  1ddd							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    399  1ddd							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    400  1ddd				  -	      IF	TJ_MODE
+    401  1ddd				  -	      .byte	$98, $d8
+    402  1ddd				  -	      .byte	$44, $66
+    403  1ddd				  -	      .byte	$de, $3e
+    404  1ddd					      ENDIF
+    405  1ddd
+    406  1ddd					      ENDIF
+    407  1ddd
+    408  1ddd							;-------------------------------------------------------------------------------------
+    409  1ddd
+    410  1ddd		       00 02 09 00	      .byte.b	$00, CHARACTER_BOX, CHARACTER_FIREFLY, $00	; Random objects:
+    411  1de1		       5a 32 02 00	      .byte.b	$5A, $32, $02, $00	;   zSpace :  90/256 = 35%
+    412  1de5							;   zBouS  :  50/256 = 19%
+    413  1de5							;   zFFly1 :	2/256 =  0%
+    414  1de5							;   fourth code unused (0%)
+    415  1de5		       04 04 06 	      .byte.b	CHARACTER_DIAMOND, $04, $06	; StoreChar zDiaS at ( 4, 6)
+    416  1de8		       04 22 04 	      .byte.b	CHARACTER_DIAMOND, $22, $04	; StoreChar zDiaS at (34, 4)
+    417  1deb		       04 22 0c 	      .byte.b	CHARACTER_DIAMOND, $22, $0C	; StoreChar zDiaS at (34,12)
+    418  1dee		       11 00 05 	      .byte.b	CHARACTER_EXITDOOR, $00, $05	; StoreChar zPreOut at ( 0, 5)
+    419  1df1		       06 14 03 	      .byte.b	CHARACTER_MANOCCUPIED, $14, $03	; StoreChar zPRFd1 at (20, 3)
+    420  1df4		       50 01 07 0c*	      .byte.b	LINE+CHARACTER_WALL, $01, $07, $0C, $02	; Line of zBrick from ( 1, 7); length = 12; direction = right
+    421  1df9		       50 01 0f 0c*	      .byte.b	LINE+CHARACTER_WALL, $01, $0F, $0C, $02	; Line of zBrick from ( 1,15); length = 12; direction = right
+    422  1dfe		       50 1c 05 0b*	      .byte.b	LINE+CHARACTER_WALL, $1C, $05, $0B, $02	; Line of zBrick from (28, 5); length = 11; direction = right
+    423  1e03		       50 1c 0d 0b*	      .byte.b	LINE+CHARACTER_WALL, $1C, $0D, $0B, $02	; Line of zBrick from (28,13); length = 11; direction = right
+    424  1e08		       4b 0e 11 08*	      .byte.b	LINE+CHARACTER_WALL0, $0E, $11, $08, $02	; Line of zMagic from (14,17); length = 8; direction = right
+    425  1e0d		       04 0c 10 	      .byte.b	CHARACTER_DIAMOND, $0C, $10	; StoreChar zDiaS at (12,16)
+    426  1e10		       00 0e 12 	      .byte.b	CHARACTER_BLANK, $0E, $12	; StoreChar zSpace at (14,18)
+    427  1e13		       04 13 12 	      .byte.b	CHARACTER_DIAMOND, $13, $12	; StoreChar zDiaS at (19,18)
+    428  1e16		       41 0e 0f 08*	      .byte.b	LINE+CHARACTER_SOIL, $0E, $0F, $08, $02	; Line of zDirt from (14,15); length = 8; direction = right
+    429  1e1b
+      0  1e1b					      END_CAVE	ENCHANTED_WALL
+      1  1e1b		       ff		      .byte.b	$FF
+      2  1e1b		       00 5a	   CAVE_SIZE_ENCHANTED_WALL =	* - CAVE_START
+      3  1e1c				  -	      IF	CAVE_SIZE_ENCHANTED_WALL > MAX_CAVE_SIZE
+      4  1e1c				  -MAX_CAVE_SIZE SET	CAVE_SIZE_ENCHANTED_WALL
+      5  1e1c					      ENDIF
+    431  1e1c					      ENDIF
+    432  1e1c
+    433  1e1c							;------------------------------------------------------------------------------
+    434  1e1c
+    435  1e1c					      IF	FINAL_VERSION = YES || DEMO_VERSION = NO
+      0  1e1c					      START_CAVE	GREED
+      1  1e1c				   CAVE_START SET	*
+      2  1e1c		       00 03	   BANK_CAVE_GREED =	_CURRENT_BANK
+      3  1e1c				   CAVE_GREED SUBROUTINE
+      4  1e1c				   MAX_CAVE_NUMBER SET	MAX_CAVE_NUMBER + 1
+      5  1e1c
+    437  1e1c
+    438  1e1c		       09		      .byte.b	$09	; Cave 09 I
+      0  1e1d					      CAVE_SIZE_ROOM		; width, height
+      0  1e1d					      CAVE_SIZE	40, 22
+      1  1e1d		       28 16		      .byte.b	40,22
+    440  1e1f		       14		      .byte.b	$14	; Magic wall/amoeba slow growth for: 20 seconds
+    441  1e20		       05		      .byte.b	$05	; Diamonds worth: 5 points
+    442  1e21		       10		      .byte.b	$10	;BCD'd $0A			    ; Extra diamonds worth: 10 points
+    443  1e22		       64 89 8c fb*	      .byte.b	$64, $89, $8C, $FB, $33	; Randomiser seed values for difficulty levels 1-5
+    444  1e27		       4b 4b 50 55*	      .byte.b	$4B, $4B, $50, $55, $5A	; Diamonds needed: 75, 75, 80, 85, 90 (for difficulty levels 1-5)
+    445  1e2c		       96 96 82 82*	      .byte.b	$96, $96, $82, $82, $78	; Cave time: 150, 150, 130, 130, 120 seconds
+    446  1e31
+    447  1e31							;-------------------------------------------------------------------------------------
+    448  1e31							; PALETTE DEFINITIONS
+    449  1e31
+    450  1e31				  -	      IF	FINAL_VERSION || ![TJ_MODE|AD_MODE]
+    451  1e31				  -	      .byte	$d6, $34
+    452  1e31				  -	      .byte	$88, $d8
+    453  1e31				  -	      .byte	$2e, $2e
+    454  1e31					      ELSE
+    455  1e31
+    456  1e31							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    457  1e31							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    458  1e31					      IF	AD_MODE
+    459  1e31		       d6 34		      .byte.b	$d6, $34
+    460  1e33		       88 d8		      .byte.b	$88, $d8
+    461  1e35		       2e 2e		      .byte.b	$2e, $2e
+    462  1e37					      ENDIF
+    463  1e37
+    464  1e37							; COMMENT FOLLOWING OUT IF NOT WANTED!
+    465  1e37							; OPTIONAL block -- if it's not here, then the FINAL_VERSION is used
+    466  1e37				  -	      IF	TJ_MODE
+    467  1e37				  -	      .byte	$d8, $78
+    468  1e37				  -	      .byte	$94, $d4
+    469  1e37				  -	      .byte	$3e, $4e
+    470  1e37					      ENDIF
+    471  1e37
+    472  1e37					      ENDIF
+    473  1e37
+    474  1e37							;-------------------------------------------------------------------------------------
+    475  1e37
+    476  1e37
+    477  1e37		       02 04 00 00	      .byte.b	CHARACTER_BOX, CHARACTER_DIAMOND, $00, $00	; Random objects:
+    478  1e3b		       f0 78 00 00	      .byte.b	$F0, $78, $00, $00	;   zBouS  : 240/256 = 93-46%
+    479  1e3f							;   zDiaS  : 120/256 = 46%
+    480  1e3f							;   third code unused (0%)
+    481  1e3f							;   fourth code unused (0%)
+    482  1e3f
+    483  1e3f		       90 05 0a 0d*	      .byte.b	FILL+CHARACTER_WALL, $05, $0A, $0D, $0D, CHARACTER_BLANK	; FilledRect of zBrick from ( 5,10); length = 13; height = 13; fill = zSpace
+    484  1e45		       01 0c 0a 	      .byte.b	CHARACTER_SOIL, $0C, $0A	; StoreChar zDirt at (12,10)
+    485  1e48		       90 19 0a 0d*	      .byte.b	FILL+CHARACTER_WALL, $19, $0A, $0D, $0D, CHARACTER_BLANK	; FilledRect of zBrick from (25,10); length = 13; height = 13; fill = zSpace
+    486  1e4e		       01 1f 0a 	      .byte.b	CHARACTER_SOIL, $1F, $0A	; StoreChar zDirt at (31,10)
+    487  1e51		       50 11 12 09*	      .byte.b	LINE+CHARACTER_WALL, $11, $12, $09, $02	; Line of zBrick from (17,18); length = 9; direction = right
+    488  1e56		       40 11 13 09*	      .byte.b	LINE+CHARACTER_BLANK, $11, $13, $09, $02	; Line of zSpace from (17,19); length = 9; direction = right
+    489  1e5b		       06 07 0c 	      .byte.b	CHARACTER_MANOCCUPIED, $07, $0C	; StoreChar zPRFd1 at ( 7,12)
+    490  1e5e		       11 08 0c 	      .byte.b	CHARACTER_EXITDOOR, $08, $0C	; StoreChar zPreOut at ( 8,12)
+    491  1e61
+      0  1e61					      END_CAVE	GREED
+      1  1e61		       ff		      .byte.b	$FF
+      2  1e61		       00 46	   CAVE_SIZE_GREED =	* - CAVE_START
+      3  1e62				  -	      IF	CAVE_SIZE_GREED > MAX_CAVE_SIZE
+      4  1e62				  -MAX_CAVE_SIZE SET	CAVE_SIZE_GREED
+      5  1e62					      ENDIF
+    493  1e62					      ENDIF
+    494  1e62
+    495  1e62							;ECHO "MAX CAVE SIZE = ", MAX_CAVE_SIZE
+    496  1e62							;ECHO "MAX_CAVE_NUMBER = ", MAX_CAVE_NUMBER
+    497  1e62
+    498  1e62
 ------- FILE BANK_ROM_SHADOW_RAMBANK.asm
-    554  1e8c
-    555  1e8c
-      0  1e8c					      CHECK_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"
-      1  1e8c		       06 8c	   .TEMP      =	* - BANK_START
- ROM_SHADOW_OF_RAMBANK_CODE -- full 2K (2K) SIZE =  $68c , FREE= $174
-      2  1e8c					      ECHO	"ROM_SHADOW_OF_RAMBANK_CODE -- full 2K", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
-      3  1e8c				  -	      if	( .TEMP ) > ROM_BANK_SIZE
-      4  1e8c				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
-      5  1e8c				  -	      ERR
-      6  1e8c					      endif
+    554  1e62
+    555  1e62
+      0  1e62					      CHECK_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"
+      1  1e62		       06 62	   .TEMP      =	* - BANK_START
+ ROM_SHADOW_OF_RAMBANK_CODE -- full 2K (2K) SIZE =  $662 , FREE= $19e
+      2  1e62					      ECHO	"ROM_SHADOW_OF_RAMBANK_CODE -- full 2K", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
+      3  1e62				  -	      if	( .TEMP ) > ROM_BANK_SIZE
+      4  1e62				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
+      5  1e62				  -	      ERR
+      6  1e62					      endif
 ------- FILE ./sokoboo.asm
 ------- FILE BANK_ROM_SHADOW_DRAWBUFFERS.asm LEVEL 2 PASS 3
-      0  1e8c					      include	"BANK_ROM_SHADOW_DRAWBUFFERS.asm"
-      1  1e8c							;------------------------------------------------------------------------------
-      2  1e8c							;##############################################################################
-      3  1e8c							;------------------------------------------------------------------------------
-      4  1e8c
-      0  1e8c					      NEWBANK	ROM_SHADOW_OF_BANK_DRAW_BUFFERS
+      0  1e62					      include	"BANK_ROM_SHADOW_DRAWBUFFERS.asm"
+      1  1e62							;------------------------------------------------------------------------------
+      2  1e62							;##############################################################################
+      3  1e62							;------------------------------------------------------------------------------
+      4  1e62
+      0  1e62					      NEWBANK	ROM_SHADOW_OF_BANK_DRAW_BUFFERS
       1  2259 ????				      SEG	ROM_SHADOW_OF_BANK_DRAW_BUFFERS
       2  2000					      ORG	ORIGIN
       3  2000					      RORG	$F000
@@ -8430,7 +8405,7 @@
      86  2113				   skipsc
      87  2113
      88  2113		       e6 a9		      inc	timer	;5
-     89  2115		       4c df fb 	      jmp	AnimateCharReplacements2	;3+139
+     89  2115		       4c dc fb 	      jmp	AnimateCharReplacements2	;3+139
      90  2118				   retAnim
      91  2118
      92  2118		       e6 89		      inc	ScreenDrawPhase	;5
@@ -11349,7 +11324,7 @@
       0  334c					      ADD_CAVE	GUARDS,5
       1  334c				   CAVE_ACTIVE_GUARDS SET	1
       2  334c		       00 19	   CAVE_NAMED_GUARDS =	CAVENUM
-      3  334c		       83		      .byte.b	<CAVE_GUARDS
+      3  334c		       59		      .byte.b	<CAVE_GUARDS
       4  334d		       f4		      .byte.b	>CAVE_GUARDS
       5  334e		       03		      .byte.b	BANK_CAVE_GUARDS
       6  334f		       8a		      .byte.b	CAVE_SIZE_GUARDS
@@ -11358,8 +11333,8 @@
       0  3351					      ADD_CAVE	FIREFLY_DENS,6
       1  3351				   CAVE_ACTIVE_FIREFLY_DENS SET	1
       2  3351		       00 1e	   CAVE_NAMED_FIREFLY_DENS =	CAVENUM
-      3  3351		       0d		      .byte.b	<CAVE_FIREFLY_DENS
-      4  3352		       f5		      .byte.b	>CAVE_FIREFLY_DENS
+      3  3351		       e3		      .byte.b	<CAVE_FIREFLY_DENS
+      4  3352		       f4		      .byte.b	>CAVE_FIREFLY_DENS
       5  3353		       03		      .byte.b	BANK_CAVE_FIREFLY_DENS
       6  3354		       94		      .byte.b	CAVE_SIZE_FIREFLY_DENS
       7  3355		       06		      .byte.b	6
@@ -11367,7 +11342,7 @@
       0  3356					      ADD_CAVE	AMOEBA,7
       1  3356				   CAVE_ACTIVE_AMOEBA SET	1
       2  3356		       00 23	   CAVE_NAMED_AMOEBA =	CAVENUM
-      3  3356		       a1		      .byte.b	<CAVE_AMOEBA
+      3  3356		       77		      .byte.b	<CAVE_AMOEBA
       4  3357		       f5		      .byte.b	>CAVE_AMOEBA
       5  3358		       03		      .byte.b	BANK_CAVE_AMOEBA
       6  3359		       4b		      .byte.b	CAVE_SIZE_AMOEBA
@@ -11376,7 +11351,7 @@
       0  335b					      ADD_CAVE	ENCHANTED_WALL,8
       1  335b				   CAVE_ACTIVE_ENCHANTED_WALL SET	1
       2  335b		       00 28	   CAVE_NAMED_ENCHANTED_WALL =	CAVENUM
-      3  335b		       ec		      .byte.b	<CAVE_ENCHANTED_WALL
+      3  335b		       c2		      .byte.b	<CAVE_ENCHANTED_WALL
       4  335c		       f5		      .byte.b	>CAVE_ENCHANTED_WALL
       5  335d		       03		      .byte.b	BANK_CAVE_ENCHANTED_WALL
       6  335e		       5a		      .byte.b	CAVE_SIZE_ENCHANTED_WALL
@@ -13872,7 +13847,7 @@
     524  39ba		       b1		      .byte.b	<waitingManPress	; 4		 timer
     525  39bb		       8e		      .byte.b	<waitingMan	; 5		 no timer
     526  39bc		       b1		      .byte.b	<waitingManPress	; 6		 no timer
-    527  39bd		       00		      .byte.b	<nextLevelMan	; 7		 no timer
+    527  39bd		       fd		      .byte.b	<nextLevelMan	; 7		 no timer
     528  39be
     529  39be				   ManActionHI
     530  39be		       f2		      .byte.b	>manStartup	; no timer
@@ -13882,7 +13857,7 @@
     534  39c2		       f2		      .byte.b	>waitingManPress	; timer
     535  39c3		       f2		      .byte.b	>waitingMan	; no timer
     536  39c4		       f2		      .byte.b	>waitingManPress	; no timer
-    537  39c5		       fc		      .byte.b	>nextLevelMan	; no timer
+    537  39c5		       fb		      .byte.b	>nextLevelMan	; no timer
     538  39c6
     539  39c6							;------------------------------------------------------------------------------
       0  39c6					      DEFINE_SUBROUTINE	UpdateTimer
@@ -13918,7 +13893,7 @@
     567  39eb		       a5 ac		      lda	level	; each second left adds 'level' to score
     568  39ed		       18		      clc
     569  39ee		       69 01		      adc	#1
-    570  39f0		       20 f4 fb 	      jsr	ScoreAdd
+    570  39f0		       20 f1 fb 	      jsr	ScoreAdd
     571  39f3				   .notScoring
     572  39f3		       f8		      sed
     573  39f4		       38		      sec
@@ -14090,7 +14065,7 @@
     719  3aa6		       09 02		      ora	#DISPLAY_LIVES
     720  3aa8		       85 c3		      sta	scoringFlags	;
     721  3aaa					      ENDIF
-    722  3aaa		       20 07 fc 	      jsr	goGeneralScoringSetups	; update the life display. Roundabout way of doing it.
+    722  3aaa		       20 04 fc 	      jsr	goGeneralScoringSetups	; update the life display. Roundabout way of doing it.
     723  3aad				   intermission
     724  3aad
     725  3aad		       a9 78		      lda	#120	; something long.  anything.
@@ -14120,7 +14095,7 @@
     749  3ac9		       29 f1		      and	#$f1
     750  3acb		       85 c3	   gameOver   sta	scoringFlags	;
     751  3acd
-    752  3acd		       20 07 fc 	      jsr	goGeneralScoringSetups	; update the score display.
+    752  3acd		       20 04 fc 	      jsr	goGeneralScoringSetups	; update the score display.
     753  3ad0
     754  3ad0				   stillKicking
     755  3ad0
@@ -14686,7 +14661,7 @@
       6  3c28				   ORIGIN     SET	FIXED_BANK
       7  3c28
       0  3c28					      NEWBANK	THE_FIXED_BANK
-      1  7c9a ????				      SEG	THE_FIXED_BANK
+      1  7c97 ????				      SEG	THE_FIXED_BANK
       2  7800					      ORG	ORIGIN
       3  7800					      RORG	$F000
       4  7800				   BANK_START SET	*
@@ -15694,7 +15669,7 @@
     696  7a92
     697  7a92		       a2 05		      ldx	#ROM_SHADOW_OF_BANK_SCORING
     698  7a94		       a0 09		      ldy	#BANK_SCORING
-    699  7a96		       20 13 fc 	      jsr	CopyROM2RAM_F000
+    699  7a96		       20 10 fc 	      jsr	CopyROM2RAM_F000
     700  7a99
     701  7a99				   Restart		; go here on RESET + SELECT
     702  7a99
@@ -15704,593 +15679,593 @@
     706  7a9c
     707  7a9c		       a9 01		      lda	#BANK_TitleScreen	; 2
     708  7a9e		       85 3f		      sta	SET_BANK	; 3
-    709  7aa0		       4c af f1 	      jmp	TitleScreen	; 3+x
-    710  7aa3				   ExitTitleScreen
-    711  7aa3							; temporary vars from title screen are used to init level/cave
-    712  7aa3		       a9 06		      lda	#BANK_Cart_Init	; 2
-    713  7aa5		       85 3f		      sta	SET_BANK	; 3
-    714  7aa7		       20 79 f3 	      jsr	Cart_Init	; 6+x
-    715  7aaa
-    716  7aaa
-    717  7aaa							;---------------------------------------------------------------------------
-    718  7aaa
-    719  7aaa
-    720  7aaa		       f0 00	   SEGMENT_DECODE_CAVE_SHADOW =	$F000	; if not = $F000, this will cause an assertion failure
-    721  7aaa
-    722  7aaa		       a2 06		      ldx	#BANK_DECODE_CAVE_SHADOW
-    723  7aac		       a0 0a		      ldy	#BANK_DECODE_CAVE
-    724  7aae		       20 13 fc 	      jsr	CopyROM2RAM_F000
-    725  7ab1
-    726  7ab1
-    727  7ab1							;---------------------------------------------------------------------------
-    728  7ab1							; Once-only game initialisation goes here...
-    729  7ab1							; now we have two players so things get a bit tricky
-    730  7ab1
-    731  7ab1		       a9 09		      lda	#BANK_SCORING
-    732  7ab3		       85 3e		      sta	SET_BANK_RAM
-    733  7ab5		       20 97 f3 	      jsr	GameInitialise
-    734  7ab8
-    735  7ab8
-    736  7ab8							;---------------------------------------------------------------------------
-    737  7ab8
-    738  7ab8				   RestartCaveNextPlayer
-    739  7ab8							; TJ: used by:
-    740  7ab8							; - BANK_FIXED.asm
-    741  7ab8
-    742  7ab8							; a player has lost a life.
-    743  7ab8							; store his vars, swap to other player, continue
-    744  7ab8
-    745  7ab8							;lda #BANK_SCORING
-    746  7ab8							;sta SET_BANK_RAM
-    747  7ab8							;jsr SwapPlayers
-    748  7ab8
-    749  7ab8		       a9 06		      lda	#BANK_SwapPlayersGeneric
-    750  7aba		       85 3f		      sta	SET_BANK
-    751  7abc		       20 cc f3 	      jsr	SwapPlayersGeneric
-    752  7abf
-    753  7abf
-    754  7abf		       a5 a6		      lda	MenCurrent
-    755  7ac1		       f0 d6		      beq	Title	; all lives lost! (works for both P1P2)
-    756  7ac3		       d0 04		      bne	skipDemoCheck
-    757  7ac5
-    758  7ac5				   NextCaveLevel
-    759  7ac5		       24 a7		      bit	demoMode
-    760  7ac7		       30 d0		      bmi	Title
-    761  7ac9				   skipDemoCheck
-    762  7ac9
-    763  7ac9							; Initialise all in-game variables; those that must be re-initialised at the start of each level,
-    764  7ac9							; including those for general systems function. But NOT those which do not need re-initialising between
-    765  7ac9							; levels.
-    766  7ac9		       a9 06		      lda	#BANK_LevelInit	; 2
-    767  7acb		       85 3f		      sta	SET_BANK	; 3
-    768  7acd		       20 31 f4 	      jsr	LevelInit	; 6+x
-    769  7ad0
-    770  7ad0		       a9 0a		      lda	#BANK_DECODE_CAVE
-    771  7ad2		       85 3e		      sta	SET_BANK_RAM
-    772  7ad4		       20 e1 f0 	      jsr	DecodeCave
-    773  7ad7
-    774  7ad7							; Setup player animation and scroll limits.
-    775  7ad7							; Mangle the board colours based on level
-    776  7ad7
-    777  7ad7		       a9 06		      lda	#BANK_CreateCreatures	; 2
-    778  7ad9		       85 3f		      sta	SET_BANK	; 3
-    779  7adb		       20 e4 f3 	      jsr	CreateCreatures	; 6+x
-    780  7ade
-    781  7ade
-    782  7ade							; Setup the various digit and display pointers
-    783  7ade							; Grab current player's score/cave/level from backup
-    784  7ade
-    785  7ade		       20 07 fc 	      jsr	goGeneralScoringSetups
-    786  7ae1
-    787  7ae1							; copy the screen draw ROM shadow to RAM
-    788  7ae1
-    789  7ae1		       a0 07		      ldy	#SCREEN_LINES-1
-    790  7ae3		       a2 03	   CopyScreenBanks ldx	#ROM_SHADOW_OF_RAMBANK_CODE
-    791  7ae5		       20 13 fc 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
-    792  7ae8		       20 77 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
-    793  7aeb		       88		      dey
-    794  7aec		       10 f5		      bpl	CopyScreenBanks
-    795  7aee
-    796  7aee		       a2 04		      ldx	#ROM_SHADOW_OF_BANK_DRAW_BUFFERS
-    797  7af0		       a0 08		      ldy	#BANK_DRAW_BUFFERS
-    798  7af2		       20 43 f0 	      jsr	CopyROMShadowToRAM_F000
-    799  7af5
-    800  7af5							;---------------------------------------------------------------------------
-    801  7af5
-    802  7af5		       a9 06		      lda	#BANK_Resync	; 2
-    803  7af7		       85 3f		      sta	SET_BANK	; 3
-    804  7af9		       20 66 f4 	      jsr	Resync	; 6+x
-    805  7afc
-    806  7afc				   NewFrameBD
-    807  7afc							; the (at least) 220 cycles wasted in the above... bugs me!
-    808  7afc							; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
-    809  7afc							; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
-    810  7afc
-    811  7afc							;bit NextLevelTrigger
-    812  7afc							;bpl NextCaveLevel		  ; game-triggered next level
-    813  7afc							;bvs RestartCaveNextPlayer	  ; loss of life
-    814  7afc
-    815  7afc							; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
-    816  7afc
-    817  7afc		       a9 0e		      lda	#%1110	; VSYNC ON
-    818  7afe		       85 42	   .loopVSync sta	WSYNC
-    819  7b00		       85 40		      sta	VSYNC
-    820  7b02		       4a		      lsr
-    821  7b03		       d0 f9		      bne	.loopVSync	; branch until VYSNC has been reset
-    822  7b05
-    823  7b05							; moved *after* the loop since this allows to *increase* timer values by 1!
-    824  7b05
-    825  7b05		       a6 81		      ldx	Platform
-    826  7b07		       bc 54 fb 	      ldy	VBlankTime,x
-    827  7b0a		       8c 96 02 	      sty	TIM64T
-    828  7b0d
-    829  7b0d		       a2 00		      ldx	#BANK_PlaySounds
-    830  7b0f		       86 3f		      stx	SET_BANK
-    831  7b11
-    832  7b11							;---------------------------------------------------------------------------
-    833  7b11							; Do not separate code, as bank assumption is made
-    834  7b11
-    835  7b11		       20 22 f3 	      jsr	PlaySounds	; 6+x	 Jentzsch sound system
-    836  7b14
-    837  7b14		       20 fe f9 	      jsr	StealCharDraw	; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
-    838  7b17
-    839  7b17							;---------------------------------------------------------------------------
-    840  7b17							; START OF DISPLAY
-    841  7b17
-    842  7b17		       a9 09		      lda	#BANK_SCORING	; 2
-    843  7b19		       85 3e		      sta	SET_BANK_RAM	; 3
-    844  7b1b		       20 d3 f1 	      jsr	DrawDigits	; 6 = 11
-    845  7b1e
-    846  7b1e							;---------------------------------------------------------------------------
-    847  7b1e							; A 42-cycle timing window in the screen draw code.  Perform any general
-    848  7b1e							; per-frame code here, provided it takes exactly 42 cycles to execute.
-    849  7b1e							; TJ: Well, not exactly 42 cycles, but it works! :)
-    850  7b1e							;	 @09
-    851  7b1e		       85 49		      sta	COLUBK	; 3	 value comes from subroutine
-    852  7b20							; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
-    853  7b20
-    854  7b20
-    855  7b20							;		  inc Throttle		      ; 5     speed limiter
-      0  7b20					      SLEEP	5	;	 TODO: optimize for space
-      1  7b20				   .CYCLES    SET	5
-      2  7b20
-      3  7b20				  -	      IF	.CYCLES < 2
-      4  7b20				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
-      5  7b20				  -	      ERR
-      6  7b20					      ENDIF
-      7  7b20
-      8  7b20					      IF	.CYCLES & 1
-      9  7b20					      IFNCONST	NO_ILLEGAL_OPCODES
-     10  7b20		       04 00		      nop	0
-     11  7b22				  -	      ELSE
-     12  7b22				  -	      bit	VSYNC
-     13  7b22					      ENDIF
-     14  7b22				   .CYCLES    SET	.CYCLES - 3
-     15  7b22					      ENDIF
-     16  7b22
-     17  7b22					      REPEAT	.CYCLES / 2
-     18  7b22		       ea		      nop
-     19  7b23					      REPEND
-    857  7b23
-    858  7b23		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
-    859  7b25		       ca		      dex		; 2	 = $6f, stars effect!
-    860  7b26		       86 62		      stx	HMM0	; 3	 @24, exactly 21 cycles after the HMOVE
-    861  7b28
-    862  7b28		       85 44		      sta	NUSIZ0	; 3
-    863  7b2a		       84 65		      sty	VDELP0	; 3	 y = 0!
-    864  7b2c
-      0  7b2c					      SLEEP	10
-      1  7b2c				   .CYCLES    SET	10
-      2  7b2c
-      3  7b2c				  -	      IF	.CYCLES < 2
-      4  7b2c				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
-      5  7b2c				  -	      ERR
-      6  7b2c					      ENDIF
-      7  7b2c
-      8  7b2c				  -	      IF	.CYCLES & 1
-      9  7b2c				  -	      IFNCONST	NO_ILLEGAL_OPCODES
-     10  7b2c				  -	      nop	0
-     11  7b2c				  -	      ELSE
-     12  7b2c				  -	      bit	VSYNC
-     13  7b2c				  -	      ENDIF
-     14  7b2c				  -.CYCLES    SET	.CYCLES - 3
-     15  7b2c					      ENDIF
-     16  7b2c
-     17  7b2c					      REPEAT	.CYCLES / 2
+    709  7aa0							;jmp TitleScreen		  ; 3+x
+    710  7aa0				   ExitTitleScreen
+    711  7aa0							; temporary vars from title screen are used to init level/cave
+    712  7aa0		       a9 06		      lda	#BANK_Cart_Init	; 2
+    713  7aa2		       85 3f		      sta	SET_BANK	; 3
+    714  7aa4		       20 79 f3 	      jsr	Cart_Init	; 6+x
+    715  7aa7
+    716  7aa7
+    717  7aa7							;---------------------------------------------------------------------------
+    718  7aa7
+    719  7aa7
+    720  7aa7		       f0 00	   SEGMENT_DECODE_CAVE_SHADOW =	$F000	; if not = $F000, this will cause an assertion failure
+    721  7aa7
+    722  7aa7		       a2 06		      ldx	#BANK_DECODE_CAVE_SHADOW
+    723  7aa9		       a0 0a		      ldy	#BANK_DECODE_CAVE
+    724  7aab		       20 10 fc 	      jsr	CopyROM2RAM_F000
+    725  7aae
+    726  7aae
+    727  7aae							;---------------------------------------------------------------------------
+    728  7aae							; Once-only game initialisation goes here...
+    729  7aae							; now we have two players so things get a bit tricky
+    730  7aae
+    731  7aae		       a9 09		      lda	#BANK_SCORING
+    732  7ab0		       85 3e		      sta	SET_BANK_RAM
+    733  7ab2		       20 97 f3 	      jsr	GameInitialise
+    734  7ab5
+    735  7ab5
+    736  7ab5							;---------------------------------------------------------------------------
+    737  7ab5
+    738  7ab5				   RestartCaveNextPlayer
+    739  7ab5							; TJ: used by:
+    740  7ab5							; - BANK_FIXED.asm
+    741  7ab5
+    742  7ab5							; a player has lost a life.
+    743  7ab5							; store his vars, swap to other player, continue
+    744  7ab5
+    745  7ab5							;lda #BANK_SCORING
+    746  7ab5							;sta SET_BANK_RAM
+    747  7ab5							;jsr SwapPlayers
+    748  7ab5
+    749  7ab5		       a9 06		      lda	#BANK_SwapPlayersGeneric
+    750  7ab7		       85 3f		      sta	SET_BANK
+    751  7ab9		       20 cc f3 	      jsr	SwapPlayersGeneric
+    752  7abc
+    753  7abc
+    754  7abc		       a5 a6		      lda	MenCurrent
+    755  7abe		       f0 d9		      beq	Title	; all lives lost! (works for both P1P2)
+    756  7ac0		       d0 04		      bne	skipDemoCheck
+    757  7ac2
+    758  7ac2				   NextCaveLevel
+    759  7ac2		       24 a7		      bit	demoMode
+    760  7ac4		       30 d3		      bmi	Title
+    761  7ac6				   skipDemoCheck
+    762  7ac6
+    763  7ac6							; Initialise all in-game variables; those that must be re-initialised at the start of each level,
+    764  7ac6							; including those for general systems function. But NOT those which do not need re-initialising between
+    765  7ac6							; levels.
+    766  7ac6		       a9 06		      lda	#BANK_LevelInit	; 2
+    767  7ac8		       85 3f		      sta	SET_BANK	; 3
+    768  7aca		       20 31 f4 	      jsr	LevelInit	; 6+x
+    769  7acd
+    770  7acd		       a9 0a		      lda	#BANK_DECODE_CAVE
+    771  7acf		       85 3e		      sta	SET_BANK_RAM
+    772  7ad1		       20 e1 f0 	      jsr	DecodeCave
+    773  7ad4
+    774  7ad4							; Setup player animation and scroll limits.
+    775  7ad4							; Mangle the board colours based on level
+    776  7ad4
+    777  7ad4		       a9 06		      lda	#BANK_CreateCreatures	; 2
+    778  7ad6		       85 3f		      sta	SET_BANK	; 3
+    779  7ad8		       20 e4 f3 	      jsr	CreateCreatures	; 6+x
+    780  7adb
+    781  7adb
+    782  7adb							; Setup the various digit and display pointers
+    783  7adb							; Grab current player's score/cave/level from backup
+    784  7adb
+    785  7adb		       20 04 fc 	      jsr	goGeneralScoringSetups
+    786  7ade
+    787  7ade							; copy the screen draw ROM shadow to RAM
+    788  7ade
+    789  7ade		       a0 07		      ldy	#SCREEN_LINES-1
+    790  7ae0		       a2 03	   CopyScreenBanks ldx	#ROM_SHADOW_OF_RAMBANK_CODE
+    791  7ae2		       20 10 fc 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
+    792  7ae5		       20 77 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
+    793  7ae8		       88		      dey
+    794  7ae9		       10 f5		      bpl	CopyScreenBanks
+    795  7aeb
+    796  7aeb		       a2 04		      ldx	#ROM_SHADOW_OF_BANK_DRAW_BUFFERS
+    797  7aed		       a0 08		      ldy	#BANK_DRAW_BUFFERS
+    798  7aef		       20 43 f0 	      jsr	CopyROMShadowToRAM_F000
+    799  7af2
+    800  7af2							;---------------------------------------------------------------------------
+    801  7af2
+    802  7af2		       a9 06		      lda	#BANK_Resync	; 2
+    803  7af4		       85 3f		      sta	SET_BANK	; 3
+    804  7af6		       20 66 f4 	      jsr	Resync	; 6+x
+    805  7af9
+    806  7af9				   NewFrameBD
+    807  7af9							; the (at least) 220 cycles wasted in the above... bugs me!
+    808  7af9							; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
+    809  7af9							; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
+    810  7af9
+    811  7af9							;bit NextLevelTrigger
+    812  7af9							;bpl NextCaveLevel		  ; game-triggered next level
+    813  7af9							;bvs RestartCaveNextPlayer	  ; loss of life
+    814  7af9
+    815  7af9							; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
+    816  7af9
+    817  7af9		       a9 0e		      lda	#%1110	; VSYNC ON
+    818  7afb		       85 42	   .loopVSync sta	WSYNC
+    819  7afd		       85 40		      sta	VSYNC
+    820  7aff		       4a		      lsr
+    821  7b00		       d0 f9		      bne	.loopVSync	; branch until VYSNC has been reset
+    822  7b02
+    823  7b02							; moved *after* the loop since this allows to *increase* timer values by 1!
+    824  7b02
+    825  7b02		       a6 81		      ldx	Platform
+    826  7b04		       bc 51 fb 	      ldy	VBlankTime,x
+    827  7b07		       8c 96 02 	      sty	TIM64T
+    828  7b0a
+    829  7b0a		       a2 00		      ldx	#BANK_PlaySounds
+    830  7b0c		       86 3f		      stx	SET_BANK
+    831  7b0e
+    832  7b0e							;---------------------------------------------------------------------------
+    833  7b0e							; Do not separate code, as bank assumption is made
+    834  7b0e
+    835  7b0e		       20 22 f3 	      jsr	PlaySounds	; 6+x	 Jentzsch sound system
+    836  7b11
+    837  7b11		       20 fe f9 	      jsr	StealCharDraw	; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
+    838  7b14
+    839  7b14							;---------------------------------------------------------------------------
+    840  7b14							; START OF DISPLAY
+    841  7b14
+    842  7b14		       a9 09		      lda	#BANK_SCORING	; 2
+    843  7b16		       85 3e		      sta	SET_BANK_RAM	; 3
+    844  7b18		       20 d3 f1 	      jsr	DrawDigits	; 6 = 11
+    845  7b1b
+    846  7b1b							;---------------------------------------------------------------------------
+    847  7b1b							; A 42-cycle timing window in the screen draw code.  Perform any general
+    848  7b1b							; per-frame code here, provided it takes exactly 42 cycles to execute.
+    849  7b1b							; TJ: Well, not exactly 42 cycles, but it works! :)
+    850  7b1b							;	 @09
+    851  7b1b		       85 49		      sta	COLUBK	; 3	 value comes from subroutine
+    852  7b1d							; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
+    853  7b1d
+    854  7b1d
+    855  7b1d							;		  inc Throttle		      ; 5     speed limiter
+      0  7b1d					      SLEEP	5	;	 TODO: optimize for space
+      1  7b1d				   .CYCLES    SET	5
+      2  7b1d
+      3  7b1d				  -	      IF	.CYCLES < 2
+      4  7b1d				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  7b1d				  -	      ERR
+      6  7b1d					      ENDIF
+      7  7b1d
+      8  7b1d					      IF	.CYCLES & 1
+      9  7b1d					      IFNCONST	NO_ILLEGAL_OPCODES
+     10  7b1d		       04 00		      nop	0
+     11  7b1f				  -	      ELSE
+     12  7b1f				  -	      bit	VSYNC
+     13  7b1f					      ENDIF
+     14  7b1f				   .CYCLES    SET	.CYCLES - 3
+     15  7b1f					      ENDIF
+     16  7b1f
+     17  7b1f					      REPEAT	.CYCLES / 2
+     18  7b1f		       ea		      nop
+     19  7b20					      REPEND
+    857  7b20
+    858  7b20		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
+    859  7b22		       ca		      dex		; 2	 = $6f, stars effect!
+    860  7b23		       86 62		      stx	HMM0	; 3	 @24, exactly 21 cycles after the HMOVE
+    861  7b25
+    862  7b25		       85 44		      sta	NUSIZ0	; 3
+    863  7b27		       84 65		      sty	VDELP0	; 3	 y = 0!
+    864  7b29
+      0  7b29					      SLEEP	10
+      1  7b29				   .CYCLES    SET	10
+      2  7b29
+      3  7b29				  -	      IF	.CYCLES < 2
+      4  7b29				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  7b29				  -	      ERR
+      6  7b29					      ENDIF
+      7  7b29
+      8  7b29				  -	      IF	.CYCLES & 1
+      9  7b29				  -	      IFNCONST	NO_ILLEGAL_OPCODES
+     10  7b29				  -	      nop	0
+     11  7b29				  -	      ELSE
+     12  7b29				  -	      bit	VSYNC
+     13  7b29				  -	      ENDIF
+     14  7b29				  -.CYCLES    SET	.CYCLES - 3
+     15  7b29					      ENDIF
+     16  7b29
+     17  7b29					      REPEAT	.CYCLES / 2
+     18  7b29		       ea		      nop
+     17  7b29					      REPEND
+     18  7b2a		       ea		      nop
+     17  7b2a					      REPEND
+     18  7b2b		       ea		      nop
+     17  7b2b					      REPEND
      18  7b2c		       ea		      nop
      17  7b2c					      REPEND
      18  7b2d		       ea		      nop
-     17  7b2d					      REPEND
-     18  7b2e		       ea		      nop
-     17  7b2e					      REPEND
-     18  7b2f		       ea		      nop
-     17  7b2f					      REPEND
-     18  7b30		       ea		      nop
-     19  7b31					      REPEND
-    866  7b31							;iny			      ; 2     this relies on Y == 0 before...
-    867  7b31							;cpy extraLifeTimer	      ; 3     ..,and bit 0 is set in A
-    868  7b31							;adc #2		      ; 2
-    869  7b31							;sta ENAM0		      ; 3     dis/enable Cosmic Ark star effect
-    870  7b31
-    871  7b31		       a5 a3		      lda	ManLastDirection	; 3
-    872  7b33		       85 4b		      sta	REFP0	; 3
-    873  7b35
-    874  7b35		       a9 00		      lda	#BANK_SCREENMARKII1	; 2
-    875  7b37		       85 3e		      sta	SET_BANK_RAM	; 3
-    876  7b39		       20 00 f0 	      jsr	DrawTheScreen	; 6	 @57 from RAM, no less!!
-    877  7b3c							;	 @66
-    878  7b3c		       a9 06		      lda	#BANK_PostScreenCleanup	; 2
-    879  7b3e		       85 3f		      sta	SET_BANK	; 3
-    880  7b40		       20 28 f5 	      jsr	PostScreenCleanup	; 6+x
-    881  7b43
-    882  7b43		       a9 03		      lda	#BANK_SelfModDrawPlayers	; 2
-    883  7b45		       85 3f		      sta	SET_BANK	; 3
-    884  7b47		       20 fb f2 	      jsr	SelfModDrawPlayers	; 6+x
-    885  7b4a
-    886  7b4a		       20 fe f9 	      jsr	StealCharDraw
-    887  7b4d
-    888  7b4d		       ad 84 02    OverscanBD lda	INTIM	;4
-    889  7b50		       f0 aa		      beq	NewFrameBD	;3	 unconditional
-    890  7b52		       d0 f9		      bne	OverscanBD	;2/3
-    891  7b54
-    892  7b54				   VBlankTime
-    893  7b54		       3e 3e		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
-    894  7b56		       55 55		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_PAL
-    895  7b58
-    896  7b58							;---------------------------------------------------------------------------
-    897  7b58
-    898  7b58				   CharacterDataVecLO
-    899  7b58
-    900  7b58							; Two entries per character.  2nd is ptr to mirrored character
-    901  7b58							; Characters don't have to be mirrored, obviously -- use the same pointer for both!
-    902  7b58
-    903  7b58		       25		      .byte.b	<CHARACTERSHAPE_BLANK
-    904  7b59		       25		      .byte.b	<CHARACTERSHAPE_BLANK
-    905  7b5a		       b8		      .byte.b	<CHARACTERSHAPE_SOIL
-    906  7b5b		       b8		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
-    907  7b5c		       1c		      .byte.b	<CHARACTERSHAPE_BOX
-    908  7b5d		       31		      .byte.b	<CHARACTERSHAPE_BOX_MIRRORED
-    909  7b5e		       00		      .byte.b	<0
-    910  7b5f		       00		      .byte.b	<0
-    911  7b60		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND
-    912  7b61		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED
-    913  7b62		       e5		      .byte.b	<CHARACTERSHAPE_DIAMOND2
-    914  7b63		       d0		      .byte.b	<CHARACTERSHAPE_DIAMOND2_MIRRORED
-    915  7b64		       25		      .byte.b	<CHARACTERSHAPE_BLANK
-    916  7b65		       25		      .byte.b	<CHARACTERSHAPE_BLANK
-    917  7b66		       00		      .byte.b	<0
-    918  7b67		       00		      .byte.b	<0
-    919  7b68		       00		      .byte.b	<0
-    920  7b69		       00		      .byte.b	<0
-    921  7b6a		       00		      .byte.b	<0
-    922  7b6b		       00		      .byte.b	<0
-    923  7b6c		       00		      .byte.b	<0
-    924  7b6d		       00		      .byte.b	<0
-    925  7b6e		       00		      .byte.b	<CHARACTERSHAPE_WALL0
-    926  7b6f		       15		      .byte.b	<CHARACTERSHAPE_WALL0_MIRRORED
-    927  7b70		       e2		      .byte.b	<CHARACTERSHAPE_WALL1
-    928  7b71		       e2		      .byte.b	<CHARACTERSHAPE_WALL1
-    929  7b72		       00		      .byte.b	<CHARACTERSHAPE_WALL0
-    930  7b73		       00		      .byte.b	<CHARACTERSHAPE_WALL0
-    931  7b74		       cd		      .byte.b	<CHARACTERSHAPE_WALL2
-    932  7b75		       cd		      .byte.b	<CHARACTERSHAPE_WALL2
-    933  7b76		       70		      .byte.b	<CHARACTERSHAPE_STEEL
-    934  7b77		       85		      .byte.b	<CHARACTERSHAPE_STEEL_MIRRORED
-    935  7b78		       00		      .byte.b	<CHARACTERSHAPE_WALL
-    936  7b79		       15		      .byte.b	<CHARACTERSHAPE_WALL_MIRRORED
-    937  7b7a		       70		      .byte.b	<CHARACTERSHAPE_EXITDOOR
-    938  7b7b		       85		      .byte.b	<CHARACTERSHAPE_EXITDOOR_MIRRORED
-    939  7b7c		       25		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
-    940  7b7d		       25		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
-    941  7b7e
-    942  7b7e		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION
-    943  7b7f		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION_MIRRORED
-    944  7b80		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1
-    945  7b81		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1_MIRRORED
-    946  7b82		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2
-    947  7b83		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2_MIRRORED
-    948  7b84		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3
-    949  7b85		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3_MIRRORED
-    950  7b86
-    951  7b86		       00		      .byte.b	<0
-    952  7b87		       00		      .byte.b	<0
-    953  7b88
-    954  7b88		       46		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET	; falling BOX
-    955  7b89		       5b		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED	; falling BOX
-    956  7b8a		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND	; falling diamond
-    957  7b8b		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
-    958  7b8c
-    959  7b8c		       25		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
-    960  7b8d		       25		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
-    961  7b8e
-    962  7b8e				  -	      IF	* - CharacterDataVecLO < CHARACTER_MAXIMUM*2
-    963  7b8e				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecLO table!"
-    964  7b8e				  -	      EXIT
-    965  7b8e					      ENDIF
-    966  7b8e
-    967  7b8e							;---------------------------------------------------------------------------
-    968  7b8e
-    969  7b8e				   CharacterDataVecHI
-    970  7b8e							; TJ: used by:
-    971  7b8e							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-    972  7b8e
-    973  7b8e		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
-    974  7b8f		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
-    975  7b90		       f3		      .byte.b	>CHARACTERSHAPE_SOIL
-    976  7b91		       f3		      .byte.b	>CHARACTERSHAPE_SOIL_MIRRORED
-    977  7b92		       fc		      .byte.b	>CHARACTERSHAPE_BOX
-    978  7b93		       fc		      .byte.b	>CHARACTERSHAPE_BOX_MIRRORED
-    979  7b94		       00		      .byte.b	>0
-    980  7b95		       00		      .byte.b	>0
-    981  7b96		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND
-    982  7b97		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED
-    983  7b98		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2
-    984  7b99		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2_MIRRORED
-    985  7b9a		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
-    986  7b9b		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
-    987  7b9c		       00		      .byte.b	>0
-    988  7b9d		       00		      .byte.b	>0
-    989  7b9e		       00		      .byte.b	>0
-    990  7b9f		       00		      .byte.b	>0
-    991  7ba0		       00		      .byte.b	>0
-    992  7ba1		       00		      .byte.b	>0
-    993  7ba2		       00		      .byte.b	>0
-    994  7ba3		       00		      .byte.b	>0
-    995  7ba4		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
-    996  7ba5		       f8		      .byte.b	>CHARACTERSHAPE_WALL0_MIRRORED
-    997  7ba6		       f3		      .byte.b	>CHARACTERSHAPE_WALL1
-    998  7ba7		       f3		      .byte.b	>CHARACTERSHAPE_WALL1
-    999  7ba8		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
-   1000  7ba9		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
-   1001  7baa		       f3		      .byte.b	>CHARACTERSHAPE_WALL2
-   1002  7bab		       f3		      .byte.b	>CHARACTERSHAPE_WALL2
-   1003  7bac		       fc		      .byte.b	>CHARACTERSHAPE_STEEL
-   1004  7bad		       fc		      .byte.b	>CHARACTERSHAPE_STEEL_MIRRORED
-   1005  7bae		       f8		      .byte.b	>CHARACTERSHAPE_WALL
-   1006  7baf		       f8		      .byte.b	>CHARACTERSHAPE_WALL_MIRRORED
-   1007  7bb0		       fc		      .byte.b	>CHARACTERSHAPE_EXITDOOR
-   1008  7bb1		       fc		      .byte.b	>CHARACTERSHAPE_EXITDOOR_MIRRORED
-   1009  7bb2		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
-   1010  7bb3		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
-   1011  7bb4
-   1012  7bb4		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION
-   1013  7bb5		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION_MIRRORED
-   1014  7bb6		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1
-   1015  7bb7		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1_MIRRORED
-   1016  7bb8		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2
-   1017  7bb9		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2_MIRRORED
-   1018  7bba		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3
-   1019  7bbb		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3_MIRRORED
-   1020  7bbc
-   1021  7bbc		       00		      .byte.b	>0
-   1022  7bbd		       00		      .byte.b	>0
-   1023  7bbe
-   1024  7bbe		       fc		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET	; falling BOX
-   1025  7bbf		       fc		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED	; falling BOX
-   1026  7bc0		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND	; falling diamond
-   1027  7bc1		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
-   1028  7bc2
-   1029  7bc2		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
-   1030  7bc3		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
-   1031  7bc4
-   1032  7bc4				  -	      IF	* - CharacterDataVecHI < CHARACTER_MAXIMUM*2
-   1033  7bc4				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecHI table!"
-   1034  7bc4				  -	      EXIT
-   1035  7bc4					      ENDIF
-   1036  7bc4
-   1037  7bc4							;---------------------------------------------------------------------------
-   1038  7bc4
-      0  7bc4					      DEFINE_SUBROUTINE	CharToType	; in FIXED_BANK
-      1  7bc4		       00 0f	   BANK_CharToType =	_CURRENT_BANK
-      2  7bc4					      SUBROUTINE
-      3  7bc4				   CharToType
-   1040  7bc4							; TJ: used by:
-   1041  7bc4							; - BANK_FIXED.asm
-   1042  7bc4							; - BANK_INITBANK.asm
-   1043  7bc4
-   1044  7bc4							; Converts a character # to a creature type
-   1045  7bc4							; add 128 if character is NOT to be added as a creature on board draw
-   1046  7bc4
-   1047  7bc4		       00		      .byte.b	0	;  0	 blank
-   1048  7bc5		       00		      .byte.b	0	;  1	 soil
-   1049  7bc6		       01		      .byte.b	TYPE_BOX	;  2
-   1050  7bc7		       00		      .byte.b	0	;  3
-   1051  7bc8		       02		      .byte.b	TYPE_DIAMOND	;  4
-   1052  7bc9		       02		      .byte.b	TYPE_DIAMOND	;  5
-   1053  7bca		       00		      .byte.b	TYPE_MAN	;  6
-   1054  7bcb		       00		      .byte.b	0	;  7
-   1055  7bcc		       00		      .byte.b	0	;  8
-   1056  7bcd		       00		      .byte.b	0	;  9
-   1057  7bce		       00		      .byte.b	0	; 0a
-   1058  7bcf		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0b
-   1059  7bd0		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0c
-   1060  7bd1		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0d
-   1061  7bd2		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0e
-   1062  7bd3		       00		      .byte.b	0	; 0f	  ; steel wall
-   1063  7bd4		       00		      .byte.b	0	; 10	  ; plain brick wall
-   1064  7bd5		       00		      .byte.b	0	;TYPE_EXITDOOR 	; 11
-   1065  7bd6		       00		      .byte.b	0	;TYPE_EXITDOOR 	; 12
-   1066  7bd7		       00		      .byte.b	0	;TYPE_EXPLOSION	; 13
-   1067  7bd8		       00		      .byte.b	0	;TYPE_EXPLOSION1	; 14
-   1068  7bd9		       00		      .byte.b	0	;TYPE_EXPLOSION2	; 15
-   1069  7bda		       00		      .byte.b	0	;TYPE_EXPLOSION3	; 16
-   1070  7bdb		       00		      .byte.b	0	; 17
-   1071  7bdc
-   1072  7bdc		       02		      .byte.b	TYPE_DIAMOND	; BOX on target --> target, giving our restore :)
-   1073  7bdd		       02		      .byte.b	TYPE_DIAMOND	; falling diamond
-   1074  7bde
-   1075  7bde		       00		      .byte.b	0	; 20 unkillable man
-   1076  7bdf							; --> see also MoveVec
-   1077  7bdf							; --> see also DecodeCave's table
-   1078  7bdf
-   1079  7bdf				  -	      IF	* - CharToType < CHARACTER_MAXIMUM
-   1080  7bdf				  -	      ECHO	"ERROR: Missing entry in CharToType table!"
-   1081  7bdf				  -	      EXIT
-   1082  7bdf					      ENDIF
-   1083  7bdf
-   1084  7bdf							;---------------------------------------------------------------------------
-   1085  7bdf
-      0  7bdf					      DEFINE_SUBROUTINE	AnimateCharReplacements2	;139
-      1  7bdf		       00 0f	   BANK_AnimateCharReplacements2 =	_CURRENT_BANK
-      2  7bdf					      SUBROUTINE
-      3  7bdf				   AnimateCharReplacements2
-   1087  7bdf
-   1088  7bdf							; This manages character animation on a per-object basis.  Morph/animate these
-   1089  7bdf							; characters individually or as required.  Change will affect all characters
-   1090  7bdf							; of the same type in the visible display.
-   1091  7bdf
-   1092  7bdf							; -------------------------------------------
-   1093  7bdf
-   1094  7bdf							; handle the non-mandatory animating things
-   1095  7bdf
-   1096  7bdf		       a5 a9		      lda	timer	;3
-   1097  7be1		       29 03		      and	#%11	;2
-   1098  7be3		       d0 0c		      bne	nothingAnimates	;2/3
-   1099  7be5
-   1100  7be5		       a5 97		      lda	scrollBits	;3
-   1101  7be7		       d0 08		      bne	nothingAnimates	;2/3		 DON'T animate if we scrolled
-   1102  7be9
-   1103  7be9		       ad 87 f1 	      lda	ANIM_DIAMOND	;4
-   1104  7bec		       49 01		      eor	#CHARACTER_DIAMOND^CHARACTER_DIAMOND2	;2
-   1105  7bee		       8d 87 f5 	      sta	ANIM_DIAMOND + RAM_WRITE	;4 = 15	 diamond
-   1106  7bf1
-   1107  7bf1		       4c 18 f1    nothingAnimates jmp	retAnim	;3
-   1108  7bf4
-   1109  7bf4							;---------------------------------------------------------------------------
-   1110  7bf4
-      0  7bf4					      DEFINE_SUBROUTINE	ScoreAdd
-      1  7bf4		       00 0f	   BANK_ScoreAdd =	_CURRENT_BANK
-      2  7bf4					      SUBROUTINE
-      3  7bf4				   ScoreAdd
-   1112  7bf4							; TJ: used by:
-   1113  7bf4							; - BANK_INITBANK.asm
-   1114  7bf4		       a2 09		      ldx	#BANK_SCORING
-   1115  7bf6		       86 3e		      stx	SET_BANK_RAM
-   1116  7bf8		       20 0f f2 	      jsr	UpdateScore
-   1117  7bfb		       a5 be	   rbret      lda	ROM_Bank
-   1118  7bfd		       85 3f		      sta	SET_BANK
-   1119  7bff		       60		      rts
-   1120  7c00
-   1121  7c00							;---------------------------------------------------------------------------
-   1122  7c00
-      0  7c00					      DEFINE_SUBROUTINE	nextLevelMan
-      1  7c00		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
-      2  7c00					      SUBROUTINE
-      3  7c00				   nextLevelMan
-   1124  7c00
-   1125  7c00		       a9 02		      lda	#BANK_NextCave
-   1126  7c02		       85 3f		      sta	SET_BANK
-   1127  7c04		       4c 00 f4 	      jmp	NextCave
-   1128  7c07
-   1129  7c07
-   1130  7c07							;---------------------------------------------------------------------------
-   1131  7c07
-      0  7c07					      DEFINE_SUBROUTINE	goGeneralScoringSetups
-      1  7c07		       00 0f	   BANK_goGeneralScoringSetups =	_CURRENT_BANK
-      2  7c07					      SUBROUTINE
-      3  7c07				   goGeneralScoringSetups
-   1133  7c07
-   1134  7c07		       a9 09		      lda	#BANK_SCORING
-   1135  7c09		       85 3e		      sta	SET_BANK_RAM
-   1136  7c0b		       20 8f f2 	      jsr	GeneralScoringSetups
-   1137  7c0e		       a5 be		      lda	ROM_Bank
-   1138  7c10		       85 3f		      sta	SET_BANK
-   1139  7c12		       60		      rts
-   1140  7c13
-   1141  7c13
-   1142  7c13							;---------------------------------------------------------------------------
-   1143  7c13
-      0  7c13					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
-      1  7c13		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
-      2  7c13					      SUBROUTINE
-      3  7c13				   CopyROM2RAM_F000
-   1145  7c13
-   1146  7c13		       a9 07		      lda	#BANK_CopyROMShadowToRAM
-   1147  7c15		       85 3f		      sta	SET_BANK
-   1148  7c17		       85 be		      sta	ROM_Bank
-   1149  7c19		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
-   1150  7c1c
-   1151  7c1c
-   1152  7c1c							;---------------------------------------------------------------------------
-   1153  7c1c
+     19  7b2e					      REPEND
+    866  7b2e							;iny			      ; 2     this relies on Y == 0 before...
+    867  7b2e							;cpy extraLifeTimer	      ; 3     ..,and bit 0 is set in A
+    868  7b2e							;adc #2		      ; 2
+    869  7b2e							;sta ENAM0		      ; 3     dis/enable Cosmic Ark star effect
+    870  7b2e
+    871  7b2e		       a5 a3		      lda	ManLastDirection	; 3
+    872  7b30		       85 4b		      sta	REFP0	; 3
+    873  7b32
+    874  7b32		       a9 00		      lda	#BANK_SCREENMARKII1	; 2
+    875  7b34		       85 3e		      sta	SET_BANK_RAM	; 3
+    876  7b36		       20 00 f0 	      jsr	DrawTheScreen	; 6	 @57 from RAM, no less!!
+    877  7b39							;	 @66
+    878  7b39		       a9 06		      lda	#BANK_PostScreenCleanup	; 2
+    879  7b3b		       85 3f		      sta	SET_BANK	; 3
+    880  7b3d		       20 28 f5 	      jsr	PostScreenCleanup	; 6+x
+    881  7b40
+    882  7b40		       a9 03		      lda	#BANK_SelfModDrawPlayers	; 2
+    883  7b42		       85 3f		      sta	SET_BANK	; 3
+    884  7b44		       20 fb f2 	      jsr	SelfModDrawPlayers	; 6+x
+    885  7b47
+    886  7b47		       20 fe f9 	      jsr	StealCharDraw
+    887  7b4a
+    888  7b4a		       ad 84 02    OverscanBD lda	INTIM	;4
+    889  7b4d		       f0 aa		      beq	NewFrameBD	;3	 unconditional
+    890  7b4f		       d0 f9		      bne	OverscanBD	;2/3
+    891  7b51
+    892  7b51				   VBlankTime
+    893  7b51		       3e 3e		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
+    894  7b53		       55 55		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_PAL
+    895  7b55
+    896  7b55							;---------------------------------------------------------------------------
+    897  7b55
+    898  7b55				   CharacterDataVecLO
+    899  7b55
+    900  7b55							; Two entries per character.  2nd is ptr to mirrored character
+    901  7b55							; Characters don't have to be mirrored, obviously -- use the same pointer for both!
+    902  7b55
+    903  7b55		       25		      .byte.b	<CHARACTERSHAPE_BLANK
+    904  7b56		       25		      .byte.b	<CHARACTERSHAPE_BLANK
+    905  7b57		       b8		      .byte.b	<CHARACTERSHAPE_SOIL
+    906  7b58		       b8		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
+    907  7b59		       19		      .byte.b	<CHARACTERSHAPE_BOX
+    908  7b5a		       2e		      .byte.b	<CHARACTERSHAPE_BOX_MIRRORED
+    909  7b5b		       00		      .byte.b	<0
+    910  7b5c		       00		      .byte.b	<0
+    911  7b5d		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND
+    912  7b5e		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED
+    913  7b5f		       e5		      .byte.b	<CHARACTERSHAPE_DIAMOND2
+    914  7b60		       d0		      .byte.b	<CHARACTERSHAPE_DIAMOND2_MIRRORED
+    915  7b61		       25		      .byte.b	<CHARACTERSHAPE_BLANK
+    916  7b62		       25		      .byte.b	<CHARACTERSHAPE_BLANK
+    917  7b63		       00		      .byte.b	<0
+    918  7b64		       00		      .byte.b	<0
+    919  7b65		       00		      .byte.b	<0
+    920  7b66		       00		      .byte.b	<0
+    921  7b67		       00		      .byte.b	<0
+    922  7b68		       00		      .byte.b	<0
+    923  7b69		       00		      .byte.b	<0
+    924  7b6a		       00		      .byte.b	<0
+    925  7b6b		       00		      .byte.b	<CHARACTERSHAPE_WALL0
+    926  7b6c		       15		      .byte.b	<CHARACTERSHAPE_WALL0_MIRRORED
+    927  7b6d		       00		      .byte.b	<0
+    928  7b6e		       00		      .byte.b	<0
+    929  7b6f		       00		      .byte.b	<0
+    930  7b70		       00		      .byte.b	<0
+    931  7b71		       00		      .byte.b	<0
+    932  7b72		       00		      .byte.b	<0
+    933  7b73		       6d		      .byte.b	<CHARACTERSHAPE_STEEL
+    934  7b74		       82		      .byte.b	<CHARACTERSHAPE_STEEL_MIRRORED
+    935  7b75		       00		      .byte.b	<CHARACTERSHAPE_WALL
+    936  7b76		       15		      .byte.b	<CHARACTERSHAPE_WALL_MIRRORED
+    937  7b77		       6d		      .byte.b	<CHARACTERSHAPE_EXITDOOR
+    938  7b78		       82		      .byte.b	<CHARACTERSHAPE_EXITDOOR_MIRRORED
+    939  7b79		       25		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
+    940  7b7a		       25		      .byte.b	<CHARACTERSHAPE_EXITDOOR2
+    941  7b7b
+    942  7b7b		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION
+    943  7b7c		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION_MIRRORED
+    944  7b7d		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1
+    945  7b7e		       92		      .byte.b	<CHARACTERSHAPE_EXPLOSION1_MIRRORED
+    946  7b7f		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2
+    947  7b80		       a7		      .byte.b	<CHARACTERSHAPE_EXPLOSION2_MIRRORED
+    948  7b81		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3
+    949  7b82		       bb		      .byte.b	<CHARACTERSHAPE_EXPLOSION3_MIRRORED
+    950  7b83
+    951  7b83		       00		      .byte.b	<0
+    952  7b84		       00		      .byte.b	<0
+    953  7b85
+    954  7b85		       43		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET	; falling BOX
+    955  7b86		       58		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED	; falling BOX
+    956  7b87		       e6		      .byte.b	<CHARACTERSHAPE_DIAMOND	; falling diamond
+    957  7b88		       d1		      .byte.b	<CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
+    958  7b89
+    959  7b89		       25		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
+    960  7b8a		       25		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
+    961  7b8b
+    962  7b8b				  -	      IF	* - CharacterDataVecLO < CHARACTER_MAXIMUM*2
+    963  7b8b				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecLO table!"
+    964  7b8b				  -	      EXIT
+    965  7b8b					      ENDIF
+    966  7b8b
+    967  7b8b							;---------------------------------------------------------------------------
+    968  7b8b
+    969  7b8b				   CharacterDataVecHI
+    970  7b8b							; TJ: used by:
+    971  7b8b							; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+    972  7b8b
+    973  7b8b		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
+    974  7b8c		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F
+    975  7b8d		       f3		      .byte.b	>CHARACTERSHAPE_SOIL
+    976  7b8e		       f3		      .byte.b	>CHARACTERSHAPE_SOIL_MIRRORED
+    977  7b8f		       fc		      .byte.b	>CHARACTERSHAPE_BOX
+    978  7b90		       fc		      .byte.b	>CHARACTERSHAPE_BOX_MIRRORED
+    979  7b91		       00		      .byte.b	>0
+    980  7b92		       00		      .byte.b	>0
+    981  7b93		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND
+    982  7b94		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED
+    983  7b95		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2
+    984  7b96		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND2_MIRRORED
+    985  7b97		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
+    986  7b98		       73		      .byte.b	( >CHARACTERSHAPE_BLANK ) & $7F	;manoccupied
+    987  7b99		       00		      .byte.b	>0
+    988  7b9a		       00		      .byte.b	>0
+    989  7b9b		       00		      .byte.b	>0
+    990  7b9c		       00		      .byte.b	>0
+    991  7b9d		       00		      .byte.b	>0
+    992  7b9e		       00		      .byte.b	>0
+    993  7b9f		       00		      .byte.b	>0
+    994  7ba0		       00		      .byte.b	>0
+    995  7ba1		       f8		      .byte.b	>CHARACTERSHAPE_WALL0
+    996  7ba2		       f8		      .byte.b	>CHARACTERSHAPE_WALL0_MIRRORED
+    997  7ba3		       00		      .byte.b	>0
+    998  7ba4		       00		      .byte.b	>0
+    999  7ba5		       00		      .byte.b	>0
+   1000  7ba6		       00		      .byte.b	>0
+   1001  7ba7		       00		      .byte.b	>0
+   1002  7ba8		       00		      .byte.b	>0
+   1003  7ba9		       fc		      .byte.b	>CHARACTERSHAPE_STEEL
+   1004  7baa		       fc		      .byte.b	>CHARACTERSHAPE_STEEL_MIRRORED
+   1005  7bab		       f8		      .byte.b	>CHARACTERSHAPE_WALL
+   1006  7bac		       f8		      .byte.b	>CHARACTERSHAPE_WALL_MIRRORED
+   1007  7bad		       fc		      .byte.b	>CHARACTERSHAPE_EXITDOOR
+   1008  7bae		       fc		      .byte.b	>CHARACTERSHAPE_EXITDOOR_MIRRORED
+   1009  7baf		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
+   1010  7bb0		       73		      .byte.b	( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
+   1011  7bb1
+   1012  7bb1		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION
+   1013  7bb2		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION_MIRRORED
+   1014  7bb3		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1
+   1015  7bb4		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION1_MIRRORED
+   1016  7bb5		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2
+   1017  7bb6		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION2_MIRRORED
+   1018  7bb7		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3
+   1019  7bb8		       f2		      .byte.b	>CHARACTERSHAPE_EXPLOSION3_MIRRORED
+   1020  7bb9
+   1021  7bb9		       00		      .byte.b	>0
+   1022  7bba		       00		      .byte.b	>0
+   1023  7bbb
+   1024  7bbb		       fc		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET	; falling BOX
+   1025  7bbc		       fc		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED	; falling BOX
+   1026  7bbd		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND	; falling diamond
+   1027  7bbe		       f2		      .byte.b	>CHARACTERSHAPE_DIAMOND_MIRRORED	; falling diamond
+   1028  7bbf
+   1029  7bbf		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
+   1030  7bc0		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
+   1031  7bc1
+   1032  7bc1				  -	      IF	* - CharacterDataVecHI < CHARACTER_MAXIMUM*2
+   1033  7bc1				  -	      ECHO	"ERROR: Missing entry in CharacterDataVecHI table!"
+   1034  7bc1				  -	      EXIT
+   1035  7bc1					      ENDIF
+   1036  7bc1
+   1037  7bc1							;---------------------------------------------------------------------------
+   1038  7bc1
+      0  7bc1					      DEFINE_SUBROUTINE	CharToType	; in FIXED_BANK
+      1  7bc1		       00 0f	   BANK_CharToType =	_CURRENT_BANK
+      2  7bc1					      SUBROUTINE
+      3  7bc1				   CharToType
+   1040  7bc1							; TJ: used by:
+   1041  7bc1							; - BANK_FIXED.asm
+   1042  7bc1							; - BANK_INITBANK.asm
+   1043  7bc1
+   1044  7bc1							; Converts a character # to a creature type
+   1045  7bc1							; add 128 if character is NOT to be added as a creature on board draw
+   1046  7bc1
+   1047  7bc1		       00		      .byte.b	0	;  0	 blank
+   1048  7bc2		       00		      .byte.b	0	;  1	 soil
+   1049  7bc3		       01		      .byte.b	TYPE_BOX	;  2
+   1050  7bc4		       00		      .byte.b	0	;  3
+   1051  7bc5		       02		      .byte.b	TYPE_DIAMOND	;  4
+   1052  7bc6		       02		      .byte.b	TYPE_DIAMOND	;  5
+   1053  7bc7		       00		      .byte.b	TYPE_MAN	;  6
+   1054  7bc8		       00		      .byte.b	0	;  7
+   1055  7bc9		       00		      .byte.b	0	;  8
+   1056  7bca		       00		      .byte.b	0	;  9
+   1057  7bcb		       00		      .byte.b	0	; 0a
+   1058  7bcc		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0b
+   1059  7bcd		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0c
+   1060  7bce		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0d
+   1061  7bcf		       00		      .byte.b	0	;TYPE_MAGICWALL	; 0e
+   1062  7bd0		       00		      .byte.b	0	; 0f	  ; steel wall
+   1063  7bd1		       00		      .byte.b	0	; 10	  ; plain brick wall
+   1064  7bd2		       00		      .byte.b	0	;TYPE_EXITDOOR 	; 11
+   1065  7bd3		       00		      .byte.b	0	;TYPE_EXITDOOR 	; 12
+   1066  7bd4		       00		      .byte.b	0	;TYPE_EXPLOSION	; 13
+   1067  7bd5		       00		      .byte.b	0	;TYPE_EXPLOSION1	; 14
+   1068  7bd6		       00		      .byte.b	0	;TYPE_EXPLOSION2	; 15
+   1069  7bd7		       00		      .byte.b	0	;TYPE_EXPLOSION3	; 16
+   1070  7bd8		       00		      .byte.b	0	; 17
+   1071  7bd9
+   1072  7bd9		       02		      .byte.b	TYPE_DIAMOND	; BOX on target --> target, giving our restore :)
+   1073  7bda		       02		      .byte.b	TYPE_DIAMOND	; falling diamond
+   1074  7bdb
+   1075  7bdb		       00		      .byte.b	0	; 20 unkillable man
+   1076  7bdc							; --> see also MoveVec
+   1077  7bdc							; --> see also DecodeCave's table
+   1078  7bdc
+   1079  7bdc				  -	      IF	* - CharToType < CHARACTER_MAXIMUM
+   1080  7bdc				  -	      ECHO	"ERROR: Missing entry in CharToType table!"
+   1081  7bdc				  -	      EXIT
+   1082  7bdc					      ENDIF
+   1083  7bdc
+   1084  7bdc							;---------------------------------------------------------------------------
+   1085  7bdc
+      0  7bdc					      DEFINE_SUBROUTINE	AnimateCharReplacements2	;139
+      1  7bdc		       00 0f	   BANK_AnimateCharReplacements2 =	_CURRENT_BANK
+      2  7bdc					      SUBROUTINE
+      3  7bdc				   AnimateCharReplacements2
+   1087  7bdc
+   1088  7bdc							; This manages character animation on a per-object basis.  Morph/animate these
+   1089  7bdc							; characters individually or as required.  Change will affect all characters
+   1090  7bdc							; of the same type in the visible display.
+   1091  7bdc
+   1092  7bdc							; -------------------------------------------
+   1093  7bdc
+   1094  7bdc							; handle the non-mandatory animating things
+   1095  7bdc
+   1096  7bdc		       a5 a9		      lda	timer	;3
+   1097  7bde		       29 03		      and	#%11	;2
+   1098  7be0		       d0 0c		      bne	nothingAnimates	;2/3
+   1099  7be2
+   1100  7be2		       a5 97		      lda	scrollBits	;3
+   1101  7be4		       d0 08		      bne	nothingAnimates	;2/3		 DON'T animate if we scrolled
+   1102  7be6
+   1103  7be6		       ad 87 f1 	      lda	ANIM_DIAMOND	;4
+   1104  7be9		       49 01		      eor	#CHARACTER_DIAMOND^CHARACTER_DIAMOND2	;2
+   1105  7beb		       8d 87 f5 	      sta	ANIM_DIAMOND + RAM_WRITE	;4 = 15	 diamond
+   1106  7bee
+   1107  7bee		       4c 18 f1    nothingAnimates jmp	retAnim	;3
+   1108  7bf1
+   1109  7bf1							;---------------------------------------------------------------------------
+   1110  7bf1
+      0  7bf1					      DEFINE_SUBROUTINE	ScoreAdd
+      1  7bf1		       00 0f	   BANK_ScoreAdd =	_CURRENT_BANK
+      2  7bf1					      SUBROUTINE
+      3  7bf1				   ScoreAdd
+   1112  7bf1							; TJ: used by:
+   1113  7bf1							; - BANK_INITBANK.asm
+   1114  7bf1		       a2 09		      ldx	#BANK_SCORING
+   1115  7bf3		       86 3e		      stx	SET_BANK_RAM
+   1116  7bf5		       20 0f f2 	      jsr	UpdateScore
+   1117  7bf8		       a5 be	   rbret      lda	ROM_Bank
+   1118  7bfa		       85 3f		      sta	SET_BANK
+   1119  7bfc		       60		      rts
+   1120  7bfd
+   1121  7bfd							;---------------------------------------------------------------------------
+   1122  7bfd
+      0  7bfd					      DEFINE_SUBROUTINE	nextLevelMan
+      1  7bfd		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
+      2  7bfd					      SUBROUTINE
+      3  7bfd				   nextLevelMan
+   1124  7bfd
+   1125  7bfd		       a9 02		      lda	#BANK_NextCave
+   1126  7bff		       85 3f		      sta	SET_BANK
+   1127  7c01		       4c 00 f4 	      jmp	NextCave
+   1128  7c04
+   1129  7c04
+   1130  7c04							;---------------------------------------------------------------------------
+   1131  7c04
+      0  7c04					      DEFINE_SUBROUTINE	goGeneralScoringSetups
+      1  7c04		       00 0f	   BANK_goGeneralScoringSetups =	_CURRENT_BANK
+      2  7c04					      SUBROUTINE
+      3  7c04				   goGeneralScoringSetups
+   1133  7c04
+   1134  7c04		       a9 09		      lda	#BANK_SCORING
+   1135  7c06		       85 3e		      sta	SET_BANK_RAM
+   1136  7c08		       20 8f f2 	      jsr	GeneralScoringSetups
+   1137  7c0b		       a5 be		      lda	ROM_Bank
+   1138  7c0d		       85 3f		      sta	SET_BANK
+   1139  7c0f		       60		      rts
+   1140  7c10
+   1141  7c10
+   1142  7c10							;---------------------------------------------------------------------------
+   1143  7c10
+      0  7c10					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
+      1  7c10		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
+      2  7c10					      SUBROUTINE
+      3  7c10				   CopyROM2RAM_F000
+   1145  7c10
+   1146  7c10		       a9 07		      lda	#BANK_CopyROMShadowToRAM
+   1147  7c12		       85 3f		      sta	SET_BANK
+   1148  7c14		       85 be		      sta	ROM_Bank
+   1149  7c16		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
+   1150  7c19
+   1151  7c19
+   1152  7c19							;---------------------------------------------------------------------------
+   1153  7c19
 ------- FILE BOX.asm LEVEL 3 PASS 3
-      0  7c1c					      include	"BOX.asm"	; 2 * LINES_PER_CHAR bytes
-      0  7c1c					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX", LINES_PER_CHAR
-     10  7c1c					      LIST	ON
-      2  7c1c				   CHARACTERSHAPE_BOX
-      3  7c1c				  -	      if	MIRRORED_BOX = NO
-      4  7c1c				  -CHARACTERSHAPE_BOX_MIRRORED
-      5  7c1c					      endif
-      6  7c1c		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%0	;R
-      7  7c23		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%11111111	;G
-      8  7c2a		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
-      9  7c31
-     10  7c31							;--------------------------------------------------------------------------
-     11  7c31					      if	MIRRORED_BOX = YES
-      0  7c31					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_MIRRORED", LINES_PER_CHAR
-     10  7c31					      LIST	ON
-     13  7c31				   CHARACTERSHAPE_BOX_MIRRORED
-     14  7c31		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%0	;R
-     15  7c38		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%11111111	;G
-     16  7c3f		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
-     17  7c46					      endif
-     18  7c46
-      0  7c46					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_ON_TARGET", LINES_PER_CHAR
-     10  7c46					      LIST	ON
-     20  7c46				   CHARACTERSHAPE_BOX_ON_TARGET
-     21  7c46				  -	      if	MIRRORED_BOX = NO
-     22  7c46				  -CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-     23  7c46					      endif
-     24  7c46		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%0	;R
-     25  7c4d		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111	;G
-     26  7c54		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
-     27  7c5b
-     28  7c5b							;--------------------------------------------------------------------------
-     29  7c5b					      if	MIRRORED_BOX = YES
-      0  7c5b					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED", LINES_PER_CHAR
-     10  7c5b					      LIST	ON
-     31  7c5b				   CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-     32  7c5b		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%0	;R
-     33  7c62		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111	;G
-     34  7c69		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
-     35  7c70					      endif
+      0  7c19					      include	"BOX.asm"	; 2 * LINES_PER_CHAR bytes
+      0  7c19					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX", LINES_PER_CHAR
+     10  7c19					      LIST	ON
+      2  7c19				   CHARACTERSHAPE_BOX
+      3  7c19				  -	      if	MIRRORED_BOX = NO
+      4  7c19				  -CHARACTERSHAPE_BOX_MIRRORED
+      5  7c19					      endif
+      6  7c19		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%0	;R
+      7  7c20		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%11111111	;G
+      8  7c27		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
+      9  7c2e
+     10  7c2e							;--------------------------------------------------------------------------
+     11  7c2e					      if	MIRRORED_BOX = YES
+      0  7c2e					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_MIRRORED", LINES_PER_CHAR
+     10  7c2e					      LIST	ON
+     13  7c2e				   CHARACTERSHAPE_BOX_MIRRORED
+     14  7c2e		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%0	;R
+     15  7c35		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%11111111	;G
+     16  7c3c		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
+     17  7c43					      endif
+     18  7c43
+      0  7c43					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_ON_TARGET", LINES_PER_CHAR
+     10  7c43					      LIST	ON
+     20  7c43				   CHARACTERSHAPE_BOX_ON_TARGET
+     21  7c43				  -	      if	MIRRORED_BOX = NO
+     22  7c43				  -CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+     23  7c43					      endif
+     24  7c43		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%0	;R
+     25  7c4a		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111	;G
+     26  7c51		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
+     27  7c58
+     28  7c58							;--------------------------------------------------------------------------
+     29  7c58					      if	MIRRORED_BOX = YES
+      0  7c58					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED", LINES_PER_CHAR
+     10  7c58					      LIST	ON
+     31  7c58				   CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+     32  7c58		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%0	;R
+     33  7c5f		       ff ff ff ff*	      .byte.b	%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111	;G
+     34  7c66		       00 00 66 66*	      .byte.b	%0,%0,%01100110,%01100110,%0,%0,%0	;B
+     35  7c6d					      endif
 ------- FILE BANK_FIXED.asm
 ------- FILE Steel_Wall.asm LEVEL 3 PASS 3
-      0  7c70					      include	"Steel_Wall.asm"	; 2 * LINES_PER_CHAR bytes
-      1  7c70							;--------------------------------------------------------------------------
-      0  7c70					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL", LINES_PER_CHAR
-     10  7c70					      LIST	ON
-      3  7c70				   CHARACTERSHAPE_STEEL
-      4  7c70				   CHARACTERSHAPE_EXITDOOR
-      5  7c70				  -	      if	MIRRORED_STEEL = NO
-      6  7c70				  -CHARACTERSHAPE_STEEL_MIRRORED
-      7  7c70				  -CHARACTERSHAPE_EXITDOOR_MIRRORED
-      8  7c70					      endif
-      9  7c70		       00 11 00 00*	      .byte.b	%00000000,%00010001,%00000000,%00000000,%01000100,%00000000,%00000000	;R
-     10  7c77		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;G
-     11  7c7e		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;B
-     12  7c85
-     13  7c85							;--------------------------------------------------------------------------
-     14  7c85					      if	MIRRORED_STEEL = YES
-      0  7c85					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL_MIRRORED", LINES_PER_CHAR
-     10  7c85					      LIST	ON
-     16  7c85				   CHARACTERSHAPE_STEEL_MIRRORED
-     17  7c85				   CHARACTERSHAPE_EXITDOOR_MIRRORED
-     18  7c85		       00 88 00 00*	      .byte.b	%00000000,%10001000,%00000000,%00000000,%00100010,%00000000,%00000000	;R
-     19  7c8c		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;G
-     20  7c93		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;B
-     21  7c9a					      endif
+      0  7c6d					      include	"Steel_Wall.asm"	; 2 * LINES_PER_CHAR bytes
+      1  7c6d							;--------------------------------------------------------------------------
+      0  7c6d					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL", LINES_PER_CHAR
+     10  7c6d					      LIST	ON
+      3  7c6d				   CHARACTERSHAPE_STEEL
+      4  7c6d				   CHARACTERSHAPE_EXITDOOR
+      5  7c6d				  -	      if	MIRRORED_STEEL = NO
+      6  7c6d				  -CHARACTERSHAPE_STEEL_MIRRORED
+      7  7c6d				  -CHARACTERSHAPE_EXITDOOR_MIRRORED
+      8  7c6d					      endif
+      9  7c6d		       00 11 00 00*	      .byte.b	%00000000,%00010001,%00000000,%00000000,%01000100,%00000000,%00000000	;R
+     10  7c74		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;G
+     11  7c7b		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;B
+     12  7c82
+     13  7c82							;--------------------------------------------------------------------------
+     14  7c82					      if	MIRRORED_STEEL = YES
+      0  7c82					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_STEEL_MIRRORED", LINES_PER_CHAR
+     10  7c82					      LIST	ON
+     16  7c82				   CHARACTERSHAPE_STEEL_MIRRORED
+     17  7c82				   CHARACTERSHAPE_EXITDOOR_MIRRORED
+     18  7c82		       00 88 00 00*	      .byte.b	%00000000,%10001000,%00000000,%00000000,%00100010,%00000000,%00000000	;R
+     19  7c89		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;G
+     20  7c90		       ff ff 77 ff*	      .byte.b	%11111111,%11111111,%01110111,%11111111,%11111111,%11011101,%11111111	;B
+     21  7c97					      endif
 ------- FILE BANK_FIXED.asm
-   1156  7c9a							;---------------------------------------------------------------------------
-   1157  7c9a
-   1158  7c9a
- FREE BYTES IN FIXED BANK =  $361
-   1159  7c9a					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
-   1160  7c9a
-   1161  7c9a							;---------------------------------------------------------------------------
-   1162  7c9a							; The reset vectors
-   1163  7c9a							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
-   1164  7c9a
+   1156  7c97							;---------------------------------------------------------------------------
+   1157  7c97
+   1158  7c97
+ FREE BYTES IN FIXED BANK =  $364
+   1159  7c97					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
+   1160  7c97
+   1161  7c97							;---------------------------------------------------------------------------
+   1162  7c97							; The reset vectors
+   1163  7c97							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
+   1164  7c97
    1165  8000 ????				      SEG	InterruptVectors
    1166  7ffc					      ORG	FIXED_BANK + $7FC
    1167  7ffc					      RORG	$7ffC
