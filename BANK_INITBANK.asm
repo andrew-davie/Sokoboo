@@ -391,6 +391,8 @@ OBJTYPE    .SET OBJTYPE + 1
 
                 cpx #CHARACTER_DIAMOND
                 beq canPush
+                cpx #CHARACTER_DIAMOND2
+                beq canPush
                 cpx #CHARACTER_BLANK
                 bne cannotPush
 
@@ -406,7 +408,7 @@ canPush
                 beq isonTarget
                 cpx #CHARACTER_DIAMOND
                 bne notAtarget
-isonTarget                lda #CHARACTER_BOX_ON_TARGET
+isonTarget      lda #CHARACTER_BOX_ON_TARGET
 notAtarget
 
 
@@ -685,10 +687,10 @@ RTS_CF
     .byte CHARACTER_NOGO
     .byte CHARACTER_STEEL
     ;.byte CHARACTER_NOGO
-    .byte CHARACTER_EXPLOSION3
+    ;.byte CHARACTER_EXPLOSION3
     ;.byte CHARACTER_EXPLOSION
-    .byte CHARACTER_EXPLOSION2
-    .byte CHARACTER_EXPLOSION1
+    ;.byte CHARACTER_EXPLOSION2
+    ;.byte CHARACTER_EXPLOSION1
     .byte CHARACTER_MANOCCUPIED
     .byte -1
 

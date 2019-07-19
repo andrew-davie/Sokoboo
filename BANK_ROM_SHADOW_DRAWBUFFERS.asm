@@ -255,7 +255,7 @@ ANIM_EXITDOOR   .byte 0    ; 11
                 .byte 0  ; 15
                 .byte 0  ; 16
                 .byte 0;CHARACTER_AMOEBA    ; 17
-                .byte CHARACTER_BOX     ; 18    falling BOX
+                .byte CHARACTER_BOX_ON_TARGET     ; 18    falling BOX
                 .byte CHARACTER_DIAMOND     ; 19    falling diamond, no anim
                 .byte 0            ;20 the unkillable man for end of level
 

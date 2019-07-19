@@ -138,7 +138,6 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
 
                 sta ROM_Bank
 
-#if 0
                 sec
                 lda BoardLimit_Width
                 sbc #SCREEN_WIDTH-1
@@ -163,7 +162,6 @@ opg             sta MenCurrent                                  ; P2P1 nybble ea
                 sta BoardScrollY
 .Yok
   ENDIF
-#endif
 
     ; kludge position scroll roughly at player
 

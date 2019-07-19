@@ -583,10 +583,10 @@ CaveInformation
                     ADD_CAVE BUTTERFLIES,4
                     ADD_CAVE INTERMISSION_1,$80|$0
 
-                    ADD_CAVE GUARDS,5
-                    ADD_CAVE FIREFLY_DENS,6
-                    ADD_CAVE AMOEBA,7
-                    ADD_CAVE ENCHANTED_WALL,8
+                    ;ADD_CAVE GUARDS,5
+                    ;ADD_CAVE FIREFLY_DENS,6
+                    ;ADD_CAVE AMOEBA,7
+                    ;ADD_CAVE ENCHANTED_WALL,8
 
                     ADD_CAVE INTERMISSION_2,$80|$1
 
@@ -612,3 +612,116 @@ StructureSizeTbl:
 BoundingWall:
     .byte   .STRUCT_RECTANGLE|CHARACTER_STEEL, 0, 2, 99, 99 ; bounding steel wall
     .byte   .STRUCT_DELIMITER
+
+#if 0
+
+; new packing format
+; sokoban
+
+
+;Level element	Character	ASCII Code
+;Wall	#	0x23
+;Player	@	0x40
+;Player on goal square	+	0x2b
+;Box	$	0x24
+;Box on goal square	*	0x2a
+;Goal square	.	0x2e
+;Floor	(Space)	0x20 or underscore
+
+;This level ("Claire", by Lee J Haywood):
+
+;#######
+;#.@ # #
+;#$* $ #
+;#   $ #
+;# ..  #
+;#  *  #
+;#######
+;runlength encoded looks like this:
+
+;7#|#.@-#-#|#$*-$-#|#3-$-#|#-..--#|#--*--#|7#
+;The rows of the level are separated by "|"s. There has been a discussion in the Yahoo Group about what character should represent an empty square in May 2006. Finally the hyphen has been elected to be the standard character for an empty square. Nevertheless, programs are encouraged to support both, hyphens and underscores.
+
+;If only two level elements are grouped together they may be run length encoded, but needn't to. Example:
+
+
+              lda #-1
+              sta idx
+              lda #0
+              sta scanline
+
+GetNextItem
+              inc idx
+              ldy idx
+
+              lda #1
+              sta counter
+
+              lda (rle),y
+              beq finishedUnpack
+
+
+              cmp #'|'          ; newline
+              bne notNewLine
+
+    ; Handle new-line
+
+              inc scanline
+              bne GetNextItem
+
+notNewLine    cmp #'#'          ; wall
+              bne checkForGap
+              lda #CHARACTER_WALL
+              bne writeChars
+
+checkForGap   cmp #' '
+              beq writeGap
+              cmp #'-'
+              beq writeGap
+              cmp #'-'
+              bne checkforPlayer
+
+writeGap      lda #CHARACTER_BLANK
+              jmp writeChars
+
+notGap        cmp #'+'            ; player on goal square
+              bne notPlayerGoal
+
+              ; put goal square, init player with POS_VAR = CHARACTER_DIAMOND
+
+              lda #CHARACTER_DIAMOND
+              sta POS_VAR
+              bne genPlayer
+
+noePlayerGoal cmp #'@'            ; player on normal square
+              bne checkBox
+
+              lda #CHARACTER_BLANK
+              sta POS_VAR
+
+genPlayer     ; TODO: create player
+
+              lda #CHARACTER_MANOCCUPIED
+              bne WriteChars
+
+checkBox      cmp #'$'
+              bne checkBoxTarget
+
+              lda #CHARACTER_BOX
+              bne WriteChars
+
+checkBoxTarget  cmp #'*'
+              bne GetNextItem     ; unknown!
+
+              lda #CHARACTER_BOX_ON_TARGET
+
+WriteChars    sta type
+              jsr putType
+              dec counter
+              bne WriteChars
+              jmp GetNextItem
+
+finishedUnpack
+              rts
+
+#endif

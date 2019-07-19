@@ -461,7 +461,7 @@ MOD10
 
     ;------------------------------------------------------------------------------
 
-    include "Diamond.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
+    include "target.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
     include "Explosion.asm"       ; 3 * LINES_PER_CHAR bytes
 
 
@@ -530,8 +530,8 @@ NoMod
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
-    include "man.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
-    include "Dirt.asm"            ; 2 * LINES_PER_CHAR bytes
+    include "player.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
+    include "filler.asm"            ; 2 * LINES_PER_CHAR bytes
    ;------------------------------------------------------------------------------
 
     ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
@@ -550,7 +550,5 @@ NoMod
 ; Stella 3E autodetect signature, can live anywhere
                 .byte $85, $3E, $A9, $00
 ;-----------------------------------------------------------
-    include "CaveBank2.asm"
-
 
            CHECK_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"

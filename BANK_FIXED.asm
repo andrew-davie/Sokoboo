@@ -80,17 +80,6 @@ PutBoardCharacterSB ; =18
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE PutBoardCharacterButterfly ;=110(B)
-; TJ: used by:
-; - BANK_INITBANK.asm
-
-
-                stx SET_BANK_RAM            ;3
-                sta (Board_AddressW),y      ;6
-                jmp ReInsertObject          ;3+98(B)
-
-   ;------------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE GetBoardCharacter__CALL_FROM_RAM__ ;=61[-2](A)
 ; TJ: used by:
 ; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
@@ -444,18 +433,18 @@ MovePlayer      lda ManMode
     ;---------------------------------------------------------------------------
 
 
-MOVE_DIAMOND
-                lda INTIM
-                cmp #SEGTIME_GET_DIAMOND
-                STRESS_TIME SEGTIME_GET_DIAMOND
+;MOVE_DIAMOND
+;                lda INTIM
+;                cmp #SEGTIME_GET_DIAMOND
+;                STRESS_TIME SEGTIME_GET_DIAMOND
 
-    IF MULTI_BANK_BOARD = YES
-                lda RAM_Bank
-    ELSE
-                lda #BANK_BOARD
-    ENDIF
-                sta SET_BANK_RAM
-                bpl checkForSnatch              ;3              unconditional
+;    IF MULTI_BANK_BOARD = YES
+;                lda RAM_Bank
+;    ELSE
+;                lda #BANK_BOARD
+;    ENDIF
+;                sta SET_BANK_RAM
+;                bpl checkForSnatch              ;3              unconditional
 
     ;---------------------------------------------------------------------------
 
@@ -488,6 +477,7 @@ MOVE_SOIL       ldy #SOUND_MOVE_SOIL            ; 2
     ;---------------------------------------------------------------------------
     ; Handle snatching...
 
+MOVE_DIAMOND
 checkForSnatch
 
 
@@ -933,27 +923,27 @@ CharacterDataVecLO
                 .byte <CHARACTERSHAPE_STEEL_MIRRORED
                 .byte <CHARACTERSHAPE_WALL
                 .byte <CHARACTERSHAPE_WALL_MIRRORED
-                .byte <CHARACTERSHAPE_EXITDOOR
-                .byte <CHARACTERSHAPE_EXITDOOR_MIRRORED
-                .byte <CHARACTERSHAPE_EXITDOOR2
-                .byte <CHARACTERSHAPE_EXITDOOR2
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
 
-                .byte <CHARACTERSHAPE_EXPLOSION
-                .byte <CHARACTERSHAPE_EXPLOSION_MIRRORED
-                .byte <CHARACTERSHAPE_EXPLOSION1
-                .byte <CHARACTERSHAPE_EXPLOSION1_MIRRORED
-                .byte <CHARACTERSHAPE_EXPLOSION2
-                .byte <CHARACTERSHAPE_EXPLOSION2_MIRRORED
-                .byte <CHARACTERSHAPE_EXPLOSION3
-                .byte <CHARACTERSHAPE_EXPLOSION3_MIRRORED
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
+                .byte <0
 
                 .byte <0
                 .byte <0
 
                 .byte <CHARACTERSHAPE_BOX_ON_TARGET                  ; falling BOX
                 .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED          ; falling BOX
-                .byte <CHARACTERSHAPE_DIAMOND                   ; falling diamond
-                .byte <CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
+                .byte <0 ;CHARACTERSHAPE_DIAMOND                   ; falling diamond
+                .byte <0 ;CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
 
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
@@ -1003,27 +993,27 @@ CharacterDataVecHI
                 .byte >CHARACTERSHAPE_STEEL_MIRRORED
                 .byte >CHARACTERSHAPE_WALL
                 .byte >CHARACTERSHAPE_WALL_MIRRORED
-                .byte >CHARACTERSHAPE_EXITDOOR
-                .byte >CHARACTERSHAPE_EXITDOOR_MIRRORED
-                .byte ( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
-                .byte ( >CHARACTERSHAPE_EXITDOOR2 ) & $7F
+                .byte >0
+                .byte >0
+                .byte 0
+                .byte 0
 
-                .byte >CHARACTERSHAPE_EXPLOSION
-                .byte >CHARACTERSHAPE_EXPLOSION_MIRRORED
-                .byte >CHARACTERSHAPE_EXPLOSION1
-                .byte >CHARACTERSHAPE_EXPLOSION1_MIRRORED
-                .byte >CHARACTERSHAPE_EXPLOSION2
-                .byte >CHARACTERSHAPE_EXPLOSION2_MIRRORED
-                .byte >CHARACTERSHAPE_EXPLOSION3
-                .byte >CHARACTERSHAPE_EXPLOSION3_MIRRORED
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
+                .byte >0
 
                 .byte >0
                 .byte >0
 
                 .byte >CHARACTERSHAPE_BOX_ON_TARGET                   ; falling BOX
                 .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED          ; falling BOX
-                .byte >CHARACTERSHAPE_DIAMOND                   ; falling diamond
-                .byte >CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
+                .byte >0 ;CHARACTERSHAPE_DIAMOND                   ; falling diamond
+                .byte >0 ;CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
 
                 .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
                 .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
