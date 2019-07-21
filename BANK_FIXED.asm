@@ -134,8 +134,6 @@ PutBoardCharacterSB ; =18
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE ProcessObjStack ; 15 minimum segtime abort
-; TJ: used by:
-; - BANK_FIXED.asm
 
                 lda INTIM                       ;4
                 cmp #MINIMUM_SEGTIME            ;2
@@ -149,6 +147,7 @@ PutBoardCharacterSB ; =18
                 lda ObjIterator                 ;3
                 cmp ObjStackPtr,x               ;5
                 bcs nextPhase                   ;2/3
+
 
     ; Process an object...
     ; Actual object code (the handlers) starts 82 cycles after previous segtime check!
@@ -264,7 +263,6 @@ quickExit       rts                             ;6
     DEFINE_SUBROUTINE PROCESS_MAN
 ; TJ: used by:
 ; - BANK_INITBANK.asm
-
                 lda INTIM
                 cmp #SEGTIME_MAN
                 bcc EarlyAbort
@@ -345,7 +343,6 @@ NotEnoughTime   rts                             ;6
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE InsertObjectStack ;=81(B)
-
         ; POS_X     x position
         ; POS_Y     y position
         ; POS_VAR   direction or other variable
@@ -388,7 +385,11 @@ alwaysAllowMan
 insertDone      ldy ROM_Bank                    ; 3
                 sty SET_BANK                    ; 3
 
-ManIsDead2      rts                             ; 6 = 29
+ManIsDead2
+
+
+
+                rts                             ; 6 = 29
 
     ;---------------------------------------------------------------------------
 
@@ -396,7 +397,10 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
 
      ;---------------------------------------------------------------------------
 
-MovePlayer      lda ManMode
+MovePlayer
+
+
+                lda ManMode
                 cmp #MANMODE_DEAD
                 bcs ManIsDead2
 
@@ -739,14 +743,14 @@ RestartCaveNextPlayer
                 sta SET_BANK
                 jsr SwapPlayersGeneric
 
-
+          jmp skipDemoCheck ;tmp
                 lda MenCurrent
                 beq Title                           ; all lives lost! (works for both P1P2)
                 bne skipDemoCheck
 
 NextCaveLevel
-                bit demoMode
-                bmi Title
+                ;bit demoMode
+                ;bmi Title
 skipDemoCheck
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
@@ -759,6 +763,19 @@ skipDemoCheck
                 lda #BANK_DECODE_CAVE
                 sta SET_BANK_RAM
                 jsr UnpackLevel
+
+ #if 0
+               lda #CHARACTER_BLANK
+                sta POS_VAR                     ; character man is on
+                lda #5
+                sta POS_X
+                sta ManX
+                sta POS_Y
+                sta ManY
+                lda #TYPE_MAN
+                sta POS_Type                    ;       creature TYPE
+                jsr InsertObjectStack
+ #endif
 
     ; Setup player animation and scroll limits.
     ; Mangle the board colours based on level

@@ -27,7 +27,7 @@
 
                 lda sCave                                       ; cave # from title select
                 pha
-                lda sPlayers
+                lda #1 ;sPlayers
                 ldx sLevel                                      ; level # from title select
                 ldy sJoysticks
                 sty jtoggle
@@ -200,22 +200,22 @@ notU0           sta BoardScrollY
                 lda #DIRECTION_BITS
                 sta ManLastDirection
 
-                bit amoebaFlag                      ; AMOEBA_PRESENT?
-                bvc .noAmoeba
+;                bit amoebaFlag                      ; AMOEBA_PRESENT?
+;                bvc .noAmoeba
 
-                ldx amoebaMaxX
-                stx amoebaX
-                ldy amoebaMaxY
-                sty amoebaY
-                lda #1
-                sta amoebaStepCount
-                sta amoebaCount                     ; doesn't matter to be 1 too big here initially
-;               lda #0
-                ;sta amoebaFlag                     ; now initialised in DecodeCave
-;               sta amoebaCount
-                lda magicAmoebaTime                 ; setup slow growth time
-                sta MagicAmoebaFlag                 ;
-.noAmoeba
+;                ldx amoebaMaxX
+;                stx amoebaX
+;                ldy amoebaMaxY
+;                sty amoebaY
+;                lda #1
+;                sta amoebaStepCount
+;                sta amoebaCount                     ; doesn't matter to be 1 too big here initially
+;;               lda #0
+;                ;sta amoebaFlag                     ; now initialised in DecodeCave
+;;               sta amoebaCount
+;                lda magicAmoebaTime                 ; setup slow growth time
+;                sta MagicAmoebaFlag                 ;
+;.noAmoeba
 
                 rts
 

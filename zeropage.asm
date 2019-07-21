@@ -37,7 +37,7 @@ BoardEdge_Right                 = BoardLimit_Width  ; absolute rightmost scroll 
 BoardEdge_Bottom                = BoardLimit_Height ; absolute bottommost scroll value
 scrollBits                      ds 1
 
-MagicAmoebaFlag                 ds 1        ; status of magic wall and amoeba
+;MagicAmoebaFlag                 ds 1        ; status of magic wall and amoeba
 
 whichPlayer                     ds 1        ; 0 = P1, 1 = P2
 
@@ -74,10 +74,10 @@ levelDisplay                     ds 1            ; what to display as the cave I
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
 ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
-magicAmoebaTime                 ds 1            ; time for magic wall and amoeba slow growth
+;magicAmoebaTime                 ds 1            ; time for magic wall and amoeba slow growth
 diamondsNeeded                  ds 1            ; TJ: changed that (NOTE: counts down to 0 then (negatively) UP to give extra diamonds found.)
-diamondsWorth                   ds 1            ; TJ: could be moved to Scoring Bank
-diamondsExtraWorth              ds 1            ; TJ: could be moved to Scoring Bank
+;diamondsWorth                   ds 1            ; TJ: could be moved to Scoring Bank
+;diamondsExtraWorth              ds 1            ; TJ: could be moved to Scoring Bank
 caveTime                        ds 1            ; BCD seconds for level
 caveTimeHi                      ds 1
 caveTimeFrac                    ds 1
@@ -118,9 +118,9 @@ BIT_NEXTLEVEL                   = 128
 BIT_NEXTLIFE                    = 64
 BIT_GOTOLOGO                    = 1
 
-amoebaX                         ds 1        ; x-pos of currently scanned cell
-amoebaY                         ds 1        ; y-pos of currently scanned cell
-amoebaFlag                      ds 1        ; current status of amoeba
+;amoebaX                         ds 1        ; x-pos of currently scanned cell
+;amoebaY                         ds 1        ; y-pos of currently scanned cell
+;amoebaFlag                      ds 1        ; current status of amoeba
 
     ; constants for amoebaFlag:
 NOT_ENCLOSED                    = %00000001 ;

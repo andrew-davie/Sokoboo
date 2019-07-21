@@ -838,7 +838,7 @@ HighScoreColTbl:
 ; Show current diamond counter in the top left
 
                 ldy #SM_OFS_DIAMONDS
-                lda diamondsNeeded
+                lda #1 ;diamondsNeeded
                 jsr SetupBCDPtr
 
                 lda #ID_DIAMOND<<4                  ; if no extra diamonds, display the normal icon

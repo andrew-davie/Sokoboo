@@ -22,8 +22,6 @@ BOARD_DATA_AREA
 ;    .byte   26, 30  ; level 4 (E4: 4.17s) 1,15  1.37/1.36 (1.34)
 ;    .byte   27, 31  ; level 5 (E5: 4.00s) 1,14; 1.42/1.41 (1.40)
 
-    DEFINE_SUBROUTINE UnpackLevel
-
 ; *** local constants for cava data: ***
 
 .NUM_RANDOM         = 4                 ; number of random objects
@@ -59,6 +57,45 @@ RECT                = .STRUCT_RECTANGLE
 .DIR_RIGHT          = 2
 .DIR_DOWN           = 4
 .DIR_LEFT           = 6
+
+CAVENUM         SET 0
+CAVE_DATA_SIZE  = 5
+
+                MAC ADD_CAVE ; {name}
+CAVE_ACTIVE_{1} SET 1
+CAVE_NAMED_{1}  = CAVENUM
+    .byte <CAVE_{1}
+    .byte >CAVE_{1}
+    .byte BANK_CAVE_{1}
+    .byte CAVE_SIZE_{1}
+    .byte {2}                                   ; display as #.  $80 indicates intermission.
+CAVENUM         SET CAVENUM + CAVE_DATA_SIZE
+                ENDM
+
+CaveInformation
+
+                ; The ordering here corresponds to the ordering when playing...
+  IF FINAL_VERSION = YES || DEMO_VERSION = NO
+                    ADD_CAVE INTRO,1
+                    ADD_CAVE ROOMS,2
+                    ;ADD_CAVE MAZE,3
+                    ;ADD_CAVE BUTTERFLIES,4
+                    ;ADD_CAVE INTERMISSION_1,$80|$0
+
+                    ;ADD_CAVE GUARDS,5
+                    ;ADD_CAVE FIREFLY_DENS,6
+                    ;ADD_CAVE AMOEBA,7
+                    ;ADD_CAVE ENCHANTED_WALL,8
+
+                    ;ADD_CAVE INTERMISSION_2,$80|$1
+
+
+
+    ENDIF
+
+
+#if 0
+    DEFINE_SUBROUTINE UnpackLevel
 
 
                 sta RAM_Bank
@@ -107,7 +144,7 @@ RECT                = .STRUCT_RECTANGLE
 
                 ldx #0
                 stx caveTimeFrac                    ; now the 1st second is fully available
-                stx amoebaFlag
+                ;stx amoebaFlag
 CopyBoardData   stx savex
 
     ; We are using GetROMByte to get *any* byte from ROM (although it was designed
@@ -169,17 +206,17 @@ SMLimit         cpx #0                              ; byte count (self) modified
 ;*** 1. load some cave data ***
                 iny                             ;           Y == 3 == .MAGIC_OFS
                 lda     (ptrCave),y
-                sta     magicAmoebaTime
+                ;sta     magicAmoebaTime
 
                 iny                             ;           Y == 4 == .WORTH_OFS
                 lda     (ptrCave),y
                 ;jsr     Convert2BCD
-                sta     diamondsWorth                           ; now BCD in cave data
+                ;sta     diamondsWorth                           ; now BCD in cave data
 
                 ldy     #.EXTRA_WORTH_OFS
                 lda     (ptrCave),y
                 ;jsr     Convert2BCD
-                sta     diamondsExtraWorth                      ; now BCD in cave data
+                ;sta     diamondsExtraWorth                      ; now BCD in cave data
 
                 lda     #.TIME_OFS
                 jsr     GetLevelDataBCD
@@ -559,40 +596,6 @@ DrawRectangle:
 ;    DEBUG_BRK
 
 
-CAVENUM         SET 0
-CAVE_DATA_SIZE  = 5
-
-                MAC ADD_CAVE ; {name}
-CAVE_ACTIVE_{1} SET 1
-CAVE_NAMED_{1}  = CAVENUM
-    .byte <CAVE_{1}
-    .byte >CAVE_{1}
-    .byte BANK_CAVE_{1}
-    .byte CAVE_SIZE_{1}
-    .byte {2}                                   ; display as #.  $80 indicates intermission.
-CAVENUM         SET CAVENUM + CAVE_DATA_SIZE
-                ENDM
-
-CaveInformation
-
-                ; The ordering here corresponds to the ordering when playing...
-  IF FINAL_VERSION = YES || DEMO_VERSION = NO
-                    ADD_CAVE INTRO,1
-                    ADD_CAVE ROOMS,2
-                    ADD_CAVE MAZE,3
-                    ADD_CAVE BUTTERFLIES,4
-                    ADD_CAVE INTERMISSION_1,$80|$0
-
-                    ;ADD_CAVE GUARDS,5
-                    ;ADD_CAVE FIREFLY_DENS,6
-                    ;ADD_CAVE AMOEBA,7
-                    ;ADD_CAVE ENCHANTED_WALL,8
-
-                    ADD_CAVE INTERMISSION_2,$80|$1
-
-
-
-    ENDIF
 
     ;---------------------------------------------------------------------------
 
@@ -613,7 +616,14 @@ BoundingWall:
     .byte   .STRUCT_RECTANGLE|CHARACTER_STEEL, 0, 2, 99, 99 ; bounding steel wall
     .byte   .STRUCT_DELIMITER
 
-#if 0
+#else
+SampleRLE
+ .byte "-5#6-|-#3-5#2-|-#2$-#3-#2-|2#-#2-$2-2#-|#5-*#2-#-|#3-#-.#2.2#|5#$3*.-#|4-#@$-.2-#|4-8#",0
+ ;.byte "3-3#2-|3-#@2#-|2-2#$-2#|3#2.*-#|#2-2$.*#|#-#$-.-#|#3-$.-#|2#4-2#|-6#-",0
+ ;.byte "23#|#21 #|#@18#$##|#-#3.#12-#--#|#-#3.#-8$-#-#--#|#-#..$--$6-$#.-$ -#|#-#3-#3-6$.#-#--#|#-#3.#-#-5.#3-.3#|#-17#$-#|#+2- #|23#",0
+ ;.byte "4-5#|4-#3-#|4-#$2-#|2-3#2-$2#|2-#2-$-$-#|3#-#-2#-#3-6#|#3-#-2#-5#2-2.#|#-$2-$10-2.#|5#-3#-#@2#2-2.#|4-#5-9#|4-7#",0
+  ;.byte "7#|#.@-#-#|#$*-$-#|#3-$-#|#-..--#|#--*--#|7#",0
+
 
 ; new packing format
 ; sokoban
@@ -639,89 +649,204 @@ BoundingWall:
 ;#######
 ;runlength encoded looks like this:
 
-;7#|#.@-#-#|#$*-$-#|#3-$-#|#-..--#|#--*--#|7#
 ;The rows of the level are separated by "|"s. There has been a discussion in the Yahoo Group about what character should represent an empty square in May 2006. Finally the hyphen has been elected to be the standard character for an empty square. Nevertheless, programs are encouraged to support both, hyphens and underscores.
 
 ;If only two level elements are grouped together they may be run length encoded, but needn't to. Example:
 
+finX rts
 
-              lda #-1
-              sta idx
+  DEFINE_SUBROUTINE UnpackLevel
+
+              sta RAM_Bank
+
+  ; has to be done before decoding the cave to have the platform right:
+              SET_PLATFORM
+
+              lda NextLevelTrigger
+              ora #BIT_NEXTLEVEL
+              sta NextLevelTrigger
+
+              lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
+              sta ROM_Bank                        ; GetROMByte returns to this bank
+
+              lda #$66
+              sta color
+              lda #$A0
+              sta color+1
+              lda #$9C
+              sta color+2
+
+              lda #$99
+              sta caveTime
+              sta caveTimeHi
+
+              lda #SIZE_BOARD_X
+              sta BoardLimit_Width
+              lda #SIZE_BOARD_Y
+              sta BoardLimit_Height
+              lda #$5
+              sta diamondsNeeded              ;       should never be 0
+
+              lda #24 ; arbitrary
+              sta ThrottleSpeed
+
               lda #0
-              sta scanline
+              sta POS_X
+              sta POS_Y
+              lda #CHARACTER_SOIL
+              sta POS_Type
+ZapRow                  jsr PutBoardCharacterFromRAM
+              inc POS_X
+              lda POS_X
+              cmp #SIZE_BOARD_X
+              bcc ZapRow
+              lda #0
+              sta POS_X
+              inc POS_Y
+              lda POS_Y
+              cmp #SIZE_BOARD_Y
+              bcc ZapRow
+
+
+
+              lda #<(SampleRLE-1)
+              sta ptrCave
+              lda #>(SampleRLE-1)
+              sta ptrCave+1
+
+  ; first fill bg with character_soil
+  ; then rle unpack level
+  ; change level colours
+
+              lda #0
+              sta POS_X
+              sta POS_Y
 
 GetNextItem
-              inc idx
-              ldy idx
 
               lda #1
-              sta counter
+              sta length
+              lda #0
+              sta column         ; reuse var - this flags a digit already
 
-              lda (rle),y
-              beq finishedUnpack
+Get2          inc ptrCave
+              bne addrOK
+              inc ptrCave+1
+addrOK
 
+              ldy #0
+              lda (ptrCave),y
+              beq finX
 
-              cmp #'|'          ; newline
-              bne notNewLine
+              cmp #"9"+1
+              bcs notDigit
+              cmp #"0"
+              bcc notDigit
+
+              lda column
+              beq firstDig
+
+              lda length
+              asl
+              asl
+              asl
+              adc length
+              adc length
+
+firstDig      clc
+              adc (ptrCave),y
+              sec
+              sbc #"0"
+              sta length
+              inc column     ; flag we have seen a digit
+              jmp Get2
+
+notDigit      cmp #"|"          ; newline
+              bne checkWall
 
     ; Handle new-line
-
-              inc scanline
+              lda #0
+              sta POS_X
+              inc POS_Y
               bne GetNextItem
 
-notNewLine    cmp #'#'          ; wall
+checkWall     cmp #"#"          ; wall
               bne checkForGap
-              lda #CHARACTER_WALL
-              bne writeChars
+              lda #CHARACTER_STEEL
+              bne WriteChars
 
-checkForGap   cmp #' '
+checkForGap   cmp #32
               beq writeGap
-              cmp #'-'
+              cmp #"-"
               beq writeGap
-              cmp #'-'
-              bne checkforPlayer
+              cmp #"_"
+              bne checkForMan
 
 writeGap      lda #CHARACTER_BLANK
-              jmp writeChars
+              jmp WriteChars
 
-notGap        cmp #'+'            ; player on goal square
+checkForMan
+              cmp #"+"            ; player on goal square
               bne notPlayerGoal
 
               ; put goal square, init player with POS_VAR = CHARACTER_DIAMOND
 
-              lda #CHARACTER_DIAMOND
-              sta POS_VAR
+              lda #CHARACTER_STEEL
               bne genPlayer
 
-noePlayerGoal cmp #'@'            ; player on normal square
-              bne checkBox
+notPlayerGoal
+               cmp #"@"            ; player on normal square
+               bne checkBox
 
-              lda #CHARACTER_BLANK
-              sta POS_VAR
+              lda #CHARACTER_STEEL
 
-genPlayer     ; TODO: create player
+genPlayer
+
+              sta POS_VAR                     ; character man is on
+
+              ; POS_X     x position
+              ; POS_Y     y position
+              ; POS_VAR   direction or other variable
+              ; POS_Type  type of object
+
+              lda #TYPE_MAN
+              sta POS_Type                    ;       creature TYPE
+              jsr InsertObjectStackFromRAM    ;6+94(B)
+
+              lda POS_X
+              sta ManX
+              lda POS_Y
+              sta ManY
 
               lda #CHARACTER_MANOCCUPIED
-              bne WriteChars
+              jmp WriteChars
 
-checkBox      cmp #'$'
+checkBox      cmp #"$"
               bne checkBoxTarget
 
               lda #CHARACTER_BOX
               bne WriteChars
 
-checkBoxTarget  cmp #'*'
-              bne GetNextItem     ; unknown!
+checkBoxTarget  cmp #"*"
+              bne checkTarget
 
               lda #CHARACTER_BOX_ON_TARGET
+              bne WriteChars
 
-WriteChars    sta type
-              jsr putType
-              dec counter
+checkTarget   cmp #"."
+              beq targ
+              jmp GetNextItem
+targ
+              lda #CHARACTER_DIAMOND
+
+WriteChars    sta POS_Type
+              jsr PutBoardCharacterFromRAM
+              inc POS_X
+              dec length
               bne WriteChars
               jmp GetNextItem
 
 finishedUnpack
-              rts
 
+              rts
 #endif
