@@ -132,7 +132,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 2           ; slowdown when pushing on a BOX
+PUSH_LIMIT                      = 1           ; slowdown when pushing on a BOX
 
 ; POS_VAR flags:
 VAR_ON_DIAMOND                  = %00100000     ; object is 'standing' on diamond
@@ -541,6 +541,7 @@ DHS_Stack               ds 1                ; for restoring SP
 
 BOXLeft         ds 1
 BOXRight        ds 1
+restorationCharacter  ds 1
 
     VALIDATE_OVERLAY
 
@@ -652,6 +653,11 @@ randSeed2       ds 1
 tempRand1       ds 1
 tempRand2       ds 1
 tmpScore        ds 1
+
+base_x          ds 1
+base_y          ds 1
+upk_length      ds 1
+upk_column      ds 1
 
 ;------------------------------------------------------------------------------
 

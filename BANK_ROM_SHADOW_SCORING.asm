@@ -4,7 +4,7 @@
                 NEWBANK ROM_SHADOW_OF_BANK_SCORING
 
 ;TODOs:
-; + store diamondsNeeded as BCD (with extra diamond flag in separate variable)
+; + store targetsRequired as BCD (with extra diamond flag in separate variable)
 ; + store caveTime as BCD (2 bytes)
 ; + diamonds left, time right (while playing)
 ; + six digit score, centered (short period after scoring)
@@ -89,88 +89,128 @@ DIGIT_H     = 7; height of a score digit
 
 BLANKL  ds 7,0
 
+
+
 NineL
-    .byte %01110000
-    .byte %00111000
-    .byte %00011100
-    .byte %01111110
-    .byte %11100110
-    .byte %11100110
-;    .byte %01111100
+  .byte %00011110
+  .byte %00000010
+  .byte %00000010
+  .byte %11111110
+  .byte %10000010
+  .byte %10000010
+  .byte %11111110
+
 SixL
-    .byte %01111100
-    .byte %11111110
-    .byte %11100110
-    .byte %11100110
-    .byte %11111100
-    .byte %11100000
+  .byte %11111110
+  .byte %10000010
+  .byte %10000010
+  .byte %11111110
+  .byte %10000000
+  .byte %10000000
+  .byte %11110000
+
 ;    .byte %01111100
+;    .byte %11000010
+;    .byte %11000010
+;    .byte %11111100
+;    .byte %11000000
+;    .byte %01100000
+;    .byte %00111000
 EightL
-    .byte %01111100
-    .byte %11111110
-    .byte %11100110
-    .byte %11100110
-    .byte %01111100
-    .byte %11100110
-;    .byte %01111100
+
+
+  .byte %11111110
+  .byte %10000010
+  .byte %10000010
+  .byte %11111110
+  .byte %10000010
+  .byte %10000010
+  .byte %11111110
+
+;  .byte %01111100
+;  .byte %10000110
+;  .byte %10000110
+;  .byte %01111100
+;  .byte %01000110
+;  .byte %01000110
+;  .byte %00111100
 ZeroL
-    .byte %01111100
-    .byte %11111110
-    .byte %11100110
-    .byte %11100110
-    .byte %11100110
-    .byte %11100110
-;    .byte %01111100
+;  .byte %01111100
+;  .byte %10000110
+;  .byte %10000110
+;  .byte %10000110
+;  .byte %10000110
+;  .byte %01000110
+;  .byte %00111100
+
+ .byte %11111110
+ .byte %10000010
+ .byte %10000010
+ .byte %10000010
+ .byte %10000010
+ .byte %10000010
+ .byte %11111110
+
 ThreeL
-    .byte %01111100
-    .byte %11111110
-    .byte %11100110
-    .byte %00001100
-    .byte %00011000
-    .byte %00001100
-;    .byte %01111110
+  .byte %11111110
+  .byte %00000010
+  .byte %00000010
+  .byte %00011110
+  .byte %00000010
+  .byte %00000010
+  .byte %11111110
 OneL
-    .byte %01111110
-    .byte %01111110
-    .byte %00011000
-    .byte %00011000
-    .byte %00111000
-    .byte %00111000
-    .byte %00011000
+    .byte %00010000
+    .byte %00010000
+    .byte %00010000
+    .byte %00010000
+    .byte %00010000
+    .byte %00010000
+    .byte %00010000
 
 SevenL
-    .byte %11100000
-    .byte %11100000
-    .byte %01110000
-    .byte %00111000
-    .byte %00011100
-    .byte %10001110
-;    .byte %11111110
+
+  .byte %00010000
+  .byte %00010000
+  .byte %00010000
+  .byte %00011110
+  .byte %00000010
+  .byte %00000010
+;  .byte %11111110
+
+;    .byte %00010000
+;    .byte %00010000
+;    .byte %00010000
+;    .byte %00011000
+;    .byte %00001100
+;    .byte %10000110
+;    ;.byte %11111110
 TwoL:
-    .byte %11111110
-    .byte %11111110
-    .byte %01110000
-    .byte %00111000
-    .byte %00011100
-    .byte %11001110
-;    .byte %01111100
+  .byte %11111110
+  .byte %10000000
+  .byte %10000000
+  .byte %11111110
+  .byte %00000010
+  .byte %00000010
+  .byte %11111110
+
 FiveL
-    .byte %01111100
     .byte %11111110
-    .byte %11101110
-    .byte %00001110
-    .byte %11111100
-    .byte %11100000
+    .byte %00000010
+    .byte %00000010
     .byte %11111110
+    .byte %10000000
+    .byte %10000000
+    .byte %11110000
 
 FourL
-    .byte %00011100
-    .byte %00011100
-    .byte %00011100
-    .byte %11111110
-    .byte %11011100
-    .byte %11000000
-    .byte %11000000
+  .byte %00010000
+  .byte %00010000
+  .byte %00010000
+  .byte %11111110
+  .byte %10010000
+  .byte %10010000
+  .byte %10010000
 
 ; cave "name" characters (left only!):
 
@@ -217,15 +257,15 @@ CharJ:
         .byte %00000011
 
 CharP:
-        .byte %01110000
-        .byte %01110000
-        .byte %01111110
+        .byte %01000000
+        .byte %01000000
+        .byte %01000000
         .byte %01111111
-        .byte %01110011
-        .byte %01110011
+        .byte %01000001
+        .byte %01000001
 ;        .byte %01111110
 CharB
-        .byte %01111110
+        .byte %01111111
         .byte %01111111
         .byte %01110011
         .byte %01110011
@@ -638,11 +678,11 @@ SMCOLOR
 ;.bonusLife:
     ; add extra life, limited to 9
 
-;        lda MenCurrent
+;        lda ManCount
 ;        and #$0f
 ;        cmp #9
 ;        bcs .noBonusLife
-;        inc MenCurrent
+;        inc ManCount
 
     ; bonus life has priority over score:
 ;        lda #DISPLAY_LIVES
@@ -684,7 +724,7 @@ SMCOLOR
         sty highScoreSK
 
     ; update highscore after last live:
-        lda MenCurrent
+        lda ManCount
         and #$0f                            ; player has lives left?
         bne .playerAlive                    ; YES, so we don't check high score
 
@@ -711,7 +751,7 @@ SMCOLOR
 .noHighScore
 
 .playerAlive
-        lda MenCurrent
+        lda ManCount
         and #$f0                            ; other player has lives left?
         beq .otherPlayerDead                ; NO, so we don't swap scores
 
@@ -767,7 +807,7 @@ HighScoreColTbl:
 
     ; display number of lives in leftmost digit of middle score XX nX XX
 
-                lda MenCurrent
+                lda ManCount
                 and #$0f
                 tay
                 lda DigitVectorLOr,y
@@ -803,7 +843,6 @@ HighScoreColTbl:
 
     ;---------------------------------------------------------------------------
 
-                jsr SetupDiamondsPtr            ; modify required diamonds pointers
                 jmp SetupTimePtr                ; modify time pointers
 
     ;------------------------------------------------------------------------------
@@ -834,11 +873,12 @@ HighScoreColTbl:
                 ;sok jsr UpdateScore                 ;looong!
 
     ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE SetupDiamondsPtr
+
+    DEFINE_SUBROUTINE DrawTargetsRequired
 ; Show current diamond counter in the top left
 
                 ldy #SM_OFS_DIAMONDS
-                lda #1 ;diamondsNeeded
+                lda targetsRequired
                 jsr SetupBCDPtr
 
                 lda #ID_DIAMOND<<4                  ; if no extra diamonds, display the normal icon
@@ -917,13 +957,13 @@ BLANKR
         .ds DIGIT_H, 0
 
 DequalsR
-        .byte %00010000
-        .byte %00101000
-        .byte %01000100
-        .byte %10000010
-        .byte %01000100
-        .byte %00101000
-    ;    .byte %00010000
+        .byte %00000000
+        .byte %00000000
+        .byte %11110000
+        .byte %00000000
+        .byte %11110000
+        .byte %00000000
+        .byte %11110000
 DplusR
         .byte %00010000
         .byte %00101000
@@ -934,94 +974,113 @@ DplusR
         .byte %00010000
 
 ClockR
-        .byte %00111000
-        .byte %01000100
-        .byte %10100010
-        .byte %10010010
-        .byte %10010010
-        .byte %01010100
-;        .byte %00111000
+        .byte %00000000
+        .byte %01001000
+        .byte %11111100
+        .byte %01001000
+        .byte %01001000
+        .byte %11111100
+        .byte %01001000
 NineR
-        .byte %00111000
-        .byte %00011100
-        .byte %00001110
-        .byte %00111111
-        .byte %01110011
-        .byte %01110011
-;        .byte %00111110
+  .byte %00001111
+  .byte %00000001
+  .byte %00000001
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
 SixR
-        .byte %00111110
-        .byte %01111111
-        .byte %01110011
-        .byte %01110011
-        .byte %01111110
-        .byte %01110000
-;        .byte %00111110
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+  .byte %01000000
+  .byte %01000000
+  .byte %01111000
 EightR
-        .byte %00111110
-        .byte %01111111
-        .byte %01110011
-        .byte %01110011
-        .byte %00111110
-        .byte %01110011
-;        .byte %00111110
+;  .byte %00111110
+;  .byte %01000011
+;  .byte %01000011
+;  .byte %00111110
+;  .byte %00100011
+;  .byte %00100011
+;  .byte %00011110
+
+
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+
 ZeroR
-        .byte %00111110
-        .byte %01111111
-        .byte %01110011
-        .byte %01110011
-        .byte %01110011
-        .byte %01110011
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+
 ;        .byte %00111110
+;        .byte %01000011
+;        .byte %01000011
+;        .byte %01000011
+;        .byte %01000011
+;        .byte %00100011
+;        .byte %00011110
 ThreeR
-        .byte %00111110
-        .byte %01111111
-        .byte %01110011
-        .byte %00000110
-        .byte %00001100
-        .byte %00000110
-;        .byte %00111111
+  .byte %01111111
+  .byte %00000001
+  .byte %00000001
+  .byte %00001111
+  .byte %00000001
+  .byte %00000001
+  .byte %01111111
 OneR
-        .byte %00111111
-        .byte %00111111
-        .byte %00001100
-        .byte %00001100
-        .byte %00011100
-        .byte %00011100
-        .byte %00001100
+        .byte %00001000
+        .byte %00001000
+        .byte %00001000
+        .byte %00001000
+        .byte %00001000
+        .byte %00001000
+        .byte %00001000
 
 SevenR
-        .byte %01110000
-        .byte %01110000
-        .byte %00111000
-        .byte %00011100
-        .byte %00001110
-        .byte %01000011
-;        .byte %01111111
+  .byte %00001000
+  .byte %00001000
+  .byte %00001000
+  .byte %00001111
+  .byte %00000001
+  .byte %00000001
+  .byte %01111111
+
 TwoR
-        .byte %01111111
-        .byte %01111111
-        .byte %00111000
-        .byte %00011100
-        .byte %00001110
-        .byte %01100111
-;        .byte %00111110
+  .byte %01111111
+  .byte %01000000
+  .byte %01000000
+  .byte %01111111
+  .byte %00000001
+  .byte %00000001
+  .byte %01111111
 FiveR
-        .byte %00111110
-        .byte %01111111
-        .byte %01110111
-        .byte %00000111
-        .byte %01111110
-        .byte %01110000
-        .byte %01111111
+  .byte %01111111
+  .byte %00000001
+  .byte %00000001
+  .byte %01111111
+  .byte %01000000
+  .byte %01000000
+  .byte %01111000
 FourR
-        .byte %00001110
-        .byte %00001110
-        .byte %00001110
-        .byte %01111111
-        .byte %01101110
-        .byte %01100000
-        .byte %01100000
+  .byte %00001000
+  .byte %00001000
+  .byte %00001000
+  .byte %01111111
+  .byte %01001000
+  .byte %01001000
+  .byte %01001000
 
 ;CharAL:
 ;    .byte %11100110

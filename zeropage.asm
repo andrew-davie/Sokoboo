@@ -52,7 +52,7 @@ ManAnimationFrameLO             ds 1
 ManLastDirection                ds 1            ; so we don't overwrite animations in-progress
 ManPushCounter                  ds 1
 LookingAround                   ds 1
-MenCurrent                      ds 1            ; player life counter
+ManCount                      ds 1            ; player life counter
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
 
 ;---------------------------------------------------------------------------
@@ -75,7 +75,7 @@ Throttle                        ds 1            ; frame throttle to prevent supe
 ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
 ;magicAmoebaTime                 ds 1            ; time for magic wall and amoeba slow growth
-diamondsNeeded                  ds 1            ; TJ: changed that (NOTE: counts down to 0 then (negatively) UP to give extra diamonds found.)
+targetsRequired                  ds 1            ; TJ: changed that (NOTE: counts down to 0 then (negatively) UP to give extra diamonds found.)
 ;diamondsWorth                   ds 1            ; TJ: could be moved to Scoring Bank
 ;diamondsExtraWorth              ds 1            ; TJ: could be moved to Scoring Bank
 caveTime                        ds 1            ; BCD seconds for level

@@ -25,6 +25,14 @@ ORIGIN          SET FIXED_BANK
                 sta SET_BANK
                 rts
 
+    DEFINE_SUBROUTINE DrawTargetsRequiredFromROM
+
+                sta SET_BANK_RAM
+                jsr DrawTargetsRequired
+                lda ROM_Bank
+                sta SET_BANK
+                rts
+
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE GetROMByte ;=23(A)
@@ -511,12 +519,30 @@ pastblank       lda POS_X_NEW                   ; 3
                 lda POS_Y_NEW                   ; 3
                 sta ManY                        ; 3 = 12        actually MOVE!
 
+                sed
+                clc
+                lda caveTime
+                adc #1
+                sta caveTime
+                lda caveTime+1
+                adc #0
+                sta caveTime+1
+                cld
+
 MOVE_GENERIC
 ; TJ: used by:
 ; - BANK_FIXED.asm
                 lda #0                          ; 2
                 sta ManPushCounter              ; 3
+
+                jsr UpMoveCount
+
 timeExit        rts                             ; 6 = 11
+
+
+    DEFINE_SUBROUTINE UpMoveCount
+
+                rts
 
     ;---------------------------------------------------------------------------
 
@@ -524,6 +550,7 @@ timeExit        rts                             ; 6 = 11
 
                 ldx #CHARACTER_BLANK        ; restoration character
                 lda #BANK_PushBox
+                sta ROM_Bank
                 sta SET_BANK
                 jmp PushBox
 
@@ -531,6 +558,7 @@ timeExit        rts                             ; 6 = 11
 
                 ldx #CHARACTER_DIAMOND      ; restoration character
                 lda #BANK_PushBox
+                sta ROM_Bank
                 sta SET_BANK
                 jmp PushBox
 
@@ -744,7 +772,7 @@ RestartCaveNextPlayer
                 jsr SwapPlayersGeneric
 
           jmp skipDemoCheck ;tmp
-                lda MenCurrent
+                lda ManCount
                 beq Title                           ; all lives lost! (works for both P1P2)
                 bne skipDemoCheck
 
@@ -760,22 +788,20 @@ skipDemoCheck
                 sta SET_BANK                    ; 3
                 jsr LevelInit                   ; 6+x
 
+                lda #0
+                sta base_x
+                sta base_y
+
                 lda #BANK_DECODE_CAVE
                 sta SET_BANK_RAM
                 jsr UnpackLevel
 
- #if 0
-               lda #CHARACTER_BLANK
-                sta POS_VAR                     ; character man is on
-                lda #5
-                sta POS_X
-                sta ManX
-                sta POS_Y
-                sta ManY
-                lda #TYPE_MAN
-                sta POS_Type                    ;       creature TYPE
-                jsr InsertObjectStack
- #endif
+    ; TODO now we KNOW the width, we can set the top left accordingly and re-unpack
+
+                lda #SIZE_BOARD_X
+                sta BoardLimit_Width
+                lda #SIZE_BOARD_Y
+                sta BoardLimit_Height
 
     ; Setup player animation and scroll limits.
     ; Mangle the board colours based on level
@@ -1143,8 +1169,6 @@ rbret           lda ROM_Bank
                 lda ROM_Bank
                 sta SET_BANK
                 rts
-
-
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE CopyROM2RAM_F000

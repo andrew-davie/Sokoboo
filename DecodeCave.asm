@@ -7,13 +7,6 @@
 
     ;---------------------------------------------------------------------------
     ; Board area must not overlap page boundary, as writing code uses indexing to save
-
-    OPTIONAL_PAGEBREAK "BOARD_DATA_AREA", MAX_CAVE_SIZE
-BOARD_DATA_AREA
-    ds MAX_CAVE_SIZE,$FF
-
-    ;---------------------------------------------------------------------------
-
 ;ThrottleSpeedTbl
 ;; based on MAX_THROTTLE = 160, NTSC_276/PAL (312/276=1.13)
 ;    .byte   19, 22  ; level 1 (E1: 5.60s) 1,16; 1.00/1.00 (1.00)
@@ -94,537 +87,32 @@ CaveInformation
     ENDIF
 
 
-#if 0
-    DEFINE_SUBROUTINE UnpackLevel
+; undo/rewind
+; move counter
+;counter of #targets left
+; digits
+; character/animations
+; cave table pointers
+; color randomize
+; more levels
+; (timer)?
+; hihg "score"  and savekey
+; password for level unlocks
+; title screen
 
 
-                sta RAM_Bank
-
-    ; Setup for NTSC/PAL based on P1 difficulty (0=NTSC, 1=PAL)
-    ; Set the throttle speed based on system.
-
-             DEFINE_SUBROUTINE PlatformSelect
-
-    ; has to be done before decoding the cave to have the platform right:
-                SET_PLATFORM
-
-
-    ;------------------------------------------------------------------------------
-    ; Copy the ROM cave data into our local RAM cave data buffer.  Note that the
-    ; system is automatically setup so that the biggest cave will cause the available
-    ; buffer to increase during compile time.  So all we really need to do here is
-    ; copy the appropriate amount of data for the cave from ROM elsewhere, and then
-    ; let the system run just as it was before.
-
-    ; Note that cave is an index to 4-byte entry table, so please use CAVE_NAMED_*
-    ; for cave reference numbers.
-
-;                sta RAM_Bank
-
-                lda NextLevelTrigger
-                ora #BIT_NEXTLEVEL
-                sta NextLevelTrigger
-
-
-
-                lda #BANK_UnpackLevel                ; the *ROM* bank of this routine (NOT RAM)
-                sta ROM_Bank                        ; GetROMByte returns to this bank
-
-                ldy cave
-                lda CaveInformation,y
-                sta Board_AddressR
-                lda CaveInformation+1,y
-                sta Board_AddressR+1                ; source of the board data (bank handled later)
-
-                lda CaveInformation+3,y             ; size of the board data in bytes
-                sta SMLimit+RAM_WRITE+1             ; might as well use self-modifying
-
-                lda CaveInformation+4,y
-                sta levelDisplay                     ; what to display as the cave ID.
-
-                ldx #0
-                stx caveTimeFrac                    ; now the 1st second is fully available
-                ;stx amoebaFlag
-CopyBoardData   stx savex
-
-    ; We are using GetROMByte to get *any* byte from ROM (although it was designed
-    ; just to get a board-character).  Should be OK.
-
-                ldy cave
-                lda CaveInformation+2,y             ; bank of the board data
-                ldy #0
-                jsr GetROMByte                      ; note, this returns to ROM -- but that's a copy of us!!
-                ldy RAM_Bank                        ; RAM bank we are *actually* running from
-                sty SET_BANK_RAM                    ; and switch 'ourself' back in.  Sneaky.
-
-                ldx savex
-                sta BOARD_DATA_AREA + RAM_WRITE,x   ; save byte from ROM into our local RAM buffer
-
-                inc Board_AddressR
-                bne NoPage
-                inc Board_AddressR+1                ; point to next byte of data
-NoPage
-
-                inx
-SMLimit         cpx #0                              ; byte count (self) modified by board size
-                bne CopyBoardData
-
-
-    ;------------------------------------------------------------------------------
-
-
-                lda     #<BOARD_DATA_AREA
-                sta     ptrCave
-                lda     #>BOARD_DATA_AREA
-                sta     ptrCave+1
-
-; colors are organised in 3 NTSC/PAL pairs (medium mixcolor, dark color, bright mixcolor)
-                lda     Platform
-                cmp     #PAL
-                ldy     #.COLOR_OFS+5
-                bcs     .originalPlatform
-                dey
-.originalPlatform:
-                ldx     #3-1
-.copyCols:
-                lda     (ptrCave),y
-                sta     color,x
-                dey
-                dey
-                dex
-                bpl     .copyCols
-
-                ldy     #.SIZE_OFS
-                lda     (ptrCave),y
-                sta     BoardLimit_Width
-                sta     BoundingWall+RAM_WRITE+3
-                iny
-                lda     (ptrCave),y
-                sta     BoardLimit_Height
-                sta     BoundingWall+RAM_WRITE+4
-
-;*** 1. load some cave data ***
-                iny                             ;           Y == 3 == .MAGIC_OFS
-                lda     (ptrCave),y
-                ;sta     magicAmoebaTime
-
-                iny                             ;           Y == 4 == .WORTH_OFS
-                lda     (ptrCave),y
-                ;jsr     Convert2BCD
-                ;sta     diamondsWorth                           ; now BCD in cave data
-
-                ldy     #.EXTRA_WORTH_OFS
-                lda     (ptrCave),y
-                ;jsr     Convert2BCD
-                ;sta     diamondsExtraWorth                      ; now BCD in cave data
-
-                lda     #.TIME_OFS
-                jsr     GetLevelDataBCD
-                sta     caveTime
-                stx     caveTimeHi
-
-                lda     #.DIAMONDS_OFS
-                jsr     GetLevelDataBCD
-                sta     diamondsNeeded              ;       should never be 0
-
-; *** 2. create random objects ***
-; set initial random seed for level:
-                lda     #0
-                sta     randSeed1
-                lda     #.RND_INIT_OFS
-                jsr     GetLevelData
-                sta     randSeed2
-
-; setup pointers:
-                lda     #.RND_VALUE_OFS
-                ldx     #2
-                jsr     AddPointer                  ;       set ptrCave+2 to random values
-                lda     #.RND_OBJECT_OFS
-                jsr     AddPointer0                 ;       set ptrCave+0 to random objects
-
-; loop the board:
-                ldy     #1
-.loopRows:
-                sty     POS_Y
-                ldx     #0
-.loopColumns:
-                stx     POS_X
-; get random object type:
-                jsr     NextRandom                  ;       a = randSeed1
-                ldy     #.NUM_RANDOM-1
-.loopRandom:
-                cmp     (ptrCave+2),y
-                bcc     .exitRandom
-                dey
-                bpl     .loopRandom
-                lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
-                NOP_W
-.exitRandom:
-  lda     #CHARACTER_SOIL             ;       default character (dirt), = 0
-;                lda     (ptrCave),y
-                sta     POS_Type
-
-; put new object on board:
-                jsr     PutBoardCharacterFromRAM
-; goto next board cell:
-                ldx     POS_X
-                inx
-                cpx     BoardLimit_Width
-                bcc     .loopColumns
-                ldy     POS_Y
-                iny
-                cpy     BoardLimit_Height
-                bcc     .loopRows
-
-; *** 3. draw the bounding steel wall: ***
-                ;lda     #<(BoundingWall)
-                ;sta     ptrCave
-                ;lda     #>(BoundingWall)
-                ;sta     ptrCave+1
-                ;jsr     DecodeBoundary
-
-; ...and decode the structures...
-                lda     #<(BOARD_DATA_AREA)
-                sta     ptrCave
-                lda     #>(BOARD_DATA_AREA)
-                sta     ptrCave+1
-                jsr     DecodeStructures
-
-;*** 4. activate all objects: ***
-
-ActivateObjects:
-
-                ldy BoardLimit_Height
-.loopY
-                dey
-                sty POS_Y
-                ldx BoardLimit_Width
-.loopX
-                dex
-                stx POS_X
-                jsr GetBoardCharacter__CALL_FROM_RAM__          ;6+61(A)
-                tax
-                lda CharToType2,x
-                bmi .skipActivate
-
-                sta POS_Type                    ;       creature TYPE
-                tax
-                lda #0
-                sta POS_VAR
-
-                jsr InsertObjectStackFromRAM    ;6+94(B)
-
-; handle special types:
-                ldx POS_X                       ;       x coordinate
-                ldy POS_Y                       ;       y coordinate
-                lda POS_Type
-                cmp #TYPE_MAN
-                bne .skipActivate
-
-; insert man:
-                stx ManX
-                sty ManY
-
-.skipActivate   ldx POS_X                       ;       x coordinate
-                bne .loopX
-                ldy POS_Y                       ;       y coordinate
-                bne .loopY
-
-
-; adjusts playing speed based on level:
-
-                lda #NUM_LEVELS-1               ; intermissions run at full speed
-                bit levelDisplay
-                bmi .intermission3
-                lda level
-.intermission3
-                ;asl
-                ;asl
-                ;ora Platform
-                ;lsr
-                ;tax
-                ;lda ThrottleSpeedTbl,x
-                lda #24 ; arbitrary
-                sta ThrottleSpeed
-                rts
-
-
-    ;------------------------------------------------------------------------------
-
-
-NULL_TYPE = 255
-
-CharToType2
-
-    ; Converts a character # to a creature type
-    ; add 128 if character is NOT to be added as a creature on board draw
-
-                .byte NULL_TYPE             ; blank
-                .byte NULL_TYPE             ; soil
-                .byte NULL_TYPE              ;+ SPECIAL_ADD
-                .byte NULL_TYPE
-                .byte NULL_TYPE              ;+ SPECIAL_ADD
-                .byte NULL_TYPE              ;+ SPECIAL_ADD
-                .byte TYPE_MAN
-                .byte NULL_TYPE
-                .byte NULL_TYPE            ;+ ALTERNATE_FACE                ; character_flutterby2
-                .byte NULL_TYPE
-                .byte NULL_TYPE              ;+ ALTERNATE_FACE                ; character_firefly2
-                .byte NULL_TYPE            ;+ NOT_ADDED
-                .byte NULL_TYPE            ;+ NOT_ADDED
-                .byte NULL_TYPE            ;+ NOT_ADDED
-                .byte NULL_TYPE            ;+ NOT_ADDED
-                .byte NULL_TYPE              ; steel wall
-                .byte NULL_TYPE              ; plain brick wall
-                .byte NULL_TYPE             ;+ NOT_ADDED
-                .byte NULL_TYPE             ;+ NOT_ADDED
-                .byte NULL_TYPE
-                .byte NULL_TYPE
-                .byte NULL_TYPE
-                .byte TYPE_SELECTOR ;EXPLOSION3                 ; overload explosion character
-                .byte NULL_TYPE
-
-                ; The following two will NEVER APPEAR ON BOARD DECODE DATA so can be skipped
-                ;.byte TYPE_BOX                              ; falling BOX
-                ;.byte TYPE_DIAMOND
-                ;.byte TYPE_MAN                                 ; unkillable man
-
-                 ; --> see also MoveVec
-                 ; --> see also UnpackLevel's table
-
-
-GetLevelDataBCD; SUBROUTINE
-                jsr     GetLevelData
-
-Convert2BCD; SUBROUTINE
-                ldx     #0
-                ldy     #<(-1)
-.loop:
-                iny
-                cpy     #10
-                bcc     .ok
-                ldy     #0
-                inx
-.ok:
-                sec
-                sbc     #10
-                bcs     .loop
-                adc     #10
-                ora     Mult16Tbl,y
-                rts
-
-Y SET 0
-Mult16Tbl:
-    REPEAT 10
-    .byte   Y
-Y SET Y + $10
-    REPEND
-
-GetLevelData:; SUBROUTINE
-                clc
-                adc     level
-                tay
-                lda     (ptrCave),y
-                rts
-
-AddPointer0:
-                ldx     #0
-AddPointer:
-                clc
-                adc     ptrCave
-                sta     ptrCave,x
-                lda     ptrCave+1
-                adc     #0
-                sta     ptrCave+1,x
-                rts
-
-
-NextRandom:
-                lda     randSeed1
-                ror
-                ror
-                and     #$80
-                sta     tempRand1                   ;       TempRand1 = (RandSeed1 & 1) << 7
-
-                lda     randSeed2
-                lsr
-                sta     tempRand2                   ;       TempRand2 = RandSeed2 >> 1
-
-;                lda     randSeed2
-;                and     #$01
-;                lsr
-                lda     #$00
-                ror
-                adc     randSeed2                   ;       C=0!
-                adc     #$13                        ;       C=?
-                sta     randSeed2                   ;       RandSeed2 = RandSeed2 << 7 + RandSeed2 + $13
-
-                lda     randSeed1
-                adc     tempRand1                   ;       C=?
-                adc     tempRand2                   ;       C=?
-                sta     randSeed1
-Exit:
-                rts
-
-
-DecodeStructures:
-                lda     #.STRUCT_OFFSET
-.loopStructures:
-                jsr     AddPointer0
-DecodeBoundary:
-; load structure type and object:
-                ldy     #0
-                lda     (ptrCave),y
-                cmp     #.STRUCT_DELIMITER
-                beq     Exit
-                and     #(~.STRUCTURE_MASK) & $FF
-                sta     POS_Type
-                eor     (ptrCave),y
-                asl
-                rol
-                rol
-                sta     structType
-; load structure values:
-                ldy     #1
-                lda     (ptrCave),y                 ;       +1
-                sta     column
-                iny
-                lda     (ptrCave),y                 ;       +2
-                sec
-                sbc     #2                          ;       cave starts at row 2 in C64 original
-                sta     row
-                iny
-                lda     (ptrCave),y                 ;       +3
-                sta     length
-                iny
-                lda     (ptrCave),y                 ;       +4
-                sta     height                      ;       == direction for LINE
-
-; process structure:
-                ldx     structType
-                bne     .skipSingle
-; draw single object:
-                ldx     column
-                stx     POS_X
-                lda     row
-                sta     POS_Y
-                jsr     PutBoardCharacterFromRAM
-
-.nextStructure:
-                ldx     structType
-                lda     StructureSizeTbl,x
-                bne     .loopStructures         ; 3     unconditional
-;    DEBUG_BRK
-
-.skipSingle:
-                dex
-                bne     .skipLine
-; draw a line:
-                jsr     DrawLine                ;       a == direction
-                beq     .nextStructure          ; 3     unconditional
-;    DEBUG_BRK
-
-.skipLine:
-                dex
-                bne     .skipFilled
-; draw a filled rectangle:
-                jsr     DrawRectangle
-
-                ldy     #5
-                lda     (ptrCave),y             ;       +5
-                sta     POS_Type
-
-                inc     column
-                dec     height
-                dec     length
-.loopFill:
-                inc     row
-                jsr     DrawLineRight
-                dec     height
-                bne     .loopFill
-                beq     .nextStructure          ; 3     unconditional
-
-.skipFilled:
-; draw a rectangle:
-                jsr     DrawRectangle
-                beq     .nextStructure          ; 3     unconditional
-;    DEBUG_BRK
-
-DrawLineRight:
-                lda     #.DIR_RIGHT
-DrawLine:
-                ldx     column
-                ldy     row
-; direction is set outside
-                stx     POS_X
-                sty     POS_Y
-DrawNextHLine:
-                ldx     length
-                NOP_W
-DrawNextVLine:
-                ldx     height
-                sta     direction
-                stx     tmpLength
-.loopLine:
-                jsr     PutBoardCharacterFromRAM
-                ldy     direction
-                lda     POS_X
-                clc
-                adc     ColumnDirTbl,y
-                sta     POS_X
-                lda     POS_Y
-                clc
-                adc     RowDirTbl,y
-                sta     POS_Y
-                dec     tmpLength
-                bne     .loopLine
-                rts
-
-
-DrawRectangle:
-                dec     length
-                dec     height
-
-                jsr     DrawLineRight
-
-                lda     #.DIR_DOWN
-                jsr     DrawNextVLine
-                lda     #.DIR_LEFT
-                jsr     DrawNextHLine
-                lda     #.DIR_UP
-                bpl     DrawNextVLine           ; 3     unconditional
-;    DEBUG_BRK
-
-
-
-    ;---------------------------------------------------------------------------
-
-
-RowDirTbl:
-    .byte   -1, -1;, 0, 1, 1, 1, 0, -1
-ColumnDirTbl:
-    .byte   0, 1, 1, 1, 0, -1, -1, -1
-
-StructureSizeTbl:
-    .byte   3, 5, 6, 5
-
-
-;foreground color is ignored (white instead), except for amoeba levels G and M (light green)
-
-; structure for the bounding steel wall:
-BoundingWall:
-    .byte   .STRUCT_RECTANGLE|CHARACTER_STEEL, 0, 2, 99, 99 ; bounding steel wall
-    .byte   .STRUCT_DELIMITER
-
-#else
 SampleRLE
- .byte "-5#6-|-#3-5#2-|-#2$-#3-#2-|2#-#2-$2-2#-|#5-*#2-#-|#3-#-.#2.2#|5#$3*.-#|4-#@$-.2-#|4-8#",0
+ ;.byte "4-5#|4-#3-#|4-#$2-#|2-3#2-$2#|2-#2-$-$-#|3#-#-2#-#3-6#|#3-#-2#-5#2-2.#|#-$2-$10-2.#|5#-3#-#@2#2-2.#|4-#5-9#|4-7#",0
+ ;.byte "-5#6-|-#3-5#2-|-#2$-#3-#2-|2#-#2-$2-2#-|#5-*#2-#-|#3-#-.#2.2#|5#$3*.-#|4-#@$-.2-#|4-8#",0
  ;.byte "3-3#2-|3-#@2#-|2-2#$-2#|3#2.*-#|#2-2$.*#|#-#$-.-#|#3-$.-#|2#4-2#|-6#-",0
  ;.byte "23#|#21 #|#@18#$##|#-#3.#12-#--#|#-#3.#-8$-#-#--#|#-#..$--$6-$#.-$ -#|#-#3-#3-6$.#-#--#|#-#3.#-#-5.#3-.3#|#-17#$-#|#+2- #|23#",0
  ;.byte "4-5#|4-#3-#|4-#$2-#|2-3#2-$2#|2-#2-$-$-#|3#-#-2#-#3-6#|#3-#-2#-5#2-2.#|#-$2-$10-2.#|5#-3#-#@2#2-2.#|4-#5-9#|4-7#",0
   ;.byte "7#|#.@-#-#|#$*-$-#|#3-$-#|#-..--#|#--*--#|7#",0
-
-
+bAlfa_DrFogh .byte "2-4#2-4#|-2#2-2#-#2-#|-#4-3#2-2#|2#2-2*2-#.2-2#|#2-*2-*-#*#2-#|#-*4-2*2-#-#|#-*-2#-*3-#-#|2#-*2-*#*#-#-#|-#$-2*-#-*-#-#|-#@#2-2#5-#|-2#2-4#2-3#|2-#2-#2-4#|2-#2-#|2-4#",0
+;b82X_Sharpen .byte "-11#8-|-#5-#3-2#7-|-#-$-$-$-#2-5#3-|-3#2-5#5-#3-|-#4.#5-3#-#3-|-#.4#2-4#3-#3-|-#4.4-#2-$-2#3-|-#-3.#3-#-3$5#|3#.7#2-$@$3-#|#-$3-5#-$-2#3-#|#-#.#-$6-$3#$-#|#-#.8#2-#2-$-#|#-#3.7-2#-2$-#|#3-7#-$-#-#2-#|5#5-#7-2#|10-9#-",0
+;b51X_Sharpen .byte "-9#3-|-#7-#3-|-#-$-2$-$#3-|3#$#2-$-#3-|#.#3-2$-2#2-|#.3#3-$-#2-|#.#.-$-2#-3#|#3.$-$2#-$-#|#3.$3-$2-@#|#2.3#$3#-2#|#4.#5-#-|12#-",0
+;bDarcy_Burnsell101 .byte "8#|#2-.-$@#|#.#$*2$#|#2-.-*-#|#2$-2$.#|#.#-#2-#|#.2-.-.#|8#",0
+;bAislin101    .byte "8#|2#-*-*.#|#2.$-$*#|#-.#-*.#|2#-$-$2#|#-#$-$-#|#2.2-$@#|8#",0
 ; new packing format
 ; sokoban
 
@@ -653,7 +141,90 @@ SampleRLE
 
 ;If only two level elements are grouped together they may be run length encoded, but needn't to. Example:
 
-finX rts
+finX
+
+  ; now put the soil in - fill from the outsides
+
+                lda #0
+                sta POS_X
+                sta POS_Y
+                lda #CHARACTER_SOIL
+                sta POS_Type
+
+xlin                lda #SIZE_BOARD_X-1
+                sta POS_X
+zap1            jsr GetBoardCharacter__CALL_FROM_RAM__
+                cmp #CHARACTER_SOIL
+                beq kg2a
+                cmp #0
+                bne endzap1
+                jsr PutBoardCharacterFromRAM
+kg2a            dec POS_X
+                bpl zap1
+
+endzap1         lda #0
+                sta POS_X
+zap2            jsr GetBoardCharacter__CALL_FROM_RAM__
+                cmp #CHARACTER_SOIL
+                beq kg2
+                cmp #0
+                bne endzap2
+                jsr PutBoardCharacterFromRAM
+kg2             inc POS_X
+                lda POS_X
+                cmp #SIZE_BOARD_X
+                bne zap2
+
+endzap2         inc POS_Y
+                lda POS_Y
+                cmp #SIZE_BOARD_Y
+                bne xlin
+
+
+                lda #0
+                sta POS_X
+                sta POS_Y
+
+ylin            lda #SIZE_BOARD_Y-1
+                sta POS_Y
+zapy1           jsr GetBoardCharacter__CALL_FROM_RAM__
+                cmp #CHARACTER_SOIL
+                beq kg3
+                cmp #0
+                bne endzapy1
+                jsr PutBoardCharacterFromRAM
+kg3             dec POS_Y
+                bpl zapy1
+
+endzapy1        lda #0
+                sta POS_Y
+zapy2            jsr GetBoardCharacter__CALL_FROM_RAM__
+                cmp #CHARACTER_SOIL
+                beq kg3b
+                cmp #0
+                bne endzapy2
+                jsr PutBoardCharacterFromRAM
+kg3b                inc POS_Y
+                lda POS_Y
+                cmp #SIZE_BOARD_Y
+                bne zapy2
+
+endzapy2         inc POS_X
+                lda POS_X
+                cmp #SIZE_BOARD_X
+                bne ylin
+                rts
+
+    DEFINE_SUBROUTINE RegisterOneMoreTarget
+
+              sed
+              clc
+              lda targetsRequired
+              adc #1
+              sta targetsRequired
+              cld
+              rts
+
 
   DEFINE_SUBROUTINE UnpackLevel
 
@@ -669,43 +240,31 @@ finX rts
               lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
               sta ROM_Bank                        ; GetROMByte returns to this bank
 
-              lda #$66
+              ;lda #$66
+              lda #$ba
               sta color
-              lda #$A0
+              lda #$44
+              ;lda #$A0
               sta color+1
-              lda #$9C
+              lda #$2a ;lda #$9C
               sta color+2
 
-              lda #$99
+              lda #$00
               sta caveTime
               sta caveTimeHi
 
-              lda #SIZE_BOARD_X
-              sta BoardLimit_Width
-              lda #SIZE_BOARD_Y
-              sta BoardLimit_Height
-              lda #$5
-              sta diamondsNeeded              ;       should never be 0
+              lda #$00                      ; BCD reminder!
+              sta targetsRequired           ; # of targets that do NOT have boxes on them
+
+              ;lda #SIZE_BOARD_X
+              ;sta BoardLimit_Width
+              ;lda #SIZE_BOARD_Y
+              ;sta BoardLimit_Height
+              ;lda #$5
+              ;sta targetsRequired              ;       should never be 0
 
               lda #24 ; arbitrary
               sta ThrottleSpeed
-
-              lda #0
-              sta POS_X
-              sta POS_Y
-              lda #CHARACTER_SOIL
-              sta POS_Type
-ZapRow                  jsr PutBoardCharacterFromRAM
-              inc POS_X
-              lda POS_X
-              cmp #SIZE_BOARD_X
-              bcc ZapRow
-              lda #0
-              sta POS_X
-              inc POS_Y
-              lda POS_Y
-              cmp #SIZE_BOARD_Y
-              bcc ZapRow
 
 
 
@@ -721,13 +280,15 @@ ZapRow                  jsr PutBoardCharacterFromRAM
               lda #0
               sta POS_X
               sta POS_Y
+              sta BoardLimit_Width
+              sta BoardLimit_Height
 
 GetNextItem
 
               lda #1
-              sta length
+              sta upk_length
               lda #0
-              sta column         ; reuse var - this flags a digit already
+              sta upk_column         ; reuse var - this flags a digit already
 
 Get2          inc ptrCave
               bne addrOK
@@ -736,29 +297,30 @@ addrOK
 
               ldy #0
               lda (ptrCave),y
-              beq finX
-
+              bne parse
+              jmp  finX
+parse
               cmp #"9"+1
               bcs notDigit
               cmp #"0"
               bcc notDigit
 
-              lda column
+              lda upk_column
               beq firstDig
 
-              lda length
+              lda upk_length
               asl
               asl
               asl
-              adc length
-              adc length
+              adc upk_length
+              adc upk_length
 
 firstDig      clc
               adc (ptrCave),y
               sec
               sbc #"0"
-              sta length
-              inc column     ; flag we have seen a digit
+              sta upk_length
+              inc upk_column     ; flag we have seen a digit
               jmp Get2
 
 notDigit      cmp #"|"          ; newline
@@ -768,7 +330,15 @@ notDigit      cmp #"|"          ; newline
               lda #0
               sta POS_X
               inc POS_Y
-              bne GetNextItem
+
+
+              lda POS_Y
+              cmp BoardLimit_Height
+              bcc wOK2
+              sta BoardLimit_Height
+wOK2
+
+              jmp GetNextItem
 
 checkWall     cmp #"#"          ; wall
               bne checkForGap
@@ -789,20 +359,35 @@ checkForMan
               cmp #"+"            ; player on goal square
               bne notPlayerGoal
 
+              jsr RegisterOneMoreTarget
+
               ; put goal square, init player with POS_VAR = CHARACTER_DIAMOND
 
-              lda #CHARACTER_STEEL
+              lda #CHARACTER_DIAMOND
               bne genPlayer
 
 notPlayerGoal
                cmp #"@"            ; player on normal square
                bne checkBox
 
-              lda #CHARACTER_STEEL
+              lda #CHARACTER_BLANK
 
 genPlayer
 
               sta POS_VAR                     ; character man is on
+
+              clc
+              lda POS_X
+              pha
+              adc base_x
+              sta POS_X
+              sta ManX
+
+              lda POS_Y
+              pha
+              adc base_y
+              sta POS_Y
+              sta ManY
 
               ; POS_X     x position
               ; POS_Y     y position
@@ -813,10 +398,10 @@ genPlayer
               sta POS_Type                    ;       creature TYPE
               jsr InsertObjectStackFromRAM    ;6+94(B)
 
-              lda POS_X
-              sta ManX
-              lda POS_Y
-              sta ManY
+              pla
+              sta POS_Y
+              pla
+              sta POS_X
 
               lda #CHARACTER_MANOCCUPIED
               jmp WriteChars
@@ -837,13 +422,46 @@ checkTarget   cmp #"."
               beq targ
               jmp GetNextItem
 targ
+
               lda #CHARACTER_DIAMOND
 
 WriteChars    sta POS_Type
+
+Wc2x              clc
+              lda POS_X
+              pha
+              adc base_x
+              sta POS_X
+
+              lda POS_Y
+              pha
+              adc base_y
+              sta POS_Y
+
               jsr PutBoardCharacterFromRAM
-              inc POS_X
-              dec length
-              bne WriteChars
+
+              lda POS_Type
+              cmp #CHARACTER_DIAMOND
+              bne notargdet
+              jsr RegisterOneMoreTarget
+notargdet
+
+              pla
+              sta POS_Y
+              pla
+              sta POS_X
+
+              clc
+              adc #1
+              sta POS_X
+
+              cmp BoardLimit_Width
+              bcc wOK
+              sta BoardLimit_Width
+wOK
+
+              dec upk_length
+              bne Wc2x
               jmp GetNextItem
 
 finishedUnpack

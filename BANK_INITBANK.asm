@@ -347,11 +347,16 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE PushBox ; in INITBANK
 
+      ; X = restoration character for square we are moving TO
+      ; so, if X = CHARACTER_DIAMOND AND we move, THEN we are pushing a box off a diamond
+
                 sta ROM_Bank
 
-                lda POS_VAR
-                pha
-                stx POS_VAR
+                lda ManPushCounter
+                cmp #PUSH_LIMIT
+                bcc cannotPush
+
+                stx restorationCharacter          ; BOX'S NEW CHAR
 
     ; Determine if the box is pushable
     ; we use the joystick to calculate the subsequent square
@@ -385,31 +390,49 @@ OBJTYPE    .SET OBJTYPE + 1
                 lda #BANK_BOARD                 ; 2
     ENDIF
                 jsr GetBoardCharacter           ;6+20(A)
-
                 pla
                 tay
 
-                cpx #CHARACTER_DIAMOND
-                beq canPush
-                cpx #CHARACTER_DIAMOND2
-                beq canPush
+                lda #CHARACTER_BOX
                 cpx #CHARACTER_BLANK
+                beq canPushTarget
+
+                cpx #CHARACTER_DIAMOND
+                beq decreaseTargets
+                cpx #CHARACTER_DIAMOND2
                 bne cannotPush
 
-canPush
-                inc ManPushCounter
-                lda ManPushCounter
-                eor #PUSH_LIMIT
-                bne cannotPush                         ; nice 'get to 0' optimisation
-                sta ManPushCounter
+    ; Box is now on a target - so decrease the remaining targets
 
-                lda #CHARACTER_BOX
-                cpx #CHARACTER_DIAMOND2
-                beq isonTarget
-                cpx #CHARACTER_DIAMOND
-                bne notAtarget
-isonTarget      lda #CHARACTER_BOX_ON_TARGET
-notAtarget
+decreaseTargets sed
+                sec
+                lda targetsRequired
+                sbc #1
+                sta targetsRequired
+                cld
+
+                lda #CHARACTER_BOX_ON_TARGET
+canPushTarget   pha
+
+    ; If the box *WAS* on a target (restoration character = CHARACTER_DIAMOND)
+    ; then we increase targets (as there is one more to get)
+
+                lda restorationCharacter
+                cmp #CHARACTER_DIAMOND
+                bne notOnTargetAlready
+
+    ; increase the required targets as box is leaving one
+
+                sed
+                clc
+                lda targetsRequired
+                adc #1
+                sta targetsRequired
+                cld
+
+notOnTargetAlready
+
+                pla
 
 
   IF MULTI_BANK_BOARD = YES
@@ -419,23 +442,26 @@ notAtarget
   ENDIF
                 jsr PutBoardCharacter           ;6+21(A)
 
+                lda POS_VAR                     ; player's restoration character
+                pha
+
                 ldx POS_Y_NEW
                 stx POS_Y
                 ldy POS_X_NEW
                 sty POS_X
+                lda restorationCharacter
+                sta POS_VAR
 
-                jsr RestoreOriginalCharacter     ;6+87[-2](A)
-
-                ;START_SOUND SOUND_BOX
+                jsr RestoreOriginalCharacter    ; put back BOX's restoration character
 
                 pla
                 sta POS_VAR
+
+                ;START_SOUND SOUND_BOX
+
                 jmp MovePlayer              ; now there's a gap, player should move in
 
-cannotPush       pla
-                sta POS_VAR
-                ;lda #0
-                ;sta ManPushCounter
+cannotPush      inc ManPushCounter
                 rts
 
    ;------------------------------------------------------------------------------
@@ -500,7 +526,7 @@ MANMODE_BONUS_RUN   = 9
                 ;sokldy ManMode
                 ;sok lda ManActionTimer,y
                 ;sok beq .skipTimer
-                ;sok jsr UpdateTimer
+                jsr UpdateTimer
 .skipTimer:
                 ldy ManMode
                 lda ManActionLO,y
@@ -541,6 +567,10 @@ ManActionHI
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE UpdateTimer
 
+                lda #BANK_SCORING
+                jsr DrawTargetsRequiredFromROM
+
+
                 ldx #3
                 lda ManMode
                 cmp #MANMODE_BONUS_RUN
@@ -551,15 +581,16 @@ ManActionHI
                 bmi .intermission2
                 ldx level
 .intermission2
-                lda TimeFracTbl,x
-                bit LookingAround
-                bpl notSlowTime
-                lda #0                           ; new behaviour: time does not count down when looking around
+
+;                lda TimeFracTbl,x
+;                bit LookingAround
+;                bpl notSlowTime
+;                lda #0                           ; new behaviour: time does not count down when looking around
                 ;lsr                             ; go half-speed time countdown when looking around
-notSlowTime
-                adc caveTimeFrac
-                sta caveTimeFrac
-                bcc .forceTimeDraw
+;notSlowTime
+;                adc caveTimeFrac
+;                sta caveTimeFrac
+;                bcc .forceTimeDraw
 
                 ldx #1
 .setLoops
@@ -571,52 +602,54 @@ notSlowTime
                 adc #1
                 jsr ScoreAdd
 .notScoring
-                sed
-                sec
-                lda caveTime
-                sbc #1
-                sta caveTime
-                cld
-                bcs .skipHi2a
-                dec caveTimeHi
-.skipHi2a
+;                sed
+;                sec
+;                lda caveTime
+;                sbc #1
+;                sta caveTime
+;                cld
+;                bcs .skipHi2a
+;                dec caveTimeHi
+;.skipHi2a
 ; check for running out of time sound:
-                lda caveTimeHi
-                bne .timeAbove9
-                lda #$09
-                sec
-                sbc caveTime
-                bcc .timeAbove9
+;                lda caveTimeHi
+;                bne .timeAbove9
+;                lda #$09
+;                sec
+;                sbc caveTime
+;                bcc .timeAbove9
 ; this assumes that SND_MASK_HI = %11110000
 ;  and the time entries are ordered 9 to 0!
-                asl
-                asl
-                asl
-                asl
-                adc #SOUND_TIME_9
-                sta tmpSound
-                lda newSounds
-                and #<(~SND_MASK_HI)
-                ora tmpSound
-                sta newSounds
-.skipTimeSound:
-                ldx caveTime
-                bne .timeNotZero
-                stx AUDV0                       ; stop bonus sound
-                stx soundIdxLst
-.contChannel1:
-                ldx #MANMODE_NEXTLEVEL          ; time bonus
-                lda ManMode
-                cmp #MANMODE_BONUS_RUN
-                beq .nextLevel
-                ldx #MANMODE_WAITING_NT2        ; time over
-                cmp #MANMODE_WAITING2           ; Man already dead?
-                beq .nextLevel
-                dex                             ; == MANMODE_WAITING_NT
-.nextLevel
-                stx ManMode                     ; -> man dies, but no explosion
+;                asl
+;                asl
+;                asl
+;                asl
+;                adc #SOUND_TIME_9
+;                sta tmpSound
+;                lda newSounds
+;                and #<(~SND_MASK_HI)
+;                ora tmpSound
+;                sta newSounds
+;.skipTimeSound:
+;                ldx caveTime
+;                bne .timeNotZero
+;                stx AUDV0                       ; stop bonus sound
+;                stx soundIdxLst
+;.contChannel1:
+;                ldx #MANMODE_NEXTLEVEL          ; time bonus
+;                lda ManMode
+;                cmp #MANMODE_BONUS_RUN
+;                beq .nextLevel
+;                ldx #MANMODE_WAITING_NT2        ; time over
+;                cmp #MANMODE_WAITING2           ; Man already dead?
+;                beq .nextLevel
+;                dex                             ; == MANMODE_WAITING_NT
+;.nextLevel
+;                stx ManMode                     ; -> man dies, but no explosion
 .timeNotZero:
 .forceTimeDraw
+
+
                 lda #BANK_SCORING
                 jmp DrawTimeFromROM             ; Z-flag == 0!
 
@@ -714,7 +747,7 @@ waitingMan      dec ManDelayCount
                 lda levelDisplay
                 bmi intermission                ; don't lose a life on intermission screens
     IF NUM_LIVES != -1
-                dec MenCurrent                  ; works for P1P2 format
+                dec ManCount                  ; works for P1P2 format
     ; display lives after a live is lost
                 lda scoringFlags                ;
                 and #~DISPLAY_FLAGS
@@ -738,7 +771,7 @@ waitingManPress
                 lda #90                         ; something long.  anything.
                 sta scoringTimer
 
-                lda MenCurrent
+                lda ManCount
                 and #$0f
                 cmp #$01
                 ldx scoringFlags

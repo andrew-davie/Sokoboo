@@ -32,7 +32,7 @@
                 ldy sJoysticks
                 sty jtoggle
                 stx level
-                sta MenCurrent                                  ; = #players
+                sta ManCount                                  ; = #players
                 pla
                 sta cave                                        ; make an immediate copy to safe variables!
 
@@ -54,10 +54,10 @@
                 sta whichPlayer                                 ; will switch to 0 on 1st go
 
                 lda #NUM_LIVES<<4                               ; 3 lives
-                ldx MenCurrent                                  ; = sPlayers
+                ldx ManCount                                  ; = sPlayers
                 beq opg
                 lda #NUM_LIVES<<4|NUM_LIVES
-opg             sta MenCurrent                                  ; P2P1 nybble each
+opg             sta ManCount                                  ; P2P1 nybble each
 
     ;---------------------------------------------------------------------------
 
@@ -831,9 +831,12 @@ NoSKfound
 
 Manimate
 AnimateSTAND
+AnimateRIGHT
+AnimateLEFT
+AnimateUP
 AnimateSTOPPED
     .byte 127
-    .byte <PLAYER_STAND
+    .byte <PLAYER_RIGHT0 ;PLAYER_STAND
     ;.byte 10
     ;.byte < PLAYER_BLINK
     ;.byte 127
@@ -858,7 +861,7 @@ AnimateTAP
     .byte 0
     .byte AnimateSTAND-Manimate ;word AnimateSTAND
 
-AnimateRIGHT
+;AnimateRIGHT
     .byte 128, %0                   ; reflect off
     .byte 5
     .byte < PLAYER_RIGHT0
@@ -867,7 +870,7 @@ AnimateRIGHT
     .byte 0
     .byte AnimateRIGHT-Manimate ;word AnimateRIGHT
 
-AnimateLEFT
+;AnimateLEFT
     .byte 128, %1000                ; reflect ON
     .byte 5
     .byte < PLAYER_RIGHT0
@@ -886,7 +889,7 @@ AnimateLEFT
 ;    .byte 0
 ;    .word AnimateUP
 
-AnimateUP                           ; keep last reflection, like in original game
+;AnimateUP                           ; keep last reflection, like in original game
     .byte 5
     .byte < PLAYER_RIGHT0
     .byte 5

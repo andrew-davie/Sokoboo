@@ -29,29 +29,78 @@ PLAYER_RIGHT0
 ;   XX
 ;
 
-                .byte %00101100 ; 0
-                .byte %00111000 ; 3
-                .byte %00011000 ; 6 etc.
-                .byte %00011100
-                .byte %00011000
-                .byte %00111010
-                .byte %00111100
 
-                .byte %00111100 ; 1
-                .byte %00011000 ; 4 etc.
-                .byte %00011000
-                .byte %00011000
-                .byte %00011000
-                .byte %00111010
-                .byte %00011000
 
-                .byte %00111000 ; 2
-                .byte %00011000 ; 5 etc.
-                .byte %00011100
-                .byte %00011000
-                .byte %00111100
-                .byte %00111010
-                .byte 0
+;.byte %00011000  ;  XXX   ; 0
+;.byte %00111100  ;XXXXXX  ; 1
+;.byte %01110100  ;XXXX X  ; 2 etc.
+;.byte %01111100  ;XXXXXX  ; 3
+;.byte %00111000  ;XXXXX   ;4
+;.byte %01111100  ; XXXXX  ;5
+;.byte %00111000  ;  XXX   ;6
+;.byte %11111000  ;XXXXX   ;7
+;.byte %11111100  ;XXXXXX  ;8
+;.byte %11111100  ;XXXXXX  ;9 etc.
+;.byte %10000100  ;X    X  ;10
+;.byte %11111100  ;XXXXXX  ;11
+;.byte %00001100  ;    XX  ;12
+;.byte %01111100  ; XXXXX  ;13
+;.byte %01111100  ; XXXXX  ;14
+;.byte %01111000  ; XXXX   ;15
+;.byte %01111000  ; XXXX   ;16 etc.
+;.byte %11111000  ;XXXXX   ;17
+;.byte %11101100  ;XXX XX  ;18
+;.byte %10111100  ;X XXXX  ;19
+;.byte %11001100  ;XX  XX   20
+
+
+ .byte %01100110 ;20
+ .byte %01111100 ;17
+ .byte %00111110 ;14
+ .byte %01111110 ;11
+ .byte %00111100 ; 8
+ .byte %00111110  ;5
+ .byte %00111010  ;XXXX X  ; 2 etc.
+
+ .byte %01011110 ;19
+ .byte %00111100  ; XXXX   ;16 etc.
+ .byte %00111110 ;13
+ .byte %01000010 ;10
+  .byte %00111100  ;XXXXX   ;7
+  .byte %00111110  ;XXXXX   ;4
+  .byte %00011110  ;XXXXXX  ; 1
+
+ .byte %01110110 ;18
+ .byte %00111100 ;15
+ .byte %00000110 ;12
+ .byte %00111110 ; 9 etc.
+ .byte %00010100  ;6
+ .byte %00101010  ;XXXXXX  ; 3
+ .byte %00001100  ;  XXX   ; 0
+
+;                .byte %11111111 ; 0
+;                .byte %11111111 ; 3
+;                .byte %11111111 ; 6 etc.
+;                .byte %11111111
+;                .byte %11111111
+;                .byte %11111111
+;                .byte %11111110
+
+;                .byte %11111111 ; 1
+;                .byte %11111111 ; 4 etc.
+;                .byte %11111111
+;                .byte %11111111
+;                .byte %11111111
+;                .byte %11111111
+;                .byte %01110100
+
+;                .byte %11111111 ; 2
+;                .byte %11111111 ; 5 etc.
+;                .byte %11111111
+;                .byte %11111111
+;                .byte %11111100
+;                .byte %00111000
+;                .byte 0
 
 PLAYER_RIGHT1
 
