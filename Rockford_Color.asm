@@ -3,6 +3,7 @@
 YELLOW_NTSC = $10   ; hair
 ORANGE_NTSC = $30   ; skin
 RED_NTSC    = $40   ; shirt
+BLUE_NTSC = $A4
 
 YELLOW_PAL  = $20
 ORANGE_PAL  = $40
@@ -36,29 +37,41 @@ SpriteColour
 ;    .byte WHITE             ;20
 
 SpriteColourRED
-    .byte RED_NTSC|$6       ; 0 feet
-    .byte WHITE             ; 3
-    .byte RED_NTSC|$4       ; 6
-    .byte RED_NTSC|$4       ; 9
-    .byte WHITE             ;12 neck
-    .byte ORANGE_NTSC|$8    ;15
-    .byte ORANGE_NTSC|$6    ;18
+ .byte WHITE
+ .byte WHITE
+ .byte WHITE
+ .byte WHITE
+ .byte WHITE
+ .byte WHITE
+ .byte WHITE
+
+;  .byte #$1C;0
+;  .byte #$78;3
+;  .byte #$52;6
+;  .byte #$52;9
+;  .byte #$0C;12
+;  .byte #$4A;15
+;  .byte #$1A;18
 SpriteColourGREEN
-    .byte RED_NTSC|$4       ; 1
-    .byte WHITE             ; 4
-    .byte RED_NTSC|$4       ; 7
-    .byte RED_NTSC|$4       ;10
-    .byte ORANGE_NTSC|$4    ;13 neck
-    .byte ORANGE_NTSC|$a    ;16
-    .byte YELLOW_NTSC|$c    ;19 hair
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
 SpriteColourBLUE
-    .byte WHITE             ; 2
-    .byte RED_NTSC|$4       ; 5
-    .byte WHITE             ; 8
-    .byte RED_NTSC|$4       ;11
-    .byte ORANGE_NTSC|$6    ;14
-    .byte ORANGE_NTSC|$8    ;17
-    .byte WHITE             ;20 unused
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+  .byte WHITE
+
+  REPEAT 21
+  .byte $20|$6             ; 2
+   REPEND
 
 ; PAL
 ;    .byte RED_PAL|$6        ; 0 feet
@@ -84,27 +97,3 @@ SpriteColourBLUE
 ;    .byte ORANGE_PAL|$8     ;14
 ;    .byte YELLOW_PAL|$c     ;17 hair
 ;    .byte WHITE             ;20
-
-    .byte RED_PAL|$6        ; 0 feet
-    .byte WHITE             ; 3
-    .byte RED_PAL|$4        ; 6
-    .byte RED_PAL|$4        ; 9
-    .byte WHITE             ;12 neck
-    .byte ORANGE_PAL|$6     ;15
-    .byte ORANGE_PAL|$4     ;18
-
-    .byte RED_PAL|$4        ; 1
-    .byte WHITE             ; 4
-    .byte RED_PAL|$4        ; 7
-    .byte RED_PAL|$4        ;10
-    .byte ORANGE_PAL|$2     ;13 neck
-    .byte ORANGE_PAL|$8     ;16
-    .byte YELLOW_PAL|$c     ;19 hair
-
-    .byte WHITE             ; 2
-    .byte RED_PAL|$4        ; 5
-    .byte WHITE             ; 8
-    .byte RED_PAL|$4        ;11
-    .byte ORANGE_PAL|$4     ;14
-    .byte ORANGE_PAL|$6     ;17
-    .byte WHITE             ;20 unused

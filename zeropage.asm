@@ -2,6 +2,7 @@
                 SEG.U variables
                 ORG $80
 
+
 GAMEMODE_2600                   = 64
 GAMEMODE_PAUSED                 = 128
 
@@ -54,7 +55,12 @@ ManPushCounter                  ds 1
 LookingAround                   ds 1
 ManCount                      ds 1            ; player life counter
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
-
+circle_d                        ds 2
+circ_x                 ds 1
+circ_y                  ds 1
+circ_char             ds 1
+circ_scratch          ds 1
+cave_bank         ds 1
 ;---------------------------------------------------------------------------
 ; 2 (shared) demo mode variables:
 demoMode                        = jtoggle       ; bit 7==1 => demo mode
@@ -129,14 +135,6 @@ FINISHEDDIAMOND                 = %00100000 ;
 AMOEBA_PRESENT                  = %01000000 ; set during the very first amoeba object init
 TODIAMOND                       = %10000000 ;
 
-amoebaCount                     ds 1        ; number of cells counted in current scan
-    ; bounding box for amoeba scan:
-amoebaMinX                      ds 1
-amoebaMinY                      ds 1
-amoebaMaxX                      ds 1
-amoebaMaxY                      ds 1
-amoebaStepCount                 ds 1        ; scan speed limiter
-
 ;---------------------------------------------------------------------------
 
 sortRequired                    ds 1
@@ -154,6 +152,10 @@ newSounds                       ds 1
 
 ObjIterator                     ds 1            ; count UP iterator over objects
 DSL                             ds 1            ; stack line counter
+
+ #include "sound/intro1_variables.asm"
+
+
 
 OVERLAY_SIZE    SET 16
 

@@ -191,7 +191,19 @@ PutBoardCharacterSB ; =18
     ; and determines (and moves) BOXs or diamonds into these squares.  The space vacated
     ; by these objects are added again to the blank stack.
 
-nextPhase       inc ScreenDrawPhase             ;5              obj/blank finished -- let the draw stuff proceed
+nextPhase
+
+            ;clc
+            ;lda circle_d
+            ;adc #255
+            ;sta circle_d
+            ;bcc nocirc
+
+
+
+nocirc
+
+                inc ScreenDrawPhase             ;5              obj/blank finished -- let the draw stuff proceed
 EarlyAbort      rts                             ;6
 
     ;---------------------------------------------------------------------------
@@ -268,12 +280,123 @@ quickExit       rts                             ;6
 
     ;---------------------------------------------------------------------------
 
+    DEFINE_SUBROUTINE PROCESS_CIRCLE_DRAWER
+
+                ldy #CHARACTER_BLANK
+                lda circle_d+1
+                ;jsr DrawCircle
+                ;bcc finCircle
+                ;lda #TYPE_CIRCLE_DRAWER
+                ;sta POS_Type
+                ;jsr InsertObjectStack
+finCircle       jmp NextObject
+
+    DEFINE_SUBROUTINE PROCESS_CIRCLE_HELPER
+
+                lda INTIM
+                cmp #SEGTIME_CIRCLE_HELPER
+                bcc EarlyAbort
+
+
+                jmp NextObject                  ; and die
+
+
+    DEFINE_SUBROUTINE PROCESS_CIRCLE
+
+                lda INTIM
+                cmp #SEGTIME_CIRCLE
+                bcc EarlyAbort
+
+                clc
+                lda circle_d
+                adc #25
+                sta circle_d
+                bcc inactiveCircle
+
+                inc circle_d+1
+                lda circle_d+1
+                cmp #20
+                beq circleComplete
+                ; time to fire off another "ring" of the clearing circle
+
+                ;sta POS_VAR               ; diameter for helper to use
+                ;lda #TYPE_CIRCLE_HELPER
+                ;sta POS_Type
+                ;jsr InsertObjectStack
+
+
+                ; a = radius
+
+                ldy #CHARACTER_BLANK
+                sty circ_char
+
+                lda circle_d+1
+                sec
+                sbc #1
+                sta circ_x
+                eor #255
+                clc
+                adc #1
+                sta circ_scratch     ; "d" --> "1-r" in unit terms
+
+                lda #0
+                sta circ_y
+
+                lda circle_d+1                     ; radius
+                lda #TYPE_CIRCLE_DRAWER
+                sta POS_Type
+                ;jsr InsertObjectStack
+
+                            ldy #CHARACTER_BLANK
+                            lda circle_d+1
+                            sec
+                            sbc #1
+                            jsr DrawCircle
+
+                            ldy #CHARACTER_STEEL
+                            sty circ_char
+                            lda circle_d+1
+                            sta circ_x
+                            eor #255
+                            clc
+                            adc #1
+                            sta circ_scratch     ; "d" --> "1-r" in unit terms
+
+                            lda #0
+                            sta circ_y
+
+                            lda circle_d+1                     ; radius
+                            lda #TYPE_CIRCLE_DRAWER
+                            sta POS_Type
+                            ;jsr InsertObjectStack
+
+                                        ldy #CHARACTER_BLANK
+                                        lda circle_d+1
+                                        ;jsr DrawCircle
+
+
+
+;                            inc circle_d+1
+;                            ldy #CHARACTER_STEEL
+;                            lda circle_d+1
+;                            jsr DrawCircle
+
+inactiveCircle  lda #TYPE_CIRCLE
+                sta POS_Type
+                jsr InsertObjectStack           ; 6+76(B)          re-insert man (POS X/Y DOESN'T MATTER)
+
+circleComplete  jmp NextObject
+
+    ;---------------------------------------------------------------------------
+
+EarlyAbort4     rts
+
     DEFINE_SUBROUTINE PROCESS_MAN
 ; TJ: used by:
 ; - BANK_INITBANK.asm
                 lda INTIM
                 cmp #SEGTIME_MAN
-                bcc EarlyAbort
+                bcc EarlyAbort4
                 STRESS_TIME SEGTIME_MAN
 
                 lda #BANK_ManProcess
@@ -461,7 +584,10 @@ MovePlayer
     ;---------------------------------------------------------------------------
 
 MOVE_BLANK
-MOVE_SOIL       ldy #SOUND_MOVE_SOIL            ; 2
+MOVE_SOIL
+
+
+                ldy #SOUND_MOVE_SOIL            ; 2
 
     ; lowest priority, look for a free channel, 0 first
 
@@ -722,6 +848,7 @@ Reset
 
 Restart     ; go here on RESET + SELECT
 
+
 Title
                 ldx #$ff                    ; adjust stack pointer after RESET + SELECT
                 txs
@@ -835,13 +962,15 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 sta SET_BANK                    ; 3
                 jsr Resync                      ; 6+x
 
+                #include "sound/intro1_init.asm"
+
 NewFrameBD
     ; the (at least) 220 cycles wasted in the above... bugs me!
     ; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
     ; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
 
-                ;bit NextLevelTrigger
-                ;bpl NextCaveLevel               ; game-triggered next level
+                bit NextLevelTrigger
+                bpl NextCaveLevel               ; game-triggered next level
                 ;bvs RestartCaveNextPlayer       ; loss of life
 
     ; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
@@ -858,13 +987,17 @@ NewFrameBD
                 ldy VBlankTime,x
                 sty TIM64T
 
-                ldx #BANK_PlaySounds
-                stx SET_BANK
+
+    #include "sound/intro1_player.asm"
+
+
+                ;ldx #BANK_PlaySounds
+                ;stx SET_BANK
 
     ;---------------------------------------------------------------------------
     ; Do not separate code, as bank assumption is made
 
-                jsr PlaySounds                  ; 6+x   Jentzsch sound system
+                ;jsr PlaySounds                  ; 6+x   Jentzsch sound system
 
                 jsr StealCharDraw               ; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
 
@@ -918,9 +1051,8 @@ NewFrameBD
                 jsr StealCharDraw
 
 OverscanBD      lda INTIM                   ;4
-                beq NewFrameBD              ;3      unconditional
                 bne OverscanBD              ;2/3
-
+                jmp NewFrameBD
 VBlankTime
                 .byte VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
                 .byte VBLANK_TIM_PAL, VBLANK_TIM_PAL
@@ -1068,6 +1200,7 @@ CharacterDataVecHI
 
     ;---------------------------------------------------------------------------
 
+#if 0
     DEFINE_SUBROUTINE CharToType ; in FIXED_BANK
 ; TJ: used by:
 ; - BANK_FIXED.asm
@@ -1112,6 +1245,7 @@ CharacterDataVecHI
         ECHO "ERROR: Missing entry in CharToType table!"
         EXIT
     ENDIF
+#endif
 
     ;---------------------------------------------------------------------------
 
@@ -1185,6 +1319,8 @@ rbret           lda ROM_Bank
     include "Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
     ;---------------------------------------------------------------------------
 
+    include "circle.asm"
+    #include "sound/intro1_trackdata.asm"
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *
 

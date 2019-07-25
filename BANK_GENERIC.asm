@@ -34,20 +34,21 @@
                 stx level
                 sta ManCount                                  ; = #players
                 pla
+    lda #0 ;tmp
                 sta cave                                        ; make an immediate copy to safe variables!
 
-    IF FINAL_VERSION
-                asl
-                asl
-                adc cave                                       ; *5 because it only cycles 0/1/2/3 equaing to caves 0/5/10/15
-                sta cave
-    ENDIF
+;    IF FINAL_VERSION
+;                asl
+;                asl
+;                adc cave                                       ; *5 because it only cycles 0/1/2/3 equaing to caves 0/5/10/15
+;                sta cave
+;    ENDIF
                 sta startCave
 
     ; multiply with CAVE_DATA_SIZE (5):
                 asl
                 asl
-                adc cave
+;                adc cave
                 sta cave
 
                 lda #1
@@ -72,6 +73,8 @@ opg             sta ManCount                                  ; P2P1 nybble each
                 sta GRP0
 
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
+                sta circle_d
+                sta circle_d+1
 
 ;    IFCONST DEBUG_CREATURE
 ;                sta worstTime

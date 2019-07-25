@@ -17,7 +17,7 @@
 ;   ? BONUS LIFE (?)
 
 
-SCORE_COL           = WHITE ;-2
+SCORE_COL           = $9a ;WHITE ;-2
 SCORE_COL_HIGH_NTSC = $44     ; works for SECAM and NTSC
 SCORE_COL_HIGH_PAL  = $66
 
@@ -349,7 +349,6 @@ CharM:
         .byte %01110111
         .byte %01100011
 
-HeadL
         .byte %00100100
         .byte %00011000
         .byte %00111100
@@ -358,12 +357,13 @@ HeadL
         .byte %00111100
         .byte %00100100
 
+HeadL
 IntermissionL
-        .byte %00011110
-        .byte %00011110
         .byte %00001100
         .byte %00001100
-        .byte %00011110
+        .byte %00001100
+        .byte %00001100
+        .byte %00001100
         .byte %00000000
         .byte %00001100
 
@@ -482,6 +482,8 @@ Score2x4Fix SUBROUTINE
 
     ; Subroutine by Thomas Jentzsch.  Magic!
     ; This subroutine draws two 4-digit scores on the screen, side-by-side. Amazing!
+
+    ;sta COLUBK
 
         jsr PrepareDrawDigits   ;56 = 56    @63
 

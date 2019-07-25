@@ -20,8 +20,8 @@ MOVE_UP     = ~%00010000
 
    DEFINE_SUBROUTINE NextCave
 
-                CHECKSOUNDS                 ; wait until all sounds are over
-                bne .skipNextLevel
+                ;CHECKSOUNDS                 ; wait until all sounds are over
+                ;bne .skipNextLevel
 
     ; Now do the actual switching
 
@@ -39,11 +39,11 @@ NextCaveAlong   lda cave
                 cmp #MAX_CAVENUM
                 bcc .caveOK
 
-                ldx level
-                cpx #NUM_LEVELS-1
-                bcs .skipIncLevel
-                inc level
-.skipIncLevel
+;                ldx level
+;                cpx #NUM_LEVELS-1
+;                bcs .skipIncLevel
+;                inc level
+;.skipIncLevel
 
                 lda #0
 .caveOK         sta cave

@@ -1,15 +1,7 @@
 
 ;------------------------------------------------------------------------------
-; not-BOXdash(R)! Copyright (C)2003-2011 Andrew Davie and Thomas Jentzsch.
-; This is an engine for background animation games. The engine uses bankswitch scheme
-; Tigervision Extended (3E). Display technology developed late 2004, Copyright (C)2005-2011
-; Andrew Davie, Thomas Jentzsch. Thomas on-board mid-MAY 2005.
-; Abandoned ~Febuary 2008, re-started December 2008. Abandoned!
-; Re-started for demo release June 2011.
-
 ; Some portions of this code may be freely used for private, educational and research
-; purposes, excluding BOX Dash(R)-specific logic and routines, which may not
-; be distributed and which remain Copyright (C) First Star Software 1984-2011.
+; purposes
 ; If you wish to profit from this code, please ask for permission first.
 ;------------------------------------------------------------------------------
 
@@ -318,7 +310,7 @@ EARLY_LOCATION  SET *
         LIST OFF
         IF >. != >{1}
             ECHO ""
-            ECHO "ERROR: different pages! (", {1}, ",", ., ")"
+            ECHO "ERROR: different pages! (", {1}, ",", ., ") @ {0}"
             ECHO {2}
             ECHO ""
         ERR
@@ -463,7 +455,8 @@ ORIGIN          SET ORIGIN + RAM_SIZE
 #if NTSC_MODE = NO
         eor #PAL
 #endif
-        sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
+  lda #0 ;tmp
+         sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
     ENDM
 
 ;  IF TJ_MODE
@@ -519,6 +512,8 @@ ORIGIN          SET ORIGIN + RAM_SIZE
 ; THAT IS, LOCAL VARIABLES.  USE 'EM FREELY, THEY COST NOTHING
 
 ; TOTAL SPACE USED BY ANY OVERLAY GROUP SHOULD BE <= SIZE OF 'Overlay'
+
+
 
 ;------------------------------------------------------------------------------
     OVERLAY BuildDrawFlags
@@ -658,6 +653,7 @@ base_x          ds 1
 base_y          ds 1
 upk_length      ds 1
 upk_column      ds 1
+upk_temp      ds 1
 
 ;------------------------------------------------------------------------------
 
@@ -1040,12 +1036,15 @@ MAX_CAVE_SIZE SET CAVE_SIZE_{1}
                 MAC INCLUDE_CAVE ; {name}
 CAVE_ACTIVE_{1}  SET 0
                 ENDM
-    IF FINAL_VERSION = YES || DEMO_VERSION = NO
-        INCLUDE_CAVE INTRO
-    ELSE
-        INCLUDE_CAVE APOCALYPSE
-        INCLUDE_CAVE FUNNEL
-    ENDIF
+
+    INCLUDE_CAVE TowC
+    INCLUDE_CAVE SimpleC
+    INCLUDE_CAVE Thomas_Reinke16
+    INCLUDE_CAVE bAlfa_DrFogh
+    INCLUDE_CAVE b51X_Sharpen
+    INCLUDE_CAVE bDarcy_Burnsell101
+    INCLUDE_CAVE bAislin101
+    INCLUDE_CAVE b82X_Sharpen
 
 MAX_CAVENUM                     EQU CAVENUM
 

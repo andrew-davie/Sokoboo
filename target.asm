@@ -14,10 +14,10 @@ CHARACTERSHAPE_DIAMOND_MIRRORED
     .byte %00000000
     .byte %00000000 ;R
     .byte %00000000
-    .byte %00000000
-    .byte %00000000
-    .byte %00000000
-    .byte %00000000
+    .byte %01100110
+    .byte %01100110
+    .byte %01100110
+    .byte %01100110
     .byte %00000000
     .byte %00000000 ;B
     .byte %00000000
@@ -41,10 +41,10 @@ CHARACTERSHAPE_DIAMOND
     .byte %00000000
     .byte %00000000 ;R
     .byte %00000000
-    .byte %00000000
-    .byte %00000000
-    .byte %00000000
-    .byte %00000000
+    .byte %01100110
+    .byte %01100110
+    .byte %01100110
+    .byte %01100110
     .byte %00000000
     .byte %00000000 ;B
     .byte %00000000

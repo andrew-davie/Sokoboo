@@ -113,6 +113,9 @@ TEST_{1} = 1
 ; Comment may indicate at what value a glitch was DEFINITELY seen. These timings may not be optimal.
 
     SEGTIME SEGTIME_MAN,24 ;<< using this as XSEGTIME stops player working ...?!
+    SEGTIME SEGTIME_CIRCLE, 10        ; drawing circle creature
+    SEGTIME SEGTIME_CIRCLE_HELPER, 10        ; drawing circle creature's helper
+
 ; TJ: I should only prevent processes with an extra check (e.g. get diamond)
 
 ; push BOX is slowest (besides get diamond which has an extra timer check)

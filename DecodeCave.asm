@@ -7,6 +7,16 @@
 
     ;---------------------------------------------------------------------------
     ; Board area must not overlap page boundary, as writing code uses indexing to save
+
+    OPTIONAL_PAGEBREAK "BOARD_DATA_AREA", MAX_CAVE_SIZE
+BOARD_DATA_AREA
+    ds MAX_CAVE_SIZE,$FF
+
+    ;---------------------------------------------------------------------------
+
+
+
+
 ;ThrottleSpeedTbl
 ;; based on MAX_THROTTLE = 160, NTSC_276/PAL (312/276=1.13)
 ;    .byte   19, 22  ; level 1 (E1: 5.60s) 1,16; 1.00/1.00 (1.00)
@@ -52,7 +62,7 @@ RECT                = .STRUCT_RECTANGLE
 .DIR_LEFT           = 6
 
 CAVENUM         SET 0
-CAVE_DATA_SIZE  = 5
+CAVE_DATA_SIZE  = 4
 
                 MAC ADD_CAVE ; {name}
 CAVE_ACTIVE_{1} SET 1
@@ -61,31 +71,22 @@ CAVE_NAMED_{1}  = CAVENUM
     .byte >CAVE_{1}
     .byte BANK_CAVE_{1}
     .byte CAVE_SIZE_{1}
-    .byte {2}                                   ; display as #.  $80 indicates intermission.
 CAVENUM         SET CAVENUM + CAVE_DATA_SIZE
                 ENDM
 
 CaveInformation
 
                 ; The ordering here corresponds to the ordering when playing...
-  IF FINAL_VERSION = YES || DEMO_VERSION = NO
-                    ADD_CAVE INTRO,1
-                    ADD_CAVE ROOMS,2
-                    ;ADD_CAVE MAZE,3
-                    ;ADD_CAVE BUTTERFLIES,4
-                    ;ADD_CAVE INTERMISSION_1,$80|$0
-
-                    ;ADD_CAVE GUARDS,5
-                    ;ADD_CAVE FIREFLY_DENS,6
-                    ;ADD_CAVE AMOEBA,7
-                    ;ADD_CAVE ENCHANTED_WALL,8
-
-                    ;ADD_CAVE INTERMISSION_2,$80|$1
-
-
-
+    IF FINAL_VERSION = YES || DEMO_VERSION = NO
+    ADD_CAVE TowC
+    ADD_CAVE SimpleC
+    ADD_CAVE Thomas_Reinke16
+    ADD_CAVE bAlfa_DrFogh
+    ADD_CAVE b51X_Sharpen
+    ADD_CAVE bDarcy_Burnsell101
+    ADD_CAVE bAislin101
+    ADD_CAVE b82X_Sharpen
     ENDIF
-
 
 ; undo/rewind
 ; move counter
@@ -101,57 +102,16 @@ CaveInformation
 ; title screen
 
 
-SampleRLE
- ;.byte "4-5#|4-#3-#|4-#$2-#|2-3#2-$2#|2-#2-$-$-#|3#-#-2#-#3-6#|#3-#-2#-5#2-2.#|#-$2-$10-2.#|5#-3#-#@2#2-2.#|4-#5-9#|4-7#",0
- ;.byte "-5#6-|-#3-5#2-|-#2$-#3-#2-|2#-#2-$2-2#-|#5-*#2-#-|#3-#-.#2.2#|5#$3*.-#|4-#@$-.2-#|4-8#",0
- ;.byte "3-3#2-|3-#@2#-|2-2#$-2#|3#2.*-#|#2-2$.*#|#-#$-.-#|#3-$.-#|2#4-2#|-6#-",0
- ;.byte "23#|#21 #|#@18#$##|#-#3.#12-#--#|#-#3.#-8$-#-#--#|#-#..$--$6-$#.-$ -#|#-#3-#3-6$.#-#--#|#-#3.#-#-5.#3-.3#|#-17#$-#|#+2- #|23#",0
- ;.byte "4-5#|4-#3-#|4-#$2-#|2-3#2-$2#|2-#2-$-$-#|3#-#-2#-#3-6#|#3-#-2#-5#2-2.#|#-$2-$10-2.#|5#-3#-#@2#2-2.#|4-#5-9#|4-7#",0
-  ;.byte "7#|#.@-#-#|#$*-$-#|#3-$-#|#-..--#|#--*--#|7#",0
-bAlfa_DrFogh .byte "2-4#2-4#|-2#2-2#-#2-#|-#4-3#2-2#|2#2-2*2-#.2-2#|#2-*2-*-#*#2-#|#-*4-2*2-#-#|#-*-2#-*3-#-#|2#-*2-*#*#-#-#|-#$-2*-#-*-#-#|-#@#2-2#5-#|-2#2-4#2-3#|2-#2-#2-4#|2-#2-#|2-4#",0
-;b82X_Sharpen .byte "-11#8-|-#5-#3-2#7-|-#-$-$-$-#2-5#3-|-3#2-5#5-#3-|-#4.#5-3#-#3-|-#.4#2-4#3-#3-|-#4.4-#2-$-2#3-|-#-3.#3-#-3$5#|3#.7#2-$@$3-#|#-$3-5#-$-2#3-#|#-#.#-$6-$3#$-#|#-#.8#2-#2-$-#|#-#3.7-2#-2$-#|#3-7#-$-#-#2-#|5#5-#7-2#|10-9#-",0
-;b51X_Sharpen .byte "-9#3-|-#7-#3-|-#-$-2$-$#3-|3#$#2-$-#3-|#.#3-2$-2#2-|#.3#3-$-#2-|#.#.-$-2#-3#|#3.$-$2#-$-#|#3.$3-$2-@#|#2.3#$3#-2#|#4.#5-#-|12#-",0
-;bDarcy_Burnsell101 .byte "8#|#2-.-$@#|#.#$*2$#|#2-.-*-#|#2$-2$.#|#.#-#2-#|#.2-.-.#|8#",0
-;bAislin101    .byte "8#|2#-*-*.#|#2.$-$*#|#-.#-*.#|2#-$-$2#|#-#$-$-#|#2.2-$@#|8#",0
-; new packing format
-; sokoban
-
-
-;Level element	Character	ASCII Code
-;Wall	#	0x23
-;Player	@	0x40
-;Player on goal square	+	0x2b
-;Box	$	0x24
-;Box on goal square	*	0x2a
-;Goal square	.	0x2e
-;Floor	(Space)	0x20 or underscore
-
-;This level ("Claire", by Lee J Haywood):
-
-;#######
-;#.@ # #
-;#$* $ #
-;#   $ #
-;# ..  #
-;#  *  #
-;#######
-;runlength encoded looks like this:
-
-;The rows of the level are separated by "|"s. There has been a discussion in the Yahoo Group about what character should represent an empty square in May 2006. Finally the hyphen has been elected to be the standard character for an empty square. Nevertheless, programs are encouraged to support both, hyphens and underscores.
-
-;If only two level elements are grouped together they may be run length encoded, but needn't to. Example:
-
 finX
-
   ; now put the soil in - fill from the outsides
 
-                lda #0
-                sta POS_X
-                sta POS_Y
                 lda #CHARACTER_SOIL
                 sta POS_Type
 
-xlin                lda #SIZE_BOARD_X-1
+                lda #SIZE_BOARD_Y-1
+                sta POS_Y
+
+xlin            lda #SIZE_BOARD_X-1
                 sta POS_X
 zap1            jsr GetBoardCharacter__CALL_FROM_RAM__
                 cmp #CHARACTER_SOIL
@@ -175,15 +135,12 @@ kg2             inc POS_X
                 cmp #SIZE_BOARD_X
                 bne zap2
 
-endzap2         inc POS_Y
-                lda POS_Y
-                cmp #SIZE_BOARD_Y
-                bne xlin
+endzap2         dec POS_Y
+                bpl xlin
 
 
-                lda #0
+                lda #SIZE_BOARD_X-1
                 sta POS_X
-                sta POS_Y
 
 ylin            lda #SIZE_BOARD_Y-1
                 sta POS_Y
@@ -209,10 +166,8 @@ kg3b                inc POS_Y
                 cmp #SIZE_BOARD_Y
                 bne zapy2
 
-endzapy2         inc POS_X
-                lda POS_X
-                cmp #SIZE_BOARD_X
-                bne ylin
+endzapy2        dec POS_X
+                bpl ylin
                 rts
 
     DEFINE_SUBROUTINE RegisterOneMoreTarget
@@ -233,15 +188,45 @@ endzapy2         inc POS_X
   ; has to be done before decoding the cave to have the platform right:
               SET_PLATFORM
 
+              lda #CHARACTER_BLANK
+              sta POS_Type
+
+              lda #SIZE_BOARD_Y-1
+              sta POS_Y
+xyLine        lda #SIZE_BOARD_X-1
+              sta POS_X
+xyClear       jsr PutBoardCharacterFromRAM
+              dec POS_X
+              bpl xyClear
+              dec POS_Y
+              bpl xyLine
+
+              lda #6
+              sta base_x
+              sta base_y
+
               lda NextLevelTrigger
               ora #BIT_NEXTLEVEL
               sta NextLevelTrigger
 
+              ldy cave
+              sec
+              lda CaveInformation,y
+              sbc #1
+              sta Board_AddressR
+              lda CaveInformation+1,y
+              sbc #0
+              sta Board_AddressR+1
+              lda CaveInformation+2,y
+              sta cave_bank
+
               lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
               sta ROM_Bank                        ; GetROMByte returns to this bank
 
-              ;lda #$66
-              lda #$ba
+              ;NEXT_RANDOM
+              ;and #$F0
+              ;ora #$A
+              lda #$8a ;ba
               sta color
               lda #$44
               ;lda #$A0
@@ -266,13 +251,6 @@ endzapy2         inc POS_X
               lda #24 ; arbitrary
               sta ThrottleSpeed
 
-
-
-              lda #<(SampleRLE-1)
-              sta ptrCave
-              lda #>(SampleRLE-1)
-              sta ptrCave+1
-
   ; first fill bg with character_soil
   ; then rle unpack level
   ; change level colours
@@ -290,13 +268,18 @@ GetNextItem
               lda #0
               sta upk_column         ; reuse var - this flags a digit already
 
-Get2          inc ptrCave
+Get2          inc Board_AddressR
               bne addrOK
-              inc ptrCave+1
+              inc Board_AddressR+1
 addrOK
 
+              lda cave_bank
               ldy #0
-              lda (ptrCave),y
+              jsr GetROMByte
+              sta upk_temp       ;scratch
+
+
+              cmp #0
               bne parse
               jmp  finX
 parse
@@ -316,7 +299,7 @@ parse
               adc upk_length
 
 firstDig      clc
-              adc (ptrCave),y
+              adc upk_temp
               sec
               sbc #"0"
               sta upk_length
@@ -335,14 +318,14 @@ notDigit      cmp #"|"          ; newline
               lda POS_Y
               cmp BoardLimit_Height
               bcc wOK2
-              sta BoardLimit_Height
+              sta BoardLimit_Height ;???^^^
 wOK2
 
               jmp GetNextItem
 
 checkWall     cmp #"#"          ; wall
               bne checkForGap
-              lda #CHARACTER_STEEL
+              lda #CHARACTER_WALL
               bne WriteChars
 
 checkForGap   cmp #32

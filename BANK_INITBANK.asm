@@ -137,8 +137,6 @@ CopyPage        sty O_Index
     ; Note: This relies on DrawTheScreen starting on page boundary so that the (),y
     ; addressing will not violate the page-crossing restriction of 3E.
 
-    ; TODO: adapt for fast vertical scrolling
-
 ;                sty RAM_Bank                    ; we assume we called CopyROMShadowToRAM before
 
                 lda #<DrawTheScreen             ; = 0
@@ -507,6 +505,21 @@ MANMODE_BONUS_RUN   = 9
 
     ; ManMode tells the player what it is currently doing.  State machine.
 
+#if 0
+                lda SWCHB
+                and #2
+                bne skipNextLevel
+                lda #MANMODE_NEXTLEVEL
+                sta ManMode
+skipNextLevel
+#endif
+
+  lda targetsRequired
+  bne notComplete
+  lda #MANMODE_NEXTLEVEL
+  sta ManMode
+notComplete
+
                 lda SWCHB
                 and #3
                 bne .skipReset          ; BOTH select/reset = restart
@@ -670,6 +683,16 @@ TimeFracTbl:
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE manStartup
 
+#if 0
+      lda POS_Type
+      pha
+      lda #TYPE_CIRCLE
+      sta POS_Type
+      jsr InsertObjectStack
+      pla
+      sta POS_Type
+#endif
+
                 lda ManX
                 sta POS_X_NEW ;NewX
                 sta POS_X
@@ -819,10 +842,10 @@ normalMan
                 bit demoMode
                 bmi stayAlive
     ; SELECT pressed?
-                lda SWCHB
-                eor #$FF
-                and #3
-                bne Time0                       ; EITHER select or reset are pressed
+;                lda SWCHB
+;                eor #$FF
+;                and #3
+;                bne Time0                       ; EITHER select or reset are pressed
 ;                lsr
 ;                lsr
 ;                bcc Time0                       ; suicide!
@@ -1104,22 +1127,9 @@ OBJTYPE    .SET OBJTYPE + 1
 
 
                 DEFINE MAN
-                DEFINE BOX
-                ;DEFINE AMOEBA
-                ;DEFINE FLUTTERBY
-                ;DEFINE FIREFLY
-                DEFINE DIAMOND
-                ;DEFINE MAGICWALL
-                ;DEFINE EXITDOOR
-                DEFINE SELECTOR
-                ;DEFINE EXPLOSION
-                ;DEFINE EXPLOSION1
-                ;DEFINE EXPLOSION2
-                ;DEFINE EXPLOSION3
-                ;DEFINE BLANK
-                ;DEFINE SOIL
-                ;DEFINE STEELWALL
-                ;DEFINE BRICKWALL
+                DEFINE CIRCLE
+                DEFINE CIRCLE_HELPER
+                DEFINE CIRCLE_DRAWER
 
                 DEFINE MAXIMUM
 ;    IF DEMO_VERSION = NO
@@ -1129,22 +1139,8 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerLO
                 .byte <PROCESS_MAN
-                .byte 0
-                ;.byte 0
-                ;.byte 0
-                ;.byte 0
-                .byte 0
-                ;.byte 0                         ; magic wall
-                ;.byte 0                         ; exit door
-                .byte 0 ;<PROCESS_SELECTOR         ; selection screen controller
-                ;.byte 0
-                ;.byte 0
-                ;.byte 0
-                ;.byte 0
-;                .byte 0
-;                .byte 0                         ; soil
-;                .byte 0                         ; steel
-;                .byte 0                         ; wall
+                .byte <PROCESS_CIRCLE
+                .byte <PROCESS_CIRCLE_HELPER
 
     IF * - OSPointerLO < TYPE_MAXIMUM-4
         ECHO "ERROR: Missing entry in OSPointerLO table!"
@@ -1154,22 +1150,8 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerHI
                 .byte >PROCESS_MAN
-                .byte 0
-                ;.byte 0
-                ;.byte 0
-                ;.byte 0
-                .byte 0
-                ;.byte 0
-                ;.byte 0
-                .byte 0 ;>PROCESS_SELECTOR         ; selection screen controller
-                ;.byte 0
-                ;.byte 0
-                ;.byte 0
-                ;.byte 0
-;                .byte 0
-;                .byte 0 ;soil
-;                .byte 0 ;steel
-;                .byte 0 ;wall
+                .byte >PROCESS_CIRCLE
+                .byte >PROCESS_CIRCLE_HELPER
 
     IF * - OSPointerHI < TYPE_MAXIMUM-4
         ECHO "ERROR: Missing entry in OSPointerHI table!"
