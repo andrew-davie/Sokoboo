@@ -1076,36 +1076,12 @@ CharacterDataVecLO
                 .byte <CHARACTERSHAPE_TARGET2_MIRRORED
                 .byte <CHARACTERSHAPE_BLANK ; man occupied
                 .byte <CHARACTERSHAPE_BLANK
-                .byte <0
-                .byte <0
-                .byte <0 ; wall1
-                .byte <0
-                .byte <0 ;2
-                .byte <0
-                .byte <0 ;3
-                .byte <0
                 .byte <CHARACTERSHAPE_STEEL
                 .byte <CHARACTERSHAPE_STEEL_MIRRORED
                 .byte <CHARACTERSHAPE_WALL
                 .byte <CHARACTERSHAPE_WALL_MIRRORED
-                .byte <0 ;exit door
-                .byte <0
-                .byte <0 ;2
-                .byte <0
-                .byte <0 ;explosion
-                .byte <0
-                .byte <0 ;1
-                .byte <0
-                .byte <0 ;2
-                .byte <0
-                .byte <0 ;3
-                .byte <0
-                .byte <0 ;amoeba2
-                .byte <0
                 .byte <CHARACTERSHAPE_BOX_ON_TARGET
                 .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-                .byte <0 ;diamond falling
-                .byte <0
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
 
@@ -1132,36 +1108,12 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_TARGET2_MIRRORED
     .byte >CHARACTERSHAPE_BLANK ; man occupied
     .byte >CHARACTERSHAPE_BLANK
-    .byte >0
-    .byte >0
-    .byte >0 ; wall1
-    .byte >0
-    .byte >0 ;2
-    .byte >0
-    .byte >0 ;3
-    .byte >0
     .byte >CHARACTERSHAPE_STEEL
     .byte >CHARACTERSHAPE_STEEL_MIRRORED
     .byte >CHARACTERSHAPE_WALL
     .byte >CHARACTERSHAPE_WALL_MIRRORED
-    .byte >0 ;exit door
-    .byte >0
-    .byte >0 ;2
-    .byte >0
-    .byte >0 ;explosion
-    .byte >0
-    .byte >0 ;1
-    .byte >0
-    .byte >0 ;2
-    .byte >0
-    .byte >0 ;3
-    .byte >0
-    .byte >0 ;amoeba2
-    .byte >0
     .byte >CHARACTERSHAPE_BOX_ON_TARGET
     .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-    .byte >0 ;diamond falling
-    .byte >0
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
 

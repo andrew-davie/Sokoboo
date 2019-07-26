@@ -313,21 +313,9 @@ OBJTYPE    .SET OBJTYPE + 1
                 DEFINE_CHARACTER TARGET
                 DEFINE_CHARACTER TARGET2
                 DEFINE_CHARACTER MANOCCUPIED
-                DEFINE_CHARACTER WALL0
-                DEFINE_CHARACTER WALL1
-                DEFINE_CHARACTER WALL2
-                DEFINE_CHARACTER WALL3
                 DEFINE_CHARACTER STEEL
                 DEFINE_CHARACTER WALL
-                DEFINE_CHARACTER EXITDOOR
-                DEFINE_CHARACTER EXITDOOR2
-                DEFINE_CHARACTER EXPLOSION
-                DEFINE_CHARACTER EXPLOSION1
-                DEFINE_CHARACTER EXPLOSION2
-                DEFINE_CHARACTER EXPLOSION3
-                DEFINE_CHARACTER AMOEBA2
                 DEFINE_CHARACTER BOX_ON_TARGET
-                DEFINE_CHARACTER DIAMOND_FALLING
                 DEFINE_CHARACTER NOGO
 
                 DEFINE_CHARACTER MAXIMUM
@@ -693,15 +681,10 @@ TimeFracTbl:
 
                 inc POS_VAR
                 ldx POS_VAR                 ; animation index
-                lda .RockfordStartup-1,x
+                lda .ManStartup-1,x
                 bmi CreateRockford
                 sta POS_Type
 
-; check for start of "crack" sound:
-                cmp #CHARACTER_EXPLOSION3   ; first explosion frame?
-                bne .skipCrack1
-                START_SOUND SOUND_CRACK     ;  yes, start "crack" sound
-.skipCrack1:
                 lda #$FF
                 sta ManDelayCount           ; anything, just non-0
 
@@ -716,11 +699,12 @@ CreateRockford
 RTS_CF
                 rts
 
-.RockfordStartup
+.ManStartup
 ;    .byte CHARACTER_NOGO
 ;    .byte CHARACTER_NOGO
     .byte CHARACTER_STEEL
     .byte CHARACTER_STEEL
+    .byte CHARACTER_NOGO
     .byte CHARACTER_NOGO
     .byte CHARACTER_STEEL
     .byte CHARACTER_NOGO
@@ -1184,26 +1168,14 @@ OBJTYPE    .SET OBJTYPE + 1
                 .byte <MOVE_TARGET
                 .byte <MOVE_TARGET
                 .byte <MOVE_GENERIC ;man occupied
-                .byte <MOVE_GENERIC ;wall 0
-                .byte <MOVE_GENERIC ;1
-                .byte <MOVE_GENERIC ;2
-                .byte <MOVE_GENERIC ;3
                 .byte <MOVE_GENERIC ;steel
                 .byte <MOVE_GENERIC ;wall
-                .byte <MOVE_GENERIC ;exitdoor
-                .byte <MOVE_GENERIC ;exitdoor2
-                .byte <MOVE_GENERIC ;explosion
-                .byte <MOVE_GENERIC ;1
-                .byte <MOVE_GENERIC ;2
-                .byte <MOVE_GENERIC ;3
-                .byte <MOVE_GENERIC ;amoeba2
                 .byte <MOVE_BOX_ON_TARGET ;box on target
-                .byte <MOVE_GENERIC ;diamond falling
                 .byte <MOVE_GENERIC ;nogo
 
     IF * - MoveVecLO < CHARACTER_MAXIMUM
         ECHO "ERROR: Missing entry in MoveVecLO table!"
-        EXIT
+        ERR
     ENDIF
 
 
@@ -1216,21 +1188,9 @@ OBJTYPE    .SET OBJTYPE + 1
       .byte >MOVE_TARGET
       .byte >MOVE_TARGET
       .byte >MOVE_GENERIC ;man occupied
-      .byte >MOVE_GENERIC ;wall 0
-      .byte >MOVE_GENERIC ;1
-      .byte >MOVE_GENERIC ;2
-      .byte >MOVE_GENERIC ;3
       .byte >MOVE_GENERIC ;steel
       .byte >MOVE_GENERIC ;wall
-      .byte >MOVE_GENERIC ;exitdoor
-      .byte >MOVE_GENERIC ;exitdoor2
-      .byte >MOVE_GENERIC ;explosion
-      .byte >MOVE_GENERIC ;1
-      .byte >MOVE_GENERIC ;2
-      .byte >MOVE_GENERIC ;3
-      .byte >MOVE_GENERIC ;amoeba2
       .byte >MOVE_BOX_ON_TARGET ;box on target
-      .byte >MOVE_GENERIC ;diamond falling
       .byte >MOVE_GENERIC ;nogo
 
     IF * - MoveVecLO < CHARACTER_MAXIMUM

@@ -233,26 +233,15 @@ CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
 
                 .byte CHARACTER_BLANK       ;  0
                 .byte CHARACTER_SOIL        ;  1
-                .byte CHARACTER_BOX     ;  2
-ANIM_TARGET    .byte CHARACTER_TARGET     ;  4
-                .byte CHARACTER_TARGET   ;  5
-                .byte CHARACTER_MANOCCUPIED ;  6
-ANIM_MAGICWALL  .byte CHARACTER_WALL0       ; 0b
-                .byte CHARACTER_WALL0     ; 0c
-                .byte CHARACTER_WALL0     ; 0d
-                .byte CHARACTER_WALL0     ; 0e
-                .byte CHARACTER_STEEL       ; 0f
-                .byte CHARACTER_WALL        ; 10
-ANIM_EXITDOOR   .byte 0    ; 11 exit door
-                .byte 0     ; exit 2
-                .byte 0   ; explosion 0
-                .byte 0  ; 1
-                .byte 0  ; 2
-                .byte 0  ; 3
-                .byte 0  ; amoeba2
-                .byte CHARACTER_BOX_ON_TARGET     ; 18    falling BOX
-                .byte CHARACTER_TARGET     ; 19    falling diamond, no anim
-                .byte 0            ;20 the unkillable man for end of level
+                .byte CHARACTER_BOX         ;  2
+ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target squares
+                .byte CHARACTER_TARGET      ;  4
+                .byte CHARACTER_MANOCCUPIED ;  5
+                .byte CHARACTER_STEEL       ;  6
+                .byte CHARACTER_WALL        ;  7
+                .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
+                .byte CHARACTER_BLANK       ;  9
+
 
     IF * - CharReplacement < CHARACTER_MAXIMUM
         ECHO "ERROR: Missing entry in CharReplacement table!"
