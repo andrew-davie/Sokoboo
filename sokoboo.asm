@@ -127,7 +127,7 @@ RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritt
 PUSH_LIMIT                      = 1           ; slowdown when pushing on a BOX
 
 ; POS_VAR flags:
-VAR_ON_DIAMOND                  = %00100000     ; object is 'standing' on diamond
+VAR_ON_TARGET                  = %00100000     ; object is 'standing' on diamond
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -146,8 +146,8 @@ DISPLAY_TIME                = %00
 DISPLAY_SCORE               = %01
 DISPLAY_LIVES               = %10
 DISPLAY_HIGH                = %11
-EXTRA_100_DIAMONDS          = $40               ; set if more than 100 extra diamonds collected
-EXTRA_DIAMONDS              = $80               ; set if collecting extra diamonds
+EXTRA_100_TARGETS          = $40               ; set if more than 100 extra diamonds collected
+EXTRA_TARGETS              = $80               ; set if collecting extra diamonds
 
 ;------------------------------------------------------------------------------
 

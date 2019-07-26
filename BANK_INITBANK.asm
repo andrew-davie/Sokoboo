@@ -303,25 +303,16 @@ OBJTYPE    .SET OBJTYPE + 1
     ENDM
 
         ; Modifications to character #/order must also ensure the following are correct...
-        ;   CharacterDataVecLO[...]         in BANK_FIXED.asm
-        ;   CharacterDataVecHI[...]         in BANK_FIXED.asm
-        ;   GenericCharFlag[...]            in BANK_FIXED.asm
-        ;   MoveVecLO[...]                  in BANK_INITBANK.asm
-        ;   MoveVecHI[...]                  in BANK_INITBANK.asm
-        ;   CharToType[...]                 in BANK_FIXED.asm
-        ;   CharToType2[...]                in DecodeCave.asm
+        ;   CharacterDataVecLO/HI         in BANK_FIXED.asm
+        ;   MoveVecLO/HI                  in BANK_INITBANK
+        ;   CharReplacement               in BANK_ROM_SHADOW_DRAWBUFFERS
 
                 DEFINE_CHARACTER BLANK
                 DEFINE_CHARACTER SOIL
                 DEFINE_CHARACTER BOX
-                DEFINE_CHARACTER AMOEBA
-                DEFINE_CHARACTER DIAMOND
-                DEFINE_CHARACTER DIAMOND2
+                DEFINE_CHARACTER TARGET
+                DEFINE_CHARACTER TARGET2
                 DEFINE_CHARACTER MANOCCUPIED
-                DEFINE_CHARACTER FLUTTERBY
-                DEFINE_CHARACTER FLUTTERBY2
-                DEFINE_CHARACTER FIREFLY
-                DEFINE_CHARACTER FIREFLY2
                 DEFINE_CHARACTER WALL0
                 DEFINE_CHARACTER WALL1
                 DEFINE_CHARACTER WALL2
@@ -346,7 +337,7 @@ OBJTYPE    .SET OBJTYPE + 1
     DEFINE_SUBROUTINE PushBox ; in INITBANK
 
       ; X = restoration character for square we are moving TO
-      ; so, if X = CHARACTER_DIAMOND AND we move, THEN we are pushing a box off a diamond
+      ; so, if X = CHARACTER_TARGET AND we move, THEN we are pushing a box off a diamond
 
                 sta ROM_Bank
 
@@ -395,9 +386,9 @@ OBJTYPE    .SET OBJTYPE + 1
                 cpx #CHARACTER_BLANK
                 beq canPushTarget
 
-                cpx #CHARACTER_DIAMOND
+                cpx #CHARACTER_TARGET
                 beq decreaseTargets
-                cpx #CHARACTER_DIAMOND2
+                cpx #CHARACTER_TARGET2
                 bne cannotPush
 
     ; Box is now on a target - so decrease the remaining targets
@@ -412,11 +403,11 @@ decreaseTargets sed
                 lda #CHARACTER_BOX_ON_TARGET
 canPushTarget   pha
 
-    ; If the box *WAS* on a target (restoration character = CHARACTER_DIAMOND)
+    ; If the box *WAS* on a target (restoration character = CHARACTER_TARGET)
     ; then we increase targets (as there is one more to get)
 
                 lda restorationCharacter
-                cmp #CHARACTER_DIAMOND
+                cmp #CHARACTER_TARGET
                 bne notOnTargetAlready
 
     ; increase the required targets as box is leaving one
@@ -1121,8 +1112,6 @@ OBJTYPE    .SET OBJTYPE + 1
         ;   OSPointerLO[...]                in BANK_INITBANK.asm
         ;   OSPointerHI[...]                in BANK_INITBANK.asm
         ;   CharReplacement[...]            in BANK_ROM_SHADOW_DRAWBUFFERS.asm
-        ;   CharToType[...]                 in BANK_FIXED.asm (may have deleted types)
-        ;   CharToType2[...]                in DecodeCave.asm (may have deleted types)
         ;   Sortable[...]                   in BANK_FIXED.asm
 
 
@@ -1192,33 +1181,25 @@ OBJTYPE    .SET OBJTYPE + 1
                 .byte <MOVE_BLANK
                 .byte <MOVE_SOIL
                 .byte <MOVE_BOX
-                .byte <MOVE_GENERIC             ;amoeba
-                .byte <MOVE_DIAMOND
-                .byte <MOVE_DIAMOND
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC
-                .byte <MOVE_GENERIC             ; amoeba???
-
-                .byte <MOVE_BOX_ON_TARGET                 ; box on top of target position
-                .byte <MOVE_GENERIC             ; falling diamond
-
-                .byte <MOVE_GENERIC             ; unkillable man
+                .byte <MOVE_TARGET
+                .byte <MOVE_TARGET
+                .byte <MOVE_GENERIC ;man occupied
+                .byte <MOVE_GENERIC ;wall 0
+                .byte <MOVE_GENERIC ;1
+                .byte <MOVE_GENERIC ;2
+                .byte <MOVE_GENERIC ;3
+                .byte <MOVE_GENERIC ;steel
+                .byte <MOVE_GENERIC ;wall
+                .byte <MOVE_GENERIC ;exitdoor
+                .byte <MOVE_GENERIC ;exitdoor2
+                .byte <MOVE_GENERIC ;explosion
+                .byte <MOVE_GENERIC ;1
+                .byte <MOVE_GENERIC ;2
+                .byte <MOVE_GENERIC ;3
+                .byte <MOVE_GENERIC ;amoeba2
+                .byte <MOVE_BOX_ON_TARGET ;box on target
+                .byte <MOVE_GENERIC ;diamond falling
+                .byte <MOVE_GENERIC ;nogo
 
     IF * - MoveVecLO < CHARACTER_MAXIMUM
         ECHO "ERROR: Missing entry in MoveVecLO table!"
@@ -1229,36 +1210,28 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE MoveVecHI ;[character type]
 
-                .byte >MOVE_BLANK
-                .byte >MOVE_SOIL
-                .byte >MOVE_BOX
-                .byte >MOVE_GENERIC             ;amoeba
-                .byte >MOVE_DIAMOND
-                .byte >MOVE_DIAMOND
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC
-                .byte >MOVE_GENERIC             ;amoeba
-
-                .byte >MOVE_BOX_ON_TARGET                 ; box on top of target position
-                .byte >MOVE_GENERIC             ; falling diamond
-
-                .byte >MOVE_GENERIC             ; unkillable man
+      .byte >MOVE_BLANK
+      .byte >MOVE_SOIL
+      .byte >MOVE_BOX
+      .byte >MOVE_TARGET
+      .byte >MOVE_TARGET
+      .byte >MOVE_GENERIC ;man occupied
+      .byte >MOVE_GENERIC ;wall 0
+      .byte >MOVE_GENERIC ;1
+      .byte >MOVE_GENERIC ;2
+      .byte >MOVE_GENERIC ;3
+      .byte >MOVE_GENERIC ;steel
+      .byte >MOVE_GENERIC ;wall
+      .byte >MOVE_GENERIC ;exitdoor
+      .byte >MOVE_GENERIC ;exitdoor2
+      .byte >MOVE_GENERIC ;explosion
+      .byte >MOVE_GENERIC ;1
+      .byte >MOVE_GENERIC ;2
+      .byte >MOVE_GENERIC ;3
+      .byte >MOVE_GENERIC ;amoeba2
+      .byte >MOVE_BOX_ON_TARGET ;box on target
+      .byte >MOVE_GENERIC ;diamond falling
+      .byte >MOVE_GENERIC ;nogo
 
     IF * - MoveVecLO < CHARACTER_MAXIMUM
         ECHO "ERROR: Missing entry in MoveVecLO table!"

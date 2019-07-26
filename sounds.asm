@@ -423,11 +423,11 @@ OFSS_BOX           = . - SoundTbl
     .byte   DIST_NOISE
     .byte   17, 0   ; ~146 Hz (vs. 143)
     .byte   DecayBOX-DecayTbl
-OFSS_DIAMOND_PICKUP    = . - SoundTbl
+OFSS_TARGET_PICKUP    = . - SoundTbl
     .byte   DIST_DIV6
     .byte   16, 0   ; 308 Hz
     .byte   DecayDiamondPickup-DecayTbl
-OFSS_DIAMOND_FALLING   = . - SoundTbl
+OFSS_TARGET_FALLING   = . - SoundTbl
     .byte   DIST_DIV2
     .byte   3, 5    ; 1965..3930 Hz
     .byte   DecayDiamondFalling-DecayTbl
@@ -524,8 +524,8 @@ SOUND_MOVE_SOIL         = OFSS_MOVE_SOIL / 4
 ; group lo:
 SOUND_BOX           = OFSS_BOX / 4
 SOUND_EXPLOSION         = OFSS_EXPLOSION / 4
-SOUND_DIAMOND_PICKUP    = OFSS_DIAMOND_PICKUP / 4
-SOUND_DIAMOND_FALLING   = OFSS_DIAMOND_FALLING / 4
+SOUND_TARGET_PICKUP    = OFSS_TARGET_PICKUP / 4
+SOUND_TARGET_FALLING   = OFSS_TARGET_FALLING / 4
 SOUND_BONUS_POINTS      = OFSS_BONUS_POINTS / 4
 ; group hi:
 

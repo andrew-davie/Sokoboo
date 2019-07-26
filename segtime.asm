@@ -133,7 +133,7 @@ TEST_{1} = 1
     SEGTIME SEGTIME_BIGBANG,31                  ; * 7/8/11
  ENDIF
     SEGTIME SEGTIME_EXPLOSION,7                 ; * 5/8/11
-    SEGTIME SEGTIME_GET_DIAMOND,17              ; * 14/8/11, required if UpdateScore loops (e.g. 9990->10000)
+    SEGTIME SEGTIME_GET_TARGET,17              ; * 14/8/11, required if UpdateScore loops (e.g. 9990->10000)
     SEGTIME SEGTIME_BUTTERFLY,10                ; * 7/8/11, 525(B)->8.20
 
     SEGTIME SEGTIME_SWITCHOBJECTS,3             ; 16/8/11 by calculation. 72 cycles -->  ceil(72/64)+1 --> 3 Object stack switchover

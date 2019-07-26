@@ -31,7 +31,7 @@ DigitVectorLO
 
 
 ID_BLANK    = 10        ; DO NOT MAKE 0
-ID_DIAMOND  = 11
+ID_TARGET  = 11
 ID_EXTRA    = 12
 ID_CLOCK    = 13
 ID_HEAD     = ID_BLANK+16+1
@@ -58,17 +58,17 @@ ID_HEAD     = ID_BLANK+16+1
 ; score patch adresses:
 SMTblLSB
 SMTblDiamonds:
-    .byte SM_Diamond0+1-SM_BASE, SM_Diamond2+1-SM_BASE
+    .byte SM_TARGET0+1-SM_BASE, SM_TARGET2+1-SM_BASE
 SMTblTime:
     .byte SM_Time0+1-SM_BASE, SM_Time2+1-SM_BASE
 SMTblScore:
     .byte SMDIGIT5+1-SM_BASE, SMDIGIT3+1-SM_BASE, SMDIGIT1+1-SM_BASE
 SMTblMSB
-    .byte SM_Diamond1+1-SM_BASE, SM_Diamond3+1-SM_BASE
+    .byte SM_TARGET1+1-SM_BASE, SM_TARGET3+1-SM_BASE
     .byte SM_Time1+1-SM_BASE, SM_Time3+1-SM_BASE
     .byte SMDIGIT4+1-SM_BASE, SMDIGIT2+1-SM_BASE, SMDIGIT0+1-SM_BASE
 
-SM_OFS_DIAMONDS = SMTblDiamonds - SMTblLSB
+SM_OFS_TARGETS = SMTblDiamonds - SMTblLSB
 SM_OFS_TIME     = SMTblTime     - SMTblLSB
 SM_OFS_SCORE    = SMTblScore    - SMTblLSB
 
@@ -491,17 +491,17 @@ Score2x4Fix SUBROUTINE
         SLEEP 4                 ; 4  =  7
 
 LoopDraw2x4:                    ;           @70
-SM_Diamond3
+SM_TARGET3
         lda DequalsR-1,y        ; 4                 G
 ;---------------------------------------------------------------
         sta GRP0                ; 3
-SM_Diamond2
+SM_TARGET2
         lda ZeroL-1,y           ; 4                 A
         sta GRP1                ; 3
-SM_Diamond1
+SM_TARGET1
         lda ZeroR-1,y           ; 4                 M
         sta GRP0                ; 3
-SM_Diamond0
+SM_TARGET0
         ldx ZeroL-1,y           ; 4                 E
         sta RESP0               ; 3 = 28    @22
         sta RESP1               ; 3 =  3    @25
@@ -861,8 +861,8 @@ HighScoreColTbl:
 ;                rts
 
 ;SMGameOverOfs:
-;                .byte <SM_Diamond3-SM_BASE, <SM_Diamond2-SM_BASE
-;                .byte <SM_Diamond1-SM_BASE, <SM_Diamond0-SM_BASE
+;                .byte <SM_TARGET3-SM_BASE, <SM_TARGET2-SM_BASE
+;                .byte <SM_TARGET1-SM_BASE, <SM_TARGET0-SM_BASE
 ;                .byte <SM_Time3-SM_BASE, <SM_Time2-SM_BASE
 ;                .byte <SM_Time1-SM_BASE, <SM_Time0-SM_BASE
 ;SMGameOverPtr:
@@ -879,11 +879,11 @@ HighScoreColTbl:
     DEFINE_SUBROUTINE DrawTargetsRequired
 ; Show current diamond counter in the top left
 
-                ldy #SM_OFS_DIAMONDS
+                ldy #SM_OFS_TARGETS
                 lda targetsRequired
                 jsr SetupBCDPtr
 
-                lda #ID_DIAMOND<<4                  ; if no extra diamonds, display the normal icon
+                lda #ID_TARGET<<4                  ; if no extra diamonds, display the normal icon
                 bit scoringFlags                    ;
                 bpl SetupBCDPtr
                 lda #ID_EXTRA<<4                    ; otherwise, display the extra icon

@@ -568,10 +568,10 @@ MovePlayer
     ;---------------------------------------------------------------------------
 
 
-;MOVE_DIAMOND
+;MOVE_TARGET
 ;                lda INTIM
-;                cmp #SEGTIME_GET_DIAMOND
-;                STRESS_TIME SEGTIME_GET_DIAMOND
+;                cmp #SEGTIME_GET_TARGET
+;                STRESS_TIME SEGTIME_GET_TARGET
 
 ;    IF MULTI_BANK_BOARD = YES
 ;                lda RAM_Bank
@@ -615,7 +615,7 @@ MOVE_SOIL
     ;---------------------------------------------------------------------------
     ; Handle snatching...
 
-MOVE_DIAMOND
+MOVE_TARGET
 checkForSnatch
 
 
@@ -682,7 +682,7 @@ timeExit        rts                             ; 6 = 11
 
     DEFINE_SUBROUTINE MOVE_BOX_ON_TARGET
 
-                ldx #CHARACTER_DIAMOND      ; restoration character
+                ldx #CHARACTER_TARGET      ; restoration character
                 lda #BANK_PushBox
                 sta ROM_Bank
                 sta SET_BANK
@@ -1070,56 +1070,42 @@ CharacterDataVecLO
                 .byte <CHARACTERSHAPE_SOIL_MIRRORED
                 .byte <CHARACTERSHAPE_BOX
                 .byte <CHARACTERSHAPE_BOX_MIRRORED
-                .byte <0
-                .byte <0
-                .byte <CHARACTERSHAPE_DIAMOND
-                .byte <CHARACTERSHAPE_DIAMOND_MIRRORED
-                .byte <CHARACTERSHAPE_DIAMOND2
-                .byte <CHARACTERSHAPE_DIAMOND2_MIRRORED
-                .byte <CHARACTERSHAPE_BLANK
+                .byte <CHARACTERSHAPE_TARGET
+                .byte <CHARACTERSHAPE_TARGET_MIRRORED
+                .byte <CHARACTERSHAPE_TARGET2
+                .byte <CHARACTERSHAPE_TARGET2_MIRRORED
+                .byte <CHARACTERSHAPE_BLANK ; man occupied
                 .byte <CHARACTERSHAPE_BLANK
                 .byte <0
                 .byte <0
+                .byte <0 ; wall1
                 .byte <0
+                .byte <0 ;2
                 .byte <0
-                .byte <0
-                .byte <0
-                .byte <0
-                .byte <0
-                .byte <CHARACTERSHAPE_WALL0
-                .byte <CHARACTERSHAPE_WALL0_MIRRORED
-                .byte <0
-                .byte <0
-                .byte <0
-                .byte <0
-                .byte <0
+                .byte <0 ;3
                 .byte <0
                 .byte <CHARACTERSHAPE_STEEL
                 .byte <CHARACTERSHAPE_STEEL_MIRRORED
                 .byte <CHARACTERSHAPE_WALL
                 .byte <CHARACTERSHAPE_WALL_MIRRORED
+                .byte <0 ;exit door
                 .byte <0
+                .byte <0 ;2
                 .byte <0
+                .byte <0 ;explosion
                 .byte <0
+                .byte <0 ;1
                 .byte <0
-
+                .byte <0 ;2
                 .byte <0
+                .byte <0 ;3
                 .byte <0
+                .byte <0 ;amoeba2
                 .byte <0
+                .byte <CHARACTERSHAPE_BOX_ON_TARGET
+                .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+                .byte <0 ;diamond falling
                 .byte <0
-                .byte <0
-                .byte <0
-                .byte <0
-                .byte <0
-
-                .byte <0
-                .byte <0
-
-                .byte <CHARACTERSHAPE_BOX_ON_TARGET                  ; falling BOX
-                .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED          ; falling BOX
-                .byte <0 ;CHARACTERSHAPE_DIAMOND                   ; falling diamond
-                .byte <0 ;CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
-
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
 
@@ -1134,118 +1120,55 @@ CharacterDataVecHI
 ; TJ: used by:
 ; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
 
-                .byte ( >CHARACTERSHAPE_BLANK ) & $7F
-                .byte ( >CHARACTERSHAPE_BLANK ) & $7F
-                .byte >CHARACTERSHAPE_SOIL
-                .byte >CHARACTERSHAPE_SOIL_MIRRORED
-                .byte >CHARACTERSHAPE_BOX
-                .byte >CHARACTERSHAPE_BOX_MIRRORED
-                .byte >0
-                .byte >0
-                .byte >CHARACTERSHAPE_DIAMOND
-                .byte >CHARACTERSHAPE_DIAMOND_MIRRORED
-                .byte >CHARACTERSHAPE_DIAMOND2
-                .byte >CHARACTERSHAPE_DIAMOND2_MIRRORED
-                .byte ( >CHARACTERSHAPE_BLANK ) & $7F ;manoccupied
-                .byte ( >CHARACTERSHAPE_BLANK ) & $7F ;manoccupied
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >CHARACTERSHAPE_WALL0
-                .byte >CHARACTERSHAPE_WALL0_MIRRORED
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >CHARACTERSHAPE_STEEL
-                .byte >CHARACTERSHAPE_STEEL_MIRRORED
-                .byte >CHARACTERSHAPE_WALL
-                .byte >CHARACTERSHAPE_WALL_MIRRORED
-                .byte >0
-                .byte >0
-                .byte 0
-                .byte 0
-
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-                .byte >0
-
-                .byte >0
-                .byte >0
-
-                .byte >CHARACTERSHAPE_BOX_ON_TARGET                   ; falling BOX
-                .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED          ; falling BOX
-                .byte >0 ;CHARACTERSHAPE_DIAMOND                   ; falling diamond
-                .byte >0 ;CHARACTERSHAPE_DIAMOND_MIRRORED          ; falling diamond
-
-                .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
-                .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+    .byte >CHARACTERSHAPE_BLANK
+    .byte >CHARACTERSHAPE_BLANK
+    .byte >CHARACTERSHAPE_SOIL
+    .byte >CHARACTERSHAPE_SOIL_MIRRORED
+    .byte >CHARACTERSHAPE_BOX
+    .byte >CHARACTERSHAPE_BOX_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET
+    .byte >CHARACTERSHAPE_TARGET_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET2
+    .byte >CHARACTERSHAPE_TARGET2_MIRRORED
+    .byte >CHARACTERSHAPE_BLANK ; man occupied
+    .byte >CHARACTERSHAPE_BLANK
+    .byte >0
+    .byte >0
+    .byte >0 ; wall1
+    .byte >0
+    .byte >0 ;2
+    .byte >0
+    .byte >0 ;3
+    .byte >0
+    .byte >CHARACTERSHAPE_STEEL
+    .byte >CHARACTERSHAPE_STEEL_MIRRORED
+    .byte >CHARACTERSHAPE_WALL
+    .byte >CHARACTERSHAPE_WALL_MIRRORED
+    .byte >0 ;exit door
+    .byte >0
+    .byte >0 ;2
+    .byte >0
+    .byte >0 ;explosion
+    .byte >0
+    .byte >0 ;1
+    .byte >0
+    .byte >0 ;2
+    .byte >0
+    .byte >0 ;3
+    .byte >0
+    .byte >0 ;amoeba2
+    .byte >0
+    .byte >CHARACTERSHAPE_BOX_ON_TARGET
+    .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+    .byte >0 ;diamond falling
+    .byte >0
+    .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+    .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
 
     IF * - CharacterDataVecHI < CHARACTER_MAXIMUM*2
         ECHO "ERROR: Missing entry in CharacterDataVecHI table!"
         EXIT
     ENDIF
-
-    ;---------------------------------------------------------------------------
-
-#if 0
-    DEFINE_SUBROUTINE CharToType ; in FIXED_BANK
-; TJ: used by:
-; - BANK_FIXED.asm
-; - BANK_INITBANK.asm
-
-    ; Converts a character # to a creature type
-    ; add 128 if character is NOT to be added as a creature on board draw
-
-                .byte 0            ;  0    blank
-                .byte 0             ;  1    soil
-                .byte TYPE_BOX          ;  2
-                .byte 0                    ;  3
-                .byte TYPE_DIAMOND          ;  4
-                .byte TYPE_DIAMOND          ;  5
-                .byte TYPE_MAN              ;  6
-                .byte 0        ;  7
-                .byte 0        ;  8
-                .byte 0          ;  9
-                .byte 0          ; 0a
-                .byte 0;TYPE_MAGICWALL        ; 0b
-                .byte 0;TYPE_MAGICWALL        ; 0c
-                .byte 0;TYPE_MAGICWALL        ; 0d
-                .byte 0;TYPE_MAGICWALL        ; 0e
-                .byte 0        ; 0f     ; steel wall
-                .byte 0        ; 10     ; plain brick wall
-                .byte 0;TYPE_EXITDOOR         ; 11
-                .byte 0;TYPE_EXITDOOR         ; 12
-                .byte 0;TYPE_EXPLOSION        ; 13
-                .byte 0;TYPE_EXPLOSION1       ; 14
-                .byte 0;TYPE_EXPLOSION2       ; 15
-                .byte 0;TYPE_EXPLOSION3       ; 16
-                .byte 0           ; 17
-
-                .byte TYPE_DIAMOND              ; BOX on target --> target, giving our restore :)
-                .byte TYPE_DIAMOND          ; falling diamond
-
-                .byte 0            ; 20 unkillable man
-                 ; --> see also MoveVec
-                 ; --> see also DecodeCave's table
-
-    IF * - CharToType < CHARACTER_MAXIMUM
-        ECHO "ERROR: Missing entry in CharToType table!"
-        EXIT
-    ENDIF
-#endif
 
     ;---------------------------------------------------------------------------
 
@@ -1266,9 +1189,9 @@ CharacterDataVecHI
                 lda scrollBits                                  ;3
                 bne nothingAnimates                             ;2/3            DON'T animate if we scrolled
 
-                lda ANIM_DIAMOND                                ;4
-                eor #CHARACTER_DIAMOND^CHARACTER_DIAMOND2       ;2
-                sta ANIM_DIAMOND + RAM_WRITE                    ;4 = 15         diamond
+                lda ANIM_TARGET                                ;4
+                eor #CHARACTER_TARGET^CHARACTER_TARGET2       ;2
+                sta ANIM_TARGET + RAM_WRITE                    ;4 = 15         diamond
 
 nothingAnimates jmp retAnim                                     ;3
 

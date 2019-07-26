@@ -344,9 +344,9 @@ checkForMan
 
               jsr RegisterOneMoreTarget
 
-              ; put goal square, init player with POS_VAR = CHARACTER_DIAMOND
+              ; put goal square, init player with POS_VAR = CHARACTER_TARGET
 
-              lda #CHARACTER_DIAMOND
+              lda #CHARACTER_TARGET
               bne genPlayer
 
 notPlayerGoal
@@ -406,7 +406,7 @@ checkTarget   cmp #"."
               jmp GetNextItem
 targ
 
-              lda #CHARACTER_DIAMOND
+              lda #CHARACTER_TARGET
 
 WriteChars    sta POS_Type
 
@@ -424,7 +424,7 @@ Wc2x              clc
               jsr PutBoardCharacterFromRAM
 
               lda POS_Type
-              cmp #CHARACTER_DIAMOND
+              cmp #CHARACTER_TARGET
               bne notargdet
               jsr RegisterOneMoreTarget
 notargdet

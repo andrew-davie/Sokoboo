@@ -203,7 +203,7 @@ DONE!!! FIXED OR IGNORE (TOP IS NEWEST)
 
 
 3?              We currently usually only check for the maximum required time. If those times vary a lot, it would
-                make sense to additional checks and reduce the initial check time (like for MOVE_DIAMOND).
+                make sense to additional checks and reduce the initial check time (like for MOVE_TARGET).
                 AD: Yes, this is a good idea. Be careful not to have any stuff that can't be done again -- that is
                 you cannot time-abort out of an operation which must be integral.
                 AD: Let's forget this one.

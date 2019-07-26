@@ -429,57 +429,57 @@
 546.timeNotZero          f209                  
 552.TEMP                 071e              (R )
 554.TEMP                 071e              (R )
-608.skipNew              f242              (R )
-610.skipNew              f242              (R )
-633.TEMP                 03ef              (R )
-635.TEMP                 03ef              (R )
+603.skipNew              f242              (R )
+605.skipNew              f242              (R )
+628.TEMP                 03e5              (R )
+630.TEMP                 03e5              (R )
 64.DUMMY                 0001                  
 66.DUMMY                 0001                  
 68.DUMMY                 0002                  
-691.CLEAR_STACK          fb13              (R )
-692.advanceLoop          fbaf              (R )
-692.afterAudioUpdate     fc83              (R )
-692.endOfEnvelope        fc73              (R )
-692.endOfPercussion      fc2c              (R )
-692.finishedNewNote      fc0b              (R )
-692.instrument           fc5a              (R )
-692.newNote              fbf5              (R )
-692.noEndOfSustain       fc6c              (R )
-692.noNewNote            fc1b              (R )
-692.noOddFrame           fc19              (R )
-692.pause                fbb8                  
-692.sequencerNextChannel fc0d                  
-692.startInstrument      fc01              (R )
-692.storeADIndex         fc09              (R )
-692.updateLoop           fc1d              (R )
-693.CLEAR_STACK          fb13              (R )
-693.constructPatPtr      fbc5              (R )
-693.noEndOfPattern       fbf4              (R )
-693.noPatternGoto        fbd2              (R )
-693.notPrefetched        fbe9              (R )
-694.advanceLoop          fbaf              (R )
-694.afterAudioUpdate     fc83              (R )
-694.CYCLES               0002              (R )
-694.endOfEnvelope        fc73              (R )
-694.endOfPercussion      fc2c              (R )
-694.finishedNewNote      fc0b              (R )
-694.instrument           fc5a              (R )
-694.newNote              fbf5              (R )
-694.noEndOfSustain       fc6c              (R )
-694.noNewNote            fc1b              (R )
-694.noOddFrame           fc19              (R )
-694.pause                fbb8                  
-694.sequencerNextChannel fc0d                  
-694.startInstrument      fc01              (R )
-694.storeADIndex         fc09              (R )
-694.updateLoop           fc1d              (R )
-695.constructPatPtr      fbc5              (R )
-695.CYCLES               000a              (R )
-695.noEndOfPattern       fbf4              (R )
-695.noPatternGoto        fbd2              (R )
-695.notPrefetched        fbe9              (R )
-696.CYCLES               0002              (R )
-697.CYCLES               000a              (R )
+686.CLEAR_STACK          fb13              (R )
+687.advanceLoop          fbaf              (R )
+687.afterAudioUpdate     fc83              (R )
+687.endOfEnvelope        fc73              (R )
+687.endOfPercussion      fc2c              (R )
+687.finishedNewNote      fc0b              (R )
+687.instrument           fc5a              (R )
+687.newNote              fbf5              (R )
+687.noEndOfSustain       fc6c              (R )
+687.noNewNote            fc1b              (R )
+687.noOddFrame           fc19              (R )
+687.pause                fbb8                  
+687.sequencerNextChannel fc0d                  
+687.startInstrument      fc01              (R )
+687.storeADIndex         fc09              (R )
+687.updateLoop           fc1d              (R )
+688.CLEAR_STACK          fb13              (R )
+688.constructPatPtr      fbc5              (R )
+688.noEndOfPattern       fbf4              (R )
+688.noPatternGoto        fbd2              (R )
+688.notPrefetched        fbe9              (R )
+689.advanceLoop          fbaf              (R )
+689.afterAudioUpdate     fc83              (R )
+689.CYCLES               0002              (R )
+689.endOfEnvelope        fc73              (R )
+689.endOfPercussion      fc2c              (R )
+689.finishedNewNote      fc0b              (R )
+689.instrument           fc5a              (R )
+689.newNote              fbf5              (R )
+689.noEndOfSustain       fc6c              (R )
+689.noNewNote            fc1b              (R )
+689.noOddFrame           fc19              (R )
+689.pause                fbb8                  
+689.sequencerNextChannel fc0d                  
+689.startInstrument      fc01              (R )
+689.storeADIndex         fc09              (R )
+689.updateLoop           fc1d              (R )
+690.constructPatPtr      fbc5              (R )
+690.CYCLES               000a              (R )
+690.noEndOfPattern       fbf4              (R )
+690.noPatternGoto        fbd2              (R )
+690.notPrefetched        fbe9              (R )
+691.CYCLES               0002              (R )
+692.CYCLES               000a              (R )
 70.DUMMY                 0003                  
 72.DUMMY                 0004                  
 74.DUMMY                 0005                  
@@ -496,16 +496,11 @@ AD_MODE                  0001              (R )
 addrOK                   f1f8              (R )
 alwaysAllowMan           f9e1              (R )
 AMOEBA_PRESENT           0040                  
-ANIM_AMOEBA              f1d6                  
-ANIM_BUTTERFLY0          f1da                  
-ANIM_BUTTERFLY1          f1db                  
-ANIM_DIAMOND             f1d7              (R )
-ANIM_EXITDOOR            f1e4                  
-ANIM_FIREFLY0            f1dc                  
-ANIM_FIREFLY1            f1dd                  
-ANIM_MAGICWALL           f1de                  
+ANIM_EXITDOOR            f1df                  
+ANIM_MAGICWALL           f1d9                  
+ANIM_TARGET              f1d6              (R )
 AnimateBLANK             f71a              (R )
-AnimateCharReplacements2 fd37              (R )
+AnimateCharReplacements2 fd23              (R )
 AnimateEND               f71e                  
 AnimateLEFT              f700              (R )
 AnimatePlayers           f508                  
@@ -757,50 +752,41 @@ CAVENUM                  0020
 caveTime                 00b7              (R )
 caveTimeFrac             00b9                  
 caveTimeHi               00b8              (R )
-CCont                    feb5              (R )
+CCont                    fea1              (R )
 CharA                    f095              (R )
-CHARACTER_AMOEBA         0003                  
-CHARACTER_AMOEBA2        0017                  
+CHARACTER_AMOEBA2        0012                  
 CHARACTER_BLANK          0000              (R )
 CHARACTER_BOX            0002              (R )
-CHARACTER_BOX_ON_TARGET  0018              (R )
-CHARACTER_DIAMOND        0004              (R )
-CHARACTER_DIAMOND2       0005              (R )
-CHARACTER_DIAMOND_FALLING 0019                  
-CHARACTER_EXITDOOR       0011                  
-CHARACTER_EXITDOOR2      0012                  
-CHARACTER_EXPLOSION      0013                  
-CHARACTER_EXPLOSION1     0014                  
-CHARACTER_EXPLOSION2     0015                  
-CHARACTER_EXPLOSION3     0016              (R )
-CHARACTER_FIREFLY        0009                  
-CHARACTER_FIREFLY2       000a                  
-CHARACTER_FLUTTERBY      0007                  
-CHARACTER_FLUTTERBY2     0008                  
-CHARACTER_MANOCCUPIED    0006              (R )
-CHARACTER_MAXIMUM        001b              (R )
-CHARACTER_NOGO           001a              (R )
+CHARACTER_BOX_ON_TARGET  0013              (R )
+CHARACTER_DIAMOND_FALLING 0014                  
+CHARACTER_EXITDOOR       000c                  
+CHARACTER_EXITDOOR2      000d                  
+CHARACTER_EXPLOSION      000e                  
+CHARACTER_EXPLOSION1     000f                  
+CHARACTER_EXPLOSION2     0010                  
+CHARACTER_EXPLOSION3     0011              (R )
+CHARACTER_MANOCCUPIED    0005              (R )
+CHARACTER_MAXIMUM        0016              (R )
+CHARACTER_NOGO           0015              (R )
 CHARACTER_SOIL           0001                  
-CHARACTER_STEEL          000f              (R )
-CHARACTER_WALL           0010                  
-CHARACTER_WALL0          000b                  
-CHARACTER_WALL1          000c                  
-CHARACTER_WALL2          000d                  
-CHARACTER_WALL3          000e                  
-CharacterDataVecHI       fd01              (R )
+CHARACTER_STEEL          000a              (R )
+CHARACTER_TARGET         0003              (R )
+CHARACTER_TARGET2        0004              (R )
+CHARACTER_WALL           000b                  
+CHARACTER_WALL0          0006                  
+CHARACTER_WALL1          0007                  
+CHARACTER_WALL2          0008                  
+CHARACTER_WALL3          0009                  
+CharacterDataVecHI       fcf7              (R )
 CharacterDataVecLO       fccb              (R )
 CHARACTERSHAPE_BLANK     f325              (R )
-CHARACTERSHAPE_BOX       fd74              (R )
-CHARACTERSHAPE_BOX_MIRRORED fd89              (R )
-CHARACTERSHAPE_BOX_ON_TARGET fd9e              (R )
-CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED fdb3              (R )
-CHARACTERSHAPE_DIAMOND   f254              (R )
-CHARACTERSHAPE_DIAMOND2  f253              (R )
-CHARACTERSHAPE_DIAMOND2_MIRRORED f23e              (R )
-CHARACTERSHAPE_DIAMOND_MIRRORED f23f              (R )
-CHARACTERSHAPE_EXITDOOR  fdc8                  
+CHARACTERSHAPE_BOX       fd60              (R )
+CHARACTERSHAPE_BOX_MIRRORED fd75              (R )
+CHARACTERSHAPE_BOX_ON_TARGET fd8a              (R )
+CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED fd9f              (R )
+CHARACTERSHAPE_EXITDOOR  fdb4                  
 CHARACTERSHAPE_EXITDOOR2 f325                  
-CHARACTERSHAPE_EXITDOOR_MIRRORED fddd                  
+CHARACTERSHAPE_EXITDOOR_MIRRORED fdc9                  
 CHARACTERSHAPE_EXPLOSION f27e                  
 CHARACTERSHAPE_EXPLOSION1 f269                  
 CHARACTERSHAPE_EXPLOSION1_MIRRORED f269                  
@@ -812,11 +798,15 @@ CHARACTERSHAPE_EXPLOSION_MIRRORED f27e
 CHARACTERSHAPE_MANOCCUPIED f325                  
 CHARACTERSHAPE_SOIL      f3cd              (R )
 CHARACTERSHAPE_SOIL_MIRRORED f3cd              (R )
-CHARACTERSHAPE_STEEL     fdc8              (R )
-CHARACTERSHAPE_STEEL_MIRRORED fddd              (R )
+CHARACTERSHAPE_STEEL     fdb4              (R )
+CHARACTERSHAPE_STEEL_MIRRORED fdc9              (R )
+CHARACTERSHAPE_TARGET    f254              (R )
+CHARACTERSHAPE_TARGET2   f253              (R )
+CHARACTERSHAPE_TARGET2_MIRRORED f23e              (R )
+CHARACTERSHAPE_TARGET_MIRRORED f23f              (R )
 CHARACTERSHAPE_WALL      f800              (R )
-CHARACTERSHAPE_WALL0     f800              (R )
-CHARACTERSHAPE_WALL0_MIRRORED f815              (R )
+CHARACTERSHAPE_WALL0     f800                  
+CHARACTERSHAPE_WALL0_MIRRORED f815                  
 CHARACTERSHAPE_WALL_MIRRORED f815              (R )
 CharAddressLO            f1dc              (R )
 CharB                    f0a9              (R )
@@ -852,8 +842,8 @@ circ_x                   00a9              (R )
 circ_y                   00aa              (R )
 circle_d                 00a7              (R )
 circleComplete           f967              (R )
-circleDie                febd                  
-CircleRepeat             fe98              (R )
+circleDie                fea9                  
+CircleRepeat             fe84              (R )
 ClockR                   f339              (R )
 color                    00ba              (R )
 colorBK                  00df                  
@@ -869,7 +859,7 @@ CONSTRUCTIONKIT          0000
 ContinueAnim             f512              (R )
 ContTitle                f09d              (R )
 CopyPage                 f059              (R )
-CopyROM2RAM_F000         fd6b              (R )
+CopyROM2RAM_F000         fd57              (R )
 CopyROMShadowToRAM       f045                  
 CopyROMShadowToRAM_F000  f043              (R )
 CopyRow2                 fad6              (R )
@@ -937,7 +927,7 @@ DplusR                   f332              (R )
 DRAW_STACK_SIZE          0050              (R )
 DrawAIntoStack           fb06              (R )
 DrawAnother              faab              (R )
-DrawCircle               fe98              (R )
+DrawCircle               fe84              (R )
 DrawDigits               f1d3              (R )
 DrawDigits1x6            f100              (R )
 DrawDigits2x4            f13b                  
@@ -960,7 +950,7 @@ DrawTime                 f2f5              (R )
 DrawTimeFromROM          f82a              (R )
 DSL                      00d2              (R )
 dummySK                  00de                  
-EARLY_LOCATION           f1ee              (R )
+EARLY_LOCATION           f1e9              (R )
 EarlyAbort               f8bf              (R )
 EarlyAbort4              f96a              (R )
 EarlyAbortBOX            f9ad                  
@@ -988,9 +978,9 @@ ExitDraw                 f152              (R )
 ExitStealCharDraw        fa8c              (R )
 ExitTitle                f1c1              (R )
 ExitTitleScreen          fb26              (R )
-EXTRA_100_DIAMONDS       0040                  
-EXTRA_DIAMONDS           0080                  
+EXTRA_100_TARGETS        0040                  
 EXTRA_LIFE_TIMER         00ff                  
+EXTRA_TARGETS            0080                  
 extraLifeTimer           00c4                  
 F1F2NEXTCAVE             0000              (R )
 FACE_LEFT                0003                  
@@ -1059,7 +1049,7 @@ GfxI_B                   f6ea              (R )
 GfxM_A                   f6d4              (R )
 GfxM_B                   f6f1              (R )
 gnobj                    f98c                  
-goGeneralScoringSetups   fd5f              (R )
+goGeneralScoringSetups   fd4b              (R )
 GRP0                     005b              (R )
 GRP1                     005c              (R )
 halftimer                00de                  
@@ -1092,9 +1082,9 @@ i2c_txbyte               f54c              (R )
 i2c_txbyteloop           f550              (R )
 ID_BLANK                 000a              (R )
 ID_CLOCK                 000d              (R )
-ID_DIAMOND               000b              (R )
 ID_EXTRA                 000c              (R )
 ID_HEAD                  001b                  
+ID_TARGET                000b              (R )
 IDENTITY                 0000                  
 inactiveCircle           f960              (R )
 INITBANK                 0007              (R )
@@ -1197,18 +1187,18 @@ MOD10                    f1ee              (R )
 MOVE_BLANK               fa1a              (R )
 MOVE_BOX                 fa6e              (R )
 MOVE_BOX_ON_TARGET       fa79              (R )
-MOVE_DIAMOND             fa33              (R )
 MOVE_DOWN                ffffffdf                  
 MOVE_GENERIC             fa65              (R )
 MOVE_LEFT                ffffffbf                  
 MOVE_NONE                ffffffff                  
 MOVE_RIGHT               ffffff7f                  
 MOVE_SOIL                fa1a              (R )
+MOVE_TARGET              fa33              (R )
 MOVE_UP                  ffffffef                  
 moveIdx                  0098                  
 moveLen                  00a6                  
 MovePlayer               f9ee              (R )
-MoveVecHI                f3d4              (R )
+MoveVecHI                f3cf              (R )
 MoveVecLO                f3b9              (R )
 MULTI_BANK_BOARD         0000              (R )
 musicAtten               00e1                  
@@ -1225,7 +1215,7 @@ NextALineStart           f044              (R )
 NextCave                 f400              (R )
 NextCaveAlong            f406                  
 NextCaveLevel            fb4b              (R )
-nextLevelMan             fd58              (R )
+nextLevelMan             fd44              (R )
 NextLevelTrigger         00c7              (R )
 NextObject               f9b1              (R )
 nextPhase                f8bd              (R )
@@ -1257,7 +1247,7 @@ NOTE_OFF_LEN             0002              (R )
 noteIdx                  008b              (R )
 noteLen                  008a              (R )
 NotEnoughTime            f9bd                  
-nothingAnimates          fd49              (R )
+nothingAnimates          fd35              (R )
 notL0                    f365              (R )
 notOnTargetAlready       f170              (R )
 notP2                    f4f8              (R )
@@ -1285,7 +1275,7 @@ ObjStackVar              1100              (R )
 ObjStackX                1000              (R )
 ObjStackY                1080              (R )
 OBJTYPE                  0005                  
-off1x                    fe0a              (R )
+off1x                    fdf6              (R )
 OFFS_HI                  0020              (R )
 offsetSK                 00e6              (R )
 OFS_DECAY                0003                  
@@ -1296,14 +1286,14 @@ OFSS_AMOEBA              0028              (R )
 OFSS_BONUS_POINTS        001c              (R )
 OFSS_BOX                 000c              (R )
 OFSS_CRACK               0030              (R )
-OFSS_DIAMOND_FALLING     0014              (R )
-OFSS_DIAMOND_PICKUP      0010              (R )
 OFSS_EXPLOSION           0018              (R )
 OFSS_MAGIC_WALL          002c              (R )
 OFSS_MOVE_BLANK          0004              (R )
 OFSS_MOVE_BLANK_HI       0020                  
 OFSS_MOVE_SOIL           0008              (R )
 OFSS_MOVE_SOIL_HI        0024                  
+OFSS_TARGET_FALLING      0014              (R )
+OFSS_TARGET_PICKUP       0010              (R )
 OFSS_TIME_0              0058              (R )
 OFSS_TIME_1              0054              (R )
 OFSS_TIME_2              0050              (R )
@@ -1358,8 +1348,8 @@ PlayerCave               f3b9              (R )
 PlayerLevel              f3ba              (R )
 PlayerScores             f3b6              (R )
 PlaySounds               f161                  
-PlotChar                 fdf2              (R )
-PlotCirclePoints         fe0b              (R )
+PlotChar                 fdde              (R )
+PlotCirclePoints         fdf7              (R )
 POS_Type                 008e              (R )
 POS_VAR                  008f              (R )
 POS_Vector               00de              (R )
@@ -1367,7 +1357,7 @@ POS_X                    008a              (R )
 POS_X_NEW                008c              (R )
 POS_Y                    008b              (R )
 POS_Y_NEW                008d              (R )
-positiveD                feaa              (R )
+positiveD                fe96              (R )
 PosTbl                   f0f6              (R )
 PostScreenCleanup        f478              (R )
 PrepareDrawDigits        f1ee              (R )
@@ -1396,7 +1386,7 @@ RAM_SIZE                 0400              (R )
 RAM_WRITE                0400              (R )
 randSeed1                00e2              (R )
 randSeed2                00e3              (R )
-rbret                    fd53                  
+rbret                    fd3f                  
 RDirX                    f192                  
 RDirY                    f191                  
 ReadSaveKey              f5a8              (R )
@@ -1461,7 +1451,7 @@ Score3x2Fix              f199              (R )
 SCORE_COL                009a              (R )
 SCORE_COL_HIGH_NTSC      0044              (R )
 SCORE_COL_HIGH_PAL       0066              (R )
-ScoreAdd                 fd4c              (R )
+ScoreAdd                 fd38              (R )
 ScoreCurrent             f3b1              (R )
 ScoreKernelLo            f1ea              (R )
 SCORING_TIMER            003c              (R )
@@ -1492,7 +1482,7 @@ SEGTIME_CIRCLE           000a              (R )
 SEGTIME_CIRCLE_HELPER    000a              (R )
 SEGTIME_DSL              0005              (R )
 SEGTIME_EXPLOSION        0007                  
-SEGTIME_GET_DIAMOND      0011                  
+SEGTIME_GET_TARGET       0011                  
 SEGTIME_MAGIC            0009                  
 SEGTIME_MAN              0018              (R )
 SEGTIME_MINIMUM_TIMESLICE 0005              (R )
@@ -1607,12 +1597,8 @@ SM3STORE                 f13d              (R )
 SM3STOREb                f143              (R )
 SM3STOREc                f149              (R )
 SM_BASE                  f100              (R )
-SM_Diamond0              f151              (R )
-SM_Diamond1              f14c              (R )
-SM_Diamond2              f147              (R )
-SM_Diamond3              f142              (R )
-SM_OFS_DIAMONDS          0000              (R )
 SM_OFS_SCORE             0004              (R )
+SM_OFS_TARGETS           0000              (R )
 SM_OFS_TIME              0002              (R )
 SM_PF0_BLUEl             f046              (R )
 SM_PF0_BLUEr             f065              (R )
@@ -1620,6 +1606,10 @@ SM_PF0_GREENl            f079              (R )
 SM_PF0_GREENr            f098                  
 SM_PF0_REDl              f00a              (R )
 SM_PF0_REDr              f029                  
+SM_TARGET0               f151              (R )
+SM_TARGET1               f14c              (R )
+SM_TARGET2               f147              (R )
+SM_TARGET3               f142              (R )
 SM_Time0                 f16d              (R )
 SM_Time1                 f164              (R )
 SM_Time2                 f15f              (R )
@@ -1657,14 +1647,14 @@ SOUND_AMOEBA             0030
 SOUND_BONUS_POINTS       0007                  
 SOUND_BOX                0003                  
 SOUND_CRACK              0050              (R )
-SOUND_DIAMOND_FALLING    0005                  
-SOUND_DIAMOND_PICKUP     0004                  
 SOUND_EXPLOSION          0006                  
 SOUND_GROUP_HI           0020                  
 SOUND_GROUP_LO           000c                  
 SOUND_MAGIC_WALL         0040                  
 SOUND_MOVE_BLANK         0001                  
 SOUND_MOVE_SOIL          0002              (R )
+SOUND_TARGET_FALLING     0005                  
+SOUND_TARGET_PICKUP      0004                  
 SOUND_TIME_0             00f0                  
 SOUND_TIME_1             00e0                  
 SOUND_TIME_2             00d0                  
@@ -1688,8 +1678,8 @@ sreg                     00eb
 StarsColTbl              f00d              (R )
 StartCave                f3b4              (R )
 startCave                00e4              (R )
-startLevel               00e5              (R )
 StartLevel               f3b5              (R )
+startLevel               00e5              (R )
 startOfTitleRAM          0082              (R )
 StartSound               f10f              (R )
 stayAlive                f2c0              (R )
@@ -1737,7 +1727,7 @@ TEST_SEGTIME_CIRCLE      0000
 TEST_SEGTIME_CIRCLE_HELPER 0000                  
 TEST_SEGTIME_DSL         0000              (R )
 TEST_SEGTIME_EXPLOSION   0000                  
-TEST_SEGTIME_GET_DIAMOND 0000                  
+TEST_SEGTIME_GET_TARGET  0000                  
 TEST_SEGTIME_MAGIC       0000                  
 TEST_SEGTIME_MAN         0000              (R )
 TEST_SEGTIME_MINIMUM_TIMESLICE 0000                  
@@ -1817,30 +1807,30 @@ TT_FREQ_MASK             001f
 TT_GLOBAL_SPEED          0001              (R )
 TT_INS_HOLD              0008                  
 TT_INS_PAUSE             0010                  
-tt_InsADIndexes          fec3              (R )
-tt_InsCtrlTable          febe              (R )
-tt_InsFreqVolTable       fed2              (R )
-tt_InsReleaseIndexes     fecd              (R )
-tt_InsSustainIndexes     fec8              (R )
+tt_InsADIndexes          feaf              (R )
+tt_InsCtrlTable          feaa              (R )
+tt_InsFreqVolTable       febe              (R )
+tt_InsReleaseIndexes     feb9              (R )
+tt_InsSustainIndexes     feb4              (R )
 TT_ODD_SPEED             0004              (R )
-tt_pattern0              ff30              (R )
-tt_pattern1              ff51              (R )
-tt_pattern2              ff72              (R )
-tt_pattern3              ff93              (R )
-tt_pattern4              ffb4              (R )
-tt_PatternPtrHi          ffda              (R )
-tt_PatternPtrLo          ffd5              (R )
-tt_PercCtrlVolTable      ff1a              (R )
-tt_PercFreqTable         ff04              (R )
-tt_PercIndexes           ff01              (R )
+tt_pattern0              ff1c              (R )
+tt_pattern1              ff3d              (R )
+tt_pattern2              ff5e              (R )
+tt_pattern3              ff7f              (R )
+tt_pattern4              ffa0              (R )
+tt_PatternPtrHi          ffc6              (R )
+tt_PatternPtrLo          ffc1              (R )
+tt_PercCtrlVolTable      ff06              (R )
+tt_PercFreqTable         fef0              (R )
+tt_PercIndexes           feed              (R )
 tt_Player                fba9                  
 tt_PlayerStart           fba9              (R )
 tt_ptr                   00dc              (R )
-tt_SequenceTable         ffdf              (R )
+tt_SequenceTable         ffcb              (R )
 TT_SPEED                 0005              (R )
 TT_STARTS_WITH_NOTES     0001              (R )
 tt_timer                 00d3              (R )
-tt_TrackDataStart        febe              (R )
+tt_TrackDataStart        feaa              (R )
 TT_USE_FUNKTEMPO         0001              (R )
 TT_USE_GOTO              0001              (R )
 TT_USE_OVERLAY           0001              (R )
@@ -1865,7 +1855,7 @@ upk_length               00e9              (R )
 upk_temp                 00eb              (R )
 UpMoveCount              fa6d              (R )
 V_OFS                    0000              (R )
-VAR_ON_DIAMOND           0020                  
+VAR_ON_TARGET            0020                  
 VBLANK                   0041              (R )
 VBLANK_TIM_NTSC          003e              (R )
 VBLANK_TIM_PAL           0055              (R )

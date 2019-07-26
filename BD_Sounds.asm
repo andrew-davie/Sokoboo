@@ -95,7 +95,7 @@ DEBUG_BYTES SET DEBUG_BYTES + 1
 ; used for randomizing frequencies, any other rnd function will do too
     lda     rnd                 ; 3
     lsr                         ; 2
-    bcc     .skipEor            ; 2³
+    bcc     .skipEor            ; 2ï¿½
     eor     #RAND_EOR_8         ; 2
 .skipEor:                       ;
     sta     rnd                 ; 3
@@ -197,7 +197,7 @@ GameCalc SUBROUTINE
 ;    bcs     .nextTry
 ;    asl
 ;    asl
-;  lda     #SOUND_DIAMOND_PICKUP
+;  lda     #SOUND_TARGET_PICKUP
 ;  jsr     StartSound
 ;  lda     #SOUND_AMOEBA
 ;  lda     #SOUND_MAGIC_WALL

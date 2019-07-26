@@ -234,29 +234,24 @@ CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
                 .byte CHARACTER_BLANK       ;  0
                 .byte CHARACTER_SOIL        ;  1
                 .byte CHARACTER_BOX     ;  2
-ANIM_AMOEBA     .byte 0      ;  3
-ANIM_DIAMOND    .byte CHARACTER_DIAMOND     ;  4
-                .byte 0;CHARACTER_DIAMOND   ;  5
+ANIM_TARGET    .byte CHARACTER_TARGET     ;  4
+                .byte CHARACTER_TARGET   ;  5
                 .byte CHARACTER_MANOCCUPIED ;  6
-ANIM_BUTTERFLY0 .byte 0   ;  7
-ANIM_BUTTERFLY1 .byte 0   ;  8
-ANIM_FIREFLY0   .byte 0     ;  9
-ANIM_FIREFLY1   .byte 0     ; 0a
 ANIM_MAGICWALL  .byte CHARACTER_WALL0       ; 0b
-                .byte 0;CHARACTER_WALL0     ; 0c
-                .byte 0;CHARACTER_WALL0     ; 0d
-                .byte 0;CHARACTER_WALL0     ; 0e
+                .byte CHARACTER_WALL0     ; 0c
+                .byte CHARACTER_WALL0     ; 0d
+                .byte CHARACTER_WALL0     ; 0e
                 .byte CHARACTER_STEEL       ; 0f
                 .byte CHARACTER_WALL        ; 10
-ANIM_EXITDOOR   .byte 0    ; 11
-                .byte 0;CHARACTER_EXITDOOR  ; 12
-                .byte 0   ; 13
-                .byte 0  ; 14
-                .byte 0  ; 15
-                .byte 0  ; 16
-                .byte 0;CHARACTER_AMOEBA    ; 17
+ANIM_EXITDOOR   .byte 0    ; 11 exit door
+                .byte 0     ; exit 2
+                .byte 0   ; explosion 0
+                .byte 0  ; 1
+                .byte 0  ; 2
+                .byte 0  ; 3
+                .byte 0  ; amoeba2
                 .byte CHARACTER_BOX_ON_TARGET     ; 18    falling BOX
-                .byte CHARACTER_DIAMOND     ; 19    falling diamond, no anim
+                .byte CHARACTER_TARGET     ; 19    falling diamond, no anim
                 .byte 0            ;20 the unkillable man for end of level
 
     IF * - CharReplacement < CHARACTER_MAXIMUM
