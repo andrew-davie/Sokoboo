@@ -8,20 +8,7 @@ MOVE_DOWN   = ~%00100000
 MOVE_UP     = ~%00010000
 
     ;------------------------------------------------------------------------------
-    MAC CHECKSOUNDS
-                lda soundIdxLst+1
-                cmp #OFSS_MAGIC_WALL+1          ; Amoeba or Magic Wall?
-                bcs .waitForIt
-                STOP_CHANNEL 1                  ; yes, stop repeating sounds
-                lda soundIdxLst
-.waitForIt
-    ENDM
-    ;------------------------------------------------------------------------------
-
    DEFINE_SUBROUTINE NextCave
-
-                ;CHECKSOUNDS                 ; wait until all sounds are over
-                ;bne .skipNextLevel
 
     ; Now do the actual switching
 

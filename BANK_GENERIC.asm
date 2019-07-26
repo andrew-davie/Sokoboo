@@ -7,7 +7,7 @@
 
 
     DEFINE_1K_SEGMENT DECODE_CAVE_SHADOW
-            include "DecodeCave.asm"
+            include "DecodeLevel.asm"
 
             CHECK_HALF_BANK_SIZE "GENERIC_BANK_1 (DECODE_CAVE)"
 
@@ -237,11 +237,6 @@ notU0           sta BoardScrollY
 
                 sta BGColour
                 sta ColourTimer
-                ;sta extraLifeTimer              ; Cosmic Ark stars off
-
-                sta soundIdxLst
-                sta soundIdxLst+1
-                sta newSounds
 
                 sta AUDV0
                 sta AUDV1                           ; turn off music while levels init

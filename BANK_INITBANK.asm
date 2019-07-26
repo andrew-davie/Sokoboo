@@ -484,11 +484,11 @@ MANMODE_BONUS_RUN   = 9
 
     ; ManMode tells the player what it is currently doing.  State machine.
 
-#if 0
+#if 1
                 lda SWCHB
                 and #2
                 bne skipNextLevel
-                lda #MANMODE_NEXTLEVEL
+                lda #MANMODE_WAITING2
                 sta ManMode
 skipNextLevel
 #endif
@@ -499,18 +499,18 @@ skipNextLevel
   sta ManMode
 notComplete
 
-                lda SWCHB
-                and #3
-                bne .skipReset          ; BOTH select/reset = restart
+                ;lda SWCHB
+                ;and #3
+                ;bne .skipReset          ; BOTH select/reset = restart
 
-;                lsr SWCHB
-;                bcs .skipReset
+                ;lsr SWCHB
+                ;bcs .skipReset
 
     IF F1F2NEXTCAVE=YES
-                lda #MANMODE_NEXTLEVEL
-                sta ManMode
+                ;lda #MANMODE_NEXTLEVEL
+                ;sta ManMode
     ELSE
-                jmp Restart                     ; RESET = end game, jump to title screen
+                ;jmp Restart                     ; RESET = end game, jump to title screen
     ENDIF
 
 .skipReset:
@@ -727,7 +727,16 @@ RTS_CF
 
     ;------------------------------------------------------------------------------
 
-waitingMan      dec ManDelayCount
+waitingMan
+waitingManPress
+
+
+                lda NextLevelTrigger
+                ora #BIT_NEXTLIFE
+                sta NextLevelTrigger
+                rts
+
+                dec ManDelayCount
 
                 lda #0
                 sta LookingAround
@@ -758,7 +767,7 @@ intermission
                 lda #120                        ; something long.  anything.
                 sta scoringTimer                ; first time through we wait on the current display
 
-waitingManPress
+;waitingManPress
 
     ; Cycle the score display, player display, level display based on timing
     ; see "Scoring timer" reset stomp comment in bank_generic.
@@ -789,7 +798,7 @@ stillKicking
                 lda BufferedButton                   ; button pressed?
                 bmi noChange
 
-                STOP_CHANNEL 1              ; stop all long running sounds
+                ;STOP_CHANNEL 1              ; stop all long running sounds
 
     ; If it's a bonus level, even though we've died... we go to the next cave
 
@@ -814,8 +823,8 @@ normalMan
 
     ; Timer is still running, so we see if the player is to die for any reason
 
-                bit demoMode
-                bmi stayAlive
+;                bit demoMode
+;                bmi stayAlive
     ; SELECT pressed?
 ;                lda SWCHB
 ;                eor #$FF

@@ -81,11 +81,11 @@ CaveInformation
     ADD_CAVE TowC
     ADD_CAVE SimpleC
     ADD_CAVE Thomas_Reinke16
-    ADD_CAVE bAlfa_DrFogh
-    ADD_CAVE b51X_Sharpen
     ADD_CAVE bDarcy_Burnsell101
+    ADD_CAVE bAlfa_DrFogh
     ADD_CAVE bAislin101
     ADD_CAVE b82X_Sharpen
+    ADD_CAVE b51X_Sharpen
     ENDIF
 
 ; undo/rewind

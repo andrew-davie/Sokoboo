@@ -242,10 +242,9 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
                 .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
                 .byte CHARACTER_BLANK       ;  9
 
-
-    IF * - CharReplacement < CHARACTER_MAXIMUM
-        ECHO "ERROR: Missing entry in CharReplacement table!"
-        EXIT
+    IF (* - CharReplacement != CHARACTER_MAXIMUM)
+        ECHO "ERROR: Incorrect CharReplacement table!"
+        ERR
     ENDIF
     CHECKPAGEX CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
 

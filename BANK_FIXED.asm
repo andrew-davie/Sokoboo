@@ -586,32 +586,6 @@ MovePlayer
 MOVE_BLANK
 MOVE_SOIL
 
-
-                ldy #SOUND_MOVE_SOIL            ; 2
-
-    ; lowest priority, look for a free channel, 0 first
-
-                lax newSounds
-                and #SND_MASK_LO
-                bne .skipUseLow                 ;               LO channel is not available
-
-                tya
-                bne .setSound                   ;               unconditional: USE lo channel!
-
-.skipUseLow
-                txa
-                and #SND_MASK_HI
-                bne checkForSnatch              ;2/3            no channel available so skip sound
-
-                tya
-                asl
-                asl
-                asl
-                asl                             ;               use requested sound in Hi channel
-
-.setSound       ora newSounds
-                sta newSounds
-
     ;---------------------------------------------------------------------------
     ; Handle snatching...
 
@@ -971,7 +945,7 @@ NewFrameBD
 
                 bit NextLevelTrigger
                 bpl NextCaveLevel               ; game-triggered next level
-                ;bvs RestartCaveNextPlayer       ; loss of life
+                bvs RestartCaveNextPlayer       ; loss of life
 
     ; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
 
@@ -989,15 +963,6 @@ NewFrameBD
 
 
     #include "sound/intro1_player.asm"
-
-
-                ;ldx #BANK_PlaySounds
-                ;stx SET_BANK
-
-    ;---------------------------------------------------------------------------
-    ; Do not separate code, as bank assumption is made
-
-                ;jsr PlaySounds                  ; 6+x   Jentzsch sound system
 
                 jsr StealCharDraw               ; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
 
@@ -1085,9 +1050,9 @@ CharacterDataVecLO
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
                 .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
 
-    IF * - CharacterDataVecLO < CHARACTER_MAXIMUM*2
-        ECHO "ERROR: Missing entry in CharacterDataVecLO table!"
-        EXIT
+    IF * - CharacterDataVecLO != CHARACTER_MAXIMUM*2
+        ECHO "ERROR: Incorrect CharacterDataVecLO table!"
+        ERR
     ENDIF
 
     ;---------------------------------------------------------------------------
@@ -1117,9 +1082,9 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
 
-    IF * - CharacterDataVecHI < CHARACTER_MAXIMUM*2
-        ECHO "ERROR: Missing entry in CharacterDataVecHI table!"
-        EXIT
+    IF * - CharacterDataVecHI != CHARACTER_MAXIMUM*2
+        ECHO "ERROR: Incorrect CharacterDataVecHI table!"
+        ERR
     ENDIF
 
     ;---------------------------------------------------------------------------
