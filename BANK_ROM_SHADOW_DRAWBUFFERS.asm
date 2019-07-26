@@ -235,7 +235,7 @@ CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
                 .byte CHARACTER_SOIL        ;  1
                 .byte CHARACTER_BOX         ;  2
 ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target squares
-                .byte CHARACTER_TARGET      ;  4
+                .byte CHARACTER_TARGET2     ;  4
                 .byte CHARACTER_MANOCCUPIED ;  5
                 .byte CHARACTER_STEEL       ;  6
                 .byte CHARACTER_WALL        ;  7

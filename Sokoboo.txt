@@ -8428,7 +8428,7 @@
     235  21d4		       01		      .byte.b	CHARACTER_SOIL	;  1
     236  21d5		       02		      .byte.b	CHARACTER_BOX	;  2
     237  21d6		       03	   ANIM_TARGET .byte.b	CHARACTER_TARGET	;  3  XOR'd to give flashing target squares
-    238  21d7		       03		      .byte.b	CHARACTER_TARGET	;  4
+    238  21d7		       04		      .byte.b	CHARACTER_TARGET2	;  4
     239  21d8		       05		      .byte.b	CHARACTER_MANOCCUPIED	;  5
     240  21d9		       06		      .byte.b	CHARACTER_STEEL	;  6
     241  21da		       07		      .byte.b	CHARACTER_WALL	;  7
