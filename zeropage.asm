@@ -27,7 +27,7 @@ POS_Type                        ds 1
 POS_VAR                         ds 1
 
 BufferedJoystick                ds 2        ; player joystick input
-BufferedButton                  ds 1        ; player button press
+BufferedButton                  ds 2        ; player button press
 
     ; Scrolling is limited to only show board within the following area...
 BoardLimit_Width                ds 1        ; width of current playfield (only used in UnpackLevel)
@@ -80,23 +80,14 @@ levelDisplay                     ds 1            ; what to display as the cave I
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
 ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
-;magicAmoebaTime                 ds 1            ; time for magic wall and amoeba slow growth
-targetsRequired                  ds 1            ; TJ: changed that (NOTE: counts down to 0 then (negatively) UP to give extra diamonds found.)
-;diamondsWorth                   ds 1            ; TJ: could be moved to Scoring Bank
-;diamondsExtraWorth              ds 1            ; TJ: could be moved to Scoring Bank
-caveTime                        ds 1            ; BCD seconds for level
-caveTimeHi                      ds 1
-caveTimeFrac                    ds 1
+targetsRequired                  ds 1           ; number of un-targeted left to go
+moveCounter                        ds 1            ; BCD seconds for level
+moveCounterHi                      ds 1
 color                           ds 3            ; RGB for NTSC, RGB for PAL
 Board_AddressR                  ds 2
 Board_AddressW                  ds 2
 ROM_Bank                        ds 1            ; last switched ROM bank (not accessible if RAM subsequently switched)
 RAM_Bank                        ds 1
-
-;  IF TJ_MODE
-;addressR                        = Board_AddressR
-;addressW                        = Board_AddressW
-;  ENDIF
 
 ColourTimer                     ds 1            ; colour of BG in scoring area to show level flash/complete
 extraLifeTimer                  ds 1            ; should be 5 seconds!

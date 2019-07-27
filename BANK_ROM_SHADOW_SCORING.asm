@@ -5,7 +5,7 @@
 
 ;TODOs:
 ; + store targetsRequired as BCD (with extra diamond flag in separate variable)
-; + store caveTime as BCD (2 bytes)
+; + store moveCounter as BCD (2 bytes)
 ; + diamonds left, time right (while playing)
 ; + six digit score, centered (short period after scoring)
 ; + player, men, cave/level (P#2 3 R, E/1) (at start of level, until Rockford appears)
@@ -896,27 +896,12 @@ HighScoreColTbl:
 
     ; mid-digit-change, but we may be required to flash/display
                 ldy #SM_OFS_TIME
-                lda caveTimeHi
-                bne BGOK
-                ;lda caveTime
-                ;cmp #RED_TIME_WARNING
-                ;bcs BGOK
-                ;lda caveTimeFrac
-                ;adc #$20
-                ;and #$60                            ; 75% on, 25% off
-                ;bne BGOK
-
-                ;lda #ID_BLANK<<4|ID_BLANK
-                ;jsr SetupBCDPtr
-                ;lda #ID_CLOCK<<4|ID_BLANK
-                ;bne SetupBCDPtr                     ; ASSUMES ID_BLANK != 0
-BGOK
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE SetupTimePtr
 
-                lda caveTime
+                lda moveCounter
                 jsr SetupBCDPtr
-                lda caveTime+1
+                lda moveCounter+1
                 ora #ID_CLOCK<<4
 
         ; fall through

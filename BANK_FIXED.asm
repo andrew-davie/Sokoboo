@@ -529,8 +529,6 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
      ;---------------------------------------------------------------------------
 
 MovePlayer
-
-
                 lda ManMode
                 cmp #MANMODE_DEAD
                 bcs ManIsDead2
@@ -567,34 +565,9 @@ MovePlayer
 
     ;---------------------------------------------------------------------------
 
-
-;MOVE_TARGET
-;                lda INTIM
-;                cmp #SEGTIME_GET_TARGET
-;                STRESS_TIME SEGTIME_GET_TARGET
-
-;    IF MULTI_BANK_BOARD = YES
-;                lda RAM_Bank
-;    ELSE
-;                lda #BANK_BOARD
-;    ENDIF
-;                sta SET_BANK_RAM
-;                bpl checkForSnatch              ;3              unconditional
-
-    ;---------------------------------------------------------------------------
-
-MOVE_BLANK
-MOVE_SOIL
-
-    ;---------------------------------------------------------------------------
-    ; Handle snatching...
-
-MOVE_TARGET
-checkForSnatch
-
-
-                lda #BANK_BOARD
-                sta SET_BANK_RAM
+    DEFINE_SUBROUTINE MOVE_BLANK
+    DEFINE_SUBROUTINE MOVE_SOIL
+    DEFINE_SUBROUTINE MOVE_TARGET
 
                 ldy POS_X_NEW
                 lda (Board_AddressR),y
@@ -613,36 +586,27 @@ checkForSnatch
                 pla
                 sta POS_VAR
 
-
-pastblank       lda POS_X_NEW                   ; 3
+                lda POS_X_NEW                   ; 3
                 sta ManX                        ; 3
                 lda POS_Y_NEW                   ; 3
                 sta ManY                        ; 3 = 12        actually MOVE!
 
+    ; Move counter..
+
                 sed
                 clc
-                lda caveTime
+                lda moveCounter
                 adc #1
-                sta caveTime
-                lda caveTime+1
+                sta moveCounter
+                lda moveCounter+1
                 adc #0
-                sta caveTime+1
+                sta moveCounter+1
                 cld
 
-MOVE_GENERIC
-; TJ: used by:
-; - BANK_FIXED.asm
-                lda #0                          ; 2
+MOVE_GENERIC    lda #0                          ; 2
                 sta ManPushCounter              ; 3
 
-                jsr UpMoveCount
-
 timeExit        rts                             ; 6 = 11
-
-
-    DEFINE_SUBROUTINE UpMoveCount
-
-                rts
 
     ;---------------------------------------------------------------------------
 

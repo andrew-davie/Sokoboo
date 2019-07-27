@@ -493,10 +493,13 @@ MANMODE_BONUS_RUN   = 9
 skipNextLevel
 #endif
 
-  lda targetsRequired
-  bne notComplete
-  lda #MANMODE_NEXTLEVEL
-  sta ManMode
+
+  ; Check if all the boxes are on their target square
+
+                lda targetsRequired
+                bne notComplete
+                lda #MANMODE_NEXTLEVEL
+                sta ManMode
 notComplete
 
                 ;lda SWCHB
@@ -574,16 +577,6 @@ ManActionHI
                 ldx level
 .intermission2
 
-;                lda TimeFracTbl,x
-;                bit LookingAround
-;                bpl notSlowTime
-;                lda #0                           ; new behaviour: time does not count down when looking around
-                ;lsr                             ; go half-speed time countdown when looking around
-;notSlowTime
-;                adc caveTimeFrac
-;                sta caveTimeFrac
-;                bcc .forceTimeDraw
-
                 ldx #1
 .setLoops
                 stx timerLoops
@@ -596,19 +589,19 @@ ManActionHI
 .notScoring
 ;                sed
 ;                sec
-;                lda caveTime
+;                lda moveCounter
 ;                sbc #1
-;                sta caveTime
+;                sta moveCounter
 ;                cld
 ;                bcs .skipHi2a
-;                dec caveTimeHi
+;                dec moveCounterHi
 ;.skipHi2a
 ; check for running out of time sound:
-;                lda caveTimeHi
+;                lda moveCounterHi
 ;                bne .timeAbove9
 ;                lda #$09
 ;                sec
-;                sbc caveTime
+;                sbc moveCounter
 ;                bcc .timeAbove9
 ; this assumes that SND_MASK_HI = %11110000
 ;  and the time entries are ordered 9 to 0!
@@ -623,7 +616,7 @@ ManActionHI
 ;                ora tmpSound
 ;                sta newSounds
 ;.skipTimeSound:
-;                ldx caveTime
+;                ldx moveCounter
 ;                bne .timeNotZero
 ;                stx AUDV0                       ; stop bonus sound
 ;                stx soundIdxLst
@@ -729,6 +722,9 @@ RTS_CF
 
 waitingMan
 waitingManPress
+
+;                lda #50
+;                sta ColourTimer
 
 
                 lda NextLevelTrigger
@@ -888,6 +884,9 @@ timeTooShortToDie
 
     DEFINE_SUBROUTINE LookAround ; in INITBANK
 
+                lda #$FF
+                sta BufferedButton
+
                 ;ldx Platform
                 ;lda lookColour,x
                 ;sta BGColour
@@ -951,6 +950,7 @@ LOOK_DELAY = 0
                 ldx LookingAround
                 dex
 noLook          stx LookingAround
+
 
     ;------------------------------------------------------------------------------
 

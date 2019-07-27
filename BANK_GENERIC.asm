@@ -86,6 +86,8 @@ opg             sta ManCount                                  ; P2P1 nybble each
 
                 lda #$FF
                 sta DrawStackPointer
+                sta BufferedButton
+                sta BufferedButton+1
 
                 lda #DIRECTION_BITS
                 sta ManLastDirection
@@ -499,11 +501,11 @@ OverscanTime
     ;      when the door opens (flash)          ColourTimer>0                   WHITE
 
 
-                lda LookingAround
-                bpl nolooker                    ; if not looking around, that will do nicely
-                ldy #0 ;sok
-;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
-nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
+;                lda LookingAround
+;                bpl nolooker                    ; if not looking around, that will do nicely
+;                ldy #0 ;sok
+;;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
+;nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
 
                 lda ThrottleSpeed
                 clc
@@ -580,9 +582,8 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
                 ldx ColourTimer
                 beq noFlashBG
                 dec ColourTimer
-                lda #WHITE
-                sta BGColour
-noFlashBG
+                ldx #WHITE
+noFlashBG       stx BGColour
 
 ;                lda extraLifeTimer
 ;                beq alreadyBlack2
@@ -595,6 +596,7 @@ noFlashBG
                 lda BufferedJoystick            ; previous frame
                 sta BufferedJoystick+1          ; -> buffered
 
+
     ; Create a 'standardised' joystick with D4-D7 having bits CLEAR if the appropriate direction is chosen.
     ; P2 is shifted UP, so we don't need to worry in usage elsewhere (it's same format as a P1 joystick)
 
@@ -603,6 +605,7 @@ noFlashBG
                 tax                             ; 2
 
                 lda INPT4,x                     ; 4
+                and BufferedButton
                 sta BufferedButton              ; 3 = 15
 
                 lda SWCHA                       ; 4

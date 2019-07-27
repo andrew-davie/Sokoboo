@@ -235,8 +235,8 @@ xyClear       jsr PutBoardCharacterFromRAM
               sta color+2
 
               lda #$00
-              sta caveTime
-              sta caveTimeHi
+              sta moveCounter
+              sta moveCounterHi
 
               lda #$00                      ; BCD reminder!
               sta targetsRequired           ; # of targets that do NOT have boxes on them
