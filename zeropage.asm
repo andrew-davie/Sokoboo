@@ -41,7 +41,7 @@ scrollBits                      ds 1
 ;MagicAmoebaFlag                 ds 1        ; status of magic wall and amoeba
 
 whichPlayer                     ds 1        ; 0 = P1, 1 = P2
-
+manAnimationIndex               ds 1
 ManX                            ds 1
 ManY                            ds 1
 ManDrawX                        ds 1

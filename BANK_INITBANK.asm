@@ -485,12 +485,24 @@ MANMODE_BONUS_RUN   = 9
     ; ManMode tells the player what it is currently doing.  State machine.
 
 #if 1
+  ; RESET to start next level
+
                 lda SWCHB
                 and #2
                 bne skipNextLevel
-                lda #MANMODE_WAITING2
+                lda #MANMODE_NEXTLEVEL
                 sta ManMode
 skipNextLevel
+
+  ; RESET to re-start current level
+
+                lda SWCHB
+                and #1
+                bne noReset
+                lda #MANMODE_WAITING2
+                sta ManMode
+noReset
+
 #endif
 
 
@@ -672,8 +684,8 @@ TimeFracTbl:
                 sta POS_Y_NEW ;NewY
                 sta POS_Y
 
-                inc POS_VAR
-                ldx POS_VAR                 ; animation index
+                inc manAnimationIndex
+                ldx manAnimationIndex                 ; animation index
                 lda .ManStartup-1,x
                 bmi CreateRockford
                 sta POS_Type
@@ -684,9 +696,6 @@ TimeFracTbl:
                 jmp PutBoardCharacterFromRAM    ;70 --> switches this bank out but who cares!
 
 CreateRockford
-
-                lda #CHARACTER_BLANK
-                sta POS_VAR
 
                 inc ManMode                 ; --> MANMODE_NORMAL
 RTS_CF

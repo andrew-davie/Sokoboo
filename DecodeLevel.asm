@@ -78,6 +78,11 @@ CaveInformation
 
                 ; The ordering here corresponds to the ordering when playing...
     IF FINAL_VERSION = YES || DEMO_VERSION = NO
+    ;ADD_CAVE _057_L
+    ADD_CAVE _0VM5_Andrea_Wadd
+    ADD_CAVE _0PAL_Jill_Leatherby
+    ADD_CAVE _0IZ1_Sophia
+    ADD_CAVE _0CNH_Alice
     ADD_CAVE TowC
     ADD_CAVE SimpleC
     ADD_CAVE Thomas_Reinke16
@@ -374,12 +379,15 @@ genPlayer
 
               ; POS_X     x position
               ; POS_Y     y position
-              ; POS_VAR   direction or other variable
+              ; POS_VAR   CHARACTER UNDER MAN TO RESTORE
               ; POS_Type  type of object
 
               lda #TYPE_MAN
               sta POS_Type                    ;       creature TYPE
               jsr InsertObjectStackFromRAM    ;6+94(B)
+
+              lda #0
+              sta manAnimationIndex
 
               pla
               sta POS_Y
