@@ -1,10 +1,4 @@
 
-;------------------------------------------------------------------------------
-; Some portions of this code may be freely used for private, educational and research
-; purposes
-; If you wish to profit from this code, please ask for permission first.
-;------------------------------------------------------------------------------
-
 
 TIA_BASE_ADDRESS = $40
 
@@ -52,28 +46,13 @@ NTSC_MODE               SET NO
 FINAL_VERSION                   = NO           ; this OVERRIDES any selections below and sets everything correct for a final release
 ;===================================
 
-
-;===================================
-DEMO_VERSION                    SET NO         ; force a dual-level playable demo only
-;===================================
-
-
-;-------------------------------------------------------------------------------
-; The following should be NO for the final or DEMO version
-TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a special setup for testing the bonus countdown
-F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
-CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
-SHOWDIAMONDP                    SET NO          ; debug show diamond on P
-
 ;-------------------------------------------------------------------------------
 ; The following should be YES for the final or DEMO version
 EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-;SPECIAL_ADD_UnpackLevel          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 
 ;-------------------------------------------------------------------------------
 ; The following are optional YES/NO depending on phase of the moon
 L276                            SET YES         ; use 276 line display for NTSC
-INITIAL_SCROLL                  SET NO          ; initially scroll board from Rockford's last position
 ;-------------------------------------------------------------------------------
 
 NUMPLAYERS      = 1                             ; 1-indexed
@@ -86,29 +65,8 @@ DEMO_DELAY      SET 1                           ; number of music loops without 
 ; DO NOT MODIFY THE BELOW SETTINGS -- USE THE ONES ABOVE!
 ; Here we make sure everyting is OK based on the single switch -- less chance for accidents
  IF FINAL_VERSION = YES
-DEMO_VERSION                    SET NO          ; force a dual-level playable demo only
-TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a special setup for testing the bonus countdown
-F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
-CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
-EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-;SPECIAL_ADD_UnpackLevel          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
 L276                            SET YES         ; use 276 line display for NTSC
-SHOWDIAMONDP                    SET NO          ; debug show diamond on P
-
-NUM_LIVES                       SET 3           ; use -1 for unlimited lives
-DEMO_DELAY                      SET 2           ; number of music loops without joystick input before demo kicks in
-NTSC_MODE                       SET YES         ; mmh
- ENDIF
-
- IF DEMO_VERSION = YES
-TEST_BONUS_COUNTDOWN            SET NO          ; causes level A1 to have a special setup for testing the bonus countdown
-F1F2NEXTCAVE                    SET NO          ; debugging -- F1+F2 will trigger next level. Good to test the progression of level/caves
-CONSTRUCTIONKIT                 SET NO          ; patch-capable binary for construction kit usage
-EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-SORT_OBJECTS                    SET NO         ; Warning: can be slow on complex screens
-;SPECIAL_ADD_UnpackLevel          SET YES         ; causes BOXs and diamonds to be added as falling objects on cave startup
-L276                            SET YES         ; use 276 line display for NTSC
-SHOWDIAMONDP                    SET NO          ; debug show diamond on P
+SHOWTARGETP                    SET NO          ; debug show TARGET on P
 
 NUM_LIVES                       SET 3           ; use -1 for unlimited lives
 DEMO_DELAY                      SET 2           ; number of music loops without joystick input before demo kicks in
@@ -117,17 +75,11 @@ NTSC_MODE                       SET YES         ; mmh
 
 ;-------------------------------------------------------------------------------
 
-;SHOW_TITLE                      SET YES         ; NOW *REQUIRED* FOR CAVE/LEVEL SELECTION!!!
-
-
 COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
 PUSH_LIMIT                      = 1           ; slowdown when pushing on a BOX
-
-; POS_VAR flags:
-VAR_ON_TARGET                  = %00100000     ; object is 'standing' on diamond
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -146,8 +98,6 @@ DISPLAY_TIME                = %00
 DISPLAY_SCORE               = %01
 DISPLAY_LIVES               = %10
 DISPLAY_HIGH                = %11
-EXTRA_100_TARGETS          = $40               ; set if more than 100 extra diamonds collected
-EXTRA_TARGETS              = $80               ; set if collecting extra diamonds
 
 ;------------------------------------------------------------------------------
 
@@ -581,7 +531,7 @@ timerLoops          ds 1
 
 dummySK             ds 3        ; avoid getting overwritten by CopyROMShadowToRAM
 highScoreSK         ds 3
-startCave           ds 1        ; cave * 5
+startingLevel           ds 1        ; levelx * 5
 startLevel          ds 1
 offsetSK            ds 1        ; for calculating the SK slot address
 
@@ -606,18 +556,6 @@ POS_Vector          ds 2
                 VALIDATE_OVERLAY
 
 ;------------------------------------------------------------------------------
-                OVERLAY Surround
-Temp_Board_Address1     ds 2
-Temp_Board_Address2     ds 2
-Temp_Board_Address3     ds 2
-;    IF MULTI_BANK_BOARD = YES          ; commented, else DASM freaks out
-Temp_Bank2               ds 1
-Temp_Bank3               ds 1
-;    ENDIF
-
-    ;ECHO "FREE BYTES IN OVERLAY_Surround = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
-;------------------------------------------------------------------------------
 
                 OVERLAY ScoreLineOverlay
 
@@ -640,61 +578,19 @@ loop            ds 1
 
                 OVERLAY UnpackLevelOverlay
 
-; used everywhere
-ptrCave         ds 4    ; two pointers
-
-randSeed1       ds 1
-randSeed2       ds 1
-tempRand1       ds 1
-tempRand2       ds 1
-tmpScore        ds 1
-
 base_x          ds 1
 base_y          ds 1
 upk_length      ds 1
 upk_column      ds 1
 upk_temp      ds 1
 
-;------------------------------------------------------------------------------
-
-object          ds 1
-structType      = randSeed1
-column          = randSeed2
-row             = tempRand1
-length          = tempRand2
-height          = ptrCave+2
-direction       = ptrCave+3
-tmpLength       ds 1
-
     ;ECHO "FREE BYTES IN UnpackLevelOverlay = ", OVERLAY_SIZE - ( * - Overlay )
                 VALIDATE_OVERLAY
 
 ;------------------------------------------------------------------------------
 
-                OVERLAY Copyright
-LoopCount           ds 1
-colorBK             ds 1
-Temp                ds 2
-CopyTime            ds 1
-saveSP              ds 1
-                VALIDATE_OVERLAY
-
                 OVERLAY ManProcessing
 actionVector        ds 2
-                VALIDATE_OVERLAY
-
-                OVERLAY CaveDecode
-savex           ds 1
-                VALIDATE_OVERLAY
-
-
-                OVERLAY TJSound
-                ; temps (overlay these with existing temps to save RAM)
-musicTemp           ds 1
-musicTemp16L        ds 1
-musicTemp16H        ds 1
-musicAtten          ds 1
-tmpVar              ds 1
                 VALIDATE_OVERLAY
 
                 OVERLAY SetPlatformColours
@@ -708,74 +604,6 @@ tmpX                ds 1
                 OVERLAY DrawIntoStack
 save_SP             ds 1
                 VALIDATE_OVERLAY
-
-
-    ;------------------------------------------------------------------------------
-    ;##############################################################################
-    ; TITLE SCREEN VARS
-    ;------------------------------------------------------------------------------
-
-NUM_BLOCKS  = 33        ; number of text graphics blocks
-BLOCK_H     = 4         ; height of the text graphics blocks
-BORDER_H    = 8         ; height of border blocks (~width of one PF pixel)
-GAP_H       = 6         ; height of gap blocks (~width of one PF pixel)
-TKERNEL_H   = NUM_BLOCKS*BLOCK_H + 2*BORDER_H + 2*GAP_H ; = 160
-LKERNEL_H   = 32        ; height of logo/selection
-
-                SEG.U   variables2
-                ORG     Platform+1
-
-startOfTitleRAM = .
-; current selection (has to be 0..x):
-NUM_SEL         = 4
-
-selLst          ds NUM_SEL
-sCave           = selLst        ; 0..3/19 (FINAL_VERSION = A, E, I, M, multiply by 5 to get real number, )
-sLevel          = selLst+1      ; 0..4
-sPlayers        = selLst+2      ; 0..1
-sJoysticks      = selLst+3      ; 0..1
-endTitleClear   = .
-
-; from here the variables can be cleared
-titleMode       ds 1        ; logo = 0/selection = 1
-counter         ds 1
-btnReleased     ds 1
-hmJunior        ds 1        ; $f0/$50
-; music vars:
-noteLen         ds 1
-noteIdx         ds 1
-note0           ds 1
-note1           ds 1
-
-inputBuffer     ds 1
-demoDelay       ds 1
-
-audv0Lo         ds 1
-audv0Hi         ds 1
-audv1Lo         ds 1
-audv1Hi         ds 1
-; offset to compensate early precalculation:
-audvOfsLo       ds 1
-audvOfsHi       ds 1
-
-; selection vars
-tmpY            ds 1
-tmpGfx          = tmpY
-tmpGfxA         = tmpGfx
-tmpGfxB         ds 1
-
-loopCntFSS      ds 1
-loopCntSel      = loopCntFSS
-ptrGfxA         ds 2
-ptrGfxB         ds 2
-
-selRow          ds 1
-
-audvTmpLo       ds 1    ; high values stored in following list
-audV0Lst        ds (TKERNEL_H + LKERNEL_H)/2        ; = 96 bytes
-audV0LstBtm     = audV0Lst
-audV0LstTop     = audV0Lst + LKERNEL_H/2
-endOfTitleRAM   = .
 
     ;------------------------------------------------------------------------------
     ;##############################################################################
@@ -848,8 +676,8 @@ SCREEN_BITMAP_SIZE      = 4 * LINES_PER_CHAR
     ;##############################################################################
     ;------------------------------------------------------------------------------
 
-                NEWRAMBANK BANK_DECODE_CAVE
-; VARS DEFINED IN BANK_DECODE_CAVE_SHADOW
+                NEWRAMBANK BANK_DECODE_LEVEL
+; VARS DEFINED IN BANK_DECODE_LEVEL_SHADOW
 ; SELF-MODIFYING SUBROUTINES MAY BE PRESENT IN THIS BANK TOO!
                 VALIDATE_RAM_SIZE
 
@@ -889,33 +717,6 @@ ObjStackType    ds OBJ_STACK_SIZE       ; type of object
                 NEWRAMBANK BANK_OBJSTACK2
     ; THIS IS A MIRROR OF BANK_OBJSTACK -- DO NOT MODIFY OR USE!!
                 VALIDATE_RAM_SIZE
-
-    ;------------------------------------------------------------------------------
-
-;                NEWRAMBANK BANK_OBJSTACKA
-
-;
-
-
-;    ECHO "FREE RAM IN BANK_OBJSTACKA = ", RAM_SIZE - ( * - BANK_START )
-
-;              VALIDATE_RAM_SIZE
-
-    ;------------------------------------------------------------------------------
-
-;                NEWRAMBANK BANK_OBJSTACKA2
-    ; THIS IS A MIRROR OF BANK_OBJSTACKA -- DO NOT MODIFY OR USE!!
-;                VALIDATE_RAM_SIZE
-
-    ;------------------------------------------------------------------------------
-    ;##############################################################################
-    ;------------------------------------------------------------------------------
-
-;                NEWRAMBANK BANK_TITLE_SCREEN
-; VARS DEFINED IN ROM_SHADOW_OF_TITLE_SCREEN
-; SELF-MODIFYING SUBROUTINES MAY BE PRESENT IN THIS BANK TOO!
-;                VALIDATE_RAM_SIZE
-
 
     ;------------------------------------------------------------------------------
     ;##############################################################################
@@ -983,87 +784,38 @@ ORIGIN          SET ORIGIN * RAM_SIZE
 
 ;------------------------------------------------------------------------------
 
-;    IFNCONST MAX_CAVE_SIZE
-MAX_CAVE_SIZE SET 0
+;    IFNCONST MAX_LEVEL_SIZE
+MAX_LEVEL_SIZE SET 0
 ;    ENDIF
 
-;    IFNCONST MAX_CAVE_NUMBER
-MAX_CAVE_NUMBER SET 0
-;    ENDIF
-
-    MAC START_CAVE ; {name}
-CAVE_START  SET *
-BANK_CAVE_{1} = _CURRENT_BANK
-CAVE_{1}    SUBROUTINE
-MAX_CAVE_NUMBER SET MAX_CAVE_NUMBER + 1
-; ECHO "current MAX_CAVE_NUMBER = ", MAX_CAVE_NUMBER
+    MAC START_LEVEL ; {name}
+LEVEL_START  SET *
+BANK_LEVEL_{1} = _CURRENT_BANK
+LEVEL_{1}    SUBROUTINE
+MAX_LEVEL_NUMBER SET MAX_LEVEL_NUMBER + 1
+; ECHO "current MAX_LEVEL_NUMBER = ", MAX_LEVEL_NUMBER
     ENDM
 
 
-    MAC END_CAVE ; {name}
-                .byte $FF
-CAVE_SIZE_{1}  = * - CAVE_START
-    IF CAVE_SIZE_{1} > MAX_CAVE_SIZE
-MAX_CAVE_SIZE SET CAVE_SIZE_{1}
+    MAC END_LEVEL ; {name}
+                .byte 0
+LEVEL_SIZE_{1}  = * - LEVEL_START
+    IF LEVEL_SIZE_{1} > MAX_LEVEL_SIZE
+MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
     ENDIF
     ENDM
-
-                MAC CAVE_SIZE ; x, y
-                                .byte {1},{2}
-                ENDM
-
-                MAC CAVE_SIZE_ROOM
-                    CAVE_SIZE 40, 22
-                ENDM
-
-                MAC CAVE_SIZE_INTERMISSION
-                    CAVE_SIZE 20, 12
-                ENDM
-
-                MAC STOCH ; {character} {x} {y}
-                                .byte {1},{2},{3}
-                ENDM
-
-                MAC CAVE_RANDOM ; {1}{2}{3}{4}{5}
-                                .byte {1},{2},{3},{4},{5}
-                ENDM
-
-;-------------------------------------------------------------------------------
-; Define which screens are to be included in assembly. This sets the INCLUSION.
-; The ORDERING is defined in a similar table in UnpackLevel.asm.
-
-                MAC INCLUDE_CAVE ; {name}
-CAVE_ACTIVE_{1}  SET 0
-                ENDM
-
-    INCLUDE_CAVE _0CNH_Alice
-    INCLUDE_CAVE TowC
-    INCLUDE_CAVE SimpleC
-    INCLUDE_CAVE Thomas_Reinke16
-    INCLUDE_CAVE bAlfa_DrFogh
-    INCLUDE_CAVE b51X_Sharpen
-    INCLUDE_CAVE bDarcy_Burnsell101
-    INCLUDE_CAVE bAislin101
-    INCLUDE_CAVE b82X_Sharpen
-
-MAX_CAVENUM                     EQU CAVENUM
-
-    INCLUDE_CAVE SELECTION_SCREEN          ; This should be the LAST cave, though!
-
 
 ;--------------------------------------------------------------------------------
 
 ORIGIN      SET $00000
 
-            include "BANK_MUSIC.asm"
-            include "BANK_TITLE.asm"
-            include "BANK_TITLE_LOGO.asm"
             include "BANK_Demo.asm"             ; upper half of BANK_TITLE_LOGO
             include "BANK_ROM_SHADOW_RAMBANK.asm"
             include "BANK_ROM_SHADOW_DRAWBUFFERS.asm"
             include "BANK_ROM_SHADOW_SCORING.asm"
             include "BANK_GENERIC.asm"
-            include "BANK_INITBANK.asm"         ; MUST be after banks that include caves -- otherwise MAX_CAVEBANK is not calculated properly
+            include "BANK_LEVELS.asm"
+            include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
             include "BANK_FIXED.asm"
 
             END

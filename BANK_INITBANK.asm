@@ -238,46 +238,6 @@ DrawLineStartLO
 
     ;------------------------------------------------------------------------------
 
-    ; +------+------+------+
-    ; |*     | a(0) |      |   *= where Temp_board_address1 points
-    ; +------+------+------+
-    ; | d(3) | X(4) | b(1) |
-    ; +------+------+------+
-    ; |      | c(2) |      |
-    ; +------+------+------+
-
-
-    DEFINE_SUBROUTINE GetBoardAddress4 ;=72[-16](C)
-
-                ldy POS_Y                       ;3
-
-                lda BoardLineStartLO-1,y        ;4
-                sta Temp_Board_Address1         ;3
-                lda BoardLineStartLO+1-1,y      ;4
-                sta Temp_Board_Address2         ;3
-                lda BoardLineStartLO+2-1,y      ;4
-                sta Temp_Board_Address3         ;3
-                lda BoardLineStartHiR-1,y       ;4
-                sta Temp_Board_Address1+1       ;3
-                lda BoardLineStartHiR+1-1,y     ;4
-                sta Temp_Board_Address2+1       ;3
-                lda BoardLineStartHiR+2-1,y     ;4
-                sta Temp_Board_Address3+1       ;3
-    IF MULTI_BANK_BOARD = YES
-                lda BoardBank+1-1,y             ;4
-                sta Temp_Bank2                  ;3
-                lda BoardBank+2-1,y             ;4
-                sta Temp_Bank3                  ;3
-                lda BoardBank-1,y               ;4
-                ;sta Temp_Bank                  ;   this becomes switched in RAM bank in normal usage
-    ELSE
-                lda #BANK_BOARD                 ;2
-    ENDIF
-                ldy POS_X                       ;3
-                rts                             ;6 = 72[-16]
-
-    ;------------------------------------------------------------------------------
-
     DEFINE_SUBROUTINE GetBoardAddressW ;=24[-2](A)
 
     ; Must share same bank as BoardLineStart tables
@@ -325,7 +285,7 @@ OBJTYPE    .SET OBJTYPE + 1
     DEFINE_SUBROUTINE PushBox ; in INITBANK
 
       ; X = restoration character for square we are moving TO
-      ; so, if X = CHARACTER_TARGET AND we move, THEN we are pushing a box off a diamond
+      ; so, if X = CHARACTER_TARGET AND we move, THEN we are pushing a box off a target
 
                 sta ROM_Bank
 
@@ -461,8 +421,8 @@ Directional     .byte 1,2,3,0,1,2, 0,0, 11,8,9,10,11,8
 
     ;------------------------------------------------------------------------------
 
-; Thomas, the auto-calculation of these was causing DASM to get confused and abort assembling.
-; I don't particularly know why; probably because of the cave variable-size array and the values
+; the auto-calculation of these was causing DASM to get confused and abort assembling.
+; I don't particularly know why; probably because of the level variable-size array and the values
 ; changing from pass to pass. I've put in the hardwired values and it seems to be OK now.
 
 MANMODE_STARTUP     = 0
@@ -479,7 +439,7 @@ MANMODE_BONUS_RUN   = 9
     DEFINE_SUBROUTINE ManProcess ; in INITBANK
 
                 ;lda #$FF
-                ;sta specialTimeFlag             ; detects time overflow in bigbang (and diamond grab)
+                ;sta specialTimeFlag             ; detects time overflow in bigbang (and TARGET grab)
 
 
     ; ManMode tells the player what it is currently doing.  State machine.
@@ -521,12 +481,6 @@ notComplete
                 ;lsr SWCHB
                 ;bcs .skipReset
 
-    IF F1F2NEXTCAVE=YES
-                ;lda #MANMODE_NEXTLEVEL
-                ;sta ManMode
-    ELSE
-                ;jmp Restart                     ; RESET = end game, jump to title screen
-    ENDIF
 
 .skipReset:
 
@@ -642,7 +596,7 @@ ManActionHI
 ;                beq .nextLevel
 ;                dex                             ; == MANMODE_WAITING_NT
 ;.nextLevel
-;                stx ManMode                     ; -> man dies, but no explosion
+;                stx ManMode                     ; -> man dies
 .timeNotZero:
 .forceTimeDraw
 
@@ -687,7 +641,7 @@ TimeFracTbl:
                 inc manAnimationIndex
                 ldx manAnimationIndex                 ; animation index
                 lda .ManStartup-1,x
-                bmi CreateRockford
+                bmi CreateThePlayer
                 sta POS_Type
 
                 lda #$FF
@@ -695,7 +649,7 @@ TimeFracTbl:
 
                 jmp PutBoardCharacterFromRAM    ;70 --> switches this bank out but who cares!
 
-CreateRockford
+CreateThePlayer
 
                 inc ManMode                 ; --> MANMODE_NORMAL
 RTS_CF
@@ -704,26 +658,22 @@ RTS_CF
 .ManStartup
 ;    .byte CHARACTER_NOGO
 ;    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_STEEL
+;    .byte CHARACTER_NOGO
+;    .byte CHARACTER_STEEL
     ;.byte CHARACTER_NOGO
-    ;.byte CHARACTER_EXPLOSION3
-    ;.byte CHARACTER_EXPLOSION
-    ;.byte CHARACTER_EXPLOSION2
-    ;.byte CHARACTER_EXPLOSION1
     .byte CHARACTER_MANOCCUPIED
     .byte -1
 
@@ -741,6 +691,7 @@ waitingManPress
                 sta NextLevelTrigger
                 rts
 
+ #if 0
                 dec ManDelayCount
 
                 lda #0
@@ -756,8 +707,6 @@ waitingManPress
     ; Man loses a life and re-starts level if lives available
     ; Special-case: Bonus levels go to next level.
 
-                lda levelDisplay
-                bmi intermission                ; don't lose a life on intermission screens
     IF NUM_LIVES != -1
                 dec ManCount                  ; works for P1P2 format
     ; display lives after a live is lost
@@ -767,7 +716,7 @@ waitingManPress
                 sta scoringFlags                ;
     ENDIF
                 jsr goGeneralScoringSetups      ; update the life display. Roundabout way of doing it.
-intermission
+
 
                 lda #120                        ; something long.  anything.
                 sta scoringTimer                ; first time through we wait on the current display
@@ -789,10 +738,10 @@ intermission
                 ldx scoringFlags
                 inx
                 txa
-    ; if game over for current player, display diamonds/time, score, player/lives/cave and high score
+    ; if game over for current player, display alternate scoreboard
                 and #$f3
                 bcc gameOver
-    ; else display diamonds/time and score only
+    ; else display targets/time and move count
                 and #$f1
 gameOver        sta scoringFlags                ;
 
@@ -803,23 +752,13 @@ stillKicking
                 lda BufferedButton                   ; button pressed?
                 bmi noChange
 
-                ;STOP_CHANNEL 1              ; stop all long running sounds
-
-    ; If it's a bonus level, even though we've died... we go to the next cave
-
-                lda levelDisplay
-                bpl nonextlevel
-                ldx #MANMODE_NEXTLEVEL
-                stx ManMode
-                rts
-
-
-nonextlevel     lda NextLevelTrigger
+                lda NextLevelTrigger
                 ora #BIT_NEXTLIFE
                 sta NextLevelTrigger
 
 noChange        rts
-
+ #endif
+ 
     ;------------------------------------------------------------------------------
     ; Normal man state
 
@@ -869,9 +808,6 @@ Time0
 
                 inc ManMode                   ; #1 -- player dead!
 
-
-    ; the dead man creates an explosion...
-    ; note, if we get a segtime problem, this code will re-execute OK
 
 deadMan         lda ManX
                 sta POS_X
@@ -1108,7 +1044,7 @@ OBJTYPE    .SET OBJTYPE + 1
     ENDM
 
         ; If adding/removing types, the following must also be updated...
-        ;   InitialFace[...]                in DecodeCave.asm
+        ;   InitialFace[...]                in UnpackLevel.asm
         ;   BaseTypeCharacter[...]          in BANK_FIXED.asm
         ;   BaseTypeCharacterFalling[...]   in BANK_FIXED.asm
         ;   OSPointerLO[...]                in BANK_INITBANK.asm
@@ -1123,9 +1059,6 @@ OBJTYPE    .SET OBJTYPE + 1
                 DEFINE CIRCLE_DRAWER
 
                 DEFINE MAXIMUM
-;    IF DEMO_VERSION = NO
-;PROCESS_SELECTOR = 0
-;    ENDIF
 
 
     DEFINE_SUBROUTINE OSPointerLO
@@ -1135,7 +1068,7 @@ OBJTYPE    .SET OBJTYPE + 1
 
     IF * - OSPointerLO < TYPE_MAXIMUM-4
         ECHO "ERROR: Missing entry in OSPointerLO table!"
-        EXIT
+        ERR
     ENDIF
 
 
@@ -1146,35 +1079,8 @@ OBJTYPE    .SET OBJTYPE + 1
 
     IF * - OSPointerHI < TYPE_MAXIMUM-4
         ECHO "ERROR: Missing entry in OSPointerHI table!"
-        EXIT
+        ERR
     ENDIF
-
-;       IF TIMER_DEBUG = NO
-;    DEFINE_SUBROUTINE OSTimer
-;                .byte SEGTIME_MAN
-;                .byte SEGTIME_BOULDER1
-;                .byte SEGTIME_AMOEBASQUARE
-;                .byte SEGTIME_BUTTERFLY
-;                .byte SEGTIME_FIREFLY
-;                .byte SEGTIME_BOULDER1
-;                .byte 0                ; MAGICWALL
-;                .byte 0                 ; exit door
-;                .byte 0                    ; selection screen controller (no timer)
-;                .byte SEGTIME_EXPLOSION
-;                .byte SEGTIME_EXPLOSION
-;                .byte SEGTIME_EXPLOSION
-;                .byte SEGTIME_EXPLOSION
-;;                .byte 0
-;;                .byte 0 ;soil
-;;                .byte 0 ;steel
-;;                .byte 0 ;wall
-;
-;    IF * - OSTimer < TYPE_MAXIMUM-4
-;        ECHO "ERROR: Missing entry in OSTimer table!"
-;        EXIT
-;    ENDIF
-;       ENDIF
-
 
     ;------------------------------------------------------------------------------
 

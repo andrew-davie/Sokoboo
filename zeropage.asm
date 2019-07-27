@@ -38,8 +38,6 @@ BoardEdge_Right                 = BoardLimit_Width  ; absolute rightmost scroll 
 BoardEdge_Bottom                = BoardLimit_Height ; absolute bottommost scroll value
 scrollBits                      ds 1
 
-;MagicAmoebaFlag                 ds 1        ; status of magic wall and amoeba
-
 whichPlayer                     ds 1        ; 0 = P1, 1 = P2
 manAnimationIndex               ds 1
 ManX                            ds 1
@@ -60,7 +58,7 @@ circ_x                 ds 1
 circ_y                  ds 1
 circ_char             ds 1
 circ_scratch          ds 1
-cave_bank         ds 1
+LEVEL_bank         ds 1
 ;---------------------------------------------------------------------------
 ; 2 (shared) demo mode variables:
 demoMode                        = jtoggle       ; bit 7==1 => demo mode
@@ -73,10 +71,10 @@ timer                           ds 1
 
 BGColour                        ds 1
 
-; cave and level have to be consecutive variables!
-cave                            ds 1            ; current player's cave (other in scoring bank)
+; levelx and level have to be consecutive variables!
+levelX                            ds 1            ; current player's level (other in scoring bank)
 level                           ds 1            ; current player's level (other in scoring bank)
-levelDisplay                     ds 1            ; what to display as the cave ID
+levelDisplay                     ds 1            ; what to display as the level ID
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
 ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
@@ -99,45 +97,25 @@ scoringTimer                    ds 1            ; times the various score displa
 scoringFlags                    ds 1            ; scoring flags are stored here
 
     ; scoringFlags:
-    ; D7            Extra diamonds in effect (diamonds collected over requirement score more) ASSUMED BPL/BMI usage
+    ; D7            Extra TARGETs in effect (TARGETs collected over requirement score more) ASSUMED BPL/BMI usage
     ; D6            unused
     ; D5            unused
     ; D4            unused
     ; D3            unused
     ; D2            unused
     ; D1    D1-D0   Which display kernel to use for scoring
-    ; D0            0 = 2x4     used for diamonds/time
+    ; D0            0 = 2x4     used for TARGETs/time
     ;               1 = 1x6     used for score
     ;               2 = 3x2     used for level/lives/player
 
 NextLevelTrigger                ds 1            ; d7 -- next level.  d6 -- loss of life
 BIT_NEXTLEVEL                   = 128
 BIT_NEXTLIFE                    = 64
-BIT_GOTOLOGO                    = 1
-
-;amoebaX                         ds 1        ; x-pos of currently scanned cell
-;amoebaY                         ds 1        ; y-pos of currently scanned cell
-;amoebaFlag                      ds 1        ; current status of amoeba
-
-    ; constants for amoebaFlag:
-NOT_ENCLOSED                    = %00000001 ;
-SCAN_FINISHED                   = %00000010 ; indicates that one scan finished and the next one has to wait
-FINISHEDDIAMOND                 = %00100000 ;
-AMOEBA_PRESENT                  = %01000000 ; set during the very first amoeba object init
-TODIAMOND                       = %10000000 ;
 
 ;---------------------------------------------------------------------------
 
 sortRequired                    ds 1
 sortPtr                         ds 1
-
-;---------------------------------------------------------------------------
-; sound driver needs 6 bytes:
-soundIdxLst                     ds 2            ; index of current sound
-decayIdxLst                     ds 2            ; index of current note
-decayTimeLst                    ds 2            ; remaining lenght of current note
-soundBonusPts                   = decayIdxLst   ; shared, used for bonus points count down (channel 0!)
-newSounds                       ds 1
 
 ;------------------------------------------------------------------------------
 

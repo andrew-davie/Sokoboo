@@ -6,10 +6,10 @@
 
 
 
-    DEFINE_1K_SEGMENT DECODE_CAVE_SHADOW
+    DEFINE_1K_SEGMENT DECODE_LEVEL_SHADOW
             include "DecodeLevel.asm"
 
-            CHECK_HALF_BANK_SIZE "GENERIC_BANK_1 (DECODE_CAVE)"
+            CHECK_HALF_BANK_SIZE "GENERIC_BANK_1 (DECODE_LEVEL)"
 
     ;------------------------------------------------------------------------------
     ; ... the above is a RAM-copied section -- the following is ROM-only.  Note that
@@ -25,31 +25,20 @@
 
     ; odd usage below is to prevent any possibility of variable stomping/assumptions
 
-                lda sCave                                       ; cave # from title select
-                pha
-                lda #1 ;sPlayers
-                ldx sLevel                                      ; level # from title select
-                ldy sJoysticks
+                lda #1
+                ldx #0 ;sLevel                                      ; level # from title select
+                ldy #0 ;sJoysticks
                 sty jtoggle
                 stx level
                 sta ManCount                                  ; = #players
-                pla
-    lda #0 ;tmp
-                sta cave                                        ; make an immediate copy to safe variables!
+                lda #0
+                sta levelX                                        ; make an immediate copy to safe variables!
+                sta startingLevel
 
-;    IF FINAL_VERSION
-;                asl
-;                asl
-;                adc cave                                       ; *5 because it only cycles 0/1/2/3 equaing to caves 0/5/10/15
-;                sta cave
-;    ENDIF
-                sta startCave
-
-    ; multiply with CAVE_DATA_SIZE (5):
+    ; multiply with LEVEL_DEFINITION_SIZE (5):
                 asl
                 asl
-;                adc cave
-                sta cave
+                sta levelX
 
                 lda #1
                 sta whichPlayer                                 ; will switch to 0 on 1st go
@@ -113,7 +102,7 @@ opg             sta ManCount                                  ; P2P1 nybble each
 
     DEFINE_SUBROUTINE SwapPlayersGeneric
 
-    ; at the start of a cave (or player, doesn't matter) we grab the current state of the colour/B&W switch
+    ; at the start of a level (or player, doesn't matter) we grab the current state of the colour/B&W switch
     ; into the gameMode variable.
 
                 lda gameMode
@@ -125,7 +114,7 @@ opg             sta ManCount                                  ; P2P1 nybble each
                 sta gameMode                    ; also, BIT7=0 -- system is NOT paused
 
 
-    ; restart cave
+    ; restart level
                 lda NextLevelTrigger
                 and #<(~BIT_NEXTLIFE)
                 sta NextLevelTrigger
@@ -147,33 +136,14 @@ opg             sta ManCount                                  ; P2P1 nybble each
                 lda BoardLimit_Width
                 sbc #SCREEN_WIDTH-1
                 sta BoardEdge_Right              ; absolute rightmost scroll value
-  IF INITIAL_SCROLL = YES
-                sbc #1
-                cmp BoardScrollX
-                bcs .Xok
-                sta BoardScrollX
-                sec
-.Xok
-  ENDIF
 
 ;                sec                        already set
                 lda BoardLimit_Height
                 sbc #SCREEN_LINES-1
                 sta BoardEdge_Bottom            ; absolute bottommost scroll value
-  IF INITIAL_SCROLL = YES
-                sbc #1
-                cmp BoardScrollY
-                bcs .Yok
-                sta BoardScrollY
-.Yok
-  ENDIF
 
     ; kludge position scroll roughly at player
 
-;TODO: "correct" BD scrolling.
-; The game scrolls from the players last position (no difference between 1st and 2nd player)
-
-  IF INITIAL_SCROLL = NO
 ;                sec                    already set
                 lda ManX
                 sbc #5
@@ -188,7 +158,6 @@ notL0           sta BoardScrollX
                 bcs notU0
                 lda #0
 notU0           sta BoardScrollY
-  ENDIF
 
                 lda #0
                 sta ManMode
@@ -204,24 +173,6 @@ notU0           sta BoardScrollY
 
                 lda #DIRECTION_BITS
                 sta ManLastDirection
-
-;                bit amoebaFlag                      ; AMOEBA_PRESENT?
-;                bvc .noAmoeba
-
-;                ldx amoebaMaxX
-;                stx amoebaX
-;                ldy amoebaMaxY
-;                sty amoebaY
-;                lda #1
-;                sta amoebaStepCount
-;                sta amoebaCount                     ; doesn't matter to be 1 too big here initially
-;;               lda #0
-;                ;sta amoebaFlag                     ; now initialised in DecodeCave
-;;               sta amoebaCount
-;                lda magicAmoebaTime                 ; setup slow growth time
-;                sta MagicAmoebaFlag                 ;
-;.noAmoeba
-
                 rts
 
     ;-------------------------------------------------------------------------------------
@@ -259,9 +210,6 @@ notU0           sta BoardScrollY
                 rts
 
     ;-------------------------------------------------------------------------------------
-
-
-    ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE Resync
                 RESYNC
@@ -406,21 +354,7 @@ EarlyAbortx     rts                             ; 6 =  6
 
 ;------------------------------------------------------------------------------
 
-;    DEFINE_SUBROUTINE PrepareTimeVector ; = 27
-
-;                ldx ScreenDrawPhase             ; 3           ; current phase of drawing
-;                lda TS_PhaseVectorLO,x          ; 4
-;                sta TS_Vector                   ; 3
-;                lda TS_PhaseVectorHI,x          ; 4
-;                sta TS_Vector+1                 ; 3
-
-;                lda TS_PhaseBank,x              ; 4
-                ;sta ROM_Bank                    ; 4        GUESS!  SEEMS TO RUN OK WITHOUT THIS.
-;                rts                             ; 6
-
-;------------------------------------------------------------------------------
-
-; This is a GOOD home for these tables.  Move AD's tables here and fix code appropriately
+; This is a GOOD home for these tables.
 
     DEFINE_SUBROUTINE TS_PhaseVectorLO
 
@@ -585,11 +519,6 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
                 ldx #WHITE
 noFlashBG       stx BGColour
 
-;                lda extraLifeTimer
-;                beq alreadyBlack2
-;                dec extraLifeTimer
-;alreadyBlack2
-
     ; Handle the player joystick reading. We do it *every frame* so that we can incorporate a two-frame
     ; buffer.  This is designed to give a little better responsiveness to the 'quick tap' movement.
 
@@ -708,29 +637,7 @@ pscol       .byte $40, $40
 
 HandleSaveKey SUBROUTINE
 
-SAVEKEY_ADR     = $0600         ;           reserved address for Boulder Dash (64 bytes)
-
-; SK Memory Map:
-;               cave    level
-; $0600-$0602   A       1
-; $0603-$0605   A       2
-; $0606-$0608   A       3
-; $0609-$060b   A       4
-; $060c-$060e   A       5
-; $060f-$0611   E       1
-; $0612-$0614   E       2
-; $0615-$0617   E       3
-; $0618-$061a   unused
-; $061b-$061d   unused
-; $061e-$0620   I       1
-; $0621-$0623   I       2
-; $0624-$0626   I       3
-; $0627-$0629   unused
-; $062a-$062c   unused
-; $062d-$062f   M       1
-; $0630-$0632   M       2
-; $0633-$0635   M       3
-; $0636-$063f   unused
+SAVEKEY_ADR     = $2F00         ;           tentative address for Sokoban (64 bytes)
 
 ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE ReadSaveKey ; = 2371
@@ -740,7 +647,7 @@ SAVEKEY_ADR     = $0600         ;           reserved address for Boulder Dash (6
     sta     highScoreSK+2       ; 3
 
 ; setup SaveKey:
-    lda     startCave           ; 3         load start cave*5 and level
+    lda     startingLevel           ; 3         load start levelX*5 and level
     ldx     level               ; 3
     jsr     SetupSaveKey        ;6+853
     bcc     NoSKfound           ; 2/3
@@ -776,7 +683,7 @@ SAVEKEY_ADR     = $0600         ;           reserved address for Boulder Dash (6
     beq     NoSKfound           ; 2/3       no new high score, abort
 
 ; setup SaveKey:
-    lda     startCave           ; 3         load start cave*5 and level
+    lda     startingLevel           ; 3         load start levelX*5 and level
     ldx     startLevel          ; 3
     jsr     SetupSaveKey        ; 6+853
     bcc     NoSKfound           ; 2/3
@@ -800,7 +707,7 @@ SAVEKEY_ADR     = $0600         ;           reserved address for Boulder Dash (6
     DEFINE_SUBROUTINE SetupSaveKey ; = 853
 
 ; calculate slot;
-; a = cave (5*n): A=$00; E=$05; I=$0a; M=$0f
+; a = levelX
 ; x = level (0..4)
     sta     offsetSK            ; 3
     txa                         ; 2
@@ -890,7 +797,7 @@ AnimateTAP
 ;    .byte 0
 ;    .word AnimateUP
 
-;AnimateUP                           ; keep last reflection, like in original game
+;AnimateUP
     .byte 5
     .byte < PLAYER_RIGHT0
     .byte 5

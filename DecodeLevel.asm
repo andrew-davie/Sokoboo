@@ -1,110 +1,80 @@
-;TODOs:
-;+ load cave from ROM
-;- remove delimiter
-;+ variable board sizes
-;- use Andrew's character ids
-;+ store other cave parameter (times, diamonds, points etc.)
 
-    ;---------------------------------------------------------------------------
-    ; Board area must not overlap page boundary, as writing code uses indexing to save
+LEVELNUM         SET 0
+NUMBEROFLEVELS   SET 0
+LEVEL_DEFINITION_SIZE  = 4
 
-    OPTIONAL_PAGEBREAK "BOARD_DATA_AREA", MAX_CAVE_SIZE
-BOARD_DATA_AREA
-    ds MAX_CAVE_SIZE,$FF
-
-    ;---------------------------------------------------------------------------
-
-
-
-
-;ThrottleSpeedTbl
-;; based on MAX_THROTTLE = 160, NTSC_276/PAL (312/276=1.13)
-;    .byte   19, 22  ; level 1 (E1: 5.60s) 1,16; 1.00/1.00 (1.00)
-;    .byte   22, 26  ; level 2 (E2  4.80s) 1,18  1.16/1.18 (1.17)
-;    .byte   24, 28  ; level 3 (E3: 4.40s) 1,16  1.26/1.27 (1.27)
-;    .byte   26, 30  ; level 4 (E4: 4.17s) 1,15  1.37/1.36 (1.34)
-;    .byte   27, 31  ; level 5 (E5: 4.00s) 1,14; 1.42/1.41 (1.40)
-
-; *** local constants for cava data: ***
-
-.NUM_RANDOM         = 4                 ; number of random objects
-
-.SIZE_OFS           =  1                ; -1
-.MAGIC_OFS          =  3
-.WORTH_OFS          =  4
-.EXTRA_WORTH_OFS    =  5
-.DIAMONDS_OFS       = 11
-.TIME_OFS           = 16
-.RND_INIT_OFS       = $04+2             ; -1
-.RND_OBJECT_OFS     = $18+3             ; -3
-.RND_VALUE_OFS      = $1c+3             ; -3
-.COLOR_OFS          = $13+2
-
-.STRUCT_OFFSET      = $20+3             ; -3
-.STRUCT_DELIMITER   = $ff
-.STRUCTURE_MASK     = %11000000
-
-.STRUCT_SINGLE      = %00 << 6
-;.STRUCT_LINE        = LINE
-;.STRUCT_FILLED      = FILL
-;.STRUCT_RECTANGLE   = RECT
-.STRUCT_LINE        = %01 << 6
-.STRUCT_FILLED      = %10 << 6
-.STRUCT_RECTANGLE   = %11 << 6
-;POINT               = .STRUCT_POINT
-FILL                = .STRUCT_FILLED
-LINE                = .STRUCT_LINE
-RECT                = .STRUCT_RECTANGLE
-
-.DIR_UP             = 0
-.DIR_RIGHT          = 2
-.DIR_DOWN           = 4
-.DIR_LEFT           = 6
-
-CAVENUM         SET 0
-CAVE_DATA_SIZE  = 4
-
-                MAC ADD_CAVE ; {name}
-CAVE_ACTIVE_{1} SET 1
-CAVE_NAMED_{1}  = CAVENUM
-    .byte <CAVE_{1}
-    .byte >CAVE_{1}
-    .byte BANK_CAVE_{1}
-    .byte CAVE_SIZE_{1}
-CAVENUM         SET CAVENUM + CAVE_DATA_SIZE
+                MAC ADD_LEVEL ; {name}
+LEVEL_ACTIVE_{1} SET 1
+LEVEL_NAMED_{1}  = LEVELNUM
+    .byte <LEVEL_{1}
+    .byte >LEVEL_{1}
+    .byte BANK_LEVEL_{1}
+    .byte LEVEL_SIZE_{1}
+LEVELNUM         SET LEVELNUM + LEVEL_DEFINITION_SIZE
+NUMBEROFLEVELS   SET NUMBEROFLEVELS + 1
                 ENDM
 
-CaveInformation
+LevelInformation
 
                 ; The ordering here corresponds to the ordering when playing...
-    IF FINAL_VERSION = YES || DEMO_VERSION = NO
-    ;ADD_CAVE _057_L
-    ADD_CAVE _0VM5_Andrea_Wadd
-    ADD_CAVE _0PAL_Jill_Leatherby
-    ADD_CAVE _0IZ1_Sophia
-    ADD_CAVE _0CNH_Alice
-    ADD_CAVE TowC
-    ADD_CAVE SimpleC
-    ADD_CAVE Thomas_Reinke16
-    ADD_CAVE bDarcy_Burnsell101
-    ADD_CAVE bAlfa_DrFogh
-    ADD_CAVE bAislin101
-    ADD_CAVE b82X_Sharpen
-    ADD_CAVE b51X_Sharpen
-    ENDIF
 
-; undo/rewind
-; move counter
-;counter of #targets left
-; digits
-; character/animations
-; cave table pointers
-; color randomize
-; more levels
-; (timer)?
-; hihg "score"  and savekey
-; password for level unlocks
-; title screen
+                ADD_LEVEL b82X_Sharpen
+    ADD_LEVEL _001_L
+    ADD_LEVEL _002_L
+    ADD_LEVEL _003_L
+    ADD_LEVEL _003_R
+    ADD_LEVEL _004_L
+    ADD_LEVEL _004_R
+
+    ADD_LEVEL _010_L
+    ADD_LEVEL _010_R
+    ADD_LEVEL _011_L
+
+    ADD_LEVEL _057_L
+
+    ADD_LEVEL _060_R
+
+    ADD_LEVEL _061_R
+    ADD_LEVEL _061_L
+    ADD_LEVEL _062_L
+    ADD_LEVEL _062_R
+    ADD_LEVEL _063_L
+    ADD_LEVEL _063_R
+    ADD_LEVEL _064_R
+    ADD_LEVEL _064_L
+    ADD_LEVEL _065_R
+    ADD_LEVEL _065_L
+    ADD_LEVEL _066_R
+    ADD_LEVEL _066_L
+    ADD_LEVEL _067_R
+    ADD_LEVEL _067_L
+    ADD_LEVEL _068_R
+    ADD_LEVEL _068_L
+    ADD_LEVEL _069_R
+    ADD_LEVEL _069_L
+
+    ADD_LEVEL _103_Arielle
+    ADD_LEVEL _103_Ajalae
+    ADD_LEVEL _103_Adin
+    ADD_LEVEL _102_Raven
+    ADD_LEVEL _102_Oralia
+    ADD_LEVEL _102_Natalie
+    ADD_LEVEL _102_Mirabel
+    ADD_LEVEL _1XJH_Tara_Gelson
+    ADD_LEVEL _1R7X_Alison
+    ADD_LEVEL _1KWD_Cecile_Clayworth
+    ADD_LEVEL _1EKT_Samantha_Gelson
+    ADD_LEVEL _0VM5_Andrea_Wadd
+    ADD_LEVEL _0PAL_Jill_Leatherby
+    ADD_LEVEL _0IZ1_Sophia
+    ADD_LEVEL _0CNH_Alice
+    ADD_LEVEL TowC
+    ADD_LEVEL SimpleC
+    ADD_LEVEL Thomas_Reinke16
+    ADD_LEVEL bDarcy_Burnsell101
+    ADD_LEVEL bAlfa_DrFogh
+    ADD_LEVEL bAislin101
+    ADD_LEVEL b51X_Sharpen
 
 
 finX
@@ -190,7 +160,7 @@ endzapy2        dec POS_X
 
               sta RAM_Bank
 
-  ; has to be done before decoding the cave to have the platform right:
+  ; has to be done before decoding the level to have the platform right:
               SET_PLATFORM
 
               lda #CHARACTER_BLANK
@@ -214,16 +184,16 @@ xyClear       jsr PutBoardCharacterFromRAM
               ora #BIT_NEXTLEVEL
               sta NextLevelTrigger
 
-              ldy cave
+              ldy levelX
               sec
-              lda CaveInformation,y
+              lda LevelInformation,y
               sbc #1
               sta Board_AddressR
-              lda CaveInformation+1,y
+              lda LevelInformation+1,y
               sbc #0
               sta Board_AddressR+1
-              lda CaveInformation+2,y
-              sta cave_bank
+              lda LevelInformation+2,y
+              sta LEVEL_bank
 
               lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
               sta ROM_Bank                        ; GetROMByte returns to this bank
@@ -278,7 +248,7 @@ Get2          inc Board_AddressR
               inc Board_AddressR+1
 addrOK
 
-              lda cave_bank
+              lda LEVEL_bank
               ldy #0
               jsr GetROMByte
               sta upk_temp       ;scratch

@@ -3,19 +3,6 @@
     ;------------------------------------------------------------------------------
                 NEWBANK ROM_SHADOW_OF_BANK_SCORING
 
-;TODOs:
-; + store targetsRequired as BCD (with extra diamond flag in separate variable)
-; + store moveCounter as BCD (2 bytes)
-; + diamonds left, time right (while playing)
-; + six digit score, centered (short period after scoring)
-; + player, men, cave/level (P#2 3 R, E/1) (at start of level, until Rockford appears)
-; + make digits a bit darker
-; o minimize space before and after digits
-; - add missing texts (somehow)
-;   - PAUSED (six digits)
-;   ? OUT OF TIME (?)
-;   ? BONUS LIFE (?)
-
 
 SCORE_COL           = $9a ;WHITE ;-2
 SCORE_COL_HIGH_NTSC = $44     ; works for SECAM and NTSC
@@ -35,29 +22,10 @@ ID_TARGET  = 11
 ID_EXTRA    = 12
 ID_CLOCK    = 13
 ID_HEAD     = ID_BLANK+16+1
-;ID_A        = 13
-;ID_B        = 14
-;ID_C        = 15
-;ID_D        = 16
-;ID_E        = 17
-;ID_F        = 18
-;ID_G        = 19
-;ID_H        = 20
-;ID_I        = 21
-;ID_J        = 22
-;ID_K        = 23
-;ID_L        = 24
-;ID_M        = 25
-;ID_N        = 26
-;ID_O        = 27
-;ID_P        = 28
-;ID_BONUS0   = 29
-;ID_BONUS1   = 30
-;ID_BONUS2   = 31
 
 ; score patch adresses:
 SMTblLSB
-SMTblDiamonds:
+SMTblTargets:
     .byte SM_TARGET0+1-SM_BASE, SM_TARGET2+1-SM_BASE
 SMTblTime:
     .byte SM_Time0+1-SM_BASE, SM_Time2+1-SM_BASE
@@ -68,7 +36,7 @@ SMTblMSB
     .byte SM_Time1+1-SM_BASE, SM_Time3+1-SM_BASE
     .byte SMDIGIT4+1-SM_BASE, SMDIGIT2+1-SM_BASE, SMDIGIT0+1-SM_BASE
 
-SM_OFS_TARGETS = SMTblDiamonds - SMTblLSB
+SM_OFS_TARGETS = SMTblTargets - SMTblLSB
 SM_OFS_TIME     = SMTblTime     - SMTblLSB
 SM_OFS_SCORE    = SMTblScore    - SMTblLSB
 
@@ -212,153 +180,27 @@ FourL
   .byte %10010000
   .byte %10010000
 
-; cave "name" characters (left only!):
+; level "name" characters (left only!):
 
 CharN
-        .byte %01110011
-        .byte %01110111
-        .byte %01111111
-        .byte %01111111
-        .byte %01111111
-        .byte %01111011
-;        .byte %01110011
 CharK:
-        .byte %01110011
-        .byte %01110011
-        .byte %01110110
-        .byte %01111100
-        .byte %01111100
-        .byte %01110110
-;        .byte %01110011
 CharH:
-        .byte %01110011
-        .byte %01110011
-        .byte %01110011
-        .byte %01110011
-        .byte %01111111
-;        .byte %01110011
-;        .byte %01110011
 CharA
-        .byte %01110011
-        .byte %01110011
-        .byte %01111111
-        .byte %01110011
-        .byte %01110011
-        .byte %00111110
-        .byte %00011100
-
 CharJ:
-        .byte %00011110
-        .byte %00111111
-        .byte %01110011
-        .byte %00000011
-        .byte %00000011
-        .byte %00000011
-        .byte %00000011
-
 CharP:
-        .byte %01000000
-        .byte %01000000
-        .byte %01000000
-        .byte %01111111
-        .byte %01000001
-        .byte %01000001
-;        .byte %01111110
 CharB
-        .byte %01111111
-        .byte %01111111
-        .byte %01110011
-        .byte %01110011
-        .byte %01111110
-        .byte %01110011
-        .byte %01111110
-
 CharO
-        .byte %00111110
-        .byte %01111111
-        .byte %01100011
-        .byte %01100011
-        .byte %01100011
-        .byte %01100011
-;        .byte %00111110
 CharC
-        .byte %00111110
-        .byte %01111111
-        .byte %01110011
-        .byte %01110000
-        .byte %01110000
-        .byte %01110011
-;        .byte %00111110
 CharI:
-        .byte %00111110
-        .byte %00111110
-        .byte %00011100
-        .byte %00011100
-        .byte %00011100
-        .byte %00011100
-        .byte %00111110
-
 CharD
-        .byte %01111100
-        .byte %01111110
-        .byte %01110110
-        .byte %01110011
-        .byte %01110011
-        .byte %01110110
-        .byte %01111100
 CharG
-        .byte %00111111
-        .byte %01111111
-        .byte %01110011
-        .byte %01110111
-        .byte %01110000
-        .byte %01110000
-        .byte %00111111
-
 CharE
-        .byte %01111111
-        .byte %01111111
-        .byte %01110000
-        .byte %01110000
-        .byte %01111110
-        .byte %01110000
-;        .byte %01111111
 CharL:
-        .byte %01111111
-        .byte %01111111
-        .byte %01110000
-;        .byte %01110000
-;        .byte %01110000
-;        .byte %01110000
-;        .byte %01110000
 CharF
-        .byte %01110000
-        .byte %01110000
-        .byte %01110000
-        .byte %01110000
-        .byte %01111110
-        .byte %01110000
-        .byte %01111111
-
 CharM:
-        .byte %01100011
-        .byte %01100011
-        .byte %01100011
-        .byte %01101011
-        .byte %01111111
-        .byte %01110111
-        .byte %01100011
+  ds 7,0
 
-        .byte %00100100
-        .byte %00011000
-        .byte %00111100
-        .byte %01011010
-        .byte %01011010
-        .byte %00111100
-        .byte %00100100
-
-HeadL
-IntermissionL
+charPlace
         .byte %00001100
         .byte %00001100
         .byte %00001100
@@ -380,9 +222,6 @@ PosTbl:
     ; as it is the ROM bank that is switched in.  The first thing to do to access the RAM
     ; is to switch the appropriate RAM bank in.  It would be nicer to be able to direct-call
     ; the RAM-based routine.
-
-;z26 call ..\Tools\Z26\4A50\z26.exe -v18 -g14 -r60 $(ProjectName)$(ConfigurationName).bin
-
 
                 ALIGN 256           ; so SM code needs no HI table
 
@@ -571,12 +410,12 @@ LoopDraw3x2:                    ;
 SMPLAYER
         lda OneR-1,y            ; 4
         sta GRP1                ; 3 = 14    @17
-        lda HeadL-1,y           ; 4
+        lda charPlace-1,y           ; 4
 SMMEN
         ldx ThreeR-1,y          ; 4 =  8
         SLEEP 5                 ;   =  5
         sta GRP0                ; 3
-SMCAVE
+SMLEVELX
         lda CharA-1,y           ; 4
         sta HMCLR               ; 3 = 10    @40
         stx GRP1                ; 3 =  3    @43
@@ -595,9 +434,9 @@ SMLEVEL
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE DrawDigits
 
-VblankLoopBD
+VblankLoopGame
         ldy INTIM
-        bne VblankLoopBD
+        bne VblankLoopGame
 
         sty VBLANK              ; 3         <-- 0
         lda scoringFlags        ; 3
@@ -617,9 +456,9 @@ SMJUMP:
         jmp DrawDigits1x6       ; 3 =  7    @07
 
 ScoreKernelLo:
-        .byte <Score2x4Fix      ; diamonds, time
+        .byte <Score2x4Fix      ; TARGETs, time
         .byte <Score1x6Fix      ; score
-        .byte <Score3x2Fix      ; player, lives, cave/level
+        .byte <Score3x2Fix      ; player, lives, level
         .byte <Score1x6Fix      ; high score
 
     CHECKPAGE DrawDigits1x6     ; AD: the jump requires all in the same page, so let's enforce that
@@ -768,15 +607,15 @@ SMCOLOR
         dey
         bpl .swapScore
 
-    ; swap cave and level:
+    ; swap levelx and level:
         ldx #1
-.loopCaveLevel
-        ldy PlayerCave,x
-        lda cave,x
-        sta PlayerCave+RAM_WRITE,x
-        sty cave,x
+.loopLevelXLevel
+        ldy PlayerLevelX,x
+        lda levelX,x
+        sta PlayerLevelX+RAM_WRITE,x
+        sty levelX,x
         dex
-        bpl .loopCaveLevel
+        bpl .loopLevelXLevel
 
 .otherPlayerDead
         rts
@@ -825,9 +664,9 @@ HighScoreColTbl:
 
 ;    ;---------------------------------------------------------------------------
 
-    ; modify cave character pointer (XX XX cX)
+    ; modify levelx character pointer (XX XX cX)
 
-                ldx #<IntermissionL-1
+                ldx #<charPlace-1
                 lda levelDisplay
                 cmp #$80
                 and #$1f
@@ -836,7 +675,7 @@ HighScoreColTbl:
                 ldx CharVectorLO,y
                 ldy level
 .intermission
-                stx SMCAVE+1+RAM_WRITE
+                stx SMLEVELX+1+RAM_WRITE
 
     ; modify level number pointer (XX XX Xl)
 
@@ -870,25 +709,20 @@ HighScoreColTbl:
 ;                .byte <CharO-1, <CharVL-1, <CharE-1, <CharRL-1
 
     ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE GetDiamond
-
-                ;sok jsr UpdateScore                 ;looong!
-
-    ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE DrawTargetsRequired
-; Show current diamond counter in the top left
+; Show current TARGET counter in the top left
 
                 ldy #SM_OFS_TARGETS
                 lda targetsRequired
                 jsr SetupBCDPtr
 
-                lda #ID_TARGET<<4                  ; if no extra diamonds, display the normal icon
+                lda #ID_TARGET<<4                  ; if no extra targets, display the normal icon
                 bit scoringFlags                    ;
                 bpl SetupBCDPtr
                 lda #ID_EXTRA<<4                    ; otherwise, display the extra icon
                 bvc SetupBCDPtr
-                ora #1                              ; display 1xx diamonds
+                ora #1                              ; display 1xx targets
                 bne SetupBCDPtr                     ; unconditional
 
     ;------------------------------------------------------------------------------
@@ -1127,11 +961,11 @@ FourR
                 dey
                 bpl .loopClearScore
 
-    ; copy cave and level for other player and SaveKey:
-                lda cave
-                sta PlayerCave+RAM_WRITE
-                lda startCave
-                sta StartCave+RAM_WRITE
+    ; copy levelX and level for other player and SaveKey:
+                lda levelX
+                sta PlayerLevelX+RAM_WRITE
+                lda startingLevel
+                sta StartLevelX+RAM_WRITE
                 lda level
                 sta PlayerLevel+RAM_WRITE
                 sta StartLevel+RAM_WRITE
@@ -1140,12 +974,12 @@ FourR
     ;---------------------------------------------------------------------------
 
 ScoreCurrent    ds 3, 0
-; start cave and level have to be after ScoreCurrent!
-StartCave       .byte 0
+; start levelx and level have to be after ScoreCurrent!
+StartLevelX       .byte 0
 StartLevel      .byte 0
 PlayerScores    ds 3, 0
-; cave and level have to be consecutive variables!
-PlayerCave      .byte 0
+; levelx and level have to be consecutive variables!
+PlayerLevelX      .byte 0
 PlayerLevel     .byte 0
 HighScore       ds 3+2, 0 ; two extra bytes to save code
 
@@ -1157,13 +991,14 @@ HighScore       ds 3+2, 0 ; two extra bytes to save code
 
     ;------------------------------------------------------------------------------
 
-    ; CAVE DATA banks can go anywhere - *EXCEPT* for the same bank as the cave
-    ; decoder.  Ironic, isn't it?  They calculate a constant -- MAX_CAVE_SIZE
+    ; LEVEL DATA banks can go anywhere - *EXCEPT* for the same bank as the level
+    ; decoder.  Ironic, isn't it?  They calculate a constant -- MAX_LEVEL_SIZE
     ; which is used as a buffer size inside UnpackLevel.  It's not important if
-    ; this is defined before or after, as once the caves have processed it will be
-    ; correct. Note, that caves should all be defined BEFORE *OR* AFTER the
+    ; this is defined before or after, as once the levels have processed it will be
+    ; correct. Note, that levels should all be defined BEFORE *OR* AFTER the
     ; UnpackLevel code -- but that they should not be both, nor in the same bank.
+    ; TODO: verify above is still valid
 
-    include "CaveBank0.asm"
+    include "LevelBank0.asm"
 
     CHECK_BANK_SIZE "ROM_SHADOW_OF_BANK_SCORING -- full 2K"

@@ -1,14 +1,7 @@
-;    NEWBANK DEMO_BANK
     DEFINE_1K_SEGMENT DEMO
 
-MOVE_NONE   = ~0
-MOVE_RIGHT  = ~%10000000
-MOVE_LEFT   = ~%01000000
-MOVE_DOWN   = ~%00100000
-MOVE_UP     = ~%00010000
 
-    ;------------------------------------------------------------------------------
-   DEFINE_SUBROUTINE NextCave
+   DEFINE_SUBROUTINE NextLevelX
 
     ; Now do the actual switching
 
@@ -16,25 +9,19 @@ MOVE_UP     = ~%00010000
                 and #<(~BIT_NEXTLEVEL)
                 sta NextLevelTrigger
 
-    ; Next level is due. Point to the next cave, but if we're at the end of playable caves,
+    ; Next level is due. Point to the next level, but if we're at the end of playable levels,
     ; then increment the level number. This is completely circular, so we eventually wrap
-    ; the cave back to 0 and start afresh. The level maxes out at P5 then remains at the top.
+    ; the level back to 0 and start afresh.
 
-NextCaveAlong   lda cave
+                lda levelX
                 clc
-                adc #CAVE_DATA_SIZE
-                cmp #MAX_CAVENUM
-                bcc .caveOK
-
-;                ldx level
-;                cpx #NUM_LEVELS-1
-;                bcs .skipIncLevel
-;                inc level
-;.skipIncLevel
+                adc #LEVEL_DEFINITION_SIZE
+                cmp #LEVELNUM
+                bcc .level_ok
 
                 lda #0
-.caveOK         sta cave
-.skipNextLevel  rts
+.level_ok       sta levelX
+                rts
 
 
     CHECK_BANK_SIZE "DEMO_BANK"

@@ -9,16 +9,10 @@ ORIGIN          SET FIXED_BANK
                 RORG $f800
 
 
-    ;------------------------------------------------------------------------------
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-    include "Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
 
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE DrawTimeFromROM
-; TJ: used by:
-; - BANK_INITBANK.asm
 
                 sta SET_BANK_RAM
                 jsr DrawTime
@@ -36,11 +30,8 @@ ORIGIN          SET FIXED_BANK
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE GetROMByte ;=23(A)
-; TJ: used by:
-; - BANK_INITBANK.asm
-; - DecodeCave.asm
 
-    ; a = ROM bank to retrieve (NOTE: status negative flag important!!!!!!!)
+    ; a = ROM bank to retrieve
     ; y = page index
     ; ROM_Bank = bank to return to
     ; (Board_AddressR) = page
@@ -52,8 +43,6 @@ ORIGIN          SET FIXED_BANK
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE GetBoardCharacter ;=20(A)
-; TJ: used by:
-; - BANK_INITBANK.asm
 
     ; call from ROM bank
     ; switches back to ROM_Bank on exit
@@ -76,8 +65,7 @@ GetBoardCharacter2 ;=17(A)
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE PutBoardCharacter    ;=21(A)
-; TJ: used by:
-; - BANK_INITBANK.asm
+
                 stx SET_BANK_RAM            ; 3
 
 PutBoardCharacterSB ; =18
@@ -89,9 +77,6 @@ PutBoardCharacterSB ; =18
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE GetBoardCharacter__CALL_FROM_RAM__ ;=61[-2](A)
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-; - DecodeCave.asm
 
                 ldy POS_Y                       ;3
 
@@ -101,8 +86,7 @@ PutBoardCharacterSB ; =18
 
 
     DEFINE_SUBROUTINE PartialGetBoardCharacter ;=23
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
+
 
                 sta SET_BANK_RAM                ;3
                 ldy POS_X                       ;3
@@ -114,9 +98,6 @@ PutBoardCharacterSB ; =18
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE PutBoardCharacterFromRAM ;=71[-2]
-; TJ: used by:
-; - BANK_INITBANK.asm
-; - DecodeCave.asm
 
     ; POS_Y  = row
     ; POS_Type = character to write
@@ -188,7 +169,7 @@ PutBoardCharacterSB ; =18
 
     ;---------------------------------------------------------------------------
     ; Now process the blank stack.  This stack holds all the recently blanked squares
-    ; and determines (and moves) BOXs or diamonds into these squares.  The space vacated
+    ; and determines (and moves) BOXs or TARGETs into these squares.  The space vacated
     ; by these objects are added again to the blank stack.
 
 nextPhase
@@ -209,8 +190,6 @@ EarlyAbort      rts                             ;6
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE SwitchObjects ;=72
-; TJ: used by:
-; - BANK_FIXED.asm
 
     ; The game loop has come to an end. The only possible "still happening" thing is the sort, which runs
     ; in parallel with other processes (objects, draw stack, etc). We may or may not want to wait for the
@@ -248,7 +227,6 @@ keepFractional  sta Throttle                    ;3              save fractional 
     ; Pause the game with B/W switch:
 
                 lda gameMode
-;                ora LookingAround               ; New behavour of looking around pauses creatures when activated.
                 bmi .paused                     ; pause flag set
 
     ; Now that we have completed processing the object stack, we switch
@@ -392,8 +370,7 @@ circleComplete  jmp NextObject
 EarlyAbort4     rts
 
     DEFINE_SUBROUTINE PROCESS_MAN
-; TJ: used by:
-; - BANK_INITBANK.asm
+
                 lda INTIM
                 cmp #SEGTIME_MAN
                 bcc EarlyAbort4
@@ -570,26 +547,26 @@ MovePlayer
     DEFINE_SUBROUTINE MOVE_TARGET
 
                 ldy POS_X_NEW
-                lda (Board_AddressR),y
+                lda (Board_AddressR),y              ; what's on the board under man?
                 pha
 
-                lda #CHARACTER_MANOCCUPIED      ; 2
-                sta (Board_AddressW),y          ; 6 =  8        the man's new square
+                lda #CHARACTER_MANOCCUPIED
+                sta (Board_AddressW),y
 
-                ldx ManY                        ; 3
-                stx POS_Y                       ; 3
-                ldy ManX                        ; 3
-                sty POS_X                       ; 3 = 12
+                ldx ManY
+                stx POS_Y
+                ldy ManX
+                sty POS_X
 
                 jsr RestoreOriginalCharacter
 
                 pla
-                sta POS_VAR
+                sta POS_VAR                     ; save 'restore' characte
 
-                lda POS_X_NEW                   ; 3
-                sta ManX                        ; 3
-                lda POS_Y_NEW                   ; 3
-                sta ManY                        ; 3 = 12        actually MOVE!
+                lda POS_X_NEW
+                sta ManX
+                lda POS_Y_NEW
+                sta ManY                        ; actually MOVE!
 
     ; Move counter..
 
@@ -791,11 +768,7 @@ Title
                 ldx #$ff                    ; adjust stack pointer after RESET + SELECT
                 txs
 
-                lda #BANK_TitleScreen           ; 2
-                sta SET_BANK                    ; 3
-                ;jmp TitleScreen                 ; 3+x
-ExitTitleScreen:
-    ; temporary vars from title screen are used to init level/cave
+    ; temporary vars from title screen are used to init level
                 lda #BANK_Cart_Init             ; 2
                 sta SET_BANK                    ; 3
                 jsr Cart_Init                   ; 6+x
@@ -804,10 +777,10 @@ ExitTitleScreen:
     ;---------------------------------------------------------------------------
 
 
-SEGMENT_DECODE_CAVE_SHADOW = $F000      ; if not = $F000, this will cause an assertion failure
+SEGMENT_DECODE_LEVEL_SHADOW = $F000      ; if not = $F000, this will cause an assertion failure
 
-                ldx #BANK_DECODE_CAVE_SHADOW
-                ldy #BANK_DECODE_CAVE
+                ldx #BANK_DECODE_LEVEL_SHADOW
+                ldy #BANK_DECODE_LEVEL
                 jsr CopyROM2RAM_F000
 
 
@@ -822,7 +795,7 @@ SEGMENT_DECODE_CAVE_SHADOW = $F000      ; if not = $F000, this will cause an ass
 
     ;---------------------------------------------------------------------------
 
-RestartCaveNextPlayer
+RestartLevelNextPlayer
 
 
     ; a player has lost a life.
@@ -836,14 +809,7 @@ RestartCaveNextPlayer
                 sta SET_BANK
                 jsr SwapPlayersGeneric
 
-          jmp skipDemoCheck ;tmp
-                lda ManCount
-                beq Title                           ; all lives lost! (works for both P1P2)
-                bne skipDemoCheck
-
-NextCaveLevel
-                ;bit demoMode
-                ;bmi Title
+NextLevelLevel
 skipDemoCheck
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
@@ -857,7 +823,7 @@ skipDemoCheck
                 sta base_x
                 sta base_y
 
-                lda #BANK_DECODE_CAVE
+                lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
                 jsr UnpackLevel
 
@@ -877,7 +843,7 @@ skipDemoCheck
 
 
     ; Setup the various digit and display pointers
-    ; Grab current player's score/cave/level from backup
+    ; Grab current player's score/level from backup
 
                 jsr goGeneralScoringSetups
 
@@ -902,16 +868,13 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
 
                 #include "sound/intro1_init.asm"
 
-NewFrameBD
-    ; the (at least) 220 cycles wasted in the above... bugs me!
-    ; the below is an unrolled version.  I've moved some other code between the sync writes, effectively saving um... 22 cycles/frame.
-    ; This required TIM64T values to be increased by 1 for each platform (we have actually gained back some usable time :)
+NewFrameStart
 
                 bit NextLevelTrigger
-                bpl NextCaveLevel               ; game-triggered next level
-                bvs RestartCaveNextPlayer       ; loss of life
+                bpl NextLevelLevel               ; game-triggered next level
+                bvs RestartLevelNextPlayer       ; loss of life
 
-    ; Note: VSYNC must NOT be on when starting a new cave! Else you get annoying TV signals.
+    ; Note: VSYNC must NOT be on when starting a new level! Else you get annoying TV signals.
 
                 lda #%1110                       ; VSYNC ON
 .loopVSync      sta WSYNC
@@ -981,7 +944,7 @@ NewFrameBD
 
 OverscanBD      lda INTIM                   ;4
                 bne OverscanBD              ;2/3
-                jmp NewFrameBD
+                jmp NewFrameStart
 VBlankTime
                 .byte VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
                 .byte VBLANK_TIM_PAL, VBLANK_TIM_PAL
@@ -1072,7 +1035,7 @@ CharacterDataVecHI
 
                 lda ANIM_TARGET                                ;4
                 eor #CHARACTER_TARGET^CHARACTER_TARGET2       ;2
-                sta ANIM_TARGET + RAM_WRITE                    ;4 = 15         diamond
+                sta ANIM_TARGET + RAM_WRITE                    ;4 = 15         TARGET
 
 nothingAnimates jmp retAnim                                     ;3
 
@@ -1091,10 +1054,11 @@ rbret           lda ROM_Bank
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE nextLevelMan
+ jmp nextLevelMan
 
-                lda #BANK_NextCave
+                lda #BANK_NextLevelX
                 sta SET_BANK
-                jmp NextCave
+                jmp NextLevelX
 
 
     ;---------------------------------------------------------------------------
@@ -1124,6 +1088,7 @@ rbret           lda ROM_Bank
     ;---------------------------------------------------------------------------
 
     include "circle.asm"
+    include "Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
     #include "sound/intro1_trackdata.asm"
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *

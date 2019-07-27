@@ -33,7 +33,7 @@ $skip
     ; adjust here so that the first line of the kernel starts exactly at cycle 67
     ; (since TJ said it could start up to 5 cycles earlier than #67).
 
-; TODO: remove GRP1 and COLUP1 access (or use higher resolution Rockford)
+; TODO: remove GRP1 and COLUP1 access (or use higher resolution player)
                                                             ;           @57
                 SLEEP 3                                     ; 3
 
@@ -168,11 +168,8 @@ ShapePlayerRED      = ShapePlayer   ; low adresses patched
 
 CHARACTERSHAPE_MANOCCUPIED = PLAYER_BLANK
 CHARACTERSHAPE_BLANK = PLAYER_BLANK
-CHARACTERSHAPE_EXITDOOR2 = PLAYER_BLANK
-CHARACTERSHAPE_EXPLOSION = CHARACTERSHAPE_EXPLOSION2 ;PLAYER_BLANK
-CHARACTERSHAPE_EXPLOSION_MIRRORED = CHARACTERSHAPE_EXPLOSION2 ;PLAYER_BLANK               ; TODO: change
 
-    #include "Rockford_Color.asm"    ; 1 * LINES_PER_CHAR bytes
+    #include "playerColour.asm"    ; 1 * LINES_PER_CHAR bytes
 
 
     ;------------------------------------------------------------------------------
@@ -462,7 +459,7 @@ MOD10
     ;------------------------------------------------------------------------------
 
     include "target.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
-    include "Explosion.asm"       ; 3 * LINES_PER_CHAR bytes
+    ds 30 ; todo - fixes a graphical glitch so we have a page boundary issue somewhwere
 
 
     OPTIONAL_PAGEBREAK "SCREEN_BITMAP", SCREEN_BITMAP_SIZE
@@ -525,8 +522,6 @@ SetSelfModPlayer
 
 NoMod
                 rts
-
-    ;include "Magic_Wall.asm"      ; 3 * LINES_PER_CHAR bytes
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 

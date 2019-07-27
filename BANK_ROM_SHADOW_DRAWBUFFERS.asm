@@ -50,9 +50,10 @@ waitForDraw    rts                             ; 6
  ;@TJ -- let's see if we see any bad lag/shear in screen drawing without this wait in.
  ; symptoms would be missing parts of screen when scrolling.
  ; Gameplay (not visual) lag noticed - re-enabled 11/8/11
+ ; disabled for sokoban 27/7/2019
 
                 lda DrawStackPointer
-                bpl waitForDraw                 ; Wait for previously not-drawn characters to be drawn
+                ;bpl waitForDraw                 ; Wait for previously not-drawn characters to be drawn
 
                 lda INTIM                       ;4
                 cmp #SEGTIME_BDS                ;2
@@ -61,7 +62,7 @@ waitForDraw    rts                             ; 6
 
 
     ; Now that all characters are drawn, recalculate/move sprite. Doing this here prevents the player
-    ; moving into the middle of dirt, or BOXs when pushing, or diamonds when grabbing.
+    ; moving into the middle of dirt, or BOXs when pushing, or TARGETs when grabbing.
 
 ;                sec            already set
                 lda ManY                        ;3
@@ -268,6 +269,6 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_BANK_DRAW_BUFFERS"
 
 
-            include "CaveBank1.asm"
+            include "LevelBank1.asm"
 
     CHECK_BANK_SIZE "ROM_SHADOW_OF_BANK_DRAW_BUFFERS -- full 2K"
