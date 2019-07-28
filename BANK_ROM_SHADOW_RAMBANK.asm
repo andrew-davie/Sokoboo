@@ -491,7 +491,7 @@ MOD10
 
     ;------------------------------------------------------------------------------
 
-    include "target.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
+    include "characterset/target.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
     ds 30 ; todo - fixes a graphical glitch so we have a page boundary issue somewhwere
 
 
@@ -559,7 +559,7 @@ NoMod
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
     include "player.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
-    include "filler.asm"            ; 2 * LINES_PER_CHAR bytes
+    include "characterset/filler.asm"            ; 2 * LINES_PER_CHAR bytes
    ;------------------------------------------------------------------------------
 
     ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START

@@ -2832,8 +2832,8 @@
     491  023e
     492  023e							;------------------------------------------------------------------------------
     493  023e
-------- FILE target.asm LEVEL 3 PASS 3
-      0  023e					      include	"target.asm"	; 2 * LINES_PER_CHAR + 2 bytes
+------- FILE characterset/target.asm LEVEL 3 PASS 3
+      0  023e					      include	"characterset/target.asm"	; 2 * LINES_PER_CHAR + 2 bytes
       1  023e							;    Sokoboo - a Sokoban implementation
       2  023e							;    using a generic tile-based display engine for the Atari 2600
       3  023e							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
@@ -3454,8 +3454,8 @@
     400  032f				   PLAYER_TAP0
     401  032f				   PLAYER_TAP1
 ------- FILE BANK_ROM_SHADOW_RAMBANK.asm
-------- FILE filler.asm LEVEL 3 PASS 3
-      0  032f					      include	"filler.asm"	; 2 * LINES_PER_CHAR bytes
+------- FILE characterset/filler.asm LEVEL 3 PASS 3
+      0  032f					      include	"characterset/filler.asm"	; 2 * LINES_PER_CHAR bytes
       1  032f							;    Sokoboo - a Sokoban implementation
       2  032f							;    using a generic tile-based display engine for the Atari 2600
       3  032f							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
@@ -13179,8 +13179,8 @@
    1132  7ce6
    1133  7ce6							;---------------------------------------------------------------------------
    1134  7ce6
-------- FILE BOX.asm LEVEL 3 PASS 3
-      0  7ce6					      include	"BOX.asm"	; 2 * LINES_PER_CHAR bytes
+------- FILE characterset/BOX.asm LEVEL 3 PASS 3
+      0  7ce6					      include	"characterset/BOX.asm"	; 2 * LINES_PER_CHAR bytes
       1  7ce6							;    Sokoboo - a Sokoban implementation
       2  7ce6							;    using a generic tile-based display engine for the Atari 2600
       3  7ce6							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
@@ -13258,8 +13258,8 @@
      67  7d38		       00 66 66 66*	      .byte.b	%0,%01100110,%01100110,%01100110,0,%0,%0	;B
      68  7d3f					      endif
 ------- FILE BANK_FIXED.asm
-------- FILE Steel_Wall.asm LEVEL 3 PASS 3
-      0  7d3f					      include	"Steel_Wall.asm"	; 2 * LINES_PER_CHAR bytes
+------- FILE characterset/Steel_Wall.asm LEVEL 3 PASS 3
+      0  7d3f					      include	"characterset/Steel_Wall.asm"	; 2 * LINES_PER_CHAR bytes
       1  7d3f							;    Sokoboo - a Sokoban implementation
       2  7d3f							;    using a generic tile-based display engine for the Atari 2600
       3  7d3f							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
@@ -13569,8 +13569,8 @@
     237  7e1f
     238  7e1f		       60	   circleDie  rts
 ------- FILE BANK_FIXED.asm
-------- FILE Brick_Wall.asm LEVEL 3 PASS 3
-      0  7e20					      include	"Brick_Wall.asm"	; 2 * LINES_PER_CHAR bytes
+------- FILE characterset/Brick_Wall.asm LEVEL 3 PASS 3
+      0  7e20					      include	"characterset/Brick_Wall.asm"	; 2 * LINES_PER_CHAR bytes
       1  7e20							;    Sokoboo - a Sokoban implementation
       2  7e20							;    using a generic tile-based display engine for the Atari 2600
       3  7e20							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.

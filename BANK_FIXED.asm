@@ -1132,12 +1132,12 @@ rbret           lda ROM_Bank
 
     ;---------------------------------------------------------------------------
 
-    include "BOX.asm"         ; 2 * LINES_PER_CHAR bytes
-    include "Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
+    include "characterset/BOX.asm"         ; 2 * LINES_PER_CHAR bytes
+    include "characterset/Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
     ;---------------------------------------------------------------------------
 
     include "circle.asm"
-    include "Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
+    include "characterset/Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
     #include "sound/intro1_trackdata.asm"
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *
