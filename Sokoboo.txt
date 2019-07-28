@@ -1658,7 +1658,7 @@
     723 U3000							;------------------------------------------------------------------------------
     724 U3000
       0 U3000					      NEWRAMBANK	BANK_BOARD
-      1 U3814 ????				      SEG.U	BANK_BOARD
+      1 U37a0 ????				      SEG.U	BANK_BOARD
       2 U3400					      ORG	ORIGIN
       3 U3400					      RORG	RAM_3E
       4 U3400				   BANK_START SET	*
@@ -1918,55 +1918,13 @@
     809 U37a0
     810 U37a0				   ORIGIN     SET	$00000
     811 U37a0
-------- FILE BANK_Demo.asm LEVEL 2 PASS 3
-      0 U37a0					      include	"BANK_Demo.asm"	; upper half of BANK_TITLE_LOGO
-      0 U37a0					      DEFINE_1K_SEGMENT	DEMO
-      1 U3800		       00 00 00 00*	      ALIGN	$400
-      2 U3800				   SEGMENT_DEMO SET	*
-      3 U3800				   BANK_DEMO  SET	_CURRENT_BANK
-      2 U3800
-      3 U3800
-      0 U3800					      DEFINE_SUBROUTINE	NextLevelX
-      1 U3800		       00 0f	   BANK_NextLevelX =	_CURRENT_BANK
-      2 U3800					      SUBROUTINE
-      3 U3800				   NextLevelX
-      5 U3800
-      6 U3800							; Now do the actual switching
-      7 U3800
-      8 U3800		       a5 c8		      lda	NextLevelTrigger
-      9 U3802		       29 7f		      and	#<(~BIT_NEXTLEVEL)
-     10 U3804		       85 c8		      sta	NextLevelTrigger
-     11 U3806
-     12 U3806							; Next level is due. Point to the next level, but if we're at the end of playable levels,
-     13 U3806							; then increment the level number. This is completely circular, so we eventually wrap
-     14 U3806							; the level back to 0 and start afresh.
-     15 U3806
-     16 U3806		       a5 b3		      lda	levelX
-     17 U3808		       18		      clc
-     18 U3809		       69 04		      adc	#LEVEL_DEFINITION_SIZE
-     19 U380b		       c9 d0		      cmp	#LEVELNUM
-     20 U380d		       90 02		      bcc	.level_ok
-     21 U380f
-     22 U380f		       a9 00		      lda	#0
-     23 U3811		       85 b3	   .level_ok  sta	levelX
-     24 U3813		       60		      rts
-     25 U3814
-     26 U3814
-      0 U3814					      CHECK_BANK_SIZE	"DEMO_BANK"
-      1 U3814		       04 14	   .TEMP      =	* - BANK_START
- DEMO_BANK (2K) SIZE =  $414 , FREE= $3ec
-      2 U3814					      ECHO	"DEMO_BANK", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
-      3 U3814				  -	      if	( .TEMP ) > ROM_BANK_SIZE
-      4 U3814				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
-      5 U3814				  -	      ERR
-      6 U3814					      endif
-------- FILE ./sokoboo.asm
+    812 U37a0					      include	"BANK_Demo.asm"	; upper half of BANK_TITLE_LOGO
 ------- FILE BANK_ROM_SHADOW_RAMBANK.asm LEVEL 2 PASS 3
-      0 U3814					      include	"BANK_ROM_SHADOW_RAMBANK.asm"
-      1 U3814							;------------------------------------------------------------------------------
-      2 U3814							;##############################################################################
-      3 U3814							;------------------------------------------------------------------------------
-      0 U3814					      NEWBANK	ROM_SHADOW_OF_RAMBANK_CODE
+      0 U37a0					      include	"BANK_ROM_SHADOW_RAMBANK.asm"
+      1 U37a0							;------------------------------------------------------------------------------
+      2 U37a0							;##############################################################################
+      3 U37a0							;------------------------------------------------------------------------------
+      0 U37a0					      NEWBANK	ROM_SHADOW_OF_RAMBANK_CODE
       1  0348 ????				      SEG	ROM_SHADOW_OF_RAMBANK_CODE
       2  0000					      ORG	ORIGIN
       3  0000					      RORG	$F000
@@ -10799,7 +10757,7 @@
     759  7acd
     760  7acd		       a2 02		      ldx	#ROM_SHADOW_OF_BANK_SCORING
     761  7acf		       a0 09		      ldy	#BANK_SCORING
-    762  7ad1		       20 d4 fc 	      jsr	CopyROM2RAM_F000
+    762  7ad1		       20 de fc 	      jsr	CopyROM2RAM_F000
     763  7ad4
     764  7ad4				   Restart		; go here on RESET + SELECT
     765  7ad4
@@ -10821,7 +10779,7 @@
     781  7ade
     782  7ade		       a2 03		      ldx	#BANK_DECODE_LEVEL_SHADOW
     783  7ae0		       a0 0a		      ldy	#BANK_DECODE_LEVEL
-    784  7ae2		       20 d4 fc 	      jsr	CopyROM2RAM_F000
+    784  7ae2		       20 de fc 	      jsr	CopyROM2RAM_F000
     785  7ae5
     786  7ae5
     787  7ae5							;---------------------------------------------------------------------------
@@ -10885,13 +10843,13 @@
     845  7b16							; Setup the various digit and display pointers
     846  7b16							; Grab current player's score/level from backup
     847  7b16
-    848  7b16		       20 c8 fc 	      jsr	goGeneralScoringSetups
+    848  7b16		       20 d2 fc 	      jsr	goGeneralScoringSetups
     849  7b19
     850  7b19							; copy the screen draw ROM shadow to RAM
     851  7b19
     852  7b19		       a0 07		      ldy	#SCREEN_LINES-1
     853  7b1b		       a2 00	   CopyScreenBanks ldx	#ROM_SHADOW_OF_RAMBANK_CODE
-    854  7b1d		       20 d4 fc 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
+    854  7b1d		       20 de fc 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
     855  7b20		       20 77 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
     856  7b23		       88		      dey
     857  7b24		       10 f5		      bpl	CopyScreenBanks
@@ -11479,7 +11437,7 @@
     960  7c76		       05		      .byte.b	<CHARACTERSHAPE_BLANK
     961  7c77		       2f		      .byte.b	<CHARACTERSHAPE_SOIL
     962  7c78		       2f		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
-    963  7c79		       dd		      .byte.b	<CHARACTERSHAPE_BOX
+    963  7c79		       e7		      .byte.b	<CHARACTERSHAPE_BOX
     964  7c7a		       00		      .byte.b	<CHARACTERSHAPE_BOX_MIRRORED
     965  7c7b		       54		      .byte.b	<CHARACTERSHAPE_TARGET
     966  7c7c		       3f		      .byte.b	<CHARACTERSHAPE_TARGET_MIRRORED
@@ -11582,59 +11540,79 @@
       1  7cbe		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
       2  7cbe					      SUBROUTINE
       3  7cbe				   nextLevelMan
-   1057  7cbe		       4c be fc 	      jmp	nextLevelMan
-   1058  7cc1
-   1059  7cc1		       a9 0f		      lda	#BANK_NextLevelX
-   1060  7cc3		       85 3f		      sta	SET_BANK
-   1061  7cc5		       4c 00 14 	      jmp	NextLevelX
-   1062  7cc8
-   1063  7cc8
-   1064  7cc8							;---------------------------------------------------------------------------
-   1065  7cc8
-      0  7cc8					      DEFINE_SUBROUTINE	goGeneralScoringSetups
-      1  7cc8		       00 0f	   BANK_goGeneralScoringSetups =	_CURRENT_BANK
-      2  7cc8					      SUBROUTINE
-      3  7cc8				   goGeneralScoringSetups
-   1067  7cc8
-   1068  7cc8		       a9 09		      lda	#BANK_SCORING
-   1069  7cca		       85 3e		      sta	SET_BANK_RAM
-   1070  7ccc		       20 8f f2 	      jsr	GeneralScoringSetups
-   1071  7ccf		       a5 c2		      lda	ROM_Bank
-   1072  7cd1		       85 3f		      sta	SET_BANK
-   1073  7cd3		       60		      rts
-   1074  7cd4							;---------------------------------------------------------------------------
-   1075  7cd4
-      0  7cd4					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
-      1  7cd4		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
-      2  7cd4					      SUBROUTINE
-      3  7cd4				   CopyROM2RAM_F000
-   1077  7cd4
-   1078  7cd4		       a9 05		      lda	#BANK_CopyROMShadowToRAM
-   1079  7cd6		       85 3f		      sta	SET_BANK
-   1080  7cd8		       85 c2		      sta	ROM_Bank
-   1081  7cda		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
-   1082  7cdd
-   1083  7cdd
-   1084  7cdd							;---------------------------------------------------------------------------
-   1085  7cdd
+   1057  7cbe
+   1058  7cbe							;lda #BANK_NextLevelX
+   1059  7cbe							;sta SET_BANK
+   1060  7cbe							;jmp NextLevelX
+   1061  7cbe
+   1062  7cbe							; Now do the actual switching
+   1063  7cbe
+   1064  7cbe		       a5 c8		      lda	NextLevelTrigger
+   1065  7cc0		       29 7f		      and	#<(~BIT_NEXTLEVEL)
+   1066  7cc2		       85 c8		      sta	NextLevelTrigger
+   1067  7cc4
+   1068  7cc4							; Next level is due. Point to the next level, but if we're at the end of playable levels,
+   1069  7cc4							; then increment the level number. This is completely circular, so we eventually wrap
+   1070  7cc4							; the level back to 0 and start afresh.
+   1071  7cc4
+   1072  7cc4		       a5 b3		      lda	levelX
+   1073  7cc6		       18		      clc
+   1074  7cc7		       69 04		      adc	#LEVEL_DEFINITION_SIZE
+   1075  7cc9		       c9 d0		      cmp	#LEVELNUM
+   1076  7ccb		       90 02		      bcc	.level_ok
+   1077  7ccd
+   1078  7ccd		       a9 00		      lda	#0
+   1079  7ccf		       85 b3	   .level_ok  sta	levelX
+   1080  7cd1		       60		      rts
+   1081  7cd2
+   1082  7cd2
+   1083  7cd2
+   1084  7cd2							;---------------------------------------------------------------------------
+   1085  7cd2
+      0  7cd2					      DEFINE_SUBROUTINE	goGeneralScoringSetups
+      1  7cd2		       00 0f	   BANK_goGeneralScoringSetups =	_CURRENT_BANK
+      2  7cd2					      SUBROUTINE
+      3  7cd2				   goGeneralScoringSetups
+   1087  7cd2
+   1088  7cd2		       a9 09		      lda	#BANK_SCORING
+   1089  7cd4		       85 3e		      sta	SET_BANK_RAM
+   1090  7cd6		       20 8f f2 	      jsr	GeneralScoringSetups
+   1091  7cd9		       a5 c2		      lda	ROM_Bank
+   1092  7cdb		       85 3f		      sta	SET_BANK
+   1093  7cdd		       60		      rts
+   1094  7cde							;---------------------------------------------------------------------------
+   1095  7cde
+      0  7cde					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
+      1  7cde		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
+      2  7cde					      SUBROUTINE
+      3  7cde				   CopyROM2RAM_F000
+   1097  7cde
+   1098  7cde		       a9 05		      lda	#BANK_CopyROMShadowToRAM
+   1099  7ce0		       85 3f		      sta	SET_BANK
+   1100  7ce2		       85 c2		      sta	ROM_Bank
+   1101  7ce4		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
+   1102  7ce7
+   1103  7ce7
+   1104  7ce7							;---------------------------------------------------------------------------
+   1105  7ce7
 ------- FILE BOX.asm LEVEL 3 PASS 3
-      0  7cdd					      include	"BOX.asm"	; 2 * LINES_PER_CHAR bytes
-      0  7cdd					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX", LINES_PER_CHAR
-     10  7cdd					      LIST	ON
-      2  7cdd				   CHARACTERSHAPE_BOX
-      3  7cdd				  -	      if	MIRRORED_BOX = NO
-      4  7cdd				  -CHARACTERSHAPE_BOX_MIRRORED
-      5  7cdd					      endif
-      6  7cdd		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%0	;R
-      7  7ce4		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%11111111	;G
-      8  7ceb		       00 00 00 00*	      .byte.b	%0,%0,%0,0,%0,%0,%0	;B
-      9  7cf2
-     10  7cf2							;--------------------------------------------------------------------------
-     11  7cf2					      if	MIRRORED_BOX = YES
-      0  7cf2					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_MIRRORED", LINES_PER_CHAR
+      0  7ce7					      include	"BOX.asm"	; 2 * LINES_PER_CHAR bytes
+      0  7ce7					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX", LINES_PER_CHAR
+     10  7ce7					      LIST	ON
+      2  7ce7				   CHARACTERSHAPE_BOX
+      3  7ce7				  -	      if	MIRRORED_BOX = NO
+      4  7ce7				  -CHARACTERSHAPE_BOX_MIRRORED
+      5  7ce7					      endif
+      6  7ce7		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%0	;R
+      7  7cee		       ff ff 99 99*	      .byte.b	%11111111,%11111111,%10011001,%10011001,%11111111,%11111111,%11111111	;G
+      8  7cf5		       00 00 00 00*	      .byte.b	%0,%0,%0,0,%0,%0,%0	;B
+      9  7cfc
+     10  7cfc							;--------------------------------------------------------------------------
+     11  7cfc					      if	MIRRORED_BOX = YES
+      0  7cfc					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_BOX_MIRRORED", LINES_PER_CHAR
  PAGE BREAK INSERTED FOR  CHARACTERSHAPE_BOX_MIRRORED
  REQUESTED SIZE =  $15
- WASTED SPACE =  $e
+ WASTED SPACE =  $4
  PAGEBREAK LOCATION =  $fd00
      10  7d00					      LIST	ON
      13  7d00				   CHARACTERSHAPE_BOX_MIRRORED
@@ -11689,8 +11667,8 @@
      20  7d4d		       ff ff ee ff*	      .byte.b	%11111111,%11111111,%11101110,%11111111,%11111111,%10111011,%11111111	;B
      21  7d54					      endif
 ------- FILE BANK_FIXED.asm
-   1088  7d54							;---------------------------------------------------------------------------
-   1089  7d54
+   1108  7d54							;---------------------------------------------------------------------------
+   1109  7d54
 ------- FILE circle.asm LEVEL 3 PASS 3
       0  7d54					      include	"circle.asm"
       1  7d54
@@ -12228,23 +12206,23 @@
  Track size:  $12b
     274  7f75					      echo	"Track size: ", *-tt_TrackDataStart
 ------- FILE BANK_FIXED.asm
-   1093  7f75
+   1113  7f75
  FREE BYTES IN FIXED BANK =  $86
-   1094  7f75					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
-   1095  7f75
-   1096  7f75							;---------------------------------------------------------------------------
-   1097  7f75							; The reset vectors
-   1098  7f75							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
-   1099  7f75
-   1100  8000 ????				      SEG	InterruptVectors
-   1101  7ffc					      ORG	FIXED_BANK + $7FC
-   1102  7ffc					      RORG	$7ffC
-   1103  7ffc
-   1104  7ffc							;		 .word Reset	       ; NMI	    (not used)
-   1105  7ffc		       c2 fa		      .word.w	Reset	; RESET
-   1106  7ffe		       c2 fa		      .word.w	Reset	; IRQ	      (not used)
-   1107  8000
-   1108  8000							;---------------------------------------------------------------------------
+   1114  7f75					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
+   1115  7f75
+   1116  7f75							;---------------------------------------------------------------------------
+   1117  7f75							; The reset vectors
+   1118  7f75							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
+   1119  7f75
+   1120  8000 ????				      SEG	InterruptVectors
+   1121  7ffc					      ORG	FIXED_BANK + $7FC
+   1122  7ffc					      RORG	$7ffC
+   1123  7ffc
+   1124  7ffc							;		 .word Reset	       ; NMI	    (not used)
+   1125  7ffc		       c2 fa		      .word.w	Reset	; RESET
+   1126  7ffe		       c2 fa		      .word.w	Reset	; IRQ	      (not used)
+   1127  8000
+   1128  8000							;---------------------------------------------------------------------------
 ------- FILE ./sokoboo.asm
     820  8000
     821  8000					      END
