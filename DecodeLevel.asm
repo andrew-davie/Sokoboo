@@ -1,7 +1,39 @@
+;    Sokoboo - a Sokoban implementation
+;    using a generic tile-based display engine for the Atari 2600
+;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
+;
+;    Code related to this Sokoban™ implementation was developed by Andrew Davie.
+;
+;    Code related to the generic tile-based display engine was developed by
+;    Andrew Davie and Thomas Jentzsch during 2003-2011 and is
+;    Copyright(C)2003-2019 Thomas Jentzsch and Andrew Davie - contacts details:
+;    Andrew Davie (andrew@taswegian.com), Thomas Jentzsch (tjentzsch@yahoo.de).
+;
+;    Code related to music and sound effects uses the TIATracker music player
+;    Copyright 2016 Andre "Kylearan" Wichmann - see source code in the "sound"
+;    directory for Apache licensing details.
+;
+;    Some level data incorporated in this program were created by Lee J Haywood.
+;    See the copyright notices in the License directory for a list of level
+;    contributors.
+;
+;    Except where otherwise indicated, this software is released under the
+;    following licensing arrangement...
+;
+;    This program is free software: you can redistribute it and/or modify
+;    it under the terms of the GNU General Public License as published by
+;    the Free Software Foundation, either version 3 of the License, or
+;    (at your option) any later version.
+;    see https://www.gnu.org/licenses/gpl-3.0.en.html
+
+;    This program is distributed in the hope that it will be useful,
+;    but WITHOUT ANY WARRANTY; without even the implied warranty of
+;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;    GNU General Public License for more details.
 
 LEVELNUM         SET 0
 NUMBEROFLEVELS   SET 0
-LEVEL_DEFINITION_SIZE  = 4
+LEVEL_DEFINITION_SIZE  = 3
 
                 MAC ADD_LEVEL ; {name}
 LEVEL_ACTIVE_{1} SET 1
@@ -9,7 +41,7 @@ LEVEL_NAMED_{1}  = LEVELNUM
     .byte <LEVEL_{1}
     .byte >LEVEL_{1}
     .byte BANK_LEVEL_{1}
-    .byte LEVEL_SIZE_{1}
+    ;.byte LEVEL_SIZE_{1}
 LEVELNUM         SET LEVELNUM + LEVEL_DEFINITION_SIZE
 NUMBEROFLEVELS   SET NUMBEROFLEVELS + 1
                 ENDM
@@ -18,22 +50,70 @@ LevelInformation
 
                 ; The ordering here corresponds to the ordering when playing...
 
-                ADD_LEVEL b82X_Sharpen
     ADD_LEVEL _001_L
+    ADD_LEVEL _001_R
     ADD_LEVEL _002_L
+    ADD_LEVEL _002_R
     ADD_LEVEL _003_L
     ADD_LEVEL _003_R
     ADD_LEVEL _004_L
     ADD_LEVEL _004_R
-
+    ADD_LEVEL _005_L
+    ADD_LEVEL _005_R
+    ADD_LEVEL _006_L
+    ADD_LEVEL _006_R
+    ADD_LEVEL _007_L
+    ADD_LEVEL _007_R
+    ADD_LEVEL _008_L
+    ADD_LEVEL _008_R
+    ADD_LEVEL _009_L
+    ADD_LEVEL _009_R
     ADD_LEVEL _010_L
     ADD_LEVEL _010_R
     ADD_LEVEL _011_L
+    ADD_LEVEL _011_R
+    ADD_LEVEL _012_L
+    ADD_LEVEL _012_R
+    ADD_LEVEL _013_L
+    ADD_LEVEL _013_R
+    ADD_LEVEL _014_L
+    ADD_LEVEL _014_R
+    ADD_LEVEL _015_L
+    ADD_LEVEL _015_R
+    ADD_LEVEL _016_L
+    ADD_LEVEL _016_R
+    ADD_LEVEL _017_L
+    ADD_LEVEL _017_R
+    ADD_LEVEL _018_L
+    ADD_LEVEL _018_R
+    ADD_LEVEL _019_L
+    ADD_LEVEL _019_R
+    ADD_LEVEL _020_L
+    ADD_LEVEL _020_R
+    ADD_LEVEL _021_L
+    ADD_LEVEL _021_R
+    ADD_LEVEL _022_L
+    ADD_LEVEL _022_R
+    ADD_LEVEL _023_L
+    ADD_LEVEL _023_R
 
+    ADD_LEVEL _050_L
+    ADD_LEVEL _050_R
+    ADD_LEVEL _051_L
+    ADD_LEVEL _051_R
+    ADD_LEVEL _052_L
+    ADD_LEVEL _052_R
+    ADD_LEVEL _053_L
+    ADD_LEVEL _053_R
+    ADD_LEVEL _054_L
+    ADD_LEVEL _054_R
+    ADD_LEVEL _055_L
+    ADD_LEVEL _055_R
+    ADD_LEVEL _056_L
+    ADD_LEVEL _056_R
     ADD_LEVEL _057_L
 
     ADD_LEVEL _060_R
-
     ADD_LEVEL _061_R
     ADD_LEVEL _061_L
     ADD_LEVEL _062_L
@@ -68,13 +148,12 @@ LevelInformation
     ADD_LEVEL _0PAL_Jill_Leatherby
     ADD_LEVEL _0IZ1_Sophia
     ADD_LEVEL _0CNH_Alice
-    ADD_LEVEL TowC
-    ADD_LEVEL SimpleC
     ADD_LEVEL Thomas_Reinke16
     ADD_LEVEL bDarcy_Burnsell101
     ADD_LEVEL bAlfa_DrFogh
     ADD_LEVEL bAislin101
     ADD_LEVEL b51X_Sharpen
+;    ADD_LEVEL b82X_Sharpen
 
 
 finX
@@ -184,7 +263,10 @@ xyClear       jsr PutBoardCharacterFromRAM
               ora #BIT_NEXTLEVEL
               sta NextLevelTrigger
 
-              ldy levelX
+              lda levelX
+              asl
+              adc levelX
+              tay
               sec
               lda LevelInformation,y
               sbc #1
