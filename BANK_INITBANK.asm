@@ -401,6 +401,7 @@ canPushTarget   pha
 
 notOnTargetAlready
 
+
                 pla
 
 
@@ -465,8 +466,8 @@ MANMODE_WAITING2    = 4
 MANMODE_WAITING_NT  = 5
 MANMODE_WAITING_NT2 = 6
 MANMODE_NEXTLEVEL   = 7
-MANMODE_BONUS_START = 8
-MANMODE_BONUS_RUN   = 9
+MANMODE_NEXTLEVEL2 = 8
+MANMODE_SWITCH = 9
 
     DEFINE_SUBROUTINE ManProcess ; in INITBANK
 
@@ -482,7 +483,7 @@ MANMODE_BONUS_RUN   = 9
                 lda SWCHB
                 and #2
                 bne skipNextLevel
-                lda #MANMODE_NEXTLEVEL
+                lda #MANMODE_SWITCH
                 sta ManMode
 skipNextLevel
 
@@ -500,11 +501,6 @@ noReset
 
   ; Check if all the boxes are on their target square
 
-                lda targetsRequired
-                bne notComplete
-                lda #MANMODE_NEXTLEVEL
-                sta ManMode
-notComplete
 
                 ;lda SWCHB
                 ;and #3
@@ -537,6 +533,8 @@ ManActionTimer
                 .byte 0 ;<waitingManNoTim       ; 5             no timer
                 .byte 0 ;<waitingManPressNoTim  ; 6             no timer
                 .byte 0 ;<nextLevelMan          ; 7             no timer
+                .byte 0 ;<nextLevelMan2          ; 8             no timer
+                .byte 0 ;<nextLevelMan3          ; 9             no timer
 ManActionLO
                 .byte <manStartup               ; 0             no timer
                 .byte <normalMan                ; 1             timer
@@ -546,6 +544,8 @@ ManActionLO
                 .byte <waitingMan               ; 5             no timer
                 .byte <waitingManPress          ; 6             no timer
                 .byte <nextLevelMan             ; 7             no timer
+                .byte <nextLevelMan2             ; 8             no timer
+                .byte <switchLevels             ; 9             no timer
 
 ManActionHI
                 .byte >manStartup               ; no timer
@@ -556,6 +556,8 @@ ManActionHI
                 .byte >waitingMan               ; no timer
                 .byte >waitingManPress          ; no timer
                 .byte >nextLevelMan             ; no timer
+                .byte >nextLevelMan2             ; no timer
+                .byte >switchLevels             ;9  no timer
 
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE UpdateTimer
@@ -565,9 +567,9 @@ ManActionHI
 
 
                 ldx #3
-                lda ManMode
-                cmp #MANMODE_BONUS_RUN
-                beq .setLoops
+;                lda ManMode
+;                cmp #MANMODE_BONUS_RUN
+;                beq .setLoops
 
                 ldx #NUM_LEVELS-1               ; intermissions run at full speed
                 bit levelDisplay
@@ -653,16 +655,6 @@ TimeFracTbl:
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE manStartup
 
-#if 0
-      lda POS_Type
-      pha
-      lda #TYPE_CIRCLE
-      sta POS_Type
-      jsr InsertObjectStack
-      pla
-      sta POS_Type
-#endif
-
                 lda ManX
                 sta POS_X_NEW ;NewX
                 sta POS_X
@@ -723,73 +715,6 @@ waitingManPress
                 sta NextLevelTrigger
                 rts
 
- #if 0
-                dec ManDelayCount
-
-                lda #0
-                sta LookingAround
-                sta BGColour
-
-    ; Wait for button to be RELEASED first!
-
-                lda BufferedButton
-                bpl noChange
-                inc ManMode
-
-    ; Man loses a life and re-starts level if lives available
-    ; Special-case: Bonus levels go to next level.
-
-    IF NUM_LIVES != -1
-                dec ManCount                  ; works for P1P2 format
-    ; display lives after a live is lost
-                lda scoringFlags                ;
-                and #~DISPLAY_FLAGS
-                ora #DISPLAY_LIVES
-                sta scoringFlags                ;
-    ENDIF
-                jsr goGeneralScoringSetups      ; update the life display. Roundabout way of doing it.
-
-
-                lda #120                        ; something long.  anything.
-                sta scoringTimer                ; first time through we wait on the current display
-
-;waitingManPress
-
-    ; Cycle the score display, player display, level display based on timing
-    ; see "Scoring timer" reset stomp comment in bank_generic.
-
-                lda scoringTimer
-                cmp #10                         ; non-zero so we don't get stomped on by the scoring reset in
-                bcs stillKicking
-                lda #90                         ; something long.  anything.
-                sta scoringTimer
-
-                lda ManCount
-                and #$0f
-                cmp #$01
-                ldx scoringFlags
-                inx
-                txa
-    ; if game over for current player, display alternate scoreboard
-                and #$f3
-                bcc gameOver
-    ; else display targets/time and move count
-                and #$f1
-gameOver        sta scoringFlags                ;
-
-                jsr goGeneralScoringSetups      ; update the score display.
-
-stillKicking
-
-                lda BufferedButton                   ; button pressed?
-                bmi noChange
-
-                lda NextLevelTrigger
-                ora #BIT_NEXTLIFE
-                sta NextLevelTrigger
-
-noChange        rts
- #endif
 
     ;------------------------------------------------------------------------------
     ; Normal man state
@@ -857,16 +782,43 @@ timeTooShortToDie
 
     ;------------------------------------------------------------------------------
 
-;lookColour      .byte $b0,$02
+PlayerAlive
 
-    DEFINE_SUBROUTINE LookAround ; in INITBANK
+    ; Calling code uses 'POS_X_NEW' and 'POS_Y_NEW' as new player position, so these must be set
+    ; before exiting via (for example) look-around option :)
 
-                lda #$FF
-                sta BufferedButton
+                lda ManX
+                sta POS_X_NEW
+                lda ManY
+                sta POS_Y_NEW
 
-                ;ldx Platform
-                ;lda lookColour,x
-                ;sta BGColour
+
+
+    ;------------------------------------------------------------------------------
+    ; Look around is triggered by holding down the fire button for a while, without any other
+    ; joystick directions chosen. The variable LookingAround has a negative value ($FF) when looking
+    ; is active. Otherwise, it is counting down to the time where it will trigger.
+
+LOOK_DELAY = 0
+
+
+                ;------------------------------------------------------------------------------
+                ; Take-back is a press/release of the button, with the press being limited in duratino
+                ; to allow the action to be "cancelled". Meanwhile, a button press + direction triggers
+                ; "look-around mode"
+
+                lda BufferedButton
+                bmi noLook                      ; button?
+
+    ; button pressed, so in looking-around mode
+
+                ldx #$FF
+                stx BufferedButton              ; "release" button
+
+                lda LookingAround
+                bmi LookAround
+                stx LookingAround
+LookAround
 
     ; Use the joystick as a window-scroller to change the viewport
 
@@ -876,6 +828,13 @@ timeTooShortToDie
                 lsr
                 lsr
                 tay
+
+                lda JoyMoveX,y
+                ora JoyMoveY,y
+                beq AbandonY
+
+                lda #$FE
+                sta LookingAround
 
                 lda JoyMoveX,y
                 ;asl
@@ -895,39 +854,18 @@ AbandonX        lda JoyMoveY,y
 
 AbandonY        rts
 
+noLook          lda LookingAround
+                cmp #$FF
+                bne bProcComp
 
+    ; button was presssed and now released and we didn't actually look around
+    ; TODO -- takeback here
+                ;jsr restorePreviousManPosition
+                ;lda #2
+                ;sta ColourTimer
 
-
-PlayerAlive
-
-    ; Calling code uses 'POS_X_NEW' and 'POS_Y_NEW' as new player position, so these must be set
-    ; before exiting via (for example) look-around option :)
-
-                lda ManX
-                sta POS_X_NEW
-                lda ManY
-                sta POS_Y_NEW
-
-
-    ;------------------------------------------------------------------------------
-    ; Look around is triggered by holding down the fire button for a while, without any other
-    ; joystick directions chosen. The variable LookingAround has a negative value ($FF) when looking
-    ; is active. Otherwise, it is counting down to the time where it will trigger.
-
-LOOK_DELAY = 0
-
-                ldx #LOOK_DELAY
-                lda BufferedButton
-                bmi noLook                      ; button?
-                lda LookingAround
-                bmi LookAround                  ; already looking
-                lda BufferedJoystick
-                cmp #$F0
-                bcc noLook                      ; must have no directions chosen
-                ldx LookingAround
-                dex
-noLook          stx LookingAround
-
+bProcComp       ldx #0
+                stx LookingAround
 
     ;------------------------------------------------------------------------------
 

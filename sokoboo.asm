@@ -801,6 +801,10 @@ Board           ds SIZE_BOARD               ; Note, we can only access this in
                                             ; banks as we go.  In other words,
                                             ; this overlaps multiple banks!
 
+    NEWRAMBANK BANK_TAKEBACK
+TakeBackX    ds 256
+TakeBackY    ds 256
+TakeBackA    ds 256
 
     ; free space here (but hard to use)
     ; So we need to calculate where the next free bank is!

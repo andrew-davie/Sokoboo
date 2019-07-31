@@ -70,13 +70,13 @@ SpriteColour
 ;    .byte WHITE             ;20
 
 SpriteColourRED
- .byte WHITE
- .byte WHITE
- .byte WHITE
- .byte WHITE
- .byte WHITE
- .byte WHITE
- .byte WHITE
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
 
 ;  .byte #$1C;0
 ;  .byte #$78;3
@@ -86,21 +86,21 @@ SpriteColourRED
 ;  .byte #$4A;15
 ;  .byte #$1A;18
 SpriteColourGREEN
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
+  .byte $7A
+  .byte $7A
+  .byte $7A
+  .byte $7A
+  .byte $7A
+  .byte $7A
+  .byte $7A
 SpriteColourBLUE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
-  .byte WHITE
+  .byte $2A
+  .byte $2A
+  .byte $2A
+  .byte $2A
+  .byte $2A
+  .byte $2A
+  .byte $2A
 
   REPEAT 21
   .byte $20|$6             ; 2

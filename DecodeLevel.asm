@@ -234,6 +234,24 @@ endzapy2        dec POS_X
               cld
               rts
 
+;A      steel wall
+;B      soil (surround)
+;C      box
+
+
+C1
+  .byte $98,$2A,$a8,$48
+  .byte $C8,$08,$28,$98
+C2
+  .byte $04,$D4,$22,$84
+  .byte $44,$86,$B4,$64
+C3
+  .byte $28,$7A,$f8,$B8
+  .byte $FC,$C6,$98,$28
+
+              ; C6 44 2A      browns
+              ; BA 96 E8      ice blues
+
 
   DEFINE_SUBROUTINE UnpackLevel
 
@@ -242,7 +260,7 @@ endzapy2        dec POS_X
   ; has to be done before decoding the level to have the platform right:
               SET_PLATFORM
 
-              lda #CHARACTER_BLANK
+              lda #CHARACTER_SOIL
               sta POS_Type
 
               lda #SIZE_BOARD_Y-1
@@ -280,20 +298,34 @@ xyClear       jsr PutBoardCharacterFromRAM
               lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
               sta ROM_Bank                        ; GetROMByte returns to this bank
 
+              lda levelX
+              and #7
+              tax
+              lda C1,x
+              sta color
+              lda C2,x
+              sta color+1
+              lda C3,x
+              sta color+2
+
               ;NEXT_RANDOM
               ;and #$F0
               ;ora #$A
-              lda #$8a ;ba
-              sta color
-              lda #$44
+              ;lda #$ba
+              ;sta color
+              ;lda #$96
               ;lda #$A0
-              sta color+1
-              lda #$2a ;lda #$9C
-              sta color+2
+              ;sta color+1
+              ;lda #$e8 ;lda #$9C
+              ;sta color+2
+
+              ; good colours
+
 
               lda #$00
               sta moveCounter
               sta moveCounterHi
+              sta moveCounterBinary
 
               lda #$00                      ; BCD reminder!
               sta targetsRequired           ; # of targets that do NOT have boxes on them
@@ -382,7 +414,10 @@ wOK2
 
 checkWall     cmp #"#"          ; wall
               bne checkForGap
-              lda #CHARACTER_WALL
+              lda levelX
+              and #1
+              clc
+              adc #CHARACTER_STEEL
               bne WriteChars
 
 checkForGap   cmp #32

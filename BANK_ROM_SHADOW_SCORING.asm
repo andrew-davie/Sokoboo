@@ -213,6 +213,62 @@ FourL
   .byte %10010000
   .byte %10010000
 
+
+ZL
+  .byte %01111111
+  .byte %01000000
+  .byte %01000000
+  .byte %01111111
+  .byte %00000001
+  .byte %00000001
+  .byte %00001111
+
+EL
+  .byte %01111111
+  .byte %01000000
+  .byte %01000000
+  .byte %01111000
+  .byte %01000000
+  .byte %01000000
+  .byte %01111111
+
+RL
+  .byte %01001000
+  .byte %01001000
+  .byte %01001000
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+
+PL
+  .byte %01000000
+  .byte %01000000
+  .byte %01000000
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+
+AL
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+
+GL
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01001111
+  .byte %01000000
+  .byte %01000000
+  .byte %01111111
+
+
 ; level "name" characters (left only!):
 
 CharN

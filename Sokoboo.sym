@@ -10,70 +10,23 @@
 0.next1                  f16a              (R )
 0.notPaired0             f140              (R )
 0.notPaired1             f161              (R )
-111.TEMP                 0250              (R )
+100.TEMP                 0346              (R )
 112.TEMP                 0250              (R )
 113.TEMP                 0250              (R )
-117.CYCLES               0000              (R )
+114.TEMP                 0250              (R )
 118.CYCLES               0000              (R )
 119.CYCLES               0000              (R )
 120.CYCLES               0000              (R )
-120.loopWait             f189              (R )
-120.zeroPos              f18c              (R )
+121.CYCLES               0000              (R )
 121.loopWait             f189              (R )
 121.zeroPos              f18c              (R )
-123.CYCLES               0004              (R )
+122.loopWait             f189              (R )
+122.zeroPos              f18c              (R )
 124.CYCLES               0004              (R )
-125.buttonDown           f4ee              (R )
-125.exitPause            f4ff              (R )
-125.fixPause             f4f2              (R )
-125.intermission         f2d4              (R )
-125.loopCheckHighScore   f248              (R )
-125.loopClearScore       f394              (R )
-125.loopCopyHighScore    f384              (R )
-125.loopLevelXLevel      f27d              (R )
-125.loopScore            f217              (R )
-125.loopScore2           f291              (R )
-125.loopSetHighScore     f258              (R )
-125.noBonusLife          f21e                  
-125.noHighScore          f263              (R )
-125.noSaveKey            f390              (R )
-125.otherPlayerDead      f28a              (R )
-125.pause7800            f4df              (R )
-125.pausePress           f4ea              (R )
-125.playerAlive          f263              (R )
-125.restartTime          f238              (R )
-125.SCRL_DOWN_BIT        0088              (R )
-125.SCRL_LEFT_BIT        0011              (R )
-125.SCRL_RIGHT_BIT       0022              (R )
-125.SCRL_START_DOWN      0006              (R )
-125.SCRL_START_LEFT      0003              (R )
-125.SCRL_START_RIGHT     0007              (R )
-125.SCRL_START_UP        0002              (R )
-125.SCRL_STOP_DOWN       0006              (R )
-125.SCRL_STOP_LEFT       0003              (R )
-125.SCRL_STOP_RIGHT      0007              (R )
-125.SCRL_STOP_UP         0002              (R )
-125.SCRL_UP_BIT          0044              (R )
-125.SCRL_X_BITS          0033              (R )
-125.SCRL_Y_BITS          00cc              (R )
-125.setPauseCol          f4f4              (R )
-125.showHighScore        f2a7              (R )
-125.skipBonusLife        f21f                  
-125.skipNew              f23c              (R )
-125.skipStartXScroll     f42a              (R )
-125.skipStartYScroll     f46b              (R )
-125.skipXScroll          f453              (R )
-125.skipYScroll          f494              (R )
-125.startXScroll         f424              (R )
-125.startYScroll         f465              (R )
-125.stopXScroll          f44d              (R )
-125.stopYScroll          f48e              (R )
-125.swapScore            f26b              (R )
-125.xScrollRight         f440              (R )
-125.yScrollDown          f481              (R )
-126.buttonDown           f4ee              (R )
-126.exitPause            f4ff              (R )
-126.fixPause             f4f2              (R )
+125.CYCLES               0004              (R )
+126.buttonDown           f515              (R )
+126.exitPause            f526              (R )
+126.fixPause             f519              (R )
 126.intermission         f2d4              (R )
 126.loopCheckHighScore   f248              (R )
 126.loopClearScore       f394              (R )
@@ -86,8 +39,8 @@
 126.noHighScore          f263              (R )
 126.noSaveKey            f390              (R )
 126.otherPlayerDead      f28a              (R )
-126.pause7800            f4df              (R )
-126.pausePress           f4ea              (R )
+126.pause7800            f506              (R )
+126.pausePress           f511              (R )
 126.playerAlive          f263              (R )
 126.restartTime          f238              (R )
 126.SCRL_DOWN_BIT        0088              (R )
@@ -104,97 +57,145 @@
 126.SCRL_UP_BIT          0044              (R )
 126.SCRL_X_BITS          0033              (R )
 126.SCRL_Y_BITS          00cc              (R )
-126.setPauseCol          f4f4              (R )
+126.setPauseCol          f51b              (R )
 126.showHighScore        f2a7              (R )
 126.skipBonusLife        f21f                  
 126.skipNew              f23c              (R )
-126.skipStartXScroll     f42a              (R )
-126.skipStartYScroll     f46b              (R )
-126.skipXScroll          f453              (R )
-126.skipYScroll          f494              (R )
-126.startXScroll         f424              (R )
-126.startYScroll         f465              (R )
-126.stopXScroll          f44d              (R )
-126.stopYScroll          f48e              (R )
+126.skipStartXScroll     f451              (R )
+126.skipStartYScroll     f492              (R )
+126.skipXScroll          f47a              (R )
+126.skipYScroll          f4bb              (R )
+126.startXScroll         f44b              (R )
+126.startYScroll         f48c              (R )
+126.stopXScroll          f474              (R )
+126.stopYScroll          f4b5              (R )
 126.swapScore            f26b              (R )
-126.xScrollRight         f440              (R )
-126.yScrollDown          f481              (R )
-128.CYCLES               0002              (R )
+126.xScrollRight         f467              (R )
+126.yScrollDown          f4a8              (R )
+127.buttonDown           f515              (R )
+127.exitPause            f526              (R )
+127.fixPause             f519              (R )
+127.intermission         f2d4              (R )
+127.loopCheckHighScore   f248              (R )
+127.loopClearScore       f394              (R )
+127.loopCopyHighScore    f384              (R )
+127.loopLevelXLevel      f27d              (R )
+127.loopScore            f217              (R )
+127.loopScore2           f291              (R )
+127.loopSetHighScore     f258              (R )
+127.noBonusLife          f21e                  
+127.noHighScore          f263              (R )
+127.noSaveKey            f390              (R )
+127.otherPlayerDead      f28a              (R )
+127.pause7800            f506              (R )
+127.pausePress           f511              (R )
+127.playerAlive          f263              (R )
+127.restartTime          f238              (R )
+127.SCRL_DOWN_BIT        0088              (R )
+127.SCRL_LEFT_BIT        0011              (R )
+127.SCRL_RIGHT_BIT       0022              (R )
+127.SCRL_START_DOWN      0006              (R )
+127.SCRL_START_LEFT      0003              (R )
+127.SCRL_START_RIGHT     0007              (R )
+127.SCRL_START_UP        0002              (R )
+127.SCRL_STOP_DOWN       0006              (R )
+127.SCRL_STOP_LEFT       0003              (R )
+127.SCRL_STOP_RIGHT      0007              (R )
+127.SCRL_STOP_UP         0002              (R )
+127.SCRL_UP_BIT          0044              (R )
+127.SCRL_X_BITS          0033              (R )
+127.SCRL_Y_BITS          00cc              (R )
+127.setPauseCol          f51b              (R )
+127.showHighScore        f2a7              (R )
+127.skipBonusLife        f21f                  
+127.skipNew              f23c              (R )
+127.skipStartXScroll     f451              (R )
+127.skipStartYScroll     f492              (R )
+127.skipXScroll          f47a              (R )
+127.skipYScroll          f4bb              (R )
+127.startXScroll         f44b              (R )
+127.startYScroll         f48c              (R )
+127.stopXScroll          f474              (R )
+127.stopYScroll          f4b5              (R )
+127.swapScore            f26b              (R )
+127.xScrollRight         f467              (R )
+127.yScrollDown          f4a8              (R )
 129.CYCLES               0002              (R )
-130.CYCLES               0000              (R )
+130.CYCLES               0002              (R )
 131.CYCLES               0000              (R )
-154.TEMP                 03bc              (R )
+132.CYCLES               0000              (R )
 155.TEMP                 03bc              (R )
 156.TEMP                 03bc              (R )
-263.TEMP                 0319              (R )
-264.TEMP                 0319              (R )
-274.loopResync           f3f0              (R )
-274.loopWait             f403              (R )
-274.ntsc                 f403              (R )
-275.loopResync           f3f0              (R )
-275.loopWait             f403              (R )
-275.ntsc                 f403              (R )
-275.VSLP1                f3f2              (R )
-276.VSLP1                f3f2              (R )
-288.BOARD_LOCATION       03a0                  
-288.dirFound             f290              (R )
-288.DRAW_LOCATION        f0a0                  
-288.exitCopy             fab1              (R )
-288.exitSK               f634              (R )
-288.forceTimeDraw        f1f0              (R )
-288.intermission2        f1e2              (R )
-288.loopColor            f08e              (R )
-288.loopDirs             f286              (R )
-288.loopRead             f5eb              (R )
-288.loopTimer            f1e8              (R )
-288.loopVSync            fb44              (R )
-288.loopWrite            f60c              (R )
-288.ManStartup           f221              (R )
-288.notScoring           f1f0              (R )
-288.paused               f8c9              (R )
-288.platform0            f0a7              (R )
-288.setLoops             f1e4              (R )
-288.skipEmpty            f5f4              (R )
-288.skipPatch            f08c              (R )
-288.skipReset            f1a3                  
-288.skipTimer            f1a6                  
-288.timeAbove9           f1f5                  
-288.timeNotZero          f1f0                  
+157.TEMP                 03bc              (R )
+264.TEMP                 0340              (R )
+265.TEMP                 0340              (R )
+275.loopResync           f417              (R )
+275.loopWait             f42a              (R )
+275.ntsc                 f42a              (R )
+276.loopResync           f417              (R )
+276.loopWait             f42a              (R )
+276.ntsc                 f42a              (R )
+276.VSLP1                f419              (R )
+277.VSLP1                f419              (R )
 289.BOARD_LOCATION       03a0                  
-289.dirFound             f290              (R )
+289.dirFound             f293              (R )
 289.DRAW_LOCATION        f0a0                  
-289.exitCopy             fab1              (R )
-289.exitSK               f634              (R )
-289.forceTimeDraw        f1f0              (R )
-289.intermission2        f1e2              (R )
+289.exitCopy             fae5              (R )
+289.exitSK               f65b              (R )
+289.forceTimeDraw        f1e8              (R )
+289.intermission2        f1da              (R )
 289.loopColor            f08e              (R )
-289.loopDirs             f286              (R )
-289.loopRead             f5eb              (R )
-289.loopTimer            f1e8              (R )
-289.loopVSync            fb44              (R )
-289.loopWrite            f60c              (R )
-289.ManStartup           f221              (R )
-289.notScoring           f1f0              (R )
+289.loopDirs             f289              (R )
+289.loopRead             f612              (R )
+289.loopTimer            f1e0              (R )
+289.loopVSync            fb78              (R )
+289.loopWrite            f633              (R )
+289.ManStartup           f219              (R )
+289.notScoring           f1e8              (R )
 289.paused               f8c9              (R )
 289.platform0            f0a7              (R )
-289.setLoops             f1e4              (R )
-289.skipEmpty            f5f4              (R )
+289.setLoops             f1dc                  
+289.skipEmpty            f61b              (R )
 289.skipPatch            f08c              (R )
-289.skipReset            f1a3                  
-289.skipTimer            f1a6                  
-289.timeAbove9           f1f5                  
-289.timeNotZero          f1f0                  
-296.TEMP                 071e              (R )
+289.skipReset            f19b                  
+289.skipTimer            f19e                  
+289.timeAbove9           f1ed                  
+289.timeNotZero          f1e8                  
+290.BOARD_LOCATION       03a0                  
+290.dirFound             f293              (R )
+290.DRAW_LOCATION        f0a0                  
+290.exitCopy             fae5              (R )
+290.exitSK               f65b              (R )
+290.forceTimeDraw        f1e8              (R )
+290.intermission2        f1da              (R )
+290.loopColor            f08e              (R )
+290.loopDirs             f289              (R )
+290.loopRead             f612              (R )
+290.loopTimer            f1e0              (R )
+290.loopVSync            fb78              (R )
+290.loopWrite            f633              (R )
+290.ManStartup           f219              (R )
+290.notScoring           f1e8              (R )
+290.paused               f8c9              (R )
+290.platform0            f0a7              (R )
+290.setLoops             f1dc                  
+290.skipEmpty            f61b              (R )
+290.skipPatch            f08c              (R )
+290.skipReset            f19b                  
+290.skipTimer            f19e                  
+290.timeAbove9           f1ed                  
+290.timeNotZero          f1e8                  
 297.TEMP                 071e              (R )
-450.TEMP                 07d7              (R )
+298.TEMP                 071e              (R )
 451.TEMP                 07d7              (R )
+452.TEMP                 07d7              (R )
 50.DUMMY                 0001                  
 51.DUMMY                 0001                  
 52.DUMMY                 0002                  
 53.DUMMY                 0002                  
 54.DUMMY                 0003                  
-544.TEMP                 06c2              (R )
 545.TEMP                 06c2              (R )
+546.TEMP                 06c2              (R )
 55.DUMMY                 0003                  
 56.DUMMY                 0004                  
 57.DUMMY                 0004                  
@@ -203,86 +204,86 @@
 60.DUMMY                 0006                  
 61.DUMMY                 0006                  
 62.DUMMY                 0007                  
-622.TEMP                 062c              (R )
 623.TEMP                 062c              (R )
+624.TEMP                 062c              (R )
 63.DUMMY                 0007                  
-684.TEMP                 05b3              (R )
 685.TEMP                 05b3              (R )
-742.TEMP                 033b              (R )
-743.TEMP                 033b              (R )
-78.CYCLES                0000              (R )
+686.TEMP                 05b3              (R )
+741.TEMP                 033e              (R )
+742.TEMP                 033e              (R )
 79.CYCLES                0000              (R )
 80.CYCLES                0000              (R )
-802.CLEAR_STACK          fac8              (R )
-803.advanceLoop          fb59              (R )
-803.afterAudioUpdate     fc2d              (R )
-803.CLEAR_STACK          fac8              (R )
-803.endOfEnvelope        fc1d              (R )
-803.endOfPercussion      fbd6              (R )
-803.finishedNewNote      fbb5              (R )
-803.instrument           fc04              (R )
-803.level_ok             fcce              (R )
-803.newNote              fb9f              (R )
-803.noEndOfSustain       fc16              (R )
-803.noNewNote            fbc5              (R )
-803.noOddFrame           fbc3              (R )
-803.pause                fb62                  
-803.sequencerNextChannel fbb7                  
-803.startInstrument      fbab              (R )
-803.storeADIndex         fbb3              (R )
-803.updateLoop           fbc7              (R )
-804.advanceLoop          fb59              (R )
-804.afterAudioUpdate     fc2d              (R )
-804.constructPatPtr      fb6f              (R )
-804.endOfEnvelope        fc1d              (R )
-804.endOfPercussion      fbd6              (R )
-804.finishedNewNote      fbb5              (R )
-804.instrument           fc04              (R )
-804.level_ok             fcce              (R )
-804.newNote              fb9f              (R )
-804.noEndOfPattern       fb9e              (R )
-804.noEndOfSustain       fc16              (R )
-804.noNewNote            fbc5              (R )
-804.noOddFrame           fbc3              (R )
-804.noPatternGoto        fb7c              (R )
-804.notPrefetched        fb93              (R )
-804.pause                fb62                  
-804.sequencerNextChannel fbb7                  
-804.startInstrument      fbab              (R )
-804.storeADIndex         fbb3              (R )
-804.updateLoop           fbc7              (R )
-805.constructPatPtr      fb6f              (R )
-805.CYCLES               0002              (R )
-805.noEndOfPattern       fb9e              (R )
-805.noPatternGoto        fb7c              (R )
-805.notPrefetched        fb93              (R )
+803.CLEAR_STACK          fafc              (R )
+804.advanceLoop          fb8d              (R )
+804.afterAudioUpdate     fc61              (R )
+804.CLEAR_STACK          fafc              (R )
+804.endOfEnvelope        fc51              (R )
+804.endOfPercussion      fc0a              (R )
+804.finishedNewNote      fbe9              (R )
+804.instrument           fc38              (R )
+804.level_ok             fd23              (R )
+804.newNote              fbd3              (R )
+804.noEndOfSustain       fc4a              (R )
+804.noNewNote            fbf9              (R )
+804.noOddFrame           fbf7              (R )
+804.pause                fb96                  
+804.sequencerNextChannel fbeb                  
+804.startInstrument      fbdf              (R )
+804.storeADIndex         fbe7              (R )
+804.updateLoop           fbfb              (R )
+805.advanceLoop          fb8d              (R )
+805.afterAudioUpdate     fc61              (R )
+805.constructPatPtr      fba3              (R )
+805.endOfEnvelope        fc51              (R )
+805.endOfPercussion      fc0a              (R )
+805.finishedNewNote      fbe9              (R )
+805.instrument           fc38              (R )
+805.level_ok             fd23              (R )
+805.newNote              fbd3              (R )
+805.noEndOfPattern       fbd2              (R )
+805.noEndOfSustain       fc4a              (R )
+805.noNewNote            fbf9              (R )
+805.noOddFrame           fbf7              (R )
+805.noPatternGoto        fbb0              (R )
+805.notPrefetched        fbc7              (R )
+805.pause                fb96                  
+805.sequencerNextChannel fbeb                  
+805.startInstrument      fbdf              (R )
+805.storeADIndex         fbe7              (R )
+805.updateLoop           fbfb              (R )
+806.constructPatPtr      fba3              (R )
 806.CYCLES               0002              (R )
-807.CYCLES               000a              (R )
-96.TEMP                  0305              (R )
-97.TEMP                  0305              (R )
-98.TEMP                  0348              (R )
-99.TEMP                  0348              (R )
+806.noEndOfPattern       fbd2              (R )
+806.noPatternGoto        fbb0              (R )
+806.notPrefetched        fbc7              (R )
+807.CYCLES               0002              (R )
+808.CYCLES               000a              (R )
+81.CYCLES                0000              (R )
+97.TEMP                  0303              (R )
+98.TEMP                  0303              (R )
+99.TEMP                  0346              (R )
 __DASM__TOTAL_FREE_MEMORY 0000                  
 _CURRENT_BANK            000f              (R )
 _PROFILE_DRAW            0001                  
-AbandonX                 f251              (R )
-AbandonY                 f25d              (R )
-actionVector             00d8              (R )
+AbandonX                 f267              (R )
+AbandonY                 f273              (R )
+actionVector             00da              (R )
 AD_MODE                  0001              (R )
-addrOK                   f22e              (R )
-alwaysAllowMan           f9b7              (R )
+addrOK                   f250              (R )
+AL                       f0a0                  
+alwaysAllowMan           f9ae              (R )
 ANIM_TARGET              f1d4              (R )
 AnimateBLANK             f71a              (R )
-AnimateCharReplacements2 fc9d              (R )
+AnimateCharReplacements2 fcd1              (R )
 AnimateEND               f71e                  
 AnimateLEFT              f700              (R )
-AnimatePlayers           f536                  
+AnimatePlayers           f55d                  
 AnimateRIGHT             f700              (R )
 AnimateSTAND             f700              (R )
 AnimateSTOPPED           f700              (R )
 AnimateTAP               f702                  
 AnimateUP                f700              (R )
-AnimationOK              f566              (R )
+AnimationOK              f58d              (R )
 AUDC0                    0055              (R )
 AUDC1                    0056                  
 AUDF0                    0057              (R )
@@ -429,7 +430,6 @@ BANK_LEVEL_bAlfa_DrFogh  0007
 BANK_LEVEL_bDarcy_Burnsell101 0007                  
 BANK_LEVEL_Thomas_Reinke16 0007                  
 BANK_LevelInit           0003              (R )
-BANK_LookAround          0008                  
 BANK_ManProcess          0008              (R )
 BANK_manStartup          0008                  
 BANK_MOVE_BLANK          000f                  
@@ -440,6 +440,7 @@ BANK_MOVE_TARGET         000f
 BANK_MoveVecHI           0008                  
 BANK_MoveVecLO           0008              (R )
 BANK_nextLevelMan        000f                  
+BANK_nextLevelMan2       000f                  
 BANK_OBJSTACK            000b              (R )
 BANK_OBJSTACK2           000c              (R )
 BANK_OSPointerHI         0008                  
@@ -460,6 +461,7 @@ BANK_PutBoardCharacterFromRAM 000f
 BANK_ReadSaveKey         0003                  
 BANK_RegisterOneMoreTarget 0003                  
 BANK_RestoreOriginalCharacter 000f                  
+BANK_restorePreviousManPosition 000f                  
 BANK_Resync              0003              (R )
 BANK_ROW_BankChar        0001                  
 BANK_ScoreAdd            000f                  
@@ -475,7 +477,9 @@ BANK_StealCharDraw       000f
 BANK_StealPart3          0000                  
 BANK_SwapPlayers         0002                  
 BANK_SwapPlayersGeneric  0003              (R )
+BANK_switchLevels        000f                  
 BANK_SwitchObjects       000f                  
+BANK_TAKEBACK            000e              (R )
 BANK_TimeSlice           000f                  
 BANK_TrackPlayer         0003              (R )
 BANK_TS_PhaseVectorLO    0003              (R )
@@ -484,15 +488,15 @@ BANK_UpdateScore         0002
 BANK_UpdateTimer         0008                  
 BANK_VectorProcess       0008              (R )
 BANK_WriteSaveKey        0003                  
-BankObjStack             f9c2              (R )
-base_x                   00d8              (R )
-base_y                   00d9              (R )
-BDF_BoardAddress         00dc              (R )
-BDF_BoardAddress2        00de              (R )
-BDF_BoardBank            00e0                  
-BDF_DrawFlagAddress      00d8              (R )
-BDF_DrawFlagAddress2     00da              (R )
-BGColour                 00b2              (R )
+BankObjStack             f9b9              (R )
+base_x                   00da              (R )
+base_y                   00db              (R )
+BDF_BoardAddress         00de              (R )
+BDF_BoardAddress2        00e0              (R )
+BDF_BoardBank            00e2                  
+BDF_DrawFlagAddress      00da              (R )
+BDF_DrawFlagAddress2     00dc              (R )
+BGColour                 00b3              (R )
 BIT_NEXTLEVEL            0080              (R )
 BIT_NEXTLIFE             0040              (R )
 BLANKL                   f038              (R )
@@ -500,8 +504,8 @@ BLANKR                   f320              (R )
 BlankStackPtr            0088                  
 BLUE_NTSC                00a4                  
 Board                    1000              (R )
-Board_AddressR           00be              (R )
-Board_AddressW           00c0              (R )
+Board_AddressR           00c0              (R )
+Board_AddressW           00c2              (R )
 BoardEdge_Bottom         0095              (R )
 BoardEdge_Right          0094              (R )
 BoardLimit_Height        0095              (R )
@@ -511,18 +515,22 @@ BoardLineStartHiW        f02d              (R )
 BoardLineStartLO         f001              (R )
 BoardScrollX             0097              (R )
 BoardScrollY             0096              (R )
-BOXLeft                  00d8                  
-BOXRight                 00d9                  
+BOXLeft                  00da                  
+BOXRight                 00db                  
+bProcComp                f27a              (R )
 BRICK_WALL_DEF           0000              (R )
 BufferedButton           0092              (R )
 BufferedJoystick         0090              (R )
-BuildDrawStack           fab4              (R )
+BuildDrawStack           fae8              (R )
 BW_SWITCH                0008              (R )
+C1                       f1ab              (R )
+C2                       f1b3              (R )
+C3                       f1bb              (R )
 cannotPush               f169              (R )
 canPushTarget            f13b              (R )
-Cart_Init                f319              (R )
-CCont                    fe17              (R )
-CharA                    f084              (R )
+Cart_Init                f340              (R )
+CCont                    fe7c              (R )
+CharA                    f0ae              (R )
 CHARACTER_BLANK          0000              (R )
 CHARACTER_BOX            0002              (R )
 CHARACTER_BOX_ON_TARGET  0008              (R )
@@ -530,85 +538,83 @@ CHARACTER_MANOCCUPIED    0005              (R )
 CHARACTER_MAXIMUM        000a              (R )
 CHARACTER_NOGO           0009                  
 CHARACTER_SOIL           0001                  
-CHARACTER_STEEL          0006              (R )
+CHARACTER_STEEL          0006                  
 CHARACTER_TARGET         0003              (R )
 CHARACTER_TARGET2        0004              (R )
 CHARACTER_WALL           0007                  
-CharacterDataVecHI       fc89              (R )
-CharacterDataVecLO       fc75              (R )
-CHARACTERSHAPE_BLANK     f305              (R )
-CHARACTERSHAPE_BOX       fce6              (R )
-CHARACTERSHAPE_BOX_MIRRORED fd00              (R )
-CHARACTERSHAPE_BOX_ON_TARGET fd15              (R )
-CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED fd2a              (R )
-CHARACTERSHAPE_EXITDOOR  fd3f                  
-CHARACTERSHAPE_EXITDOOR_MIRRORED fd3f                  
-CHARACTERSHAPE_MANOCCUPIED f305                  
-CHARACTERSHAPE_SOIL      f32f              (R )
-CHARACTERSHAPE_SOIL_MIRRORED f32f              (R )
-CHARACTERSHAPE_STEEL     fd3f              (R )
-CHARACTERSHAPE_STEEL_MIRRORED fd3f              (R )
-CHARACTERSHAPE_TARGET    f254              (R )
-CHARACTERSHAPE_TARGET2   f253              (R )
-CHARACTERSHAPE_TARGET2_MIRRORED f23e              (R )
-CHARACTERSHAPE_TARGET_MIRRORED f23f              (R )
-CHARACTERSHAPE_WALL      fe20              (R )
-CHARACTERSHAPE_WALL0     fe20                  
-CHARACTERSHAPE_WALL0_MIRRORED fe35                  
-CHARACTERSHAPE_WALL_MIRRORED fe35              (R )
+CharacterDataVecHI       fcbd              (R )
+CharacterDataVecLO       fca9              (R )
+CHARACTERSHAPE_BLANK     f303              (R )
+CHARACTERSHAPE_BOX       fd3b              (R )
+CHARACTERSHAPE_BOX_MIRRORED fd50              (R )
+CHARACTERSHAPE_BOX_ON_TARGET fd65              (R )
+CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED fd7a              (R )
+CHARACTERSHAPE_MANOCCUPIED f303                  
+CHARACTERSHAPE_SOIL      f32d              (R )
+CHARACTERSHAPE_SOIL_MIRRORED f32d              (R )
+CHARACTERSHAPE_STEEL     fd8f              (R )
+CHARACTERSHAPE_STEEL_MIRRORED fda4              (R )
+CHARACTERSHAPE_TARGET    f23e              (R )
+CHARACTERSHAPE_TARGET2   f252              (R )
+CHARACTERSHAPE_TARGET2_MIRRORED f252              (R )
+CHARACTERSHAPE_TARGET_MIRRORED f23e              (R )
+CHARACTERSHAPE_WALL      fe85              (R )
+CHARACTERSHAPE_WALL0     fe85                  
+CHARACTERSHAPE_WALL0_MIRRORED fe9a                  
+CHARACTERSHAPE_WALL_MIRRORED fe9a              (R )
 CharAddressLO            f1dc              (R )
-CharB                    f084              (R )
-CharC                    f084              (R )
-CharD                    f084              (R )
-CharE                    f084              (R )
-CharF                    f084              (R )
-CharG                    f084              (R )
-CharH                    f084              (R )
-CharI                    f084              (R )
-CharJ                    f084              (R )
-CharK                    f084              (R )
-CharL                    f084              (R )
-CharM                    f084              (R )
+CharB                    f0ae              (R )
+CharC                    f0ae              (R )
+CharD                    f0ae              (R )
+CharE                    f0ae              (R )
+CharF                    f0ae              (R )
+CharG                    f0ae              (R )
+CharH                    f0ae              (R )
+CharI                    f0ae              (R )
+CharJ                    f0ae              (R )
+CharK                    f0ae              (R )
+CharL                    f0ae              (R )
+CharM                    f0ae              (R )
 CharMask                 f1e4              (R )
 CharMaskNeg              f1e6              (R )
-CharN                    f084              (R )
-CharO                    f084              (R )
-CharP                    f084              (R )
-charPlace                f08b              (R )
+CharN                    f0ae              (R )
+CharO                    f0ae              (R )
+CharP                    f0ae              (R )
+charPlace                f0b5              (R )
 CharReplacement          f1d1              (R )
 CharVectorLO             f027              (R )
-checkBox                 f2ca              (R )
-checkBoxTarget           f2d2              (R )
-checkForGap              f27d              (R )
-checkForMan              f28e              (R )
-checkTarget              f2da              (R )
-checkWall                f275              (R )
-circ_char                00ad              (R )
-circ_scratch             00ae              (R )
-circ_x                   00ab              (R )
-circ_y                   00ac              (R )
-circle_d                 00a9              (R )
-circleComplete           f93d              (R )
-circleDie                fe1f                  
-CircleRepeat             fdfa              (R )
+checkBox                 f2f1              (R )
+checkBoxTarget           f2f9              (R )
+checkForGap              f2a4              (R )
+checkForMan              f2b5              (R )
+checkTarget              f301              (R )
+checkWall                f297              (R )
+circ_char                00ae              (R )
+circ_scratch             00af              (R )
+circ_x                   00ac              (R )
+circ_y                   00ad              (R )
+circle_d                 00aa              (R )
+circleComplete           f926              (R )
+circleDie                fe84                  
+CircleRepeat             fe5f              (R )
 ClockR                   f335              (R )
-color                    00bb              (R )
-colorIdx                 00d8              (R )
-ColourTimer              00c4              (R )
+color                    00bd              (R )
+colorIdx                 00da              (R )
+ColourTimer              00c6              (R )
 COLUBK                   0049              (R )
 COLUP0                   0046              (R )
 COLUP1                   0047              (R )
 COLUPF                   0048              (R )
 COMPILE_ILLEGALOPCODES   0001                  
-ContinueAnim             f540              (R )
+ContinueAnim             f567              (R )
 CopyPage                 f059              (R )
-CopyROM2RAM_F000         fcdd              (R )
+CopyROM2RAM_F000         fd32              (R )
 CopyROMShadowToRAM       f045                  
 CopyROMShadowToRAM_F000  f043              (R )
-CopyRow2                 fa8b              (R )
-CopyScreenBanks          fb1b              (R )
-CreateCreatures          f388              (R )
-CreateThePlayer          f21e              (R )
+CopyRow2                 fabf              (R )
+CopyScreenBanks          fb4f              (R )
+CreateCreatures          f3af              (R )
+CreateThePlayer          f216              (R )
 CTRLPF                   004a              (R )
 CXBLPF                   0046                  
 CXCLR                    006c                  
@@ -619,15 +625,16 @@ CXM1P                    0041
 CXP0FB                   0042                  
 CXP1FB                   0043                  
 CXPPMM                   0047                  
-deadMan                  f22f              (R )
+deadMan                  f227              (R )
 DEBUG                    0000                  
 decreaseTargets          f130              (R )
+DelayEndOfLevel          00a8              (R )
 DEMO_DELAY               0001                  
-demoMode                 00a8                  
+demoMode                 00a9                  
 DequalsR                 f327              (R )
-DFS_rts                  f2b4              (R )
-DHS_Line                 00e1              (R )
-DHS_Stack                00e2              (R )
+DFS_rts                  f2b7              (R )
+DHS_Line                 00e3              (R )
+DHS_Stack                00e4              (R )
 DIGIT_H                  0007              (R )
 DigitVectorLO            f00e              (R )
 DigitVectorLOr           f000              (R )
@@ -639,25 +646,25 @@ DirPushModX              f16f
 DirPushModY              f173                  
 DISPLAY_FLAGS            0003              (R )
 DISPLAY_HIGH             0003              (R )
-DISPLAY_LIVES            0002              (R )
+DISPLAY_LIVES            0002                  
 DISPLAY_SCORE            0001              (R )
-DISPLAY_TIME             0000                  
-doDelay                  f55b              (R )
+DISPLAY_TIME             0000              (R )
+doDelay                  f582              (R )
 DplusR                   f32e              (R )
 DRAW_STACK_SIZE          0050              (R )
-DrawAIntoStack           fabb              (R )
-DrawAnother              fa60              (R )
-DrawCircle               fdfa              (R )
+DrawAIntoStack           faef              (R )
+DrawAnother              fa94              (R )
+DrawCircle               fe5f              (R )
 DrawDigits               f1d3              (R )
 DrawDigits1x6            f100              (R )
 DrawDigits2x4            f13b                  
 DrawDigits3x2            f199                  
 DrawFlag                 f050              (R )
-DrawFullScreen           f2d8              (R )
-DrawFullScreenMain       fa8b                  
+DrawFullScreen           f2db              (R )
+DrawFullScreenMain       fabf                  
 DrawIntoStack            f11c              (R )
 DrawLineStartLO          f0c0              (R )
-DrawScreenRowPreparation f2ee              (R )
+DrawScreenRowPreparation f2f1              (R )
 DrawStack                f000              (R )
 DrawStackPointer         0084              (R )
 DrawStackUpdate          f0f1              (R )
@@ -666,15 +673,16 @@ DrawTargetsRequiredFromROM f808              (R )
 DrawTheScreen            f000              (R )
 DrawTime                 f2f5              (R )
 DrawTimeFromROM          f800              (R )
-DSL                      00cc              (R )
-dummySK                  00d8                  
-EARLY_LOCATION           fcfb              (R )
+DSL                      00ce              (R )
+dummySK                  00da                  
+EARLY_LOCATION           f1db              (R )
 EarlyAbort               f895              (R )
-EarlyAbort4              f940              (R )
-EarlyAbortBOX            f983                  
-EarlyAbortx              f494                  
+EarlyAbort4              f929              (R )
+EarlyAbortBOX            f97a                  
+EarlyAbortx              f4bb                  
 EightL                   f04d              (R )
 EightR                   f34a              (R )
+EL                       f08b                  
 EMBED_COPYRIGHT          0001                  
 ENABL                    005f                  
 ENAM0                    005d              (R )
@@ -683,19 +691,19 @@ endzap1                  f14a              (R )
 endzap2                  f164              (R )
 endzapy1                 f182              (R )
 endzapy2                 f19c              (R )
-EnterStealCharDraw       fa76              (R )
+EnterStealCharDraw       faaa              (R )
 ExitDigitKernel          f177              (R )
 ExitDigitKernel6         f136              (R )
 ExitDraw                 f152              (R )
-ExitStealCharDraw        fa41              (R )
+ExitStealCharDraw        fa75              (R )
 EXTRA_LIFE_TIMER         00ff                  
-extraLifeTimer           00c5                  
+extraLifeTimer           00c7                  
 FACE_LEFT                0003                  
 FINAL_VERSION            0000              (R )
 finCircle                f8ce                  
-finishedUnpack           f318                  
+finishedUnpack           f33f                  
 finX                     f12c              (R )
-firstDig                 f253              (R )
+firstDig                 f275              (R )
 FiveL                    f076              (R )
 FiveR                    f374              (R )
 FIXED_BANK               7800              (R )
@@ -707,25 +715,27 @@ GAMEMODE_2600            0040
 GAMEMODE_PAUSED          0080              (R )
 GeneralScoringSetups     f28f              (R )
 GENERIC_BANK_1           0003              (R )
-genPlayer                f29f              (R )
-Get2                     f228              (R )
+genPlayer                f2c6              (R )
+Get2                     f24a              (R )
 GetBoardAddressR         f0db              (R )
 GetBoardAddressRW        f0c8              (R )
 GetBoardAddressW         f0e8              (R )
 GetBoardCharacter        f817              (R )
 GetBoardCharacter2       f819              (R )
 GetBoardCharacter__CALL_FROM_RAM__ f829              (R )
-GetNextItem              f220              (R )
+GetNextItem              f242              (R )
 GetROMByte               f812              (R )
-gnobj                    f962                  
-goGeneralScoringSetups   fcd1              (R )
+GL                       f0a7                  
+gnobj                    f959                  
+goGeneralScoringSetups   fd26              (R )
+goNL3                    fd11              (R )
 GRP0                     005b              (R )
 GRP1                     005c              (R )
-halftimer                00d8                  
-HandleSaveKey            f5d6                  
+halftimer                00da                  
+HandleSaveKey            f5fd                  
 HighScore                f3b7              (R )
 HighScoreColTbl          f28b              (R )
-highScoreSK              00db              (R )
+highScoreSK              00dd              (R )
 HMBL                     0064                  
 HMCLR                    006b              (R )
 HMM0                     0062              (R )
@@ -733,26 +743,26 @@ HMM1                     0063
 HMOVE                    006a              (R )
 HMP0                     0060              (R )
 HMP1                     0061              (R )
-i2c_rxbit                f59f              (R )
-i2c_rxbyte               f594              (R )
-i2c_rxbyteloop           f59e              (R )
-i2c_rxskipack            f599              (R )
+i2c_rxbit                f5c6              (R )
+i2c_rxbyte               f5bb              (R )
+i2c_rxbyteloop           f5c5              (R )
+i2c_rxskipack            f5c0              (R )
 I2C_SCL_MASK             0008              (R )
 I2C_SDA_MASK             0004              (R )
-i2c_startread            f56b              (R )
-i2c_startwrite           f56e              (R )
-i2c_stopread             f5b7              (R )
-i2c_stopwrite            f5be              (R )
-i2c_txack                f5c7              (R )
-i2c_txbyte               f57a              (R )
-i2c_txbyteloop           f57e              (R )
+i2c_startread            f592              (R )
+i2c_startwrite           f595              (R )
+i2c_stopread             f5de              (R )
+i2c_stopwrite            f5e5              (R )
+i2c_txack                f5ee              (R )
+i2c_txbyte               f5a1              (R )
+i2c_txbyteloop           f5a5              (R )
 ID_BLANK                 000a              (R )
 ID_CLOCK                 000d              (R )
 ID_EXTRA                 000c              (R )
 ID_HEAD                  001b                  
 ID_TARGET                000b              (R )
 IDENTITY                 0000                  
-inactiveCircle           f936              (R )
+inactiveCircle           f91f              (R )
 INITBANK                 0008              (R )
 INPT0                    0048                  
 INPT1                    0049                  
@@ -760,23 +770,23 @@ INPT2                    004a
 INPT3                    004b                  
 INPT4                    004c              (R )
 INPT5                    004d                  
-insertDone               f9bd              (R )
-InsertObjectStack        f994              (R )
-InsertObjectStackFromRAM f98c              (R )
+insertDone               f9b4              (R )
+InsertObjectStack        f98b              (R )
+InsertObjectStackFromRAM f983              (R )
 INTIM                    0284              (R )
-JoyDirX                  f2d3              (R )
-JoyDirY                  f2d1              (R )
-JoyMoveX                 f2ba              (R )
-JoyMoveY                 f2c6              (R )
-jtoggle                  00a8              (R )
+JoyDirX                  f2d6              (R )
+JoyDirY                  f2d4              (R )
+JoyMoveX                 f2bd              (R )
+JoyMoveY                 f2c9              (R )
+jtoggle                  00a9              (R )
 keepFractional           f8af              (R )
 kg2                      f15c              (R )
 kg2a                     f146              (R )
 kg3                      f17e              (R )
 kg3b                     f194              (R )
 L276                     0001              (R )
-LastSpriteY              00b0              (R )
-level                    00b4              (R )
+LastSpriteY              00b1              (R )
+level                    00b5              (R )
 LEVEL__001_L             f000              (R )
 LEVEL__001_R             f013              (R )
 LEVEL__002_L             f020              (R )
@@ -975,7 +985,7 @@ LEVEL_ACTIVE_Thomas_Reinke16 0001
 LEVEL_b51X_Sharpen       f472              (R )
 LEVEL_bAislin101         f530              (R )
 LEVEL_bAlfa_DrFogh       f3ca              (R )
-LEVEL_bank               00af              (R )
+LEVEL_bank               00b0              (R )
 LEVEL_bDarcy_Burnsell101 f4f3              (R )
 LEVEL_DEFINITION_SIZE    0003              (R )
 LEVEL_NAMED__001_L       0000                  
@@ -1180,53 +1190,53 @@ LEVEL_SIZE_bDarcy_Burnsell101 003d              (R )
 LEVEL_SIZE_Thomas_Reinke16 0046              (R )
 LEVEL_START              f56d              (R )
 LEVEL_Thomas_Reinke16    f56d              (R )
-levelDisplay             00b5              (R )
+levelDisplay             00b6              (R )
 LevelInformation         f000              (R )
-LevelInit                f3bf              (R )
+LevelInit                f3e6              (R )
 LEVELNUM                 012c                  
 LEVELS1                  0004              (R )
 LEVELS2                  0005              (R )
 LEVELS3                  0006              (R )
 LEVELS4                  0007              (R )
-levelX                   00b3              (R )
+levelX                   00b4              (R )
 LINES_PER_CHAR           0015              (R )
-LOOK_DELAY               0000              (R )
-LookAround               f23a              (R )
-lookColour2              f4a4                  
+LOOK_DELAY               0000                  
+LookAround               f248              (R )
+lookColour2              f4cb                  
 LookingAround            00a6              (R )
-loop                     00e6                  
+loop                     00e8                  
 LoopDraw1x6              f106              (R )
 LoopDraw2x4              f142              (R )
 LoopDraw3x2              f1a4              (R )
-MAN_Move                 00d8              (R )
-ManActionHI              f1c5              (R )
-ManActionLO              f1bd              (R )
-ManActionTimer           f1b5                  
+MAN_Move                 00da              (R )
+ManActionHI              f1c1              (R )
+ManActionLO              f1b7              (R )
+ManActionTimer           f1ad                  
 ManAnimation             00a1              (R )
 ManAnimationFrameLO      00a3              (R )
 manAnimationIndex        009a              (R )
-ManAnimTblLo             f2b5              (R )
+ManAnimTblLo             f2b8              (R )
 ManCount                 00a7              (R )
 ManDelayCount            00a0              (R )
 ManDrawX                 009d              (R )
 ManDrawY                 009e              (R )
 Manimate                 f700              (R )
-ManIsDead2               f9c1              (R )
+ManIsDead2               f9b8              (R )
 ManLastDirection         00a4              (R )
 ManMode                  009f              (R )
-MANMODE_BONUS_RUN        0009              (R )
-MANMODE_BONUS_START      0008                  
 MANMODE_DEAD             0002              (R )
 MANMODE_NEXTLEVEL        0007              (R )
+MANMODE_NEXTLEVEL2       0008                  
 MANMODE_NORMAL           0001                  
 MANMODE_STARTUP          0000                  
+MANMODE_SWITCH           0009              (R )
 MANMODE_WAITING          0003                  
 MANMODE_WAITING2         0004              (R )
 MANMODE_WAITING_NT       0005                  
 MANMODE_WAITING_NT2      0006                  
 ManProcess               f185              (R )
 ManPushCounter           00a5              (R )
-manStartup               f200              (R )
+manStartup               f1f8              (R )
 ManX                     009b              (R )
 ManY                     009c              (R )
 MAX_LEVEL_NUMBER         012c ????             
@@ -1237,55 +1247,58 @@ MINIMUM_SEGTIMEBLANK     0010
 MINIMUM_SORT_TIME        0003                  
 MIRROR                   0001              (R )
 MIRRORED_BOX             0001              (R )
-MIRRORED_STEEL           0001              (R )
+MIRRORED_STEEL           0001                  
 MIRRORED_WALL            0001              (R )
 MOD10                    f1ee              (R )
-MOVE_BLANK               f9f0              (R )
-MOVE_BOX                 fa23              (R )
-MOVE_BOX_ON_TARGET       fa2e              (R )
-MOVE_GENERIC             fa1e              (R )
-MOVE_SOIL                f9f0              (R )
-MOVE_TARGET              f9f0              (R )
-moveCounter              00b9              (R )
-moveCounterHi            00ba              (R )
+MOVE_BLANK               f9e7              (R )
+MOVE_BOX                 fa31              (R )
+MOVE_BOX_ON_TARGET       fa3c              (R )
+MOVE_GENERIC             fa2c              (R )
+MOVE_SOIL                f9e7              (R )
+MOVE_TARGET              f9e7              (R )
+moveCounter              00ba              (R )
+moveCounterBinary        00bc              (R )
+moveCounterHi            00bb              (R )
 moveIdx                  0099                  
-moveLen                  00a8                  
-MovePlayer               f9c4              (R )
-MoveVecHI                f331              (R )
-MoveVecLO                f327              (R )
+moveLen                  00a9                  
+MovePlayer               f9bb              (R )
+MoveVecHI                f334              (R )
+MoveVecLO                f32a              (R )
 MULTI_BANK_BOARD         0000              (R )
-newDisplay               00d8              (R )
-NewFrameOK               f54c              (R )
-NewFrameStart            fb3c              (R )
+newDisplay               00da              (R )
+NewFrameOK               f573              (R )
+NewFrameStart            fb70              (R )
 NextALineStart           f044              (R )
-NextLevelLevel           faf3              (R )
-nextLevelMan             fcbe              (R )
-NextLevelTrigger         00c8              (R )
-NextObject               f987              (R )
+NextLevelLevel           fb27              (R )
+nextLevelMan             fcf2              (R )
+nextLevelMan2            fd0a              (R )
+NextLevelTrigger         00ca              (R )
+NextObject               f97e              (R )
 nextPhase                f893              (R )
 NineL                    f03f              (R )
 NineR                    f33c              (R )
 NO                       0000              (R )
 NO_ILLEGAL_OPCODES       0000 ????         (R )
 nocirc                   f893                  
-noFlashBG                f50b              (R )
-noLook                   f279              (R )
-NoMod                    f304              (R )
-noMovement               f2b4              (R )
+noFlashBG                f532              (R )
+noLook                   f274              (R )
+NoMod                    f302              (R )
+noMovement               f2b7              (R )
+noMovesToTake            fa6c              (R )
 noReset                  f19b              (R )
-normalMan                f22a              (R )
-NoSKfound                f635              (R )
-notargdet                f300              (R )
-notComplete              f1a3              (R )
-notDigit                 f260              (R )
-NotEnoughTime            f993                  
-nothingAnimates          fcaf              (R )
-notL0                    f39f              (R )
+normalMan                f222              (R )
+NoSKfound                f65c              (R )
+notargdet                f327              (R )
+notComplete              f94b              (R )
+notDigit                 f282              (R )
+NotEnoughTime            f98a                  
+nothingAnimates          fce3              (R )
+notL0                    f3c6              (R )
 notOnTargetAlready       f14b              (R )
-notP2                    f526              (R )
-notPlayerGoal            f299              (R )
-notU0                    f3aa              (R )
-noVerflo                 f4d0              (R )
+notP2                    f54d              (R )
+notPlayerGoal            f2c0              (R )
+notU0                    f3d1              (R )
+noVerflo                 f4f7              (R )
 NTSC_MODE                0000              (R )
 NUM_LEVELS               0005              (R )
 NUM_LIVES                0003              (R )
@@ -1293,11 +1306,11 @@ NUMBEROFLEVELS           0064              (R )
 NUMPLAYERS               0001                  
 NUSIZ0                   0044              (R )
 NUSIZ1                   0045              (R )
-O_CopyCount              00d8              (R )
-O_Index                  00da              (R )
-O_ROM_Source_Bank        00d9              (R )
+O_CopyCount              00da              (R )
+O_Index                  00dc              (R )
+O_ROM_Source_Bank        00db              (R )
 OBJ_STACK_SIZE           0080              (R )
-ObjIterator              00cb              (R )
+ObjIterator              00cd              (R )
 ObjStackNum              0085              (R )
 ObjStackPtr              0086              (R )
 ObjStackType             1200              (R )
@@ -1305,67 +1318,68 @@ ObjStackVar              1100              (R )
 ObjStackX                1000              (R )
 ObjStackY                1080              (R )
 OBJTYPE                  0005                  
-off1x                    fd6c              (R )
-offsetSK                 00e0              (R )
+off1x                    fdd1              (R )
+offsetSK                 00e2              (R )
 OneL                     f062              (R )
 OneR                     f35f              (R )
 onsc                     f10f              (R )
-opg                      f33b              (R )
+opg                      f362              (R )
 ORANGE_NTSC              0030                  
 ORANGE_PAL               0040                  
 ORIGIN                   8000                  
-OSPointerHI              f324              (R )
-OSPointerLO              f321              (R )
-Overlay                  00d8              (R )
+OSPointerHI              f327              (R )
+OSPointerLO              f324              (R )
+Overlay                  00da              (R )
 OVERLAY_SIZE             0010              (R )
 OVERSCAN_TIM_NTSC        0033              (R )
 OVERSCAN_TIM_PAL         0046              (R )
-OverscanBD               fc69              (R )
-OverscanTime             f4a8              (R )
+OverscanBD               fc9d              (R )
+OverscanTime             f4cf              (R )
 PairedCharacter          f181              (R )
 PAL                      0002              (R )
 PAL_50                   0002              (R )
 PAL_60                   0003                  
-parse                    f23e              (R )
+parse                    f260              (R )
 PartialGetBoardCharacter f832                  
 PF0                      004d              (R )
 PF0Draw                  f0d9              (R )
 PF1                      004e              (R )
 PF2                      004f              (R )
-phase0                   f2b4                  
+phase0                   f2b7                  
+PL                       f099                  
 Platform                 0081              (R )
-PLAYER_BLANK             f305              (R )
-PLAYER_BLINK             f32f                  
-PLAYER_RIGHT0            f31a              (R )
-PLAYER_RIGHT1            f32f              (R )
-PLAYER_STAND             f32f                  
-PLAYER_TAP0              f32f                  
-PLAYER_TAP1              f32f                  
-PlayerAlive              f25e              (R )
+PLAYER_BLANK             f303              (R )
+PLAYER_BLINK             f32d                  
+PLAYER_RIGHT0            f318              (R )
+PLAYER_RIGHT1            f32d              (R )
+PLAYER_STAND             f32d                  
+PLAYER_TAP0              f32d                  
+PLAYER_TAP1              f32d                  
+PlayerAlive              f232              (R )
 PlayerLevel              f3b6              (R )
 PlayerLevelX             f3b5              (R )
 PlayerScores             f3b2              (R )
-PlotChar                 fd54              (R )
-PlotCirclePoints         fd6d              (R )
+PlotChar                 fdb9              (R )
+PlotCirclePoints         fdd2              (R )
 POS_Type                 008e              (R )
 POS_VAR                  008f              (R )
-POS_Vector               00d8              (R )
+POS_Vector               00da              (R )
 POS_X                    008a              (R )
 POS_X_NEW                008c              (R )
 POS_Y                    008b              (R )
 POS_Y_NEW                008d              (R )
-positiveD                fe0c              (R )
-PosTbl                   f092              (R )
-PostScreenCleanup        f4ac              (R )
+positiveD                fe71              (R )
+PosTbl                   f0bc              (R )
+PostScreenCleanup        f4d3              (R )
 PrepareDrawDigits        f1ee              (R )
 PrepareDrawDigits2       f1f4              (R )
 Proc2                    f006              (R )
 PROCESS_CIRCLE           f8db              (R )
 PROCESS_CIRCLE_DRAWER    f8ca                  
 PROCESS_CIRCLE_HELPER    f8d1              (R )
-PROCESS_MAN              f941              (R )
+PROCESS_MAN              f92a              (R )
 ProcessObjStack          f853              (R )
-pscol                    f567              (R )
+pscol                    f58e              (R )
 PUSH_LIMIT               0001              (R )
 PushBox                  f0f5              (R )
 PutBoardCharacter        f820              (R )
@@ -1375,40 +1389,42 @@ QRet                     f0f4
 QuickDraw                f19c              (R )
 quickExit                f8c9                  
 RAM_3E                   1000              (R )
-RAM_Bank                 00c3              (R )
+RAM_Bank                 00c5              (R )
 RAM_SIZE                 0400              (R )
 RAM_WRITE                0400              (R )
-rbret                    fcb9                  
+rbret                    fced                  
 RDirX                    f16d                  
 RDirY                    f16c                  
-ReadSaveKey              f5d6              (R )
+ReadSaveKey              f5fd              (R )
 RED_NTSC                 0040                  
 RED_PAL                  0060                  
 REFP0                    004b              (R )
 REFP1                    004c                  
 RegisterOneMoreTarget    f1a1              (R )
-ReInsertObject           f984                  
-ReloadAnimation          f53e                  
+ReInsertObject           f97b                  
+ReloadAnimation          f565                  
 RESBL                    0054                  
 RESERVED_FOR_STACK       000c              (R )
-Reset                    fac2              (R )
+Reset                    faf6              (R )
 RESM0                    0052                  
 RESM1                    0053                  
 RESMP0                   0068                  
 RESMP1                   0069                  
 RESP0                    0050              (R )
 RESP1                    0051              (R )
-Restart                  fad4                  
-RestartLevelNextPlayer   faec              (R )
-restorationCharacter     00da              (R )
-RestoreOriginalCharacter f965              (R )
-Resync                   f3ea              (R )
-Ret                      f40d              (R )
+Restart                  fb08                  
+RestartLevelNextPlayer   fb20              (R )
+restorationCharacter     00dc              (R )
+RestoreOriginalCharacter f95c              (R )
+restorePreviousManPosition fa47                  
+Resync                   f411              (R )
+Ret                      f434              (R )
 retAnim                  f116              (R )
+RL                       f092                  
 rnd                      0082              (R )
 RND_EOR_VAL              00b4                  
 rndHi                    0083                  
-ROM_Bank                 00c2              (R )
+ROM_Bank                 00c4              (R )
 ROM_BANK_SIZE            0800              (R )
 ROM_SHADOW_OF_BANK_DRAW_BUFFERS 0001              (R )
 ROM_SHADOW_OF_BANK_SCORING 0002              (R )
@@ -1416,14 +1432,14 @@ ROM_SHADOW_OF_RAMBANK_CODE 0000              (R )
 ROW_BankChar             f200              (R )
 RSYNC                    0043                  
 RTS                      f31f                  
-RTS_CF                   f220                  
-S0                       00d8                  
-S1                       00da                  
-S2                       00dc                  
-S3                       00de                  
-S4                       00e0                  
-S5                       00e2                  
-save_SP                  00d8              (R )
+RTS_CF                   f218                  
+S0                       00da                  
+S1                       00dc                  
+S2                       00de                  
+S3                       00e0                  
+S4                       00e2                  
+S5                       00e4                  
+save_SP                  00da              (R )
 SAVEKEY_ADR              2f00              (R )
 ScanBLUEBD               f046              (R )
 ScanGREEN                f079                  
@@ -1436,21 +1452,21 @@ Score3x2Fix              f199              (R )
 SCORE_COL                009a              (R )
 SCORE_COL_HIGH_NTSC      0044              (R )
 SCORE_COL_HIGH_PAL       0066              (R )
-ScoreAdd                 fcb2              (R )
+ScoreAdd                 fce6              (R )
 ScoreCurrent             f3ad              (R )
 ScoreKernelLo            f1ea              (R )
 SCORING_TIMER            003c              (R )
-SCORING_TIMER_FIRST      0096              (R )
-scoringFlags             00c7              (R )
-scoringTimer             00c6              (R )
+SCORING_TIMER_FIRST      0096                  
+scoringFlags             00c9              (R )
+scoringTimer             00c8              (R )
 SCREEN_ARRAY_SIZE        0050              (R )
 SCREEN_BITMAP_SIZE       0054              (R )
 SCREEN_LINES             0008              (R )
 SCREEN_WIDTH             000a              (R )
-ScreenBitmap             f287              (R )
-ScreenBitmapBLUE         f295                  
-ScreenBitmapGREEN        f28e                  
-ScreenBitmapRED          f287                  
+ScreenBitmap             f285              (R )
+ScreenBitmapBLUE         f293                  
+ScreenBitmapGREEN        f28c                  
+ScreenBitmapRED          f285                  
 ScreenBuffer             f0a0              (R )
 ScreenDrawPhase          0089              (R )
 scrollBits               0098              (R )
@@ -1483,28 +1499,28 @@ SELFMOD_PLAYERCOL_RED    f014              (R )
 SELFMOD_RED              f01b              (R )
 SELFMOD_X                f041              (R )
 SelfModColOfsTbl         f0b7              (R )
-SelfModDrawPlayers       f2db              (R )
+SelfModDrawPlayers       f2d9              (R )
 SelfModePlayerTbl        f0ba              (R )
 SelfModPlayerColOfsTbl   f0bd              (R )
 SET_BANK                 003f              (R )
 SET_BANK_RAM             003e              (R )
 SetPlatformColours       f077              (R )
-SetSelfModPlayer         f2ee              (R )
+SetSelfModPlayer         f2ec              (R )
 SetupBCDPtr              f300              (R )
-SetupSaveKey             f617              (R )
+SetupSaveKey             f63e              (R )
 SetupTimePtr             f2f7              (R )
 SevenL                   f069              (R )
 SevenR                   f366              (R )
-ShapePlayer              f305              (R )
-ShapePlayerBLUE          f305                  
-ShapePlayerGREEN         f305                  
-ShapePlayerRED           f305                  
+ShapePlayer              f303              (R )
+ShapePlayerBLUE          f303                  
+ShapePlayerGREEN         f303                  
+ShapePlayerRED           f303                  
 SixL                     f046              (R )
 SixR                     f343              (R )
 SIZE_BOARD               03a0                  
 SIZE_BOARD_X             0028              (R )
 SIZE_BOARD_Y             0016              (R )
-skipDemoCheck            faf3                  
+skipDemoCheck            fb27                  
 skipNextLevel            f190              (R )
 skipsc                   f111              (R )
 SlowDraw                 f186                  
@@ -1562,32 +1578,36 @@ SMTblTargets             f019              (R )
 SMTblTime                f01b              (R )
 SOFF                     0050                  
 SortedObjPtr             1180              (R )
-sortPtr                  00ca              (R )
-sortRequired             00c9              (R )
+sortPtr                  00cc              (R )
+sortRequired             00cb              (R )
 SpriteColour             f0af                  
 SpriteColourBLUE         f0bd              (R )
 SpriteColourGREEN        f0b6              (R )
 SpriteColourRED          f0af              (R )
-sreg                     00e5                  
-startingLevel            00de              (R )
+sreg                     00e7                  
+startingLevel            00e0              (R )
 StartLevel               f3b1              (R )
-startLevel               00df              (R )
+startLevel               00e1              (R )
 StartLevelX              f3b0              (R )
-stayAlive                f22a                  
-StealCharDraw            fa39              (R )
+stayAlive                f222                  
+StealCharDraw            fa6d              (R )
 StealPart3               f153              (R )
-stkp                     00e4                  
+stkp                     00e6                  
 SWACNT                   0281              (R )
 SwapPlayers              f23d                  
-SwapPlayersGeneric       f370              (R )
+SwapPlayersGeneric       f397              (R )
 SWBCNT                   0283              (R )
 SWCHA                    0280              (R )
 SWCHB                    0282              (R )
+switchLevels             fd13              (R )
 SwitchObjects            f896              (R )
 T1024T                   0297                  
-targ                     f2e1              (R )
+TakeBackA                1200              (R )
+TakeBackX                1000              (R )
+TakeBackY                1100              (R )
+targ                     f308              (R )
 TARGET_DEF               0002              (R )
-targetsRequired          00b8              (R )
+targetsRequired          00b9              (R )
 TEST_MINIMUM_SEGTIME     0000              (R )
 TEST_MINIMUM_SEGTIMEBLANK 0000                  
 TEST_MINIMUM_SORT_TIME   0000                  
@@ -1608,76 +1628,76 @@ TEST_SEGTIME_SWITCHOBJECTS 0000              (R )
 THE_FIXED_BANK           000f              (R )
 ThreeL                   f05b              (R )
 ThreeR                   f358              (R )
-Throttle                 00b6              (R )
-ThrottleSpeed            00b7              (R )
+Throttle                 00b7              (R )
+ThrottleSpeed            00b8              (R )
 TIA_BASE_ADDRESS         0040              (R )
 TIA_BASE_READ_ADDRESS    0040              (R )
 TIA_BASE_WRITE_ADDRESS   0040              (R )
 TIM1T                    0294                  
 TIM64T                   0296              (R )
 TIM8T                    0295                  
-Time0                    f22d                  
-timeExit                 fa22              (R )
-TimeFracTbl              f1fb                  
-timer                    00b1              (R )
-timer0now                f536              (R )
-timerLoops               00d9              (R )
-TimeSlice                fa41                  
-timeTooShortToDie        f239                  
+Time0                    f225                  
+timeExit                 fa30              (R )
+TimeFracTbl              f1f3                  
+timer                    00b2              (R )
+timer0now                f55d              (R )
+timerLoops               00db              (R )
+TimeSlice                fa75                  
+timeTooShortToDie        f231                  
 TIMINT                   0285                  
-Title                    fad4                  
+Title                    fb08                  
 TJ_MODE                  0000              (R )
-tmpSound                 00d8                  
-tmpStack                 00d8              (R )
-tmpX                     00d8                  
-TrackPlayer              f40e              (R )
-TS_PhaseBank             f49f              (R )
-TS_PhaseVectorHI         f49a              (R )
-TS_PhaseVectorLO         f495              (R )
-TS_Vector                00d8              (R )
+tmpSound                 00da                  
+tmpStack                 00da              (R )
+tmpX                     00da                  
+TrackPlayer              f435              (R )
+TS_PhaseBank             f4c6              (R )
+TS_PhaseVectorHI         f4c1              (R )
+TS_PhaseVectorLO         f4bc              (R )
+TS_Vector                00da              (R )
 TSFill                   f188              (R )
 TSFill2                  f1c1              (R )
 TSFill3                  f13a              (R )
-tt_Bit6Set               fc03              (R )
-tt_CalcInsIndex          fbfd              (R )
-tt_cur_ins_c0            00d4              (R )
-tt_cur_ins_c1            00d5                  
-tt_cur_note_index_c0     00d0              (R )
-tt_cur_note_index_c1     00d1                  
-tt_cur_pat_index_c0      00ce              (R )
-tt_cur_pat_index_c1      00cf              (R )
-tt_envelope_index_c0     00d2              (R )
-tt_envelope_index_c1     00d3                  
-tt_FetchNote             fb6f              (R )
+tt_Bit6Set               fc37              (R )
+tt_CalcInsIndex          fc31              (R )
+tt_cur_ins_c0            00d6              (R )
+tt_cur_ins_c1            00d7                  
+tt_cur_note_index_c0     00d2              (R )
+tt_cur_note_index_c1     00d3                  
+tt_cur_pat_index_c0      00d0              (R )
+tt_cur_pat_index_c1      00d1              (R )
+tt_envelope_index_c0     00d4              (R )
+tt_envelope_index_c1     00d5                  
+tt_FetchNote             fba3              (R )
 TT_FIRST_PERC            0011                  
 TT_FREQ_MASK             001f                  
 TT_GLOBAL_SPEED          0001              (R )
 TT_INS_HOLD              0008                  
 TT_INS_PAUSE             0010                  
-tt_InsADIndexes          fe4f              (R )
-tt_InsCtrlTable          fe4a              (R )
-tt_InsFreqVolTable       fe5e              (R )
-tt_InsReleaseIndexes     fe59              (R )
-tt_InsSustainIndexes     fe54              (R )
+tt_InsADIndexes          feb4              (R )
+tt_InsCtrlTable          feaf              (R )
+tt_InsFreqVolTable       fec3              (R )
+tt_InsReleaseIndexes     febe              (R )
+tt_InsSustainIndexes     feb9              (R )
 TT_ODD_SPEED             0004              (R )
-tt_pattern0              febc              (R )
-tt_pattern1              fedd              (R )
-tt_pattern2              fefe              (R )
-tt_pattern3              ff1f              (R )
-tt_pattern4              ff40              (R )
-tt_PatternPtrHi          ff66              (R )
-tt_PatternPtrLo          ff61              (R )
-tt_PercCtrlVolTable      fea6              (R )
-tt_PercFreqTable         fe90              (R )
-tt_PercIndexes           fe8d              (R )
-tt_Player                fb53                  
-tt_PlayerStart           fb53              (R )
-tt_ptr                   00d6              (R )
-tt_SequenceTable         ff6b              (R )
+tt_pattern0              ff21              (R )
+tt_pattern1              ff42              (R )
+tt_pattern2              ff63              (R )
+tt_pattern3              ff84              (R )
+tt_pattern4              ffa5              (R )
+tt_PatternPtrHi          ffcb              (R )
+tt_PatternPtrLo          ffc6              (R )
+tt_PercCtrlVolTable      ff0b              (R )
+tt_PercFreqTable         fef5              (R )
+tt_PercIndexes           fef2              (R )
+tt_Player                fb87                  
+tt_PlayerStart           fb87              (R )
+tt_ptr                   00d8              (R )
+tt_SequenceTable         ffd0              (R )
 TT_SPEED                 0005              (R )
 TT_STARTS_WITH_NOTES     0001              (R )
-tt_timer                 00cd              (R )
-tt_TrackDataStart        fe4a              (R )
+tt_timer                 00cf              (R )
+tt_TrackDataStart        feaf              (R )
 TT_USE_FUNKTEMPO         0001              (R )
 TT_USE_GOTO              0001              (R )
 TT_USE_OVERLAY           0001              (R )
@@ -1685,43 +1705,43 @@ TT_USE_SLIDE             0000              (R )
 TwoL                     f06f              (R )
 TwoR                     f36d              (R )
 TYPE_CIRCLE              0001              (R )
-TYPE_CIRCLE_DRAWER       0003              (R )
+TYPE_CIRCLE_DRAWER       0003                  
 TYPE_CIRCLE_HELPER       0002                  
 TYPE_MAN                 0000              (R )
 TYPE_MAXIMUM             0004              (R )
-UnpackLevel              f1ab              (R )
+UnpackLevel              f1c3              (R )
 UpdateScore              f20f              (R )
-UpdateTimer              f1cd              (R )
-upk_column               00db              (R )
-upk_length               00da              (R )
-upk_temp                 00dc              (R )
+UpdateTimer              f1cb              (R )
+upk_column               00dd              (R )
+upk_length               00dc              (R )
+upk_temp                 00de              (R )
 VBLANK                   0041              (R )
 VBLANK_TIM_NTSC          003e              (R )
 VBLANK_TIM_PAL           0055              (R )
 VblankLoopGame           f1d3              (R )
-VBlankTime               fc71              (R )
+VBlankTime               fca5              (R )
 VDELBL                   0067                  
 VDELP0                   0065              (R )
 VDELP1                   0066              (R )
-VectorProcess            f314                  
+VectorProcess            f317                  
 VERSION_MACRO            006a                  
 VERSION_VCS              0069                  
 VSYNC                    0040              (R )
 waitForDraw              f0f0              (R )
-waitingMan               f223              (R )
-waitingManPress          f223              (R )
-Wc2x                     f2e5              (R )
+waitingMan               f21b              (R )
+waitingManPress          f21b              (R )
+Wc2x                     f30c              (R )
 whichPlayer              0099              (R )
-WHITE                    000e              (R )
-wOK                      f311              (R )
-wOK2                     f272              (R )
-WriteChars               f2e3              (R )
-writeGap                 f289              (R )
-WriteSaveKey             f5fc              (R )
+WHITE                    000e                  
+wOK                      f338              (R )
+wOK2                     f294              (R )
+WriteChars               f30a              (R )
+writeGap                 f2b0              (R )
+WriteSaveKey             f623              (R )
 WSYNC                    0042              (R )
 xlin                     f134              (R )
-xyClear                  f1c7              (R )
-xyLine                   f1c3              (R )
+xyClear                  f1df              (R )
+xyLine                   f1db              (R )
 YELLOW_NTSC              0010                  
 YELLOW_PAL               0020                  
 YES                      0001              (R )
@@ -1732,4 +1752,5 @@ zapy1                    f170              (R )
 zapy2                    f186              (R )
 ZeroL                    f054              (R )
 ZeroR                    f351              (R )
+ZL                       f084                  
 --- End of Symbol List.

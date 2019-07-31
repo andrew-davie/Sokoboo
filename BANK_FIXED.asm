@@ -320,7 +320,7 @@ finCircle       jmp NextObject
 
                 clc
                 lda circle_d
-                adc #25
+                adc #255
                 sta circle_d
                 bcc inactiveCircle
 
@@ -353,19 +353,19 @@ finCircle       jmp NextObject
                 lda #0
                 sta circ_y
 
-                lda circle_d+1                     ; radius
-                lda #TYPE_CIRCLE_DRAWER
-                sta POS_Type
+                ;lda circle_d+1                     ; radius
+                ;lda #TYPE_CIRCLE_DRAWER
+                ;sta POS_Type
                 ;jsr InsertObjectStack
 
                             ldy #CHARACTER_BLANK
                             lda circle_d+1
-                            sec
-                            sbc #1
+                ;            sec
+                ;            sbc #1
                             jsr DrawCircle
 
-                            ldy #CHARACTER_STEEL
-                            sty circ_char
+                ;            ldy #CHARACTER_STEEL
+              ;              sty circ_char
                             lda circle_d+1
                             sta circ_x
                             eor #255
@@ -376,14 +376,14 @@ finCircle       jmp NextObject
                             lda #0
                             sta circ_y
 
-                            lda circle_d+1                     ; radius
-                            lda #TYPE_CIRCLE_DRAWER
-                            sta POS_Type
+                            ;lda circle_d+1                     ; radius
+                            ;lda #TYPE_CIRCLE_DRAWER
+                            ;sta POS_Type
                             ;jsr InsertObjectStack
 
-                                        ldy #CHARACTER_BLANK
-                                        lda circle_d+1
-                                        ;jsr DrawCircle
+                            ;            ldy #CHARACTER_BLANK
+                            ;            lda circle_d+1
+                            ;            ;jsr DrawCircle
 
 
 
@@ -394,7 +394,7 @@ finCircle       jmp NextObject
 
 inactiveCircle  lda #TYPE_CIRCLE
                 sta POS_Type
-                jsr InsertObjectStack           ; 6+76(B)          re-insert man (POS X/Y DOESN'T MATTER)
+                jsr InsertObjectStack
 
 circleComplete  jmp NextObject
 
@@ -415,6 +415,16 @@ EarlyAbort4     rts
                 jsr ManProcess
 
                 jsr MovePlayer                  ; 6+{}
+
+                lda ManMode
+                cmp #MANMODE_NEXTLEVEL      ; kludge
+                bcs notComplete
+                lda targetsRequired
+                bne notComplete
+                lda #MANMODE_NEXTLEVEL
+                sta ManMode
+notComplete
+
 
                 lda #BANK_TrackPlayer           ;
                 sta SET_BANK                    ;
@@ -596,12 +606,28 @@ MovePlayer
                 pla
                 sta POS_VAR                     ; save 'restore' characte
 
+                lda #BANK_TAKEBACK
+                sta SET_BANK_RAM
+
+                ldx moveCounterBinary
+
                 lda POS_X_NEW
                 sta ManX
+                sta RAM_WRITE+TakeBackX,x
+
                 lda POS_Y_NEW
                 sta ManY                        ; actually MOVE!
+                sta RAM_WRITE+TakeBackY,x
+
+                lda POS_VAR                     ; replace char
+                sta RAM_WRITE+TakeBackA,x
+
+                lda RAM_Bank
+                sta SET_BANK_RAM
 
     ; Move counter..
+
+                inc moveCounterBinary
 
                 sed
                 clc
@@ -637,6 +663,35 @@ timeExit        rts                             ; 6 = 11
                 jmp PushBox
 
     ;---------------------------------------------------------------------------
+
+    DEFINE_SUBROUTINE restorePreviousManPosition
+
+                ldx moveCounterBinary
+                beq noMovesToTake
+                dex
+                dec moveCounterBinary
+
+                lda #BANK_TAKEBACK
+                sta SET_BANK_RAM
+
+                lda TakeBackX,x
+                sta POS_X
+                sta POS_X_NEW
+                lda TakeBackY,x
+                sta POS_Y
+                sta POS_Y_NEW
+                lda TakeBackA,x
+                sta POS_VAR
+
+                ; Put character @ X,Y
+                jsr RestoreOriginalCharacter
+
+                lda ROM_Bank
+                sta SET_BANK
+
+noMovesToTake   rts
+
+  ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE StealCharDraw; in FIXED_BANK
 
@@ -1087,6 +1142,75 @@ rbret           lda ROM_Bank
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE nextLevelMan
+
+                lda #20
+                sta DelayEndOfLevel
+                lda #20
+                sta ColourTimer
+
+
+
+            #if 1
+
+            ; Fire up a circle-drawing special-effect object...
+
+                lda #0
+                sta circle_d
+                sta circle_d+1
+
+                lda #TYPE_CIRCLE
+                sta POS_Type
+                jsr InsertObjectStack
+
+            #endif
+
+
+#if 0
+                lda #$08
+                sta color
+                lda #$04
+                sta color+1
+                lda #$0A
+                sta color+2
+#endif
+                inc ManMode
+                rts
+
+    DEFINE_SUBROUTINE nextLevelMan2
+
+#if 0
+                ldy #SCREEN_LINES-1
+CopyScreenBank2 ldx #ROM_SHADOW_OF_RAMBANK_CODE
+                sty RAM_Bank
+                jsr SetPlatformColours             ; set NTSC or PAL RGB values for draw + index
+                dey
+                bpl CopyScreenBank2
+
+                ldx #2
+fade            lda color,x
+                and #$F
+                bne nz
+                lda #1
+                sta color,x
+nz              dec color,x
+zalready        dex
+                bpl fade
+#endif
+
+                ;dec DelayEndOfLevel
+                ;beq goNL3
+
+                lda circle_d+1
+                cmp #20
+                bcs goNL3
+
+
+                rts
+
+goNL3
+                inc ManMode
+
+    DEFINE_SUBROUTINE switchLevels
 
                 ;lda #BANK_NextLevelX
                 ;sta SET_BANK

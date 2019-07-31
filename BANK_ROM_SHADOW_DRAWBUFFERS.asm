@@ -57,7 +57,6 @@ DrawFlag        ds SCREEN_ARRAY_SIZE,0                  ; holds new character to
 ScreenBuffer    ds SCREEN_ARRAY_SIZE,0                    ; the char buffer for delta-drawing
 
 
-
     ;------------------------------------------------------------------------------
     ; RAM-BASED SUBROUTINES...
     ; NOTE: When calling these routines, remember you are actually calling the ROM routine
@@ -296,11 +295,7 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
 .BANK       SET .BANK + 1
         REPEND
 
-
-
-
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_BANK_DRAW_BUFFERS"
-
 
 
     CHECK_BANK_SIZE "ROM_SHADOW_OF_BANK_DRAW_BUFFERS -- full 2K"

@@ -84,6 +84,7 @@ ManLastDirection                ds 1            ; so we don't overwrite animatio
 ManPushCounter                  ds 1
 LookingAround                   ds 1
 ManCount                      ds 1            ; player life counter
+DelayEndOfLevel               ds 1
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
 circle_d                        ds 2
 circ_x                 ds 1
@@ -113,6 +114,7 @@ ThrottleSpeed                   ds 1            ; system-dependant throttle spee
 targetsRequired                  ds 1           ; number of un-targeted left to go
 moveCounter                        ds 1            ; BCD seconds for level
 moveCounterHi                      ds 1
+moveCounterBinary               ds 1
 color                           ds 3            ; RGB for NTSC, RGB for PAL
 Board_AddressR                  ds 2
 Board_AddressW                  ds 2

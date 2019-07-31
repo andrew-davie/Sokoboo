@@ -187,7 +187,7 @@ notL0           sta BoardScrollX
 
                 sec
                 lda ManY
-                sbc #5                    ; TJ: why 5???
+                sbc #3                    ; TJ: why 5???
                 bcs notU0
                 lda #0
 notU0           sta BoardScrollY
@@ -236,9 +236,9 @@ notU0           sta BoardScrollY
                 sta sortRequired                ; nothing needed
                 sta DrawStackPointer
 
-                lda #DISPLAY_LIVES
+                lda #DISPLAY_TIME ;DISPLAY_SCORE
                 sta scoringFlags
-                lda #SCORING_TIMER_FIRST                 ; We want the first timer display to be long, to show level and lives
+                lda #0 ;SCORING_TIMER_FIRST                 ; We want the first timer display to be long, to show level and lives
                 sta scoringTimer
                 rts
 
@@ -253,7 +253,7 @@ Ret             rts
     DEFINE_SUBROUTINE TrackPlayer ; =145; in GENERIC_BANK_1
 
                 lda LookingAround               ; 3
-                bmi Ret                         ; 2/3=5/6   don't track when looking around
+                bne Ret                         ; 2/3=5/6   don't track when looking around
 
     ; Contribution by Thomas Jentzsch
 
@@ -549,7 +549,7 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
                 ldx ColourTimer
                 beq noFlashBG
                 dec ColourTimer
-                ldx #WHITE
+                ldx #$C0
 noFlashBG       stx BGColour
 
     ; Handle the player joystick reading. We do it *every frame* so that we can incorporate a two-frame
