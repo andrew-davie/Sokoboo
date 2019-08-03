@@ -492,6 +492,7 @@ MOD10
     ;------------------------------------------------------------------------------
 
     include "characterset/target.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
+    include "characterset/Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
     ds 30 ; todo - fixes a graphical glitch so we have a page boundary issue somewhwere
 
 
@@ -556,6 +557,7 @@ SetSelfModPlayer
 NoMod
                 rts
 
+
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
     include "player.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
@@ -570,9 +572,96 @@ NoMod
 
 ;       CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE"
 
+OBJTYPE    SET 0
+    MAC DEFINE_CHARACTER
+CHARACTER_{1}    = OBJTYPE
+OBJTYPE    .SET OBJTYPE + 1
+    ENDM
+
+; Modifications to character #/order must also ensure the following are correct...
+;   CharacterDataVecLO/HI         in BANK_FIXED.asm
+;   MoveVecLO/HI                  in BANK_INITBANK
+;   CharReplacement               in BANK_ROM_SHADOW_DRAWBUFFERS
+
+    DEFINE_CHARACTER BLANK
+    DEFINE_CHARACTER SOIL
+    DEFINE_CHARACTER BOX
+    DEFINE_CHARACTER TARGET
+    DEFINE_CHARACTER TARGET2
+    DEFINE_CHARACTER MANOCCUPIED
+    DEFINE_CHARACTER STEEL
+    DEFINE_CHARACTER WALL
+    DEFINE_CHARACTER BOX_ON_TARGET
+    DEFINE_CHARACTER NOGO
+
+    DEFINE_CHARACTER MAXIMUM
+
+
+
+CharacterDataVecLO
+
+; Two entries per character.  2nd is ptr to mirrored character
+; Characters don't have to be mirrored, obviously -- use the same pointer for both!
+
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_SOIL
+  .byte <CHARACTERSHAPE_SOIL_MIRRORED
+  .byte <CHARACTERSHAPE_BOX
+  .byte <CHARACTERSHAPE_BOX_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET
+  .byte <CHARACTERSHAPE_TARGET_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET2
+  .byte <CHARACTERSHAPE_TARGET2_MIRRORED
+  .byte <CHARACTERSHAPE_BLANK ; man occupied
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_STEEL
+  .byte <CHARACTERSHAPE_STEEL_MIRRORED
+  .byte <CHARACTERSHAPE_WALL
+  .byte <CHARACTERSHAPE_WALL_MIRRORED
+  .byte <CHARACTERSHAPE_BOX_ON_TARGET
+  .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+  .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
+  .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
+
+  IF * - CharacterDataVecLO != CHARACTER_MAXIMUM*2
+    ECHO "ERROR: Incorrect CharacterDataVecLO table!"
+    ERR
+  ENDIF
+
+;---------------------------------------------------------------------------
+
+CharacterDataVecHI
+
+  .byte >CHARACTERSHAPE_BLANK
+  .byte >CHARACTERSHAPE_BLANK
+  .byte >CHARACTERSHAPE_SOIL
+  .byte >CHARACTERSHAPE_SOIL_MIRRORED
+  .byte >CHARACTERSHAPE_BOX
+  .byte >CHARACTERSHAPE_BOX_MIRRORED
+  .byte >CHARACTERSHAPE_TARGET
+  .byte >CHARACTERSHAPE_TARGET_MIRRORED
+  .byte >CHARACTERSHAPE_TARGET2
+  .byte >CHARACTERSHAPE_TARGET2_MIRRORED
+  .byte >CHARACTERSHAPE_BLANK ; man occupied
+  .byte >CHARACTERSHAPE_BLANK
+  .byte >CHARACTERSHAPE_STEEL
+  .byte >CHARACTERSHAPE_STEEL_MIRRORED
+  .byte >CHARACTERSHAPE_WALL
+  .byte >CHARACTERSHAPE_WALL_MIRRORED
+  .byte >CHARACTERSHAPE_BOX_ON_TARGET
+  .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+  .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+  .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+
+  IF * - CharacterDataVecHI != CHARACTER_MAXIMUM*2
+    ECHO "ERROR: Incorrect CharacterDataVecHI table!"
+    ERR
+  ENDIF
 
     ; Here there's another 1K of usable ROM....
     ; BUT!!! WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
+
 
 ;-----------------------------------------------------------
 ; Stella 3E autodetect signature, can live anywhere

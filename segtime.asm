@@ -109,7 +109,7 @@ TEST_{1} = 1
     SEGTIME SEGTIME_BDF,41                      ; * 7/8/11
  ENDIF
 
-    SEGTIME SEGTIME_BDS,5                       ; *AD 11/8/11
+    SEGTIME SEGTIME_BDS,4                      ; *AD 11/8/11
     SEGTIME SEGTIME_DSL,5                       ; * 9/8/11 unrolled once
 
 

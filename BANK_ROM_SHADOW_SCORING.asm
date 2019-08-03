@@ -737,17 +737,17 @@ HighScoreColTbl:
 
     ; display number of lives in leftmost digit of middle score XX nX XX
 
-                lda ManCount
-                and #$0f
-                tay
-                lda DigitVectorLOr,y
-                sta SMMEN+1+RAM_WRITE
+                ;lda ManCount
+                ;and #$0f
+                ;tay
+                ;lda DigitVectorLOr,y
+                ;sta SMMEN+1+RAM_WRITE
 
     ; modify player number pointer (Xp XX XX)
 
-                ldy whichPlayer
-                lda DigitVectorLOr+1,y
-                sta SMPLAYER+1+RAM_WRITE
+                ;ldy whichPlayer
+                ;lda DigitVectorLOr+1,y
+                ;sta SMPLAYER+1+RAM_WRITE
 
         ; fall through
 
@@ -755,21 +755,21 @@ HighScoreColTbl:
 
     ; modify levelx character pointer (XX XX cX)
 
-                ldx #<charPlace-1
-                lda levelDisplay
-                cmp #$80
-                and #$1f
-                tay
-                bcs .intermission
-                ldx CharVectorLO,y
-                ldy level
-.intermission
-                stx SMLEVELX+1+RAM_WRITE
+                ;ldx #<charPlace-1
+                ;lda levelDisplay
+                ;cmp #$80
+                ;and #$1f
+                ;tay
+                ;bcs .intermission
+                ;ldx CharVectorLO,y
+                ;ldy level
+;.intermission
+                ;stx SMLEVELX+1+RAM_WRITE
 
     ; modify level number pointer (XX XX Xl)
 
-                lda DigitVectorLOr+1,y
-                sta SMLEVEL+1+RAM_WRITE
+                ;lda DigitVectorLOr+1,y
+                ;sta SMLEVEL+1+RAM_WRITE
 
     ;---------------------------------------------------------------------------
 

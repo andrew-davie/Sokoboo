@@ -554,7 +554,6 @@ tmpStack            ds 1
 newDisplay          = tmpStack
 ; also for UpdateTimer
 tmpSound            = tmpStack
-timerLoops          ds 1
                 VALIDATE_OVERLAY
 
 

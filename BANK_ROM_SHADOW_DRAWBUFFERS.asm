@@ -84,7 +84,7 @@ waitForDraw    rts                             ; 6
  ; Gameplay (not visual) lag noticed - re-enabled 11/8/11
  ; disabled for sokoban 27/7/2019
 
-                lda DrawStackPointer
+                ;lda DrawStackPointer
                 ;bpl waitForDraw                 ; Wait for previously not-drawn characters to be drawn
 
                 lda INTIM                       ;4
@@ -119,8 +119,7 @@ onsc            sta ManDrawX                    ;3
 skipsc
 
                 inc timer                       ;5
-                jmp AnimateCharReplacements2    ;3+139
-retAnim
+                jsr AnimateCharReplacements2    ;3+28
 
                 inc ScreenDrawPhase             ;5
 
@@ -232,9 +231,9 @@ retAnim
                 ldx save_SP                     ;3
                 txs                             ;2 = 10
 
-                jmp SwitchObjects
+                ;jmp SwitchObjects
 
-                ;rts                             ;6 =  6
+                rts                             ;6 =  6
 
 .exitDrawStack
                 sty DSL                         ;3 =  3
@@ -280,6 +279,29 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
         ERR
     ENDIF
     CHECKPAGEX CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
+
+    DEFINE_SUBROUTINE AnimateCharReplacements2 ;139
+
+    ; This manages character animation on a per-object basis.  Morph/animate these
+    ; characters individually or as required.  Change will affect all characters
+    ; of the same type in the visible display.
+
+    ; -------------------------------------------
+
+    ; handle the non-mandatory animating things
+
+                lda timer                                     ;3
+                and #1                                        ;2
+                bne nothingAnimates                           ;2/3
+
+                lda scrollBits                                ;3
+                bne nothingAnimates                           ;2/3            DON'T animate if we scrolled
+
+                lda ANIM_TARGET                               ;4
+                eor #CHARACTER_TARGET^CHARACTER_TARGET2       ;2
+                sta ANIM_TARGET + RAM_WRITE                   ;4 = 22         TARGET
+
+nothingAnimates rts                                           ;6 = 28 if animating, less if not
 
     ;------------------------------------------------------------------------------
 

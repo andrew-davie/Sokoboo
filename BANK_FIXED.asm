@@ -47,14 +47,9 @@ ORIGIN          SET FIXED_BANK
 
     DEFINE_SUBROUTINE DrawTimeFromROM
 
+                lda #BANK_SCORING
                 sta SET_BANK_RAM
-                jsr DrawTime
-                sta SET_BANK
-                rts
-
-    DEFINE_SUBROUTINE DrawTargetsRequiredFromROM
-
-                sta SET_BANK_RAM
+                ;jsr DrawTime
                 jsr DrawTargetsRequired
                 lda ROM_Bank
                 sta SET_BANK
@@ -118,8 +113,7 @@ PutBoardCharacterSB ; =18
                 jsr GetBoardAddressR            ;11+24[-2](A)
 
 
-    DEFINE_SUBROUTINE PartialGetBoardCharacter ;=23
-
+    ;DEFINE_SUBROUTINE PartialGetBoardCharacter ;=23
 
                 sta SET_BANK_RAM                ;3
                 ldy POS_X                       ;3
@@ -212,10 +206,7 @@ nextPhase
             ;adc #255
             ;sta circle_d
             ;bcc nocirc
-
-
-
-nocirc
+;nocirc
 
                 inc ScreenDrawPhase             ;5              obj/blank finished -- let the draw stuff proceed
 EarlyAbort      rts                             ;6
@@ -291,6 +282,7 @@ quickExit       rts                             ;6
 
     ;---------------------------------------------------------------------------
 
+#if 0
     DEFINE_SUBROUTINE PROCESS_CIRCLE_DRAWER
 
                 ldy #CHARACTER_BLANK
@@ -397,6 +389,7 @@ inactiveCircle  lda #TYPE_CIRCLE
                 jsr InsertObjectStack
 
 circleComplete  jmp NextObject
+#endif
 
     ;---------------------------------------------------------------------------
 
@@ -929,11 +922,14 @@ skipDemoCheck
                 sta SET_BANK                    ; 3
                 jsr CreateCreatures             ; 6+x
 
-
     ; Setup the various digit and display pointers
     ; Grab current player's score/level from backup
 
-                jsr goGeneralScoringSetups
+                lda #BANK_SCORING
+                sta SET_BANK_RAM
+                jsr GeneralScoringSetups
+                ;lda ROM_Bank
+                ;sta SET_BANK
 
     ; copy the screen draw ROM shadow to RAM
 
@@ -996,7 +992,6 @@ NewFrameStart
                 sta COLUBK                  ; 3     value comes from subroutine
                                             ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
 
-
 ;                inc Throttle                ; 5     speed limiter
                 SLEEP 5                     ;       TODO: optimize for space
 
@@ -1007,11 +1002,10 @@ NewFrameStart
                 sta NUSIZ0                  ; 3
                 sty VDELP0                  ; 3     y = 0!
 
-                SLEEP 10
-                ;iny                         ; 2     this relies on Y == 0 before...
-                ;cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
-                ;adc #2                      ; 2
-                ;sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
+                iny                         ; 2     this relies on Y == 0 before...
+                cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
+                adc #2                      ; 2
+                sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
 
                 lda ManLastDirection        ; 3
                 sta REFP0                   ; 3
@@ -1039,107 +1033,6 @@ VBlankTime
 
     ;---------------------------------------------------------------------------
 
-CharacterDataVecLO
-
-    ; Two entries per character.  2nd is ptr to mirrored character
-    ; Characters don't have to be mirrored, obviously -- use the same pointer for both!
-
-                .byte <CHARACTERSHAPE_BLANK
-                .byte <CHARACTERSHAPE_BLANK
-                .byte <CHARACTERSHAPE_SOIL
-                .byte <CHARACTERSHAPE_SOIL_MIRRORED
-                .byte <CHARACTERSHAPE_BOX
-                .byte <CHARACTERSHAPE_BOX_MIRRORED
-                .byte <CHARACTERSHAPE_TARGET
-                .byte <CHARACTERSHAPE_TARGET_MIRRORED
-                .byte <CHARACTERSHAPE_TARGET2
-                .byte <CHARACTERSHAPE_TARGET2_MIRRORED
-                .byte <CHARACTERSHAPE_BLANK ; man occupied
-                .byte <CHARACTERSHAPE_BLANK
-                .byte <CHARACTERSHAPE_STEEL
-                .byte <CHARACTERSHAPE_STEEL_MIRRORED
-                .byte <CHARACTERSHAPE_WALL
-                .byte <CHARACTERSHAPE_WALL_MIRRORED
-                .byte <CHARACTERSHAPE_BOX_ON_TARGET
-                .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-                .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
-                .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
-
-    IF * - CharacterDataVecLO != CHARACTER_MAXIMUM*2
-        ECHO "ERROR: Incorrect CharacterDataVecLO table!"
-        ERR
-    ENDIF
-
-    ;---------------------------------------------------------------------------
-
-CharacterDataVecHI
-; TJ: used by:
-; - BANK_ROM_SHADOW_DRAWBUFFERS.asm
-
-    .byte >CHARACTERSHAPE_BLANK
-    .byte >CHARACTERSHAPE_BLANK
-    .byte >CHARACTERSHAPE_SOIL
-    .byte >CHARACTERSHAPE_SOIL_MIRRORED
-    .byte >CHARACTERSHAPE_BOX
-    .byte >CHARACTERSHAPE_BOX_MIRRORED
-    .byte >CHARACTERSHAPE_TARGET
-    .byte >CHARACTERSHAPE_TARGET_MIRRORED
-    .byte >CHARACTERSHAPE_TARGET2
-    .byte >CHARACTERSHAPE_TARGET2_MIRRORED
-    .byte >CHARACTERSHAPE_BLANK ; man occupied
-    .byte >CHARACTERSHAPE_BLANK
-    .byte >CHARACTERSHAPE_STEEL
-    .byte >CHARACTERSHAPE_STEEL_MIRRORED
-    .byte >CHARACTERSHAPE_WALL
-    .byte >CHARACTERSHAPE_WALL_MIRRORED
-    .byte >CHARACTERSHAPE_BOX_ON_TARGET
-    .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-    .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
-    .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
-
-    IF * - CharacterDataVecHI != CHARACTER_MAXIMUM*2
-        ECHO "ERROR: Incorrect CharacterDataVecHI table!"
-        ERR
-    ENDIF
-
-    ;---------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE AnimateCharReplacements2 ;139
-
-    ; This manages character animation on a per-object basis.  Morph/animate these
-    ; characters individually or as required.  Change will affect all characters
-    ; of the same type in the visible display.
-
-    ; -------------------------------------------
-
-    ; handle the non-mandatory animating things
-
-                lda timer                                       ;3
-                and #%11                                        ;2
-                bne nothingAnimates                             ;2/3
-
-                lda scrollBits                                  ;3
-                bne nothingAnimates                             ;2/3            DON'T animate if we scrolled
-
-                lda ANIM_TARGET                                ;4
-                eor #CHARACTER_TARGET^CHARACTER_TARGET2       ;2
-                sta ANIM_TARGET + RAM_WRITE                    ;4 = 15         TARGET
-
-nothingAnimates jmp retAnim                                     ;3
-
-    ;---------------------------------------------------------------------------
-
-    DEFINE_SUBROUTINE ScoreAdd
-; TJ: used by:
-; - BANK_INITBANK.asm
-                ldx #BANK_SCORING
-                stx SET_BANK_RAM
-                jsr UpdateScore
-rbret           lda ROM_Bank
-                sta SET_BANK
-                rts
-
-    ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE nextLevelMan
 
@@ -1149,14 +1042,14 @@ rbret           lda ROM_Bank
                 sta ColourTimer
 
 
-
-            #if 1
-
-            ; Fire up a circle-drawing special-effect object...
-
                 lda #0
                 sta circle_d
                 sta circle_d+1
+
+            #if 0
+
+            ; Fire up a circle-drawing special-effect object...
+
 
                 lda #TYPE_CIRCLE
                 sta POS_Type
@@ -1200,6 +1093,7 @@ zalready        dex
                 ;dec DelayEndOfLevel
                 ;beq goNL3
 
+                inc circle_d+1
                 lda circle_d+1
                 cmp #20
                 bcs goNL3
@@ -1236,15 +1130,6 @@ goNL3
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE goGeneralScoringSetups
-
-                lda #BANK_SCORING
-                sta SET_BANK_RAM
-                jsr GeneralScoringSetups
-                lda ROM_Bank
-                sta SET_BANK
-                rts
-    ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE CopyROM2RAM_F000
 
@@ -1260,8 +1145,8 @@ goNL3
     include "characterset/Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
     ;---------------------------------------------------------------------------
 
-    include "circle.asm"
-    include "characterset/Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
+    ;include "circle.asm"
+    ;#include "characterset/Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
     #include "sound/intro1_trackdata.asm"
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *

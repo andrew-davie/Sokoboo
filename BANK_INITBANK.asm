@@ -288,30 +288,6 @@ QRet            rts                             ;6
 ;-------------------------------------------------------------------------------
 
 
-OBJTYPE    SET 0
-    MAC DEFINE_CHARACTER
-CHARACTER_{1}    = OBJTYPE
-OBJTYPE    .SET OBJTYPE + 1
-    ENDM
-
-        ; Modifications to character #/order must also ensure the following are correct...
-        ;   CharacterDataVecLO/HI         in BANK_FIXED.asm
-        ;   MoveVecLO/HI                  in BANK_INITBANK
-        ;   CharReplacement               in BANK_ROM_SHADOW_DRAWBUFFERS
-
-                DEFINE_CHARACTER BLANK
-                DEFINE_CHARACTER SOIL
-                DEFINE_CHARACTER BOX
-                DEFINE_CHARACTER TARGET
-                DEFINE_CHARACTER TARGET2
-                DEFINE_CHARACTER MANOCCUPIED
-                DEFINE_CHARACTER STEEL
-                DEFINE_CHARACTER WALL
-                DEFINE_CHARACTER BOX_ON_TARGET
-                DEFINE_CHARACTER NOGO
-
-                DEFINE_CHARACTER MAXIMUM
-
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE PushBox ; in INITBANK
@@ -469,54 +445,24 @@ MANMODE_NEXTLEVEL   = 7
 MANMODE_NEXTLEVEL2 = 8
 MANMODE_SWITCH = 9
 
-    DEFINE_SUBROUTINE ManProcess ; in INITBANK
-
-                ;lda #$FF
-                ;sta specialTimeFlag             ; detects time overflow in bigbang (and TARGET grab)
-
+    DEFINE_SUBROUTINE ManProcess
 
     ; ManMode tells the player what it is currently doing.  State machine.
 
-#if 1
-  ; RESET to start next level
+    ; Check the switches....
+    ; RESET to restart this level
+    ; SELECT to start next level
 
-                lda SWCHB
-                and #2
-                bne skipNextLevel
-                lda #MANMODE_SWITCH
+                ldx SWCHB
+                and #3
+                tax
+                lda newMode,x
+                bmi skipModeChange
                 sta ManMode
-skipNextLevel
+skipModeChange
 
-  ; RESET to re-start current level
+                jsr DrawTimeFromROM             ; Z-flag == 0!
 
-                lda SWCHB
-                and #1
-                bne noReset
-                lda #MANMODE_WAITING2
-                sta ManMode
-noReset
-
-#endif
-
-
-  ; Check if all the boxes are on their target square
-
-
-                ;lda SWCHB
-                ;and #3
-                ;bne .skipReset          ; BOTH select/reset = restart
-
-                ;lsr SWCHB
-                ;bcs .skipReset
-
-
-.skipReset:
-
-                ;sokldy ManMode
-                ;sok lda ManActionTimer,y
-                ;sok beq .skipTimer
-                jsr UpdateTimer
-.skipTimer:
                 ldy ManMode
                 lda ManActionLO,y
                 sta actionVector
@@ -524,17 +470,8 @@ noReset
                 sta actionVector+1
                 jmp (actionVector)
 
-ManActionTimer
-                .byte 0 ;<manStartup            ; 0             no timer
-                .byte 1 ;<normalMan             ; 1             timer
-                .byte 1 ;<deadMan               ; 2             timer
-                .byte 1 ;<waitingMan            ; 3             timer
-                .byte 1 ;<waitingManPress       ; 4             timer
-                .byte 0 ;<waitingManNoTim       ; 5             no timer
-                .byte 0 ;<waitingManPressNoTim  ; 6             no timer
-                .byte 0 ;<nextLevelMan          ; 7             no timer
-                .byte 0 ;<nextLevelMan2          ; 8             no timer
-                .byte 0 ;<nextLevelMan3          ; 9             no timer
+newMode         .byte -1, MANMODE_SWITCH, MANMODE_WAITING2, -1
+
 ManActionLO
                 .byte <manStartup               ; 0             no timer
                 .byte <normalMan                ; 1             timer
@@ -558,99 +495,6 @@ ManActionHI
                 .byte >nextLevelMan             ; no timer
                 .byte >nextLevelMan2             ; no timer
                 .byte >switchLevels             ;9  no timer
-
-    ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE UpdateTimer
-
-                lda #BANK_SCORING
-                jsr DrawTargetsRequiredFromROM
-
-
-                ldx #3
-;                lda ManMode
-;                cmp #MANMODE_BONUS_RUN
-;                beq .setLoops
-
-                ldx #NUM_LEVELS-1               ; intermissions run at full speed
-                bit levelDisplay
-                bmi .intermission2
-                ldx level
-.intermission2
-
-                ldx #1
-.setLoops
-                stx timerLoops
-                bne .notScoring
-.loopTimer
-                lda level                       ; each second left adds 'level' to score
-                clc
-                adc #1
-                jsr ScoreAdd
-.notScoring
-;                sed
-;                sec
-;                lda moveCounter
-;                sbc #1
-;                sta moveCounter
-;                cld
-;                bcs .skipHi2a
-;                dec moveCounterHi
-;.skipHi2a
-; check for running out of time sound:
-;                lda moveCounterHi
-;                bne .timeAbove9
-;                lda #$09
-;                sec
-;                sbc moveCounter
-;                bcc .timeAbove9
-; this assumes that SND_MASK_HI = %11110000
-;  and the time entries are ordered 9 to 0!
-;                asl
-;                asl
-;                asl
-;                asl
-;                adc #SOUND_TIME_9
-;                sta tmpSound
-;                lda newSounds
-;                and #<(~SND_MASK_HI)
-;                ora tmpSound
-;                sta newSounds
-;.skipTimeSound:
-;                ldx moveCounter
-;                bne .timeNotZero
-;                stx AUDV0                       ; stop bonus sound
-;                stx soundIdxLst
-;.contChannel1:
-;                ldx #MANMODE_NEXTLEVEL          ; time bonus
-;                lda ManMode
-;                cmp #MANMODE_BONUS_RUN
-;                beq .nextLevel
-;                ldx #MANMODE_WAITING_NT2        ; time over
-;                cmp #MANMODE_WAITING2           ; Man already dead?
-;                beq .nextLevel
-;                dex                             ; == MANMODE_WAITING_NT
-;.nextLevel
-;                stx ManMode                     ; -> man dies
-.timeNotZero:
-.forceTimeDraw
-
-
-                lda #BANK_SCORING
-                jmp DrawTimeFromROM             ; Z-flag == 0!
-
-.timeAbove9
-                dec timerLoops
-                bne .loopTimer
-                beq .forceTimeDraw
-
-TimeFracTbl:
-    .byte   31  ; level 1, NTSC/PAL
-    .byte   27  ; level 2, NTSC/PAL
-    .byte   24  ; level 3, NTSC/PAL
-    .byte   23  ; level 4, NTSC/PAL
-    .byte   22  ; level 5, NTSC/PAL
-; calculate: level 5 throttle * level 5 time / level x throttle
-
 
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE manStartup
@@ -1024,17 +868,17 @@ OBJTYPE    .SET OBJTYPE + 1
 
 
                 DEFINE MAN
-                DEFINE CIRCLE
-                DEFINE CIRCLE_HELPER
-                DEFINE CIRCLE_DRAWER
+                ;DEFINE CIRCLE
+                ;DEFINE CIRCLE_HELPER
+                ;DEFINE CIRCLE_DRAWER
 
                 DEFINE MAXIMUM
 
 
     DEFINE_SUBROUTINE OSPointerLO
                 .byte <PROCESS_MAN
-                .byte <PROCESS_CIRCLE
-                .byte <PROCESS_CIRCLE_HELPER
+                ;.byte <PROCESS_CIRCLE
+                ;.byte <PROCESS_CIRCLE_HELPER
 
     IF * - OSPointerLO < TYPE_MAXIMUM-4
         ECHO "ERROR: Missing entry in OSPointerLO table!"
@@ -1044,8 +888,8 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE OSPointerHI
                 .byte >PROCESS_MAN
-                .byte >PROCESS_CIRCLE
-                .byte >PROCESS_CIRCLE_HELPER
+                ;.byte >PROCESS_CIRCLE
+                ;.byte >PROCESS_CIRCLE_HELPER
 
     IF * - OSPointerHI < TYPE_MAXIMUM-4
         ECHO "ERROR: Missing entry in OSPointerHI table!"
@@ -1091,6 +935,7 @@ OBJTYPE    .SET OBJTYPE + 1
         ECHO "ERROR: Missing entry in MoveVecLO table!"
         EXIT
     ENDIF
+
 
 
     CHECK_BANK_SIZE "INITBANK"
