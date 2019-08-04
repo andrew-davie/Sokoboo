@@ -773,7 +773,7 @@ ObjStackType    ds OBJ_STACK_SIZE       ; type of object
 
 SIZE_BOARD_X    = 40
 SIZE_BOARD_Y    = 22
-
+#if 0
 ; have to precalculate it here, else DASM freaks out:
 .BOARD_SIZE SET 0
 .BOARD_LOCATION SET 0
@@ -788,7 +788,7 @@ SIZE_BOARD_Y    = 22
             REPEND
 
 SIZE_BOARD      = .BOARD_SIZE
-
+#endif
   IF SIZE_BOARD > RAM_SIZE
 MULTI_BANK_BOARD = YES
   ELSE
@@ -860,6 +860,7 @@ ORIGIN      SET $00000
             include "BANK_LEVELS2.asm"
             include "BANK_LEVELS3.asm"
             include "BANK_LEVELS4.asm"
+            include "test.asm"
             include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
             include "BANK_FIXED.asm"
 

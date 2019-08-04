@@ -38,7 +38,7 @@
     DEFINE_SUBROUTINE BoardLineStartLO
 
     ; Gives the start address (LO) of each board line
-
+#if 1
 .BOARD_LOCATION SET Board
             REPEAT SIZE_BOARD_Y
               IF >.BOARD_LOCATION != >(.BOARD_LOCATION + SIZE_BOARD_X-1)
@@ -50,6 +50,7 @@
     CHECKPAGEX BoardLineStartLO, "BoardLineStartLO in BANK_INITBANK.asm"
 
 SIZE_BOARD = .BOARD_LOCATION-Board  ; verify calculated value
+#endif
 
 ;------------------------------------------------------------------------------
 
@@ -453,7 +454,7 @@ MANMODE_SWITCH = 9
     ; RESET to restart this level
     ; SELECT to start next level
 
-                ldx SWCHB
+                lda SWCHB
                 and #3
                 tax
                 lda newMode,x
@@ -524,13 +525,13 @@ RTS_CF
                 rts
 
 .ManStartup
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_NOGO
+    .byte CHARACTER_NOGO
+    .byte CHARACTER_NOGO
+    .byte CHARACTER_STEEL
 ;    .byte CHARACTER_STEEL
-;    .byte CHARACTER_STEEL
+    .byte CHARACTER_NOGO
 ;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_STEEL
+    .byte CHARACTER_STEEL
 ;    .byte CHARACTER_NOGO
 ;    .byte CHARACTER_STEEL
 ;    .byte CHARACTER_NOGO

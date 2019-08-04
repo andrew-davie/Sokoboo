@@ -240,14 +240,14 @@ endzapy2        dec POS_X
 
 
 C1
-  .byte $98,$2A,$a8,$48
-  .byte $C8,$08,$28,$98
+  .byte $b6,$2A,$a8,$48
+  .byte $C8,$78,$28,$98
 C2
-  .byte $04,$D4,$22,$84
-  .byte $44,$86,$B4,$64
+  .byte $62,$A4,$22,$84
+  .byte $44,$82,$F4,$64
 C3
-  .byte $28,$7A,$f8,$B8
-  .byte $FC,$C6,$98,$28
+  .byte $2a,$7A,$f8,$B8
+  .byte $FC,$C6,$98,$Ea
 
               ; C6 44 2A      browns
               ; BA 96 E8      ice blues

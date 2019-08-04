@@ -1,0 +1,2 @@
+lock/click when box on correct target
+sliding rasp when box being pushed

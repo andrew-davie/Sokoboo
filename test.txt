@@ -1,0 +1,1244 @@
+------- FILE ./test.asm LEVEL 1 PASS 1
+      1  0000					      processor	6502
+------- FILE vcs.h LEVEL 2 PASS 1
+      0  0000 ????				      include	"vcs.h"
+      1  0000 ????						; VCS.H
+      2  0000 ????						; Version 1.05, 13/November/2003
+      3  0000 ????
+      4  0000 ????	       00 69	   VERSION_VCS =	105
+      5  0000 ????
+      6  0000 ????						; This file defines hardware registers and memory mapping for the
+      7  0000 ????						; Atari 2600. It is distributed as a companion machine-specific support package
+      8  0000 ????						; for the DASM compiler. Updates to this file, DASM, and associated tools are
+      9  0000 ????						; available at at http://www.atari2600.org/dasm
+     10  0000 ????						;
+     11  0000 ????						; Many thanks to the original author(s) of this file, and to everyone who has
+     12  0000 ????						; contributed to understanding the Atari 2600.  If you take issue with the
+     13  0000 ????						; contents, or naming of registers, please write to me (atari2600@taswegian.com)
+     14  0000 ????						; with your views.  Please contribute, if you think you can improve this
+     15  0000 ????						; file!
+     16  0000 ????						;
+     17  0000 ????						; Latest Revisions...
+     18  0000 ????						; 1.05  13/NOV/2003	  - Correction to 1.04 - now functions as requested by MR.
+     19  0000 ????						;			  - Added VERSION_VCS equate (which will reflect 100x version #)
+     20  0000 ????						;			    This will allow conditional code to verify VCS.H being
+     21  0000 ????						;			    used for code assembly.
+     22  0000 ????						; 1.04  12/NOV/2003	 Added TIA_BASE_WRITE_ADDRESS and TIA_BASE_READ_ADDRESS for
+     23  0000 ????						;			 convenient disassembly/reassembly compatibility for hardware
+     24  0000 ????						;			 mirrored reading/writing differences.	This is more a
+     25  0000 ????						;			 readability issue, and binary compatibility with disassembled
+     26  0000 ????						;			 and reassembled sources.  Per Manuel Rotschkar's suggestion.
+     27  0000 ????						; 1.03  12/MAY/2003	 Added SEG segment at end of file to fix old-code compatibility
+     28  0000 ????						;			 which was broken by the use of segments in this file, as
+     29  0000 ????						;			 reported by Manuel Polik on [stella] 11/MAY/2003
+     30  0000 ????						; 1.02  22/MAR/2003	 Added TIMINT($285)
+     31  0000 ????						; 1.01				Constant offset added to allow use for 3F-style bankswitching
+     32  0000 ????						;						 - define TIA_BASE_ADDRESS as $40 for Tigervision carts, otherwise
+     33  0000 ????						;						   it is safe to leave it undefined, and the base address will
+     34  0000 ????						;						   be set to 0.  Thanks to Eckhard Stolberg for the suggestion.
+     35  0000 ????						;			    Note, may use -DLABEL=EXPRESSION to define TIA_BASE_ADDRESS
+     36  0000 ????						;			  - register definitions are now generated through assignment
+     37  0000 ????						;			    in uninitialised segments.	This allows a changeable base
+     38  0000 ????						;			    address architecture.
+     39  0000 ????						; 1.0	22/MAR/2003		Initial release
+     40  0000 ????
+     41  0000 ????
+     42  0000 ????						;-------------------------------------------------------------------------------
+     43  0000 ????
+     44  0000 ????						; TIA_BASE_ADDRESS
+     45  0000 ????						; The TIA_BASE_ADDRESS defines the base address of access to TIA registers.
+     46  0000 ????						; Normally 0, the base address should (externally, before including this file)
+     47  0000 ????						; be set to $40 when creating 3F-bankswitched (and other?) cartridges.
+     48  0000 ????						; The reason is that this bankswitching scheme treats any access to locations
+     49  0000 ????						; < $40 as a bankswitch.
+     50  0000 ????
+     51  0000 ????				      IFNCONST	TIA_BASE_ADDRESS
+     52  0000 ????	       00 00	   TIA_BASE_ADDRESS =	0
+     53  0000 ????				      ENDIF
+     54  0000 ????
+     55  0000 ????						; Note: The address may be defined on the command-line using the -D switch, eg:
+     56  0000 ????						; dasm.exe code.asm -DTIA_BASE_ADDRESS=$40 -f3 -v5 -ocode.bin
+     57  0000 ????						; *OR* by declaring the label before including this file, eg:
+     58  0000 ????						; TIA_BASE_ADDRESS = $40
+     59  0000 ????						;   include "vcs.h"
+     60  0000 ????
+     61  0000 ????						; Alternate read/write address capability - allows for some disassembly compatibility
+     62  0000 ????						; usage ; to allow reassembly to binary perfect copies).  This is essentially catering
+     63  0000 ????						; for the mirrored ROM hardware registers.
+     64  0000 ????
+     65  0000 ????						; Usage: As per above, define the TIA_BASE_READ_ADDRESS and/or TIA_BASE_WRITE_ADDRESS
+     66  0000 ????						; using the -D command-line switch, as required.  If the addresses are not defined,
+     67  0000 ????						; they defaut to the TIA_BASE_ADDRESS.
+     68  0000 ????
+     69  0000 ????				      IFNCONST	TIA_BASE_READ_ADDRESS
+     70  0000 ????	       00 00	   TIA_BASE_READ_ADDRESS =	TIA_BASE_ADDRESS
+     71  0000 ????				      ENDIF
+     72  0000 ????
+     73  0000 ????				      IFNCONST	TIA_BASE_WRITE_ADDRESS
+     74  0000 ????	       00 00	   TIA_BASE_WRITE_ADDRESS =	TIA_BASE_ADDRESS
+     75  0000 ????				      ENDIF
+     76  0000 ????
+     77  0000 ????						;-------------------------------------------------------------------------------
+     78  0000 ????
+     79 U0000 ????				      SEG.U	TIA_REGISTERS_WRITE
+     80 U0000					      ORG	TIA_BASE_WRITE_ADDRESS
+     81 U0000
+     82 U0000							; DO NOT CHANGE THE RELATIVE ORDERING OF REGISTERS!
+     83 U0000
+     84 U0000		       00	   VSYNC      ds	1	; $00	 0000 00x0   Vertical Sync Set-Clear
+     85 U0001		       00	   VBLANK     ds	1	; $01	 xx00 00x0   Vertical Blank Set-Clear
+     86 U0002		       00	   WSYNC      ds	1	; $02	 ---- ----   Wait for Horizontal Blank
+     87 U0003		       00	   RSYNC      ds	1	; $03	 ---- ----   Reset Horizontal Sync Counter
+     88 U0004		       00	   NUSIZ0     ds	1	; $04	 00xx 0xxx   Number-Size player/missle 0
+     89 U0005		       00	   NUSIZ1     ds	1	; $05	 00xx 0xxx   Number-Size player/missle 1
+     90 U0006		       00	   COLUP0     ds	1	; $06	 xxxx xxx0   Color-Luminance Player 0
+     91 U0007		       00	   COLUP1     ds	1	; $07	 xxxx xxx0   Color-Luminance Player 1
+     92 U0008		       00	   COLUPF     ds	1	; $08	 xxxx xxx0   Color-Luminance Playfield
+     93 U0009		       00	   COLUBK     ds	1	; $09	 xxxx xxx0   Color-Luminance Background
+     94 U000a		       00	   CTRLPF     ds	1	; $0A	 00xx 0xxx   Control Playfield, Ball, Collisions
+     95 U000b		       00	   REFP0      ds	1	; $0B	 0000 x000   Reflection Player 0
+     96 U000c		       00	   REFP1      ds	1	; $0C	 0000 x000   Reflection Player 1
+     97 U000d		       00	   PF0	      ds	1	; $0D	 xxxx 0000   Playfield Register Byte 0
+     98 U000e		       00	   PF1	      ds	1	; $0E	 xxxx xxxx   Playfield Register Byte 1
+     99 U000f		       00	   PF2	      ds	1	; $0F	 xxxx xxxx   Playfield Register Byte 2
+    100 U0010		       00	   RESP0      ds	1	; $10	 ---- ----   Reset Player 0
+    101 U0011		       00	   RESP1      ds	1	; $11	 ---- ----   Reset Player 1
+    102 U0012		       00	   RESM0      ds	1	; $12	 ---- ----   Reset Missle 0
+    103 U0013		       00	   RESM1      ds	1	; $13	 ---- ----   Reset Missle 1
+    104 U0014		       00	   RESBL      ds	1	; $14	 ---- ----   Reset Ball
+    105 U0015		       00	   AUDC0      ds	1	; $15	 0000 xxxx   Audio Control 0
+    106 U0016		       00	   AUDC1      ds	1	; $16	 0000 xxxx   Audio Control 1
+    107 U0017		       00	   AUDF0      ds	1	; $17	 000x xxxx   Audio Frequency 0
+    108 U0018		       00	   AUDF1      ds	1	; $18	 000x xxxx   Audio Frequency 1
+    109 U0019		       00	   AUDV0      ds	1	; $19	 0000 xxxx   Audio Volume 0
+    110 U001a		       00	   AUDV1      ds	1	; $1A	 0000 xxxx   Audio Volume 1
+    111 U001b		       00	   GRP0       ds	1	; $1B	 xxxx xxxx   Graphics Register Player 0
+    112 U001c		       00	   GRP1       ds	1	; $1C	 xxxx xxxx   Graphics Register Player 1
+    113 U001d		       00	   ENAM0      ds	1	; $1D	 0000 00x0   Graphics Enable Missle 0
+    114 U001e		       00	   ENAM1      ds	1	; $1E	 0000 00x0   Graphics Enable Missle 1
+    115 U001f		       00	   ENABL      ds	1	; $1F	 0000 00x0   Graphics Enable Ball
+    116 U0020		       00	   HMP0       ds	1	; $20	 xxxx 0000   Horizontal Motion Player 0
+    117 U0021		       00	   HMP1       ds	1	; $21	 xxxx 0000   Horizontal Motion Player 1
+    118 U0022		       00	   HMM0       ds	1	; $22	 xxxx 0000   Horizontal Motion Missle 0
+    119 U0023		       00	   HMM1       ds	1	; $23	 xxxx 0000   Horizontal Motion Missle 1
+    120 U0024		       00	   HMBL       ds	1	; $24	 xxxx 0000   Horizontal Motion Ball
+    121 U0025		       00	   VDELP0     ds	1	; $25	 0000 000x   Vertical Delay Player 0
+    122 U0026		       00	   VDELP1     ds	1	; $26	 0000 000x   Vertical Delay Player 1
+    123 U0027		       00	   VDELBL     ds	1	; $27	 0000 000x   Vertical Delay Ball
+    124 U0028		       00	   RESMP0     ds	1	; $28	 0000 00x0   Reset Missle 0 to Player 0
+    125 U0029		       00	   RESMP1     ds	1	; $29	 0000 00x0   Reset Missle 1 to Player 1
+    126 U002a		       00	   HMOVE      ds	1	; $2A	 ---- ----   Apply Horizontal Motion
+    127 U002b		       00	   HMCLR      ds	1	; $2B	 ---- ----   Clear Horizontal Move Registers
+    128 U002c		       00	   CXCLR      ds	1	; $2C	 ---- ----   Clear Collision Latches
+    129 U002d
+    130 U002d							;-------------------------------------------------------------------------------
+    131 U002d
+    132 U0000 ????				      SEG.U	TIA_REGISTERS_READ
+    133 U0000					      ORG	TIA_BASE_READ_ADDRESS
+    134 U0000
+    135 U0000							;											bit 7	 bit 6
+    136 U0000		       00	   CXM0P      ds	1	; $00	     xx00 0000	     Read Collision  M0-P1   M0-P0
+    137 U0001		       00	   CXM1P      ds	1	; $01	     xx00 0000			     M1-P0   M1-P1
+    138 U0002		       00	   CXP0FB     ds	1	; $02	     xx00 0000			     P0-PF   P0-BL
+    139 U0003		       00	   CXP1FB     ds	1	; $03	     xx00 0000			     P1-PF   P1-BL
+    140 U0004		       00	   CXM0FB     ds	1	; $04	     xx00 0000			     M0-PF   M0-BL
+    141 U0005		       00	   CXM1FB     ds	1	; $05	     xx00 0000			     M1-PF   M1-BL
+    142 U0006		       00	   CXBLPF     ds	1	; $06	     x000 0000			     BL-PF   -----
+    143 U0007		       00	   CXPPMM     ds	1	; $07	     xx00 0000			     P0-P1   M0-M1
+    144 U0008		       00	   INPT0      ds	1	; $08	     x000 0000	     Read Pot Port 0
+    145 U0009		       00	   INPT1      ds	1	; $09	     x000 0000	     Read Pot Port 1
+    146 U000a		       00	   INPT2      ds	1	; $0A	     x000 0000	     Read Pot Port 2
+    147 U000b		       00	   INPT3      ds	1	; $0B	     x000 0000	     Read Pot Port 3
+    148 U000c		       00	   INPT4      ds	1	; $0C		x000 0000	 Read Input (Trigger) 0
+    149 U000d		       00	   INPT5      ds	1	; $0D		x000 0000	 Read Input (Trigger) 1
+    150 U000e
+    151 U000e							;-------------------------------------------------------------------------------
+    152 U000e
+    153 U0000 ????				      SEG.U	RIOT
+    154 U0280					      ORG	$280
+    155 U0280
+    156 U0280							; RIOT MEMORY MAP
+    157 U0280
+    158 U0280		       00	   SWCHA      ds	1	; $280      Port A data register for joysticks:
+    159 U0281							;			Bits 4-7 for player 1.  Bits 0-3 for player 2.
+    160 U0281
+    161 U0281		       00	   SWACNT     ds	1	; $281      Port A data direction register (DDR)
+    162 U0282		       00	   SWCHB      ds	1	; $282		Port B data (console switches)
+    163 U0283		       00	   SWBCNT     ds	1	; $283      Port B DDR
+    164 U0284		       00	   INTIM      ds	1	; $284		Timer output
+    165 U0285
+    166 U0285		       00	   TIMINT     ds	1	; $285
+    167 U0286
+    168 U0286							; Unused/undefined registers ($285-$294)
+    169 U0286
+    170 U0286		       00		      ds	1	; $286
+    171 U0287		       00		      ds	1	; $287
+    172 U0288		       00		      ds	1	; $288
+    173 U0289		       00		      ds	1	; $289
+    174 U028a		       00		      ds	1	; $28A
+    175 U028b		       00		      ds	1	; $28B
+    176 U028c		       00		      ds	1	; $28C
+    177 U028d		       00		      ds	1	; $28D
+    178 U028e		       00		      ds	1	; $28E
+    179 U028f		       00		      ds	1	; $28F
+    180 U0290		       00		      ds	1	; $290
+    181 U0291		       00		      ds	1	; $291
+    182 U0292		       00		      ds	1	; $292
+    183 U0293		       00		      ds	1	; $293
+    184 U0294
+    185 U0294		       00	   TIM1T      ds	1	; $294		set 1 clock interval
+    186 U0295		       00	   TIM8T      ds	1	; $295      set 8 clock interval
+    187 U0296		       00	   TIM64T     ds	1	; $296      set 64 clock interval
+    188 U0297		       00	   T1024T     ds	1	; $297      set 1024 clock interval
+    189 U0298
+    190 U0298							;-------------------------------------------------------------------------------
+    191 U0298							; The following required for back-compatibility with code which does not use
+    192 U0298							; segments.
+    193 U0298
+    194  0000 ????				      SEG
+    195  0000 ????
+    196  0000 ????						; EOF
+------- FILE ./test.asm
+------- FILE macro.h LEVEL 2 PASS 1
+      0  0000 ????				      include	"macro.h"
+      1  0000 ????
+      2  0000 ????						; MACRO.H
+      3  0000 ????						; Version 1.06, 3/SEPTEMBER/2004
+      4  0000 ????
+      5  0000 ????	       00 6a	   VERSION_MACRO =	106
+      6  0000 ????
+      7  0000 ????						;
+      8  0000 ????						; THIS FILE IS EXPLICITLY SUPPORTED AS A DASM-PREFERRED COMPANION FILE
+      9  0000 ????						; PLEASE DO *NOT* REDISTRIBUTE MODIFIED VERSIONS OF THIS FILE!
+     10  0000 ????						;
+     11  0000 ????						; This file defines DASM macros useful for development for the Atari 2600.
+     12  0000 ????						; It is distributed as a companion machine-specific support package
+     13  0000 ????						; for the DASM compiler. Updates to this file, DASM, and associated tools are
+     14  0000 ????						; available at at http://www.atari2600.org/dasm
+     15  0000 ????						;
+     16  0000 ????						; Many thanks to the people who have contributed.  If you take issue with the
+     17  0000 ????						; contents, or would like to add something, please write to me
+     18  0000 ????						; (atari2600@taswegian.com) with your contribution.
+     19  0000 ????						;
+     20  0000 ????						; Latest Revisions...
+     21  0000 ????						;
+     22  0000 ????						; 1.06  03/SEP/2004	 - nice revision of VERTICAL_BLANK (Edwin Blink)
+     23  0000 ????						; 1.05  14/NOV/2003	 - Added VERSION_MACRO equate (which will reflect 100x version #)
+     24  0000 ????						;			   This will allow conditional code to verify MACRO.H being
+     25  0000 ????						;			   used for code assembly.
+     26  0000 ????						; 1.04  13/NOV/2003	 - SET_POINTER macro added (16-bit address load)
+     27  0000 ????						;
+     28  0000 ????						; 1.03  23/JUN/2003	 - CLEAN_START macro added - clears TIA, RAM, registers
+     29  0000 ????						;
+     30  0000 ????						; 1.02  14/JUN/2003	 - VERTICAL_SYNC macro added
+     31  0000 ????						;			   (standardised macro for vertical synch code)
+     32  0000 ????						; 1.01  22/MAR/2003	 - SLEEP macro added.
+     33  0000 ????						;			 - NO_ILLEGAL_OPCODES switch implemented
+     34  0000 ????						; 1.0	22/MAR/2003		Initial release
+     35  0000 ????
+     36  0000 ????						; Note: These macros use illegal opcodes.  To disable illegal opcode usage,
+     37  0000 ????						;   define the symbol NO_ILLEGAL_OPCODES (-DNO_ILLEGAL_OPCODES=1 on command-line).
+     38  0000 ????						;   If you do not allow illegal opcode usage, you must include this file
+     39  0000 ????						;   *after* including VCS.H (as the non-illegal opcodes access hardware
+     40  0000 ????						;   registers and require them to be defined first).
+     41  0000 ????
+     42  0000 ????						; Available macros...
+     43  0000 ????						;   SLEEP n		 - sleep for n cycles
+     44  0000 ????						;   VERTICAL_SYNC	 - correct 3 scanline vertical synch code
+     45  0000 ????						;   CLEAN_START	 - set machine to known state on startup
+     46  0000 ????						;   SET_POINTER	 - load a 16-bit absolute to a 16-bit variable
+     47  0000 ????
+     48  0000 ????						;-------------------------------------------------------------------------------
+     49  0000 ????						; SLEEP duration
+     50  0000 ????						; Original author: Thomas Jentzsch
+     51  0000 ????						; Inserts code which takes the specified number of cycles to execute.	This is
+     52  0000 ????						; useful for code where precise timing is required.
+     53  0000 ????						; ILLEGAL-OPCODE VERSION DOES NOT AFFECT FLAGS OR REGISTERS.
+     54  0000 ????						; LEGAL OPCODE VERSION MAY AFFECT FLAGS
+     55  0000 ????						; Uses illegal opcode (DASM 2.20.01 onwards).
+     56  0000 ????
+     57  0000 ????				      MAC	sleep
+     58  0000 ????			   .CYCLES    SET	{1}
+     59  0000 ????
+     60  0000 ????				      IF	.CYCLES < 2
+     61  0000 ????				      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+     62  0000 ????				      ERR
+     63  0000 ????				      ENDIF
+     64  0000 ????
+     65  0000 ????				      IF	.CYCLES & 1
+     66  0000 ????				      IFNCONST	NO_ILLEGAL_OPCODES
+     67  0000 ????				      nop	0
+     68  0000 ????				      ELSE
+     69  0000 ????				      bit	VSYNC
+     70  0000 ????				      ENDIF
+     71  0000 ????			   .CYCLES    SET	.CYCLES - 3
+     72  0000 ????				      ENDIF
+     73  0000 ????
+     74  0000 ????				      REPEAT	.CYCLES / 2
+     75  0000 ????				      nop
+     76  0000 ????				      REPEND
+     77  0000 ????				      ENDM		;usage: SLEEP n (n>1)
+     78  0000 ????
+     79  0000 ????						;-------------------------------------------------------------------------------
+     80  0000 ????						; VERTICAL_SYNC
+     81  0000 ????						; revised version by Edwin Blink -- saves bytes!
+     82  0000 ????						; Inserts the code required for a proper 3 scanline vertical sync sequence
+     83  0000 ????						; Note: Alters the accumulator
+     84  0000 ????
+     85  0000 ????						; OUT: A = 0
+     86  0000 ????
+     87  0000 ????				      MAC	vertical_sync
+     88  0000 ????				      lda	#%1110	; each '1' bits generate a VSYNC ON line (bits 1..3)
+     89  0000 ????			   .VSLP1     sta	WSYNC	; 1st '0' bit resets Vsync, 2nd '0' bit exit loop
+     90  0000 ????				      sta	VSYNC
+     91  0000 ????				      lsr
+     92  0000 ????				      bne	.VSLP1	; branch until VYSNC has been reset
+     93  0000 ????				      ENDM
+     94  0000 ????
+     95  0000 ????						;-------------------------------------------------------------------------------
+     96  0000 ????						; CLEAN_START
+     97  0000 ????						; Original author: Andrew Davie
+     98  0000 ????						; Standardised start-up code, clears stack, all TIA registers and RAM to 0
+     99  0000 ????						; Sets stack pointer to $FF, and all registers to 0
+    100  0000 ????						; Sets decimal mode off, sets interrupt flag (kind of un-necessary)
+    101  0000 ????						; Use as very first section of code on boot (ie: at reset)
+    102  0000 ????						; Code written to minimise total ROM usage - uses weird 6502 knowledge :)
+    103  0000 ????
+    104  0000 ????				      MAC	clean_start
+    105  0000 ????				      sei
+    106  0000 ????				      cld
+    107  0000 ????
+    108  0000 ????				      ldx	#0
+    109  0000 ????				      txa
+    110  0000 ????				      tay
+    111  0000 ????			   .CLEAR_STACK dex
+    112  0000 ????				      txs
+    113  0000 ????				      pha
+    114  0000 ????				      bne	.CLEAR_STACK	; SP=$FF, X = A = Y = 0
+    115  0000 ????
+    116  0000 ????				      ENDM
+    117  0000 ????
+    118  0000 ????						;-------------------------------------------------------
+    119  0000 ????						; SET_POINTER
+    120  0000 ????						; Original author: Manuel Rotschkar
+    121  0000 ????						;
+    122  0000 ????						; Sets a 2 byte RAM pointer to an absolute address.
+    123  0000 ????						;
+    124  0000 ????						; Usage: SET_POINTER pointer, address
+    125  0000 ????						; Example: SET_POINTER SpritePTR, SpriteData
+    126  0000 ????						;
+    127  0000 ????						; Note: Alters the accumulator, NZ flags
+    128  0000 ????						; IN 1: 2 byte RAM location reserved for pointer
+    129  0000 ????						; IN 2: absolute address
+    130  0000 ????
+    131  0000 ????				      MAC	set_pointer
+    132  0000 ????			   .POINTER   SET	{1}
+    133  0000 ????			   .ADDRESS   SET	{2}
+    134  0000 ????
+    135  0000 ????				      LDA	#<.ADDRESS	; Get Lowbyte of Address
+    136  0000 ????				      STA	.POINTER	; Store in pointer
+    137  0000 ????				      LDA	#>.ADDRESS	; Get Hibyte of Address
+    138  0000 ????				      STA	.POINTER+1	; Store in pointer+1
+    139  0000 ????
+    140  0000 ????				      ENDM
+    141  0000 ????
+    142  0000 ????						;-------------------------------------------------------
+    143  0000 ????						; BOUNDARY byte#
+    144  0000 ????						; Original author: Denis Debro (borrowed from Bob Smith / Thomas)
+    145  0000 ????						;
+    146  0000 ????						; Push data to a certain position inside a page and keep count of how
+    147  0000 ????						; many free bytes the programmer will have.
+    148  0000 ????						;
+    149  0000 ????						; eg: BOUNDARY 5    ; position at byte #5 in page
+    150  0000 ????
+    151  0000 ????			   __DASM__TOTAL_FREE_MEMORY SET	0
+    152  0000 ????			   .FREE_BYTES SET	0
+    153  0000 ????				      MAC	boundary
+    154  0000 ????				      REPEAT	256
+    155  0000 ????				      IF	<. % {1} = 0
+    156  0000 ????				      MEXIT
+    157  0000 ????				      ELSE
+    158  0000 ????			   .FREE_BYTES SET	.FREE_BYTES + 1
+    159  0000 ????				      .byte	$00
+    160  0000 ????				      ENDIF
+    161  0000 ????				      REPEND
+    162  0000 ????			   __DASM__TOTAL_FREE_MEMORY SET	__DASM__TOTAL_FREE_MEMORY + .FREE_BYTES
+    163  0000 ????				      ENDM
+    164  0000 ????
+    165  0000 ????
+    166  0000 ????						; EOF
+------- FILE ./test.asm
+      4  0000 ????
+./test.asm (5): error: Unknown Mnemonic 'NEWBANK'.
+      5  0000 ????				      NEWBANK	TITLESCREEN
+./test.asm (6): error: Unknown Mnemonic 'DEFINE_SUBROUTINE'.
+      6  0000 ????				      DEFINE_SUBROUTINE	TitleScreen
+      7  0000 ????
+      8  0000 ????						; Start of new frame
+      9  0000 ????
+     10  0000 ????						; Start of vertical blank processing
+     11  0000 ????
+     12  0000 ????
+     13  0000 ????
+     14  0000 ????	       a9 00		      lda	#%00000000
+     15  0000 ????	       85 0a		      sta	CTRLPF	; copy playfield
+     16  0002 ????	       a9 00		      lda	#$0
+     17  0004 ????	       85 09		      sta	COLUBK	; set the background color (sky)
+     18  0006 ????	       a9 00		      lda	#0
+     19  0008 ????	       85 01		      sta	VBLANK
+     20  000a ????	       a9 02		      lda	#2
+     21  000c ????	       85 00		      sta	VSYNC
+     22  000e ????	       85 02		      sta	WSYNC
+     23  0010 ????	       85 02		      sta	WSYNC
+     24  0012 ????	       85 02		      sta	WSYNC	; 3 scanlines of VSYNC signal
+     25  0014 ????
+     26  0014 ????	       a9 00		      lda	#0
+     27  0016 ????	       85 00		      sta	VSYNC
+     28  0018 ????
+     29  0018 ????						;------------------------------------------------------------------
+     30  0018 ????
+     31  0018 ????						; 37 scanlines of vertical blank...
+     32  0018 ????
+     33  0018 ????
+     34  0018 ????
+     35  0018 ????	       a2 00		      ldx	#0
+     36  001a ????	       85 02	   VerticalBlank sta	WSYNC
+     37  001c ????	       e8		      inx
+     38  001d ????	       e0 25		      cpx	#37
+     39  001f ????	       d0 25		      bne	VerticalBlank
+     40  0021 ????
+     41  0021 ????
+     42  0021 ????						;------------------------------------------------------------------
+     43  0021 ????
+     44  0021 ????						; Do 192 scanlines of color-changing (our picture)
+     45  0021 ????
+     46  0021 ????
+     47  0021 ????	       a0 31		      ldy	#49
+     48  0023 ????	       85 02	   bot	      sta	WSYNC
+     49  0025 ????	       88		      dey
+     50  0026 ????	       10 02		      bpl	bot
+     51  0028 ????
+     52  0028 ????
+     53  0028 ????	       a0 5d		      ldy	#93	; this counts our scanline number
+     54  002a ????			   SokoLogo
+     55  002a ????	       85 02		      sta	WSYNC
+     56  002c ????						;sty COLUBK
+     57  002c ????	       a9 2a		      lda	#$2A	; 2
+     58  002e ????	       85 08		      sta	COLUPF	; 3 @ 5
+     59  0030 ????
+     60  0030 ????	       b9 00 00 	      lda	COL_0,y	; 5
+     61  0033 ????	       85 0d		      sta	PF0	; 3   @13
+     62  0035 ????	       b9 00 00 	      lda	COL_1,y	; 5
+     63  0038 ????	       85 0e		      sta	PF1	; 3   @21
+     64  003a ????	       b9 00 00 	      lda	COL_2,y	; 5
+     65  003d ????	       85 0f		      sta	PF2	; 3   @29
+     66  003f ????
+     67  003f ????						; @29
+     68  003f ????
+     69  003f ????	       b9 00 00 	      lda	COL_3,y	; 5
+     70  0042 ????	       85 0d		      sta	PF0	; 3 @ 37
+      0  0044 ????				      SLEEP	2	; @39
+      1  0044 ????			   .CYCLES    SET	2
+      2  0044 ????
+      3  0044 ????			  -	      IF	.CYCLES < 2
+      4  0044 ????			  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  0044 ????			  -	      ERR
+      6  0044 ????				      ENDIF
+      7  0044 ????
+      8  0044 ????			  -	      IF	.CYCLES & 1
+      9  0044 ????			  -	      IFNCONST	NO_ILLEGAL_OPCODES
+     10  0044 ????			  -	      nop	0
+     11  0044 ????			  -	      ELSE
+     12  0044 ????			  -	      bit	VSYNC
+     13  0044 ????			  -	      ENDIF
+     14  0044 ????			  -.CYCLES    SET	.CYCLES - 3
+     15  0044 ????				      ENDIF
+     16  0044 ????
+     17  0044 ????				      REPEAT	.CYCLES / 2
+     18  0044 ????	       ea		      nop
+     19  0045 ????				      REPEND
+     72  0045 ????	       b9 00 00 	      lda	COL_4,y	; 5
+     73  0048 ????	       85 0e		      sta	PF1	; 3 @47
+      0  004a ????				      SLEEP	3
+      1  004a ????			   .CYCLES    SET	3
+      2  004a ????
+      3  004a ????			  -	      IF	.CYCLES < 2
+      4  004a ????			  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  004a ????			  -	      ERR
+      6  004a ????				      ENDIF
+      7  004a ????
+      8  004a ????				      IF	.CYCLES & 1
+      9  004a ????				      IFNCONST	NO_ILLEGAL_OPCODES
+     10  004a ????	       04 00		      nop	0
+     11  004c ????			  -	      ELSE
+     12  004c ????			  -	      bit	VSYNC
+     13  004c ????				      ENDIF
+     14  004c ????			   .CYCLES    SET	.CYCLES - 3
+     15  004c ????				      ENDIF
+     16  004c ????
+     17  004c ????			  -	      REPEAT	.CYCLES / 2
+     18  004c ????			  -	      nop
+     19  004c ????				      REPEND
+     75  004c ????	       b9 00 00 	      lda	COL_5,y
+     76  004f ????	       85 0f		      sta	PF2
+     77  0051 ????
+     78  0051 ????	       88		      dey
+     79  0052 ????						;2
+     80  0052 ????	       85 02		      sta	WSYNC
+     81  0054 ????	       a9 c6		      lda	#$C6
+     82  0056 ????	       85 08		      sta	COLUPF	; set playfield color (cloud)
+     83  0058 ????
+     84  0058 ????	       b9 00 00 	      lda	COL_0,y	; 5
+     85  005b ????	       85 0d		      sta	PF0	; 3   @13
+     86  005d ????	       b9 00 00 	      lda	COL_1,y	; 5
+     87  0060 ????	       85 0e		      sta	PF1	; 3   @21
+     88  0062 ????	       b9 00 00 	      lda	COL_2,y	; 5
+     89  0065 ????	       85 0f		      sta	PF2	; 3   @29
+     90  0067 ????
+     91  0067 ????						; @29
+     92  0067 ????
+     93  0067 ????	       b9 00 00 	      lda	COL_3,y	; 5
+     94  006a ????	       85 0d		      sta	PF0	; 3 @ 37
+      0  006c ????				      SLEEP	2	; @39
+      1  006c ????			   .CYCLES    SET	2
+      2  006c ????
+      3  006c ????			  -	      IF	.CYCLES < 2
+      4  006c ????			  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  006c ????			  -	      ERR
+      6  006c ????				      ENDIF
+      7  006c ????
+      8  006c ????			  -	      IF	.CYCLES & 1
+      9  006c ????			  -	      IFNCONST	NO_ILLEGAL_OPCODES
+     10  006c ????			  -	      nop	0
+     11  006c ????			  -	      ELSE
+     12  006c ????			  -	      bit	VSYNC
+     13  006c ????			  -	      ENDIF
+     14  006c ????			  -.CYCLES    SET	.CYCLES - 3
+     15  006c ????				      ENDIF
+     16  006c ????
+     17  006c ????				      REPEAT	.CYCLES / 2
+     18  006c ????	       ea		      nop
+     19  006d ????				      REPEND
+     96  006d ????	       b9 00 00 	      lda	COL_4,y	; 5
+     97  0070 ????	       85 0e		      sta	PF1	; 3 @47
+      0  0072 ????				      SLEEP	3
+      1  0072 ????			   .CYCLES    SET	3
+      2  0072 ????
+      3  0072 ????			  -	      IF	.CYCLES < 2
+      4  0072 ????			  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  0072 ????			  -	      ERR
+      6  0072 ????				      ENDIF
+      7  0072 ????
+      8  0072 ????				      IF	.CYCLES & 1
+      9  0072 ????				      IFNCONST	NO_ILLEGAL_OPCODES
+     10  0072 ????	       04 00		      nop	0
+     11  0074 ????			  -	      ELSE
+     12  0074 ????			  -	      bit	VSYNC
+     13  0074 ????				      ENDIF
+     14  0074 ????			   .CYCLES    SET	.CYCLES - 3
+     15  0074 ????				      ENDIF
+     16  0074 ????
+     17  0074 ????			  -	      REPEAT	.CYCLES / 2
+     18  0074 ????			  -	      nop
+     19  0074 ????				      REPEND
+     99  0074 ????	       b9 00 00 	      lda	COL_5,y
+    100  0077 ????	       85 0f		      sta	PF2
+    101  0079 ????
+    102  0079 ????	       88		      dey
+    103  007a ????						;3
+    104  007a ????	       85 02		      sta	WSYNC
+    105  007c ????	       a9 74		      lda	#$74
+    106  007e ????	       85 08		      sta	COLUPF	; set playfield color (cloud)
+    107  0080 ????
+    108  0080 ????	       b9 00 00 	      lda	COL_0,y	; 5
+    109  0083 ????	       85 0d		      sta	PF0	; 3   @13
+    110  0085 ????	       b9 00 00 	      lda	COL_1,y	; 5
+    111  0088 ????	       85 0e		      sta	PF1	; 3   @21
+    112  008a ????	       b9 00 00 	      lda	COL_2,y	; 5
+    113  008d ????	       85 0f		      sta	PF2	; 3   @29
+    114  008f ????
+    115  008f ????						; @29
+    116  008f ????
+    117  008f ????	       b9 00 00 	      lda	COL_3,y	; 5
+    118  0092 ????	       85 0d		      sta	PF0	; 3 @ 37
+      0  0094 ????				      SLEEP	2	; @39
+      1  0094 ????			   .CYCLES    SET	2
+      2  0094 ????
+      3  0094 ????			  -	      IF	.CYCLES < 2
+      4  0094 ????			  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  0094 ????			  -	      ERR
+      6  0094 ????				      ENDIF
+      7  0094 ????
+      8  0094 ????			  -	      IF	.CYCLES & 1
+      9  0094 ????			  -	      IFNCONST	NO_ILLEGAL_OPCODES
+     10  0094 ????			  -	      nop	0
+     11  0094 ????			  -	      ELSE
+     12  0094 ????			  -	      bit	VSYNC
+     13  0094 ????			  -	      ENDIF
+     14  0094 ????			  -.CYCLES    SET	.CYCLES - 3
+     15  0094 ????				      ENDIF
+     16  0094 ????
+     17  0094 ????				      REPEAT	.CYCLES / 2
+     18  0094 ????	       ea		      nop
+     19  0095 ????				      REPEND
+    120  0095 ????	       b9 00 00 	      lda	COL_4,y	; 5
+    121  0098 ????	       85 0e		      sta	PF1	; 3 @47
+      0  009a ????				      SLEEP	3
+      1  009a ????			   .CYCLES    SET	3
+      2  009a ????
+      3  009a ????			  -	      IF	.CYCLES < 2
+      4  009a ????			  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  009a ????			  -	      ERR
+      6  009a ????				      ENDIF
+      7  009a ????
+      8  009a ????				      IF	.CYCLES & 1
+      9  009a ????				      IFNCONST	NO_ILLEGAL_OPCODES
+     10  009a ????	       04 00		      nop	0
+     11  009c ????			  -	      ELSE
+     12  009c ????			  -	      bit	VSYNC
+     13  009c ????				      ENDIF
+     14  009c ????			   .CYCLES    SET	.CYCLES - 3
+     15  009c ????				      ENDIF
+     16  009c ????
+     17  009c ????			  -	      REPEAT	.CYCLES / 2
+     18  009c ????			  -	      nop
+     19  009c ????				      REPEND
+    123  009c ????	       b9 00 00 	      lda	COL_5,y
+    124  009f ????	       85 0f		      sta	PF2
+    125  00a1 ????
+    126  00a1 ????	       88		      dey
+    127  00a2 ????	       c0 00		      cpy	#0
+    128  00a4 ????	       f0 00		      beq	noGo
+    129  00a6 ????	       4c 2a 00 	      jmp	SokoLogo
+    130  00a9 ????			   noGo
+    131  00a9 ????
+    132  00a9 ????	       a9 00		      lda	#0
+    133  00ab ????	       85 0d		      sta	PF0
+    134  00ad ????	       85 0e		      sta	PF1
+    135  00af ????	       85 0f		      sta	PF2
+    136  00b1 ????
+    137  00b1 ????	       a0 32		      ldy	#50
+    138  00b3 ????	       85 02	   bot2       sta	WSYNC
+    139  00b5 ????	       88		      dey
+    140  00b6 ????	       10 02		      bpl	bot2
+    141  00b8 ????
+    142  00b8 ????						;--------------------------------------------------------------------------
+    143  00b8 ????
+    144  00b8 ????	       a9 00		      lda	#0
+    145  00ba ????	       85 0d		      sta	PF0
+    146  00bc ????	       85 0e		      sta	PF1
+    147  00be ????	       85 0f		      sta	PF2
+    148  00c0 ????
+    149  00c0 ????
+    150  00c0 ????	       a9 42		      lda	#%01000010
+    151  00c2 ????
+    152  00c2 ????	       85 01		      sta	VBLANK	; end of screen - enter blanking
+    153  00c4 ????
+    154  00c4 ????
+    155  00c4 ????
+    156  00c4 ????						; 30 scanlines of overscan...
+    157  00c4 ????
+    158  00c4 ????
+    159  00c4 ????
+    160  00c4 ????	       a2 00		      ldx	#0
+    161  00c6 ????
+    162  00c6 ????			   Overscan
+    163  00c6 ????
+    164  00c6 ????	       85 02		      sta	WSYNC
+    165  00c8 ????
+    166  00c8 ????	       e8		      inx
+    167  00c9 ????
+    168  00c9 ????	       e0 1e		      cpx	#30
+    169  00cb ????
+    170  00cb ????	       d0 1e		      bne	Overscan
+    171  00cd ????
+    172  00cd ????
+    173  00cd ????
+    174  00cd ????	       4c 00 00 	      jmp	TitleSequence
+    175  00d0 ????
+    176  00d0 ????						;
+    177  00d0 ????			   COL_0
+    178  00d0 ????	       30		      .byte.b	48	;R
+    179  00d1 ????	       70		      .byte.b	112	;G
+    180  00d2 ????	       30		      .byte.b	48	;B
+    181  00d3 ????	       10		      .byte.b	16	;R
+    182  00d4 ????	       50		      .byte.b	80	;G
+    183  00d5 ????	       30		      .byte.b	48	;B
+    184  00d6 ????	       60		      .byte.b	96	;R
+    185  00d7 ????	       e0		      .byte.b	224	;G
+    186  00d8 ????	       70		      .byte.b	112	;B
+    187  00d9 ????	       30		      .byte.b	48	;R
+    188  00da ????	       b0		      .byte.b	176	;G
+    189  00db ????	       70		      .byte.b	112	;B
+    190  00dc ????	       50		      .byte.b	80	;R
+    191  00dd ????	       d0		      .byte.b	208	;G
+    192  00de ????	       70		      .byte.b	112	;B
+    193  00df ????	       80		      .byte.b	128	;R
+    194  00e0 ????	       80		      .byte.b	128	;G
+    195  00e1 ????	       c0		      .byte.b	192	;B
+    196  00e2 ????	       c0		      .byte.b	192	;R
+    197  00e3 ????	       c0		      .byte.b	192	;G
+    198  00e4 ????	       c0		      .byte.b	192	;B
+    199  00e5 ????	       40		      .byte.b	64	;R
+    200  00e6 ????	       40		      .byte.b	64	;G
+    201  00e7 ????	       c0		      .byte.b	192	;B
+    202  00e8 ????	       80		      .byte.b	128	;R
+    203  00e9 ????	       80		      .byte.b	128	;G
+    204  00ea ????	       c0		      .byte.b	192	;B
+    205  00eb ????	       80		      .byte.b	128	;R
+    206  00ec ????	       80		      .byte.b	128	;G
+    207  00ed ????	       c0		      .byte.b	192	;B
+    208  00ee ????	       c0		      .byte.b	192	;R
+    209  00ef ????	       c0		      .byte.b	192	;G
+    210  00f0 ????	       c0		      .byte.b	192	;B
+    211  00f1 ????	       40		      .byte.b	64	;R
+    212  00f2 ????	       40		      .byte.b	64	;G
+    213  00f3 ????	       c0		      .byte.b	192	;B
+    214  00f4 ????	       80		      .byte.b	128	;R
+    215  00f5 ????	       80		      .byte.b	128	;G
+    216  00f6 ????	       c0		      .byte.b	192	;B
+    217  00f7 ????	       80		      .byte.b	128	;R
+    218  00f8 ????	       80		      .byte.b	128	;G
+    219  00f9 ????	       c0		      .byte.b	192	;B
+    220  00fa ????	       c0		      .byte.b	192	;R
+    221  00fb ????	       c0		      .byte.b	192	;G
+    222  00fc ????	       c0		      .byte.b	192	;B
+    223  00fd ????	       40		      .byte.b	64	;R
+    224  00fe ????	       40		      .byte.b	64	;G
+    225  00ff ????	       e0		      .byte.b	224	;B
+    226  0100 ????	       a0		      .byte.b	160	;R
+    227  0101 ????	       a0		      .byte.b	160	;G
+    228  0102 ????	       e0		      .byte.b	224	;B
+    229  0103 ????	       60		      .byte.b	96	;R
+    230  0104 ????	       e0		      .byte.b	224	;G
+    231  0105 ????	       70		      .byte.b	112	;B
+    232  0106 ????	       10		      .byte.b	16	;R
+    233  0107 ????	       30		      .byte.b	48	;G
+    234  0108 ????	       10		      .byte.b	16	;B
+    235  0109 ????	       10		      .byte.b	16	;R
+    236  010a ????	       30		      .byte.b	48	;G
+    237  010b ????	       10		      .byte.b	16	;B
+    238  010c ????	       10		      .byte.b	16	;R
+    239  010d ????	       30		      .byte.b	48	;G
+    240  010e ????	       10		      .byte.b	16	;B
+    241  010f ????	       00		      .byte.b	0	;R
+    242  0110 ????	       20		      .byte.b	32	;G
+    243  0111 ????	       10		      .byte.b	16	;B
+    244  0112 ????	       10		      .byte.b	16	;R
+    245  0113 ????	       30		      .byte.b	48	;G
+    246  0114 ????	       10		      .byte.b	16	;B
+    247  0115 ????	       20		      .byte.b	32	;R
+    248  0116 ????	       60		      .byte.b	96	;G
+    249  0117 ????	       30		      .byte.b	48	;B
+    250  0118 ????	       30		      .byte.b	48	;R
+    251  0119 ????	       70		      .byte.b	112	;G
+    252  011a ????	       30		      .byte.b	48	;B
+    253  011b ????	       10		      .byte.b	16	;R
+    254  011c ????	       50		      .byte.b	80	;G
+    255  011d ????	       30		      .byte.b	48	;B
+    256  011e ????	       20		      .byte.b	32	;R
+    257  011f ????	       e0		      .byte.b	224	;G
+    258  0120 ????	       30		      .byte.b	48	;B
+    259  0121 ????	       a0		      .byte.b	160	;R
+    260  0122 ????	       a0		      .byte.b	160	;G
+    261  0123 ????	       e0		      .byte.b	224	;B
+    262  0124 ????	       40		      .byte.b	64	;R
+    263  0125 ????	       40		      .byte.b	64	;G
+    264  0126 ????	       e0		      .byte.b	224	;B
+    265  0127 ????	       40		      .byte.b	64	;R
+    266  0128 ????	       40		      .byte.b	64	;G
+    267  0129 ????	       c0		      .byte.b	192	;B
+    268  012a ????	       00		      .byte.b	0	;R
+    269  012b ????	       00		      .byte.b	0	;G
+    270  012c ????	       00		      .byte.b	0	;B
+    271  012d ????	       00		      .byte.b	0	;R
+    272  012e ????	       00		      .byte.b	0	;G
+    273  012f ????	       00		      .byte.b	0	;B
+    274  0130 ????			   COL_1
+    275  0130 ????	       30		      .byte.b	48	;R
+    276  0131 ????	       09		      .byte.b	9	;G
+    277  0132 ????	       01		      .byte.b	1	;B
+    278  0133 ????	       30		      .byte.b	48	;R
+    279  0134 ????	       09		      .byte.b	9	;G
+    280  0135 ????	       01		      .byte.b	1	;B
+    281  0136 ????	       70		      .byte.b	112	;R
+    282  0137 ????	       09		      .byte.b	9	;G
+    283  0138 ????	       01		      .byte.b	1	;B
+    284  0139 ????	       78		      .byte.b	120	;R
+    285  013a ????	       05		      .byte.b	5	;G
+    286  013b ????	       01		      .byte.b	1	;B
+    287  013c ????	       78		      .byte.b	120	;R
+    288  013d ????	       05		      .byte.b	5	;G
+    289  013e ????	       01		      .byte.b	1	;B
+    290  013f ????	       78		      .byte.b	120	;R
+    291  0140 ????	       85		      .byte.b	133	;G
+    292  0141 ????	       01		      .byte.b	1	;B
+    293  0142 ????	       4c		      .byte.b	76	;R
+    294  0143 ????	       a3		      .byte.b	163	;G
+    295  0144 ????	       01		      .byte.b	1	;B
+    296  0145 ????	       4c		      .byte.b	76	;R
+    297  0146 ????	       a3		      .byte.b	163	;G
+    298  0147 ????	       01		      .byte.b	1	;B
+    299  0148 ????	       4c		      .byte.b	76	;R
+    300  0149 ????	       a3		      .byte.b	163	;G
+    301  014a ????	       01		      .byte.b	1	;B
+    302  014b ????	       44		      .byte.b	68	;R
+    303  014c ????	       a3		      .byte.b	163	;G
+    304  014d ????	       01		      .byte.b	1	;B
+    305  014e ????	       44		      .byte.b	68	;R
+    306  014f ????	       a3		      .byte.b	163	;G
+    307  0150 ????	       01		      .byte.b	1	;B
+    308  0151 ????	       44		      .byte.b	68	;R
+    309  0152 ????	       a3		      .byte.b	163	;G
+    310  0153 ????	       01		      .byte.b	1	;B
+    311  0154 ????	       44		      .byte.b	68	;R
+    312  0155 ????	       a3		      .byte.b	163	;G
+    313  0156 ????	       01		      .byte.b	1	;B
+    314  0157 ????	       44		      .byte.b	68	;R
+    315  0158 ????	       a3		      .byte.b	163	;G
+    316  0159 ????	       01		      .byte.b	1	;B
+    317  015a ????	       44		      .byte.b	68	;R
+    318  015b ????	       a3		      .byte.b	163	;G
+    319  015c ????	       01		      .byte.b	1	;B
+    320  015d ????	       44		      .byte.b	68	;R
+    321  015e ????	       a3		      .byte.b	163	;G
+    322  015f ????	       01		      .byte.b	1	;B
+    323  0160 ????	       44		      .byte.b	68	;R
+    324  0161 ????	       a3		      .byte.b	163	;G
+    325  0162 ????	       01		      .byte.b	1	;B
+    326  0163 ????	       44		      .byte.b	68	;R
+    327  0164 ????	       23		      .byte.b	35	;G
+    328  0165 ????	       01		      .byte.b	1	;B
+    329  0166 ????	       44		      .byte.b	68	;R
+    330  0167 ????	       23		      .byte.b	35	;G
+    331  0168 ????	       01		      .byte.b	1	;B
+    332  0169 ????	       44		      .byte.b	68	;R
+    333  016a ????	       23		      .byte.b	35	;G
+    334  016b ????	       01		      .byte.b	1	;B
+    335  016c ????	       44		      .byte.b	68	;R
+    336  016d ????	       23		      .byte.b	35	;G
+    337  016e ????	       01		      .byte.b	1	;B
+    338  016f ????	       44		      .byte.b	68	;R
+    339  0170 ????	       23		      .byte.b	35	;G
+    340  0171 ????	       01		      .byte.b	1	;B
+    341  0172 ????	       44		      .byte.b	68	;R
+    342  0173 ????	       23		      .byte.b	35	;G
+    343  0174 ????	       01		      .byte.b	1	;B
+    344  0175 ????	       64		      .byte.b	100	;R
+    345  0176 ????	       13		      .byte.b	19	;G
+    346  0177 ????	       01		      .byte.b	1	;B
+    347  0178 ????	       24		      .byte.b	36	;R
+    348  0179 ????	       13		      .byte.b	19	;G
+    349  017a ????	       01		      .byte.b	1	;B
+    350  017b ????	       24		      .byte.b	36	;R
+    351  017c ????	       13		      .byte.b	19	;G
+    352  017d ????	       01		      .byte.b	1	;B
+    353  017e ????	       3c		      .byte.b	60	;R
+    354  017f ????	       03		      .byte.b	3	;G
+    355  0180 ????	       01		      .byte.b	1	;B
+    356  0181 ????	       1c		      .byte.b	28	;R
+    357  0182 ????	       c3		      .byte.b	195	;G
+    358  0183 ????	       01		      .byte.b	1	;B
+    359  0184 ????	       dc		      .byte.b	220	;R
+    360  0185 ????	       e3		      .byte.b	227	;G
+    361  0186 ????	       c1		      .byte.b	193	;B
+    362  0187 ????	       9c		      .byte.b	156	;R
+    363  0188 ????	       a3		      .byte.b	163	;G
+    364  0189 ????	       c1		      .byte.b	193	;B
+    365  018a ????	       cc		      .byte.b	204	;R
+    366  018b ????	       e3		      .byte.b	227	;G
+    367  018c ????	       c1		      .byte.b	193	;B
+    368  018d ????	       88		      .byte.b	136	;R
+    369  018e ????	       a7		      .byte.b	167	;G
+    370  018f ????	       c1		      .byte.b	193	;B
+    371  0190 ????			   COL_2
+    372  0190 ????	       60		      .byte.b	96	;R
+    373  0191 ????	       ed		      .byte.b	237	;G
+    374  0192 ????	       0c		      .byte.b	12	;B
+    375  0193 ????	       60		      .byte.b	96	;R
+    376  0194 ????	       ed		      .byte.b	237	;G
+    377  0195 ????	       0c		      .byte.b	12	;B
+    378  0196 ????	       70		      .byte.b	112	;R
+    379  0197 ????	       fd		      .byte.b	253	;G
+    380  0198 ????	       04		      .byte.b	4	;B
+    381  0199 ????	       f0		      .byte.b	240	;R
+    382  019a ????	       ff		      .byte.b	255	;G
+    383  019b ????	       06		      .byte.b	6	;B
+    384  019c ????	       f0		      .byte.b	240	;R
+    385  019d ????	       ff		      .byte.b	255	;G
+    386  019e ????	       06		      .byte.b	6	;B
+    387  019f ????	       f0		      .byte.b	240	;R
+    388  01a0 ????	       ff		      .byte.b	255	;G
+    389  01a1 ????	       06		      .byte.b	6	;B
+    390  01a2 ????	       90		      .byte.b	144	;R
+    391  01a3 ????	       bf		      .byte.b	191	;G
+    392  01a4 ????	       07		      .byte.b	7	;B
+    393  01a5 ????	       90		      .byte.b	144	;R
+    394  01a6 ????	       bf		      .byte.b	191	;G
+    395  01a7 ????	       07		      .byte.b	7	;B
+    396  01a8 ????	       90		      .byte.b	144	;R
+    397  01a9 ????	       bf		      .byte.b	191	;G
+    398  01aa ????	       07		      .byte.b	7	;B
+    399  01ab ????	       10		      .byte.b	16	;R
+    400  01ac ????	       37		      .byte.b	55	;G
+    401  01ad ????	       03		      .byte.b	3	;B
+    402  01ae ????	       10		      .byte.b	16	;R
+    403  01af ????	       37		      .byte.b	55	;G
+    404  01b0 ????	       03		      .byte.b	3	;B
+    405  01b1 ????	       10		      .byte.b	16	;R
+    406  01b2 ????	       37		      .byte.b	55	;G
+    407  01b3 ????	       03		      .byte.b	3	;B
+    408  01b4 ????	       10		      .byte.b	16	;R
+    409  01b5 ????	       33		      .byte.b	51	;G
+    410  01b6 ????	       01		      .byte.b	1	;B
+    411  01b7 ????	       10		      .byte.b	16	;R
+    412  01b8 ????	       33		      .byte.b	51	;G
+    413  01b9 ????	       01		      .byte.b	1	;B
+    414  01ba ????	       10		      .byte.b	16	;R
+    415  01bb ????	       37		      .byte.b	55	;G
+    416  01bc ????	       03		      .byte.b	3	;B
+    417  01bd ????	       10		      .byte.b	16	;R
+    418  01be ????	       37		      .byte.b	55	;G
+    419  01bf ????	       03		      .byte.b	3	;B
+    420  01c0 ????	       10		      .byte.b	16	;R
+    421  01c1 ????	       37		      .byte.b	55	;G
+    422  01c2 ????	       03		      .byte.b	3	;B
+    423  01c3 ????	       10		      .byte.b	16	;R
+    424  01c4 ????	       3f		      .byte.b	63	;G
+    425  01c5 ????	       03		      .byte.b	3	;B
+    426  01c6 ????	       10		      .byte.b	16	;R
+    427  01c7 ????	       3f		      .byte.b	63	;G
+    428  01c8 ????	       07		      .byte.b	7	;B
+    429  01c9 ????	       10		      .byte.b	16	;R
+    430  01ca ????	       3f		      .byte.b	63	;G
+    431  01cb ????	       07		      .byte.b	7	;B
+    432  01cc ????	       10		      .byte.b	16	;R
+    433  01cd ????	       3f		      .byte.b	63	;G
+    434  01ce ????	       06		      .byte.b	6	;B
+    435  01cf ????	       10		      .byte.b	16	;R
+    436  01d0 ????	       3f		      .byte.b	63	;G
+    437  01d1 ????	       06		      .byte.b	6	;B
+    438  01d2 ????	       10		      .byte.b	16	;R
+    439  01d3 ????	       3f		      .byte.b	63	;G
+    440  01d4 ????	       06		      .byte.b	6	;B
+    441  01d5 ????	       30		      .byte.b	48	;R
+    442  01d6 ????	       3d		      .byte.b	61	;G
+    443  01d7 ????	       04		      .byte.b	4	;B
+    444  01d8 ????	       20		      .byte.b	32	;R
+    445  01d9 ????	       6d		      .byte.b	109	;G
+    446  01da ????	       04		      .byte.b	4	;B
+    447  01db ????	       20		      .byte.b	32	;R
+    448  01dc ????	       6d		      .byte.b	109	;G
+    449  01dd ????	       04		      .byte.b	4	;B
+    450  01de ????	       e0		      .byte.b	224	;R
+    451  01df ????	       ed		      .byte.b	237	;G
+    452  01e0 ????	       04		      .byte.b	4	;B
+    453  01e1 ????	       c0		      .byte.b	192	;R
+    454  01e2 ????	       dd		      .byte.b	221	;G
+    455  01e3 ????	       0c		      .byte.b	12	;B
+    456  01e4 ????	       c0		      .byte.b	192	;R
+    457  01e5 ????	       dd		      .byte.b	221	;G
+    458  01e6 ????	       0c		      .byte.b	12	;B
+    459  01e7 ????	       c0		      .byte.b	192	;R
+    460  01e8 ????	       dd		      .byte.b	221	;G
+    461  01e9 ????	       0c		      .byte.b	12	;B
+    462  01ea ????	       80		      .byte.b	128	;R
+    463  01eb ????	       9d		      .byte.b	157	;G
+    464  01ec ????	       0c		      .byte.b	12	;B
+    465  01ed ????	       80		      .byte.b	128	;R
+    466  01ee ????	       9d		      .byte.b	157	;G
+    467  01ef ????	       0c		      .byte.b	12	;B
+    468  01f0 ????			   COL_3
+    469  01f0 ????	       c0		      .byte.b	192	;R
+    470  01f1 ????	       c0		      .byte.b	192	;G
+    471  01f2 ????	       c0		      .byte.b	192	;B
+    472  01f3 ????	       c0		      .byte.b	192	;R
+    473  01f4 ????	       c0		      .byte.b	192	;G
+    474  01f5 ????	       c0		      .byte.b	192	;B
+    475  01f6 ????	       c0		      .byte.b	192	;R
+    476  01f7 ????	       c0		      .byte.b	192	;G
+    477  01f8 ????	       c0		      .byte.b	192	;B
+    478  01f9 ????	       c0		      .byte.b	192	;R
+    479  01fa ????	       d0		      .byte.b	208	;G
+    480  01fb ????	       c0		      .byte.b	192	;B
+    481  01fc ????	       c0		      .byte.b	192	;R
+    482  01fd ????	       d0		      .byte.b	208	;G
+    483  01fe ????	       c0		      .byte.b	192	;B
+    484  01ff ????	       c0		      .byte.b	192	;R
+    485  0200 ????	       d0		      .byte.b	208	;G
+    486  0201 ????	       c0		      .byte.b	192	;B
+    487  0202 ????	       50		      .byte.b	80	;R
+    488  0203 ????	       f0		      .byte.b	240	;G
+    489  0204 ????	       40		      .byte.b	64	;B
+    490  0205 ????	       50		      .byte.b	80	;R
+    491  0206 ????	       f0		      .byte.b	240	;G
+    492  0207 ????	       40		      .byte.b	64	;B
+    493  0208 ????	       50		      .byte.b	80	;R
+    494  0209 ????	       f0		      .byte.b	240	;G
+    495  020a ????	       40		      .byte.b	64	;B
+    496  020b ????	       50		      .byte.b	80	;R
+    497  020c ????	       f0		      .byte.b	240	;G
+    498  020d ????	       40		      .byte.b	64	;B
+    499  020e ????	       50		      .byte.b	80	;R
+    500  020f ????	       f0		      .byte.b	240	;G
+    501  0210 ????	       40		      .byte.b	64	;B
+    502  0211 ????	       50		      .byte.b	80	;R
+    503  0212 ????	       f0		      .byte.b	240	;G
+    504  0213 ????	       40		      .byte.b	64	;B
+    505  0214 ????	       d0		      .byte.b	208	;R
+    506  0215 ????	       f0		      .byte.b	240	;G
+    507  0216 ????	       c0		      .byte.b	192	;B
+    508  0217 ????	       d0		      .byte.b	208	;R
+    509  0218 ????	       f0		      .byte.b	240	;G
+    510  0219 ????	       c0		      .byte.b	192	;B
+    511  021a ????	       d0		      .byte.b	208	;R
+    512  021b ????	       f0		      .byte.b	240	;G
+    513  021c ????	       c0		      .byte.b	192	;B
+    514  021d ????	       d0		      .byte.b	208	;R
+    515  021e ????	       f0		      .byte.b	240	;G
+    516  021f ????	       c0		      .byte.b	192	;B
+    517  0220 ????	       d0		      .byte.b	208	;R
+    518  0221 ????	       f0		      .byte.b	240	;G
+    519  0222 ????	       c0		      .byte.b	192	;B
+    520  0223 ????	       d0		      .byte.b	208	;R
+    521  0224 ????	       f0		      .byte.b	240	;G
+    522  0225 ????	       c0		      .byte.b	192	;B
+    523  0226 ????	       50		      .byte.b	80	;R
+    524  0227 ????	       f0		      .byte.b	240	;G
+    525  0228 ????	       40		      .byte.b	64	;B
+    526  0229 ????	       50		      .byte.b	80	;R
+    527  022a ????	       f0		      .byte.b	240	;G
+    528  022b ????	       40		      .byte.b	64	;B
+    529  022c ????	       50		      .byte.b	80	;R
+    530  022d ????	       f0		      .byte.b	240	;G
+    531  022e ????	       40		      .byte.b	64	;B
+    532  022f ????	       50		      .byte.b	80	;R
+    533  0230 ????	       f0		      .byte.b	240	;G
+    534  0231 ????	       40		      .byte.b	64	;B
+    535  0232 ????	       50		      .byte.b	80	;R
+    536  0233 ????	       f0		      .byte.b	240	;G
+    537  0234 ????	       40		      .byte.b	64	;B
+    538  0235 ????	       50		      .byte.b	80	;R
+    539  0236 ????	       f0		      .byte.b	240	;G
+    540  0237 ????	       40		      .byte.b	64	;B
+    541  0238 ????	       50		      .byte.b	80	;R
+    542  0239 ????	       f0		      .byte.b	240	;G
+    543  023a ????	       40		      .byte.b	64	;B
+    544  023b ????	       50		      .byte.b	80	;R
+    545  023c ????	       f0		      .byte.b	240	;G
+    546  023d ????	       40		      .byte.b	64	;B
+    547  023e ????	       d0		      .byte.b	208	;R
+    548  023f ????	       f0		      .byte.b	240	;G
+    549  0240 ????	       c0		      .byte.b	192	;B
+    550  0241 ????	       d0		      .byte.b	208	;R
+    551  0242 ????	       f0		      .byte.b	240	;G
+    552  0243 ????	       c0		      .byte.b	192	;B
+    553  0244 ????	       d0		      .byte.b	208	;R
+    554  0245 ????	       f0		      .byte.b	240	;G
+    555  0246 ????	       c0		      .byte.b	192	;B
+    556  0247 ????	       d0		      .byte.b	208	;R
+    557  0248 ????	       f0		      .byte.b	240	;G
+    558  0249 ????	       c0		      .byte.b	192	;B
+    559  024a ????	       d0		      .byte.b	208	;R
+    560  024b ????	       f0		      .byte.b	240	;G
+    561  024c ????	       c0		      .byte.b	192	;B
+    562  024d ????	       c0		      .byte.b	192	;R
+    563  024e ????	       f0		      .byte.b	240	;G
+    564  024f ????	       c0		      .byte.b	192	;B
+    565  0250 ????			   COL_4
+    566  0250 ????	       80		      .byte.b	128	;R
+    567  0251 ????	       c1		      .byte.b	193	;G
+    568  0252 ????	       86		      .byte.b	134	;B
+    569  0253 ????	       80		      .byte.b	128	;R
+    570  0254 ????	       c1		      .byte.b	193	;G
+    571  0255 ????	       86		      .byte.b	134	;B
+    572  0256 ????	       c0		      .byte.b	192	;R
+    573  0257 ????	       e1		      .byte.b	225	;G
+    574  0258 ????	       ce		      .byte.b	206	;B
+    575  0259 ????	       e0		      .byte.b	224	;R
+    576  025a ????	       f0		      .byte.b	240	;G
+    577  025b ????	       ef		      .byte.b	239	;B
+    578  025c ????	       e0		      .byte.b	224	;R
+    579  025d ????	       f0		      .byte.b	240	;G
+    580  025e ????	       ef		      .byte.b	239	;B
+    581  025f ????	       e0		      .byte.b	224	;R
+    582  0260 ????	       f0		      .byte.b	240	;G
+    583  0261 ????	       ef		      .byte.b	239	;B
+    584  0262 ????	       20		      .byte.b	32	;R
+    585  0263 ????	       74		      .byte.b	116	;G
+    586  0264 ????	       29		      .byte.b	41	;B
+    587  0265 ????	       20		      .byte.b	32	;R
+    588  0266 ????	       34		      .byte.b	52	;G
+    589  0267 ????	       29		      .byte.b	41	;B
+    590  0268 ????	       20		      .byte.b	32	;R
+    591  0269 ????	       34		      .byte.b	52	;G
+    592  026a ????	       29		      .byte.b	41	;B
+    593  026b ????	       60		      .byte.b	96	;R
+    594  026c ????	       74		      .byte.b	116	;G
+    595  026d ????	       68		      .byte.b	104	;B
+    596  026e ????	       60		      .byte.b	96	;R
+    597  026f ????	       74		      .byte.b	116	;G
+    598  0270 ????	       68		      .byte.b	104	;B
+    599  0271 ????	       60		      .byte.b	96	;R
+    600  0272 ????	       74		      .byte.b	116	;G
+    601  0273 ????	       68		      .byte.b	104	;B
+    602  0274 ????	       e0		      .byte.b	224	;R
+    603  0275 ????	       f4		      .byte.b	244	;G
+    604  0276 ????	       e8		      .byte.b	232	;B
+    605  0277 ????	       e0		      .byte.b	224	;R
+    606  0278 ????	       f4		      .byte.b	244	;G
+    607  0279 ????	       e8		      .byte.b	232	;B
+    608  027a ????	       c0		      .byte.b	192	;R
+    609  027b ????	       e4		      .byte.b	228	;G
+    610  027c ????	       c8		      .byte.b	200	;B
+    611  027d ????	       c0		      .byte.b	192	;R
+    612  027e ????	       e4		      .byte.b	228	;G
+    613  027f ????	       c8		      .byte.b	200	;B
+    614  0280 ????	       c0		      .byte.b	192	;R
+    615  0281 ????	       e4		      .byte.b	228	;G
+    616  0282 ????	       c8		      .byte.b	200	;B
+    617  0283 ????	       c0		      .byte.b	192	;R
+    618  0284 ????	       e4		      .byte.b	228	;G
+    619  0285 ????	       c8		      .byte.b	200	;B
+    620  0286 ????	       20		      .byte.b	32	;R
+    621  0287 ????	       74		      .byte.b	116	;G
+    622  0288 ????	       28		      .byte.b	40	;B
+    623  0289 ????	       20		      .byte.b	32	;R
+    624  028a ????	       34		      .byte.b	52	;G
+    625  028b ????	       28		      .byte.b	40	;B
+    626  028c ????	       20		      .byte.b	32	;R
+    627  028d ????	       34		      .byte.b	52	;G
+    628  028e ????	       28		      .byte.b	40	;B
+    629  028f ????	       20		      .byte.b	32	;R
+    630  0290 ????	       34		      .byte.b	52	;G
+    631  0291 ????	       28		      .byte.b	40	;B
+    632  0292 ????	       20		      .byte.b	32	;R
+    633  0293 ????	       34		      .byte.b	52	;G
+    634  0294 ????	       28		      .byte.b	40	;B
+    635  0295 ????	       60		      .byte.b	96	;R
+    636  0296 ????	       72		      .byte.b	114	;G
+    637  0297 ????	       6c		      .byte.b	108	;B
+    638  0298 ????	       60		      .byte.b	96	;R
+    639  0299 ????	       72		      .byte.b	114	;G
+    640  029a ????	       64		      .byte.b	100	;B
+    641  029b ????	       60		      .byte.b	96	;R
+    642  029c ????	       72		      .byte.b	114	;G
+    643  029d ????	       64		      .byte.b	100	;B
+    644  029e ????	       e0		      .byte.b	224	;R
+    645  029f ????	       f0		      .byte.b	240	;G
+    646  02a0 ????	       e7		      .byte.b	231	;B
+    647  02a1 ????	       c0		      .byte.b	192	;R
+    648  02a2 ????	       e0		      .byte.b	224	;G
+    649  02a3 ????	       c3		      .byte.b	195	;B
+    650  02a4 ????	       c0		      .byte.b	192	;R
+    651  02a5 ????	       e0		      .byte.b	224	;G
+    652  02a6 ????	       c3		      .byte.b	195	;B
+    653  02a7 ????	       c0		      .byte.b	192	;R
+    654  02a8 ????	       e0		      .byte.b	224	;G
+    655  02a9 ????	       c3		      .byte.b	195	;B
+    656  02aa ????	       80		      .byte.b	128	;R
+    657  02ab ????	       c0		      .byte.b	192	;G
+    658  02ac ????	       81		      .byte.b	129	;B
+    659  02ad ????	       80		      .byte.b	128	;R
+    660  02ae ????	       c0		      .byte.b	192	;G
+    661  02af ????	       81		      .byte.b	129	;B
+    662  02b0 ????			   COL_5
+    663  02b0 ????	       18		      .byte.b	24	;R
+    664  02b1 ????	       20		      .byte.b	32	;G
+    665  02b2 ????	       18		      .byte.b	24	;B
+    666  02b3 ????	       18		      .byte.b	24	;R
+    667  02b4 ????	       20		      .byte.b	32	;G
+    668  02b5 ????	       18		      .byte.b	24	;B
+    669  02b6 ????	       1c		      .byte.b	28	;R
+    670  02b7 ????	       20		      .byte.b	32	;G
+    671  02b8 ????	       1c		      .byte.b	28	;B
+    672  02b9 ????	       3c		      .byte.b	60	;R
+    673  02ba ????	       41		      .byte.b	65	;G
+    674  02bb ????	       3c		      .byte.b	60	;B
+    675  02bc ????	       3c		      .byte.b	60	;R
+    676  02bd ????	       41		      .byte.b	65	;G
+    677  02be ????	       3c		      .byte.b	60	;B
+    678  02bf ????	       3c		      .byte.b	60	;R
+    679  02c0 ????	       41		      .byte.b	65	;G
+    680  02c1 ????	       3c		      .byte.b	60	;B
+    681  02c2 ????	       64		      .byte.b	100	;R
+    682  02c3 ????	       8a		      .byte.b	138	;G
+    683  02c4 ????	       65		      .byte.b	101	;B
+    684  02c5 ????	       64		      .byte.b	100	;R
+    685  02c6 ????	       8a		      .byte.b	138	;G
+    686  02c7 ????	       65		      .byte.b	101	;B
+    687  02c8 ????	       64		      .byte.b	100	;R
+    688  02c9 ????	       8a		      .byte.b	138	;G
+    689  02ca ????	       65		      .byte.b	101	;B
+    690  02cb ????	       44		      .byte.b	68	;R
+    691  02cc ????	       8a		      .byte.b	138	;G
+    692  02cd ????	       45		      .byte.b	69	;B
+    693  02ce ????	       44		      .byte.b	68	;R
+    694  02cf ????	       8a		      .byte.b	138	;G
+    695  02d0 ????	       45		      .byte.b	69	;B
+    696  02d1 ????	       44		      .byte.b	68	;R
+    697  02d2 ????	       8a		      .byte.b	138	;G
+    698  02d3 ????	       45		      .byte.b	69	;B
+    699  02d4 ????	       44		      .byte.b	68	;R
+    700  02d5 ????	       8a		      .byte.b	138	;G
+    701  02d6 ????	       45		      .byte.b	69	;B
+    702  02d7 ????	       44		      .byte.b	68	;R
+    703  02d8 ????	       8a		      .byte.b	138	;G
+    704  02d9 ????	       45		      .byte.b	69	;B
+    705  02da ????	       44		      .byte.b	68	;R
+    706  02db ????	       8a		      .byte.b	138	;G
+    707  02dc ????	       45		      .byte.b	69	;B
+    708  02dd ????	       44		      .byte.b	68	;R
+    709  02de ????	       8a		      .byte.b	138	;G
+    710  02df ????	       45		      .byte.b	69	;B
+    711  02e0 ????	       44		      .byte.b	68	;R
+    712  02e1 ????	       8a		      .byte.b	138	;G
+    713  02e2 ????	       45		      .byte.b	69	;B
+    714  02e3 ????	       44		      .byte.b	68	;R
+    715  02e4 ????	       8a		      .byte.b	138	;G
+    716  02e5 ????	       45		      .byte.b	69	;B
+    717  02e6 ????	       44		      .byte.b	68	;R
+    718  02e7 ????	       8a		      .byte.b	138	;G
+    719  02e8 ????	       45		      .byte.b	69	;B
+    720  02e9 ????	       44		      .byte.b	68	;R
+    721  02ea ????	       8a		      .byte.b	138	;G
+    722  02eb ????	       45		      .byte.b	69	;B
+    723  02ec ????	       44		      .byte.b	68	;R
+    724  02ed ????	       8a		      .byte.b	138	;G
+    725  02ee ????	       45		      .byte.b	69	;B
+    726  02ef ????	       44		      .byte.b	68	;R
+    727  02f0 ????	       8a		      .byte.b	138	;G
+    728  02f1 ????	       45		      .byte.b	69	;B
+    729  02f2 ????	       44		      .byte.b	68	;R
+    730  02f3 ????	       8a		      .byte.b	138	;G
+    731  02f4 ????	       45		      .byte.b	69	;B
+    732  02f5 ????	       4c		      .byte.b	76	;R
+    733  02f6 ????	       92		      .byte.b	146	;G
+    734  02f7 ????	       4d		      .byte.b	77	;B
+    735  02f8 ????	       48		      .byte.b	72	;R
+    736  02f9 ????	       96		      .byte.b	150	;G
+    737  02fa ????	       49		      .byte.b	73	;B
+    738  02fb ????	       48		      .byte.b	72	;R
+    739  02fc ????	       96		      .byte.b	150	;G
+    740  02fd ????	       49		      .byte.b	73	;B
+    741  02fe ????	       78		      .byte.b	120	;R
+    742  02ff ????	       86		      .byte.b	134	;G
+    743  0300 ????	       79		      .byte.b	121	;B
+    744  0301 ????	       70		      .byte.b	112	;R
+    745  0302 ????	       82		      .byte.b	130	;G
+    746  0303 ????	       71		      .byte.b	113	;B
+    747  0304 ????	       70		      .byte.b	112	;R
+    748  0305 ????	       82		      .byte.b	130	;G
+    749  0306 ????	       71		      .byte.b	113	;B
+    750  0307 ????	       70		      .byte.b	112	;R
+    751  0308 ????	       82		      .byte.b	130	;G
+    752  0309 ????	       71		      .byte.b	113	;B
+    753  030a ????	       60		      .byte.b	96	;R
+    754  030b ????	       82		      .byte.b	130	;G
+    755  030c ????	       61		      .byte.b	97	;B
+    756  030d ????	       20		      .byte.b	32	;R
+    757  030e ????	       41		      .byte.b	65	;G
+    758  030f ????	       20		      .byte.b	32	;B
+    759  0310 ????
+./test.asm (760): error: Unknown Mnemonic 'CHECK_BANK_SIZE'.
+    760  0310 ????				      CHECK_BANK_SIZE	"INITBANK"

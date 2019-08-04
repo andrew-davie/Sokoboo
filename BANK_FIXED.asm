@@ -876,6 +876,12 @@ SEGMENT_DECODE_LEVEL_SHADOW = $F000      ; if not = $F000, this will cause an as
 
     ;---------------------------------------------------------------------------
 
+                #include "sound/intro1_init.asm"
+
+                lda #BANK_TitleScreen
+                sta SET_BANK
+                jsr TitleSequence
+
 RestartLevelNextPlayer
 
 
@@ -950,7 +956,7 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 sta SET_BANK                    ; 3
                 jsr Resync                      ; 6+x
 
-                #include "sound/intro1_init.asm"
+
 
 NewFrameStart
 
