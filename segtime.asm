@@ -90,6 +90,11 @@ TEST_{1} = 0
 TEST_{1} = 1
  ENDM
 
+    MAC SEGTIME_C
+{1} SET ({2}+32)/64 + 1
+TEST_{1} = 0
+    ENDM
+
 ;@TJ -- SIMPLY PUT AN X IN FRONT OF THE LINE(S) YOU WANT TO TEST
 ; eg: XSEGTIME SEGTIME_BOX1,5
 ; No other action required.  All code enables/disables automatically.
@@ -97,38 +102,27 @@ TEST_{1} = 1
 ; 2012/02/11 -- experimental reduction in times (but not stress tested)
 ; due to separation of timeslice overhead to separate check
 
-    SEGTIME SEGTIME_SCD_DIRECT,8                ; TODO: 392@12/2/2012
-    SEGTIME SEGTIME_SCD_QUICK,9                 ; TODO: 414@12/2/2012
-    SEGTIME SEGTIME_SCD_SLOW,12                  ; TODO: cycles: ~635 @12/2/2012.
-    SEGTIME SEGTIME_SCD_PF0,5                   ; TODO: cycle counted ~126 @12/2/2012
-    SEGTIME SEGTIME_SCD_MIN,SEGTIME_SCD_PF0     ; * MINIMUM TIME OF THE ABOVE + 1
+    SEGTIME_C SEGTIME_SCD_DIRECT, 323       ; @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_QUICK, 348        ; @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_SLOW, 579         ; @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_PF0, 88           ; @ 4/8/2019 ??
+    SEGTIME SEGTIME_SCD_MIN,SEGTIME_SCD_PF0+1   ; * MINIMUM TIME OF THE ABOVE + 1
 
  IF MULTI_BANK_BOARD = YES
     SEGTIME SEGTIME_BDF,42                      ; * 5/8/11 stress tested DHS->DS
  ELSE
-    SEGTIME SEGTIME_BDF,41                      ; * 7/8/11
+    SEGTIME SEGTIME_BDF,35 ;41                      ; * 7/8/11
  ENDIF
 
-    SEGTIME SEGTIME_BDS,4                      ; *AD 11/8/11
-    SEGTIME SEGTIME_DSL,5                       ; * 9/8/11 unrolled once
+    SEGTIME SEGTIME_BDS,2 ;4                      ; *AD 11/8/11
+    SEGTIME SEGTIME_DSL,3 ;5                       ; * 9/8/11 unrolled once
 
-
-
-    SEGTIME MINIMUM_SORT_TIME,3                ;     157(A)->2.45
+    SEGTIME_C MINIMUM_SORT_TIME, 157        ;     157(A)->2.45
 
 
     ;following will lock-up system if used as 'XSEGTIME'.
-    SEGTIME MINIMUM_SEGTIME,4                 ; processing slice minimum requirement
-
-    SEGTIME MINIMUM_SEGTIMEBLANK,16 ;17             ; * 7/8/11      993(A)->15.5
-
-    ; MINIMUM_SEGTIME
-    ; MINIMUM_SEGTIMEBLANK
-    ; SEGTIME_BDF
-    ; SEGTIME_BDS
-    ; SEGTIME_DSL
-    ; SEGTIME_SWITCHOBJECTS
-
+    SEGTIME MINIMUM_SEGTIME,2 ;4                 ; processing slice minimum requirement
+    SEGTIME_C MINIMUM_SEGTIMEBLANK, 993  ; * 7/8/11      993(A)->15.5
     SEGTIME SEGTIME_MINIMUM_TIMESLICE,MINIMUM_SEGTIME+1      ; MINIMUM of the TIMESLICE segments listed above
 
         ; Note: we add 1 to the minimum because there's a bit of overhead at the start of the timeslice code which vectors
@@ -154,5 +148,4 @@ TEST_{1} = 1
 ; push BOX is slowest (besides get TARGET which has an extra timer check)
 ; if we add another check for it, SEGTIME_MAN reduces by ~5
 
-    SEGTIME SEGTIME_GET_TARGET,17              ; * 14/8/11, required if UpdateScore loops (e.g. 9990->10000)
-    SEGTIME SEGTIME_SWITCHOBJECTS,3             ; 16/8/11 by calculation. 72 cycles -->  ceil(72/64)+1 --> 3 Object stack switchover
+    SEGTIME_C SEGTIME_SWITCHOBJECTS,74             ; 16/8/11 by calculation. 72 cycles -->  ceil(72/64)+1 --> 3 Object stack switchover

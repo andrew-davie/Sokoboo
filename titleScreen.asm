@@ -11,182 +11,148 @@ TitleSequence
                sta CTRLPF    ; copy playfield
                lda #$0
                sta COLUBK   ; set the background color (sky)
-               lda #0
-               sta VBLANK
-               lda #2
-               sta VSYNC
-               sta WSYNC
-               sta WSYNC
-               sta WSYNC   ; 3 scanlines of VSYNC signal
 
-               lda #0
+                lda Platform
+                and #%10
+                tax
+                lda colvec,x
+                sta colour_table
+                lda colvec+1,x
+                sta colour_table+1
+
+
+RestartFrame
+
+
+               lda #%1110                       ; VSYNC ON
+.loopVSync2    sta WSYNC
                sta VSYNC
+               lsr
+               bne .loopVSync2                  ; branch until VYSNC has been reset
 
       ;------------------------------------------------------------------
 
-      ; 37 scanlines of vertical blank...
+               ldx Platform
+               ldy VBlankTime,x
+               sty TIM64T
 
-
-
-               ldx #0
 VerticalBlank  sta WSYNC
-               inx
-               cpx #37
+               lda INTIM
                bne VerticalBlank
-
+               sta VBLANK
 
       ;------------------------------------------------------------------
 
-      ; Do 192 scanlines of color-changing (our picture)
-
-
-              ldy #20
-bot           sta WSYNC
-              dey
-              bpl bot
-
+      ; Do X scanlines of color-changing (our picture)
 
                ldy #119   ; this counts our scanline number
-SokoLogo
+SokoLogo       ldx #3
+triplet        lda (colour_table),y
                sta WSYNC
-               ;sty COLUBK
-               lda colr,y ;#$ca     ; 2
-               sta COLUPF   ; 3 @ 5
+               sta COLUPF         ; 3
 
                lda COL_0,y  ; 5
-               sta PF0      ; 3   @13
+               sta PF0      ; 3   @11
                lda COL_1,y  ; 5
-               sta PF1      ; 3   @21
+               sta PF1      ; 3   @19
                lda COL_2,y  ; 5
-               sta PF2      ; 3   @29
-
-               ; @29
+               sta PF2      ; 3   @27
 
                lda COL_3,y  ; 5
-               sta PF0      ; 3 @ 37
-               SLEEP 2      ; @39
+               sta PF0      ; 3   @35
+               SLEEP 2      ; @37
                lda COL_4,y  ; 5
-               sta PF1      ; 3 @47
-               SLEEP 3
-               lda COL_5,y
-               sta PF2
+               sta PF1      ; 3   @45
+               SLEEP 3      ; @45
+               lda COL_5,y  ; 5
+               sta PF2      ; 3
 
-                dey
-;2
-                sta WSYNC
-                lda colr,y ;#$74
-                sta COLUPF    ; set playfield color (cloud)
+               dey          ; 2
+               dex          ; 2
+               bne triplet  ; 2(3)
 
-                lda COL_0,y  ; 5
-                sta PF0      ; 3   @13
-                lda COL_1,y  ; 5
-                sta PF1      ; 3   @21
-                lda COL_2,y  ; 5
-                sta PF2      ; 3   @29
+               cpy #2      ; 2
+               bne SokoLogo ; 2(3)
 
-                ; @29
-
-                lda COL_3,y  ; 5
-                sta PF0      ; 3 @ 37
-                SLEEP 2      ; @39
-                lda COL_4,y  ; 5
-                sta PF1      ; 3 @47
-                SLEEP 3
-                lda COL_5,y
-                sta PF2
-
-                dey
-;3
-              sta WSYNC
-              lda colr,y ;#$2a
-              sta COLUPF    ; set playfield color (cloud)
-
-              lda COL_0,y  ; 5
-              sta PF0      ; 3   @13
-              lda COL_1,y  ; 5
-              sta PF1      ; 3   @21
-              lda COL_2,y  ; 5
-              sta PF2      ; 3   @29
-
-              ; @29
-
-              lda COL_3,y  ; 5
-              sta PF0      ; 3 @ 37
-              SLEEP 2      ; @39
-              lda COL_4,y  ; 5
-              sta PF1      ; 3 @47
-              SLEEP 3
-              lda COL_5,y
-              sta PF2
-
-               dey
-               cpy #$FF
-               beq noGo
-               jmp SokoLogo
-noGo
-
-              SLEEP 20
               lda #0
               sta PF0
               sta PF1
               sta PF2
 
-              ldy #63
-bot2           sta WSYNC
-              dey
-              bpl bot2
+                ldx Platform
+                lda OverscanTime2,x
+                sta TIM64T
+
+
+
+
+frame           lda INTIM
+                bne frame
+
+
+
+;              ldy #63
+;bot2           sta WSYNC
+;              dey
+;              bpl bot2
 
       ;--------------------------------------------------------------------------
 
-              lda #0
-              sta PF0
-              sta PF1
-              sta PF2
-
-
-               lda #%01000010
-
-               sta VBLANK   ; end of screen - enter blanking
+;              lda #0
+;              sta PF0
+;              sta PF1
+;              sta PF2
 
 
 
-      ; 30 scanlines of overscan...
+    ; D1 VBLANK turns off beam
+    ; It needs to be turned on 37 scanlines later
 
+oscan           lda INTIM
+                bne oscan
 
+                lda #%01000010                  ; bit6 is not required
+                sta VBLANK                      ; end of screen - enter blanking
 
-               ldx #0
+                lda INPT4
+                bpl ret
 
-Overscan
+                jmp RestartFrame
 
-               sta WSYNC
+ret             rts
 
-               inx
-
-               cpx #30
-
-               bne Overscan
-
-               lda INPT4
-               bpl ret
-
-               jmp TitleSequence
-
-ret            rts
-
+OverscanTime2
+    .byte 134, 134
+    .byte 142, 142
 
 ;
 
+
+colvec
+    .word colr, colr_pal
+
+colr_pal
+    REPEAT 40
+    .byte $3C,$66,$DA
+    REPEND
+
+colr
+    REPEAT 40
+    .byte $1C, $34, $8A
+    REPEND
+
+#if 0
 colr
  .byte $C6,$74,$26
  .byte $C6,$74,$26
  .byte $C6,$74,$26
  .byte $C6,$74,$26
  .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
+ .byte $96,$74,$26
+ .byte $96,$74,$26
+ .byte $96,$74,$26
+ .byte $96,$74,$26
+ .byte $96,$74,$26
 
  .byte $CA,$74,$2A
  .byte $CA,$74,$2A
@@ -204,11 +170,11 @@ colr
  .byte $1A,$24,$2A
  .byte $1A,$24,$2A
  .byte $1A,$24,$2A
- .byte $1A,$24,$68
- .byte $1A,$24,$68
- .byte $1A,$24,$68
- .byte $1A,$24,$68
- .byte $1A,$24,$68
+ .byte $AA,$24,$68
+ .byte $AA,$24,$68
+ .byte $AA,$24,$68
+ .byte $AA,$24,$68
+ .byte $AA,$24,$68
 
  .byte $28,$74,$68
  .byte $28,$74,$68
@@ -220,13 +186,10 @@ colr
  .byte $28,$74,$4A
  .byte $28,$74,$4A
  .byte $28,$74,$4A
+#endif
 
+; created by /anaconda3/envs/Utils4/bin/python /Users/boo/Documents/2600/Utils4/grid.py
 COL_0
-
-
-
-
-
  .byte  128  ;R
  .byte  240  ;G
  .byte  128  ;B
@@ -240,94 +203,94 @@ COL_0
  .byte  0  ;G
  .byte  0  ;B
  .byte  48  ;R
- .byte  112  ;G
+ .byte  64  ;G
  .byte  48  ;B
- .byte  16  ;R
- .byte  80  ;G
- .byte  48  ;B
- .byte  96  ;R
- .byte  224  ;G
- .byte  112  ;B
  .byte  48  ;R
- .byte  176  ;G
+ .byte  64  ;G
+ .byte  48  ;B
+ .byte  112  ;R
+ .byte  128  ;G
  .byte  112  ;B
- .byte  80  ;R
- .byte  208  ;G
+ .byte  112  ;R
+ .byte  128  ;G
  .byte  112  ;B
- .byte  128  ;R
+ .byte  112  ;R
  .byte  128  ;G
+ .byte  112  ;B
+ .byte  192  ;R
+ .byte  0  ;G
  .byte  192  ;B
  .byte  192  ;R
- .byte  192  ;G
- .byte  192  ;B
- .byte  64  ;R
- .byte  64  ;G
- .byte  192  ;B
- .byte  128  ;R
- .byte  128  ;G
- .byte  192  ;B
- .byte  128  ;R
- .byte  128  ;G
+ .byte  0  ;G
  .byte  192  ;B
  .byte  192  ;R
- .byte  192  ;G
- .byte  192  ;B
- .byte  64  ;R
- .byte  64  ;G
- .byte  192  ;B
- .byte  128  ;R
- .byte  128  ;G
- .byte  192  ;B
- .byte  128  ;R
- .byte  128  ;G
+ .byte  0  ;G
  .byte  192  ;B
  .byte  192  ;R
- .byte  192  ;G
+ .byte  0  ;G
  .byte  192  ;B
- .byte  64  ;R
- .byte  64  ;G
+ .byte  192  ;R
+ .byte  0  ;G
+ .byte  192  ;B
+ .byte  192  ;R
+ .byte  0  ;G
+ .byte  192  ;B
+ .byte  192  ;R
+ .byte  0  ;G
+ .byte  192  ;B
+ .byte  192  ;R
+ .byte  0  ;G
+ .byte  192  ;B
+ .byte  192  ;R
+ .byte  0  ;G
+ .byte  192  ;B
+ .byte  192  ;R
+ .byte  0  ;G
+ .byte  192  ;B
+ .byte  224  ;R
+ .byte  0  ;G
  .byte  224  ;B
- .byte  160  ;R
- .byte  160  ;G
+ .byte  224  ;R
+ .byte  0  ;G
  .byte  224  ;B
- .byte  96  ;R
- .byte  224  ;G
+ .byte  112  ;R
+ .byte  128  ;G
  .byte  112  ;B
  .byte  16  ;R
- .byte  48  ;G
- .byte  16  ;B
- .byte  16  ;R
- .byte  48  ;G
- .byte  16  ;B
- .byte  16  ;R
- .byte  48  ;G
- .byte  16  ;B
- .byte  0  ;R
  .byte  32  ;G
  .byte  16  ;B
  .byte  16  ;R
- .byte  48  ;G
+ .byte  32  ;G
  .byte  16  ;B
- .byte  32  ;R
- .byte  96  ;G
+ .byte  16  ;R
+ .byte  32  ;G
+ .byte  16  ;B
+ .byte  16  ;R
+ .byte  32  ;G
+ .byte  16  ;B
+ .byte  16  ;R
+ .byte  32  ;G
+ .byte  16  ;B
+ .byte  48  ;R
+ .byte  64  ;G
  .byte  48  ;B
  .byte  48  ;R
- .byte  112  ;G
- .byte  48  ;B
- .byte  16  ;R
- .byte  80  ;G
- .byte  48  ;B
- .byte  32  ;R
- .byte  224  ;G
- .byte  48  ;B
- .byte  160  ;R
- .byte  160  ;G
- .byte  224  ;B
- .byte  64  ;R
  .byte  64  ;G
- .byte  224  ;B
- .byte  64  ;R
+ .byte  48  ;B
+ .byte  48  ;R
  .byte  64  ;G
+ .byte  48  ;B
+ .byte  48  ;R
+ .byte  192  ;G
+ .byte  48  ;B
+ .byte  224  ;R
+ .byte  0  ;G
+ .byte  224  ;B
+ .byte  224  ;R
+ .byte  0  ;G
+ .byte  224  ;B
+ .byte  192  ;R
+ .byte  0  ;G
  .byte  192  ;B
  .byte  0  ;R
  .byte  0  ;G
@@ -445,16 +408,16 @@ COL_1
  .byte  195  ;G
  .byte  1  ;B
  .byte  220  ;R
- .byte  227  ;G
+ .byte  35  ;G
  .byte  193  ;B
- .byte  156  ;R
- .byte  163  ;G
+ .byte  220  ;R
+ .byte  35  ;G
  .byte  193  ;B
  .byte  204  ;R
- .byte  227  ;G
+ .byte  35  ;G
  .byte  193  ;B
- .byte  136  ;R
- .byte  165  ;G
+ .byte  200  ;R
+ .byte  37  ;G
  .byte  193  ;B
  .byte  0  ;R
  .byte  0  ;G
@@ -482,10 +445,10 @@ COL_2
  .byte  0  ;G
  .byte  0  ;B
  .byte  96  ;R
- .byte  237  ;G
+ .byte  253  ;G
  .byte  12  ;B
  .byte  96  ;R
- .byte  237  ;G
+ .byte  253  ;G
  .byte  12  ;B
  .byte  112  ;R
  .byte  253  ;G
@@ -742,7 +705,7 @@ COL_4
  .byte  240  ;G
  .byte  239  ;B
  .byte  32  ;R
- .byte  116  ;G
+ .byte  52  ;G
  .byte  41  ;B
  .byte  32  ;R
  .byte  52  ;G
@@ -952,7 +915,6 @@ COL_5
  .byte  199  ;R
  .byte  192  ;G
  .byte  56  ;B
-
 
 
  CHECK_BANK_SIZE "INITBANK"

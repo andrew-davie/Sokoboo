@@ -427,7 +427,7 @@ OverscanTime
     .byte OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
 
-
+FlashColour     .byte $C0, $C0, $50, $50
 
 
     DEFINE_SUBROUTINE PostScreenCleanup
@@ -446,10 +446,7 @@ OverscanTime
                 sty GRP0                        ; when look-scrolling, we can see feet at the top if these aren't here
                 sty GRP1                        ; 30/12/2011 -- fix dots @ top!
 
-
-
     ; D1 VBLANK turns off beam
-    ; It needs to be turned on 37 scanlines later
 
                 lda #%01000010                  ; bit6 is not required
                 sta VBLANK                      ; end of screen - enter blanking
@@ -546,11 +543,12 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
 
     ; "Flash" has highest BG colour priority
 
-                ldx ColourTimer
+                lda ColourTimer
                 beq noFlashBG
                 dec ColourTimer
-                ldx #$C0
-noFlashBG       stx BGColour
+                ldx Platform
+                lda FlashColour,x
+noFlashBG       sta BGColour
 
     ; Handle the player joystick reading. We do it *every frame* so that we can incorporate a two-frame
     ; buffer.  This is designed to give a little better responsiveness to the 'quick tap' movement.

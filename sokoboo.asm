@@ -64,16 +64,6 @@ AD_MODE                 = YES                ; some changes which AD prefers
 
                   ; Note: you may also need to change the emulator "-format" switch in the Makefile.
 
-NTSC_MODE               SET NO
-
-  IF TJ_MODE
-NTSC_MODE               SET NO                ; force NTSC or PAL for difficulty switch
-  ENDIF
-  IF AD_MODE
-NTSC_MODE               SET NO
-  ENDIF
-
-
 
 ;===================================
 FINAL_VERSION                   = NO           ; this OVERRIDES any selections below and sets everything correct for a final release
@@ -92,18 +82,13 @@ NUMPLAYERS      = 1                             ; 1-indexed
 NUM_LEVELS      = 5
 NUM_LIVES       SET 3                           ; use -1 for unlimited lives
 
-DEMO_DELAY      SET 1                           ; number of music loops without joystick input before demo kicks in
-
 ;-------------------------------------------------------------------------------
 ; DO NOT MODIFY THE BELOW SETTINGS -- USE THE ONES ABOVE!
 ; Here we make sure everyting is OK based on the single switch -- less chance for accidents
  IF FINAL_VERSION = YES
 L276                            SET YES         ; use 276 line display for NTSC
-SHOWTARGETP                    SET NO          ; debug show TARGET on P
 
 NUM_LIVES                       SET 3           ; use -1 for unlimited lives
-DEMO_DELAY                      SET 2           ; number of music loops without joystick input before demo kicks in
-NTSC_MODE                       SET YES         ; mmh
  ENDIF
 
 ;-------------------------------------------------------------------------------
@@ -174,18 +159,18 @@ PAL_60              = PAL|1
 
 
     IF L276
-VBLANK_TIM_NTSC     = 62                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
+VBLANK_TIM_NTSC     = 50                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
     ELSE
-VBLANK_TIM_NTSC     = 45                        ; NTSC 262
+VBLANK_TIM_NTSC     = 50                        ; NTSC 262
     ENDIF
-VBLANK_TIM_PAL      = 85                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
+VBLANK_TIM_PAL      = 85 ;85                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
 
     IF L276
-OVERSCAN_TIM_NTSC   = 51                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
+OVERSCAN_TIM_NTSC   = 60 ;24 ;51                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
     ELSE
-OVERSCAN_TIM_NTSC   = 51                        ; NTSC 262
+OVERSCAN_TIM_NTSC   = 8 ;51                        ; NTSC 262
     ENDIF
-OVERSCAN_TIM_PAL    = 70                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
+OVERSCAN_TIM_PAL    = 67                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
 
     IF L276
 SCANLINES_NTSC      = 276                       ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
@@ -435,10 +420,7 @@ ORIGIN          SET ORIGIN + RAM_SIZE
         rol
         rol
         and #%11
-#if NTSC_MODE = NO
         eor #PAL
-#endif
-  lda #0 ;tmp
          sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
     ENDM
 
@@ -527,6 +509,12 @@ restorationCharacter  ds 1
 
     OVERLAY Animate
 halftimer           ds 1
+    VALIDATE_OVERLAY
+
+;------------------------------------------------------------------------------
+
+    OVERLAY TitleScreen
+colour_table           ds 2
     VALIDATE_OVERLAY
 
 ;------------------------------------------------------------------------------
@@ -860,7 +848,9 @@ ORIGIN      SET $00000
             include "BANK_LEVELS2.asm"
             include "BANK_LEVELS3.asm"
             include "BANK_LEVELS4.asm"
-            include "test.asm"
+            include "BANK_LEVELS5.asm"
+            include "BANK_LEVELS6.asm"
+            include "titleScreen.asm"
             include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
             include "BANK_FIXED.asm"
 

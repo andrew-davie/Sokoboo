@@ -49,7 +49,7 @@ ORIGIN          SET FIXED_BANK
 
                 lda #BANK_SCORING
                 sta SET_BANK_RAM
-                ;jsr DrawTime
+                jsr DrawTime
                 jsr DrawTargetsRequired
                 lda ROM_Bank
                 sta SET_BANK
@@ -795,7 +795,7 @@ CopyRow2
 
                 dey                             ; 2
                 bpl CopyRow2                    ; 2/3=49/50[-1]
-; total: 5*49[-1]-1 = 244[-5]
+; total: 5*(50[-1])-1 = 244 *OR*  249 (MB)
 
                 lax DHS_Line                    ; 3
                 beq .exitCopy                   ; 2/3= 5/6
@@ -834,6 +834,11 @@ CopyRow2
 
 Reset
                 CLEAN_START
+
+                ;lda #2
+                ;sta VSYNC
+                ;lda #%01000010                  ; bit6 is not required
+                ;sta VBLANK                      ; end of screen - enter blanking
 
     ; Scoring bank is copied once (not per game, not per level...)
     ; otherwise non-SaveKey high score gets zapped
@@ -877,6 +882,8 @@ SEGMENT_DECODE_LEVEL_SHADOW = $F000      ; if not = $F000, this will cause an as
     ;---------------------------------------------------------------------------
 
                 #include "sound/intro1_init.asm"
+
+                SET_PLATFORM
 
                 lda #BANK_TitleScreen
                 sta SET_BANK
@@ -990,12 +997,13 @@ NewFrameStart
                 sta SET_BANK_RAM                ; 3
                 jsr DrawDigits                  ; 6 = 11
 
+
     ;---------------------------------------------------------------------------
     ; A 42-cycle timing window in the screen draw code.  Perform any general
     ; per-frame code here, provided it takes exactly 42 cycles to execute.
     ; TJ: Well, not exactly 42 cycles, but it works! :)
                                             ;       @09
-                sta COLUBK                  ; 3     value comes from subroutine
+                ;sta COLUBK                  ; 3     value comes from subroutine
                                             ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
 
 ;                inc Throttle                ; 5     speed limiter
@@ -1038,7 +1046,6 @@ VBlankTime
                 .byte VBLANK_TIM_PAL, VBLANK_TIM_PAL
 
     ;---------------------------------------------------------------------------
-
 
     DEFINE_SUBROUTINE nextLevelMan
 
@@ -1147,13 +1154,10 @@ goNL3
 
     ;---------------------------------------------------------------------------
 
-    include "characterset/BOX.asm"         ; 2 * LINES_PER_CHAR bytes
-    include "characterset/Steel_Wall.asm"      ; 2 * LINES_PER_CHAR bytes
     ;---------------------------------------------------------------------------
 
     ;include "circle.asm"
-    ;#include "characterset/Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
-    #include "sound/intro1_trackdata.asm"
+    include "sound/intro1_trackdata.asm"
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *
 

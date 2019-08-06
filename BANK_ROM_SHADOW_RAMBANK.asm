@@ -357,8 +357,8 @@ ExitDraw
                 STRESS_TIME SEGTIME_SCD_SLOW                     ; ok!
 
     ; TIME REQUIRED FROM HERE (9/JAN)
-    ; 8 + 16 + 8 + 2 + (21 * 23) -1 + (42 OVERHEAD WHEN RETURNING)
-    ; = 558 --> /64 = 8.71 INTIM --> USE 10
+    ; 8 + 16 + 8 + 2 + (21 * 24) -1 + (42 OVERHEAD WHEN RETURNING)
+    ; = 579 --> /64 = 9.04 INTIM --> USE 10
 
                 lda CharacterDataVecLO,y        ; 4
                 sta SMEOR1+RAM_WRITE+1          ; 4 =  8
@@ -491,25 +491,17 @@ MOD10
 
     ;------------------------------------------------------------------------------
 
-    include "characterset/target.asm"         ; 2 * LINES_PER_CHAR + 2 bytes
-    include "characterset/Brick_Wall.asm"    ; 2 * LINES_PER_CHAR bytes
-    ds 30 ; todo - fixes a graphical glitch so we have a page boundary issue somewhwere
-
-
     OPTIONAL_PAGEBREAK "SCREEN_BITMAP", SCREEN_BITMAP_SIZE
 
-ScreenBitmap    ds SCREEN_BITMAP_SIZE,$0         ; character bitmap row (10 chars wide)
+ScreenBitmap    ds SCREEN_BITMAP_SIZE,0                      ; character bitmap row (10 chars wide)
 ScreenBitmapRED     = ScreenBitmap + LINES_PER_CHAR/3*0
 ScreenBitmapGREEN   = ScreenBitmap + LINES_PER_CHAR/3*1
 ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
 
     CHECKPAGEX ScreenBitmap, "ScreenBitmap"
 
+
 ;--------------------------------------------------------------------------
-;    CHARACTER_SET
-
-    ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
-
 
     DEFINE_SUBROUTINE SelfModDrawPlayers ; copied to ROW RAM BANKS
 
@@ -549,19 +541,17 @@ SetSelfModPlayer
 
                 txa
                 sta SELFMOD_PLAYER0_RED+RAM_WRITE+1     ; lo of frame
-                adc #LINES_PER_CHAR/3 ;boo-1
+                adc #LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_GREEN+RAM_WRITE+1
-                adc #LINES_PER_CHAR/3 ;boo-1
+                adc #LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_BLUE+RAM_WRITE+1
 
-NoMod
-                rts
-
+NoMod           rts
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
     include "player.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
-    include "characterset/filler.asm"            ; 2 * LINES_PER_CHAR bytes
+
    ;------------------------------------------------------------------------------
 
     ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
@@ -570,7 +560,6 @@ NoMod
 
 
 
-;       CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE"
 
 OBJTYPE    SET 0
     MAC DEFINE_CHARACTER
@@ -579,7 +568,7 @@ OBJTYPE    .SET OBJTYPE + 1
     ENDM
 
 ; Modifications to character #/order must also ensure the following are correct...
-;   CharacterDataVecLO/HI         in BANK_FIXED.asm
+;   CharacterDataVecLO/HI         in this file
 ;   MoveVecLO/HI                  in BANK_INITBANK
 ;   CharReplacement               in BANK_ROM_SHADOW_DRAWBUFFERS
 
@@ -595,7 +584,6 @@ OBJTYPE    .SET OBJTYPE + 1
     DEFINE_CHARACTER NOGO
 
     DEFINE_CHARACTER MAXIMUM
-
 
 
 CharacterDataVecLO
@@ -633,39 +621,46 @@ CharacterDataVecLO
 
 CharacterDataVecHI
 
-  .byte >CHARACTERSHAPE_BLANK
-  .byte >CHARACTERSHAPE_BLANK
-  .byte >CHARACTERSHAPE_SOIL
-  .byte >CHARACTERSHAPE_SOIL_MIRRORED
-  .byte >CHARACTERSHAPE_BOX
-  .byte >CHARACTERSHAPE_BOX_MIRRORED
-  .byte >CHARACTERSHAPE_TARGET
-  .byte >CHARACTERSHAPE_TARGET_MIRRORED
-  .byte >CHARACTERSHAPE_TARGET2
-  .byte >CHARACTERSHAPE_TARGET2_MIRRORED
-  .byte >CHARACTERSHAPE_BLANK ; man occupied
-  .byte >CHARACTERSHAPE_BLANK
-  .byte >CHARACTERSHAPE_STEEL
-  .byte >CHARACTERSHAPE_STEEL_MIRRORED
-  .byte >CHARACTERSHAPE_WALL
-  .byte >CHARACTERSHAPE_WALL_MIRRORED
-  .byte >CHARACTERSHAPE_BOX_ON_TARGET
-  .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-  .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
-  .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+    .byte >CHARACTERSHAPE_BLANK
+    .byte >CHARACTERSHAPE_BLANK
+    .byte >CHARACTERSHAPE_SOIL
+    .byte >CHARACTERSHAPE_SOIL_MIRRORED
+    .byte >CHARACTERSHAPE_BOX
+    .byte >CHARACTERSHAPE_BOX_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET
+    .byte >CHARACTERSHAPE_TARGET_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET2
+    .byte >CHARACTERSHAPE_TARGET2_MIRRORED
+    .byte >CHARACTERSHAPE_BLANK ; man occupied
+    .byte >CHARACTERSHAPE_BLANK
+    .byte >CHARACTERSHAPE_STEEL
+    .byte >CHARACTERSHAPE_STEEL_MIRRORED
+    .byte >CHARACTERSHAPE_WALL
+    .byte >CHARACTERSHAPE_WALL_MIRRORED
+    .byte >CHARACTERSHAPE_BOX_ON_TARGET
+    .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+    .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+    .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
 
-  IF * - CharacterDataVecHI != CHARACTER_MAXIMUM*2
-    ECHO "ERROR: Incorrect CharacterDataVecHI table!"
-    ERR
-  ENDIF
+    IF * - CharacterDataVecHI != CHARACTER_MAXIMUM*2
+        ECHO "ERROR: Incorrect CharacterDataVecHI table!"
+        ERR
+    ENDIF
 
     ; Here there's another 1K of usable ROM....
     ; BUT!!! WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
 
+    ;--------------------------------------------------------------------------
+    ;    CHARACTER_SET
 
-;-----------------------------------------------------------
-; Stella 3E autodetect signature, can live anywhere
-                .byte $85, $3E, $A9, $00
-;-----------------------------------------------------------
+    include "characterset/character_TARGET.asm"
+    include "characterset/character_STEEL.asm"
+    include "characterset/character_SOIL.asm"
+    include "characterset/character_BOX.asm"
+    include "characterset/character_WALL.asm"
 
-           CHECK_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"
+    ; TODO - ROOM FOR MORE CHARACTER DEFINITIONS HERE!
+    ; approx $400 free --> 24 character definitions (inc. mirrored chars)
+    ; characters can also live in BANK_FIXED.asm, and do not have to all be together
+
+    CHECK_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"

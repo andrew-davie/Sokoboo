@@ -800,13 +800,13 @@ JoyDirX
 
                 clc                             ; 2         required clear for DrawScreenRowPreparation
                 ldx #SCREEN_LINES               ; 2
-                txa                             ; 2 = 31
+                txa                             ; 2 = *32
 
         ; fall through
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawScreenRowPreparation ; = 52[-7]
+    DEFINE_SUBROUTINE DrawScreenRowPreparation ; = *59[-7 if not multi-bank-board]
 
                 ;clc
                 dex                             ; 2

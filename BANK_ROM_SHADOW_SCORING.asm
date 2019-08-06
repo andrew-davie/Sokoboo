@@ -476,8 +476,11 @@ ExitDigitKernel:                ;           @69
         lda BGColour                ; 3
         stx HMM0                ; 3         for extra life stars!
         sta WSYNC               ; 3
+    sta WSYNC
+    sta WSYNC
 ;---------------------------------------------------------------
         sta HMOVE               ; 3
+        sta COLUBK
         rts                     ; 6         @09
 
     ;------------------------------------------------------------------------------
@@ -524,6 +527,7 @@ SMLEVEL
     DEFINE_SUBROUTINE DrawDigits
 
 VblankLoopGame
+        ;jsr StealCharDraw
         ldy INTIM
         bne VblankLoopGame
 

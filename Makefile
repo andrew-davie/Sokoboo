@@ -7,10 +7,10 @@ sokoboo.bin: *.asm Makefile FORCE
 	open -a Stella ./sokoboo.bin
 	exit 0
 
-test.bin: test.asm FORCE Makefile
-	tools/dasm ./test.asm -l./test.txt -f3 -s./test.sym -o./test.bin
-	open -a Stella ./test.bin
-	exit 0
+#test.bin: test.asm FORCE Makefile
+#	tools/dasm ./test.asm -l./test.txt -f3 -s./test.sym -o./test.bin
+#	open -a Stella ./test.bin
+#	exit 0
 
 
 FORCE:
