@@ -143,7 +143,7 @@
 344.loopDirs             f252              (R )
 344.loopRead             f671              (R )
 344.loopVSync            fb2d              (R )
-344.loopVSync2           f019              (R )
+344.loopVSync2           f03c              (R )
 344.loopWrite            f692              (R )
 344.ManStartup           f1dd              (R )
 344.paused               f8c6              (R )
@@ -159,7 +159,7 @@
 345.loopDirs             f252              (R )
 345.loopRead             f671              (R )
 345.loopVSync            fb2d              (R )
-345.loopVSync2           f019              (R )
+345.loopVSync2           f03c              (R )
 345.loopWrite            f692              (R )
 345.ManStartup           f1dd              (R )
 345.paused               f8c6              (R )
@@ -177,17 +177,17 @@
 55.DUMMY                 0003                  
 56.DUMMY                 0003                  
 57.DUMMY                 0004                  
-572.TEMP                 042e              (R )
-573.TEMP                 042e              (R )
 58.DUMMY                 0004                  
 59.DUMMY                 0005                  
 60.DUMMY                 0005                  
 61.DUMMY                 0006                  
 62.DUMMY                 0006                  
+624.TEMP                 07db              (R )
+625.TEMP                 07db              (R )
 63.DUMMY                 0007                  
 64.DUMMY                 0007                  
-678.TEMP                 0758              (R )
-679.TEMP                 0758              (R )
+678.TEMP                 03ab              (R )
+679.TEMP                 03ab              (R )
 776.TEMP                 0786              (R )
 777.TEMP                 0786              (R )
 80.CYCLES                0000              (R )
@@ -197,59 +197,67 @@
 82.CYCLES                0000              (R )
 880.TEMP                 05b3              (R )
 881.TEMP                 05b3              (R )
-884.CYCLES               0002              (R )
-885.CYCLES               0002              (R )
-886.CYCLES               0000              (R )
-886.TEMP                 0452              (R )
-887.TEMP                 0452              (R )
-926.TEMP                 0303              (R )
-927.TEMP                 0303              (R )
+884.loopResync           f01d              (R )
+884.loopWait             f030              (R )
+884.ntsc                 f030              (R )
+885.loopResync           f01d              (R )
+885.loopWait             f030              (R )
+885.ntsc                 f030              (R )
+885.VSLP1                f01f              (R )
+886.CYCLES               0002              (R )
+886.VSLP1                f01f              (R )
+887.CYCLES               0002              (R )
+888.CYCLES               0000              (R )
+888.TEMP                 0475              (R )
+889.TEMP                 0475              (R )
+928.TEMP                 0303              (R )
+929.TEMP                 0303              (R )
 96.TEMP                  02bc              (R )
 97.TEMP                  02bc              (R )
-978.CLEAR_STACK          fa9a              (R )
-979.CLEAR_STACK          fa9a              (R )
-980.advanceLoop          fb42              (R )
-980.afterAudioUpdate     fc16              (R )
-980.endOfEnvelope        fc06              (R )
-980.endOfPercussion      fbbf              (R )
-980.finishedNewNote      fb9e              (R )
-980.instrument           fbed              (R )
-980.level_ok             fc8a              (R )
-980.newNote              fb88              (R )
-980.noEndOfSustain       fbff              (R )
-980.noNewNote            fbae              (R )
-980.noOddFrame           fbac              (R )
-980.pause                fb4b                  
-980.sequencerNextChannel fba0                  
-980.startInstrument      fb94              (R )
-980.storeADIndex         fb9c              (R )
-980.updateLoop           fbb0              (R )
-981.advanceLoop          fb42              (R )
-981.afterAudioUpdate     fc16              (R )
-981.constructPatPtr      fb58              (R )
-981.endOfEnvelope        fc06              (R )
-981.endOfPercussion      fbbf              (R )
-981.finishedNewNote      fb9e              (R )
-981.instrument           fbed              (R )
-981.level_ok             fc8a              (R )
-981.newNote              fb88              (R )
-981.noEndOfPattern       fb87              (R )
-981.noEndOfSustain       fbff              (R )
-981.noNewNote            fbae              (R )
-981.noOddFrame           fbac              (R )
-981.noPatternGoto        fb65              (R )
-981.notPrefetched        fb7c              (R )
-981.pause                fb4b                  
-981.sequencerNextChannel fba0                  
-981.startInstrument      fb94              (R )
-981.storeADIndex         fb9c              (R )
-981.updateLoop           fbb0              (R )
-982.constructPatPtr      fb58              (R )
-982.CYCLES               0002              (R )
-982.noEndOfPattern       fb87              (R )
-982.noPatternGoto        fb65              (R )
-982.notPrefetched        fb7c              (R )
-983.CYCLES               0002              (R )
+980.CLEAR_STACK          fa9a              (R )
+981.CLEAR_STACK          fa9a              (R )
+982.advanceLoop          fb42              (R )
+982.afterAudioUpdate     fc16              (R )
+982.endOfEnvelope        fc06              (R )
+982.endOfPercussion      fbbf              (R )
+982.finishedNewNote      fb9e              (R )
+982.instrument           fbed              (R )
+982.level_ok             fc8a              (R )
+982.newNote              fb88              (R )
+982.noEndOfSustain       fbff              (R )
+982.noNewNote            fbae              (R )
+982.noOddFrame           fbac              (R )
+982.pause                fb4b                  
+982.sequencerNextChannel fba0                  
+982.startInstrument      fb94              (R )
+982.storeADIndex         fb9c              (R )
+982.updateLoop           fbb0              (R )
+983.advanceLoop          fb42              (R )
+983.afterAudioUpdate     fc16              (R )
+983.constructPatPtr      fb58              (R )
+983.endOfEnvelope        fc06              (R )
+983.endOfPercussion      fbbf              (R )
+983.finishedNewNote      fb9e              (R )
+983.instrument           fbed              (R )
+983.level_ok             fc8a              (R )
+983.newNote              fb88              (R )
+983.noEndOfPattern       fb87              (R )
+983.noEndOfSustain       fbff              (R )
+983.noNewNote            fbae              (R )
+983.noOddFrame           fbac              (R )
+983.noPatternGoto        fb65              (R )
+983.notPrefetched        fb7c              (R )
+983.pause                fb4b                  
+983.sequencerNextChannel fba0                  
+983.startInstrument      fb94              (R )
+983.storeADIndex         fb9c              (R )
+983.updateLoop           fbb0              (R )
+984.constructPatPtr      fb58              (R )
+984.CYCLES               0002              (R )
+984.noEndOfPattern       fb87              (R )
+984.noPatternGoto        fb65              (R )
+984.notPrefetched        fb7c              (R )
+985.CYCLES               0002              (R )
 __DASM__TOTAL_FREE_MEMORY 0000                  
 _CURRENT_BANK            000f              (R )
 _PROFILE_DRAW            0001                  
@@ -368,19 +376,19 @@ BANK_LEVEL__026_L        0005
 BANK_LEVEL__026_R        0005                  
 BANK_LEVEL__027_L        0005                  
 BANK_LEVEL__027_R        0005                  
-BANK_LEVEL__028_L        0006                  
-BANK_LEVEL__028_R        0006                  
-BANK_LEVEL__029_L        0006                  
-BANK_LEVEL__029_R        0006                  
-BANK_LEVEL__030_L        0006                  
-BANK_LEVEL__030_R        0006                  
-BANK_LEVEL__031_L        0006                  
-BANK_LEVEL__031_R        0006                  
-BANK_LEVEL__032_L        0006                  
-BANK_LEVEL__032_R        0006                  
-BANK_LEVEL__033_L        0006                  
-BANK_LEVEL__033_R        0006                  
-BANK_LEVEL__034_L        0006                  
+BANK_LEVEL__028_L        0005                  
+BANK_LEVEL__028_R        0005                  
+BANK_LEVEL__029_L        0005                  
+BANK_LEVEL__029_R        0005                  
+BANK_LEVEL__030_L        0005                  
+BANK_LEVEL__030_R        0005                  
+BANK_LEVEL__031_L        0005                  
+BANK_LEVEL__031_R        0005                  
+BANK_LEVEL__032_L        0005                  
+BANK_LEVEL__032_R        0005                  
+BANK_LEVEL__033_L        0005                  
+BANK_LEVEL__033_R        0005                  
+BANK_LEVEL__034_L        0005                  
 BANK_LEVEL__034_R        0006                  
 BANK_LEVEL__035_L        0006                  
 BANK_LEVEL__035_R        0006                  
@@ -606,23 +614,23 @@ circ_x                   00ac
 circ_y                   00ad                  
 circle_d                 00aa              (R )
 ClockR                   f316              (R )
-COL_0                    f182              (R )
-COL_1                    f1fa              (R )
-COL_2                    f272              (R )
-COL_3                    f2ea              (R )
-COL_4                    f362              (R )
-COL_5                    f3da              (R )
+COL_0                    f1a5              (R )
+COL_1                    f21d              (R )
+COL_2                    f295              (R )
+COL_3                    f30d              (R )
+COL_4                    f385              (R )
+COL_5                    f3fd              (R )
 color                    00bd              (R )
 colorIdx                 00da              (R )
 colour_table             00da              (R )
 ColourTimer              00c6              (R )
-colr                     f10a              (R )
-colr_pal                 f092              (R )
+colr                     f12d              (R )
+colr_pal                 f0b5              (R )
 COLUBK                   0049              (R )
 COLUP0                   0046              (R )
 COLUP1                   0047              (R )
 COLUPF                   0048              (R )
-colvec                   f08e              (R )
+colvec                   f0b1              (R )
 COMPILE_ILLEGALOPCODES   0001                  
 ContinueAnim             f5c6              (R )
 CopyPage                 f059              (R )
@@ -724,7 +732,7 @@ FIXED_BANK               7800              (R )
 FlashColour              f52b              (R )
 FourL                    f07d              (R )
 FourR                    f35c              (R )
-frame                    f074              (R )
+frame                    f097              (R )
 GameInitialise           f363              (R )
 gameMode                 0080              (R )
 GAMEMODE_2600            0040                  
@@ -855,32 +863,32 @@ LEVEL__026_L             f334              (R )
 LEVEL__026_R             f36e              (R )
 LEVEL__027_L             f3b0              (R )
 LEVEL__027_R             f3ef              (R )
-LEVEL__028_L             f000              (R )
-LEVEL__028_R             f04d              (R )
-LEVEL__029_L             f09c              (R )
-LEVEL__029_R             f0e2              (R )
-LEVEL__030_L             f127              (R )
-LEVEL__030_R             f178              (R )
-LEVEL__031_L             f1cc              (R )
-LEVEL__031_R             f213              (R )
-LEVEL__032_L             f253              (R )
-LEVEL__032_R             f28c              (R )
-LEVEL__033_L             f2d1              (R )
-LEVEL__033_R             f31c              (R )
-LEVEL__034_L             f35d              (R )
-LEVEL__034_R             f3ad              (R )
-LEVEL__035_L             f3f7              (R )
-LEVEL__035_R             f43d              (R )
-LEVEL__036_L             f47e              (R )
-LEVEL__036_R             f4b5              (R )
-LEVEL__037_L             f4fc              (R )
-LEVEL__037_R             f53a              (R )
-LEVEL__038_L             f584              (R )
-LEVEL__038_R             f5cd              (R )
-LEVEL__039_L             f61d              (R )
-LEVEL__039_R             f66d              (R )
-LEVEL__040_L             f6c8              (R )
-LEVEL__040_R             f710              (R )
+LEVEL__028_L             f42e              (R )
+LEVEL__028_R             f47b              (R )
+LEVEL__029_L             f4ca              (R )
+LEVEL__029_R             f510              (R )
+LEVEL__030_L             f555              (R )
+LEVEL__030_R             f5a6              (R )
+LEVEL__031_L             f5fa              (R )
+LEVEL__031_R             f641              (R )
+LEVEL__032_L             f681              (R )
+LEVEL__032_R             f6ba              (R )
+LEVEL__033_L             f6ff              (R )
+LEVEL__033_R             f74a              (R )
+LEVEL__034_L             f78b              (R )
+LEVEL__034_R             f000              (R )
+LEVEL__035_L             f04a              (R )
+LEVEL__035_R             f090              (R )
+LEVEL__036_L             f0d1              (R )
+LEVEL__036_R             f108              (R )
+LEVEL__037_L             f14f              (R )
+LEVEL__037_R             f18d              (R )
+LEVEL__038_L             f1d7              (R )
+LEVEL__038_R             f220              (R )
+LEVEL__039_L             f270              (R )
+LEVEL__039_R             f2c0              (R )
+LEVEL__040_L             f31b              (R )
+LEVEL__040_R             f363              (R )
 LEVEL__050_L             f000              (R )
 LEVEL__050_R             f04e              (R )
 LEVEL__051_L             f088              (R )
@@ -1070,86 +1078,86 @@ LEVEL_bAlfa_DrFogh       f3ca              (R )
 LEVEL_bank               00b0              (R )
 LEVEL_bDarcy_Burnsell101 f4f3              (R )
 LEVEL_DEFINITION_SIZE    0003              (R )
-LEVEL_NAMED__001_L       0066                  
-LEVEL_NAMED__001_R       0069                  
-LEVEL_NAMED__002_L       006c                  
-LEVEL_NAMED__002_R       006f                  
-LEVEL_NAMED__003_L       0072                  
-LEVEL_NAMED__003_R       0075                  
-LEVEL_NAMED__004_L       0078                  
-LEVEL_NAMED__004_R       007b                  
-LEVEL_NAMED__005_L       007e                  
-LEVEL_NAMED__005_R       0081                  
-LEVEL_NAMED__006_L       0084                  
-LEVEL_NAMED__006_R       0087                  
-LEVEL_NAMED__007_L       008a                  
-LEVEL_NAMED__007_R       008d                  
-LEVEL_NAMED__008_L       0090                  
-LEVEL_NAMED__008_R       0093                  
-LEVEL_NAMED__009_L       0096                  
-LEVEL_NAMED__009_R       0099                  
-LEVEL_NAMED__010_L       009c                  
-LEVEL_NAMED__010_R       009f                  
-LEVEL_NAMED__011_L       00a2                  
-LEVEL_NAMED__011_R       00a5                  
-LEVEL_NAMED__012_L       00a8                  
-LEVEL_NAMED__012_R       00ab                  
-LEVEL_NAMED__013_L       00ae                  
-LEVEL_NAMED__013_R       00b1                  
-LEVEL_NAMED__014_L       00b4                  
-LEVEL_NAMED__014_R       00b7                  
-LEVEL_NAMED__015_L       00ba                  
-LEVEL_NAMED__015_R       00bd                  
-LEVEL_NAMED__016_L       00c0                  
-LEVEL_NAMED__016_R       00c3                  
-LEVEL_NAMED__017_L       00c6                  
-LEVEL_NAMED__017_R       00c9                  
-LEVEL_NAMED__018_L       00cc                  
-LEVEL_NAMED__018_R       00cf                  
-LEVEL_NAMED__019_L       00d2                  
-LEVEL_NAMED__019_R       00d5                  
-LEVEL_NAMED__020_L       00d8                  
-LEVEL_NAMED__020_R       00db                  
-LEVEL_NAMED__021_L       00de                  
-LEVEL_NAMED__021_R       00e1                  
-LEVEL_NAMED__022_L       00e4                  
-LEVEL_NAMED__022_R       00e7                  
-LEVEL_NAMED__023_L       00ea                  
-LEVEL_NAMED__023_R       00ed                  
-LEVEL_NAMED__024_L       0000                  
-LEVEL_NAMED__024_R       0003                  
-LEVEL_NAMED__025_L       0006                  
-LEVEL_NAMED__025_R       0009                  
-LEVEL_NAMED__026_L       000c                  
-LEVEL_NAMED__026_R       000f                  
-LEVEL_NAMED__027_L       0012                  
-LEVEL_NAMED__027_R       0015                  
-LEVEL_NAMED__028_L       0018                  
-LEVEL_NAMED__028_R       001b                  
-LEVEL_NAMED__029_L       001e                  
-LEVEL_NAMED__029_R       0021                  
-LEVEL_NAMED__030_L       0024                  
-LEVEL_NAMED__030_R       0027                  
-LEVEL_NAMED__031_L       002a                  
-LEVEL_NAMED__031_R       002d                  
-LEVEL_NAMED__032_L       0030                  
-LEVEL_NAMED__032_R       0033                  
-LEVEL_NAMED__033_L       0036                  
-LEVEL_NAMED__033_R       0039                  
-LEVEL_NAMED__034_L       003c                  
-LEVEL_NAMED__034_R       003f                  
-LEVEL_NAMED__035_L       0042                  
-LEVEL_NAMED__035_R       0045                  
-LEVEL_NAMED__036_L       0048                  
-LEVEL_NAMED__036_R       004b                  
-LEVEL_NAMED__037_L       004e                  
-LEVEL_NAMED__037_R       0051                  
-LEVEL_NAMED__038_L       0054                  
-LEVEL_NAMED__038_R       0057                  
-LEVEL_NAMED__039_L       005a                  
-LEVEL_NAMED__039_R       005d                  
-LEVEL_NAMED__040_L       0060                  
-LEVEL_NAMED__040_R       0063                  
+LEVEL_NAMED__001_L       0000                  
+LEVEL_NAMED__001_R       0003                  
+LEVEL_NAMED__002_L       0006                  
+LEVEL_NAMED__002_R       0009                  
+LEVEL_NAMED__003_L       000c                  
+LEVEL_NAMED__003_R       000f                  
+LEVEL_NAMED__004_L       0012                  
+LEVEL_NAMED__004_R       0015                  
+LEVEL_NAMED__005_L       0018                  
+LEVEL_NAMED__005_R       001b                  
+LEVEL_NAMED__006_L       001e                  
+LEVEL_NAMED__006_R       0021                  
+LEVEL_NAMED__007_L       0024                  
+LEVEL_NAMED__007_R       0027                  
+LEVEL_NAMED__008_L       002a                  
+LEVEL_NAMED__008_R       002d                  
+LEVEL_NAMED__009_L       0030                  
+LEVEL_NAMED__009_R       0033                  
+LEVEL_NAMED__010_L       0036                  
+LEVEL_NAMED__010_R       0039                  
+LEVEL_NAMED__011_L       003c                  
+LEVEL_NAMED__011_R       003f                  
+LEVEL_NAMED__012_L       0042                  
+LEVEL_NAMED__012_R       0045                  
+LEVEL_NAMED__013_L       0048                  
+LEVEL_NAMED__013_R       004b                  
+LEVEL_NAMED__014_L       004e                  
+LEVEL_NAMED__014_R       0051                  
+LEVEL_NAMED__015_L       0054                  
+LEVEL_NAMED__015_R       0057                  
+LEVEL_NAMED__016_L       005a                  
+LEVEL_NAMED__016_R       005d                  
+LEVEL_NAMED__017_L       0060                  
+LEVEL_NAMED__017_R       0063                  
+LEVEL_NAMED__018_L       0066                  
+LEVEL_NAMED__018_R       0069                  
+LEVEL_NAMED__019_L       006c                  
+LEVEL_NAMED__019_R       006f                  
+LEVEL_NAMED__020_L       0072                  
+LEVEL_NAMED__020_R       0075                  
+LEVEL_NAMED__021_L       0078                  
+LEVEL_NAMED__021_R       007b                  
+LEVEL_NAMED__022_L       007e                  
+LEVEL_NAMED__022_R       0081                  
+LEVEL_NAMED__023_L       0084                  
+LEVEL_NAMED__023_R       0087                  
+LEVEL_NAMED__024_L       008a                  
+LEVEL_NAMED__024_R       008d                  
+LEVEL_NAMED__025_L       0090                  
+LEVEL_NAMED__025_R       0093                  
+LEVEL_NAMED__026_L       0096                  
+LEVEL_NAMED__026_R       0099                  
+LEVEL_NAMED__027_L       009c                  
+LEVEL_NAMED__027_R       009f                  
+LEVEL_NAMED__028_L       00a2                  
+LEVEL_NAMED__028_R       00a5                  
+LEVEL_NAMED__029_L       00a8                  
+LEVEL_NAMED__029_R       00ab                  
+LEVEL_NAMED__030_L       00ae                  
+LEVEL_NAMED__030_R       00b1                  
+LEVEL_NAMED__031_L       00b4                  
+LEVEL_NAMED__031_R       00b7                  
+LEVEL_NAMED__032_L       00ba                  
+LEVEL_NAMED__032_R       00bd                  
+LEVEL_NAMED__033_L       00c0                  
+LEVEL_NAMED__033_R       00c3                  
+LEVEL_NAMED__034_L       00c6                  
+LEVEL_NAMED__034_R       00c9                  
+LEVEL_NAMED__035_L       00cc                  
+LEVEL_NAMED__035_R       00cf                  
+LEVEL_NAMED__036_L       00d2                  
+LEVEL_NAMED__036_R       00d5                  
+LEVEL_NAMED__037_L       00d8                  
+LEVEL_NAMED__037_R       00db                  
+LEVEL_NAMED__038_L       00de                  
+LEVEL_NAMED__038_R       00e1                  
+LEVEL_NAMED__039_L       00e4                  
+LEVEL_NAMED__039_R       00e7                  
+LEVEL_NAMED__040_L       00ea                  
+LEVEL_NAMED__040_R       00ed                  
 LEVEL_NAMED__050_L       00f0                  
 LEVEL_NAMED__050_R       00f3                  
 LEVEL_NAMED__051_L       00f6                  
@@ -1475,7 +1483,7 @@ opg                      f3ba              (R )
 ORANGE_NTSC              0030                  
 ORANGE_PAL               0040                  
 ORIGIN                   8000                  
-oscan                    f079              (R )
+oscan                    f09c              (R )
 OSPointerHI              f2ee              (R )
 OSPointerLO              f2ed              (R )
 Overlay                  00da              (R )
@@ -1484,7 +1492,7 @@ OVERSCAN_TIM_NTSC        003c              (R )
 OVERSCAN_TIM_PAL         0043              (R )
 OverscanBD               fc52              (R )
 OverscanTime             f527              (R )
-OverscanTime2            f08a              (R )
+OverscanTime2            f0ad              (R )
 PairedCharacter          f17d              (R )
 PAL                      0002              (R )
 PAL_50                   0002              (R )
@@ -1555,14 +1563,14 @@ RESMP1                   0069
 RESP0                    0050              (R )
 RESP1                    0051              (R )
 Restart                  faa6                  
-RestartFrame             f017              (R )
+RestartFrame             f03a              (R )
 RestartLevelNextPlayer   fad9              (R )
 restorationCharacter     00dc              (R )
 RestoreOriginalCharacter f8fa              (R )
 restorePreviousManPosition f9e5                  
 Resync                   f469              (R )
 Ret                      f48c              (R )
-ret                      f089              (R )
+ret                      f0ac              (R )
 RL                       f092                  
 rnd                      0082              (R )
 RND_EOR_VAL              00b4                  
@@ -1718,7 +1726,7 @@ SMTblScore               f01d              (R )
 SMTblTargets             f019              (R )
 SMTblTime                f01b              (R )
 SOFF                     0050                  
-SokoLogo                 f033              (R )
+SokoLogo                 f056              (R )
 SortedObjPtr             1180              (R )
 sortPtr                  00cc              (R )
 sortRequired             00cb              (R )
@@ -1728,8 +1736,8 @@ SpriteColourGREEN        f0b6              (R )
 SpriteColourRED          f0af              (R )
 sreg                     00e7                  
 startingLevel            00e0              (R )
-startLevel               00e1              (R )
 StartLevel               f392              (R )
+startLevel               00e1              (R )
 StartLevelX              f391              (R )
 stayAlive                f1eb                  
 StealCharDraw            fa0b              (R )
@@ -1785,15 +1793,15 @@ TimeSlice                fa13
 timeTooShortToDie        f1fa                  
 TIMINT                   0285                  
 Title                    faa6                  
-TITLESCREEN              000a              (R )
 TitleScreen              f000                  
+TITLESCREEN              000a              (R )
 TitleSequence            f000              (R )
 TJ_MODE                  0000              (R )
 tmpSound                 00da                  
 tmpStack                 00da              (R )
 tmpX                     00da                  
 TrackPlayer              f48d              (R )
-triplet                  f035              (R )
+triplet                  f058              (R )
 TS_PhaseBank             f51e              (R )
 TS_PhaseVectorHI         f519              (R )
 TS_PhaseVectorLO         f514              (R )
@@ -1865,7 +1873,7 @@ VDELP1                   0066              (R )
 VectorProcess            f2e0                  
 VERSION_MACRO            006a                  
 VERSION_VCS              0069                  
-VerticalBlank            f028              (R )
+VerticalBlank            f04b              (R )
 VSYNC                    0040              (R )
 waitForDraw              f0f0              (R )
 waitingMan               f1e4              (R )
