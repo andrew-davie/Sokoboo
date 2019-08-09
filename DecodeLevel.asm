@@ -31,183 +31,482 @@
 ;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;    GNU General Public License for more details.
 
-LEVELNUM         SET 0
-NUMBEROFLEVELS   SET 0
-LEVEL_DEFINITION_SIZE  = 3
+; The ordering here corresponds to the ordering when playing...
 
-                MAC ADD_LEVEL ; {name}
-LEVEL_ACTIVE_{1} SET 1
-LEVEL_NAMED_{1}  = LEVELNUM
-    .byte <LEVEL_{1}
-    .byte >LEVEL_{1}
-    .byte BANK_LEVEL_{1}
-    ;.byte LEVEL_SIZE_{1}
-LEVELNUM         SET LEVELNUM + LEVEL_DEFINITION_SIZE
-NUMBEROFLEVELS   SET NUMBEROFLEVELS + 1
-                ENDM
+LevelInfoLO
+     .byte <(LEVEL__001_L-1)
+     .byte <(LEVEL__001_R-1)
+     .byte <(LEVEL__002_L-1)
+     .byte <(LEVEL__002_R-1)
+     .byte <(LEVEL__003_L-1)
+     .byte <(LEVEL__003_R-1)
+     .byte <(LEVEL__004_L-1)
+     .byte <(LEVEL__004_R-1)
+     .byte <(LEVEL__005_L-1)
+     .byte <(LEVEL__005_R-1)
+     .byte <(LEVEL__006_L-1)
+     .byte <(LEVEL__006_R-1)
+     .byte <(LEVEL__007_L-1)
+     .byte <(LEVEL__007_R-1)
+     .byte <(LEVEL__008_L-1)
+     .byte <(LEVEL__008_R-1)
+     .byte <(LEVEL__009_L-1)
+     .byte <(LEVEL__009_R-1)
+     .byte <(LEVEL__010_L-1)
+     .byte <(LEVEL__010_R-1)
+     .byte <(LEVEL__011_L-1)
+     .byte <(LEVEL__011_R-1)
+     .byte <(LEVEL__012_L-1)
+     .byte <(LEVEL__012_R-1)
+     .byte <(LEVEL__013_L-1)
+     .byte <(LEVEL__013_R-1)
+     .byte <(LEVEL__014_L-1)
+     .byte <(LEVEL__014_R-1)
+     .byte <(LEVEL__015_L-1)
+     .byte <(LEVEL__015_R-1)
+     .byte <(LEVEL__016_L-1)
+     .byte <(LEVEL__016_R-1)
+     .byte <(LEVEL__017_L-1)
+     .byte <(LEVEL__017_R-1)
+     .byte <(LEVEL__018_L-1)
+     .byte <(LEVEL__018_R-1)
+     .byte <(LEVEL__019_L-1)
+     .byte <(LEVEL__019_R-1)
+     .byte <(LEVEL__020_L-1)
+     .byte <(LEVEL__020_R-1)
+     .byte <(LEVEL__021_L-1)
+     .byte <(LEVEL__021_R-1)
+     .byte <(LEVEL__022_L-1)
+     .byte <(LEVEL__022_R-1)
+     .byte <(LEVEL__023_L-1)
+     .byte <(LEVEL__023_R-1)
+     .byte <(LEVEL__024_L-1)
+     .byte <(LEVEL__024_R-1)
+     .byte <(LEVEL__025_L-1)
+     .byte <(LEVEL__025_R-1)
+     .byte <(LEVEL__026_L-1)
+     .byte <(LEVEL__026_R-1)
+     .byte <(LEVEL__027_L-1)
+     .byte <(LEVEL__027_R-1)
+     .byte <(LEVEL__028_L-1)
+     .byte <(LEVEL__028_R-1)
+     .byte <(LEVEL__029_L-1)
+     .byte <(LEVEL__029_R-1)
+     .byte <(LEVEL__030_L-1)
+     .byte <(LEVEL__030_R-1)
+     .byte <(LEVEL__031_L-1)
+     .byte <(LEVEL__031_R-1)
+     .byte <(LEVEL__032_L-1)
+     .byte <(LEVEL__032_R-1)
+     .byte <(LEVEL__033_L-1)
+     .byte <(LEVEL__033_R-1)
+     .byte <(LEVEL__034_L-1)
+     .byte <(LEVEL__034_R-1)
+     .byte <(LEVEL__035_L-1)
+     .byte <(LEVEL__035_R-1)
+     .byte <(LEVEL__036_L-1)
+     .byte <(LEVEL__036_R-1)
+     .byte <(LEVEL__037_L-1)
+     .byte <(LEVEL__037_R-1)
+     .byte <(LEVEL__038_L-1)
+     .byte <(LEVEL__038_R-1)
+     .byte <(LEVEL__039_L-1)
+     .byte <(LEVEL__039_R-1)
+     .byte <(LEVEL__040_L-1)
+     .byte <(LEVEL__040_R-1)
 
-LevelInformation
+     .byte <(LEVEL__041_L-1)
+     .byte <(LEVEL__041_R-1)
+     .byte <(LEVEL__042_L-1)
+     .byte <(LEVEL__042_R-1)
+     .byte <(LEVEL__043_L-1)
+     .byte <(LEVEL__043_R-1)
+     .byte <(LEVEL__044_L-1)
+     .byte <(LEVEL__044_R-1)
+     .byte <(LEVEL__045_L-1)
+     .byte <(LEVEL__045_R-1)
+     .byte <(LEVEL__046_L-1)
+     .byte <(LEVEL__046_R-1)
+     .byte <(LEVEL__047_L-1)
+     .byte <(LEVEL__047_R-1)
+     .byte <(LEVEL__048_L-1)
+     .byte <(LEVEL__048_R-1)
+     .byte <(LEVEL__049_L-1)
+     .byte <(LEVEL__049_R-1)
 
-                ; The ordering here corresponds to the ordering when playing...
-    ;ADD_LEVEL _000_SELECT
+     .byte <(LEVEL__050_L-1)
+     .byte <(LEVEL__050_R-1)
+     .byte <(LEVEL__051_L-1)
+     .byte <(LEVEL__051_R-1)
+     .byte <(LEVEL__052_L-1)
+     .byte <(LEVEL__052_R-1)
+     .byte <(LEVEL__053_L-1)
+     .byte <(LEVEL__053_R-1)
+     .byte <(LEVEL__054_L-1)
+     .byte <(LEVEL__054_R-1)
+     .byte <(LEVEL__055_L-1)
+     .byte <(LEVEL__055_R-1)
+     .byte <(LEVEL__056_L-1)
+     .byte <(LEVEL__056_R-1)
+     .byte <(LEVEL__057_L-1)
+     .byte <(LEVEL__057_R-1)
+     .byte <(LEVEL__058_L-1)
+     .byte <(LEVEL__058_R-1)
+     .byte <(LEVEL__059_L-1)
+     .byte <(LEVEL__059_R-1)
 
-    ADD_LEVEL _001_L
-    ADD_LEVEL _001_R
-    ADD_LEVEL _002_L
-    ADD_LEVEL _002_R
-    ADD_LEVEL _003_L
-    ADD_LEVEL _003_R
-    ADD_LEVEL _004_L
-    ADD_LEVEL _004_R
-    ADD_LEVEL _005_L
-    ADD_LEVEL _005_R
-    ADD_LEVEL _006_L
-    ADD_LEVEL _006_R
-    ADD_LEVEL _007_L
-    ADD_LEVEL _007_R
-    ADD_LEVEL _008_L
-    ADD_LEVEL _008_R
-    ADD_LEVEL _009_L
-    ADD_LEVEL _009_R
-    ADD_LEVEL _010_L
-    ADD_LEVEL _010_R
-    ADD_LEVEL _011_L
-    ADD_LEVEL _011_R
-    ADD_LEVEL _012_L
-    ADD_LEVEL _012_R
-    ADD_LEVEL _013_L
-    ADD_LEVEL _013_R
-    ADD_LEVEL _014_L
-    ADD_LEVEL _014_R
-    ADD_LEVEL _015_L
-    ADD_LEVEL _015_R
-    ADD_LEVEL _016_L
-    ADD_LEVEL _016_R
-    ADD_LEVEL _017_L
-    ADD_LEVEL _017_R
-    ADD_LEVEL _018_L
-    ADD_LEVEL _018_R
-    ADD_LEVEL _019_L
-    ADD_LEVEL _019_R
-    ADD_LEVEL _020_L
-    ADD_LEVEL _020_R
-    ADD_LEVEL _021_L
-    ADD_LEVEL _021_R
-    ADD_LEVEL _022_L
-    ADD_LEVEL _022_R
-    ADD_LEVEL _023_L
-    ADD_LEVEL _023_R
-    ADD_LEVEL _024_L
-    ADD_LEVEL _024_R
-    ADD_LEVEL _025_L
-    ADD_LEVEL _025_R
-    ADD_LEVEL _026_L
-    ADD_LEVEL _026_R
-    ADD_LEVEL _027_L
-    ADD_LEVEL _027_R
-    ADD_LEVEL _028_L
-    ADD_LEVEL _028_R
-    ADD_LEVEL _029_L
-    ADD_LEVEL _029_R
-    ADD_LEVEL _030_L
-    ADD_LEVEL _030_R
-    ADD_LEVEL _031_L
-    ADD_LEVEL _031_R
-    ADD_LEVEL _032_L
-    ADD_LEVEL _032_R
-    ADD_LEVEL _033_L
-    ADD_LEVEL _033_R
-    ADD_LEVEL _034_L
-    ADD_LEVEL _034_R
-    ADD_LEVEL _035_L
-    ADD_LEVEL _035_R
-    ADD_LEVEL _036_L
-    ADD_LEVEL _036_R
-    ADD_LEVEL _037_L
-    ADD_LEVEL _037_R
-    ADD_LEVEL _038_L
-    ADD_LEVEL _038_R
-    ADD_LEVEL _039_L
-    ADD_LEVEL _039_R
-    ADD_LEVEL _040_L
-    ADD_LEVEL _040_R
+     .byte <(LEVEL__060_R-1)
+     .byte <(LEVEL__061_R-1)
+     .byte <(LEVEL__061_L-1)
+     .byte <(LEVEL__062_L-1)
+     .byte <(LEVEL__062_R-1)
+     .byte <(LEVEL__063_L-1)
+     .byte <(LEVEL__063_R-1)
+     .byte <(LEVEL__064_R-1)
+     .byte <(LEVEL__064_L-1)
+     .byte <(LEVEL__065_R-1)
+     .byte <(LEVEL__065_L-1)
+     .byte <(LEVEL__066_R-1)
+     .byte <(LEVEL__066_L-1)
+     .byte <(LEVEL__067_R-1)
+     .byte <(LEVEL__067_L-1)
+     .byte <(LEVEL__068_R-1)
+     .byte <(LEVEL__068_L-1)
+     .byte <(LEVEL__069_R-1)
+     .byte <(LEVEL__069_L-1)
 
-    ADD_LEVEL _041_L
-    ADD_LEVEL _041_R
-    ADD_LEVEL _042_L
-    ADD_LEVEL _042_R
-    ADD_LEVEL _043_L
-    ADD_LEVEL _043_R
-    ADD_LEVEL _044_L
-    ADD_LEVEL _044_R
-    ADD_LEVEL _045_L
-    ADD_LEVEL _045_R
-    ADD_LEVEL _046_L
-    ADD_LEVEL _046_R
-    ADD_LEVEL _047_L
-    ADD_LEVEL _047_R
-    ADD_LEVEL _048_L
-    ADD_LEVEL _048_R
-    ADD_LEVEL _049_L
-    ADD_LEVEL _049_R
+     .byte <(LEVEL__103_Arielle-1)
+     .byte <(LEVEL__103_Ajalae-1)
+     .byte <(LEVEL__103_Adin-1)
+     .byte <(LEVEL__102_Raven-1)
+     .byte <(LEVEL__102_Oralia-1)
+     .byte <(LEVEL__102_Natalie-1)
+     .byte <(LEVEL__102_Mirabel-1)
+     .byte <(LEVEL__1XJH_Tara_Gelson-1)
+     .byte <(LEVEL__1R7X_Alison-1)
+     .byte <(LEVEL__1KWD_Cecile_Clayworth-1)
+     .byte <(LEVEL__1EKT_Samantha_Gelson-1)
+     .byte <(LEVEL__0VM5_Andrea_Wadd-1)
+     .byte <(LEVEL__0PAL_Jill_Leatherby-1)
+     .byte <(LEVEL__0IZ1_Sophia-1)
+     .byte <(LEVEL__0CNH_Alice-1)
 
-    ADD_LEVEL _050_L
-    ADD_LEVEL _050_R
-    ADD_LEVEL _051_L
-    ADD_LEVEL _051_R
-    ADD_LEVEL _052_L
-    ADD_LEVEL _052_R
-    ADD_LEVEL _053_L
-    ADD_LEVEL _053_R
-    ADD_LEVEL _054_L
-    ADD_LEVEL _054_R
-    ADD_LEVEL _055_L
-    ADD_LEVEL _055_R
-    ADD_LEVEL _056_L
-    ADD_LEVEL _056_R
-    ADD_LEVEL _057_L
+LevelInfoHI
+     .byte >(LEVEL__001_L-1)
+     .byte >(LEVEL__001_R-1)
+     .byte >(LEVEL__002_L-1)
+        .byte >(LEVEL__002_R-1)
+        .byte >(LEVEL__003_L-1)
+        .byte >(LEVEL__003_R-1)
+     .byte >(LEVEL__004_L-1)
+     .byte >(LEVEL__004_R-1)
+     .byte >(LEVEL__005_L-1)
+     .byte >(LEVEL__005_R-1)
+     .byte >(LEVEL__006_L-1)
+     .byte >(LEVEL__006_R-1)
+     .byte >(LEVEL__007_L-1)
+     .byte >(LEVEL__007_R-1)
+     .byte >(LEVEL__008_L-1)
+     .byte >(LEVEL__008_R-1)
+     .byte >(LEVEL__009_L-1)
+     .byte >(LEVEL__009_R-1)
+     .byte >(LEVEL__010_L-1)
+     .byte >(LEVEL__010_R-1)
+     .byte >(LEVEL__011_L-1)
+     .byte >(LEVEL__011_R-1)
+     .byte >(LEVEL__012_L-1)
+     .byte >(LEVEL__012_R-1)
+     .byte >(LEVEL__013_L-1)
+     .byte >(LEVEL__013_R-1)
+     .byte >(LEVEL__014_L-1)
+     .byte >(LEVEL__014_R-1)
+     .byte >(LEVEL__015_L-1)
+     .byte >(LEVEL__015_R-1)
+     .byte >(LEVEL__016_L-1)
+     .byte >(LEVEL__016_R-1)
+     .byte >(LEVEL__017_L-1)
+    .byte >(LEVEL__017_R-1)
+    .byte >(LEVEL__018_L-1)
+    .byte >(LEVEL__018_R-1)
+    .byte >(LEVEL__019_L-1)
+    .byte >(LEVEL__019_R-1)
+    .byte >(LEVEL__020_L-1)
+    .byte >(LEVEL__020_R-1)
+    .byte >(LEVEL__021_L-1)
+    .byte >(LEVEL__021_R-1)
+    .byte >(LEVEL__022_L-1)
+    .byte >(LEVEL__022_R-1)
+    .byte >(LEVEL__023_L-1)
+    .byte >(LEVEL__023_R-1)
+    .byte >(LEVEL__024_L-1)
+    .byte >(LEVEL__024_R-1)
+    .byte >(LEVEL__025_L-1)
+    .byte >(LEVEL__025_R-1)
+    .byte >(LEVEL__026_L-1)
+    .byte >(LEVEL__026_R-1)
+    .byte >(LEVEL__027_L-1)
+    .byte >(LEVEL__027_R-1)
+    .byte >(LEVEL__028_L-1)
+    .byte >(LEVEL__028_R-1)
+    .byte >(LEVEL__029_L-1)
+    .byte >(LEVEL__029_R-1)
+    .byte >(LEVEL__030_L-1)
+    .byte >(LEVEL__030_R-1)
+    .byte >(LEVEL__031_L-1)
+    .byte >(LEVEL__031_R-1)
+    .byte >(LEVEL__032_L-1)
+    .byte >(LEVEL__032_R-1)
+    .byte >(LEVEL__033_L-1)
+    .byte >(LEVEL__033_R-1)
+    .byte >(LEVEL__034_L-1)
+    .byte >(LEVEL__034_R-1)
+    .byte >(LEVEL__035_L-1)
+    .byte >(LEVEL__035_R-1)
+    .byte >(LEVEL__036_L-1)
+    .byte >(LEVEL__036_R-1)
+    .byte >(LEVEL__037_L-1)
+    .byte >(LEVEL__037_R-1)
+    .byte >(LEVEL__038_L-1)
+    .byte >(LEVEL__038_R-1)
+    .byte >(LEVEL__039_L-1)
+    .byte >(LEVEL__039_R-1)
+    .byte >(LEVEL__040_L-1)
+    .byte >(LEVEL__040_R-1)
 
-    ADD_LEVEL _060_R
-    ADD_LEVEL _061_R
-    ADD_LEVEL _061_L
-    ADD_LEVEL _062_L
-    ADD_LEVEL _062_R
-    ADD_LEVEL _063_L
-    ADD_LEVEL _063_R
-    ADD_LEVEL _064_R
-    ADD_LEVEL _064_L
-    ADD_LEVEL _065_R
-    ADD_LEVEL _065_L
-    ADD_LEVEL _066_R
-    ADD_LEVEL _066_L
-    ADD_LEVEL _067_R
-    ADD_LEVEL _067_L
-    ADD_LEVEL _068_R
-    ADD_LEVEL _068_L
-    ADD_LEVEL _069_R
-    ADD_LEVEL _069_L
+    .byte >(LEVEL__041_L-1)
+    .byte >(LEVEL__041_R-1)
+    .byte >(LEVEL__042_L-1)
+    .byte >(LEVEL__042_R-1)
+    .byte >(LEVEL__043_L-1)
+    .byte >(LEVEL__043_R-1)
+    .byte >(LEVEL__044_L-1)
+    .byte >(LEVEL__044_R-1)
+    .byte >(LEVEL__045_L-1)
+    .byte >(LEVEL__045_R-1)
+    .byte >(LEVEL__046_L-1)
+    .byte >(LEVEL__046_R-1)
+    .byte >(LEVEL__047_L-1)
+    .byte >(LEVEL__047_R-1)
+    .byte >(LEVEL__048_L-1)
+    .byte >(LEVEL__048_R-1)
+    .byte >(LEVEL__049_L-1)
+    .byte >(LEVEL__049_R-1)
 
-    ADD_LEVEL _103_Arielle
-    ADD_LEVEL _103_Ajalae
-    ADD_LEVEL _103_Adin
-    ADD_LEVEL _102_Raven
-    ADD_LEVEL _102_Oralia
-    ADD_LEVEL _102_Natalie
-    ADD_LEVEL _102_Mirabel
-    ADD_LEVEL _1XJH_Tara_Gelson
-    ADD_LEVEL _1R7X_Alison
-    ADD_LEVEL _1KWD_Cecile_Clayworth
-    ADD_LEVEL _1EKT_Samantha_Gelson
-    ADD_LEVEL _0VM5_Andrea_Wadd
-    ADD_LEVEL _0PAL_Jill_Leatherby
-    ADD_LEVEL _0IZ1_Sophia
-    ADD_LEVEL _0CNH_Alice
-    ADD_LEVEL Thomas_Reinke16
-    ADD_LEVEL bDarcy_Burnsell101
-    ADD_LEVEL bAlfa_DrFogh
-    ADD_LEVEL bAislin101
-    ADD_LEVEL b51X_Sharpen
-;    ADD_LEVEL b82X_Sharpen
+    .byte >(LEVEL__050_L-1)
+    .byte >(LEVEL__050_R-1)
+    .byte >(LEVEL__051_L-1)
+    .byte >(LEVEL__051_R-1)
+    .byte >(LEVEL__052_L-1)
+    .byte >(LEVEL__052_R-1)
+    .byte >(LEVEL__053_L-1)
+    .byte >(LEVEL__053_R-1)
+    .byte >(LEVEL__054_L-1)
+    .byte >(LEVEL__054_R-1)
+    .byte >(LEVEL__055_L-1)
+    .byte >(LEVEL__055_R-1)
+    .byte >(LEVEL__056_L-1)
+    .byte >(LEVEL__056_R-1)
+    .byte >(LEVEL__057_L-1)
+    .byte >(LEVEL__057_R-1)
+    .byte >(LEVEL__058_L-1)
+    .byte >(LEVEL__058_R-1)
+    .byte >(LEVEL__059_L-1)
+    .byte >(LEVEL__059_R-1)
+
+    .byte >(LEVEL__060_R-1)
+    .byte >(LEVEL__061_R-1)
+    .byte >(LEVEL__061_L-1)
+    .byte >(LEVEL__062_L-1)
+    .byte >(LEVEL__062_R-1)
+    .byte >(LEVEL__063_L-1)
+    .byte >(LEVEL__063_R-1)
+    .byte >(LEVEL__064_R-1)
+    .byte >(LEVEL__064_L-1)
+    .byte >(LEVEL__065_R-1)
+    .byte >(LEVEL__065_L-1)
+    .byte >(LEVEL__066_R-1)
+    .byte >(LEVEL__066_L-1)
+    .byte >(LEVEL__067_R-1)
+    .byte >(LEVEL__067_L-1)
+    .byte >(LEVEL__068_R-1)
+    .byte >(LEVEL__068_L-1)
+    .byte >(LEVEL__069_R-1)
+    .byte >(LEVEL__069_L-1)
+
+    .byte >(LEVEL__103_Arielle-1)
+    .byte >(LEVEL__103_Ajalae-1)
+    .byte >(LEVEL__103_Adin-1)
+    .byte >(LEVEL__102_Raven-1)
+    .byte >(LEVEL__102_Oralia-1)
+    .byte >(LEVEL__102_Natalie-1)
+    .byte >(LEVEL__102_Mirabel-1)
+    .byte >(LEVEL__1XJH_Tara_Gelson-1)
+    .byte >(LEVEL__1R7X_Alison-1)
+    .byte >(LEVEL__1KWD_Cecile_Clayworth-1)
+    .byte >(LEVEL__1EKT_Samantha_Gelson-1)
+    .byte >(LEVEL__0VM5_Andrea_Wadd-1)
+    .byte >(LEVEL__0PAL_Jill_Leatherby-1)
+    .byte >(LEVEL__0IZ1_Sophia-1)
+    .byte >(LEVEL__0CNH_Alice-1)
+
+LevelInfoBANK
+     .byte BANK_LEVEL__001_L
+     .byte BANK_LEVEL__001_R
+     .byte BANK_LEVEL__002_L
+     .byte BANK_LEVEL__002_R
+     .byte BANK_LEVEL__003_L
+     .byte BANK_LEVEL__003_R
+     .byte BANK_LEVEL__004_L
+     .byte BANK_LEVEL__004_R
+     .byte BANK_LEVEL__005_L
+     .byte BANK_LEVEL__005_R
+     .byte BANK_LEVEL__006_L
+     .byte BANK_LEVEL__006_R
+     .byte BANK_LEVEL__007_L
+     .byte BANK_LEVEL__007_R
+     .byte BANK_LEVEL__008_L
+     .byte BANK_LEVEL__008_R
+     .byte BANK_LEVEL__009_L
+     .byte BANK_LEVEL__009_R
+     .byte BANK_LEVEL__010_L
+     .byte BANK_LEVEL__010_R
+     .byte BANK_LEVEL__011_L
+     .byte BANK_LEVEL__011_R
+     .byte BANK_LEVEL__012_L
+     .byte BANK_LEVEL__012_R
+     .byte BANK_LEVEL__013_L
+     .byte BANK_LEVEL__013_R
+     .byte BANK_LEVEL__014_L
+     .byte BANK_LEVEL__014_R
+     .byte BANK_LEVEL__015_L
+     .byte BANK_LEVEL__015_R
+     .byte BANK_LEVEL__016_L
+     .byte BANK_LEVEL__016_R
+     .byte BANK_LEVEL__017_L
+     .byte BANK_LEVEL__017_R
+     .byte BANK_LEVEL__018_L
+     .byte BANK_LEVEL__018_R
+     .byte BANK_LEVEL__019_L
+     .byte BANK_LEVEL__019_R
+     .byte BANK_LEVEL__020_L
+     .byte BANK_LEVEL__020_R
+     .byte BANK_LEVEL__021_L
+     .byte BANK_LEVEL__021_R
+     .byte BANK_LEVEL__022_L
+     .byte BANK_LEVEL__022_R
+     .byte BANK_LEVEL__023_L
+     .byte BANK_LEVEL__023_R
+     .byte BANK_LEVEL__024_L
+     .byte BANK_LEVEL__024_R
+     .byte BANK_LEVEL__025_L
+     .byte BANK_LEVEL__025_R
+     .byte BANK_LEVEL__026_L
+     .byte BANK_LEVEL__026_R
+     .byte BANK_LEVEL__027_L
+     .byte BANK_LEVEL__027_R
+     .byte BANK_LEVEL__028_L
+     .byte BANK_LEVEL__028_R
+     .byte BANK_LEVEL__029_L
+     .byte BANK_LEVEL__029_R
+     .byte BANK_LEVEL__030_L
+     .byte BANK_LEVEL__030_R
+     .byte BANK_LEVEL__031_L
+     .byte BANK_LEVEL__031_R
+     .byte BANK_LEVEL__032_L
+     .byte BANK_LEVEL__032_R
+     .byte BANK_LEVEL__033_L
+     .byte BANK_LEVEL__033_R
+     .byte BANK_LEVEL__034_L
+     .byte BANK_LEVEL__034_R
+     .byte BANK_LEVEL__035_L
+     .byte BANK_LEVEL__035_R
+     .byte BANK_LEVEL__036_L
+     .byte BANK_LEVEL__036_R
+     .byte BANK_LEVEL__037_L
+     .byte BANK_LEVEL__037_R
+     .byte BANK_LEVEL__038_L
+     .byte BANK_LEVEL__038_R
+     .byte BANK_LEVEL__039_L
+     .byte BANK_LEVEL__039_R
+     .byte BANK_LEVEL__040_L
+     .byte BANK_LEVEL__040_R
+
+     .byte BANK_LEVEL__041_L
+     .byte BANK_LEVEL__041_R
+     .byte BANK_LEVEL__042_L
+     .byte BANK_LEVEL__042_R
+     .byte BANK_LEVEL__043_L
+     .byte BANK_LEVEL__043_R
+     .byte BANK_LEVEL__044_L
+     .byte BANK_LEVEL__044_R
+     .byte BANK_LEVEL__045_L
+     .byte BANK_LEVEL__045_R
+     .byte BANK_LEVEL__046_L
+     .byte BANK_LEVEL__046_R
+     .byte BANK_LEVEL__047_L
+     .byte BANK_LEVEL__047_R
+     .byte BANK_LEVEL__048_L
+     .byte BANK_LEVEL__048_R
+     .byte BANK_LEVEL__049_L
+     .byte BANK_LEVEL__049_R
+
+     .byte BANK_LEVEL__050_L
+     .byte BANK_LEVEL__050_R
+     .byte BANK_LEVEL__051_L
+     .byte BANK_LEVEL__051_R
+     .byte BANK_LEVEL__052_L
+     .byte BANK_LEVEL__052_R
+     .byte BANK_LEVEL__053_L
+     .byte BANK_LEVEL__053_R
+     .byte BANK_LEVEL__054_L
+     .byte BANK_LEVEL__054_R
+     .byte BANK_LEVEL__055_L
+     .byte BANK_LEVEL__055_R
+     .byte BANK_LEVEL__056_L
+     .byte BANK_LEVEL__056_R
+     .byte BANK_LEVEL__057_L
+     .byte BANK_LEVEL__057_R
+     .byte BANK_LEVEL__058_L
+     .byte BANK_LEVEL__058_R
+     .byte BANK_LEVEL__059_L
+     .byte BANK_LEVEL__059_R
+
+     .byte BANK_LEVEL__060_R
+     .byte BANK_LEVEL__061_R
+     .byte BANK_LEVEL__061_L
+     .byte BANK_LEVEL__062_L
+     .byte BANK_LEVEL__062_R
+     .byte BANK_LEVEL__063_L
+     .byte BANK_LEVEL__063_R
+     .byte BANK_LEVEL__064_R
+     .byte BANK_LEVEL__064_L
+     .byte BANK_LEVEL__065_R
+     .byte BANK_LEVEL__065_L
+     .byte BANK_LEVEL__066_R
+     .byte BANK_LEVEL__066_L
+     .byte BANK_LEVEL__067_R
+     .byte BANK_LEVEL__067_L
+     .byte BANK_LEVEL__068_R
+     .byte BANK_LEVEL__068_L
+     .byte BANK_LEVEL__069_R
+     .byte BANK_LEVEL__069_L
+
+     .byte BANK_LEVEL__103_Arielle
+     .byte BANK_LEVEL__103_Ajalae
+     .byte BANK_LEVEL__103_Adin
+     .byte BANK_LEVEL__102_Raven
+     .byte BANK_LEVEL__102_Oralia
+     .byte BANK_LEVEL__102_Natalie
+     .byte BANK_LEVEL__102_Mirabel
+     .byte BANK_LEVEL__1XJH_Tara_Gelson
+     .byte BANK_LEVEL__1R7X_Alison
+     .byte BANK_LEVEL__1KWD_Cecile_Clayworth
+     .byte BANK_LEVEL__1EKT_Samantha_Gelson
+     .byte BANK_LEVEL__0VM5_Andrea_Wadd
+     .byte BANK_LEVEL__0PAL_Jill_Leatherby
+     .byte BANK_LEVEL__0IZ1_Sophia
+     .byte BANK_LEVEL__0CNH_Alice
+
 
 
 finX
@@ -294,36 +593,20 @@ endzapy2        dec POS_X
 
 
 C1 ;mortar
-  .byte $88,$b6     ;ok
+    .byte $88,$b6
     .byte $38,$68
     .byte $5a,$AA
-    .byte $56,$86
-;    .byte $C8,$C8
-;    .byte $78,$78
-;    .byte $28,$28
-;    .byte $98,$98
+    .byte $5a,$8a
 C2  ; soil stripes
-  .byte $34,$62
+    .byte $34,$62
     .byte $b4,$74
     .byte $F4,$24
     .byte $a4,$74
-;    .byte $44,$44
-;    .byte $82,$82
-;    .byte $F4,$f4
-;    .byte $64,$64
 C3 ; brick
-  .byte $1A,$2a
+    .byte $1A,$2a
     .byte $8C,$BC
     .byte $0A,$fA
-    .byte $cc,$3c
-;    .byte $FC,$FC
-;    .byte $C6,$C6
-;    .byte $98,$98
-;    .byte $Ea,$eA
-
-              ; C6 44 2A      browns
-              ; BA 96 E8      ice blues
-
+    .byte $ca,$3a
 
   DEFINE_SUBROUTINE UnpackLevel
 
@@ -349,26 +632,20 @@ xyClear       jsr PutBoardCharacterFromRAM
               sta base_x
               sta base_y
 
-              lda NextLevelTrigger
-              ora #BIT_NEXTLEVEL
-              sta NextLevelTrigger
+                lda NextLevelTrigger
+                ora #BIT_NEXTLEVEL
+                sta NextLevelTrigger
 
-              lda levelX
-              asl
-              adc levelX
-              tay
-              sec
-              lda LevelInformation,y
-              sbc #1
-              sta Board_AddressR
-              lda LevelInformation+1,y
-              sbc #0
-              sta Board_AddressR+1
-              lda LevelInformation+2,y
-              sta LEVEL_bank
+                ldx levelX
+                lda LevelInfoLO,x
+                sta Board_AddressR
+                lda LevelInfoHI,x
+                sta Board_AddressR+1
+                lda LevelInfoBANK,x
+                sta LEVEL_bank
 
-              lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
-              sta ROM_Bank                        ; GetROMByte returns to this bank
+                lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
+                sta ROM_Bank                        ; GetROMByte returns to this bank
 
               lda levelX
               and #3
@@ -384,34 +661,13 @@ xyClear       jsr PutBoardCharacterFromRAM
               lda C3,x
               sta color+2
 
-              ;NEXT_RANDOM
-              ;and #$F0
-              ;ora #$A
-              ;lda #$ba
-              ;sta color
-              ;lda #$96
-              ;lda #$A0
-              ;sta color+1
-              ;lda #$e8 ;lda #$9C
-              ;sta color+2
-
-              ; good colours
-
-
-              lda #$00
-              sta moveCounter
-              sta moveCounterHi
-              sta moveCounterBinary
+              ;lda #$00
+              ;sta moveCounter
+              ;sta moveCounterHi
+              ;sta moveCounterBinary
 
               lda #$00                      ; BCD reminder!
               sta targetsRequired           ; # of targets that do NOT have boxes on them
-
-              ;lda #SIZE_BOARD_X
-              ;sta BoardLimit_Width
-              ;lda #SIZE_BOARD_Y
-              ;sta BoardLimit_Height
-              ;lda #$5
-              ;sta targetsRequired              ;       should never be 0
 
               lda #24 ; arbitrary
               sta ThrottleSpeed

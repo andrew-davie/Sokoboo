@@ -92,6 +92,7 @@ circ_y                  ds 1
 circ_char             ds 1
 circ_scratch          ds 1
 LEVEL_bank         ds 1
+levelPtr            ds 2
 ;---------------------------------------------------------------------------
 ; 2 (shared) demo mode variables:
 demoMode                        = jtoggle       ; bit 7==1 => demo mode

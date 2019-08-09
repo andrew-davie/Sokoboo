@@ -129,68 +129,37 @@ OverscanTime2
     .byte 131, 131
     .byte 139, 139
 
-;
-
-
 colvec
-    .word colr, colr_pal
+    .word colr_ntsc, colr_pal
 
-colr_pal
-        REPEAT 40
-    .byte $b8,$66,$5a
+
+    MAC LUMTABLE ;{1}{2}{3} base colours
+; {4} MIN LUM 1
+; {5} MIN LUM 2
+; {6} MIN LUM 3
+
+.LUM1     SET {4}
+.LUM2     SET {5}
+.LUM3     SET {6}
+
+.STEP1 = 256*($C-{4})/8
+.STEP2 = 256*($C-{5})/8
+.STEP3 = 256*($C-{6})/8
+
+    REPEAT 8
+        REPEAT 5
+            .byte {1}+{4}+(.LUM1/256/5)
+            .byte {2}+{5}+(.LUM2/256/5)
+            .byte {3}+{6}+(.LUM3/256/5)
+.LUM1     SET .LUM1 + .STEP1
+.LUM2     SET .LUM2 + .STEP2
+.LUM3     SET .LUM3 + .STEP3
         REPEND
-
-#if 1
-colr
-    REPEAT 40
-    .byte $88, $36, $BA
     REPEND
-#else
-colr
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $C6,$74,$26
- .byte $96,$74,$26
- .byte $96,$74,$26
- .byte $96,$74,$26
- .byte $96,$74,$26
- .byte $96,$74,$26
+    ENDM
 
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
- .byte $CA,$74,$2A
-
- .byte $1A,$24,$2A
- .byte $1A,$24,$2A
- .byte $1A,$24,$2A
- .byte $1A,$24,$2A
- .byte $1A,$24,$2A
- .byte $AA,$24,$68
- .byte $AA,$24,$68
- .byte $AA,$24,$68
- .byte $AA,$24,$68
- .byte $AA,$24,$68
-
- .byte $28,$74,$68
- .byte $28,$74,$68
- .byte $28,$74,$68
- .byte $28,$74,$68
- .byte $28,$74,$68
- .byte $28,$74,$4A
- .byte $28,$74,$4A
- .byte $28,$74,$4A
- .byte $28,$74,$4A
- .byte $28,$74,$4A
-#endif
+colr_pal    LUMTABLE $b0,$60,$50,0,8,4 ;2,4,6
+colr_ntsc   LUMTABLE $80,$30,$B0,0,8,4
 
     include "titleData.asm"
 

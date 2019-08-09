@@ -9,8 +9,8 @@ COL_0
  .byte 224 ;G
  .byte 224 ;B
  .byte 48 ;R (36)
- .byte 240 ;G
- .byte 240 ;B
+ .byte 48 ;G
+ .byte 48 ;B
  .byte 240 ;R (35)
  .byte 16 ;G
  .byte 208 ;B
@@ -130,8 +130,8 @@ COL_1
  .byte 255 ;G
  .byte 255 ;B
  .byte 0 ;R (36)
- .byte 255 ;G
- .byte 255 ;B
+ .byte 243 ;G
+ .byte 243 ;B
  .byte 12 ;R (35)
  .byte 113 ;G
  .byte 125 ;B
@@ -251,8 +251,8 @@ COL_2
  .byte 255 ;G
  .byte 255 ;B
  .byte 0 ;R (36)
- .byte 255 ;G
- .byte 255 ;B
+ .byte 38 ;G
+ .byte 38 ;B
  .byte 217 ;R (35)
  .byte 4 ;G
  .byte 221 ;B
@@ -372,8 +372,8 @@ COL_3
  .byte 240 ;G
  .byte 240 ;B
  .byte 0 ;R (36)
- .byte 240 ;G
- .byte 240 ;B
+ .byte 48 ;G
+ .byte 48 ;B
  .byte 192 ;R (35)
  .byte 224 ;G
  .byte 32 ;B
@@ -493,8 +493,8 @@ COL_4
  .byte 255 ;G
  .byte 255 ;B
  .byte 0 ;R (36)
- .byte 255 ;G
- .byte 255 ;B
+ .byte 121 ;G
+ .byte 121 ;B
  .byte 134 ;R (35)
  .byte 190 ;G
  .byte 56 ;B
@@ -614,8 +614,8 @@ COL_5
  .byte 127 ;G
  .byte 127 ;B
  .byte 192 ;R (36)
- .byte 255 ;G
- .byte 255 ;B
+ .byte 243 ;G
+ .byte 243 ;B
  .byte 140 ;R (35)
  .byte 239 ;G
  .byte 227 ;B

@@ -924,6 +924,8 @@ skipDemoCheck
                 sta base_x
                 sta base_y
 
+                jsr DrawTimeFromROM             ; Z-flag == 0!
+
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
                 jsr UnpackLevel
@@ -1194,7 +1196,7 @@ goNL3
 
                inc levelX
                lda levelX
-               cmp #NUMBEROFLEVELS
+               cmp #MAX_LEVEL_NUMBER
                bcc .level_ok
                lda #0
 .level_ok      sta levelX
