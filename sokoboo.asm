@@ -123,12 +123,15 @@ MIRRORED_BOX            = YES
 MIRRORED_STEEL              = YES
 MIRRORED_WALL               = YES
 
+TROPHY = NO
+DIGITS = NO
+
 ;------------------------------------------------------------------------------
 
 SCREEN_WIDTH                = 10                ; board characters per line (DIFFICULT TO CHANGE)
 
 SCREEN_LINES                = 8                 ; number of scanlines in screen buffer
-LINES_PER_CHAR              = 21                ; MULTIPLE OF 3 SO RGB INTERFACES CHARS OK
+LINES_PER_CHAR              = 24                ; MULTIPLE OF 3 SO RGB INTERFACES CHARS OK
 
 SCREEN_ARRAY_SIZE           = SCREEN_WIDTH * SCREEN_LINES
 
@@ -166,11 +169,11 @@ VBLANK_TIM_NTSC     = 50                        ; NTSC 262
 VBLANK_TIM_PAL      = 85 ;85                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
 
     IF L276
-OVERSCAN_TIM_NTSC   = 60 ;24 ;51                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
+OVERSCAN_TIM_NTSC   = 34 ;24 ;51                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
     ELSE
 OVERSCAN_TIM_NTSC   = 8 ;51                        ; NTSC 262
     ENDIF
-OVERSCAN_TIM_PAL    = 67                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
+OVERSCAN_TIM_PAL    = 41                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
 
     IF L276
 SCANLINES_NTSC      = 276                       ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
@@ -415,13 +418,13 @@ ORIGIN          SET ORIGIN + RAM_SIZE
 ; 01 = NTSC
 ; 10 = PAL-50
 ; 11 = PAL-60
-        lda SWCHB
-        rol
-        rol
-        rol
-        and #%11
-        eor #PAL
-         sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
+            lda SWCHB
+            rol
+            rol
+            rol
+            and #%11
+            eor #PAL
+            sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
     ENDM
 
 ;  IF TJ_MODE

@@ -274,11 +274,33 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
                 .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
                 .byte CHARACTER_BLANK       ;  9
 
+    #if DIGITS
+        .byte CHARACTER_0
+        .byte CHARACTER_1
+        .byte CHARACTER_2
+        .byte CHARACTER_3
+        .byte CHARACTER_4
+        .byte CHARACTER_5
+        .byte CHARACTER_6
+        .byte CHARACTER_7
+        .byte CHARACTER_8
+        .byte CHARACTER_9
+    #endif
+
+    #if TROPHY
+        .byte CHARACTER_TROPHY_0_0, CHARACTER_TROPHY_1_0, CHARACTER_TROPHY_2_0, CHARACTER_TROPHY_3_0
+        .byte CHARACTER_TROPHY_0_1, CHARACTER_TROPHY_1_1, CHARACTER_TROPHY_2_1, CHARACTER_TROPHY_3_1
+        .byte CHARACTER_TROPHY_0_2, CHARACTER_TROPHY_1_2, CHARACTER_TROPHY_2_2, CHARACTER_TROPHY_3_2
+        .byte CHARACTER_TROPHY_0_3, CHARACTER_TROPHY_1_3, CHARACTER_TROPHY_2_3, CHARACTER_TROPHY_3_3
+        .byte CHARACTER_TROPHY_0_4, CHARACTER_TROPHY_1_4, CHARACTER_TROPHY_2_4, CHARACTER_TROPHY_3_4
+    #endif
+
     IF (* - CharReplacement != CHARACTER_MAXIMUM)
         ECHO "ERROR: Incorrect CharReplacement table!"
         ERR
     ENDIF
     CHECKPAGEX CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
+
 
     DEFINE_SUBROUTINE AnimateCharReplacements2 ;139
 

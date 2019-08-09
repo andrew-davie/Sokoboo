@@ -501,6 +501,24 @@ ManActionHI
     DEFINE_SUBROUTINE manStartup
 
                 lda ManX
+                sta POS_X
+                lda ManY
+                sta POS_Y
+
+#if 0
+anotherC                inc POS_X
+                lda #CHARACTER_2
+                sta POS_Type
+                lda #BANK_manStartup
+                jsr PutBoardCharacterFromROM
+                inc POS_Type
+                lda POS_Type
+                cmp #CHARACTER_2
+                ;bcc anotherC
+#endif
+
+
+                lda ManX
                 sta POS_X_NEW ;NewX
                 sta POS_X
                 lda ManY
@@ -901,42 +919,64 @@ OBJTYPE    .SET OBJTYPE + 1
 
     DEFINE_SUBROUTINE MoveVecLO ; [character type]
 
-                .byte <MOVE_BLANK
-                .byte <MOVE_SOIL
-                .byte <MOVE_BOX
-                .byte <MOVE_TARGET
-                .byte <MOVE_TARGET
-                .byte <MOVE_GENERIC ;man occupied
-                .byte <MOVE_GENERIC ;steel
-                .byte <MOVE_GENERIC ;wall
-                .byte <MOVE_BOX_ON_TARGET ;box on target
-                .byte <MOVE_GENERIC ;nogo
+        .byte <MOVE_BLANK
+        .byte <MOVE_SOIL
+        .byte <MOVE_BOX
+        .byte <MOVE_TARGET
+        .byte <MOVE_TARGET
+        .byte <MOVE_GENERIC ;man occupied
+        .byte <MOVE_GENERIC ;steel
+        .byte <MOVE_GENERIC ;wall
+        .byte <MOVE_BOX_ON_TARGET ;box on target
+        .byte <MOVE_GENERIC ;nogo
 
-    IF * - MoveVecLO < CHARACTER_MAXIMUM
-        ECHO "ERROR: Missing entry in MoveVecLO table!"
+#if DIGITS
+    REPEAT 10   ; DIGITS 0-9
+        .byte <MOVE_BLANK
+    REPEND
+#endif
+
+#if TROPHY
+    REPEAT 20       ; 4x5
+        .byte <MOVE_BLANK
+    REPEND
+#endif
+
+    IF * - MoveVecLO != CHARACTER_MAXIMUM
+        ECHO "ERROR: Incorrect number of entries in MoveVecLO table!"
         ERR
     ENDIF
 
 
-
     DEFINE_SUBROUTINE MoveVecHI ;[character type]
 
-      .byte >MOVE_BLANK
-      .byte >MOVE_SOIL
-      .byte >MOVE_BOX
-      .byte >MOVE_TARGET
-      .byte >MOVE_TARGET
-      .byte >MOVE_GENERIC ;man occupied
-      .byte >MOVE_GENERIC ;steel
-      .byte >MOVE_GENERIC ;wall
-      .byte >MOVE_BOX_ON_TARGET ;box on target
-      .byte >MOVE_GENERIC ;nogo
+        .byte >MOVE_BLANK
+        .byte >MOVE_SOIL
+        .byte >MOVE_BOX
+        .byte >MOVE_TARGET
+        .byte >MOVE_TARGET
+        .byte >MOVE_GENERIC ;man occupied
+        .byte >MOVE_GENERIC ;steel
+        .byte >MOVE_GENERIC ;wall
+        .byte >MOVE_BOX_ON_TARGET ;box on target
+        .byte >MOVE_GENERIC ;nogo
 
-    IF * - MoveVecLO < CHARACTER_MAXIMUM
-        ECHO "ERROR: Missing entry in MoveVecLO table!"
-        EXIT
+#if DIGITS
+    REPEAT 10   ; DIGITS 0-9
+        .byte >MOVE_BLANK
+    REPEND
+#endif
+
+#if TROPHY
+    REPEAT 20       ; 4x5
+        .byte >MOVE_BLANK
+    REPEND
+#endif
+
+    IF * - MoveVecHI != CHARACTER_MAXIMUM
+        ECHO "ERROR: Incorrect number of entries in MoveVecHI table!"
+        ERR
     ENDIF
-
 
 
     CHECK_BANK_SIZE "INITBANK"

@@ -49,6 +49,7 @@ NUMBEROFLEVELS   SET NUMBEROFLEVELS + 1
 LevelInformation
 
                 ; The ordering here corresponds to the ordering when playing...
+    ;ADD_LEVEL _000_SELECT
 
     ADD_LEVEL _001_L
     ADD_LEVEL _001_R
@@ -131,6 +132,24 @@ LevelInformation
     ADD_LEVEL _040_L
     ADD_LEVEL _040_R
 
+    ADD_LEVEL _041_L
+    ADD_LEVEL _041_R
+    ADD_LEVEL _042_L
+    ADD_LEVEL _042_R
+    ADD_LEVEL _043_L
+    ADD_LEVEL _043_R
+    ADD_LEVEL _044_L
+    ADD_LEVEL _044_R
+    ADD_LEVEL _045_L
+    ADD_LEVEL _045_R
+    ADD_LEVEL _046_L
+    ADD_LEVEL _046_R
+    ADD_LEVEL _047_L
+    ADD_LEVEL _047_R
+    ADD_LEVEL _048_L
+    ADD_LEVEL _048_R
+    ADD_LEVEL _049_L
+    ADD_LEVEL _049_R
 
     ADD_LEVEL _050_L
     ADD_LEVEL _050_R
@@ -274,15 +293,33 @@ endzapy2        dec POS_X
 ;C      box
 
 
-C1
-  .byte $b6,$2A,$a8,$48
-  .byte $C8,$78,$28,$98
-C2
-  .byte $62,$A4,$22,$84
-  .byte $44,$82,$F4,$64
-C3
-  .byte $2a,$7A,$f8,$B8
-  .byte $FC,$C6,$98,$Ea
+C1 ;mortar
+  .byte $88,$b6     ;ok
+    .byte $38,$68
+    .byte $5a,$AA
+    .byte $56,$86
+;    .byte $C8,$C8
+;    .byte $78,$78
+;    .byte $28,$28
+;    .byte $98,$98
+C2  ; soil stripes
+  .byte $34,$62
+    .byte $b4,$74
+    .byte $F4,$24
+    .byte $a4,$74
+;    .byte $44,$44
+;    .byte $82,$82
+;    .byte $F4,$f4
+;    .byte $64,$64
+C3 ; brick
+  .byte $1A,$2a
+    .byte $8C,$BC
+    .byte $0A,$fA
+    .byte $cc,$3c
+;    .byte $FC,$FC
+;    .byte $C6,$C6
+;    .byte $98,$98
+;    .byte $Ea,$eA
 
               ; C6 44 2A      browns
               ; BA 96 E8      ice blues
@@ -308,7 +345,7 @@ xyClear       jsr PutBoardCharacterFromRAM
               dec POS_Y
               bpl xyLine
 
-              lda #6
+              lda #5
               sta base_x
               sta base_y
 
@@ -334,7 +371,11 @@ xyClear       jsr PutBoardCharacterFromRAM
               sta ROM_Bank                        ; GetROMByte returns to this bank
 
               lda levelX
-              and #7
+              and #3
+              asl
+              asl
+              ora Platform              ; NTSC/PAL
+              lsr
               tax
               lda C1,x
               sta color

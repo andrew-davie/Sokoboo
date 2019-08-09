@@ -33,7 +33,11 @@
 
   NEWBANK LEVELS1
 
+
+;  DEFL _000_SELECT, "12#|#@3-5$.#|10-|10-|12#"
+
   ; "SOKWHOLE" collection...
+
 
   DEFL _001_L, "3#|#@#|#$#|#.#|3#"
   DEFL _001_R, "5#|#.$@#|5#"

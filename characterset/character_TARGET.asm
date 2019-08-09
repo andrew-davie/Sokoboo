@@ -41,10 +41,12 @@ TARGET_DEF = 2
 CHARACTERSHAPE_TARGET
 CHARACTERSHAPE_TARGET_MIRRORED
     .byte %00000000
+    .byte %00000000
     .byte %01100110
     .byte %01100110
     .byte %01100110
     .byte %01100110
+    .byte %00000000
     .byte %00000000
     .byte %00000000 ;R
     .byte %00000000
@@ -53,6 +55,7 @@ CHARACTERSHAPE_TARGET_MIRRORED
     .byte %01100110
     .byte %01100110
     .byte %00000000
+    .byte %00000000
     .byte %00000000 ;B
     .byte %00000000
     .byte %01100110
@@ -60,15 +63,15 @@ CHARACTERSHAPE_TARGET_MIRRORED
     .byte %01100110
     .byte %01100110
     .byte %00000000
-;    .byte %00000000 ;G
+    .byte %00000000
 
     ;--------------------------------------------------------------------------
 ;     OPTIONAL_PAGEBREAK "CHARACTERSHAPE_TARGET_MIRRORED", LINES_PER_CHAR+1
 
-CHARACTERSHAPE_TARGET2
-CHARACTERSHAPE_TARGET2_MIRRORED
-    ds 21,0
+;CHARACTERSHAPE_TARGET2
+;CHARACTERSHAPE_TARGET2_MIRRORED
+;    ds 21,0         ; replace with BLANK?!
 
-    CHECKPAGE CHARACTERSHAPE_TARGET2 ; since we share one byte!
+;    CHECKPAGE CHARACTERSHAPE_TARGET2 ; since we share one byte!
 
 #endif

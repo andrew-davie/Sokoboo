@@ -147,6 +147,13 @@ PutBoardCharacterSB ; =18
                 rts                                 ;6
 
 
+    DEFINE_SUBROUTINE PutBoardCharacterFromROM
+        pha
+        jsr PutBoardCharacterFromRAM
+        pla
+        sta SET_BANK
+        rts
+
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE ProcessObjStack ; 15 minimum segtime abort
@@ -963,8 +970,6 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 sta SET_BANK                    ; 3
                 jsr Resync                      ; 6+x
 
-
-
 NewFrameStart
 
                 bit NextLevelTrigger
@@ -1007,7 +1012,7 @@ NewFrameStart
                                             ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
 
 ;                inc Throttle                ; 5     speed limiter
-                SLEEP 5                     ;       TODO: optimize for space
+                SLEEP 2                    ;       TODO: optimize for space
 
                 lda #%00010101              ; 2     double width missile, double width player
                 dex                         ; 2     = $6f, stars effect!
@@ -1025,6 +1030,7 @@ NewFrameStart
                 sta REFP0                   ; 3
 
                 lda #BANK_SCREENMARKII1     ; 2
+                sta SET_BANK                ; testing
                 sta SET_BANK_RAM            ; 3
                 jsr DrawTheScreen           ; 6     @57 from RAM, no less!!
                                             ;       @66
@@ -1044,6 +1050,59 @@ OverscanBD      lda INTIM                   ;4
 VBlankTime
                 .byte VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
                 .byte VBLANK_TIM_PAL, VBLANK_TIM_PAL
+
+
+#if 0
+    DEFINE_SUBROUTINE SokoScreen
+
+
+
+    ;---------------------------------------------------------------------------
+    ; A 42-cycle timing window in the screen draw code.  Perform any general
+    ; per-frame code here, provided it takes exactly 42 cycles to execute.
+    ; TJ: Well, not exactly 42 cycles, but it works! :)
+                                            ;       @09
+                ;sta COLUBK                  ; 3     value comes from subroutine
+                                            ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
+
+;                inc Throttle                ; 5     speed limiter
+                SLEEP 5                     ;       TODO: optimize for space
+
+                lda #%00010101              ; 2     double width missile, double width player
+                dex                         ; 2     = $6f, stars effect!
+                stx HMM0                    ; 3     @24, exactly 21 cycles after the HMOVE
+
+                sta NUSIZ0                  ; 3
+                sty VDELP0                  ; 3     y = 0!
+
+                iny                         ; 2     this relies on Y == 0 before...
+                cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
+                adc #2                      ; 2
+                sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
+
+                lda ManLastDirection        ; 3
+                sta REFP0                   ; 3                lda #BANK_SCREENMARKII1     ; 2
+                sta SET_BANK_RAM            ; 3
+                jsr DrawTheScreen           ; 6     @57 from RAM, no less!!
+                                            ;       @66
+                lda #BANK_PostScreenCleanup ; 2
+                sta SET_BANK                ; 3
+                jsr PostScreenCleanup       ; 6+x
+
+                lda #BANK_SelfModDrawPlayers; 2
+                sta SET_BANK                ; 3
+                jsr SelfModDrawPlayers      ; 6+x
+
+frame
+                jsr StealCharDraw
+           lda INTIM
+                bne frame
+
+
+                lda #BANK_TitleScreen
+                sta SET_BANK
+                rts
+#endif
 
     ;---------------------------------------------------------------------------
 
@@ -1158,6 +1217,29 @@ goNL3
 
     ;include "circle.asm"
     include "sound/intro1_trackdata.asm"
+
+    include "characterset/character_BOX.asm"
+    include "characterset/character_WALL.asm"
+
+    #if DIGITS
+    include "characterset/character_9.asm"
+    include "characterset/character_8.asm"
+    include "characterset/character_7.asm"
+    include "characterset/character_6.asm"
+    include "characterset/character_5.asm"
+    include "characterset/character_4.asm"
+    include "characterset/character_3.asm"
+    include "characterset/character_2.asm"
+    include "characterset/character_1.asm"
+    include "characterset/character_0.asm"
+    #endif
+
+    #if TROPHY
+    include "trophyData.asm"
+    #endif
+
+
+
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *
 

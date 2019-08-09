@@ -77,6 +77,8 @@ SpriteColourRED
  .byte $76
  .byte $76
  .byte $76
+ .byte $76
+
 
 ;  .byte #$1C;0
 ;  .byte #$78;3
@@ -86,25 +88,27 @@ SpriteColourRED
 ;  .byte #$4A;15
 ;  .byte #$1A;18
 SpriteColourGREEN
-  .byte $7A
-  .byte $7A
-  .byte $7A
-  .byte $7A
-  .byte $7A
-  .byte $7A
-  .byte $7A
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
 SpriteColourBLUE
-  .byte $2A
-  .byte $2A
-  .byte $2A
-  .byte $2A
-  .byte $2A
-  .byte $2A
-  .byte $2A
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
+ .byte $76
 
-  REPEAT 21
-  .byte $20|$6             ; 2
-   REPEND
+;  REPEAT LINES_PER_CHARACTER        ;???
+;  .byte $20|$6             ; 2
+;   REPEND
 
 ; PAL
 ;    .byte RED_PAL|$6        ; 0 feet

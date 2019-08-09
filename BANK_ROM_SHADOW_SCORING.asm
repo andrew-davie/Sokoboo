@@ -476,8 +476,8 @@ ExitDigitKernel:                ;           @69
         lda BGColour                ; 3
         stx HMM0                ; 3         for extra life stars!
         sta WSYNC               ; 3
-    sta WSYNC
-    sta WSYNC
+;    sta WSYNC
+;    sta WSYNC
 ;---------------------------------------------------------------
         sta HMOVE               ; 3
         sta COLUBK
