@@ -924,8 +924,6 @@ skipDemoCheck
                 sta base_x
                 sta base_y
 
-                jsr DrawTimeFromROM             ; Z-flag == 0!
-
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
                 jsr UnpackLevel
@@ -968,6 +966,11 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
 
     ;---------------------------------------------------------------------------
 
+    IF WAIT_FOR_INITIAL_DRAW
+                lda #%10
+                sta blankState
+    ENDIF
+
                 lda #BANK_Resync                ; 2
                 sta SET_BANK                    ; 3
                 jsr Resync                      ; 6+x
@@ -992,18 +995,15 @@ NewFrameStart
                 ldy VBlankTime,x
                 sty TIM64T
 
-
     #include "sound/intro1_player.asm"
 
                 jsr StealCharDraw               ; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
 
     ;---------------------------------------------------------------------------
-    ; START OF DISPLAY
 
                 lda #BANK_SCORING               ; 2
                 sta SET_BANK_RAM                ; 3
                 jsr DrawDigits                  ; 6 = 11
-
 
     ;---------------------------------------------------------------------------
     ; A 42-cycle timing window in the screen draw code.  Perform any general
@@ -1044,10 +1044,11 @@ NewFrameStart
                 sta SET_BANK                ; 3
                 jsr SelfModDrawPlayers      ; 6+x
 
-                jsr StealCharDraw
+SkipSc                jsr StealCharDraw
 
 OverscanBD      lda INTIM                   ;4
                 bne OverscanBD              ;2/3
+
                 jmp NewFrameStart
 VBlankTime
                 .byte VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
@@ -1220,6 +1221,9 @@ goNL3
     ;include "circle.asm"
     include "sound/intro1_trackdata.asm"
 
+    include "characterset/character_TARGET.asm"
+    include "characterset/character_STEEL.asm"
+    include "characterset/character_SOIL.asm"
     include "characterset/character_BOX.asm"
     include "characterset/character_WALL.asm"
 

@@ -190,8 +190,12 @@ LevelInfoLO
      .byte <(LEVEL__0PAL_Jill_Leatherby-1)
      .byte <(LEVEL__0IZ1_Sophia-1)
      .byte <(LEVEL__0CNH_Alice-1)
+        .byte <(LEVEL__122_Maya-1)
 
+MAX_LEVEL = * - LevelInfoLO
+    ECHO MAX_LEVEL, "LEVELS INSTALLED"
 LevelInfoHI
+
      .byte >(LEVEL__001_L-1)
      .byte >(LEVEL__001_R-1)
      .byte >(LEVEL__002_L-1)
@@ -348,164 +352,178 @@ LevelInfoHI
     .byte >(LEVEL__0PAL_Jill_Leatherby-1)
     .byte >(LEVEL__0IZ1_Sophia-1)
     .byte >(LEVEL__0CNH_Alice-1)
+    .byte >(LEVEL__122_Maya-1)
+
+    IF (* - LevelInfoHI != MAX_LEVEL)
+        ECHO "ERROR: Incorrect LevelInfoHI table!"
+        ERR
+    ENDIF
 
 LevelInfoBANK
-     .byte BANK_LEVEL__001_L
-     .byte BANK_LEVEL__001_R
-     .byte BANK_LEVEL__002_L
-     .byte BANK_LEVEL__002_R
-     .byte BANK_LEVEL__003_L
-     .byte BANK_LEVEL__003_R
-     .byte BANK_LEVEL__004_L
-     .byte BANK_LEVEL__004_R
-     .byte BANK_LEVEL__005_L
-     .byte BANK_LEVEL__005_R
-     .byte BANK_LEVEL__006_L
-     .byte BANK_LEVEL__006_R
-     .byte BANK_LEVEL__007_L
-     .byte BANK_LEVEL__007_R
-     .byte BANK_LEVEL__008_L
-     .byte BANK_LEVEL__008_R
-     .byte BANK_LEVEL__009_L
-     .byte BANK_LEVEL__009_R
-     .byte BANK_LEVEL__010_L
-     .byte BANK_LEVEL__010_R
-     .byte BANK_LEVEL__011_L
-     .byte BANK_LEVEL__011_R
-     .byte BANK_LEVEL__012_L
-     .byte BANK_LEVEL__012_R
-     .byte BANK_LEVEL__013_L
-     .byte BANK_LEVEL__013_R
-     .byte BANK_LEVEL__014_L
-     .byte BANK_LEVEL__014_R
-     .byte BANK_LEVEL__015_L
-     .byte BANK_LEVEL__015_R
-     .byte BANK_LEVEL__016_L
-     .byte BANK_LEVEL__016_R
-     .byte BANK_LEVEL__017_L
-     .byte BANK_LEVEL__017_R
-     .byte BANK_LEVEL__018_L
-     .byte BANK_LEVEL__018_R
-     .byte BANK_LEVEL__019_L
-     .byte BANK_LEVEL__019_R
-     .byte BANK_LEVEL__020_L
-     .byte BANK_LEVEL__020_R
-     .byte BANK_LEVEL__021_L
-     .byte BANK_LEVEL__021_R
-     .byte BANK_LEVEL__022_L
-     .byte BANK_LEVEL__022_R
-     .byte BANK_LEVEL__023_L
-     .byte BANK_LEVEL__023_R
-     .byte BANK_LEVEL__024_L
-     .byte BANK_LEVEL__024_R
-     .byte BANK_LEVEL__025_L
-     .byte BANK_LEVEL__025_R
-     .byte BANK_LEVEL__026_L
-     .byte BANK_LEVEL__026_R
-     .byte BANK_LEVEL__027_L
-     .byte BANK_LEVEL__027_R
-     .byte BANK_LEVEL__028_L
-     .byte BANK_LEVEL__028_R
-     .byte BANK_LEVEL__029_L
-     .byte BANK_LEVEL__029_R
-     .byte BANK_LEVEL__030_L
-     .byte BANK_LEVEL__030_R
-     .byte BANK_LEVEL__031_L
-     .byte BANK_LEVEL__031_R
-     .byte BANK_LEVEL__032_L
-     .byte BANK_LEVEL__032_R
-     .byte BANK_LEVEL__033_L
-     .byte BANK_LEVEL__033_R
-     .byte BANK_LEVEL__034_L
-     .byte BANK_LEVEL__034_R
-     .byte BANK_LEVEL__035_L
-     .byte BANK_LEVEL__035_R
-     .byte BANK_LEVEL__036_L
-     .byte BANK_LEVEL__036_R
-     .byte BANK_LEVEL__037_L
-     .byte BANK_LEVEL__037_R
-     .byte BANK_LEVEL__038_L
-     .byte BANK_LEVEL__038_R
-     .byte BANK_LEVEL__039_L
-     .byte BANK_LEVEL__039_R
-     .byte BANK_LEVEL__040_L
-     .byte BANK_LEVEL__040_R
 
-     .byte BANK_LEVEL__041_L
-     .byte BANK_LEVEL__041_R
-     .byte BANK_LEVEL__042_L
-     .byte BANK_LEVEL__042_R
-     .byte BANK_LEVEL__043_L
-     .byte BANK_LEVEL__043_R
-     .byte BANK_LEVEL__044_L
-     .byte BANK_LEVEL__044_R
-     .byte BANK_LEVEL__045_L
-     .byte BANK_LEVEL__045_R
-     .byte BANK_LEVEL__046_L
-     .byte BANK_LEVEL__046_R
-     .byte BANK_LEVEL__047_L
-     .byte BANK_LEVEL__047_R
-     .byte BANK_LEVEL__048_L
-     .byte BANK_LEVEL__048_R
-     .byte BANK_LEVEL__049_L
-     .byte BANK_LEVEL__049_R
+    .byte BANK_LEVEL__001_L
+    .byte BANK_LEVEL__001_R
+    .byte BANK_LEVEL__002_L
+    .byte BANK_LEVEL__002_R
+    .byte BANK_LEVEL__003_L
+    .byte BANK_LEVEL__003_R
+    .byte BANK_LEVEL__004_L
+    .byte BANK_LEVEL__004_R
+    .byte BANK_LEVEL__005_L
+    .byte BANK_LEVEL__005_R
+    .byte BANK_LEVEL__006_L
+    .byte BANK_LEVEL__006_R
+    .byte BANK_LEVEL__007_L
+    .byte BANK_LEVEL__007_R
+    .byte BANK_LEVEL__008_L
+    .byte BANK_LEVEL__008_R
+    .byte BANK_LEVEL__009_L
+    .byte BANK_LEVEL__009_R
+    .byte BANK_LEVEL__010_L
+    .byte BANK_LEVEL__010_R
+    .byte BANK_LEVEL__011_L
+    .byte BANK_LEVEL__011_R
+    .byte BANK_LEVEL__012_L
+    .byte BANK_LEVEL__012_R
+    .byte BANK_LEVEL__013_L
+    .byte BANK_LEVEL__013_R
+    .byte BANK_LEVEL__014_L
+    .byte BANK_LEVEL__014_R
+    .byte BANK_LEVEL__015_L
+    .byte BANK_LEVEL__015_R
+    .byte BANK_LEVEL__016_L
+    .byte BANK_LEVEL__016_R
+    .byte BANK_LEVEL__017_L
+    .byte BANK_LEVEL__017_R
+    .byte BANK_LEVEL__018_L
+    .byte BANK_LEVEL__018_R
+    .byte BANK_LEVEL__019_L
+    .byte BANK_LEVEL__019_R
+    .byte BANK_LEVEL__020_L
+    .byte BANK_LEVEL__020_R
+    .byte BANK_LEVEL__021_L
+    .byte BANK_LEVEL__021_R
+    .byte BANK_LEVEL__022_L
+    .byte BANK_LEVEL__022_R
+    .byte BANK_LEVEL__023_L
+    .byte BANK_LEVEL__023_R
+    .byte BANK_LEVEL__024_L
+    .byte BANK_LEVEL__024_R
+    .byte BANK_LEVEL__025_L
+    .byte BANK_LEVEL__025_R
+    .byte BANK_LEVEL__026_L
+    .byte BANK_LEVEL__026_R
+    .byte BANK_LEVEL__027_L
+    .byte BANK_LEVEL__027_R
+    .byte BANK_LEVEL__028_L
+    .byte BANK_LEVEL__028_R
+    .byte BANK_LEVEL__029_L
+    .byte BANK_LEVEL__029_R
+    .byte BANK_LEVEL__030_L
+    .byte BANK_LEVEL__030_R
+    .byte BANK_LEVEL__031_L
+    .byte BANK_LEVEL__031_R
+    .byte BANK_LEVEL__032_L
+    .byte BANK_LEVEL__032_R
+    .byte BANK_LEVEL__033_L
+    .byte BANK_LEVEL__033_R
+    .byte BANK_LEVEL__034_L
+    .byte BANK_LEVEL__034_R
+    .byte BANK_LEVEL__035_L
+    .byte BANK_LEVEL__035_R
+    .byte BANK_LEVEL__036_L
+    .byte BANK_LEVEL__036_R
+    .byte BANK_LEVEL__037_L
+    .byte BANK_LEVEL__037_R
+    .byte BANK_LEVEL__038_L
+    .byte BANK_LEVEL__038_R
+    .byte BANK_LEVEL__039_L
+    .byte BANK_LEVEL__039_R
+    .byte BANK_LEVEL__040_L
+    .byte BANK_LEVEL__040_R
 
-     .byte BANK_LEVEL__050_L
-     .byte BANK_LEVEL__050_R
-     .byte BANK_LEVEL__051_L
-     .byte BANK_LEVEL__051_R
-     .byte BANK_LEVEL__052_L
-     .byte BANK_LEVEL__052_R
-     .byte BANK_LEVEL__053_L
-     .byte BANK_LEVEL__053_R
-     .byte BANK_LEVEL__054_L
-     .byte BANK_LEVEL__054_R
-     .byte BANK_LEVEL__055_L
-     .byte BANK_LEVEL__055_R
-     .byte BANK_LEVEL__056_L
-     .byte BANK_LEVEL__056_R
-     .byte BANK_LEVEL__057_L
-     .byte BANK_LEVEL__057_R
-     .byte BANK_LEVEL__058_L
-     .byte BANK_LEVEL__058_R
-     .byte BANK_LEVEL__059_L
-     .byte BANK_LEVEL__059_R
+    .byte BANK_LEVEL__041_L
+    .byte BANK_LEVEL__041_R
+    .byte BANK_LEVEL__042_L
+    .byte BANK_LEVEL__042_R
+    .byte BANK_LEVEL__043_L
+    .byte BANK_LEVEL__043_R
+    .byte BANK_LEVEL__044_L
+    .byte BANK_LEVEL__044_R
+    .byte BANK_LEVEL__045_L
+    .byte BANK_LEVEL__045_R
+    .byte BANK_LEVEL__046_L
+    .byte BANK_LEVEL__046_R
+    .byte BANK_LEVEL__047_L
+    .byte BANK_LEVEL__047_R
+    .byte BANK_LEVEL__048_L
+    .byte BANK_LEVEL__048_R
+    .byte BANK_LEVEL__049_L
+    .byte BANK_LEVEL__049_R
 
-     .byte BANK_LEVEL__060_R
-     .byte BANK_LEVEL__061_R
-     .byte BANK_LEVEL__061_L
-     .byte BANK_LEVEL__062_L
-     .byte BANK_LEVEL__062_R
-     .byte BANK_LEVEL__063_L
-     .byte BANK_LEVEL__063_R
-     .byte BANK_LEVEL__064_R
-     .byte BANK_LEVEL__064_L
-     .byte BANK_LEVEL__065_R
-     .byte BANK_LEVEL__065_L
-     .byte BANK_LEVEL__066_R
-     .byte BANK_LEVEL__066_L
-     .byte BANK_LEVEL__067_R
-     .byte BANK_LEVEL__067_L
-     .byte BANK_LEVEL__068_R
-     .byte BANK_LEVEL__068_L
-     .byte BANK_LEVEL__069_R
-     .byte BANK_LEVEL__069_L
+    .byte BANK_LEVEL__050_L
+    .byte BANK_LEVEL__050_R
+    .byte BANK_LEVEL__051_L
+    .byte BANK_LEVEL__051_R
+    .byte BANK_LEVEL__052_L
+    .byte BANK_LEVEL__052_R
+    .byte BANK_LEVEL__053_L
+    .byte BANK_LEVEL__053_R
+    .byte BANK_LEVEL__054_L
+    .byte BANK_LEVEL__054_R
+    .byte BANK_LEVEL__055_L
+    .byte BANK_LEVEL__055_R
+    .byte BANK_LEVEL__056_L
+    .byte BANK_LEVEL__056_R
+    .byte BANK_LEVEL__057_L
+    .byte BANK_LEVEL__057_R
+    .byte BANK_LEVEL__058_L
+    .byte BANK_LEVEL__058_R
+    .byte BANK_LEVEL__059_L
+    .byte BANK_LEVEL__059_R
 
-     .byte BANK_LEVEL__103_Arielle
-     .byte BANK_LEVEL__103_Ajalae
-     .byte BANK_LEVEL__103_Adin
-     .byte BANK_LEVEL__102_Raven
-     .byte BANK_LEVEL__102_Oralia
-     .byte BANK_LEVEL__102_Natalie
-     .byte BANK_LEVEL__102_Mirabel
-     .byte BANK_LEVEL__1XJH_Tara_Gelson
-     .byte BANK_LEVEL__1R7X_Alison
-     .byte BANK_LEVEL__1KWD_Cecile_Clayworth
-     .byte BANK_LEVEL__1EKT_Samantha_Gelson
-     .byte BANK_LEVEL__0VM5_Andrea_Wadd
-     .byte BANK_LEVEL__0PAL_Jill_Leatherby
-     .byte BANK_LEVEL__0IZ1_Sophia
-     .byte BANK_LEVEL__0CNH_Alice
+    .byte BANK_LEVEL__060_R
+    .byte BANK_LEVEL__061_R
+    .byte BANK_LEVEL__061_L
+    .byte BANK_LEVEL__062_L
+    .byte BANK_LEVEL__062_R
+    .byte BANK_LEVEL__063_L
+    .byte BANK_LEVEL__063_R
+    .byte BANK_LEVEL__064_R
+    .byte BANK_LEVEL__064_L
+    .byte BANK_LEVEL__065_R
+    .byte BANK_LEVEL__065_L
+    .byte BANK_LEVEL__066_R
+    .byte BANK_LEVEL__066_L
+    .byte BANK_LEVEL__067_R
+    .byte BANK_LEVEL__067_L
+    .byte BANK_LEVEL__068_R
+    .byte BANK_LEVEL__068_L
+    .byte BANK_LEVEL__069_R
+    .byte BANK_LEVEL__069_L
+
+    .byte BANK_LEVEL__103_Arielle
+    .byte BANK_LEVEL__103_Ajalae
+    .byte BANK_LEVEL__103_Adin
+    .byte BANK_LEVEL__102_Raven
+    .byte BANK_LEVEL__102_Oralia
+    .byte BANK_LEVEL__102_Natalie
+    .byte BANK_LEVEL__102_Mirabel
+    .byte BANK_LEVEL__1XJH_Tara_Gelson
+    .byte BANK_LEVEL__1R7X_Alison
+    .byte BANK_LEVEL__1KWD_Cecile_Clayworth
+    .byte BANK_LEVEL__1EKT_Samantha_Gelson
+    .byte BANK_LEVEL__0VM5_Andrea_Wadd
+    .byte BANK_LEVEL__0PAL_Jill_Leatherby
+    .byte BANK_LEVEL__0IZ1_Sophia
+    .byte BANK_LEVEL__0CNH_Alice
+
+    .byte BANK_LEVEL__122_Maya
+
+    IF (* - LevelInfoBANK != MAX_LEVEL)
+        ECHO "ERROR: Incorrect LevelInfoBANK table!"
+        ERR
+    ENDIF
 
 
 
@@ -661,10 +679,10 @@ xyClear       jsr PutBoardCharacterFromRAM
               lda C3,x
               sta color+2
 
-              ;lda #$00
-              ;sta moveCounter
-              ;sta moveCounterHi
-              ;sta moveCounterBinary
+              lda #$00
+              sta moveCounter
+              sta moveCounterHi
+              sta moveCounterBinary
 
               lda #$00                      ; BCD reminder!
               sta targetsRequired           ; # of targets that do NOT have boxes on them

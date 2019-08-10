@@ -125,6 +125,7 @@ MIRRORED_WALL               = YES
 
 TROPHY = NO
 DIGITS = NO
+WAIT_FOR_INITIAL_DRAW = YES             ; blank until all initial tiles drawn
 
 ;------------------------------------------------------------------------------
 

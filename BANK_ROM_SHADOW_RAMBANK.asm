@@ -780,10 +780,6 @@ CharacterDataVecHI
     ;--------------------------------------------------------------------------
     ;    CHARACTER_SET
 
-    include "characterset/character_TARGET.asm"
-    include "characterset/character_STEEL.asm"
-    include "characterset/character_SOIL.asm"
-
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 
 

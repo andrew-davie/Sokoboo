@@ -26,6 +26,8 @@ im = Image.open('sokoboo.gif')
 pix = im.load()
 
 
+f = open('/Users/boo/Documents/2600/Sokoboo3/Sokoboo/titleData.asm', 'w')
+
 RedLines = []
 GreenLines = []
 BlueLines = []
@@ -72,11 +74,11 @@ for chary in range(0, im.size[1]):
 
 
 for bytepos in range(0, 6):
-    print('COL_' + str(bytepos))
+    f.write('COL_' + str(bytepos) + '\n')
     for line in range(im.size[1]-1, -1, -1):
-        print(' .byte ', RedLines[line][bytepos], ' ;R')
-        print(' .byte ', GreenLines[line][bytepos], ' ;G')
-        print(' .byte ', BlueLines[line][bytepos], ' ;B')
+        f.write(' .byte ' + str(RedLines[line][bytepos]) + ' ;R (' + str(line) + ')\n')
+        f.write(' .byte ' + str(GreenLines[line][bytepos]) + ' ;G\n')
+        f.write(' .byte ' + str(BlueLines[line][bytepos]) + ' ;B\n')
 
-
+f.close()
 #print(im.size)

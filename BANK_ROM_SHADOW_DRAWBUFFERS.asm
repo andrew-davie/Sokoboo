@@ -228,6 +228,18 @@ skipsc
                 inc ScreenDrawPhase             ;5 =  5
                 tsx                             ;2
                 stx DrawStackPointer            ;3
+
+        ; Handle the pause for first turning ON the visible screen. We want to wait until the
+        ; draw stack is empty (thus all characters have been drawn) on that initial startup
+
+;    IF WAIT_FOR_INITIAL_DRAW
+;                bpl notVisibleYet
+;                ldx #0
+;                stx blankState
+;notVisibleYet
+;    ENDIF
+
+
                 ldx save_SP                     ;3
                 txs                             ;2 = 10
 

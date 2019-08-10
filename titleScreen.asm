@@ -158,8 +158,8 @@ colvec
     REPEND
     ENDM
 
-colr_pal    LUMTABLE $b0,$60,$50,0,8,4 ;2,4,6
-colr_ntsc   LUMTABLE $80,$30,$B0,0,8,4
+colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
+colr_ntsc   LUMTABLE $80,$B0,$50,0,8,4
 
     include "titleData.asm"
 

@@ -527,10 +527,12 @@ SMLEVEL
     DEFINE_SUBROUTINE DrawDigits
 
 VblankLoopGame
-        ;jsr StealCharDraw
         ldy INTIM
         bne VblankLoopGame
 
+    IF WAIT_FOR_INITIAL_DRAW
+        ldy blankState
+    ENDIF
         sty VBLANK              ; 3         <-- 0
         lda scoringFlags        ; 3
         and #DISPLAY_FLAGS                ; 2

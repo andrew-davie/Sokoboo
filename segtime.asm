@@ -102,10 +102,10 @@ TEST_{1} = 0
 ; 2012/02/11 -- experimental reduction in times (but not stress tested)
 ; due to separation of timeslice overhead to separate check
 
-    SEGTIME_C SEGTIME_SCD_DIRECT, 323 +200      ; @ 4/8/2019
-    SEGTIME_C SEGTIME_SCD_QUICK, 348 +200       ; @ 4/8/2019
-    SEGTIME_C SEGTIME_SCD_SLOW, 579 +200        ; @ 4/8/2019
-    SEGTIME_C SEGTIME_SCD_PF0, 88 +100          ; @ 4/8/2019 ??
+    SEGTIME_C SEGTIME_SCD_DIRECT, 323 +100      ; @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_QUICK, 348 +100       ; @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_SLOW, 579 +100        ; @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_PF0, 88 +50          ; @ 4/8/2019 ??
     SEGTIME SEGTIME_SCD_MIN,SEGTIME_SCD_PF0+1   ; * MINIMUM TIME OF THE ABOVE + 1
 
  IF MULTI_BANK_BOARD = YES
@@ -122,7 +122,7 @@ TEST_{1} = 0
 
     ;following will lock-up system if used as 'XSEGTIME'.
     SEGTIME MINIMUM_SEGTIME,2 +2 ;4                 ; processing slice minimum requirement
-    SEGTIME_C MINIMUM_SEGTIMEBLANK, 993 +200  ; * 7/8/11      993(A)->15.5
+    SEGTIME_C MINIMUM_SEGTIMEBLANK, 993 +100  ; * 7/8/11      993(A)->15.5
     SEGTIME SEGTIME_MINIMUM_TIMESLICE,MINIMUM_SEGTIME+1      ; MINIMUM of the TIMESLICE segments listed above
 
         ; Note: we add 1 to the minimum because there's a bit of overhead at the start of the timeslice code which vectors

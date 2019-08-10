@@ -93,6 +93,11 @@ circ_char             ds 1
 circ_scratch          ds 1
 LEVEL_bank         ds 1
 levelPtr            ds 2
+
+    IF WAIT_FOR_INITIAL_DRAW
+blankState          ds 1
+    ENDIF
+
 ;---------------------------------------------------------------------------
 ; 2 (shared) demo mode variables:
 demoMode                        = jtoggle       ; bit 7==1 => demo mode

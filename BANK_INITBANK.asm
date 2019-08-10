@@ -500,6 +500,14 @@ ManActionHI
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE manStartup
 
+    IF WAIT_FOR_INITIAL_DRAW
+                lda DrawStackPointer
+                bpl midDraw
+                lda #0
+                sta blankState
+midDraw
+    ENDIF
+
                 lda ManX
                 sta POS_X
                 lda ManY
