@@ -291,10 +291,14 @@ QRet            rts                             ;6
 
     ;------------------------------------------------------------------------------
 
+cannotPush      inc ManPushCounter
+                rts
+
     DEFINE_SUBROUTINE PushBox ; in INITBANK
 
       ; X = restoration character for square we are moving TO
       ; so, if X = CHARACTER_TARGET AND we move, THEN we are pushing a box off a target
+        ; A = this bank!
 
                 sta ROM_Bank
 
@@ -302,7 +306,7 @@ QRet            rts                             ;6
                 cmp #PUSH_LIMIT
                 bcc cannotPush
 
-                stx restorationCharacter          ; BOX'S NEW CHAR
+                stx restorationCharacter          ; players new location's restore
 
     ; Determine if the box is pushable
     ; we use the joystick to calculate the subsequent square
@@ -318,6 +322,7 @@ QRet            rts                             ;6
                 clc
                 lda POS_Y_NEW
                 adc JoyMoveY,y
+                sta POS_Y                   ; the box's pushed-to square
                 tay
                 jsr GetBoardAddressRW
 
@@ -327,6 +332,7 @@ QRet            rts                             ;6
                 clc
                 lda POS_X_NEW
                 adc JoyMoveX,y
+                sta POS_X                   ; the box's pushed-to square
                 pha
                 tay
 
@@ -378,12 +384,19 @@ canPushTarget   pha
 
 notOnTargetAlready
 
+    ; record the box takeback params for the player move to use
 
-                pla
+                stx TB_CHAR
+                lda POS_X
+                sta TB_PUSHX
+                lda POS_Y
+                sta TB_PUSHY
+
+                pla                             ; new char to go on board in box's new position
 
 
   IF MULTI_BANK_BOARD = YES
-              ldx RAM_Bank
+              ldx RAM_Bank                      ; <-- this will never work calling from INITBANK!!!
   ELSE
               ldx #BANK_BOARD                 ; 2
   ENDIF
@@ -392,24 +405,27 @@ notOnTargetAlready
                 lda POS_VAR                     ; player's restoration character
                 pha
 
-                ldx POS_Y_NEW
-                stx POS_Y
-                ldy POS_X_NEW
-                sty POS_X
+    ; Before the player moves to the new position, take away the box and replace with the
+    ; character the box was sitting on (BLANK or TARGET). Then the player moves in "next"
+
+                lda POS_Y_NEW
+                sta POS_Y
+                lda POS_X_NEW
+                sta POS_X
                 lda restorationCharacter
                 sta POS_VAR
-
-                jsr RestoreOriginalCharacter    ; put back BOX's restoration character
+                jsr PutCharacterAtXY            ; put back BOX's restoration character
 
                 pla
                 sta POS_VAR
 
                 ;START_SOUND SOUND_BOX
 
+    ; Note: MovePlayer expects new position to be POS_X_NEW, POS_Y_NEW
+    ; AND the current man's square to be ManX, ManY
+
                 jmp MovePlayer              ; now there's a gap, player should move in
 
-cannotPush      inc ManPushCounter
-                rts
 
    ;------------------------------------------------------------------------------
 
@@ -476,7 +492,7 @@ newMode         .byte -1, MANMODE_SWITCH, MANMODE_WAITING2, -1
 ManActionLO
                 .byte <manStartup               ; 0             no timer
                 .byte <normalMan                ; 1             timer
-                .byte <deadMan                  ; 2             timer
+                .byte <0                  ; 2             timer
                 .byte <waitingMan               ; 3             timer
                 .byte <waitingManPress          ; 4             timer
                 .byte <waitingMan               ; 5             no timer
@@ -488,7 +504,7 @@ ManActionLO
 ManActionHI
                 .byte >manStartup               ; no timer
                 .byte >normalMan                ; timer
-                .byte >deadMan                  ; timer
+                .byte >0                  ; timer
                 .byte >waitingMan               ; timer
                 .byte >waitingManPress          ; timer
                 .byte >waitingMan               ; no timer
@@ -501,6 +517,8 @@ ManActionHI
     DEFINE_SUBROUTINE manStartup
 
     IF WAIT_FOR_INITIAL_DRAW
+    ; Delay turning on the visible screen until the background has completed drawing.
+    ; This is simple - is there anything still in the draw stack?
                 lda DrawStackPointer
                 bpl midDraw
                 lda #0
@@ -508,10 +526,10 @@ ManActionHI
 midDraw
     ENDIF
 
-                lda ManX
-                sta POS_X
-                lda ManY
-                sta POS_Y
+;                lda ManX
+;                sta POS_X
+;                lda ManY
+;                sta POS_Y
 
 #if 0
 anotherC                inc POS_X
@@ -593,68 +611,6 @@ waitingManPress
 
 normalMan
 
-    ; Timer is still running, so we see if the player is to die for any reason
-
-;                bit demoMode
-;                bmi stayAlive
-    ; SELECT pressed?
-;                lda SWCHB
-;                eor #$FF
-;                and #3
-;                bne Time0                       ; EITHER select or reset are pressed
-;                lsr
-;                lsr
-;                bcc Time0                       ; suicide!
-stayAlive
-
-    ;------------------------------------------------------------------------------
-
-                ;ldx ManY
-                ;ldy ManX
-
-                ;lda BoardLineStartLO,x
-                ;sta Board_AddressR
-                ;lda BoardLineStartHiR,x
-                ;sta Board_AddressR+1
-
-    IF MULTI_BANK_BOARD = YES
-                ;lda BoardBank,x                 ;4
-                ;sta RAM_Bank                    ;3
-    ELSE
-                ;lda #BANK_BOARD                 ;2
-    ENDIF
-                ;jsr GetBoardCharacter           ;6+20(A)
-
-                ;lda CharToType,x
-                ;cmp #TYPE_MAN
-                ;beq PlayerAlive
-                jmp PlayerAlive ;sok
-
-    ; character he's on isn't a MAN character, so he dies...
-
-Time0
-
-                inc ManMode                   ; #1 -- player dead!
-
-
-deadMan         lda ManX
-                sta POS_X
-                lda ManY
-                sta POS_Y
-
-                ;jsr BlankPlayerFrame
-
-    ; and becomes a man waiting for resurrection...
-
-                inc ManMode
-
-timeTooShortToDie
-                rts
-
-    ;------------------------------------------------------------------------------
-
-PlayerAlive
-
     ; Calling code uses 'POS_X_NEW' and 'POS_Y_NEW' as new player position, so these must be set
     ; before exiting via (for example) look-around option :)
 
@@ -662,8 +618,6 @@ PlayerAlive
                 sta POS_X_NEW
                 lda ManY
                 sta POS_Y_NEW
-
-
 
     ;------------------------------------------------------------------------------
     ; Look around is triggered by holding down the fire button for a while, without any other
@@ -725,19 +679,27 @@ AbandonX        lda JoyMoveY,y
 
 AbandonY        rts
 
-noLook          lda LookingAround
+noLook          ldx #0
+                lda LookingAround
                 cmp #$FF
-                bne bProcComp
+                stx LookingAround
+                bne bProcComp                           ; $FE means there was a lookaround, so skip
 
     ; button was presssed and now released and we didn't actually look around
-    ; TODO -- takeback here
-                ;jsr restorePreviousManPosition
-                ;lda #2
-                ;sta ColourTimer
+    ; so we do a take-back
+                lda Platform
+                adc #4
+                sta ColourFlash
+                lda #5
+                sta ColourTimer
 
-bProcComp       ldx #0
-                stx LookingAround
+                lda #BANK_ManProcess
+                sta ROM_Bank                ;? might already be set
+                jsr takebackRestoreEarlierPosition
 
+                rts
+
+bProcComp
     ;------------------------------------------------------------------------------
 
                 ; control the scrolling via the joystick

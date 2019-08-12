@@ -198,7 +198,7 @@ PutBoardCharacterSB ; =18
                 lda OSPointerLO,x               ;4
                 sta POS_Vector                  ;3
 
-                jmp (POS_Vector)                ;5 = 82         vector to processor for particular object type
+                jmp (POS_Vector)                ;5 = 87         vector to processor for particular object type
 
 
     ;---------------------------------------------------------------------------
@@ -414,6 +414,9 @@ EarlyAbort4     rts
                 sta SET_BANK
                 jsr ManProcess
 
+                lda #-1
+                sta TB_CHAR                         ; pre-set box takeback to NONE
+
                 jsr MovePlayer                  ; 6+{}
 
                 lda ManMode
@@ -438,32 +441,27 @@ gnobj           jmp NextObject
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE RestoreOriginalCharacter     ;=93[-2](A)
+    DEFINE_SUBROUTINE PutCharacterAtXY
 
-                ldx POS_Y                       ;3
-                ldy POS_X                       ;3
+    ; POS_X         character location
+    ; POS_Y
+    ; POS_VAR       character to put on board
+    ; ROM_Bank      ROM bank to return to
 
-                lda #BANK_BoardLineStartLO      ;2
-                sta SET_BANK                    ;3
+                ldy POS_Y
 
-                lda BoardLineStartLO,x          ;4
-                sta Board_AddressW              ;3
-                lda BoardLineStartHiW,x         ;4
-                sta Board_AddressW+1            ;3 WRITE address
-        IF MULTI_BANK_BOARD = YES
-                lda BoardBank,x                 ;4 switch this on return
-        ELSE
-                lda #BANK_BOARD                 ;2
-        ENDIF
-                sta SET_BANK_RAM                ;3
+                lda #BANK_GetBoardAddressW
+                sta SET_BANK
+                jsr GetBoardAddressW
+                stx SET_BANK_RAM
 
+                ldy POS_X
                 lda POS_VAR
-                sta (Board_AddressW),y          ;6 clear vacated board position
+                sta (Board_AddressW),y
 
-                lda ROM_Bank                    ;3
-                sta SET_BANK                    ;3
-EarlyAbortBOX   rts                             ;6
-
+                lda ROM_Bank
+                sta SET_BANK
+                rts
 
     ;---------------------------------------------------------------------------
 
@@ -548,7 +546,8 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
 
      ;---------------------------------------------------------------------------
 
-MovePlayer
+    DEFINE_SUBROUTINE MovePlayer
+
                 lda ManMode
                 cmp #MANMODE_DEAD
                 bcs ManIsDead2
@@ -585,49 +584,65 @@ MovePlayer
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE MOVE_BLANK
-    DEFINE_SUBROUTINE MOVE_SOIL
-    DEFINE_SUBROUTINE MOVE_TARGET
+    DEFINE_SUBROUTINE RecordTakeBackPosition
 
-                ldy POS_X_NEW
-                lda (Board_AddressR),y              ; what's on the board under man?
-                pha
+        ; Pass...
+        ; TB_X          the man's position before he moved
+        ; TB_Y
+        ; TB_CHAR       if -1 then there is no box push involved, else..
+        ;               holds the character that was under the box in its new position
+        ; TB_PUSHX      Position of pushed box AFTER it is pushed
+        ; TB_PUSHY
 
-                lda #CHARACTER_MANOCCUPIED
-                sta (Board_AddressW),y
+        ; On making a move,
+        ; man's position before move --> TB_X,TB_Y
+        ; TB_CHAR = -1
+        ; IF a box was pushed,
+        ;   TB_CHAR = character under the box's new position (i.e., restoration char)
+        ;   box's new position --> TB_PUSHX, TB_PUSHY
+        ; ENDIF
+        ; moveCounter++
 
-                ldx ManY
-                stx POS_Y
-                ldy ManX
-                sty POS_X
-
-                jsr RestoreOriginalCharacter
-
-                pla
-                sta POS_VAR                     ; save 'restore' characte
+                lda TakebackInhibit
+                bne noLog
 
                 lda #BANK_TAKEBACK
                 sta SET_BANK_RAM
 
                 ldx moveCounterBinary
 
-                lda POS_X_NEW
-                sta ManX
-                sta RAM_WRITE+TakeBackX,x
+                lda TB_X
+                sta RAM_WRITE+TakeBackPreviousX,x
+                lda TB_Y
+                sta RAM_WRITE+TakeBackPreviousY,x
+                lda TB_CHAR
+                sta RAM_WRITE+TakeBackPushChar,x
 
-                lda POS_Y_NEW
-                sta ManY                        ; actually MOVE!
-                sta RAM_WRITE+TakeBackY,x
+    ; if TB_CHAR is -1 that means there is no box component, and the following values are random
 
-                lda POS_VAR                     ; replace char
-                sta RAM_WRITE+TakeBackA,x
+                lda TB_PUSHX
+                sta RAM_WRITE+TakeBackPushX,x
+                lda TB_PUSHY
+                sta RAM_WRITE+TakeBackPushY,x
 
-                lda RAM_Bank
-                sta SET_BANK_RAM
+                lda ROM_Bank
+                sta SET_BANK
 
-    ; Move counter..
+            ; fall through
 
-                inc moveCounterBinary
+    DEFINE_SUBROUTINE IncrementMoveCount
+
+                clc
+                lda moveCounterBinary
+                adc #1
+                and #TAKEBACK_MASK
+                sta moveCounterBinary
+                cmp moveCounterBase
+                bne baseOK
+                adc #0
+                and #TAKEBACK_MASK
+                sta moveCounterBase
+baseOK
 
                 sed
                 clc
@@ -639,10 +654,54 @@ MovePlayer
                 sta moveCounter+1
                 cld
 
+
+noLog           lda #0
+                sta TakebackInhibit
+                rts
+
+    ;---------------------------------------------------------------------------
+
+    DEFINE_SUBROUTINE MOVE_BLANK
+    DEFINE_SUBROUTINE MOVE_SOIL
+    DEFINE_SUBROUTINE MOVE_TARGET
+
+                txa                                 ; character man will be standing on
+                pha
+
+                lda ManX
+                sta POS_X
+                sta TB_X
+                lda ManY
+                sta POS_Y
+                sta TB_Y
+                jsr PutCharacterAtXY                ; RESTORE (previous XY) under-man character
+
+                lda POS_X_NEW
+                sta ManX
+                sta POS_X
+                lda POS_Y_NEW
+                sta ManY
+                sta POS_Y
+                lda #CHARACTER_MANOCCUPIED
+                sta POS_VAR
+                jsr PutCharacterAtXY
+
+        ; TB_X          the man's position before he moved
+        ; TB_Y
+        ; TB_CHAR       if -1 then there is no box push involved, else..
+        ;               holds the character that was under the box in its new position
+        ;               this can be inferred by the box character (ONTARGET)
+        ; TB_PUSHX      Position of pushed box AFTER it is pushed
+        ; TB_PUSHY
+
+                jsr RecordTakeBackPosition
+
+                pla
+                sta POS_VAR                     ; save 'restore' character
+
 MOVE_GENERIC    lda #0                          ; 2
                 sta ManPushCounter              ; 3
-
-timeExit        rts                             ; 6 = 11
+noMovesToTake   rts                             ; 6 = 11
 
     ;---------------------------------------------------------------------------
 
@@ -650,7 +709,6 @@ timeExit        rts                             ; 6 = 11
 
                 ldx #CHARACTER_BLANK        ; restoration character
                 lda #BANK_PushBox
-                sta ROM_Bank
                 sta SET_BANK
                 jmp PushBox
 
@@ -658,38 +716,151 @@ timeExit        rts                             ; 6 = 11
 
                 ldx #CHARACTER_TARGET      ; restoration character
                 lda #BANK_PushBox
-                sta ROM_Bank
                 sta SET_BANK
                 jmp PushBox
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE restorePreviousManPosition
+    DEFINE_SUBROUTINE takebackRestoreEarlierPosition
+
+        inc TakebackInhibit         ; non-zero
+
+        ; on reverting a move
+        ; IF moveCounter > 0
+        ;   moveCounter--
+        ;   IF TakeBackPushChar != -1
+        ;       //restore the character under box (and remove box)
+        ;       board[TakeBackPreviousX,TakeBackPreviousY] = TakeBackPushChar
+        ;   ENDIF
+        ; // We will "fix" any box going back on the board through the man's restoration char
+        ; board[ManX,ManY] = POS_VAR
+        ; POS_VAR = board[TakeBackX,TakeBackY]
+        ; board[TakeBackX,TakeBackY] = MANOCCUPIED
+        ; ManX,ManY = TakeBackX, TakeBackY
 
                 ldx moveCounterBinary
+                cpx moveCounterBase
                 beq noMovesToTake
+
                 dex
-                dec moveCounterBinary
+                txa
+                and #TAKEBACK_MASK
+                sta moveCounterBinary
+                tax
+
+                sed
+                sec
+                lda moveCounter
+                sbc #1
+                sta moveCounter
+                lda moveCounter+1
+                sbc #0
+                sta moveCounter+1
+                cld
+
+                lda Platform
+                clc
+                adc #4
+                sta ColourFlash                 ; red flash
+                lda #5
+                ;sta ColourTimer
 
                 lda #BANK_TAKEBACK
                 sta SET_BANK_RAM
 
-                lda TakeBackX,x
+        ; TB_X          the man's position before he moved
+        ; TB_Y
+        ; TB_CHAR       if -1 then there is no box push involved, else..
+        ;               holds the character that was under the box in its new position
+        ; TB_PUSHX      Position of pushed box AFTER it is pushed
+        ; TB_PUSHY
+
+        ;       //restore the character under box (and remove box)
+        ;       board[TakeBackPreviousX,TakeBackPreviousY] = TakeBackPushChar
+
+                lda POS_VAR
+                pha
+
+                ldx moveCounterBinary
+                lda TakeBackPushChar,x
+                bmi noPushInvolved                      ; -1 = no box
+
+                sta POS_VAR
+                cmp #CHARACTER_TARGET
+                bne notTarget1
+                inc targetsRequired
+notTarget1
+
+
+                lda TakeBackPushX,x
                 sta POS_X
-                sta POS_X_NEW
-                lda TakeBackY,x
+                lda TakeBackPushY,x
                 sta POS_Y
-                sta POS_Y_NEW
-                lda TakeBackA,x
+
+                jsr PutCharacterAtXY                ; fixup BOX!
+
+                pla
+
+                beq blnkre
+                lda #CHARACTER_BOX_ON_TARGET
+                dec targetsRequired
+                bpl skls
+blnkre          lda #CHARACTER_BOX
+skls            sta POS_VAR
+
+                pha
+
+noPushInvolved  pla                                 ; man's replacement char
                 sta POS_VAR
 
-                ; Put character @ X,Y
-                jsr RestoreOriginalCharacter
+        ; // We will "fix" any box going back on the board through the man's restoration char
+        ; board[ManX,ManY] = POS_VAR
+        ; POS_VAR = board[TakeBackX,TakeBackY]
+        ; board[TakeBackX,TakeBackY] = MANOCCUPIED
+        ; ManX,ManY = TakeBackX, TakeBackY
+
+                lda ManX
+                sta POS_X
+                lda ManY
+                sta POS_Y
+                jsr PutCharacterAtXY                ; put what man was on... back
+
+
+                lda #BANK_TAKEBACK
+                sta SET_BANK_RAM
+
+                ldx moveCounterBinary
+                lda TakeBackPreviousX,x
+                sta POS_X_NEW
+                sta ManX
+                lda TakeBackPreviousY,x
+                sta POS_Y_NEW
+                sta ManY
+
+    ; Grab the character from the board at man's location and use as "restore character" for man
+    ; POS_VAR = board[takebackx,takebacky]
+
+                lda #BANK_GetBoardAddressR
+                sta SET_BANK
+                ldy POS_Y_NEW
+                jsr GetBoardAddressR
+                sta SET_BANK_RAM
+
+                ldy POS_X_NEW                       ;3
+                lda (Board_AddressR),y          ;5
+                pha
+
+                lda #CHARACTER_MANOCCUPIED
+                sta POS_VAR
+                ;jsr PutCharacterAtXY
+
+                pla
+                sta POS_VAR
 
                 lda ROM_Bank
                 sta SET_BANK
 
-noMovesToTake   rts
+timeExit        rts
 
   ;---------------------------------------------------------------------------
 
@@ -771,7 +942,7 @@ EnterStealCharDraw:                             ;           RAM bank MUST be at 
                 jmp StealPart3                  ; 3 = 10    --> 18 cycles after check for SEGTIME_SCD_MIN
 
 
-
+    ds 50
 
     DEFINE_SUBROUTINE DrawFullScreenMain ;=2484[-89]
 
@@ -1044,7 +1215,7 @@ NewFrameStart
                 sta SET_BANK                ; 3
                 jsr SelfModDrawPlayers      ; 6+x
 
-SkipSc                jsr StealCharDraw
+SkipSc          jsr StealCharDraw
 
 OverscanBD      lda INTIM                   ;4
                 bne OverscanBD              ;2/3
@@ -1113,6 +1284,8 @@ frame
 
                 lda #20
                 sta DelayEndOfLevel
+                lda Platform
+                sta ColourFlash
                 lda #20
                 sta ColourTimer
 

@@ -646,7 +646,7 @@ xyClear       jsr PutBoardCharacterFromRAM
               dec POS_Y
               bpl xyLine
 
-              lda #5
+              lda #4
               sta base_x
               sta base_y
 
@@ -683,6 +683,7 @@ xyClear       jsr PutBoardCharacterFromRAM
               sta moveCounter
               sta moveCounterHi
               sta moveCounterBinary
+              sta moveCounterBase
 
               lda #$00                      ; BCD reminder!
               sta targetsRequired           ; # of targets that do NOT have boxes on them

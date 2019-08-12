@@ -273,7 +273,7 @@ PF0Draw                                         ; 25 cycles until here
                 jmp DrawAnother                 ; 3 =  3
 
     ; Timing for PF0Draw
-    ; 7+63 = 70
+    ; 88
     ; total: 37+70+6 = 113 => 113/64 + 1.4 = 3.17 = 4 (or 3?)
 
 
@@ -290,7 +290,7 @@ DirectDraw                                      ; 37 cycles until here
                 STRESS_TIME SEGTIME_SCD_DIRECT                     ; ok!
 
     ; TIME REQUIRED FROM HERE (9/JAN)
-    ; 16 + 20 + 20 + 2 + ( 7 * 32 ) - 1  + (42 SUFFIX)
+    ; 16 + 20 + 20 + 2 + ( 8 * 32 ) - 1  + (42 SUFFIX)
     ; = 323 --> /64 = 5.04 USE 7
 
                 lda CharacterDataVecHI,y        ; 4
@@ -357,8 +357,8 @@ ExitDraw
                 STRESS_TIME SEGTIME_SCD_SLOW                     ; ok!
 
     ; TIME REQUIRED FROM HERE (9/JAN)
-    ; 8 + 16 + 8 + 2 + (21 * 24) -1 + (42 OVERHEAD WHEN RETURNING)
-    ; = 579 --> /64 = 9.04 INTIM --> USE 10
+    ; 8 + 16 + 8 + 2 + (24 * 24) -1 + (42 OVERHEAD WHEN RETURNING)
+    ; = 651
 
                 lda CharacterDataVecLO,y        ; 4
                 sta SMEOR1+RAM_WRITE+1          ; 4 =  8
@@ -407,8 +407,8 @@ QuickDraw                                       ; 42 cycles until here
                 STRESS_TIME SEGTIME_SCD_QUICK                     ; ok!
 
     ; TIME REQUIRED FROM HERE (9/JAN)
-    ;   = 32 + 4 + 2 + ( 7 * 38 ) - 1 + 3  + (42 SUFFIX)
-    ;   = 348 --> /64 = 5.43. USE 7
+    ;   = 32 + 4 + 2 + ( 8 * 38 ) - 1 + 3  + (42 SUFFIX)
+    ;   = 386 --> /64 = 5.43. USE 7
 
                 lda CharAddressLO,x             ; 4         ScreenBitmap(COL) LO byte
                 sta SM2LOAD+RAM_WRITE+1         ; 4

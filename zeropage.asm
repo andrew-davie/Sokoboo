@@ -58,6 +58,12 @@ POS_Y_NEW                       ds 1
 POS_Type                        ds 1
 POS_VAR                         ds 1
 
+TB_X        ds 1
+TB_Y        ds 1
+TB_PUSHX    ds 1
+TB_PUSHY    ds 1
+TB_CHAR     ds 1
+
 BufferedJoystick                ds 2        ; player joystick input
 BufferedButton                  ds 2        ; player button press
 
@@ -87,10 +93,13 @@ ManCount                      ds 1            ; player life counter
 DelayEndOfLevel               ds 1
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
 circle_d                        ds 2
+
+#if 0
 circ_x                 ds 1
 circ_y                  ds 1
 circ_char             ds 1
 circ_scratch          ds 1
+#endif
 LEVEL_bank         ds 1
 levelPtr            ds 2
 
@@ -120,7 +129,10 @@ ThrottleSpeed                   ds 1            ; system-dependant throttle spee
 targetsRequired                  ds 1           ; number of un-targeted left to go
 moveCounter                        ds 1            ; BCD seconds for level
 moveCounterHi                      ds 1
+
 moveCounterBinary               ds 1
+moveCounterBase                 ds 1
+
 color                           ds 3            ; RGB for NTSC, RGB for PAL
 Board_AddressR                  ds 2
 Board_AddressW                  ds 2
@@ -128,6 +140,7 @@ ROM_Bank                        ds 1            ; last switched ROM bank (not ac
 RAM_Bank                        ds 1
 
 ColourTimer                     ds 1            ; colour of BG in scoring area to show level flash/complete
+ColourFlash                     ds 1             ; colour of flash
 extraLifeTimer                  ds 1            ; should be 5 seconds!
 
     ; extraLifeTimer:
@@ -161,6 +174,7 @@ sortPtr                         ds 1
 
 ObjIterator                     ds 1            ; count UP iterator over objects
 DSL                             ds 1            ; stack line counter
+TakebackInhibit                 ds 1
 
  #include "sound/intro1_variables.asm"
 

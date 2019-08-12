@@ -511,6 +511,7 @@ restorationCharacter  ds 1
 
 ;------------------------------------------------------------------------------
 
+
     OVERLAY Animate
 halftimer           ds 1
     VALIDATE_OVERLAY
@@ -763,8 +764,8 @@ ObjStackType    ds OBJ_STACK_SIZE       ; type of object
 
 ; now fits into one single bank (if we don't reserve too much space for code)
 
-SIZE_BOARD_X    = 40
-SIZE_BOARD_Y    = 22
+SIZE_BOARD_X    = 24 ;
+SIZE_BOARD_Y    = 20 ;22
 #if 0
 ; have to precalculate it here, else DASM freaks out:
 .BOARD_SIZE SET 0
@@ -793,9 +794,27 @@ Board           ds SIZE_BOARD               ; Note, we can only access this in
                                             ; this overlaps multiple banks!
 
     NEWRAMBANK BANK_TAKEBACK
-TakeBackX    ds 256
-TakeBackY    ds 256
-TakeBackA    ds 256
+
+TAKEBACK_MASK       = $3F
+
+TakeBackPreviousX   ds $40
+TakeBackPreviousY   ds $40
+TakeBackPushX       ds $40
+TakeBackPushY       ds $40
+TakeBackPushChar    ds $40
+
+    ; reverting...
+    ; A prevoius position
+    ;           POS_VAR = board
+    ;           board = MANOCCUPIED
+    ;           manx,y = x,y
+    ; B current position (MANX,Y)
+    ;           board = POS_VAR
+    ; C push position
+    ;           BOARD = PREV_BOARD
+    ; TAKEBACK_PREV_X, TAKEBACK_PREV_Y, TAKEBACK_PUSH_X,PUSH_Y,TAKEBACK_PUSH_PREV
+    ;
+
 
     ; free space here (but hard to use)
     ; So we need to calculate where the next free bank is!

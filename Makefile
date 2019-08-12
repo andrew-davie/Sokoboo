@@ -2,7 +2,7 @@ all: sokoboo.bin
 
 sokoboo.bin: *.asm Makefile FORCE
 	-killall Stella
-	tools/dasm ./sokoboo.asm -l./sokoboo.txt -f3 -s./sokoboo.sym -o./sokoboo.bin
+	tools/dasm ./sokoboo.asm -l./sokoboo.lst -f3 -s./sokoboo.sym -o./sokoboo.bin
 	chmod 777 ./sokoboo.bin
 	open -a Stella ./sokoboo.bin
 	exit 0

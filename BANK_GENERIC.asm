@@ -97,6 +97,7 @@ opg             sta ManCount                                  ; P2P1 nybble each
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
                 sta circle_d
                 sta circle_d+1
+                sta TakebackInhibit
 
 ;    IFCONST DEBUG_CREATURE
 ;                sta worstTime
@@ -375,15 +376,6 @@ Ret             rts
 EarlyAbortx     rts                             ; 6 =  6
 ; total: 5+67*2+6 = 145
 
-    ;------------------------------------------------------------------------------
-
-
-
-; worst case time from positive last check to rts: 123
-; cycles until 0-check: 15
-; minimum cycles available after last positive check until timer turns 0: (MINIMUM_SORT_TIME-1)*64+1
-; MINIMUM_SORT_TIME = 3 = 129
-; MINIMUM_SORT_TIME = 4 = 193 <- ok
 
 ;------------------------------------------------------------------------------
 
@@ -428,6 +420,7 @@ OverscanTime
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
 
 FlashColour     .byte $C0, $C0, $50, $50
+                .byte $30, $30, $60, $60
 
 
     DEFINE_SUBROUTINE PostScreenCleanup
@@ -546,7 +539,7 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
                 lda ColourTimer
                 beq noFlashBG
                 dec ColourTimer
-                ldx Platform
+                ldx ColourFlash
                 lda FlashColour,x
 noFlashBG       sta BGColour
 
