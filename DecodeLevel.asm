@@ -595,16 +595,6 @@ endzapy2        dec POS_X
                 bpl ylin
                 rts
 
-    DEFINE_SUBROUTINE RegisterOneMoreTarget
-
-              sed
-              clc
-              lda targetsRequired
-              adc #1
-              sta targetsRequired
-              cld
-              rts
-
 ;A      steel wall
 ;B      soil (surround)
 ;C      box
@@ -680,13 +670,13 @@ xyClear       jsr PutBoardCharacterFromRAM
               sta color+2
 
               lda #$00
-              sta moveCounter
-              sta moveCounterHi
-              sta moveCounterBinary
-              sta moveCounterBase
+              sta BCD_moveCounter
+              sta BCD_moveCounterHi
+              sta takebackIndex
+              sta takebackBaseIndex
 
               lda #$00                      ; BCD reminder!
-              sta targetsRequired           ; # of targets that do NOT have boxes on them
+              sta BCD_targetsRequired           ; # of targets that do NOT have boxes on them
 
               lda #24 ; arbitrary
               sta ThrottleSpeed
@@ -785,7 +775,7 @@ checkForMan
               cmp #"+"            ; player on goal square
               bne notPlayerGoal
 
-              jsr RegisterOneMoreTarget
+              jsr RegisterTarget
 
               ; put goal square, init player with POS_VAR = CHARACTER_TARGET
 
@@ -823,9 +813,6 @@ genPlayer
               lda #TYPE_MAN
               sta POS_Type                    ;       creature TYPE
               jsr InsertObjectStackFromRAM    ;6+94(B)
-
-              lda #0
-              sta manAnimationIndex
 
               pla
               sta POS_Y
@@ -872,7 +859,7 @@ Wc2x              clc
               lda POS_Type
               cmp #CHARACTER_TARGET
               bne notargdet
-              jsr RegisterOneMoreTarget
+              jsr RegisterTarget
 notargdet
 
               pla

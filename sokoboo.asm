@@ -97,7 +97,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 1           ; slowdown when pushing on a BOX
+PUSH_LIMIT                      = 2           ; slowdown when pushing on a BOX
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -501,6 +501,12 @@ DHS_Stack               ds 1                ; for restoring SP
 
 ;------------------------------------------------------------------------------
 
+    OVERLAY Animator
+frame_ptr       ds 2
+colour_ptr      ds 2
+    VALIDATE_OVERLAY
+
+
     OVERLAY Process
 
 BOXLeft         ds 1
@@ -620,10 +626,6 @@ actionVector        ds 2
 
                 OVERLAY SetPlatformColours
 colorIdx            ds 1
-                VALIDATE_OVERLAY
-
-                OVERLAY SwapPlayers
-tmpX                ds 1
                 VALIDATE_OVERLAY
 
                 OVERLAY DrawIntoStack
@@ -874,6 +876,7 @@ ORIGIN      SET $00000
             include "BANK_LEVELS4.asm"
             include "BANK_LEVELS5.asm"
             include "BANK_LEVELS6.asm"
+            include "BANK_PlayerFrames.asm"
             include "titleScreen.asm"
             include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
             include "BANK_FIXED.asm"

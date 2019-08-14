@@ -50,7 +50,7 @@ ORIGIN          SET FIXED_BANK
                 lda #BANK_SCORING
                 sta SET_BANK_RAM
                 jsr DrawTime
-                jsr DrawTargetsRequired
+                jsr DrawBCD_targetsRequired
                 lda ROM_Bank
                 sta SET_BANK
                 rts
@@ -422,7 +422,7 @@ EarlyAbort4     rts
                 lda ManMode
                 cmp #MANMODE_NEXTLEVEL      ; kludge
                 bcs notComplete
-                lda targetsRequired
+                lda BCD_targetsRequired
                 bne notComplete
                 lda #MANMODE_NEXTLEVEL
                 sta ManMode
@@ -548,9 +548,9 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
 
     DEFINE_SUBROUTINE MovePlayer
 
-                lda ManMode
-                cmp #MANMODE_DEAD
-                bcs ManIsDead2
+;                lda ManMode
+;                cmp #MANMODE_DEAD
+;                bcs ManIsDead2
 
                 ldy POS_Y_NEW
 
@@ -601,7 +601,7 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
         ;   TB_CHAR = character under the box's new position (i.e., restoration char)
         ;   box's new position --> TB_PUSHX, TB_PUSHY
         ; ENDIF
-        ; moveCounter++
+        ; BCD_moveCounter++
 
                 lda TakebackInhibit
                 bne noLog
@@ -609,7 +609,7 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
                 lda #BANK_TAKEBACK
                 sta SET_BANK_RAM
 
-                ldx moveCounterBinary
+                ldx takebackIndex
 
                 lda TB_X
                 sta RAM_WRITE+TakeBackPreviousX,x
@@ -633,25 +633,25 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
     DEFINE_SUBROUTINE IncrementMoveCount
 
                 clc
-                lda moveCounterBinary
+                lda takebackIndex
                 adc #1
                 and #TAKEBACK_MASK
-                sta moveCounterBinary
-                cmp moveCounterBase
+                sta takebackIndex
+                cmp takebackBaseIndex
                 bne baseOK
                 adc #0
                 and #TAKEBACK_MASK
-                sta moveCounterBase
+                sta takebackBaseIndex
 baseOK
 
                 sed
                 clc
-                lda moveCounter
+                lda BCD_moveCounter
                 adc #1
-                sta moveCounter
-                lda moveCounter+1
+                sta BCD_moveCounter
+                lda BCD_moveCounter+1
                 adc #0
-                sta moveCounter+1
+                sta BCD_moveCounter+1
                 cld
 
 
@@ -667,6 +667,11 @@ noLog           lda #0
 
                 txa                                 ; character man will be standing on
                 pha
+
+
+
+
+
 
                 lda ManX
                 sta POS_X
@@ -697,11 +702,22 @@ noLog           lda #0
                 jsr RecordTakeBackPosition
 
                 pla
-                sta POS_VAR                     ; save 'restore' character
+                ;sta POS_VAR                     ; save 'restore' character
 
 MOVE_GENERIC    lda #0                          ; 2
                 sta ManPushCounter              ; 3
-noMovesToTake   rts                             ; 6 = 11
+                rts                             ; 6 = 11
+
+    ;---------------------------------------------------------------------------
+    ; takeback buffer empty - flash red
+
+noMovesToTake   lda Platform
+                clc
+                adc #4                      ; reds
+                sta ColourFlash
+                lda #10
+                sta ColourTimer
+                rts
 
     ;---------------------------------------------------------------------------
 
@@ -723,11 +739,11 @@ noMovesToTake   rts                             ; 6 = 11
 
     DEFINE_SUBROUTINE takebackRestoreEarlierPosition
 
-        inc TakebackInhibit         ; non-zero
+                inc TakebackInhibit         ; non-zero
 
         ; on reverting a move
-        ; IF moveCounter > 0
-        ;   moveCounter--
+        ; IF BCD_moveCounter > 0
+        ;   BCD_moveCounter--
         ;   IF TakeBackPushChar != -1
         ;       //restore the character under box (and remove box)
         ;       board[TakeBackPreviousX,TakeBackPreviousY] = TakeBackPushChar
@@ -738,32 +754,34 @@ noMovesToTake   rts                             ; 6 = 11
         ; board[TakeBackX,TakeBackY] = MANOCCUPIED
         ; ManX,ManY = TakeBackX, TakeBackY
 
-                ldx moveCounterBinary
-                cpx moveCounterBase
+                ldx takebackIndex
+                cpx takebackBaseIndex
                 beq noMovesToTake
 
                 dex
                 txa
                 and #TAKEBACK_MASK
-                sta moveCounterBinary
+                sta takebackIndex
                 tax
 
                 sed
                 sec
-                lda moveCounter
+                lda BCD_moveCounter
                 sbc #1
-                sta moveCounter
-                lda moveCounter+1
+                sta BCD_moveCounter
+                lda BCD_moveCounter+1
                 sbc #0
-                sta moveCounter+1
+                sta BCD_moveCounter+1
                 cld
 
+#if 0
                 lda Platform
                 clc
-                adc #4
-                sta ColourFlash                 ; red flash
-                lda #5
-                ;sta ColourTimer
+                adc #8
+                sta ColourFlash                 ; yellow flash
+                lda #3
+                sta ColourTimer
+#endif
 
                 lda #BANK_TAKEBACK
                 sta SET_BANK_RAM
@@ -781,14 +799,16 @@ noMovesToTake   rts                             ; 6 = 11
                 lda POS_VAR
                 pha
 
-                ldx moveCounterBinary
+                ldx takebackIndex
                 lda TakeBackPushChar,x
                 bmi noPushInvolved                      ; -1 = no box
 
                 sta POS_VAR
                 cmp #CHARACTER_TARGET
+                beq isaTarget
+                cmp #CHARACTER_TARGET2
                 bne notTarget1
-                inc targetsRequired
+isaTarget       jsr RegisterTarget
 notTarget1
 
 
@@ -800,11 +820,10 @@ notTarget1
                 jsr PutCharacterAtXY                ; fixup BOX!
 
                 pla
-
                 beq blnkre
+                jsr DeRegisterTarget
                 lda #CHARACTER_BOX_ON_TARGET
-                dec targetsRequired
-                bpl skls
+                bne skls
 blnkre          lda #CHARACTER_BOX
 skls            sta POS_VAR
 
@@ -829,7 +848,7 @@ noPushInvolved  pla                                 ; man's replacement char
                 lda #BANK_TAKEBACK
                 sta SET_BANK_RAM
 
-                ldx moveCounterBinary
+                ldx takebackIndex
                 lda TakeBackPreviousX,x
                 sta POS_X_NEW
                 sta ManX
@@ -846,15 +865,13 @@ noPushInvolved  pla                                 ; man's replacement char
                 jsr GetBoardAddressR
                 sta SET_BANK_RAM
 
-                ldy POS_X_NEW                       ;3
-                lda (Board_AddressR),y          ;5
-                pha
-
-                lda #CHARACTER_MANOCCUPIED
-                sta POS_VAR
-                ;jsr PutCharacterAtXY
-
-                pla
+                ldy POS_X_NEW
+                lda (Board_AddressR),y
+                ;pha
+                ;lda #CHARACTER_MANOCCUPIED
+                ;sta POS_VAR
+                ;jsr PutCharacterAtXY           ????
+                ;pla
                 sta POS_VAR
 
                 lda ROM_Bank
@@ -1007,6 +1024,75 @@ CopyRow2
                 jmp DrawIntoStack
 
 
+    DEFINE_SUBROUTINE writePlayerFrame
+
+                    sec
+                    lda ManY
+                    sbc BoardScrollY
+                    cmp #SCREEN_LINES                  ; todo - use const
+                    bcs skipOffscreen
+                    tax
+
+                    lda #PLAYER_FRAMES
+                    sta SET_BANK
+
+                    dec animation_delay
+                    bpl nextAnimation2
+
+                    clc
+                    lda animation
+                    adc #2
+                    sta animation
+                    bcc ahiok
+                    inc animation+1
+ahiok
+getDelay            ldy #1
+                    lda (animation),y
+                    bpl simpleDelay
+
+                    pha
+                    dey
+                    lda (animation),y
+                    sta animation
+                    pla
+                    sta animation+1
+                    jmp getDelay
+
+simpleDelay         sta animation_delay
+
+nextAnimation2      ldy #0
+                    lda (animation),y
+                    tay
+                    lda FRAME_PTR_LO,y
+                    sta frame_ptr
+                    lda FRAME_PTR_HI,y
+                    sta frame_ptr+1
+
+                    lda COLOUR_PTR_LO,y
+                    sta colour_ptr
+                    lda COLOUR_PTR_HI,y
+                    sta colour_ptr+1
+
+                    ldy #23
+CopySpriteToBank
+                    lda #PLAYER_FRAMES
+                    sta SET_BANK
+                    lda (frame_ptr),y
+                    pha
+                    lda (colour_ptr),y
+                    stx SET_BANK_RAM
+                    sta SpriteColourRED+RAM_WRITE,y
+                    pla
+                    sta PLAYER_RIGHT0+RAM_WRITE,y
+                    dey
+                    bpl CopySpriteToBank
+
+skipOffscreen       rts
+
+
+
+
+
     ;---------------------------------------------------------------------------
 
 
@@ -1090,10 +1176,6 @@ skipDemoCheck
                 lda #BANK_LevelInit             ; 2
                 sta SET_BANK                    ; 3
                 jsr LevelInit                   ; 6+x
-
-                lda #0
-                sta base_x
-                sta base_y
 
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
@@ -1215,7 +1297,9 @@ NewFrameStart
                 sta SET_BANK                ; 3
                 jsr SelfModDrawPlayers      ; 6+x
 
-SkipSc          jsr StealCharDraw
+SkipSc
+                jsr writePlayerFrame
+                jsr StealCharDraw
 
 OverscanBD      lda INTIM                   ;4
                 bne OverscanBD              ;2/3
@@ -1225,132 +1309,22 @@ VBlankTime
                 .byte VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
                 .byte VBLANK_TIM_PAL, VBLANK_TIM_PAL
 
-
-#if 0
-    DEFINE_SUBROUTINE SokoScreen
-
-
-
-    ;---------------------------------------------------------------------------
-    ; A 42-cycle timing window in the screen draw code.  Perform any general
-    ; per-frame code here, provided it takes exactly 42 cycles to execute.
-    ; TJ: Well, not exactly 42 cycles, but it works! :)
-                                            ;       @09
-                ;sta COLUBK                  ; 3     value comes from subroutine
-                                            ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
-
-;                inc Throttle                ; 5     speed limiter
-                SLEEP 5                     ;       TODO: optimize for space
-
-                lda #%00010101              ; 2     double width missile, double width player
-                dex                         ; 2     = $6f, stars effect!
-                stx HMM0                    ; 3     @24, exactly 21 cycles after the HMOVE
-
-                sta NUSIZ0                  ; 3
-                sty VDELP0                  ; 3     y = 0!
-
-                iny                         ; 2     this relies on Y == 0 before...
-                cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
-                adc #2                      ; 2
-                sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
-
-                lda ManLastDirection        ; 3
-                sta REFP0                   ; 3                lda #BANK_SCREENMARKII1     ; 2
-                sta SET_BANK_RAM            ; 3
-                jsr DrawTheScreen           ; 6     @57 from RAM, no less!!
-                                            ;       @66
-                lda #BANK_PostScreenCleanup ; 2
-                sta SET_BANK                ; 3
-                jsr PostScreenCleanup       ; 6+x
-
-                lda #BANK_SelfModDrawPlayers; 2
-                sta SET_BANK                ; 3
-                jsr SelfModDrawPlayers      ; 6+x
-
-frame
-                jsr StealCharDraw
-           lda INTIM
-                bne frame
-
-
-                lda #BANK_TitleScreen
-                sta SET_BANK
-                rts
-#endif
-
     ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE nextLevelMan
 
-                lda #20
-                sta DelayEndOfLevel
-                lda Platform
-                sta ColourFlash
-                lda #20
-                sta ColourTimer
+                lda #BANK_EOL
+                sta SET_BANK
+                jmp EOL
 
-
-                lda #0
-                sta circle_d
-                sta circle_d+1
-
-            #if 0
-
-            ; Fire up a circle-drawing special-effect object...
-
-
-                lda #TYPE_CIRCLE
-                sta POS_Type
-                jsr InsertObjectStack
-
-            #endif
-
-
-#if 0
-                lda #$08
-                sta color
-                lda #$04
-                sta color+1
-                lda #$0A
-                sta color+2
-#endif
-                inc ManMode
-                rts
 
     DEFINE_SUBROUTINE nextLevelMan2
 
-#if 0
-                ldy #SCREEN_LINES-1
-CopyScreenBank2 ldx #ROM_SHADOW_OF_RAMBANK_CODE
-                sty RAM_Bank
-                jsr SetPlatformColours             ; set NTSC or PAL RGB values for draw + index
-                dey
-                bpl CopyScreenBank2
+                dec DelayEndOfLevel
+                bne genericRTS
 
-                ldx #2
-fade            lda color,x
-                and #$F
-                bne nz
-                lda #1
-                sta color,x
-nz              dec color,x
-zalready        dex
-                bpl fade
-#endif
-
-                ;dec DelayEndOfLevel
-                ;beq goNL3
-
-                inc circle_d+1
-                lda circle_d+1
-                cmp #20
-                bcs goNL3
-
-
-                rts
-
-goNL3
-                inc ManMode
+                lda #MANMODE_SWITCH
+                sta ManMode
 
     DEFINE_SUBROUTINE switchLevels
 
@@ -1388,6 +1362,26 @@ goNL3
 
 
     ;---------------------------------------------------------------------------
+
+    DEFINE_SUBROUTINE RegisterTarget
+
+                sed
+                clc
+                lda BCD_targetsRequired
+                adc #1
+                sta BCD_targetsRequired
+                cld
+genericRTS      rts
+
+    DEFINE_SUBROUTINE DeRegisterTarget
+
+                sed
+                sec
+                lda BCD_targetsRequired
+                sbc #1
+                sta BCD_targetsRequired
+                cld
+                rts
 
     ;---------------------------------------------------------------------------
 

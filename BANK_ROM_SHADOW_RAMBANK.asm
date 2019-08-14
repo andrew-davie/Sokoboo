@@ -82,8 +82,10 @@ SM_PF0_REDl     lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3         @67
                 lda ScreenBitmapRED+0*LINES_PER_CHAR,y      ; 4
                 sta PF1                                     ; 3 = 14    @74
-SELFMOD_PLAYERCOL_RED
+;SELFMOD_PLAYERCOL_RED
                 lda SpriteColourRED,y                       ; 4
+                ;lda #$66
+                ;nop
                 sta COLUP0                                  ; 3         @05
                 sta COLUP1                                  ; 3 = 10    @08
 
@@ -125,8 +127,10 @@ ScanBLUEBD                                                  ;           @67     
 
 SM_PF0_BLUEl    lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @74
-SELFMOD_PLAYERCOL_BLUE
+;SELFMOD_PLAYERCOL_BLUE
                 lda SpriteColourBLUE,y                      ; 4
+                ;lda #$66
+                ;nop
                 sta COLUP1                                  ; 3         @05
                 sta COLUP0                                  ; 3 = 10    @08
 
@@ -159,8 +163,10 @@ SELFMOD_PLAYER1_BLUE
 ScanGREEN                                                   ;           @62
 SM_PF0_GREENl   lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @69
-SELFMOD_PLAYERCOL_GREEN
+;SELFMOD_PLAYERCOL_GREEN
                 lda SpriteColourGREEN,y                     ; 4
+                ;lda #$66
+                ;nop
                 sta COLUP1                                  ; 3         @00
                 sta COLUP0                                  ; 3 = 10    @03
 

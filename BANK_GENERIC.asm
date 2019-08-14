@@ -63,7 +63,7 @@
                 ldy #0 ;sJoysticks
                 sty jtoggle
                 stx level
-                sta ManCount                                  ; = #players
+                ;sta ManCount                                  ; = #players
                 lda #0
                 sta levelX                                        ; make an immediate copy to safe variables!
                 sta startingLevel
@@ -73,14 +73,21 @@
                 asl
                 sta levelX
 
+                lda #<Animation_Walk
+                sta animation
+                lda #>Animation_Walk
+                sta animation+1
+                lda #0
+                sta animation_delay
+
                 lda #1
                 sta whichPlayer                                 ; will switch to 0 on 1st go
 
-                lda #NUM_LIVES<<4                               ; 3 lives
-                ldx ManCount                                  ; = sPlayers
-                beq opg
-                lda #NUM_LIVES<<4|NUM_LIVES
-opg             sta ManCount                                  ; P2P1 nybble each
+                ;lda #NUM_LIVES<<4                               ; 3 lives
+                ;ldx ManCount                                  ; = sPlayers
+                ;beq opg
+                ;lda #NUM_LIVES<<4|NUM_LIVES
+opg             ;sta ManCount                                  ; P2P1 nybble each
 
     ;---------------------------------------------------------------------------
 
@@ -95,9 +102,10 @@ opg             sta ManCount                                  ; P2P1 nybble each
                 sta GRP0
 
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
+        #if 0
                 sta circle_d
                 sta circle_d+1
-                sta TakebackInhibit
+        #endif
 
 ;    IFCONST DEBUG_CREATURE
 ;                sta worstTime
@@ -112,7 +120,7 @@ opg             sta ManCount                                  ; P2P1 nybble each
                 sta BufferedButton
                 sta BufferedButton+1
 
-                lda #DIRECTION_BITS
+                lda #DIRECTION_BITS             ;???
                 sta ManLastDirection
 
                 lda #0
@@ -196,17 +204,24 @@ notU0           sta BoardScrollY
                 lda #0
                 sta ManMode
                 sta ManDelayCount
+                sta TakebackInhibit
 
                 lda #AnimateBLANK-Manimate ;0 ;<AnimateBLANK ;STAND
-                sta ManAnimation
+                ;sta ManAnimation
                 ;lda #>AnimateBLANK ;
                 ;sta ManAnimation+1
 
                 lda #$FF
                 sta LastSpriteY
 
-                lda #DIRECTION_BITS
-                sta ManLastDirection
+                lda #DIRECTION_BITS             ;????
+                sta ManLastDirection            ; duplicate?
+
+
+                lda #0
+                sta base_x
+                sta base_y
+
                 rts
 
     ;-------------------------------------------------------------------------------------
@@ -420,7 +435,8 @@ OverscanTime
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
 
 FlashColour     .byte $C0, $C0, $50, $50
-                .byte $30, $30, $60, $60
+                .byte $30, $30, $60, $60            ; reds - cannot takeback
+                .byte $12, $12, $22, $22            ; yellow
 
 
     DEFINE_SUBROUTINE PostScreenCleanup

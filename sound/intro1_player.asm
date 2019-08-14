@@ -15,8 +15,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-; Song author: 
-; Song name: 
+; Song author:
+; Song name:
 
 ; @com.wudsn.ide.asm.hardware=ATARI2600
 
@@ -95,12 +95,12 @@ tt_PlayerStart:
 ; ---------------------------------------------------------------------
 ; Music player entry. Call once per frame.
 ; ---------------------------------------------------------------------
-tt_Player SUBROUTINE    
+tt_Player SUBROUTINE
         ; ==================== Sequencer ====================
         ; Decrease speed timer
         dec tt_timer
         bpl .noNewNote
-        
+
         ; Timer ran out: Do sequencer
         ; Advance to next note
         ldx #1                          ; 2 channels
@@ -113,7 +113,7 @@ tt_Player SUBROUTINE
         ; Parse new note from pattern
         cmp #TT_INS_PAUSE
     IF TT_USE_SLIDE = 0
-        bcc .finishedNewNote	
+        bcc .finishedNewNote
         bne .newNote
     ELSE
         beq .pause
@@ -130,7 +130,7 @@ tt_Player SUBROUTINE
         sta tt_cur_ins_c0,x
         bcs .finishedNewNote            ; unconditional, since legally no underflow can happen (ins>0 or HOLD for ins=0)
     ENDIF
-  
+
         ; --- pause ---
 .pause:
         ; Get release index for current instrument. Since a pause can
@@ -182,7 +182,7 @@ tt_FetchNote:
         jsr tt_CalcInsIndex
         lda tt_InsADIndexes-1,y         ; -1 because instruments start at #1
 .storeADIndex:
-        sta tt_envelope_index_c0,x      
+        sta tt_envelope_index_c0,x
 
         ; --- Finished parsing new note ---
 .finishedNewNote:
@@ -208,7 +208,7 @@ tt_FetchNote:
         lda tt_PatternSpeeds,y          ; does not affect carry flag
         bcc .evenFrame
         and #$0f                        ; does not affect carry flag
-        bcs .storeFunkTempo        
+        bcs .storeFunkTempo
 .evenFrame:
         lsr
         lsr
@@ -258,7 +258,7 @@ tt_FetchNote:
         lsr
         lsr
         lsr
-        sta AUDC0,x     
+        sta AUDC0,x
         ; Set AUDF
         lda tt_PercFreqTable-1,y        ; -1 because values are stored +1
         ; Bit 7 (overlay) might be set, but is unused in AUDF
@@ -274,17 +274,17 @@ tt_FetchNote:
         sta tt_cur_ins_c0,x             ; set new instrument
         jsr tt_CalcInsIndex
         lda tt_InsSustainIndexes-1,y    ; -1 because instruments start at #1
-        sta tt_envelope_index_c0,x      
+        sta tt_envelope_index_c0,x
         ; Set prefetch flag. asl-sec-ror is smaller than lda-ora #128-sta
         asl tt_cur_note_index_c0,x
         sec
         ror tt_cur_note_index_c0,x
         bmi .afterAudioUpdate           ; unconditional
-    ELSE  
+    ELSE
         jmp .afterAudioUpdate
     ENDIF
 
-    
+
 ; ---------------------------------------------------------------------
 ; Helper subroutine to minimize ROM footprint.
 ; Interleaved here so player routine can be inlined.
@@ -327,7 +327,7 @@ tt_Bit6Set:     ; This opcode has bit #6 set, for use with bit instruction
         lsr
         lsr
         lsr
-        lsr     
+        lsr
         clc
         adc tt_cur_ins_c0,x
         sec

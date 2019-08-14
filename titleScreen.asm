@@ -158,9 +158,11 @@ colvec
     REPEND
     ENDM
 
-colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
+;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
+colr_pal        LUMTABLE $C0, $90, $60,0,8,4
 colr_ntsc   LUMTABLE $80,$B0,$50,0,8,4
 
     include "titleData.asm"
+;    include "pizza.asm"
 
  CHECK_BANK_SIZE "INITBANK"

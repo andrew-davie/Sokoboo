@@ -42,6 +42,7 @@ YELLOW_PAL  = $20
 ORANGE_PAL  = $40
 RED_PAL     = $60
 
+PLAYER_COLOUR
 SpriteColour
 ; NTSC
 ;SpriteColourRED
@@ -70,35 +71,18 @@ SpriteColour
 ;    .byte WHITE             ;20
 
 SpriteColourRED
-    REPEAT LINES_PER_CHAR
- .byte $A4
+    REPEAT LINES_PER_CHAR/3
+ .byte $24
     REPEND
-    REPEAT LINES_PER_CHAR
- .byte $76
-    REPEND
-
-
-;  .byte #$1C;0
-;  .byte #$78;3
-;  .byte #$52;6
-;  .byte #$52;9
-;  .byte #$0C;12
-;  .byte #$4A;15
-;  .byte #$1A;18
 SpriteColourGREEN
-    REPEAT LINES_PER_CHAR
- .byte $A4
-    REPEND
-    REPEAT LINES_PER_CHAR
- .byte $76
+    REPEAT LINES_PER_CHAR/3
+ .byte $24
     REPEND
 SpriteColourBLUE
-    REPEAT LINES_PER_CHAR
- .byte $A4
+    REPEAT LINES_PER_CHAR/3
+ .byte $24
     REPEND
-    REPEAT LINES_PER_CHAR
- .byte $76
-    REPEND
+
 
 ;  REPEAT LINES_PER_CHARACTER        ;???
 ;  .byte $20|$6             ; 2

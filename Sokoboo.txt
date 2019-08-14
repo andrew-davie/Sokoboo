@@ -1142,10 +1142,10 @@
     123 U00bf		       00	   Throttle   ds	1	; frame throttle to prevent super-speeds
     124 U00c0		       00	   ThrottleSpeed ds	1	; system-dependant throttle speed
     125 U00c1
-    126 U00c1		       00	   targetsRequired ds	1	; number of un-targeted left to go
-    127 U00c2		       00	   moveCounter ds	1	; BCD seconds for level
-    128 U00c3		       00	   moveCounterHi ds	1
-    129 U00c4		       00	   moveCounterBinary ds	1
+    126 U00c1		       00	   BCD_targetsRequired ds	1	; number of un-targeted left to go
+    127 U00c2		       00	   BCD_moveCounter ds	1	; BCD seconds for level
+    128 U00c3		       00	   BCD_moveCounterHi ds	1
+    129 U00c4		       00	   takebackIndex ds	1
     130 U00c5		       00 00 00    color      ds	3	; RGB for NTSC, RGB for PAL
     131 U00c8		       00 00	   Board_AddressR ds	2
     132 U00ca		       00 00	   Board_AddressW ds	2
@@ -5285,14 +5285,14 @@
     805  12b8
     806  12b8							;------------------------------------------------------------------------------
     807  12b8
-      0  12b8					      DEFINE_SUBROUTINE	DrawTargetsRequired
-      1  12b8		       00 02	   BANK_DrawTargetsRequired =	_CURRENT_BANK
+      0  12b8					      DEFINE_SUBROUTINE	DrawBCD_targetsRequired
+      1  12b8		       00 02	   BANK_DrawBCD_targetsRequired =	_CURRENT_BANK
       2  12b8					      SUBROUTINE
-      3  12b8				   DrawTargetsRequired
+      3  12b8				   DrawBCD_targetsRequired
     809  12b8							; Show current TARGET counter in the top left
     810  12b8
     811  12b8		       a0 00		      ldy	#SM_OFS_TARGETS
-    812  12ba		       a5 c1		      lda	targetsRequired
+    812  12ba		       a5 c1		      lda	BCD_targetsRequired
     813  12bc		       20 d8 f2 	      jsr	SetupBCDPtr
     814  12bf
     815  12bf		       a9 b0		      lda	#ID_TARGET<<4	; if no extra targets, display the normal icon
@@ -5317,9 +5317,9 @@
       2  12cf					      SUBROUTINE
       3  12cf				   SetupTimePtr
     830  12cf
-    831  12cf		       a5 c2		      lda	moveCounter
+    831  12cf		       a5 c2		      lda	BCD_moveCounter
     832  12d1		       20 d8 f2 	      jsr	SetupBCDPtr
-    833  12d4		       a5 c3		      lda	moveCounter+1
+    833  12d4		       a5 c3		      lda	BCD_moveCounter+1
     834  12d6		       09 d0		      ora	#ID_CLOCK<<4
     835  12d8
     836  12d8							; fall through
@@ -6268,16 +6268,16 @@
     595  1a3d		       10 cc		      bpl	ylin
     596  1a3f		       60		      rts
     597  1a40
-      0  1a40					      DEFINE_SUBROUTINE	RegisterOneMoreTarget
-      1  1a40		       00 03	   BANK_RegisterOneMoreTarget =	_CURRENT_BANK
+      0  1a40					      DEFINE_SUBROUTINE	RegisterTarget
+      1  1a40		       00 03	   BANK_RegisterTarget =	_CURRENT_BANK
       2  1a40					      SUBROUTINE
-      3  1a40				   RegisterOneMoreTarget
+      3  1a40				   RegisterTarget
     599  1a40
     600  1a40		       f8		      sed
     601  1a41		       18		      clc
-    602  1a42		       a5 c1		      lda	targetsRequired
+    602  1a42		       a5 c1		      lda	BCD_targetsRequired
     603  1a44		       69 01		      adc	#1
-    604  1a46		       85 c1		      sta	targetsRequired
+    604  1a46		       85 c1		      sta	BCD_targetsRequired
     605  1a48		       d8		      cld
     606  1a49		       60		      rts
     607  1a4a
@@ -6359,12 +6359,12 @@
     680  1ab3		       85 c7		      sta	color+2
     681  1ab5
     682  1ab5		       a9 00		      lda	#$00
-    683  1ab7		       85 c2		      sta	moveCounter
-    684  1ab9		       85 c3		      sta	moveCounterHi
-    685  1abb		       85 c4		      sta	moveCounterBinary
+    683  1ab7		       85 c2		      sta	BCD_moveCounter
+    684  1ab9		       85 c3		      sta	BCD_moveCounterHi
+    685  1abb		       85 c4		      sta	takebackIndex
     686  1abd
     687  1abd		       a9 00		      lda	#$00	; BCD reminder!
-    688  1abf		       85 c1		      sta	targetsRequired	; # of targets that do NOT have boxes on them
+    688  1abf		       85 c1		      sta	BCD_targetsRequired	; # of targets that do NOT have boxes on them
     689  1ac1
     690  1ac1		       a9 18		      lda	#24	; arbitrary
     691  1ac3		       85 c0		      sta	ThrottleSpeed
@@ -6463,7 +6463,7 @@
     784  1b42		       c9 2b		      cmp	#"+"	; player on goal square
     785  1b44		       d0 07		      bne	notPlayerGoal
     786  1b46
-    787  1b46		       20 40 f2 	      jsr	RegisterOneMoreTarget
+    787  1b46		       20 40 f2 	      jsr	RegisterTarget
     788  1b49
     789  1b49							; put goal square, init player with POS_VAR = CHARACTER_TARGET
     790  1b49
@@ -6550,7 +6550,7 @@
     871  1bab		       a5 8e		      lda	POS_Type
     872  1bad		       c9 03		      cmp	#CHARACTER_TARGET
     873  1baf		       d0 03		      bne	notargdet
-    874  1bb1		       20 40 f2 	      jsr	RegisterOneMoreTarget
+    874  1bb1		       20 40 f2 	      jsr	RegisterTarget
     875  1bb4				   notargdet
     876  1bb4
     877  1bb4		       68		      pla
@@ -7353,7 +7353,7 @@
      99  1e26					      I2C_TXBIT		;18	     transmit
     100  1e26					      tya		; 2
     101  1e26					      asl		; 2	     shift next bit into C
-    102  1e26					      bne	i2c_txbyteloop	; 2³= 26/27
+    102  1e26					      bne	i2c_txbyteloop	; 2ï¿½= 26/27
     103  1e26
     104  1e26							; receive acknowledge bit
     105  1e26
@@ -7362,7 +7362,7 @@
     108  1e26							;-------------------------------------------------------------------------------
     109  1e26
     110  1e26				   i2c_rxbyte
-    111  1e26					      bvc	i2c_rxskipack	; 2³	     previous byte needs acknowledge?
+    111  1e26					      bvc	i2c_rxskipack	; 2ï¿½	     previous byte needs acknowledge?
     112  1e26					      jsr	i2c_txack	;24	     transmit acknowledge bit
     113  1e26
     114  1e26				   i2c_rxskipack
@@ -7381,7 +7381,7 @@
     127  1e26
     128  1e26					      tya		; 2
     129  1e26					      rol		; 2	     rotate into Y
-    130  1e26					      bcc	i2c_rxbyteloop	; 2³=	6/7
+    130  1e26					      bcc	i2c_rxbyteloop	; 2ï¿½=	6/7
     131  1e26
     132  1e26							; received byte in A
     133  1e26					      rts		; 6 =	6
@@ -7390,7 +7390,7 @@
     136  1e26							;-------------------------------------------------------------------------------
     137  1e26
     138  1e26				   i2c_stopread
-    139  1e26					      bvc	i2c_stopwrite	; 2³
+    139  1e26					      bvc	i2c_stopwrite	; 2ï¿½
     140  1e26					      ldy	#$80	; 2
     141  1e26					      jsr	i2c_rxbit	;46	     transmit no-acknowledge
     142  1e26
@@ -12741,9 +12741,9 @@
     358  5931
     359  5931		       f8	   decreaseTargets sed
     360  5932		       38		      sec
-    361  5933		       a5 c1		      lda	targetsRequired
+    361  5933		       a5 c1		      lda	BCD_targetsRequired
     362  5935		       e9 01		      sbc	#1
-    363  5937		       85 c1		      sta	targetsRequired
+    363  5937		       85 c1		      sta	BCD_targetsRequired
     364  5939		       d8		      cld
     365  593a
     366  593a		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
@@ -12760,9 +12760,9 @@
     377  5943
     378  5943		       f8		      sed
     379  5944		       18		      clc
-    380  5945		       a5 c1		      lda	targetsRequired
+    380  5945		       a5 c1		      lda	BCD_targetsRequired
     381  5947		       69 01		      adc	#1
-    382  5949		       85 c1		      sta	targetsRequired
+    382  5949		       85 c1		      sta	BCD_targetsRequired
     383  594b		       d8		      cld
     384  594c
     385  594c				   notOnTargetAlready
@@ -13496,7 +13496,7 @@
      50  7800		       a9 09		      lda	#BANK_SCORING
      51  7802		       85 3e		      sta	SET_BANK_RAM
      52  7804		       20 cd f2 	      jsr	DrawTime
-     53  7807		       20 b8 f2 	      jsr	DrawTargetsRequired
+     53  7807		       20 b8 f2 	      jsr	DrawBCD_targetsRequired
      54  780a		       a5 cc		      lda	ROM_Bank
      55  780c		       85 3f		      sta	SET_BANK
      56  780e		       60		      rts
@@ -13919,7 +13919,7 @@
     419  78e3		       a5 a4		      lda	ManMode
     420  78e5		       c9 07		      cmp	#MANMODE_NEXTLEVEL	; kludge
     421  78e7		       b0 08		      bcs	notComplete
-    422  78e9		       a5 c1		      lda	targetsRequired
+    422  78e9		       a5 c1		      lda	BCD_targetsRequired
     423  78eb		       d0 04		      bne	notComplete
     424  78ed		       a9 07		      lda	#MANMODE_NEXTLEVEL
     425  78ef		       85 a4		      sta	ManMode
@@ -14112,11 +14112,11 @@
     600  7988							;   TB_CHAR = character under the box's new position (i.e., restoration char)
     601  7988							;   box's new position --> TB_PUSHX, TB_PUSHY
     602  7988							; ENDIF
-    603  7988							; moveCounter++
+    603  7988							; BCD_moveCounter++
     604  7988
     605  7988							; on reverting a move
-    606  7988							; IF moveCounter > 0
-    607  7988							;   moveCounter--
+    606  7988							; IF BCD_moveCounter > 0
+    607  7988							;   BCD_moveCounter--
     608  7988							;   IF TakeBackPushChar != -1
     609  7988							;	 //restore the character under box (and remove box)
     610  7988							;	 board[TakeBackPreviousX,TakeBackPreviousY] = TakeBackPushChar
@@ -14130,7 +14130,7 @@
     618  7988		       a9 0e		      lda	#BANK_TAKEBACK
     619  798a		       85 3e		      sta	SET_BANK_RAM
     620  798c
-    621  798c		       a6 c4		      ldx	moveCounterBinary
+    621  798c		       a6 c4		      ldx	takebackIndex
     622  798e
     623  798e		       a5 90		      lda	TB_X
     624  7990		       9d 00 14 	      sta	RAM_WRITE+TakeBackPreviousX,x
@@ -14149,16 +14149,16 @@
     637  79a7		       a5 cc		      lda	ROM_Bank
     638  79a9		       85 3f		      sta	SET_BANK
     639  79ab
-    640  79ab		       e6 c4		      inc	moveCounterBinary
+    640  79ab		       e6 c4		      inc	takebackIndex
     641  79ad
     642  79ad		       f8		      sed
     643  79ae		       18		      clc
-    644  79af		       a5 c2		      lda	moveCounter
+    644  79af		       a5 c2		      lda	BCD_moveCounter
     645  79b1		       69 01		      adc	#1
-    646  79b3		       85 c2		      sta	moveCounter
-    647  79b5		       a5 c3		      lda	moveCounter+1
+    646  79b3		       85 c2		      sta	BCD_moveCounter
+    647  79b5		       a5 c3		      lda	BCD_moveCounter+1
     648  79b7		       69 00		      adc	#0
-    649  79b9		       85 c3		      sta	moveCounter+1
+    649  79b9		       85 c3		      sta	BCD_moveCounter+1
     650  79bb		       d8		      cld
     651  79bc
     652  79bc		       60		      rts
@@ -14251,8 +14251,8 @@
       3  7a06				   takebackRestoreEarlierPosition
     722  7a06
     723  7a06							; on reverting a move
-    724  7a06							; IF moveCounter > 0
-    725  7a06							;   moveCounter--
+    724  7a06							; IF BCD_moveCounter > 0
+    725  7a06							;   BCD_moveCounter--
     726  7a06							;   IF TakeBackPushChar != -1
     727  7a06							;	 //restore the character under box (and remove box)
     728  7a06							;	 board[TakeBackPreviousX,TakeBackPreviousY] = TakeBackPushChar
@@ -14263,18 +14263,18 @@
     733  7a06							; board[TakeBackX,TakeBackY] = MANOCCUPIED
     734  7a06							; ManX,ManY = TakeBackX, TakeBackY
     735  7a06
-    736  7a06		       a6 c4		      ldx	moveCounterBinary
+    736  7a06		       a6 c4		      ldx	takebackIndex
     737  7a08		       f0 6e		      beq	noMovesToTake
-    738  7a0a		       c6 c4		      dec	moveCounterBinary
+    738  7a0a		       c6 c4		      dec	takebackIndex
     739  7a0c
     740  7a0c		       f8		      sed
     741  7a0d		       38		      sec
-    742  7a0e		       a5 c2		      lda	moveCounter
+    742  7a0e		       a5 c2		      lda	BCD_moveCounter
     743  7a10		       e9 01		      sbc	#1
-    744  7a12		       85 c2		      sta	moveCounter
-    745  7a14		       a5 c3		      lda	moveCounter+1
+    744  7a12		       85 c2		      sta	BCD_moveCounter
+    745  7a14		       a5 c3		      lda	BCD_moveCounter+1
     746  7a16		       e9 00		      sbc	#0
-    747  7a18		       85 c3		      sta	moveCounter+1
+    747  7a18		       85 c3		      sta	BCD_moveCounter+1
     748  7a1a		       d8		      cld
     749  7a1b
     750  7a1b		       a9 0e		      lda	#BANK_TAKEBACK
@@ -14293,7 +14293,7 @@
     763  7a1f		       a5 8f		      lda	POS_VAR
     764  7a21		       48		      pha
     765  7a22
-    766  7a22		       a6 c4		      ldx	moveCounterBinary
+    766  7a22		       a6 c4		      ldx	takebackIndex
     767  7a24		       bd 00 14 	      lda	TakeBackPushChar,x
     768  7a27		       30 0f		      bmi	noPushInvolved	; -1 = no box
     769  7a29
@@ -14324,7 +14324,7 @@
     794  7a46		       a9 0e		      lda	#BANK_TAKEBACK
     795  7a48		       85 3e		      sta	SET_BANK_RAM
     796  7a4a
-    797  7a4a		       a6 c4		      ldx	moveCounterBinary
+    797  7a4a		       a6 c4		      ldx	takebackIndex
     798  7a4c		       bd 00 10 	      lda	TakeBackPreviousX,x
     799  7a4f		       85 8a		      sta	POS_X
     800  7a51		       85 a0		      sta	ManX

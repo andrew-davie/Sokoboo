@@ -660,9 +660,9 @@ SMCOLOR
         sty highScoreSK
 
     ; update highscore after last live:
-        lda ManCount
-        and #$0f                            ; player has lives left?
-        bne .playerAlive                    ; YES, so we don't check high score
+        ;lda ManCount
+        ;and #$0f                            ; player has lives left?
+        ;bne .playerAlive                    ; YES, so we don't check high score
 
     ; check for a new high score:
 ;        ldy #-1
@@ -687,9 +687,9 @@ SMCOLOR
 .noHighScore
 
 .playerAlive
-        lda ManCount
-        and #$f0                            ; other player has lives left?
-        beq .otherPlayerDead                ; NO, so we don't swap scores
+        ;lda ManCount
+        ;and #$f0                            ; other player has lives left?
+        ;beq .otherPlayerDead                ; NO, so we don't swap scores
 
     ; save the current player variables to the player's backup:
         ldy #3-1
@@ -805,11 +805,11 @@ HighScoreColTbl:
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawTargetsRequired
+    DEFINE_SUBROUTINE DrawBCD_targetsRequired
 ; Show current TARGET counter in the top left
 
                 ldy #SM_OFS_TARGETS
-                lda targetsRequired
+                lda BCD_targetsRequired
                 jsr SetupBCDPtr
 
                 lda #ID_TARGET<<4                  ; if no extra targets, display the normal icon
@@ -828,9 +828,9 @@ HighScoreColTbl:
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE SetupTimePtr
 
-                lda moveCounter
+                lda BCD_moveCounter
                 jsr SetupBCDPtr
-                lda moveCounter+1
+                lda BCD_moveCounter+1
                 ora #ID_CLOCK<<4
 
         ; fall through

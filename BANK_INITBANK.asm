@@ -108,6 +108,16 @@ BoardBank
     ENDIF
 
 
+    MAC LOAD_ANIMATION
+                lda #<{1}
+                sta animation
+                lda #>{1}
+                sta animation+1
+                lda #1
+                sta animation_delay
+
+    ENDM
+
     ;------------------------------------------------------------------------------
 
 CopyROMShadowToRAM_F000
@@ -204,10 +214,10 @@ CopyPage        sty O_Index
                 bcc .platform0
                 adc #LINES_PER_CHAR-1           ; C==1!
 .platform0:
-                ldy SelfModPlayerColOfsTbl,x
+                ;ldy SelfModPlayerColOfsTbl,x
                 ;tax
-                ldx RAM_Bank
-                jsr PutBoardCharacter           ;6+21(A)        copy player colour RED/GREEN/BLUE to self-modifying RAM
+                ;ldx RAM_Bank
+                ;jsr PutBoardCharacter           ;6+21(A)        copy player colour RED/GREEN/BLUE to self-modifying RAM
 ; loop
                 ldx colorIdx
                 dex
@@ -220,8 +230,8 @@ SelfModColOfsTbl:
     .byte   <(SELFMOD_BLUE+1), <(SELFMOD_GREEN+1), <(SELFMOD_RED+1)
 SelfModePlayerTbl:
     .byte   <SpriteColourBLUE, <SpriteColourGREEN, <SpriteColourRED
-SelfModPlayerColOfsTbl:
-    .byte   <(SELFMOD_PLAYERCOL_BLUE+1), <(SELFMOD_PLAYERCOL_GREEN+1), <(SELFMOD_PLAYERCOL_RED+1)
+;SelfModPlayerColOfsTbl:
+;    .byte   <(SELFMOD_PLAYERCOL_BLUE+1), <(SELFMOD_PLAYERCOL_GREEN+1), <(SELFMOD_PLAYERCOL_RED+1)
 
 
 DrawLineStartLO
@@ -302,6 +312,8 @@ cannotPush      inc ManPushCounter
 
                 sta ROM_Bank
 
+                LOAD_ANIMATION Animation_Push
+
                 lda ManPushCounter
                 cmp #PUSH_LIMIT
                 bcc cannotPush
@@ -356,13 +368,7 @@ cannotPush      inc ManPushCounter
 
     ; Box is now on a target - so decrease the remaining targets
 
-decreaseTargets sed
-                sec
-                lda targetsRequired
-                sbc #1
-                sta targetsRequired
-                cld
-
+decreaseTargets jsr DeRegisterTarget
                 lda #CHARACTER_BOX_ON_TARGET
 canPushTarget   pha
 
@@ -375,12 +381,7 @@ canPushTarget   pha
 
     ; increase the required targets as box is leaving one
 
-                sed
-                clc
-                lda targetsRequired
-                adc #1
-                sta targetsRequired
-                cld
+                jsr RegisterTarget
 
 notOnTargetAlready
 
@@ -526,69 +527,16 @@ ManActionHI
 midDraw
     ENDIF
 
-;                lda ManX
-;                sta POS_X
-;                lda ManY
-;                sta POS_Y
-
-#if 0
-anotherC                inc POS_X
-                lda #CHARACTER_2
-                sta POS_Type
-                lda #BANK_manStartup
-                jsr PutBoardCharacterFromROM
-                inc POS_Type
-                lda POS_Type
-                cmp #CHARACTER_2
-                ;bcc anotherC
-#endif
-
-
                 lda ManX
-                sta POS_X_NEW ;NewX
-                sta POS_X
+                sta POS_X_NEW
                 lda ManY
-                sta POS_Y_NEW ;NewY
-                sta POS_Y
+                sta POS_Y_NEW
 
-                inc manAnimationIndex
-                ldx manAnimationIndex                 ; animation index
-                lda .ManStartup-1,x
-                bmi CreateThePlayer
-                sta POS_Type
+                lda #MANMODE_NORMAL
+                sta ManMode
 
-                lda #$FF
-                sta ManDelayCount           ; anything, just non-0
-
-                jmp PutBoardCharacterFromRAM    ;70 --> switches this bank out but who cares!
-
-CreateThePlayer
-
-                inc ManMode                 ; --> MANMODE_NORMAL
 RTS_CF
                 rts
-
-.ManStartup
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-;    .byte CHARACTER_STEEL
-    .byte CHARACTER_NOGO
-;    .byte CHARACTER_NOGO
-    .byte CHARACTER_STEEL
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_STEEL
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_STEEL
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_STEEL
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_STEEL
-;    .byte CHARACTER_NOGO
-;    .byte CHARACTER_STEEL
-    ;.byte CHARACTER_NOGO
-    .byte CHARACTER_MANOCCUPIED
-    .byte -1
 
     ;------------------------------------------------------------------------------
 
@@ -687,11 +635,11 @@ noLook          ldx #0
 
     ; button was presssed and now released and we didn't actually look around
     ; so we do a take-back
-                lda Platform
-                adc #4
-                sta ColourFlash
-                lda #5
-                sta ColourTimer
+                ;lda Platform
+                ;adc #4
+                ;sta ColourFlash
+                ;lda #5
+                ;sta ColourTimer
 
                 lda #BANK_ManProcess
                 sta ROM_Bank                ;? might already be set
@@ -720,6 +668,16 @@ bProcComp
                 bne .loopDirs
                 clc
 .dirFound
+
+                lda anim_direction,x
+                bmi dontChange
+
+                cmp ManLastDirection
+                sta ManLastDirection
+                ;bne skipMove
+dontChange
+
+                clc
                 lda POS_X_NEW ;NewX
                 adc JoyDirX,x
                 sta POS_X_NEW ;NewX
@@ -727,6 +685,14 @@ bProcComp
                 clc
                 adc JoyDirY,x
                 sta POS_Y_NEW ;NewY
+
+skipMove
+
+
+;                lda anim_direction,y
+;                bmi dontChange
+;                sta ManLastDirection
+;dontChange
 
                 tya
                 beq noMovement                  ; animation OK
@@ -763,6 +729,33 @@ JoyDirY
 JoyDirX
     .byte   1,-1,0,0,0
 
+;Data Bit  Direction Player
+;               D7        right          P0  D4
+;               D6        left      P0  D3
+;               D5        down      P0  D2
+;               D4        up        P0  D1
+;     A "0" in a data bit indicates the joystick has been moved
+;     to close that switch.  All "1's" in a player's nibble
+;     indicates that joystick is not moving.
+
+;0  0000 x
+;1  0001 x
+;2  0010 x
+;3  0011 x
+;4  0100 x
+;5  0101 right down
+;6  0110 right up
+;7  0111 right
+;8  1000 x
+;9  1001 left down
+;10  1010 left up
+;11  1011 left
+;12  1100 x
+;13  1101 down
+;14  1110 up
+;15  1111 none
+
+anim_direction   .byte 0,%1100,128,128
 
     ;------------------------------------------------------------------------------
 
@@ -826,6 +819,27 @@ JoyDirX
                 jmp CopyRow2                    ; 3 = 12[-7]
 
     ;------------------------------------------------------------------------------
+
+
+
+    DEFINE_SUBROUTINE EOL
+
+                lda #10
+                sta DelayEndOfLevel
+                ;lda #1
+                ;sta DelayEndOfLevel+1
+
+                lda Platform
+                sta ColourFlash
+                lda #20
+                sta ColourTimer
+
+                LOAD_ANIMATION Animation_WIN
+
+                lda #MANMODE_NEXTLEVEL2
+                sta ManMode
+                rts
+
 
     DEFINE_SUBROUTINE VectorProcess ;=19(A)
 
