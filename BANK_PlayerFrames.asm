@@ -33,16 +33,24 @@
 
   NEWBANK PLAYER_FRAMES
 
+;CL0     = $0
+;CL1     = $4C   ;yellow
+;CL2     = $68
+;CL3     = $0C   ; cuffs/trim
+;CL4     = $B8   ; jumper
+;CL5     = $b2
+;CL6     = $66
+
 CL0     = $0
-CL1     = $2c   ;yellow
-CL2     = $6A
-CL3     = $0C   ; cuffs/trim
-CL4     = $A8   ; jumper
-CL5     = $B6
-CL6     = $44
+CL1     = 1 ;$2C   ;yellow
+CL2     = 2 ;$24
+CL3     = 3 ;$6A   ; cuffs/trim
+CL4     = 4 ;$44
+CL5     = 5 ;$B6   ; pants
+CL6     = 6 ;$64
 
 
 
-    include "spriteData.asm"
+    include "spriteBank.asm"
 
   CHECK_BANK_SIZE "PLAYER_FRAMES"

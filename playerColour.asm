@@ -42,47 +42,6 @@ YELLOW_PAL  = $20
 ORANGE_PAL  = $40
 RED_PAL     = $60
 
-PLAYER_COLOUR
-SpriteColour
-; NTSC
-;SpriteColourRED
-;    .byte RED_NTSC|$6       ; 0 feet
-;    .byte WHITE             ; 3
-;    .byte RED_NTSC|$4       ; 6
-;    .byte RED_NTSC|$4       ; 9
-;    .byte ORANGE_NTSC|$6    ;12
-;    .byte ORANGE_NTSC|$8    ;15
-;    .byte WHITE             ;18
-;SpriteColourGREEN
-;    .byte RED_NTSC|$4       ; 1
-;    .byte WHITE             ; 4
-;    .byte WHITE             ; 7
-;    .byte WHITE             ;10
-;    .byte ORANGE_NTSC|$8    ;13
-;    .byte ORANGE_NTSC|$6    ;16
-;    .byte WHITE             ;19
-;SpriteColourBLUE
-;    .byte WHITE             ; 2
-;    .byte RED_NTSC|$4       ; 5
-;    .byte RED_NTSC|$4       ; 8
-;    .byte ORANGE_NTSC|$4    ;11 neck
-;    .byte ORANGE_NTSC|$a    ;14
-;    .byte YELLOW_NTSC|$c    ;17 hair
-;    .byte WHITE             ;20
-
-SpriteColourRED
-    REPEAT LINES_PER_CHAR/3
- .byte $24
-    REPEND
-SpriteColourGREEN
-    REPEAT LINES_PER_CHAR/3
- .byte $24
-    REPEND
-SpriteColourBLUE
-    REPEAT LINES_PER_CHAR/3
- .byte $24
-    REPEND
-
 
 ;  REPEAT LINES_PER_CHARACTER        ;???
 ;  .byte $20|$6             ; 2

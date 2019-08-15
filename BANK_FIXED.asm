@@ -631,29 +631,11 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
             ; fall through
 
     DEFINE_SUBROUTINE IncrementMoveCount
-
-                clc
-                lda takebackIndex
-                adc #1
-                and #TAKEBACK_MASK
-                sta takebackIndex
-                cmp takebackBaseIndex
-                bne baseOK
-                adc #0
-                and #TAKEBACK_MASK
-                sta takebackBaseIndex
-baseOK
-
-                sed
-                clc
-                lda BCD_moveCounter
-                adc #1
-                sta BCD_moveCounter
-                lda BCD_moveCounter+1
-                adc #0
-                sta BCD_moveCounter+1
-                cld
-
+                lda #BANK_IMC
+                sta SET_BANK
+                jsr IMC
+                lda ROM_Bank
+                sta SET_BANK
 
 noLog           lda #0
                 sta TakebackInhibit
@@ -668,10 +650,12 @@ noLog           lda #0
                 txa                                 ; character man will be standing on
                 pha
 
-
-
-
-
+                lda #ANIMATION_WALK_ID
+                cmp ManAnimationID
+                beq walkingOK
+                sta ManAnimationID
+                LOAD_ANIMATION Animation_Walk
+walkingOK
 
                 lda ManX
                 sta POS_X
@@ -702,7 +686,7 @@ noLog           lda #0
                 jsr RecordTakeBackPosition
 
                 pla
-                ;sta POS_VAR                     ; save 'restore' character
+                sta POS_VAR                     ; save 'restore' character
 
 MOVE_GENERIC    lda #0                          ; 2
                 sta ManPushCounter              ; 3
@@ -958,8 +942,90 @@ EnterStealCharDraw:                             ;           RAM bank MUST be at 
                 sta SET_BANK_RAM                ; 3
                 jmp StealPart3                  ; 3 = 10    --> 18 cycles after check for SEGTIME_SCD_MIN
 
+    ;---------------------------------------------------------------------------
 
-    ds 50
+    DEFINE_SUBROUTINE writePlayerFrame
+
+                    sec
+                    lda ManY
+                    sbc BoardScrollY
+                    cmp #SCREEN_LINES                  ; todo - use const
+                    bcs skipOffscreen
+                    sta bank                            ; character line (and hence bank) of player position
+
+    ; todo - compare with last + frame and skip if same
+
+                    lda #PLAYER_FRAMES
+                    sta SET_BANK
+
+                    lda animation_delay
+                    bmi getDelay                ; 1st
+                    dec animation_delay
+                    bpl nextAnimation2
+
+                    clc
+                    lda animation
+                    adc #2
+                    sta animation
+                    bcc ahiok
+                    inc animation+1
+ahiok
+getDelay            ldy #1
+                    lda (animation),y
+                    sta animation_delay
+nextAnimation2      ldy #0
+                    lda (animation),y
+                    bpl notJump
+    ; we have a jump
+
+                    and #$7F
+                    sta ManAnimationID
+
+                    tay
+                    lda ANIM_TABLE,y
+                    sta animation
+                    lda ANIM_TABLE+1,y
+                    sta animation+1
+                    jmp getDelay
+
+notJump             tay
+                    lda FRAME_PTR_LO,y
+                    sta frame_ptr
+                    lda FRAME_PTR_HI,y
+                    sta frame_ptr+1
+
+                    lda COLOUR_PTR_LO,y
+                    sta colour_ptr
+                    lda COLOUR_PTR_HI,y
+                    sta colour_ptr+1
+
+                    ldy #23
+CopySpriteToBank
+                    lda #PLAYER_FRAMES
+                    sta SET_BANK
+                    lda (frame_ptr),y
+                    pha
+
+    ; The colours for the sprites are copied to the row bank's colour data. The frames contain
+    ; colour *indexes*. These indexes are modified by the *base* which indicates both the
+    ; system NTSC/PAL along with the "visual identity" (i.e., colour/race). That is used to
+    ; lookup a colour conversion which FINALLY gives us the correct colour to use for the line.
+
+                    lda (colour_ptr),y
+                    ora #8                      ; colour base
+                    tax
+                    lda bank
+                    sta SET_BANK_RAM
+                    lda EthnicityColourPalette,x
+                    sta SpriteColourRED+RAM_WRITE,y
+                    pla
+                    sta PLAYER_RIGHT0+RAM_WRITE,y
+                    dey
+                    bpl CopySpriteToBank
+
+skipOffscreen       rts
+
+    ;---------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE DrawFullScreenMain ;=2484[-89]
 
@@ -1022,72 +1088,6 @@ CopyRow2
                 lda #BANK_DRAW_BUFFERS
                 sta SET_BANK_RAM
                 jmp DrawIntoStack
-
-
-    DEFINE_SUBROUTINE writePlayerFrame
-
-                    sec
-                    lda ManY
-                    sbc BoardScrollY
-                    cmp #SCREEN_LINES                  ; todo - use const
-                    bcs skipOffscreen
-                    tax
-
-                    lda #PLAYER_FRAMES
-                    sta SET_BANK
-
-                    dec animation_delay
-                    bpl nextAnimation2
-
-                    clc
-                    lda animation
-                    adc #2
-                    sta animation
-                    bcc ahiok
-                    inc animation+1
-ahiok
-getDelay            ldy #1
-                    lda (animation),y
-                    bpl simpleDelay
-
-                    pha
-                    dey
-                    lda (animation),y
-                    sta animation
-                    pla
-                    sta animation+1
-                    jmp getDelay
-
-simpleDelay         sta animation_delay
-
-nextAnimation2      ldy #0
-                    lda (animation),y
-                    tay
-                    lda FRAME_PTR_LO,y
-                    sta frame_ptr
-                    lda FRAME_PTR_HI,y
-                    sta frame_ptr+1
-
-                    lda COLOUR_PTR_LO,y
-                    sta colour_ptr
-                    lda COLOUR_PTR_HI,y
-                    sta colour_ptr+1
-
-                    ldy #23
-CopySpriteToBank
-                    lda #PLAYER_FRAMES
-                    sta SET_BANK
-                    lda (frame_ptr),y
-                    pha
-                    lda (colour_ptr),y
-                    stx SET_BANK_RAM
-                    sta SpriteColourRED+RAM_WRITE,y
-                    pla
-                    sta PLAYER_RIGHT0+RAM_WRITE,y
-                    dey
-                    bpl CopySpriteToBank
-
-skipOffscreen       rts
 
 
 

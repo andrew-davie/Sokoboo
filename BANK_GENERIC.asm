@@ -73,12 +73,9 @@
                 asl
                 sta levelX
 
-                lda #<Animation_Walk
-                sta animation
-                lda #>Animation_Walk
-                sta animation+1
-                lda #0
-                sta animation_delay
+                LOAD_ANIMATION Animation_IDLE
+                lda #ANIMATION_IDLE_ID
+                sta ManAnimationID
 
                 lda #1
                 sta whichPlayer                                 ; will switch to 0 on 1st go
@@ -120,8 +117,8 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
                 sta BufferedButton
                 sta BufferedButton+1
 
-                lda #DIRECTION_BITS             ;???
-                sta ManLastDirection
+                ;lda #DIRECTION_BITS             ;???
+                ;sta ManLastDirection
 
                 lda #0
 ;                sta ObjStackPtr                 ; object stack index of last entry
@@ -206,21 +203,22 @@ notU0           sta BoardScrollY
                 sta ManDelayCount
                 sta TakebackInhibit
 
-                lda #AnimateBLANK-Manimate ;0 ;<AnimateBLANK ;STAND
+                ;lda #AnimateBLANK-Manimate ;0 ;<AnimateBLANK ;STAND
                 ;sta ManAnimation
                 ;lda #>AnimateBLANK ;
                 ;sta ManAnimation+1
 
                 lda #$FF
                 sta LastSpriteY
+                sta ManAnimationID
 
                 lda #DIRECTION_BITS             ;????
                 sta ManLastDirection            ; duplicate?
 
-
                 lda #0
                 sta base_x
                 sta base_y
+                sta ManPushCounter
 
                 rts
 
@@ -244,8 +242,8 @@ notU0           sta BoardScrollY
                 sta AUDV1                           ; turn off music while levels init
 ;                sta AUDC0
 
-                sta ManLastDirection
-                sta ManPushCounter
+                ;sta ManLastDirection
+                ;sta ManPushCounter
 
                 sta sortPtr                     ; sort stopped
                 lda #<(-1)
@@ -589,6 +587,7 @@ noFlashBG       sta BGColour
 notP2           sta BufferedJoystick            ; 3
 
 
+#if 0
     ; "Scoring timer" reset stomp comment
 
                 lda scoringTimer
@@ -599,6 +598,7 @@ notP2           sta BufferedJoystick            ; 3
                 and #<(~DISPLAY_FLAGS)      ;       switches to time display
                 sta scoringFlags
 timer0now
+#endif
 
                 ; fall through
 
@@ -610,6 +610,7 @@ timer0now
 
 
     DEFINE_SUBROUTINE AnimatePlayers ; in GENERIC_BANK_1
+    ; a bigggg ????
 
     ; Optimised 7/1/2012 -- single page tables
 

@@ -126,7 +126,7 @@ oscan
 ret             rts
 
 OverscanTime2
-    .byte 131, 131
+    .byte 133, 133
     .byte 139, 139
 
 colvec

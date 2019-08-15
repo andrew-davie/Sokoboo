@@ -163,14 +163,14 @@ PAL_60              = PAL|1
 
 
     IF L276
-VBLANK_TIM_NTSC     = 50                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
+VBLANK_TIM_NTSC     = 48                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
     ELSE
 VBLANK_TIM_NTSC     = 50                        ; NTSC 262
     ENDIF
 VBLANK_TIM_PAL      = 85 ;85                        ; PAL 312 (we could increase this too, if we want to, but I suppose the used vertical screen size would become very small then)
 
     IF L276
-OVERSCAN_TIM_NTSC   = 34 ;24 ;51                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
+OVERSCAN_TIM_NTSC   = 35 ;24 ;51                        ; NTSC 276 (Desert Falcon does 280, so this should be pretty safe)
     ELSE
 OVERSCAN_TIM_NTSC   = 8 ;51                        ; NTSC 262
     ENDIF
@@ -466,6 +466,16 @@ ORIGIN          SET ORIGIN + RAM_SIZE
         .byte   $0c
     ENDM
 
+    MAC LOAD_ANIMATION
+                lda #<{1}
+                sta animation
+                lda #>{1}
+                sta animation+1
+                lda #-1
+                sta animation_delay
+    ENDM
+
+
 ;------------------------------------------------------------------------------
 
 
@@ -504,6 +514,7 @@ DHS_Stack               ds 1                ; for restoring SP
     OVERLAY Animator
 frame_ptr       ds 2
 colour_ptr      ds 2
+bank            ds 1
     VALIDATE_OVERLAY
 
 

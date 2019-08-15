@@ -108,16 +108,6 @@ BoardBank
     ENDIF
 
 
-    MAC LOAD_ANIMATION
-                lda #<{1}
-                sta animation
-                lda #>{1}
-                sta animation+1
-                lda #1
-                sta animation_delay
-
-    ENDM
-
     ;------------------------------------------------------------------------------
 
 CopyROMShadowToRAM_F000
@@ -312,11 +302,31 @@ cannotPush      inc ManPushCounter
 
                 sta ROM_Bank
 
-                LOAD_ANIMATION Animation_Push
+                lda ManAnimationID
+                cmp #ANIMATION_PUSH_ID
+                beq alreadyAnimPush
+                cmp #ANIMATION_PUSHTRY_ID
+                beq alreadyAnimPush
+
+                LOAD_ANIMATION Animation_PushTry
+
+                lda #ANIMATION_PUSHTRY_ID
+                sta ManAnimationID
+
+alreadyAnimPush
 
                 lda ManPushCounter
                 cmp #PUSH_LIMIT
                 bcc cannotPush
+
+                lda #ANIMATION_PUSH_ID
+                cmp ManAnimationID
+                beq alreadyPushing
+                sta ManAnimationID
+
+                LOAD_ANIMATION Animation_Push
+
+alreadyPushing
 
                 stx restorationCharacter          ; players new location's restore
 
@@ -666,7 +676,19 @@ bProcComp
                 inx
                 cpx #4
                 bne .loopDirs
-                clc
+
+    ; no direction!
+
+                lda #ANIMATION_IDLE_ID
+                cmp ManAnimationID
+                beq alreadyIdling
+                sta ManAnimationID
+                LOAD_ANIMATION Animation_IDLE
+alreadyIdling
+
+
+
+
 .dirFound
 
                 lda anim_direction,x
@@ -678,23 +700,16 @@ bProcComp
 dontChange
 
                 clc
-                lda POS_X_NEW ;NewX
+                lda POS_X_NEW
                 adc JoyDirX,x
-                sta POS_X_NEW ;NewX
-                lda POS_Y_NEW ;NewY
+                sta POS_X_NEW
+
                 clc
+                lda POS_Y_NEW
                 adc JoyDirY,x
-                sta POS_Y_NEW ;NewY
+                sta POS_Y_NEW
 
-skipMove
-
-
-;                lda anim_direction,y
-;                bmi dontChange
-;                sta ManLastDirection
-;dontChange
-
-                tya
+skipMove        tya
                 beq noMovement                  ; animation OK
 
                 txa
@@ -755,7 +770,7 @@ JoyDirX
 ;14  1110 up
 ;15  1111 none
 
-anim_direction   .byte 0,%1100,128,128
+anim_direction   .byte 0,%1100,128,128,128
 
     ;------------------------------------------------------------------------------
 
@@ -820,24 +835,46 @@ anim_direction   .byte 0,%1100,128,128
 
     ;------------------------------------------------------------------------------
 
-
-
     DEFINE_SUBROUTINE EOL
 
-                lda #10
-                sta DelayEndOfLevel
-                ;lda #1
-                ;sta DelayEndOfLevel+1
-
-                lda Platform
-                sta ColourFlash
                 lda #20
+                sta DelayEndOfLevel
+                lda Platform
+                sta ColourFlash                 ; green
+                lda #4
                 sta ColourTimer
 
                 LOAD_ANIMATION Animation_WIN
 
                 lda #MANMODE_NEXTLEVEL2
                 sta ManMode
+                rts
+
+
+    DEFINE_SUBROUTINE IMC
+
+                clc
+                lda takebackIndex
+                adc #1
+                and #TAKEBACK_MASK
+                sta takebackIndex
+                cmp takebackBaseIndex
+                bne baseOK
+                adc #0
+                and #TAKEBACK_MASK
+                sta takebackBaseIndex
+baseOK
+
+                sed
+                clc
+                lda BCD_moveCounter
+                adc #1
+                sta BCD_moveCounter
+                lda BCD_moveCounter+1
+                adc #0
+                sta BCD_moveCounter+1
+                cld
+
                 rts
 
 

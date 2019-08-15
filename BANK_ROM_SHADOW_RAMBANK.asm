@@ -208,7 +208,20 @@ ShapePlayerRED      = ShapePlayer   ; low adresses patched
 CHARACTERSHAPE_MANOCCUPIED = PLAYER_BLANK
 CHARACTERSHAPE_BLANK = PLAYER_BLANK
 
-    #include "playerColour.asm"    ; 1 * LINES_PER_CHAR bytes
+
+PLAYER_COLOUR
+SpriteColourRED
+    REPEAT LINES_PER_CHAR/3
+ .byte $24
+    REPEND
+SpriteColourGREEN
+    REPEAT LINES_PER_CHAR/3
+ .byte $24
+    REPEND
+SpriteColourBLUE
+    REPEAT LINES_PER_CHAR/3
+ .byte $24
+    REPEND
 
 
     ;------------------------------------------------------------------------------
@@ -515,24 +528,16 @@ ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
     ; in the draw code.
 
     ; Sets the shapes to a blank player -- effectively erasing
+
                 lda LastSpriteY
                 ldx #<PLAYER_BLANK
                 jsr SetSelfModPlayer
 
     ; Now we've erased, we write the new shape
 
-;                sec
-;                lda ManDrawX
-;                sbc BoardScrollX
-;                cmp #SCREEN_WIDTH                       ; disabled because we assume always onscreen
-;                bcs NoMod                               ; skip if off visible screen
-
                 lda ManDrawX
-                cmp #SCREEN_WIDTH                       ; disabled because we assume always onscreen
+                cmp #SCREEN_WIDTH
                 bcs NoMod                               ; skip if off visible screen
-
-                ;lda LookingAround
-                ;bne NoMod
 
                 lda ManDrawY
                 sta LastSpriteY
@@ -557,6 +562,33 @@ NoMod           rts
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
     include "player.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
+
+   ;------------------------------------------------------------------------------
+
+; The acutal colour palette to use for the player. The player may be any "ethnicity" which refers
+; to the colours for a frame. The skin could be asian/black/caucasian, the cloting could be anything.
+; Each ethnicity is defined as first 8 bytes for NTSC and then 8 bytes for PAL. The 8 bytes refer
+; to the "CL#" index values defined in the player COLOUR frames. So, an index is grabbed from the
+; player frame, it is adjusted to add the base ethnicity and the NTSC/PAL, and that gives the base
+; for reading 8 successive bytes for CL0..CL7 from the frame definitions.
+
+EthnicityColourPalette
+
+    ; ETHNICITY 0
+    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
+    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+
+    ; ETHNICITY 1
+    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
+    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+
+    ; ETHNICITY 2
+    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
+    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+
+    ; ETHNICITY 3
+    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
+    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
 
    ;------------------------------------------------------------------------------
 
@@ -778,19 +810,10 @@ CharacterDataVecHI
         ERR
     ENDIF
 
-
-
-    ; Here there's another 1K of usable ROM....
-    ; BUT!!! WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
-
-    ;--------------------------------------------------------------------------
-    ;    CHARACTER_SET
-
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 
-
-
+    ; Here there's another 1K of usable ROM....
     ; Anything here is ONLY accessible if the bank is switched in as a ROM bank
-
+    ; WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
 
     CHECK_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"

@@ -92,8 +92,9 @@ ManAnimationFrameLO             ds 1
 ManLastDirection                ds 1            ; so we don't overwrite animations in-progress
 ManPushCounter                  ds 1
 LookingAround                   ds 1
+ManAnimationID                  ds 1
 ;ManCount                      ds 1            ; player life counter
-DelayEndOfLevel               ds 2
+DelayEndOfLevel               ds 1
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
 ;circle_d                        ds 2
 
