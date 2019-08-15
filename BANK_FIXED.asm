@@ -944,6 +944,8 @@ EnterStealCharDraw:                             ;           RAM bank MUST be at 
 
     ;---------------------------------------------------------------------------
 
+skipOffscreen       rts
+
     DEFINE_SUBROUTINE writePlayerFrame
 
                     sec
@@ -952,6 +954,27 @@ EnterStealCharDraw:                             ;           RAM bank MUST be at 
                     cmp #SCREEN_LINES                  ; todo - use const
                     bcs skipOffscreen
                     sta bank                            ; character line (and hence bank) of player position
+
+#if 0
+    ; rainbow-cycle the colours, just to show it works
+    sta SET_BANK_RAM
+    ldx #8
+eth    lda EthnicityColourPalette+24+16,x
+    clc
+    adc #1
+    sta EthnicityColourPalette+RAM_WRITE+24+16,x
+    dex
+    bpl eth
+#endif
+
+                    lda Platform
+                    and #%10
+                    asl
+                    asl
+                    adc ethnic
+                    sta ethnicity
+
+
 
     ; todo - compare with last + frame and skip if same
 
@@ -999,6 +1022,7 @@ notJump             tay
                     lda COLOUR_PTR_HI,y
                     sta colour_ptr+1
 
+                    clc
                     ldy #23
 CopySpriteToBank
                     lda #PLAYER_FRAMES
@@ -1011,8 +1035,10 @@ CopySpriteToBank
     ; system NTSC/PAL along with the "visual identity" (i.e., colour/race). That is used to
     ; lookup a colour conversion which FINALLY gives us the correct colour to use for the line.
 
+    ; ethnicity * 16 + PALNTSC * 8
+
                     lda (colour_ptr),y
-                    ora #8                      ; colour base
+                    adc ethnicity                      ; colour base
                     tax
                     lda bank
                     sta SET_BANK_RAM
@@ -1023,7 +1049,7 @@ CopySpriteToBank
                     dey
                     bpl CopySpriteToBank
 
-skipOffscreen       rts
+                    rts
 
     ;---------------------------------------------------------------------------
 

@@ -42,8 +42,8 @@ gameMode                        ds 1        ; bit7=0: 7800; bit7=1: 2600.  bit 6
 Platform                        ds 1        ; TV system (%0x=NTSC, %10=PAL-50, %11=PAL-60)
 ; above variables are preserved ALL the time!
 
-rnd                             ds 1
-rndHi                           ds 1        ; to get better random values
+;rnd                             ds 1
+;rndHi                           ds 1        ; to get better random values
 
 DrawStackPointer                ds 1        ; points to start entry of drawing stack (-1 = nothing to draw)
 ObjStackNum                     ds 1        ; which stack in use
@@ -179,6 +179,9 @@ sortPtr                         ds 1
 ObjIterator                     ds 1            ; count UP iterator over objects
 DSL                             ds 1            ; stack line counter
 TakebackInhibit                 ds 1
+
+ethnic                          ds 1
+
 
  #include "sound/intro1_variables.asm"
 

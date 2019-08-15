@@ -515,6 +515,7 @@ DHS_Stack               ds 1                ; for restoring SP
 frame_ptr       ds 2
 colour_ptr      ds 2
 bank            ds 1
+ethnicity       ds 1
     VALIDATE_OVERLAY
 
 

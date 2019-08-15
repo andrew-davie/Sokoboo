@@ -574,21 +574,30 @@ NoMod           rts
 
 EthnicityColourPalette
 
-    ; ETHNICITY 0
-    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
-    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+; CL0     = BLACK
+; CL1     = HAT
+; CL2     = SKIN
+; CL3     = CUFFS/TRIM
+; CL4     = JUMPER
+; CL5     = PANTS
+; CL6     = SHOES
+; CL7     = UNUSED
 
-    ; ETHNICITY 1
-    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
-    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+    ; ETHNICITY 0 - a caucasian guy with blue shirt and pants, yellow cap
+    .byte $00,      $1C,$4C,$0A,$88,$96,$14,    $00       ; NTSC
+    .byte $00,      $2C,$6C,$0A,$78,$96,$24,    $00       ; PAL
+
+    ; ETHNICITY 1  pink clothes, brown face
+    .byte $0,       $46,$F4,$08,$A2,$74,$44,    $00       ; NTSC
+    .byte $0,       $66,$24,$08,$92,$D4,$64,    $00       ; PAL
 
     ; ETHNICITY 2
-    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
-    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+    .byte $0,       $2A,$E8,$EA,$64,$34,$84,    $00       ; NTSC
+    .byte $0,       $4A,$28,$2A,$A4,$64,$D4,    $00       ; PAL
 
-    ; ETHNICITY 3
-    .byte $0, $0A,$0A,$0A,$0A,$0A,$0A,$0A           ; NTSC
-    .byte $0, $20,$32,$44,$56,$68,$7A,$8C           ; PAL
+    ; ETHNICITY 2
+    .byte $0,       $34,$5A,$1C,$B4,$86,$58,    $00       ; NTSC
+    .byte $0,       $64,$8A,$2C,$74,$B6,$88,    $00       ; PAL
 
    ;------------------------------------------------------------------------------
 

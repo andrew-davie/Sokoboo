@@ -99,6 +99,8 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
                 sta GRP0
 
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
+                sta ethnic
+
         #if 0
                 sta circle_d
                 sta circle_d+1
@@ -110,7 +112,7 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
 
                 lda #%100                       ; players/missiles BEHIND BG
                 sta CTRLPF
-                sta rnd                         ; anything non-0
+                ;sta rnd                         ; anything non-0
 
                 lda #$FF
                 sta DrawStackPointer
@@ -254,6 +256,15 @@ notU0           sta BoardScrollY
                 sta scoringFlags
                 lda #0 ;SCORING_TIMER_FIRST                 ; We want the first timer display to be long, to show level and lives
                 sta scoringTimer
+
+                clc
+                lda ethnic
+                adc #16
+                cmp #4*16
+                bcc ethOK
+                lda #0
+ethOK           sta ethnic
+
                 rts
 
     ;-------------------------------------------------------------------------------------
@@ -496,8 +507,8 @@ noVerflo
     ;           with button press:  21 cycles
 
 
-
 BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SWITCH
+#if 0
 
                 bit gameMode
                 bvc .pause7800              ; 7800 platform
@@ -541,12 +552,14 @@ BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SW
                 sta BGColour                ; set main screen background colour.  RED is paused.
 
 .exitPause
+#endif
 
     ;----------------------------------------------------------------------------------------------
 
     ; has to be done AFTER screen display, because it disables the effect!
-                lda rnd                     ; 3     randomly reposition the Cosmic Ark missile
-                sta HMM0                    ; 3     this assumes that HMOVE is called at least once/frame
+                SLEEP 6
+                ;lda rnd                     ; 3     randomly reposition the Cosmic Ark missile
+                ;sta HMM0                    ; 3     this assumes that HMOVE is called at least once/frame
 
     ; "Flash" has highest BG colour priority
 
