@@ -54,6 +54,39 @@ Animation_WIN
 
 Animation_IDLE
 
+#if 0
+    ; "dance"
+    REPEAT 3
+    .byte FRAME_TAPFOOT,2
+    .byte FRAME_WALK2,1
+    REPEND
+    REPEAT 2
+    .byte FRAME_LOOKUP,5
+    .byte FRAME_WALK2,5
+    REPEND
+        REPEAT 2
+    .byte FRAME_LOOK3, 3
+    .byte FRAME_LOOK2, 4
+    .byte FRAME_LOOK1, 6
+    .byte FRAME_LOOK2, 4
+    .byte FRAME_LOOK3, 3
+    .byte FRAME_WALK2, 2
+        REPEND
+    REPEAT 1
+    .byte FRAME_PUSH1,15
+    .byte FRAME_WALK2,2
+    REPEND
+    .byte FRAME_IDLE1,5
+    .byte FRAME_IDLE2,5
+;    .byte FRAME_IDLE3,10
+    .byte FRAME_IDLE1,5
+    .byte FRAME_IDLE2,5
+    .byte FRAME_IDLE3,5
+    .byte ANIMATION_IDLE_ID
+#endif
+
+
+
     REPEAT 2
     .byte FRAME_WALK2,100
     .byte FRAME_BLINK,2

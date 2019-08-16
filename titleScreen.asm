@@ -138,31 +138,29 @@ colvec
 ; {5} MIN LUM 2
 ; {6} MIN LUM 3
 
-.LUM1     SET {4}
-.LUM2     SET {5}
-.LUM3     SET {6}
+.LUM1     SET {4}*256
+.LUM2     SET {5}*256
+.LUM3     SET {6}*256
 
-.STEP1 = 256*($C-{4})/8
-.STEP2 = 256*($C-{5})/8
-.STEP3 = 256*($C-{6})/8
+.STEP1 = (256*({7}-{4}))/40
+.STEP2 = (256*({8}-{5}))/40
+.STEP3 = (256*({9}-{6}))/40
 
-    REPEAT 8
-        REPEAT 5
-            .byte {1}+{4}+(.LUM1/256/5)
-            .byte {2}+{5}+(.LUM2/256/5)
-            .byte {3}+{6}+(.LUM3/256/5)
+    REPEAT 40
+            .byte {1}+(.LUM1/256)
+            .byte {2}+(.LUM2/256)
+            .byte {3}+(.LUM3/256)
 .LUM1     SET .LUM1 + .STEP1
 .LUM2     SET .LUM2 + .STEP2
 .LUM3     SET .LUM3 + .STEP3
-        REPEND
     REPEND
     ENDM
 
 ;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
-colr_pal        LUMTABLE $C0, $90, $60,0,8,4
-colr_ntsc   LUMTABLE $80,$B0,$50,0,8,4
+colr_pal        LUMTABLE $b0, $70, $40, 0,1,3, $F,$E,$D
+colr_ntsc   LUMTABLE $90,$B0,$20,0,1,3,$F,$E,$D
 
     include "titleData.asm"
 ;    include "pizza.asm"
 
- CHECK_BANK_SIZE "INITBANK"
+ CHECK_BANK_SIZE "TITLESCREEN"

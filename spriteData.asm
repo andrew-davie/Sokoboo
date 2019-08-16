@@ -109,7 +109,7 @@ FRAME_lookup_png .byte 52 ; 23
  .byte 116 ; 10
  .byte 48 ; 7
  .byte 88 ; 4
- .byte 112 ; 1
+ .byte 120 ; 1
  .byte 40 ; 21
  .byte 40 ; 18
  .byte 184 ; 15
@@ -117,7 +117,7 @@ FRAME_lookup_png .byte 52 ; 23
  .byte 52 ; 9
  .byte 96 ; 6
  .byte 176 ; 3
- .byte 0 ; 0
+ .byte 32 ; 0
 COLOUR_lookup .byte CL6 ; 23
  .byte CL5 ; 20
  .byte CL5 ; 17
@@ -141,7 +141,7 @@ COLOUR_lookup .byte CL6 ; 23
  .byte CL3 ; 9
  .byte CL2 ; 6
  .byte CL2 ; 3
- .byte CL0 ; 0
+ .byte CL1 ; 0
 FRAME_walk_right_3_png .byte 68 ; 23
  .byte 116 ; 20
  .byte 40 ; 17

@@ -283,8 +283,8 @@ Ret             rts
     ; Contribution by Thomas Jentzsch
 
 ; scrolling constants:
-.SCRL_START_LEFT    = 3                                 ; 3
-.SCRL_STOP_LEFT     = 3 ;SCREEN_WIDTH-5                    ; 5 scrolls 5-3+1 = 3 pixel
+.SCRL_START_LEFT    = 2                                 ; 3
+.SCRL_STOP_LEFT     = 2 ;SCREEN_WIDTH-5                    ; 5 scrolls 5-3+1 = 3 pixel
 .SCRL_START_RIGHT   = SCREEN_WIDTH-.SCRL_START_LEFT     ; 7
 .SCRL_STOP_RIGHT    = SCREEN_WIDTH-.SCRL_STOP_LEFT      ; 5
 .SCRL_LEFT_BIT      = %00010001
