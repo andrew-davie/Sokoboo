@@ -12561,7 +12561,7 @@
 ------- FILE levelScreen.asm LEVEL 2 PASS 4
       0  5c6b					      include	"levelScreen.asm"
       0  5c6b					      NEWBANK	LEVELSCREEN
-      1  671c ????				      SEG	LEVELSCREEN
+      1  661c ????				      SEG	LEVELSCREEN
       2  6000					      ORG	ORIGIN
       3  6000					      RORG	$F000
       4  6000				   BANK_START SET	*
@@ -12593,286 +12593,290 @@
      21  6012		       a9 0a		      lda	#10
      22  6014		       85 ec		      sta	initialdelay
      23  6016
-     24  6016		       a5 b8		      lda	levelX
-     25  6018		       85 eb		      sta	targetDigit
-     26  601a
-      0  601a					      RESYNC
-      1  601a
-      2  601a		       a9 02		      lda	#%10
-      3  601c		       85 41		      sta	VBLANK
-      4  601e
-      5  601e		       a2 08		      ldx	#8
-      6  6020				   .loopResync
-      0  6020					      VERTICAL_SYNC
-      1  6020		       a9 0e		      lda	#%1110
-      2  6022		       85 42	   .VSLP1     sta	WSYNC
-      3  6024		       85 40		      sta	VSYNC
-      4  6026		       4a		      lsr
-      5  6027		       d0 f9		      bne	.VSLP1
-      8  6029
-      9  6029		       a0 88		      ldy	#SCANLINES_NTSC/2 - 2
-     10  602b		       a5 81		      lda	Platform
-     11  602d		       49 02		      eor	#PAL_50
-     12  602f		       d0 02		      bne	.ntsc
-     13  6031		       a0 9a		      ldy	#SCANLINES_PAL/2 - 2
-     14  6033				   .ntsc
-     15  6033				   .loopWait
-     16  6033		       85 42		      sta	WSYNC
-     17  6035		       85 42		      sta	WSYNC
-     18  6037		       88		      dey
-     19  6038		       d0 f9		      bne	.loopWait
-     20  603a		       ca		      dex
-     21  603b		       d0 e3		      bne	.loopResync
-     28  603d
-     29  603d				   RestartFrameX
-     30  603d		       a9 0e		      lda	#%1110	; VSYNC ON
-     31  603f		       85 42	   .loopVSync3 sta	WSYNC
-     32  6041		       85 40		      sta	VSYNC
-     33  6043		       4a		      lsr
-     34  6044		       d0 f9		      bne	.loopVSync3	; branch until VYSNC has been reset
-     35  6046
-     36  6046		       a5 e9		      lda	digit+1
-     37  6048		       0a		      asl
-     38  6049		       aa		      tax
-     39  604a		       bd f0 f2 	      lda	LDIGIT,x
-     40  604d		       85 e4		      sta	digit1
-     41  604f		       bd f1 f2 	      lda	LDIGIT+1,x
-     42  6052		       85 e5		      sta	digit1+1
-     43  6054
-     44  6054		       a5 e8		      lda	digit
-     45  6056		       0a		      asl
-     46  6057		       aa		      tax
-     47  6058		       bd 04 f3 	      lda	RDIGIT,x
-     48  605b		       85 e6		      sta	digit2
-     49  605d		       bd 05 f3 	      lda	RDIGIT+1,x
-     50  6060		       85 e7		      sta	digit2+1
-     51  6062
-     52  6062
-     53  6062
-     54  6062
-     55  6062							;------------------------------------------------------------------
-     56  6062		       a6 81		      ldx	Platform
-     57  6064		       bd 38 f1 	      lda	colvecX,x
-     58  6067		       85 e2		      sta	colour_table
-     59  6069		       bd 39 f1 	      lda	colvecX+1,x
-     60  606c		       85 e3		      sta	colour_table+1
-     61  606e
-     62  606e		       a6 81		      ldx	Platform
-     63  6070		       bc 30 f1 	      ldy	VBlankTime2x,x
-     64  6073		       8c 96 02 	      sty	TIM64T
-     65  6076
-     66  6076		       85 42	   VerticalBlankX sta	WSYNC
-     67  6078		       ad 84 02 	      lda	INTIM
-     68  607b		       d0 f9		      bne	VerticalBlankX
-     69  607d		       85 41		      sta	VBLANK
-     70  607f
-     71  607f		       a9 00		      lda	#0
-     72  6081		       85 4d		      sta	PF0
-     73  6083		       85 4e		      sta	PF1
-     74  6085		       85 4f		      sta	PF2
-     75  6087
-     76  6087							;------------------------------------------------------------------
-     77  6087
-     78  6087							; Do X scanlines of color-changing (our picture)
-     79  6087
-     80  6087		       a0 1a		      ldy	#26	; this counts our scanline number
-     81  6089				   SokoLogoX
-     82  6089
-     83  6089
-     84  6089							;1
-     85  6089		       85 42		      sta	WSYNC	; 3
-     86  608b
-     87  608b
-     88  608b		       b1 e2		      lda	(colour_table),y	; 5
-     89  608d		       85 48		      sta	COLUPF	; 3
-     90  608f		       e6 e2		      inc	colour_table	; 5
-     91  6091
-     92  6091							; PF0 < 22
-     93  6091							; PF1 < 28
-     94  6091							; PF2 < 38
-     95  6091
-     96  6091		       a9 00		      lda	#0	; 2
-     97  6093		       85 4e		      sta	PF1	; 3 @18 OK
-     98  6095
-     99  6095		       b1 e4		      lda	(digit1),y	; 5
-    100  6097		       85 4f		      sta	PF2	; 3 @ 26 OK
-    101  6099
-    102  6099							; RHS
-    103  6099
-    104  6099							; PF0 < 49
-    105  6099							; PF1 < 54
-    106  6099							; PF2 < 65
-    107  6099
-    108  6099		       b1 e6		      lda	(digit2),y	; 5
-    109  609b		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
-    110  609d
-    111  609d		       b1 e6		      lda	(digit2),y	; 5
-    112  609f		       0a		      asl		; 2
-    113  60a0		       0a		      asl		; 2
-    114  60a1		       0a		      asl		; 2
-    115  60a2		       0a		      asl		; 2
-    116  60a3		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
-    117  60a5
-    118  60a5		       a9 00		      lda	#0	; 2
-    119  60a7		       85 4f		      sta	PF2	; 3 @45 OK
-    120  60a9		       85 4d		      sta	PF0	; next line
-    121  60ab
-    122  60ab
-    123  60ab
-    124  60ab
-    125  60ab							;2
-    126  60ab							;1
-    127  60ab		       85 42		      sta	WSYNC	; 3
-    128  60ad
-    129  60ad
-    130  60ad		       b1 e2		      lda	(colour_table),y	; 5
-    131  60af		       85 48		      sta	COLUPF	; 3
-    132  60b1		       e6 e2		      inc	colour_table	; 5
-    133  60b3
-    134  60b3							; PF0 < 22
-    135  60b3							; PF1 < 28
-    136  60b3							; PF2 < 38
-    137  60b3
-    138  60b3		       a9 00		      lda	#0	; 2
-    139  60b5		       85 4e		      sta	PF1	; 3 @18 OK
-    140  60b7
-    141  60b7		       b1 e4		      lda	(digit1),y	; 5
-    142  60b9		       85 4f		      sta	PF2	; 3 @ 26 OK
-    143  60bb
-    144  60bb							; RHS
-    145  60bb
-    146  60bb							; PF0 < 49
-    147  60bb							; PF1 < 54
-    148  60bb							; PF2 < 65
-    149  60bb
-    150  60bb		       b1 e6		      lda	(digit2),y	; 5
-    151  60bd		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
-    152  60bf
-    153  60bf		       b1 e6		      lda	(digit2),y	; 5
-    154  60c1		       0a		      asl		; 2
-    155  60c2		       0a		      asl		; 2
-    156  60c3		       0a		      asl		; 2
-    157  60c4		       0a		      asl		; 2
-    158  60c5		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
-    159  60c7
-    160  60c7		       a9 00		      lda	#0	; 2
-    161  60c9		       85 4f		      sta	PF2	; 3 @45 OK
-    162  60cb		       85 4d		      sta	PF0	; next line
-    163  60cd
-    164  60cd
-    165  60cd
-    166  60cd							;3
-    167  60cd							;1
-    168  60cd		       85 4e		      sta	PF1
-    169  60cf		       85 42		      sta	WSYNC	; 3
-    170  60d1
-    171  60d1
-    172  60d1
-    173  60d1		       88		      dey
-    174  60d2		       10 b5		      bpl	SokoLogoX	; 2(3)
-    175  60d4
-    176  60d4		       a9 00		      lda	#0
-    177  60d6		       85 4e		      sta	PF1
-    178  60d8		       85 4f		      sta	PF2
-    179  60da
-    180  60da		       a6 81		      ldx	Platform
-    181  60dc		       bd 34 f1 	      lda	OverscanTime2X,x
-    182  60df		       8d 96 02 	      sta	TIM64T
-    183  60e2
-    184  60e2							;--------------------------------------------------------------------------
-    185  60e2
-    186  60e2		       a5 ec		      lda	initialdelay
-    187  60e4		       f0 05		      beq	canchange
-    188  60e6		       c6 ec		      dec	initialdelay
-    189  60e8		       4c 0f f1 	      jmp	nodigchange
-    190  60eb
-    191  60eb		       a5 eb	   canchange  lda	targetDigit
-    192  60ed		       f0 20		      beq	nodigchange
-    193  60ef		       e6 ea		      inc	digitick
-    194  60f1		       a5 ea		      lda	digitick
-    195  60f3		       c9 05		      cmp	#5
-    196  60f5		       90 18		      bcc	nodigchange
-    197  60f7		       a9 00		      lda	#0
-    198  60f9		       85 ea		      sta	digitick
-    199  60fb
-    200  60fb		       38		      sec
-    201  60fc		       a5 eb		      lda	targetDigit
-    202  60fe		       e9 0a		      sbc	#10
-    203  6100		       90 07		      bcc	units
-    204  6102		       85 eb		      sta	targetDigit
-    205  6104
-    206  6104		       e6 e9		      inc	digit+1
-    207  6106		       4c 0f f1 	      jmp	digok
-    208  6109
-    209  6109		       69 09	   units      adc	#9
-    210  610b		       85 eb		      sta	targetDigit
-    211  610d		       e6 e8		      inc	digit
-    212  610f
-    213  610f				   digok
-    214  610f				   nodigchange
-    215  610f
-    216  610f		       a5 eb		      lda	targetDigit
-    217  6111		       05 ec		      ora	initialdelay
-    218  6113		       d0 06		      bne	oscanX
-    219  6115		       a5 ed		      lda	endwait
-    220  6117		       f0 02		      beq	oscanX
-    221  6119		       c6 ed		      dec	endwait
-    222  611b
-    223  611b							; D1 VBLANK turns off beam
-    224  611b							; It needs to be turned on 37 scanlines later
-    225  611b
-    226  611b				   oscanX
-    227  611b		       ad 84 02 	      lda	INTIM
-    228  611e		       d0 fb		      bne	oscanX
-    229  6120
-    230  6120		       a9 42		      lda	#%01000010	; bit6 is not required
-    231  6122		       85 41		      sta	VBLANK	; end of screen - enter blanking
-    232  6124
-    233  6124		       a5 ed		      lda	endwait
-    234  6126		       f0 07		      beq	retX
-    235  6128
-    236  6128		       a5 4c		      lda	INPT4
-    237  612a		       10 03		      bpl	retX
-    238  612c
-    239  612c		       4c 3d f0 	      jmp	RestartFrameX
-    240  612f
-    241  612f		       60	   retX       rts
-    242  6130
-    243  6130
-    244  6130				   VBlankTime2x
-    245  6130		       7b 7b		      .byte.b	123,123
-    246  6132		       96 96		      .byte.b	150,150
-    247  6134				   OverscanTime2X
-    248  6134		       68 68		      .byte.b	104, 104
-    249  6136		       77 77		      .byte.b	119, 119
-    250  6138
-    251  6138				   colvecX
-    252  6138		       78 f2 00 f2	      .word.w	colr_ntscX, colr_palX
-    253  613c
-    254  613c
-    255  613c					      MAC	lumtable
-    256  613c							; {4} MIN LUM 1
-    257  613c							; {5} MIN LUM 2
-    258  613c							; {6} MIN LUM 3
-    259  613c
-    260  613c				   .LUM1      SET	{4}*256
-    261  613c				   .LUM2      SET	{5}*256
-    262  613c				   .LUM3      SET	{6}*256
-    263  613c
-    264  613c				   .STEP1     =	(256*({7}-{4}))/{10}
-    265  613c				   .STEP2     =	(256*({8}-{5}))/{10}
-    266  613c				   .STEP3     =	(256*({9}-{6}))/{10}
-    267  613c
-    268  613c					      REPEAT	27
-    269  613c					      .byte	{1}+(.LUM1/256)
-    270  613c				   .LUM1      SET	.LUM1 + .STEP1
-    271  613c				   .LUM2      SET	.LUM2 + .STEP2
-    272  613c				   .LUM3      SET	.LUM3 + .STEP3
-    273  613c					      REPEND
-    274  613c					      ENDM		;{1}{2}{3} base colours
-    275  613c
-    276  613c
-    277  6200		       00 00 00 00*	      ALIGN	256
+     24  6016		       18		      clc
+     25  6017		       a5 b8		      lda	levelX
+     26  6019		       69 01		      adc	#1
+     27  601b		       85 eb		      sta	targetDigit
+     28  601d
+      0  601d					      RESYNC
+      1  601d
+      2  601d		       a9 02		      lda	#%10
+      3  601f		       85 41		      sta	VBLANK
+      4  6021
+      5  6021		       a2 08		      ldx	#8
+      6  6023				   .loopResync
+      0  6023					      VERTICAL_SYNC
+      1  6023		       a9 0e		      lda	#%1110
+      2  6025		       85 42	   .VSLP1     sta	WSYNC
+      3  6027		       85 40		      sta	VSYNC
+      4  6029		       4a		      lsr
+      5  602a		       d0 f9		      bne	.VSLP1
+      8  602c
+      9  602c		       a0 88		      ldy	#SCANLINES_NTSC/2 - 2
+     10  602e		       a5 81		      lda	Platform
+     11  6030		       49 02		      eor	#PAL_50
+     12  6032		       d0 02		      bne	.ntsc
+     13  6034		       a0 9a		      ldy	#SCANLINES_PAL/2 - 2
+     14  6036				   .ntsc
+     15  6036				   .loopWait
+     16  6036		       85 42		      sta	WSYNC
+     17  6038		       85 42		      sta	WSYNC
+     18  603a		       88		      dey
+     19  603b		       d0 f9		      bne	.loopWait
+     20  603d		       ca		      dex
+     21  603e		       d0 e3		      bne	.loopResync
+     30  6040
+     31  6040				   RestartFrameX
+     32  6040		       a9 0e		      lda	#%1110	; VSYNC ON
+     33  6042		       85 42	   .loopVSync3 sta	WSYNC
+     34  6044		       85 40		      sta	VSYNC
+     35  6046		       4a		      lsr
+     36  6047		       d0 f9		      bne	.loopVSync3	; branch until VYSNC has been reset
+     37  6049
+     38  6049		       a5 e9		      lda	digit+1
+     39  604b		       0a		      asl
+     40  604c		       aa		      tax
+     41  604d		       bd f0 f2 	      lda	LDIGIT,x
+     42  6050		       85 e4		      sta	digit1
+     43  6052		       bd f1 f2 	      lda	LDIGIT+1,x
+     44  6055		       85 e5		      sta	digit1+1
+     45  6057
+     46  6057		       a5 e8		      lda	digit
+     47  6059		       0a		      asl
+     48  605a		       aa		      tax
+     49  605b		       bd 04 f3 	      lda	RDIGIT,x
+     50  605e		       85 e6		      sta	digit2
+     51  6060		       bd 05 f3 	      lda	RDIGIT+1,x
+     52  6063		       85 e7		      sta	digit2+1
+     53  6065
+     54  6065
+     55  6065
+     56  6065
+     57  6065							;------------------------------------------------------------------
+     58  6065		       a6 81		      ldx	Platform
+     59  6067		       bd 1d f1 	      lda	colvecX,x
+     60  606a		       85 e2		      sta	colour_table
+     61  606c		       bd 1e f1 	      lda	colvecX+1,x
+     62  606f		       85 e3		      sta	colour_table+1
+     63  6071
+     64  6071		       a6 81		      ldx	Platform
+     65  6073		       bc 15 f1 	      ldy	VBlankTime2x,x
+     66  6076		       8c 96 02 	      sty	TIM64T
+     67  6079
+     68  6079		       85 42	   VerticalBlankX sta	WSYNC
+     69  607b		       ad 84 02 	      lda	INTIM
+     70  607e		       d0 f9		      bne	VerticalBlankX
+     71  6080		       85 41		      sta	VBLANK
+     72  6082
+     73  6082		       a9 00		      lda	#0
+     74  6084		       85 4d		      sta	PF0
+     75  6086		       85 4e		      sta	PF1
+     76  6088		       85 4f		      sta	PF2
+     77  608a
+     78  608a							;------------------------------------------------------------------
+     79  608a
+     80  608a							; Do X scanlines of color-changing (our picture)
+     81  608a
+     82  608a		       a0 1a		      ldy	#26	; this counts our scanline number
+     83  608c				   SokoLogoX
+     84  608c
+     85  608c
+     86  608c							;1
+     87  608c		       85 42		      sta	WSYNC	; 3
+     88  608e
+     89  608e
+     90  608e		       b1 e2		      lda	(colour_table),y	; 5
+     91  6090		       85 48		      sta	COLUPF	; 3
+     92  6092		       e6 e2		      inc	colour_table	; 5
+     93  6094
+     94  6094							; PF0 < 22
+     95  6094							; PF1 < 28
+     96  6094							; PF2 < 38
+     97  6094
+     98  6094		       a9 00		      lda	#0	; 2
+     99  6096		       85 4e		      sta	PF1	; 3 @18 OK
+    100  6098
+    101  6098		       b1 e4		      lda	(digit1),y	; 5
+    102  609a		       85 4f		      sta	PF2	; 3 @ 26 OK
+    103  609c
+    104  609c							; RHS
+    105  609c
+    106  609c							; PF0 < 49
+    107  609c							; PF1 < 54
+    108  609c							; PF2 < 65
+    109  609c
+    110  609c		       b1 e6		      lda	(digit2),y	; 5
+    111  609e		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
+    112  60a0
+    113  60a0		       b1 e6		      lda	(digit2),y	; 5
+    114  60a2		       0a		      asl		; 2
+    115  60a3		       0a		      asl		; 2
+    116  60a4		       0a		      asl		; 2
+    117  60a5		       0a		      asl		; 2
+    118  60a6		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
+    119  60a8
+    120  60a8		       a9 00		      lda	#0	; 2
+    121  60aa		       85 4f		      sta	PF2	; 3 @45 OK
+    122  60ac		       85 4d		      sta	PF0	; next line
+    123  60ae
+    124  60ae
+    125  60ae
+    126  60ae
+    127  60ae							;2
+    128  60ae							;1
+    129  60ae		       85 42		      sta	WSYNC	; 3
+    130  60b0		       85 4e		      sta	PF1
+    131  60b2
+    132  60b2
+    133  60b2				  -	      if	0
+    134  60b2				  -	      lda	(colour_table),y	; 5
+    135  60b2				  -	      sta	COLUPF	; 3
+    136  60b2				  -	      inc	colour_table	; 5
+    137  60b2				  -
+    138  60b2				  -			; PF0 < 22
+    139  60b2				  -			; PF1 < 28
+    140  60b2				  -			; PF2 < 38
+    141  60b2				  -
+    142  60b2				  -	      lda	#0	; 2
+    143  60b2				  -	      sta	PF1	; 3 @18 OK
+    144  60b2				  -
+    145  60b2				  -	      lda	(digit1),y	; 5
+    146  60b2				  -	      sta	PF2	; 3 @ 26 OK
+    147  60b2				  -
+    148  60b2				  -			; RHS
+    149  60b2				  -
+    150  60b2				  -			; PF0 < 49
+    151  60b2				  -			; PF1 < 54
+    152  60b2				  -			; PF2 < 65
+    153  60b2				  -
+    154  60b2				  -	      lda	(digit2),y	; 5
+    155  60b2				  -	      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
+    156  60b2				  -
+    157  60b2				  -	      lda	(digit2),y	; 5
+    158  60b2				  -	      asl		; 2
+    159  60b2				  -	      asl		; 2
+    160  60b2				  -	      asl		; 2
+    161  60b2				  -	      asl		; 2
+    162  60b2				  -	      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
+    163  60b2				  -
+    164  60b2				  -	      lda	#0	; 2
+    165  60b2				  -	      sta	PF2	; 3 @45 OK
+    166  60b2				  -	      sta	PF0	; next line
+    167  60b2					      endif
+    168  60b2
+    169  60b2
+    170  60b2							;3
+    171  60b2							;1
+    172  60b2		       85 4e		      sta	PF1
+    173  60b4		       85 42		      sta	WSYNC	; 3
+    174  60b6
+    175  60b6
+    176  60b6
+    177  60b6		       88		      dey
+    178  60b7		       10 d3		      bpl	SokoLogoX	; 2(3)
+    179  60b9
+    180  60b9		       a9 00		      lda	#0
+    181  60bb		       85 4e		      sta	PF1
+    182  60bd		       85 4f		      sta	PF2
+    183  60bf
+    184  60bf		       a6 81		      ldx	Platform
+    185  60c1		       bd 19 f1 	      lda	OverscanTime2X,x
+    186  60c4		       8d 96 02 	      sta	TIM64T
+    187  60c7
+    188  60c7							;--------------------------------------------------------------------------
+    189  60c7
+    190  60c7		       a5 ec		      lda	initialdelay
+    191  60c9		       f0 05		      beq	canchange
+    192  60cb		       c6 ec		      dec	initialdelay
+    193  60cd		       4c f4 f0 	      jmp	nodigchange
+    194  60d0
+    195  60d0		       a5 eb	   canchange  lda	targetDigit
+    196  60d2		       f0 20		      beq	nodigchange
+    197  60d4		       e6 ea		      inc	digitick
+    198  60d6		       a5 ea		      lda	digitick
+    199  60d8		       c9 05		      cmp	#5
+    200  60da		       90 18		      bcc	nodigchange
+    201  60dc		       a9 00		      lda	#0
+    202  60de		       85 ea		      sta	digitick
+    203  60e0
+    204  60e0		       38		      sec
+    205  60e1		       a5 eb		      lda	targetDigit
+    206  60e3		       e9 0a		      sbc	#10
+    207  60e5		       90 07		      bcc	units
+    208  60e7		       85 eb		      sta	targetDigit
+    209  60e9
+    210  60e9		       e6 e9		      inc	digit+1
+    211  60eb		       4c f4 f0 	      jmp	digok
+    212  60ee
+    213  60ee		       69 09	   units      adc	#9
+    214  60f0		       85 eb		      sta	targetDigit
+    215  60f2		       e6 e8		      inc	digit
+    216  60f4
+    217  60f4				   digok
+    218  60f4				   nodigchange
+    219  60f4
+    220  60f4		       a5 eb		      lda	targetDigit
+    221  60f6		       05 ec		      ora	initialdelay
+    222  60f8		       d0 06		      bne	oscanX
+    223  60fa		       a5 ed		      lda	endwait
+    224  60fc		       f0 02		      beq	oscanX
+    225  60fe		       c6 ed		      dec	endwait
+    226  6100
+    227  6100							; D1 VBLANK turns off beam
+    228  6100							; It needs to be turned on 37 scanlines later
+    229  6100
+    230  6100				   oscanX
+    231  6100		       ad 84 02 	      lda	INTIM
+    232  6103		       d0 fb		      bne	oscanX
+    233  6105
+    234  6105		       a9 42		      lda	#%01000010	; bit6 is not required
+    235  6107		       85 41		      sta	VBLANK	; end of screen - enter blanking
+    236  6109
+    237  6109		       a5 ed		      lda	endwait
+    238  610b		       f0 07		      beq	retX
+    239  610d
+    240  610d		       a5 4c		      lda	INPT4
+    241  610f		       10 03		      bpl	retX
+    242  6111
+    243  6111		       4c 40 f0 	      jmp	RestartFrameX
+    244  6114
+    245  6114		       60	   retX       rts
+    246  6115
+    247  6115
+    248  6115				   VBlankTime2x
+    249  6115		       7b 7b		      .byte.b	123,123
+    250  6117		       96 96		      .byte.b	150,150
+    251  6119				   OverscanTime2X
+    252  6119		       68 68		      .byte.b	104, 104
+    253  611b		       77 77		      .byte.b	119, 119
+    254  611d
+    255  611d				   colvecX
+    256  611d		       78 f2 00 f2	      .word.w	colr_ntscX, colr_palX
+    257  6121
+    258  6121
+    259  6121					      MAC	lumtable
+    260  6121							; {4} MIN LUM 1
+    261  6121							; {5} MIN LUM 2
+    262  6121							; {6} MIN LUM 3
+    263  6121
+    264  6121				   .LUM1      SET	{4}*256
+    265  6121				   .LUM2      SET	{5}*256
+    266  6121				   .LUM3      SET	{6}*256
+    267  6121
+    268  6121				   .STEP1     =	(256*({7}-{4}))/{10}
+    269  6121				   .STEP2     =	(256*({8}-{5}))/{10}
+    270  6121				   .STEP3     =	(256*({9}-{6}))/{10}
+    271  6121
+    272  6121					      REPEAT	27
+    273  6121					      .byte	{1}+(.LUM1/256)
+    274  6121				   .LUM1      SET	.LUM1 + .STEP1
+    275  6121				   .LUM2      SET	.LUM2 + .STEP2
+    276  6121				   .LUM3      SET	.LUM3 + .STEP3
+    277  6121					      REPEND
+    278  6121					      ENDM		;{1}{2}{3} base colours
+    279  6121
+    280  6121
+    281  6200		       00 00 00 00*	      ALIGN	256
       0  6200				   colr_palX  LUMTABLE	$b0, $70, $40, $1,$1,$1, $F,$E,$D, 68
       1  6200
       2  6200
@@ -13461,643 +13465,656 @@
      18  62ef				   .LUM2      SET	.LUM2 + .STEP2
      19  62ef				   .LUM3      SET	.LUM3 + .STEP3
      20  62f0					      REPEND
-    280  62f0
-    281  62f0				   LDIGIT
-    282  62f0		       00 f5		      .word.w	LEFT_0
-    283  62f2		       36 f5		      .word.w	LEFT_1
-    284  62f4		       6c f5		      .word.w	LEFT_2
-    285  62f6		       a2 f5		      .word.w	LEFT_3
-    286  62f8		       d8 f5		      .word.w	LEFT_4
-    287  62fa		       0e f6		      .word.w	LEFT_5
-    288  62fc		       44 f6		      .word.w	LEFT_6
-    289  62fe		       7a f6		      .word.w	LEFT_7
-    290  6300		       b0 f6		      .word.w	LEFT_8
-    291  6302		       e6 f6		      .word.w	LEFT_9
-    292  6304
-    293  6304				   RDIGIT
-    294  6304		       1b f5		      .word.w	RIGHT_0
-    295  6306		       51 f5		      .word.w	RIGHT_1
-    296  6308		       87 f5		      .word.w	RIGHT_2
-    297  630a		       bd f5		      .word.w	RIGHT_3
-    298  630c		       f3 f5		      .word.w	RIGHT_4
-    299  630e		       29 f6		      .word.w	RIGHT_5
-    300  6310		       5f f6		      .word.w	RIGHT_6
-    301  6312		       95 f6		      .word.w	RIGHT_7
-    302  6314		       cb f6		      .word.w	RIGHT_8
-    303  6316		       01 f7		      .word.w	RIGHT_9
-    304  6318
-    305  6318		       00 00 00 00*	      ds	270
-    306  6426
+    284  62f0
+    285  62f0				   LDIGIT
+    286  62f0		       00 f4		      .word.w	LEFT_0
+    287  62f2		       36 f4		      .word.w	LEFT_1
+    288  62f4		       6c f4		      .word.w	LEFT_2
+    289  62f6		       a2 f4		      .word.w	LEFT_3
+    290  62f8		       d8 f4		      .word.w	LEFT_4
+    291  62fa		       0e f5		      .word.w	LEFT_5
+    292  62fc		       44 f5		      .word.w	LEFT_6
+    293  62fe		       7a f5		      .word.w	LEFT_7
+    294  6300		       b0 f5		      .word.w	LEFT_8
+    295  6302		       e6 f5		      .word.w	LEFT_9
+    296  6304
+    297  6304				   RDIGIT
+    298  6304		       1b f4		      .word.w	RIGHT_0
+    299  6306		       51 f4		      .word.w	RIGHT_1
+    300  6308		       87 f4		      .word.w	RIGHT_2
+    301  630a		       bd f4		      .word.w	RIGHT_3
+    302  630c		       f3 f4		      .word.w	RIGHT_4
+    303  630e		       29 f5		      .word.w	RIGHT_5
+    304  6310		       5f f5		      .word.w	RIGHT_6
+    305  6312		       95 f5		      .word.w	RIGHT_7
+    306  6314		       cb f5		      .word.w	RIGHT_8
+    307  6316		       01 f6		      .word.w	RIGHT_9
+    308  6318
+    309  6318
+    310  6318				  -	      if	0
+    311  6318				  -HDIGIT
+    312  6318				  -	      .word	H_1
+    313  6318				  -	      .word	H_2
+    314  6318				  -	      .word	H_3
+    315  6318				  -	      .word	H_4
+    316  6318				  -	      .word	H_5
+    317  6318				  -	      .word	H_6
+    318  6318				  -	      .word	H_7
+    319  6318				  -	      .word	H_8
+    320  6318				  -	      .word	H_9
+    321  6318					      endif
+    322  6318
+    323  6318
 ------- FILE bigDigits.asm LEVEL 3 PASS 4
-      0  6426					      include	"bigDigits.asm"
-      1  6500		       00 00 00 00*	      align	256
-      2  6500				   LEFT_0
-      3  6500		       38		      .byte.b	56
-      4  6501		       7c		      .byte.b	124
-      5  6502		       7c		      .byte.b	124
-      6  6503		       fe		      .byte.b	254
-      7  6504		       ee		      .byte.b	238
-      8  6505		       c6		      .byte.b	198
-      9  6506		       c6		      .byte.b	198
-     10  6507		       c6		      .byte.b	198
-     11  6508		       c6		      .byte.b	198
-     12  6509		       c6		      .byte.b	198
-     13  650a		       c6		      .byte.b	198
-     14  650b		       c6		      .byte.b	198
-     15  650c		       c6		      .byte.b	198
-     16  650d		       c6		      .byte.b	198
-     17  650e		       c6		      .byte.b	198
-     18  650f		       c6		      .byte.b	198
-     19  6510		       c6		      .byte.b	198
-     20  6511		       c6		      .byte.b	198
-     21  6512		       c6		      .byte.b	198
-     22  6513		       c6		      .byte.b	198
-     23  6514		       c6		      .byte.b	198
-     24  6515		       c6		      .byte.b	198
-     25  6516		       ee		      .byte.b	238
-     26  6517		       fe		      .byte.b	254
-     27  6518		       7c		      .byte.b	124
-     28  6519		       7c		      .byte.b	124
-     29  651a		       38		      .byte.b	56
-     30  651b				   RIGHT_0
-     31  651b		       8c		      .byte.b	140
-     32  651c		       ce		      .byte.b	206
-     33  651d		       ce		      .byte.b	206
-     34  651e		       ef		      .byte.b	239
-     35  651f		       e7		      .byte.b	231
-     36  6520		       63		      .byte.b	99
-     37  6521		       63		      .byte.b	99
-     38  6522		       63		      .byte.b	99
-     39  6523		       63		      .byte.b	99
-     40  6524		       63		      .byte.b	99
-     41  6525		       63		      .byte.b	99
-     42  6526		       63		      .byte.b	99
-     43  6527		       63		      .byte.b	99
-     44  6528		       63		      .byte.b	99
-     45  6529		       63		      .byte.b	99
-     46  652a		       63		      .byte.b	99
-     47  652b		       63		      .byte.b	99
-     48  652c		       63		      .byte.b	99
-     49  652d		       63		      .byte.b	99
-     50  652e		       63		      .byte.b	99
-     51  652f		       63		      .byte.b	99
-     52  6530		       63		      .byte.b	99
-     53  6531		       e7		      .byte.b	231
-     54  6532		       ef		      .byte.b	239
-     55  6533		       ce		      .byte.b	206
-     56  6534		       ce		      .byte.b	206
-     57  6535		       8c		      .byte.b	140
-     58  6536				   LEFT_1
-     59  6536		       30		      .byte.b	48
-     60  6537		       30		      .byte.b	48
-     61  6538		       30		      .byte.b	48
-     62  6539		       30		      .byte.b	48
-     63  653a		       30		      .byte.b	48
-     64  653b		       30		      .byte.b	48
-     65  653c		       30		      .byte.b	48
-     66  653d		       30		      .byte.b	48
-     67  653e		       30		      .byte.b	48
-     68  653f		       30		      .byte.b	48
-     69  6540		       30		      .byte.b	48
-     70  6541		       30		      .byte.b	48
-     71  6542		       30		      .byte.b	48
-     72  6543		       30		      .byte.b	48
-     73  6544		       30		      .byte.b	48
-     74  6545		       30		      .byte.b	48
-     75  6546		       30		      .byte.b	48
-     76  6547		       30		      .byte.b	48
-     77  6548		       30		      .byte.b	48
-     78  6549		       30		      .byte.b	48
-     79  654a		       30		      .byte.b	48
-     80  654b		       38		      .byte.b	56
-     81  654c		       38		      .byte.b	56
-     82  654d		       38		      .byte.b	56
-     83  654e		       38		      .byte.b	56
-     84  654f		       30		      .byte.b	48
-     85  6550		       30		      .byte.b	48
-     86  6551				   RIGHT_1
-     87  6551		       0c		      .byte.b	12
-     88  6552		       0c		      .byte.b	12
-     89  6553		       0c		      .byte.b	12
-     90  6554		       0c		      .byte.b	12
-     91  6555		       0c		      .byte.b	12
-     92  6556		       0c		      .byte.b	12
-     93  6557		       0c		      .byte.b	12
-     94  6558		       0c		      .byte.b	12
-     95  6559		       0c		      .byte.b	12
-     96  655a		       0c		      .byte.b	12
-     97  655b		       0c		      .byte.b	12
-     98  655c		       0c		      .byte.b	12
-     99  655d		       0c		      .byte.b	12
-    100  655e		       0c		      .byte.b	12
-    101  655f		       0c		      .byte.b	12
-    102  6560		       0c		      .byte.b	12
-    103  6561		       0c		      .byte.b	12
-    104  6562		       0c		      .byte.b	12
-    105  6563		       0c		      .byte.b	12
-    106  6564		       0c		      .byte.b	12
-    107  6565		       0c		      .byte.b	12
-    108  6566		       8c		      .byte.b	140
-    109  6567		       8c		      .byte.b	140
-    110  6568		       8c		      .byte.b	140
-    111  6569		       8c		      .byte.b	140
-    112  656a		       0c		      .byte.b	12
-    113  656b		       0c		      .byte.b	12
-    114  656c				   LEFT_2
-    115  656c		       fe		      .byte.b	254
-    116  656d		       fe		      .byte.b	254
-    117  656e		       fe		      .byte.b	254
-    118  656f		       fe		      .byte.b	254
-    119  6570		       c6		      .byte.b	198
-    120  6571		       06		      .byte.b	6
-    121  6572		       06		      .byte.b	6
-    122  6573		       06		      .byte.b	6
-    123  6574		       0e		      .byte.b	14
-    124  6575		       0e		      .byte.b	14
-    125  6576		       1c		      .byte.b	28
-    126  6577		       3c		      .byte.b	60
-    127  6578		       78		      .byte.b	120
-    128  6579		       70		      .byte.b	112
-    129  657a		       e0		      .byte.b	224
-    130  657b		       e0		      .byte.b	224
-    131  657c		       c0		      .byte.b	192
-    132  657d		       c0		      .byte.b	192
-    133  657e		       c0		      .byte.b	192
-    134  657f		       c6		      .byte.b	198
-    135  6580		       c6		      .byte.b	198
-    136  6581		       c6		      .byte.b	198
-    137  6582		       ee		      .byte.b	238
-    138  6583		       fe		      .byte.b	254
-    139  6584		       7c		      .byte.b	124
-    140  6585		       7c		      .byte.b	124
-    141  6586		       38		      .byte.b	56
-    142  6587				   RIGHT_2
-    143  6587		       ef		      .byte.b	239
-    144  6588		       ef		      .byte.b	239
-    145  6589		       ef		      .byte.b	239
-    146  658a		       ef		      .byte.b	239
-    147  658b		       63		      .byte.b	99
-    148  658c		       60		      .byte.b	96
-    149  658d		       60		      .byte.b	96
-    150  658e		       60		      .byte.b	96
-    151  658f		       e0		      .byte.b	224
-    152  6590		       e0		      .byte.b	224
-    153  6591		       c8		      .byte.b	200
-    154  6592		       cc		      .byte.b	204
-    155  6593		       8e		      .byte.b	142
-    156  6594		       0e		      .byte.b	14
-    157  6595		       07		      .byte.b	7
-    158  6596		       07		      .byte.b	7
-    159  6597		       03		      .byte.b	3
-    160  6598		       03		      .byte.b	3
-    161  6599		       03		      .byte.b	3
-    162  659a		       63		      .byte.b	99
-    163  659b		       63		      .byte.b	99
-    164  659c		       63		      .byte.b	99
-    165  659d		       e7		      .byte.b	231
-    166  659e		       ef		      .byte.b	239
-    167  659f		       ce		      .byte.b	206
-    168  65a0		       ce		      .byte.b	206
-    169  65a1		       8c		      .byte.b	140
-    170  65a2				   LEFT_3
-    171  65a2		       38		      .byte.b	56
-    172  65a3		       7c		      .byte.b	124
-    173  65a4		       7c		      .byte.b	124
-    174  65a5		       fe		      .byte.b	254
-    175  65a6		       ee		      .byte.b	238
-    176  65a7		       c6		      .byte.b	198
-    177  65a8		       c6		      .byte.b	198
-    178  65a9		       c6		      .byte.b	198
-    179  65aa		       c0		      .byte.b	192
-    180  65ab		       c0		      .byte.b	192
-    181  65ac		       c0		      .byte.b	192
-    182  65ad		       e0		      .byte.b	224
-    183  65ae		       f8		      .byte.b	248
-    184  65af		       78		      .byte.b	120
-    185  65b0		       78		      .byte.b	120
-    186  65b1		       f8		      .byte.b	248
-    187  65b2		       e0		      .byte.b	224
-    188  65b3		       c0		      .byte.b	192
-    189  65b4		       c0		      .byte.b	192
-    190  65b5		       c6		      .byte.b	198
-    191  65b6		       c6		      .byte.b	198
-    192  65b7		       c6		      .byte.b	198
-    193  65b8		       ee		      .byte.b	238
-    194  65b9		       fe		      .byte.b	254
-    195  65ba		       7c		      .byte.b	124
-    196  65bb		       7c		      .byte.b	124
-    197  65bc		       38		      .byte.b	56
-    198  65bd				   RIGHT_3
-    199  65bd		       8c		      .byte.b	140
-    200  65be		       ce		      .byte.b	206
-    201  65bf		       ce		      .byte.b	206
-    202  65c0		       ef		      .byte.b	239
-    203  65c1		       e7		      .byte.b	231
-    204  65c2		       63		      .byte.b	99
-    205  65c3		       63		      .byte.b	99
-    206  65c4		       63		      .byte.b	99
-    207  65c5		       03		      .byte.b	3
-    208  65c6		       03		      .byte.b	3
-    209  65c7		       03		      .byte.b	3
-    210  65c8		       07		      .byte.b	7
-    211  65c9		       8f		      .byte.b	143
-    212  65ca		       8e		      .byte.b	142
-    213  65cb		       8e		      .byte.b	142
-    214  65cc		       8f		      .byte.b	143
-    215  65cd		       07		      .byte.b	7
-    216  65ce		       03		      .byte.b	3
-    217  65cf		       03		      .byte.b	3
-    218  65d0		       63		      .byte.b	99
-    219  65d1		       63		      .byte.b	99
-    220  65d2		       63		      .byte.b	99
-    221  65d3		       e7		      .byte.b	231
-    222  65d4		       ef		      .byte.b	239
-    223  65d5		       ce		      .byte.b	206
-    224  65d6		       ce		      .byte.b	206
-    225  65d7		       8c		      .byte.b	140
-    226  65d8				   LEFT_4
-    227  65d8		       60		      .byte.b	96
-    228  65d9		       60		      .byte.b	96
-    229  65da		       60		      .byte.b	96
-    230  65db		       60		      .byte.b	96
-    231  65dc		       60		      .byte.b	96
-    232  65dd		       fe		      .byte.b	254
-    233  65de		       fe		      .byte.b	254
-    234  65df		       fe		      .byte.b	254
-    235  65e0		       fe		      .byte.b	254
-    236  65e1		       66		      .byte.b	102
-    237  65e2		       66		      .byte.b	102
-    238  65e3		       66		      .byte.b	102
-    239  65e4		       66		      .byte.b	102
-    240  65e5		       6c		      .byte.b	108
-    241  65e6		       6c		      .byte.b	108
-    242  65e7		       6c		      .byte.b	108
-    243  65e8		       6c		      .byte.b	108
-    244  65e9		       78		      .byte.b	120
-    245  65ea		       78		      .byte.b	120
-    246  65eb		       78		      .byte.b	120
-    247  65ec		       78		      .byte.b	120
-    248  65ed		       70		      .byte.b	112
-    249  65ee		       70		      .byte.b	112
-    250  65ef		       70		      .byte.b	112
-    251  65f0		       70		      .byte.b	112
-    252  65f1		       60		      .byte.b	96
-    253  65f2		       60		      .byte.b	96
-    254  65f3				   RIGHT_4
-    255  65f3		       06		      .byte.b	6
-    256  65f4		       06		      .byte.b	6
-    257  65f5		       06		      .byte.b	6
-    258  65f6		       06		      .byte.b	6
-    259  65f7		       06		      .byte.b	6
-    260  65f8		       ef		      .byte.b	239
-    261  65f9		       ef		      .byte.b	239
-    262  65fa		       ef		      .byte.b	239
-    263  65fb		       ef		      .byte.b	239
-    264  65fc		       66		      .byte.b	102
-    265  65fd		       66		      .byte.b	102
-    266  65fe		       66		      .byte.b	102
-    267  65ff		       66		      .byte.b	102
-    268  6600		       c6		      .byte.b	198
-    269  6601		       c6		      .byte.b	198
-    270  6602		       c6		      .byte.b	198
-    271  6603		       c6		      .byte.b	198
-    272  6604		       8e		      .byte.b	142
-    273  6605		       8e		      .byte.b	142
-    274  6606		       8e		      .byte.b	142
-    275  6607		       8e		      .byte.b	142
-    276  6608		       0e		      .byte.b	14
-    277  6609		       0e		      .byte.b	14
-    278  660a		       0e		      .byte.b	14
-    279  660b		       0e		      .byte.b	14
-    280  660c		       06		      .byte.b	6
-    281  660d		       06		      .byte.b	6
-    282  660e				   LEFT_5
-    283  660e		       38		      .byte.b	56
-    284  660f		       7c		      .byte.b	124
-    285  6610		       7c		      .byte.b	124
-    286  6611		       fe		      .byte.b	254
-    287  6612		       ee		      .byte.b	238
-    288  6613		       c6		      .byte.b	198
-    289  6614		       c6		      .byte.b	198
-    290  6615		       c6		      .byte.b	198
-    291  6616		       c0		      .byte.b	192
-    292  6617		       c0		      .byte.b	192
-    293  6618		       c0		      .byte.b	192
-    294  6619		       c0		      .byte.b	192
-    295  661a		       c0		      .byte.b	192
-    296  661b		       c0		      .byte.b	192
-    297  661c		       e0		      .byte.b	224
-    298  661d		       fe		      .byte.b	254
-    299  661e		       7e		      .byte.b	126
-    300  661f		       7e		      .byte.b	126
-    301  6620		       3e		      .byte.b	62
-    302  6621		       06		      .byte.b	6
-    303  6622		       06		      .byte.b	6
-    304  6623		       06		      .byte.b	6
-    305  6624		       c6		      .byte.b	198
-    306  6625		       fe		      .byte.b	254
-    307  6626		       fe		      .byte.b	254
-    308  6627		       fe		      .byte.b	254
-    309  6628		       fe		      .byte.b	254
-    310  6629				   RIGHT_5
-    311  6629		       8c		      .byte.b	140
-    312  662a		       ce		      .byte.b	206
-    313  662b		       ce		      .byte.b	206
-    314  662c		       ef		      .byte.b	239
-    315  662d		       e7		      .byte.b	231
-    316  662e		       63		      .byte.b	99
-    317  662f		       63		      .byte.b	99
-    318  6630		       63		      .byte.b	99
-    319  6631		       03		      .byte.b	3
-    320  6632		       03		      .byte.b	3
-    321  6633		       03		      .byte.b	3
-    322  6634		       03		      .byte.b	3
-    323  6635		       03		      .byte.b	3
-    324  6636		       03		      .byte.b	3
-    325  6637		       07		      .byte.b	7
-    326  6638		       ef		      .byte.b	239
-    327  6639		       ee		      .byte.b	238
-    328  663a		       ee		      .byte.b	238
-    329  663b		       ec		      .byte.b	236
-    330  663c		       60		      .byte.b	96
-    331  663d		       60		      .byte.b	96
-    332  663e		       60		      .byte.b	96
-    333  663f		       63		      .byte.b	99
-    334  6640		       ef		      .byte.b	239
-    335  6641		       ef		      .byte.b	239
-    336  6642		       ef		      .byte.b	239
-    337  6643		       ef		      .byte.b	239
-    338  6644				   LEFT_6
-    339  6644		       38		      .byte.b	56
-    340  6645		       7c		      .byte.b	124
-    341  6646		       7c		      .byte.b	124
-    342  6647		       fe		      .byte.b	254
-    343  6648		       ee		      .byte.b	238
-    344  6649		       c6		      .byte.b	198
-    345  664a		       c6		      .byte.b	198
-    346  664b		       c6		      .byte.b	198
-    347  664c		       c6		      .byte.b	198
-    348  664d		       c6		      .byte.b	198
-    349  664e		       c6		      .byte.b	198
-    350  664f		       ee		      .byte.b	238
-    351  6650		       fe		      .byte.b	254
-    352  6651		       7e		      .byte.b	126
-    353  6652		       7e		      .byte.b	126
-    354  6653		       36		      .byte.b	54
-    355  6654		       06		      .byte.b	6
-    356  6655		       06		      .byte.b	6
-    357  6656		       0e		      .byte.b	14
-    358  6657		       0c		      .byte.b	12
-    359  6658		       0c		      .byte.b	12
-    360  6659		       1c		      .byte.b	28
-    361  665a		       1c		      .byte.b	28
-    362  665b		       78		      .byte.b	120
-    363  665c		       78		      .byte.b	120
-    364  665d		       70		      .byte.b	112
-    365  665e		       60		      .byte.b	96
-    366  665f				   RIGHT_6
-    367  665f		       8c		      .byte.b	140
-    368  6660		       ce		      .byte.b	206
-    369  6661		       ce		      .byte.b	206
-    370  6662		       ef		      .byte.b	239
-    371  6663		       e7		      .byte.b	231
-    372  6664		       63		      .byte.b	99
-    373  6665		       63		      .byte.b	99
-    374  6666		       63		      .byte.b	99
-    375  6667		       63		      .byte.b	99
-    376  6668		       63		      .byte.b	99
-    377  6669		       63		      .byte.b	99
-    378  666a		       e7		      .byte.b	231
-    379  666b		       ef		      .byte.b	239
-    380  666c		       ee		      .byte.b	238
-    381  666d		       ee		      .byte.b	238
-    382  666e		       6c		      .byte.b	108
-    383  666f		       60		      .byte.b	96
-    384  6670		       60		      .byte.b	96
-    385  6671		       e0		      .byte.b	224
-    386  6672		       c0		      .byte.b	192
-    387  6673		       c0		      .byte.b	192
-    388  6674		       c8		      .byte.b	200
-    389  6675		       c8		      .byte.b	200
-    390  6676		       8e		      .byte.b	142
-    391  6677		       8e		      .byte.b	142
-    392  6678		       0e		      .byte.b	14
-    393  6679		       06		      .byte.b	6
-    394  667a				   LEFT_7
-    395  667a		       18		      .byte.b	24
-    396  667b		       18		      .byte.b	24
-    397  667c		       18		      .byte.b	24
-    398  667d		       18		      .byte.b	24
-    399  667e		       18		      .byte.b	24
-    400  667f		       18		      .byte.b	24
-    401  6680		       18		      .byte.b	24
-    402  6681		       18		      .byte.b	24
-    403  6682		       18		      .byte.b	24
-    404  6683		       18		      .byte.b	24
-    405  6684		       18		      .byte.b	24
-    406  6685		       30		      .byte.b	48
-    407  6686		       30		      .byte.b	48
-    408  6687		       30		      .byte.b	48
-    409  6688		       30		      .byte.b	48
-    410  6689		       60		      .byte.b	96
-    411  668a		       60		      .byte.b	96
-    412  668b		       60		      .byte.b	96
-    413  668c		       60		      .byte.b	96
-    414  668d		       c0		      .byte.b	192
-    415  668e		       c0		      .byte.b	192
-    416  668f		       c0		      .byte.b	192
-    417  6690		       c6		      .byte.b	198
-    418  6691		       fe		      .byte.b	254
-    419  6692		       fe		      .byte.b	254
-    420  6693		       fe		      .byte.b	254
-    421  6694		       fe		      .byte.b	254
-    422  6695				   RIGHT_7
-    423  6695		       88		      .byte.b	136
-    424  6696		       88		      .byte.b	136
-    425  6697		       88		      .byte.b	136
-    426  6698		       88		      .byte.b	136
-    427  6699		       88		      .byte.b	136
-    428  669a		       88		      .byte.b	136
-    429  669b		       88		      .byte.b	136
-    430  669c		       88		      .byte.b	136
-    431  669d		       88		      .byte.b	136
-    432  669e		       88		      .byte.b	136
-    433  669f		       88		      .byte.b	136
-    434  66a0		       0c		      .byte.b	12
-    435  66a1		       0c		      .byte.b	12
-    436  66a2		       0c		      .byte.b	12
-    437  66a3		       0c		      .byte.b	12
-    438  66a4		       06		      .byte.b	6
-    439  66a5		       06		      .byte.b	6
-    440  66a6		       06		      .byte.b	6
-    441  66a7		       06		      .byte.b	6
-    442  66a8		       03		      .byte.b	3
-    443  66a9		       03		      .byte.b	3
-    444  66aa		       03		      .byte.b	3
-    445  66ab		       63		      .byte.b	99
-    446  66ac		       ef		      .byte.b	239
-    447  66ad		       ef		      .byte.b	239
-    448  66ae		       ef		      .byte.b	239
-    449  66af		       ef		      .byte.b	239
-    450  66b0				   LEFT_8
-    451  66b0		       38		      .byte.b	56
-    452  66b1		       7c		      .byte.b	124
-    453  66b2		       7c		      .byte.b	124
-    454  66b3		       fe		      .byte.b	254
-    455  66b4		       ee		      .byte.b	238
-    456  66b5		       c6		      .byte.b	198
-    457  66b6		       c6		      .byte.b	198
-    458  66b7		       c6		      .byte.b	198
-    459  66b8		       c6		      .byte.b	198
-    460  66b9		       c6		      .byte.b	198
-    461  66ba		       c6		      .byte.b	198
-    462  66bb		       ee		      .byte.b	238
-    463  66bc		       fc		      .byte.b	252
-    464  66bd		       7c		      .byte.b	124
-    465  66be		       7e		      .byte.b	126
-    466  66bf		       ee		      .byte.b	238
-    467  66c0		       c6		      .byte.b	198
-    468  66c1		       c6		      .byte.b	198
-    469  66c2		       c6		      .byte.b	198
-    470  66c3		       c6		      .byte.b	198
-    471  66c4		       c6		      .byte.b	198
-    472  66c5		       c6		      .byte.b	198
-    473  66c6		       ee		      .byte.b	238
-    474  66c7		       fe		      .byte.b	254
-    475  66c8		       7c		      .byte.b	124
-    476  66c9		       7c		      .byte.b	124
-    477  66ca		       38		      .byte.b	56
-    478  66cb				   RIGHT_8
-    479  66cb		       8c		      .byte.b	140
-    480  66cc		       ce		      .byte.b	206
-    481  66cd		       ce		      .byte.b	206
-    482  66ce		       ef		      .byte.b	239
-    483  66cf		       e7		      .byte.b	231
-    484  66d0		       63		      .byte.b	99
-    485  66d1		       63		      .byte.b	99
-    486  66d2		       63		      .byte.b	99
-    487  66d3		       63		      .byte.b	99
-    488  66d4		       63		      .byte.b	99
-    489  66d5		       63		      .byte.b	99
-    490  66d6		       e7		      .byte.b	231
-    491  66d7		       cf		      .byte.b	207
-    492  66d8		       ce		      .byte.b	206
-    493  66d9		       ee		      .byte.b	238
-    494  66da		       e7		      .byte.b	231
-    495  66db		       63		      .byte.b	99
-    496  66dc		       63		      .byte.b	99
-    497  66dd		       63		      .byte.b	99
-    498  66de		       63		      .byte.b	99
-    499  66df		       63		      .byte.b	99
-    500  66e0		       63		      .byte.b	99
-    501  66e1		       e7		      .byte.b	231
-    502  66e2		       ef		      .byte.b	239
-    503  66e3		       ce		      .byte.b	206
-    504  66e4		       ce		      .byte.b	206
-    505  66e5		       8c		      .byte.b	140
-    506  66e6				   LEFT_9
-    507  66e6		       0c		      .byte.b	12
-    508  66e7		       1c		      .byte.b	28
-    509  66e8		       3c		      .byte.b	60
-    510  66e9		       3c		      .byte.b	60
-    511  66ea		       70		      .byte.b	112
-    512  66eb		       70		      .byte.b	112
-    513  66ec		       60		      .byte.b	96
-    514  66ed		       60		      .byte.b	96
-    515  66ee		       e0		      .byte.b	224
-    516  66ef		       c0		      .byte.b	192
-    517  66f0		       c0		      .byte.b	192
-    518  66f1		       d8		      .byte.b	216
-    519  66f2		       fc		      .byte.b	252
-    520  66f3		       fc		      .byte.b	252
-    521  66f4		       fe		      .byte.b	254
-    522  66f5		       ee		      .byte.b	238
-    523  66f6		       c6		      .byte.b	198
-    524  66f7		       c6		      .byte.b	198
-    525  66f8		       c6		      .byte.b	198
-    526  66f9		       c6		      .byte.b	198
-    527  66fa		       c6		      .byte.b	198
-    528  66fb		       c6		      .byte.b	198
-    529  66fc		       ee		      .byte.b	238
-    530  66fd		       fe		      .byte.b	254
-    531  66fe		       7c		      .byte.b	124
-    532  66ff		       7c		      .byte.b	124
-    533  6700		       38		      .byte.b	56
-    534  6701				   RIGHT_9
-    535  6701		       c0		      .byte.b	192
-    536  6702		       c8		      .byte.b	200
-    537  6703		       cc		      .byte.b	204
-    538  6704		       cc		      .byte.b	204
-    539  6705		       0e		      .byte.b	14
-    540  6706		       0e		      .byte.b	14
-    541  6707		       06		      .byte.b	6
-    542  6708		       06		      .byte.b	6
-    543  6709		       07		      .byte.b	7
-    544  670a		       03		      .byte.b	3
-    545  670b		       03		      .byte.b	3
-    546  670c		       8b		      .byte.b	139
-    547  670d		       cf		      .byte.b	207
-    548  670e		       cf		      .byte.b	207
-    549  670f		       ef		      .byte.b	239
-    550  6710		       e7		      .byte.b	231
-    551  6711		       63		      .byte.b	99
-    552  6712		       63		      .byte.b	99
-    553  6713		       63		      .byte.b	99
-    554  6714		       63		      .byte.b	99
-    555  6715		       63		      .byte.b	99
-    556  6716		       63		      .byte.b	99
-    557  6717		       e7		      .byte.b	231
-    558  6718		       ef		      .byte.b	239
-    559  6719		       ce		      .byte.b	206
-    560  671a		       ce		      .byte.b	206
-    561  671b		       8c		      .byte.b	140
+      0  6318					      include	"bigDigits.asm"
+      1  6400		       00 00 00 00*	      align	256
+      2  6400				   LEFT_0
+      3  6400		       38		      .byte.b	56
+      4  6401		       7c		      .byte.b	124
+      5  6402		       7c		      .byte.b	124
+      6  6403		       fe		      .byte.b	254
+      7  6404		       ee		      .byte.b	238
+      8  6405		       c6		      .byte.b	198
+      9  6406		       c6		      .byte.b	198
+     10  6407		       c6		      .byte.b	198
+     11  6408		       c6		      .byte.b	198
+     12  6409		       c6		      .byte.b	198
+     13  640a		       c6		      .byte.b	198
+     14  640b		       c6		      .byte.b	198
+     15  640c		       c6		      .byte.b	198
+     16  640d		       c6		      .byte.b	198
+     17  640e		       c6		      .byte.b	198
+     18  640f		       c6		      .byte.b	198
+     19  6410		       c6		      .byte.b	198
+     20  6411		       c6		      .byte.b	198
+     21  6412		       c6		      .byte.b	198
+     22  6413		       c6		      .byte.b	198
+     23  6414		       c6		      .byte.b	198
+     24  6415		       c6		      .byte.b	198
+     25  6416		       ee		      .byte.b	238
+     26  6417		       fe		      .byte.b	254
+     27  6418		       7c		      .byte.b	124
+     28  6419		       7c		      .byte.b	124
+     29  641a		       38		      .byte.b	56
+     30  641b				   RIGHT_0
+     31  641b		       8c		      .byte.b	140
+     32  641c		       ce		      .byte.b	206
+     33  641d		       ce		      .byte.b	206
+     34  641e		       ef		      .byte.b	239
+     35  641f		       e7		      .byte.b	231
+     36  6420		       63		      .byte.b	99
+     37  6421		       63		      .byte.b	99
+     38  6422		       63		      .byte.b	99
+     39  6423		       63		      .byte.b	99
+     40  6424		       63		      .byte.b	99
+     41  6425		       63		      .byte.b	99
+     42  6426		       63		      .byte.b	99
+     43  6427		       63		      .byte.b	99
+     44  6428		       63		      .byte.b	99
+     45  6429		       63		      .byte.b	99
+     46  642a		       63		      .byte.b	99
+     47  642b		       63		      .byte.b	99
+     48  642c		       63		      .byte.b	99
+     49  642d		       63		      .byte.b	99
+     50  642e		       63		      .byte.b	99
+     51  642f		       63		      .byte.b	99
+     52  6430		       63		      .byte.b	99
+     53  6431		       e7		      .byte.b	231
+     54  6432		       ef		      .byte.b	239
+     55  6433		       ce		      .byte.b	206
+     56  6434		       ce		      .byte.b	206
+     57  6435		       8c		      .byte.b	140
+     58  6436				   LEFT_1
+     59  6436		       30		      .byte.b	48
+     60  6437		       30		      .byte.b	48
+     61  6438		       30		      .byte.b	48
+     62  6439		       30		      .byte.b	48
+     63  643a		       30		      .byte.b	48
+     64  643b		       30		      .byte.b	48
+     65  643c		       30		      .byte.b	48
+     66  643d		       30		      .byte.b	48
+     67  643e		       30		      .byte.b	48
+     68  643f		       30		      .byte.b	48
+     69  6440		       30		      .byte.b	48
+     70  6441		       30		      .byte.b	48
+     71  6442		       30		      .byte.b	48
+     72  6443		       30		      .byte.b	48
+     73  6444		       30		      .byte.b	48
+     74  6445		       30		      .byte.b	48
+     75  6446		       30		      .byte.b	48
+     76  6447		       30		      .byte.b	48
+     77  6448		       30		      .byte.b	48
+     78  6449		       30		      .byte.b	48
+     79  644a		       38		      .byte.b	56
+     80  644b		       38		      .byte.b	56
+     81  644c		       38		      .byte.b	56
+     82  644d		       38		      .byte.b	56
+     83  644e		       38		      .byte.b	56
+     84  644f		       30		      .byte.b	48
+     85  6450		       30		      .byte.b	48
+     86  6451				   RIGHT_1
+     87  6451		       0c		      .byte.b	12
+     88  6452		       0c		      .byte.b	12
+     89  6453		       0c		      .byte.b	12
+     90  6454		       0c		      .byte.b	12
+     91  6455		       0c		      .byte.b	12
+     92  6456		       0c		      .byte.b	12
+     93  6457		       0c		      .byte.b	12
+     94  6458		       0c		      .byte.b	12
+     95  6459		       0c		      .byte.b	12
+     96  645a		       0c		      .byte.b	12
+     97  645b		       0c		      .byte.b	12
+     98  645c		       0c		      .byte.b	12
+     99  645d		       0c		      .byte.b	12
+    100  645e		       0c		      .byte.b	12
+    101  645f		       0c		      .byte.b	12
+    102  6460		       0c		      .byte.b	12
+    103  6461		       0c		      .byte.b	12
+    104  6462		       0c		      .byte.b	12
+    105  6463		       0c		      .byte.b	12
+    106  6464		       0c		      .byte.b	12
+    107  6465		       8c		      .byte.b	140
+    108  6466		       8c		      .byte.b	140
+    109  6467		       8c		      .byte.b	140
+    110  6468		       8c		      .byte.b	140
+    111  6469		       8c		      .byte.b	140
+    112  646a		       0c		      .byte.b	12
+    113  646b		       0c		      .byte.b	12
+    114  646c				   LEFT_2
+    115  646c		       fe		      .byte.b	254
+    116  646d		       fe		      .byte.b	254
+    117  646e		       fe		      .byte.b	254
+    118  646f		       fe		      .byte.b	254
+    119  6470		       c6		      .byte.b	198
+    120  6471		       06		      .byte.b	6
+    121  6472		       06		      .byte.b	6
+    122  6473		       06		      .byte.b	6
+    123  6474		       0e		      .byte.b	14
+    124  6475		       0e		      .byte.b	14
+    125  6476		       1c		      .byte.b	28
+    126  6477		       3c		      .byte.b	60
+    127  6478		       78		      .byte.b	120
+    128  6479		       70		      .byte.b	112
+    129  647a		       e0		      .byte.b	224
+    130  647b		       e0		      .byte.b	224
+    131  647c		       c0		      .byte.b	192
+    132  647d		       c0		      .byte.b	192
+    133  647e		       c0		      .byte.b	192
+    134  647f		       c6		      .byte.b	198
+    135  6480		       c6		      .byte.b	198
+    136  6481		       c6		      .byte.b	198
+    137  6482		       ee		      .byte.b	238
+    138  6483		       fe		      .byte.b	254
+    139  6484		       7c		      .byte.b	124
+    140  6485		       7c		      .byte.b	124
+    141  6486		       38		      .byte.b	56
+    142  6487				   RIGHT_2
+    143  6487		       ef		      .byte.b	239
+    144  6488		       ef		      .byte.b	239
+    145  6489		       ef		      .byte.b	239
+    146  648a		       ef		      .byte.b	239
+    147  648b		       63		      .byte.b	99
+    148  648c		       60		      .byte.b	96
+    149  648d		       60		      .byte.b	96
+    150  648e		       60		      .byte.b	96
+    151  648f		       e0		      .byte.b	224
+    152  6490		       e0		      .byte.b	224
+    153  6491		       c8		      .byte.b	200
+    154  6492		       cc		      .byte.b	204
+    155  6493		       8e		      .byte.b	142
+    156  6494		       0e		      .byte.b	14
+    157  6495		       07		      .byte.b	7
+    158  6496		       07		      .byte.b	7
+    159  6497		       03		      .byte.b	3
+    160  6498		       03		      .byte.b	3
+    161  6499		       03		      .byte.b	3
+    162  649a		       63		      .byte.b	99
+    163  649b		       63		      .byte.b	99
+    164  649c		       63		      .byte.b	99
+    165  649d		       e7		      .byte.b	231
+    166  649e		       ef		      .byte.b	239
+    167  649f		       ce		      .byte.b	206
+    168  64a0		       ce		      .byte.b	206
+    169  64a1		       8c		      .byte.b	140
+    170  64a2				   LEFT_3
+    171  64a2		       38		      .byte.b	56
+    172  64a3		       7c		      .byte.b	124
+    173  64a4		       7c		      .byte.b	124
+    174  64a5		       fe		      .byte.b	254
+    175  64a6		       ee		      .byte.b	238
+    176  64a7		       c6		      .byte.b	198
+    177  64a8		       c6		      .byte.b	198
+    178  64a9		       c6		      .byte.b	198
+    179  64aa		       c0		      .byte.b	192
+    180  64ab		       c0		      .byte.b	192
+    181  64ac		       c0		      .byte.b	192
+    182  64ad		       e0		      .byte.b	224
+    183  64ae		       f8		      .byte.b	248
+    184  64af		       78		      .byte.b	120
+    185  64b0		       78		      .byte.b	120
+    186  64b1		       f8		      .byte.b	248
+    187  64b2		       e0		      .byte.b	224
+    188  64b3		       c0		      .byte.b	192
+    189  64b4		       c0		      .byte.b	192
+    190  64b5		       c6		      .byte.b	198
+    191  64b6		       c6		      .byte.b	198
+    192  64b7		       c6		      .byte.b	198
+    193  64b8		       ee		      .byte.b	238
+    194  64b9		       fe		      .byte.b	254
+    195  64ba		       7c		      .byte.b	124
+    196  64bb		       7c		      .byte.b	124
+    197  64bc		       38		      .byte.b	56
+    198  64bd				   RIGHT_3
+    199  64bd		       8c		      .byte.b	140
+    200  64be		       ce		      .byte.b	206
+    201  64bf		       ce		      .byte.b	206
+    202  64c0		       ef		      .byte.b	239
+    203  64c1		       e7		      .byte.b	231
+    204  64c2		       63		      .byte.b	99
+    205  64c3		       63		      .byte.b	99
+    206  64c4		       63		      .byte.b	99
+    207  64c5		       03		      .byte.b	3
+    208  64c6		       03		      .byte.b	3
+    209  64c7		       03		      .byte.b	3
+    210  64c8		       07		      .byte.b	7
+    211  64c9		       8f		      .byte.b	143
+    212  64ca		       8e		      .byte.b	142
+    213  64cb		       8e		      .byte.b	142
+    214  64cc		       8f		      .byte.b	143
+    215  64cd		       07		      .byte.b	7
+    216  64ce		       03		      .byte.b	3
+    217  64cf		       03		      .byte.b	3
+    218  64d0		       63		      .byte.b	99
+    219  64d1		       63		      .byte.b	99
+    220  64d2		       63		      .byte.b	99
+    221  64d3		       e7		      .byte.b	231
+    222  64d4		       ef		      .byte.b	239
+    223  64d5		       ce		      .byte.b	206
+    224  64d6		       ce		      .byte.b	206
+    225  64d7		       8c		      .byte.b	140
+    226  64d8				   LEFT_4
+    227  64d8		       60		      .byte.b	96
+    228  64d9		       60		      .byte.b	96
+    229  64da		       60		      .byte.b	96
+    230  64db		       60		      .byte.b	96
+    231  64dc		       60		      .byte.b	96
+    232  64dd		       fe		      .byte.b	254
+    233  64de		       fe		      .byte.b	254
+    234  64df		       fe		      .byte.b	254
+    235  64e0		       fe		      .byte.b	254
+    236  64e1		       66		      .byte.b	102
+    237  64e2		       66		      .byte.b	102
+    238  64e3		       66		      .byte.b	102
+    239  64e4		       66		      .byte.b	102
+    240  64e5		       6c		      .byte.b	108
+    241  64e6		       6c		      .byte.b	108
+    242  64e7		       6c		      .byte.b	108
+    243  64e8		       6c		      .byte.b	108
+    244  64e9		       78		      .byte.b	120
+    245  64ea		       78		      .byte.b	120
+    246  64eb		       78		      .byte.b	120
+    247  64ec		       78		      .byte.b	120
+    248  64ed		       70		      .byte.b	112
+    249  64ee		       70		      .byte.b	112
+    250  64ef		       70		      .byte.b	112
+    251  64f0		       70		      .byte.b	112
+    252  64f1		       60		      .byte.b	96
+    253  64f2		       60		      .byte.b	96
+    254  64f3				   RIGHT_4
+    255  64f3		       06		      .byte.b	6
+    256  64f4		       06		      .byte.b	6
+    257  64f5		       06		      .byte.b	6
+    258  64f6		       06		      .byte.b	6
+    259  64f7		       06		      .byte.b	6
+    260  64f8		       ef		      .byte.b	239
+    261  64f9		       ef		      .byte.b	239
+    262  64fa		       ef		      .byte.b	239
+    263  64fb		       ef		      .byte.b	239
+    264  64fc		       66		      .byte.b	102
+    265  64fd		       66		      .byte.b	102
+    266  64fe		       66		      .byte.b	102
+    267  64ff		       66		      .byte.b	102
+    268  6500		       c6		      .byte.b	198
+    269  6501		       c6		      .byte.b	198
+    270  6502		       c6		      .byte.b	198
+    271  6503		       c6		      .byte.b	198
+    272  6504		       8e		      .byte.b	142
+    273  6505		       8e		      .byte.b	142
+    274  6506		       8e		      .byte.b	142
+    275  6507		       8e		      .byte.b	142
+    276  6508		       0e		      .byte.b	14
+    277  6509		       0e		      .byte.b	14
+    278  650a		       0e		      .byte.b	14
+    279  650b		       0e		      .byte.b	14
+    280  650c		       06		      .byte.b	6
+    281  650d		       06		      .byte.b	6
+    282  650e				   LEFT_5
+    283  650e		       38		      .byte.b	56
+    284  650f		       7c		      .byte.b	124
+    285  6510		       7c		      .byte.b	124
+    286  6511		       fe		      .byte.b	254
+    287  6512		       ee		      .byte.b	238
+    288  6513		       c6		      .byte.b	198
+    289  6514		       c6		      .byte.b	198
+    290  6515		       c6		      .byte.b	198
+    291  6516		       c0		      .byte.b	192
+    292  6517		       c0		      .byte.b	192
+    293  6518		       c0		      .byte.b	192
+    294  6519		       c0		      .byte.b	192
+    295  651a		       c0		      .byte.b	192
+    296  651b		       c0		      .byte.b	192
+    297  651c		       e0		      .byte.b	224
+    298  651d		       fe		      .byte.b	254
+    299  651e		       7e		      .byte.b	126
+    300  651f		       7e		      .byte.b	126
+    301  6520		       3e		      .byte.b	62
+    302  6521		       06		      .byte.b	6
+    303  6522		       06		      .byte.b	6
+    304  6523		       06		      .byte.b	6
+    305  6524		       c6		      .byte.b	198
+    306  6525		       fe		      .byte.b	254
+    307  6526		       fe		      .byte.b	254
+    308  6527		       fe		      .byte.b	254
+    309  6528		       fe		      .byte.b	254
+    310  6529				   RIGHT_5
+    311  6529		       8c		      .byte.b	140
+    312  652a		       ce		      .byte.b	206
+    313  652b		       ce		      .byte.b	206
+    314  652c		       ef		      .byte.b	239
+    315  652d		       e7		      .byte.b	231
+    316  652e		       63		      .byte.b	99
+    317  652f		       63		      .byte.b	99
+    318  6530		       63		      .byte.b	99
+    319  6531		       03		      .byte.b	3
+    320  6532		       03		      .byte.b	3
+    321  6533		       03		      .byte.b	3
+    322  6534		       03		      .byte.b	3
+    323  6535		       03		      .byte.b	3
+    324  6536		       03		      .byte.b	3
+    325  6537		       07		      .byte.b	7
+    326  6538		       ef		      .byte.b	239
+    327  6539		       ee		      .byte.b	238
+    328  653a		       ee		      .byte.b	238
+    329  653b		       ec		      .byte.b	236
+    330  653c		       60		      .byte.b	96
+    331  653d		       60		      .byte.b	96
+    332  653e		       60		      .byte.b	96
+    333  653f		       63		      .byte.b	99
+    334  6540		       ef		      .byte.b	239
+    335  6541		       ef		      .byte.b	239
+    336  6542		       ef		      .byte.b	239
+    337  6543		       ef		      .byte.b	239
+    338  6544				   LEFT_6
+    339  6544		       38		      .byte.b	56
+    340  6545		       7c		      .byte.b	124
+    341  6546		       7c		      .byte.b	124
+    342  6547		       fe		      .byte.b	254
+    343  6548		       ee		      .byte.b	238
+    344  6549		       c6		      .byte.b	198
+    345  654a		       c6		      .byte.b	198
+    346  654b		       c6		      .byte.b	198
+    347  654c		       c6		      .byte.b	198
+    348  654d		       c6		      .byte.b	198
+    349  654e		       c6		      .byte.b	198
+    350  654f		       ee		      .byte.b	238
+    351  6550		       fe		      .byte.b	254
+    352  6551		       7e		      .byte.b	126
+    353  6552		       7e		      .byte.b	126
+    354  6553		       36		      .byte.b	54
+    355  6554		       06		      .byte.b	6
+    356  6555		       06		      .byte.b	6
+    357  6556		       0e		      .byte.b	14
+    358  6557		       0c		      .byte.b	12
+    359  6558		       0c		      .byte.b	12
+    360  6559		       1c		      .byte.b	28
+    361  655a		       1c		      .byte.b	28
+    362  655b		       78		      .byte.b	120
+    363  655c		       78		      .byte.b	120
+    364  655d		       70		      .byte.b	112
+    365  655e		       60		      .byte.b	96
+    366  655f				   RIGHT_6
+    367  655f		       8c		      .byte.b	140
+    368  6560		       ce		      .byte.b	206
+    369  6561		       ce		      .byte.b	206
+    370  6562		       ef		      .byte.b	239
+    371  6563		       e7		      .byte.b	231
+    372  6564		       63		      .byte.b	99
+    373  6565		       63		      .byte.b	99
+    374  6566		       63		      .byte.b	99
+    375  6567		       63		      .byte.b	99
+    376  6568		       63		      .byte.b	99
+    377  6569		       63		      .byte.b	99
+    378  656a		       e7		      .byte.b	231
+    379  656b		       ef		      .byte.b	239
+    380  656c		       ee		      .byte.b	238
+    381  656d		       ee		      .byte.b	238
+    382  656e		       6c		      .byte.b	108
+    383  656f		       60		      .byte.b	96
+    384  6570		       60		      .byte.b	96
+    385  6571		       e0		      .byte.b	224
+    386  6572		       c0		      .byte.b	192
+    387  6573		       c0		      .byte.b	192
+    388  6574		       c8		      .byte.b	200
+    389  6575		       c8		      .byte.b	200
+    390  6576		       8e		      .byte.b	142
+    391  6577		       8e		      .byte.b	142
+    392  6578		       0e		      .byte.b	14
+    393  6579		       06		      .byte.b	6
+    394  657a				   LEFT_7
+    395  657a		       18		      .byte.b	24
+    396  657b		       18		      .byte.b	24
+    397  657c		       18		      .byte.b	24
+    398  657d		       18		      .byte.b	24
+    399  657e		       18		      .byte.b	24
+    400  657f		       18		      .byte.b	24
+    401  6580		       18		      .byte.b	24
+    402  6581		       18		      .byte.b	24
+    403  6582		       18		      .byte.b	24
+    404  6583		       18		      .byte.b	24
+    405  6584		       18		      .byte.b	24
+    406  6585		       30		      .byte.b	48
+    407  6586		       30		      .byte.b	48
+    408  6587		       30		      .byte.b	48
+    409  6588		       30		      .byte.b	48
+    410  6589		       60		      .byte.b	96
+    411  658a		       60		      .byte.b	96
+    412  658b		       60		      .byte.b	96
+    413  658c		       60		      .byte.b	96
+    414  658d		       c0		      .byte.b	192
+    415  658e		       c0		      .byte.b	192
+    416  658f		       c0		      .byte.b	192
+    417  6590		       c6		      .byte.b	198
+    418  6591		       fe		      .byte.b	254
+    419  6592		       fe		      .byte.b	254
+    420  6593		       fe		      .byte.b	254
+    421  6594		       fe		      .byte.b	254
+    422  6595				   RIGHT_7
+    423  6595		       88		      .byte.b	136
+    424  6596		       88		      .byte.b	136
+    425  6597		       88		      .byte.b	136
+    426  6598		       88		      .byte.b	136
+    427  6599		       88		      .byte.b	136
+    428  659a		       88		      .byte.b	136
+    429  659b		       88		      .byte.b	136
+    430  659c		       88		      .byte.b	136
+    431  659d		       88		      .byte.b	136
+    432  659e		       88		      .byte.b	136
+    433  659f		       88		      .byte.b	136
+    434  65a0		       0c		      .byte.b	12
+    435  65a1		       0c		      .byte.b	12
+    436  65a2		       0c		      .byte.b	12
+    437  65a3		       0c		      .byte.b	12
+    438  65a4		       06		      .byte.b	6
+    439  65a5		       06		      .byte.b	6
+    440  65a6		       06		      .byte.b	6
+    441  65a7		       06		      .byte.b	6
+    442  65a8		       03		      .byte.b	3
+    443  65a9		       03		      .byte.b	3
+    444  65aa		       03		      .byte.b	3
+    445  65ab		       63		      .byte.b	99
+    446  65ac		       ef		      .byte.b	239
+    447  65ad		       ef		      .byte.b	239
+    448  65ae		       ef		      .byte.b	239
+    449  65af		       ef		      .byte.b	239
+    450  65b0				   LEFT_8
+    451  65b0		       38		      .byte.b	56
+    452  65b1		       7c		      .byte.b	124
+    453  65b2		       7c		      .byte.b	124
+    454  65b3		       fe		      .byte.b	254
+    455  65b4		       ee		      .byte.b	238
+    456  65b5		       c6		      .byte.b	198
+    457  65b6		       c6		      .byte.b	198
+    458  65b7		       c6		      .byte.b	198
+    459  65b8		       c6		      .byte.b	198
+    460  65b9		       c6		      .byte.b	198
+    461  65ba		       c6		      .byte.b	198
+    462  65bb		       ee		      .byte.b	238
+    463  65bc		       fc		      .byte.b	252
+    464  65bd		       7c		      .byte.b	124
+    465  65be		       7e		      .byte.b	126
+    466  65bf		       ee		      .byte.b	238
+    467  65c0		       c6		      .byte.b	198
+    468  65c1		       c6		      .byte.b	198
+    469  65c2		       c6		      .byte.b	198
+    470  65c3		       c6		      .byte.b	198
+    471  65c4		       c6		      .byte.b	198
+    472  65c5		       c6		      .byte.b	198
+    473  65c6		       ee		      .byte.b	238
+    474  65c7		       fe		      .byte.b	254
+    475  65c8		       7c		      .byte.b	124
+    476  65c9		       7c		      .byte.b	124
+    477  65ca		       38		      .byte.b	56
+    478  65cb				   RIGHT_8
+    479  65cb		       8c		      .byte.b	140
+    480  65cc		       ce		      .byte.b	206
+    481  65cd		       ce		      .byte.b	206
+    482  65ce		       ef		      .byte.b	239
+    483  65cf		       e7		      .byte.b	231
+    484  65d0		       63		      .byte.b	99
+    485  65d1		       63		      .byte.b	99
+    486  65d2		       63		      .byte.b	99
+    487  65d3		       63		      .byte.b	99
+    488  65d4		       63		      .byte.b	99
+    489  65d5		       63		      .byte.b	99
+    490  65d6		       e7		      .byte.b	231
+    491  65d7		       cf		      .byte.b	207
+    492  65d8		       ce		      .byte.b	206
+    493  65d9		       ee		      .byte.b	238
+    494  65da		       e7		      .byte.b	231
+    495  65db		       63		      .byte.b	99
+    496  65dc		       63		      .byte.b	99
+    497  65dd		       63		      .byte.b	99
+    498  65de		       63		      .byte.b	99
+    499  65df		       63		      .byte.b	99
+    500  65e0		       63		      .byte.b	99
+    501  65e1		       e7		      .byte.b	231
+    502  65e2		       ef		      .byte.b	239
+    503  65e3		       ce		      .byte.b	206
+    504  65e4		       ce		      .byte.b	206
+    505  65e5		       8c		      .byte.b	140
+    506  65e6				   LEFT_9
+    507  65e6		       0c		      .byte.b	12
+    508  65e7		       1c		      .byte.b	28
+    509  65e8		       3c		      .byte.b	60
+    510  65e9		       3c		      .byte.b	60
+    511  65ea		       70		      .byte.b	112
+    512  65eb		       70		      .byte.b	112
+    513  65ec		       60		      .byte.b	96
+    514  65ed		       e0		      .byte.b	224
+    515  65ee		       e0		      .byte.b	224
+    516  65ef		       c0		      .byte.b	192
+    517  65f0		       c0		      .byte.b	192
+    518  65f1		       d8		      .byte.b	216
+    519  65f2		       fc		      .byte.b	252
+    520  65f3		       fc		      .byte.b	252
+    521  65f4		       fe		      .byte.b	254
+    522  65f5		       ee		      .byte.b	238
+    523  65f6		       c6		      .byte.b	198
+    524  65f7		       c6		      .byte.b	198
+    525  65f8		       c6		      .byte.b	198
+    526  65f9		       c6		      .byte.b	198
+    527  65fa		       c6		      .byte.b	198
+    528  65fb		       c6		      .byte.b	198
+    529  65fc		       ee		      .byte.b	238
+    530  65fd		       fe		      .byte.b	254
+    531  65fe		       7c		      .byte.b	124
+    532  65ff		       7c		      .byte.b	124
+    533  6600		       38		      .byte.b	56
+    534  6601				   RIGHT_9
+    535  6601		       c0		      .byte.b	192
+    536  6602		       c8		      .byte.b	200
+    537  6603		       cc		      .byte.b	204
+    538  6604		       cc		      .byte.b	204
+    539  6605		       0e		      .byte.b	14
+    540  6606		       0e		      .byte.b	14
+    541  6607		       06		      .byte.b	6
+    542  6608		       07		      .byte.b	7
+    543  6609		       07		      .byte.b	7
+    544  660a		       03		      .byte.b	3
+    545  660b		       03		      .byte.b	3
+    546  660c		       8b		      .byte.b	139
+    547  660d		       cf		      .byte.b	207
+    548  660e		       cf		      .byte.b	207
+    549  660f		       ef		      .byte.b	239
+    550  6610		       e7		      .byte.b	231
+    551  6611		       63		      .byte.b	99
+    552  6612		       63		      .byte.b	99
+    553  6613		       63		      .byte.b	99
+    554  6614		       63		      .byte.b	99
+    555  6615		       63		      .byte.b	99
+    556  6616		       63		      .byte.b	99
+    557  6617		       e7		      .byte.b	231
+    558  6618		       ef		      .byte.b	239
+    559  6619		       ce		      .byte.b	206
+    560  661a		       ce		      .byte.b	206
+    561  661b		       8c		      .byte.b	140
 ------- FILE levelScreen.asm
-    308  671c
-      0  671c					      CHECK_BANK_SIZE	"LEVELSCREEN"
-      1  671c		       07 1c	   .TEMP      =	* - BANK_START
- LEVELSCREEN (2K) SIZE =  $71c , FREE= $e4
-      2  671c					      ECHO	"LEVELSCREEN", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
-      3  671c				  -	      if	( .TEMP ) > ROM_BANK_SIZE
-      4  671c				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
-      5  671c				  -	      ERR
-      6  671c					      endif
+    325  661c
+      0  661c					      CHECK_BANK_SIZE	"LEVELSCREEN"
+      1  661c		       06 1c	   .TEMP      =	* - BANK_START
+ LEVELSCREEN (2K) SIZE =  $61c , FREE= $1e4
+      2  661c					      ECHO	"LEVELSCREEN", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
+      3  661c				  -	      if	( .TEMP ) > ROM_BANK_SIZE
+      4  661c				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
+      5  661c				  -	      ERR
+      6  661c					      endif
 ------- FILE ./sokoboo.asm
 ------- FILE BANK_INITBANK.asm LEVEL 2 PASS 4
-      0  671c					      include	"BANK_INITBANK.asm"	; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
-      1  671c							;    Sokoboo - a Sokoban implementation
-      2  671c							;    using a generic tile-based display engine for the Atari 2600
-      3  671c							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
-      4  671c							;
-      5  671c							;    Code related to this Sokoban™ implementation was developed by Andrew Davie.
-      6  671c							;
-      7  671c							;    Code related to the generic tile-based display engine was developed by
-      8  671c							;    Andrew Davie and Thomas Jentzsch during 2003-2011 and is
-      9  671c							;    Copyright(C)2003-2019 Thomas Jentzsch and Andrew Davie - contacts details:
-     10  671c							;    Andrew Davie (andrew@taswegian.com), Thomas Jentzsch (tjentzsch@yahoo.de).
-     11  671c							;
-     12  671c							;    Code related to music and sound effects uses the TIATracker music player
-     13  671c							;    Copyright 2016 Andre "Kylearan" Wichmann - see source code in the "sound"
-     14  671c							;    directory for Apache licensing details.
-     15  671c							;
-     16  671c							;    Some level data incorporated in this program were created by Lee J Haywood.
-     17  671c							;    See the copyright notices in the License directory for a list of level
-     18  671c							;    contributors.
-     19  671c							;
-     20  671c							;    Except where otherwise indicated, this software is released under the
-     21  671c							;    following licensing arrangement...
-     22  671c							;
-     23  671c							;    This program is free software: you can redistribute it and/or modify
-     24  671c							;    it under the terms of the GNU General Public License as published by
-     25  671c							;    the Free Software Foundation, either version 3 of the License, or
-     26  671c							;    (at your option) any later version.
-     27  671c							;    see https://www.gnu.org/licenses/gpl-3.0.en.html
-     28  671c
-     29  671c							;    This program is distributed in the hope that it will be useful,
-     30  671c							;    but WITHOUT ANY WARRANTY; without even the implied warranty of
-     31  671c							;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     32  671c							;    GNU General Public License for more details.
-     33  671c
-      0  671c					      NEWBANK	INITBANK
+      0  661c					      include	"BANK_INITBANK.asm"	; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
+      1  661c							;    Sokoboo - a Sokoban implementation
+      2  661c							;    using a generic tile-based display engine for the Atari 2600
+      3  661c							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
+      4  661c							;
+      5  661c							;    Code related to this Sokoban™ implementation was developed by Andrew Davie.
+      6  661c							;
+      7  661c							;    Code related to the generic tile-based display engine was developed by
+      8  661c							;    Andrew Davie and Thomas Jentzsch during 2003-2011 and is
+      9  661c							;    Copyright(C)2003-2019 Thomas Jentzsch and Andrew Davie - contacts details:
+     10  661c							;    Andrew Davie (andrew@taswegian.com), Thomas Jentzsch (tjentzsch@yahoo.de).
+     11  661c							;
+     12  661c							;    Code related to music and sound effects uses the TIATracker music player
+     13  661c							;    Copyright 2016 Andre "Kylearan" Wichmann - see source code in the "sound"
+     14  661c							;    directory for Apache licensing details.
+     15  661c							;
+     16  661c							;    Some level data incorporated in this program were created by Lee J Haywood.
+     17  661c							;    See the copyright notices in the License directory for a list of level
+     18  661c							;    contributors.
+     19  661c							;
+     20  661c							;    Except where otherwise indicated, this software is released under the
+     21  661c							;    following licensing arrangement...
+     22  661c							;
+     23  661c							;    This program is free software: you can redistribute it and/or modify
+     24  661c							;    it under the terms of the GNU General Public License as published by
+     25  661c							;    the Free Software Foundation, either version 3 of the License, or
+     26  661c							;    (at your option) any later version.
+     27  661c							;    see https://www.gnu.org/licenses/gpl-3.0.en.html
+     28  661c
+     29  661c							;    This program is distributed in the hope that it will be useful,
+     30  661c							;    but WITHOUT ANY WARRANTY; without even the implied warranty of
+     31  661c							;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     32  661c							;    GNU General Public License for more details.
+     33  661c
+      0  661c					      NEWBANK	INITBANK
       1  6b69 ????				      SEG	INITBANK
       2  6800					      ORG	ORIGIN
       3  6800					      RORG	$F000

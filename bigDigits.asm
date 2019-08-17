@@ -76,7 +76,7 @@ LEFT_1
  .byte 48
  .byte 48
  .byte 48
- .byte 48
+ .byte 56
  .byte 56
  .byte 56
  .byte 56
@@ -104,7 +104,7 @@ RIGHT_1
  .byte 12
  .byte 12
  .byte 12
- .byte 12
+ .byte 140
  .byte 140
  .byte 140
  .byte 140
@@ -511,7 +511,7 @@ LEFT_9
  .byte 112
  .byte 112
  .byte 96
- .byte 96
+ .byte 224
  .byte 224
  .byte 192
  .byte 192
@@ -539,7 +539,7 @@ RIGHT_9
  .byte 14
  .byte 14
  .byte 6
- .byte 6
+ .byte 7
  .byte 7
  .byte 3
  .byte 3

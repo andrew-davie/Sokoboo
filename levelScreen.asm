@@ -21,7 +21,9 @@ LevelSequence
                 lda #10
                 sta initialdelay
 
+                clc
                 lda levelX
+                adc #1
                 sta targetDigit
 
                 RESYNC
@@ -125,8 +127,10 @@ SokoLogoX
 ;2
 ;1
                 sta WSYNC               ; 3
+                sta PF1
 
 
+#if 0
                 lda (colour_table),y    ; 5
                 sta COLUPF              ; 3
                 inc colour_table        ; 5
@@ -160,7 +164,7 @@ SokoLogoX
                 lda #0                  ; 2
                 sta PF2                 ; 3 @45 OK
                 sta PF0         ; next line
-
+#endif
 
 
 ;3
@@ -302,7 +306,20 @@ RDIGIT
     .word RIGHT_8
     .word RIGHT_9
 
-    ds 270
+
+#if 0
+HDIGIT
+        .word H_1
+        .word H_2
+        .word H_3
+        .word H_4
+        .word H_5
+        .word H_6
+        .word H_7
+        .word H_8
+        .word H_9
+#endif
+
 
     include "bigDigits.asm"
 
