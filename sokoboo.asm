@@ -123,7 +123,6 @@ MIRRORED_BOX            = YES
 MIRRORED_STEEL              = YES
 MIRRORED_WALL               = YES
 
-TROPHY = NO
 DIGITS = NO
 WAIT_FOR_INITIAL_DRAW = YES             ; blank until all initial tiles drawn
 
@@ -539,12 +538,15 @@ halftimer           ds 1
     OVERLAY TitleScreen
 colour_table           ds 2
 digit1                  ds 2
-digit2                  ds 2
-digit                   ds 2
+digit2                  ds 3
+digitstar               ds 2
+digit                   ds 3
 digitick                ds 1
-targetDigit             ds 1
+targetDigit             ds 3
 initialdelay            ds 1
 endwait                 ds 1
+colourindex             ds 1
+digitHundreds           ds 2
     VALIDATE_OVERLAY
 
 ;------------------------------------------------------------------------------
@@ -901,4 +903,4 @@ ORIGIN      SET $00000
             include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
             include "BANK_FIXED.asm"
 
-            END
+            ;END

@@ -566,8 +566,7 @@ waitingManPress
     ;------------------------------------------------------------------------------
     ; Normal man state
 
-
-normalMan
+    DEFINE_SUBROUTINE normalMan
 
     ; Calling code uses 'POS_X_NEW' and 'POS_Y_NEW' as new player position, so these must be set
     ; before exiting via (for example) look-around option :)
@@ -584,11 +583,10 @@ normalMan
 
 LOOK_DELAY = 0
 
-
-                ;------------------------------------------------------------------------------
-                ; Take-back is a press/release of the button, with the press being limited in duratino
-                ; to allow the action to be "cancelled". Meanwhile, a button press + direction triggers
-                ; "look-around mode"
+    ;------------------------------------------------------------------------------
+    ; Take-back is a press/release of the button, with the press being limited in duratino
+    ; to allow the action to be "cancelled". Meanwhile, a button press + direction triggers
+    ; "look-around mode"
 
                 lda BufferedButton
                 bmi noLook                      ; button?
@@ -645,17 +643,9 @@ noLook          ldx #0
 
     ; button was presssed and now released and we didn't actually look around
     ; so we do a take-back
-                ;lda Platform
-                ;adc #4
-                ;sta ColourFlash
-                ;lda #5
-                ;sta ColourTimer
 
-                lda #BANK_ManProcess
-                sta ROM_Bank                ;? might already be set
-                jsr takebackRestoreEarlierPosition
-
-                rts
+                jmp takebackRestoreEarlierPosition  ;.. and rts
+                ;rts
 
 bProcComp
     ;------------------------------------------------------------------------------
@@ -696,7 +686,7 @@ alreadyIdling
 
                 cmp ManLastDirection
                 sta ManLastDirection
-                ;bne skipMove
+                ;bne noMovement ;kipMove
 dontChange
 
                 clc
@@ -717,20 +707,13 @@ skipMove        tya
                 and #DIRECTION_BITS
                 eor ManLastDirection
                 sta ManLastDirection
-                lda ManAnimTblLo,x
-                sta ManAnimation
-                ;lda ManAnimTblHi,x
-                ;sta ManAnimation+1
-                lda #0
-                sta ManDelayCount
-phase0          ;jsr MovePlayer
-noMovement      ;ldx MAN_Player
 
+noMovement
 DFS_rts         rts
 
 
-ManAnimTblLo
-    .byte   AnimateRIGHT-Manimate, AnimateLEFT-Manimate, AnimateUP-Manimate, AnimateUP-Manimate, AnimateSTOPPED-Manimate
+;ManAnimTblLo
+;    .byte   AnimateRIGHT-Manimate, AnimateLEFT-Manimate, AnimateUP-Manimate, AnimateUP-Manimate, AnimateSTOPPED-Manimate
 ;ManAnimTblHi
 ;    .byte   >AnimateRIGHT, >AnimateLEFT, >AnimateUP, >AnimateUP, >AnimateSTOPPED
 
@@ -835,7 +818,7 @@ anim_direction   .byte 0,%1100,128,128,128
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE EOL
+    DEFINE_SUBROUTINE EndOfLevel
 
                 lda #20
                 sta DelayEndOfLevel
@@ -877,10 +860,9 @@ baseOK
 
                 rts
 
+    ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE VectorProcess ;=19(A)
-
-                ;sta ROM_Bank                    ;3              processors can assume bank is stored
+    DEFINE_SUBROUTINE VectorProcess ;=19
 
                 lda OSPointerHI,x               ;4
                 sta POS_Vector+1                ;3
@@ -889,6 +871,7 @@ baseOK
 
                 jmp (POS_Vector)                ;5 = 19         vector to processor for particular object type
                                                 ;               NOTE: Bank is either INITBANK or FIXED.
+    ;------------------------------------------------------------------------------
 
 
 OBJTYPE    SET 0
@@ -957,12 +940,6 @@ OBJTYPE    .SET OBJTYPE + 1
     REPEND
 #endif
 
-#if TROPHY
-    REPEAT 20       ; 4x5
-        .byte <MOVE_BLANK
-    REPEND
-#endif
-
     IF * - MoveVecLO != CHARACTER_MAXIMUM
         ECHO "ERROR: Incorrect number of entries in MoveVecLO table!"
         ERR
@@ -988,16 +965,19 @@ OBJTYPE    .SET OBJTYPE + 1
     REPEND
 #endif
 
-#if TROPHY
-    REPEAT 20       ; 4x5
-        .byte >MOVE_BLANK
-    REPEND
-#endif
-
     IF * - MoveVecHI != CHARACTER_MAXIMUM
         ECHO "ERROR: Incorrect number of entries in MoveVecHI table!"
         ERR
     ENDIF
 
+;------------------------------------------------------------------------------
+
+    DEFINE_SUBROUTINE SoundFX
+            include "sound/intro1_player.asm"
+            rts
+
+    include "sound/intro1_trackdata.asm"
+
+;------------------------------------------------------------------------------
 
     CHECK_BANK_SIZE "INITBANK"

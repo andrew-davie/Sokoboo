@@ -7,26 +7,47 @@
 
 LevelSequence
 
+                RESYNC  ; uses overlay
+
                 lda #%00000000
                 sta COLUBK
                 sta CTRLPF
-                sta digit
-                sta digit+1
 
-                lda #$FF
+                lda #$80
                 sta digitick
-                lda #75
+                lda #-1
                 sta endwait
 
                 lda #10
                 sta initialdelay
 
+
+                lda #0
+                sta targetDigit
+                sta targetDigit+1
+                sta targetDigit+2
+
+                lda #0
+                sta digit
+                sta digit+1
+                sta digit+2
+
+    ; convert to 3 digits decimal
+
                 clc
                 lda levelX
-                adc #1
+;                adc #96
+;                sec
+m100            sbc #100
+                inc targetDigit+2
+                bcs m100
+                adc #100
+m10             sbc #10
+                inc targetDigit+1
+                bcs m10
+                adc #10
                 sta targetDigit
 
-                RESYNC
 
 RestartFrameX
                 lda #%1110                       ; VSYNC ON
@@ -35,7 +56,20 @@ RestartFrameX
                 lsr
                 bne .loopVSync3                  ; branch until VYSNC has been reset
 
-                lda digit+1
+                ldx Platform
+                ldy VBlankTime2x,x
+                sty TIM64T
+
+
+                lda digit+2                     ; hundreds
+                asl
+                tax
+                lda DIGITHUND,x
+                sta digitHundreds
+                lda DIGITHUND+1,x
+                sta digitHundreds+1
+
+                lda digit+1                     ; tens
                 asl
                 tax
                 lda LDIGIT,x
@@ -43,7 +77,7 @@ RestartFrameX
                 lda LDIGIT+1,x
                 sta digit1+1
 
-                lda digit
+                lda digit                       ; units
                 asl
                 tax
                 lda RDIGIT,x
@@ -53,19 +87,17 @@ RestartFrameX
 
 
 
+                lda #<LEFT_star                 ; question mark
+                sta digitstar
+                lda #>LEFT_star
+                sta digitstar+1
+
+
 
       ;------------------------------------------------------------------
-                ldx Platform
-                lda colvecX,x
-                sta colour_table
-                lda colvecX+1,x
-                sta colour_table+1
 
-                ldx Platform
-                ldy VBlankTime2x,x
-                sty TIM64T
 
-VerticalBlankX   sta WSYNC
+VerticalBlankX  ;sta WSYNC
                 lda INTIM
                 bne VerticalBlankX
                 sta VBLANK
@@ -75,125 +107,78 @@ VerticalBlankX   sta WSYNC
                 sta PF1
                 sta PF2
 
+                ldx Platform
+                lda colvecX,x
+                tax
+
+
       ;------------------------------------------------------------------
 
       ; Do X scanlines of color-changing (our picture)
 
-                ldy #26   ; this counts our scanline number
-SokoLogoX
-
-
-;1
-                sta WSYNC               ; 3
-
-
-                lda (colour_table),y    ; 5
-                sta COLUPF              ; 3
-                inc colour_table        ; 5
-
-    ; PF0 < 22
-    ; PF1 < 28
-    ; PF2 < 38
+                ldy #26                 ; #lines in characters-1
+LevelNumberDigits
+    REPEAT 3
 
                 lda #0                  ; 2
-                sta PF1                 ; 3 @18 OK
+                sta PF0                 ; 3
+
+                sta WSYNC               ; 3
+
+                lda COLOUR_TABLE,x      ; 4
+                sta COLUPF              ; 3
+                inx                     ; 2
+
+                lda (digitHundreds),y   ; 5
+                sta PF1                 ; 3
 
                 lda (digit1),y          ; 5
-                sta PF2                 ; 3 @ 26 OK
+                sta.w PF2                 ; 3 @ 26 OK
 
         ; RHS
-
-    ; PF0 < 49
-    ; PF1 < 54
-    ; PF2 < 65
 
                 lda (digit2),y          ; 5
                 sta PF0                 ; 3 @ 34 OK        D7D6D5D4 <--- mirrored
 
-                lda (digit2),y          ; 5
                 asl                     ; 2
                 asl                     ; 2
                 asl                     ; 2
                 asl                     ; 2
                 sta PF1                 ; 3 @40 OK        NOT MIRRORED, D7D6D5D4 -->
 
-                lda #0                  ; 2
-                sta PF2                 ; 3 @45 OK
-                sta PF0         ; next line
+
+                lda (digitstar),y       ; 5
+                sta PF2                 ; 3
+
+            nop
+    lda #$44
+        sta COLUPF
 
 
-
-
-;2
-;1
-                sta WSYNC               ; 3
-                sta PF1
-
-
-#if 0
-                lda (colour_table),y    ; 5
-                sta COLUPF              ; 3
-                inc colour_table        ; 5
-
-    ; PF0 < 22
-    ; PF1 < 28
-    ; PF2 < 38
-
-                lda #0                  ; 2
-                sta PF1                 ; 3 @18 OK
-
-                lda (digit1),y          ; 5
-                sta PF2                 ; 3 @ 26 OK
-
-        ; RHS
-
-    ; PF0 < 49
-    ; PF1 < 54
-    ; PF2 < 65
-
-                lda (digit2),y          ; 5
-                sta PF0                 ; 3 @ 34 OK        D7D6D5D4 <--- mirrored
-
-                lda (digit2),y          ; 5
-                asl                     ; 2
-                asl                     ; 2
-                asl                     ; 2
-                asl                     ; 2
-                sta PF1                 ; 3 @40 OK        NOT MIRRORED, D7D6D5D4 -->
-
-                lda #0                  ; 2
-                sta PF2                 ; 3 @45 OK
-                sta PF0         ; next line
-#endif
-
-
-;3
-;1
-                sta PF1
-                sta WSYNC               ; 3
-
-
+    REPEND
 
                 dey
-                bpl SokoLogoX ; 2(3)
-
+                bmi exss
+                jmp LevelNumberDigits ; 2(3)
+exss
                 lda #0
+                sta PF0
                 sta PF1
                 sta PF2
 
-                ldx Platform
-                lda OverscanTime2X,x
+                ldy Platform
+                lda OverscanTime2X,y
                 sta TIM64T
 
       ;--------------------------------------------------------------------------
+
 
                 lda initialdelay
                 beq canchange
                 dec initialdelay
                 jmp nodigchange
 
-canchange                lda targetDigit
-                beq nodigchange
+canchange
                 inc digitick
                 lda digitick
                 cmp #5
@@ -201,31 +186,63 @@ canchange                lda targetDigit
                 lda #0
                 sta digitick
 
-                sec
-                lda targetDigit
-                sbc #10
-                bcc units
-                sta targetDigit
 
-                inc digit+1
-                jmp digok
 
-units           adc #9
-                sta targetDigit
-                inc digit
+                ldx #2
+scanner         lda digit,x
+                cmp targetDigit,x
+                beq scanOK
+
+                clc
+                adc #1
+                cmp #10
+                bcc scanOK2
+                lda #0
+scanOK2         sta digit,x
+
+                lda #50
+                sta endwait
+
+                jmp donedig
+
+scanOK          dex
+                bpl scanner
+
+
+donedig
+
 
 digok
 nodigchange
 
-                lda targetDigit
-                ora initialdelay
-                bne oscanX
                 lda endwait
-                beq oscanX
-                dec endwait
+                bmi neverend
 
-    ; D1 VBLANK turns off beam
-    ; It needs to be turned on 37 scanlines later
+                dec endwait
+                beq retX
+
+neverend                lda INPT4
+                ;bpl retX
+
+                lda SWCHA
+                lsr
+                lsr
+                lsr
+                lsr
+                tay
+
+                clc
+                lda xJoyMoveX,y
+                adc digit
+                sta digit
+
+;nowY                clc
+;                adc xJoyMoveX,y
+;                cmp #100
+;                bcc lt100
+;                lda #0
+;lt100           sta targetDigit
+
 
 oscanX
                 lda INTIM
@@ -234,55 +251,63 @@ oscanX
                 lda #%01000010                  ; bit6 is not required
                 sta VBLANK                      ; end of screen - enter blanking
 
-                lda endwait
-                beq retX
-
-                lda INPT4
-                bpl retX
 
                 jmp RestartFrameX
 
 retX             rts
 
+xJoyMoveX        .byte 0,0,0,0,0,1, 1,1,0,-1,-1,-1;,0, 0,0,0
+xJoyMoveY        .byte 0,0,0,0,0,1,-1,0,0, 1,-1,0,0,0,0,0;, 0,0,1,-1,0
 
 VBlankTime2x
-    .byte 123,123
+    .byte 110,110
     .byte 150,150
 OverscanTime2X
-    .byte 104, 104
-    .byte 119, 119
+    .byte 85, 85
+    .byte 120, 120
 
 colvecX
-    .word colr_ntscX, colr_palX
+    .byte 0, 0, COLOUR_LINES*3, COLOUR_LINES*3
 
+
+COLOUR_LINES    = 27
+blankDig ds COLOUR_LINES,0
 
     MAC LUMTABLE ;{1}{2}{3} base colours
 ; {4} MIN LUM 1
 ; {5} MIN LUM 2
 ; {6} MIN LUM 3
 
-.LUM1     SET {4}*256
-.LUM2     SET {5}*256
-.LUM3     SET {6}*256
+.LUM1     SET 0 ;{4}*256
+.LUM2     SET 0 ;{5}*256
+.LUM3     SET 0 ;{6}*256
 
 .STEP1 = (256*({7}-{4}))/{10}
 .STEP2 = (256*({8}-{5}))/{10}
 .STEP3 = (256*({9}-{6}))/{10}
 
-    REPEAT 27
+    REPEAT COLOUR_LINES
             .byte {1}+(.LUM1/256)
-.LUM1     SET .LUM1 + .STEP1
-.LUM2     SET .LUM2 + .STEP2
-.LUM3     SET .LUM3 + .STEP3
+            .byte {2}+(.LUM2/256)
+            .byte {3}+(.LUM3/256)
+;.LUM1     SET .LUM1 + .STEP1
+;.LUM2     SET .LUM2 + .STEP2
+;.LUM3     SET .LUM3 + .STEP3
     REPEND
     ENDM
 
-
     ALIGN 256
-colr_palX        LUMTABLE $b0, $70, $40, $1,$1,$1, $F,$E,$D, 68
-colr_ntscX   LUMTABLE $90,$B0,$20,1,1,1,$F, $E,$D, 68
+COLOUR_TABLE
+    LUMTABLE $90,$B0,$20,1,1,1,$F, $E,$D, COLOUR_LINES                ; NTSC
+    LUMTABLE $90, $70, $0, $A,$A,$0, $0,$0,$0, COLOUR_LINES          ; PAL
+
+quest
+    REPEAT 9
+        .byte $60,$60,$0
+    REPEND
 
 LDIGIT
+    ;.word blankDig
     .word LEFT_0
     .word LEFT_1
     .word LEFT_2
@@ -295,6 +320,7 @@ LDIGIT
     .word LEFT_9
 
 RDIGIT
+    ;.word blankDig
     .word RIGHT_0
     .word RIGHT_1
     .word RIGHT_2
@@ -306,19 +332,18 @@ RDIGIT
     .word RIGHT_8
     .word RIGHT_9
 
-
-#if 0
-HDIGIT
-        .word H_1
-        .word H_2
-        .word H_3
-        .word H_4
-        .word H_5
-        .word H_6
-        .word H_7
-        .word H_8
-        .word H_9
-#endif
+DIGITHUND
+        ;.word blankDig
+        .word HUNDPF1_0
+        .word HUNDPF1_1
+        .word HUNDPF1_2
+        .word HUNDPF1_3
+        .word HUNDPF1_4
+        .word HUNDPF1_5
+        .word HUNDPF1_6
+        .word HUNDPF1_7
+        .word HUNDPF1_8
+        .word HUNDPF1_9
 
 
     include "bigDigits.asm"

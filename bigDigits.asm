@@ -55,6 +55,34 @@ RIGHT_0
  .byte 206
  .byte 206
  .byte 140
+HUNDPF1_0
+ .byte 28
+ .byte 62
+ .byte 62
+ .byte 127
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 127
+ .byte 62
+ .byte 62
+ .byte 28
 LEFT_1
  .byte 48
  .byte 48
@@ -109,6 +137,34 @@ RIGHT_1
  .byte 140
  .byte 140
  .byte 140
+ .byte 12
+ .byte 12
+HUNDPF1_1
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 28
+ .byte 28
+ .byte 28
+ .byte 28
+ .byte 28
  .byte 12
  .byte 12
 LEFT_2
@@ -167,6 +223,34 @@ RIGHT_2
  .byte 206
  .byte 206
  .byte 140
+HUNDPF1_2
+ .byte 127
+ .byte 127
+ .byte 127
+ .byte 127
+ .byte 99
+ .byte 96
+ .byte 96
+ .byte 96
+ .byte 112
+ .byte 112
+ .byte 56
+ .byte 60
+ .byte 30
+ .byte 14
+ .byte 7
+ .byte 7
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 127
+ .byte 62
+ .byte 62
+ .byte 28
 LEFT_3
  .byte 56
  .byte 124
@@ -223,6 +307,34 @@ RIGHT_3
  .byte 206
  .byte 206
  .byte 140
+HUNDPF1_3
+ .byte 28
+ .byte 62
+ .byte 62
+ .byte 127
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 7
+ .byte 31
+ .byte 30
+ .byte 30
+ .byte 31
+ .byte 7
+ .byte 3
+ .byte 3
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 127
+ .byte 62
+ .byte 62
+ .byte 28
 LEFT_4
  .byte 96
  .byte 96
@@ -273,6 +385,34 @@ RIGHT_4
  .byte 142
  .byte 142
  .byte 142
+ .byte 14
+ .byte 14
+ .byte 14
+ .byte 14
+ .byte 6
+ .byte 6
+HUNDPF1_4
+ .byte 6
+ .byte 6
+ .byte 6
+ .byte 6
+ .byte 6
+ .byte 127
+ .byte 127
+ .byte 127
+ .byte 127
+ .byte 102
+ .byte 102
+ .byte 102
+ .byte 102
+ .byte 54
+ .byte 54
+ .byte 54
+ .byte 54
+ .byte 30
+ .byte 30
+ .byte 30
+ .byte 30
  .byte 14
  .byte 14
  .byte 14
@@ -335,6 +475,34 @@ RIGHT_5
  .byte 239
  .byte 239
  .byte 239
+HUNDPF1_5
+ .byte 28
+ .byte 62
+ .byte 62
+ .byte 127
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 7
+ .byte 127
+ .byte 126
+ .byte 126
+ .byte 124
+ .byte 96
+ .byte 96
+ .byte 96
+ .byte 99
+ .byte 127
+ .byte 127
+ .byte 127
+ .byte 127
 LEFT_6
  .byte 56
  .byte 124
@@ -389,6 +557,34 @@ RIGHT_6
  .byte 200
  .byte 142
  .byte 142
+ .byte 14
+ .byte 6
+HUNDPF1_6
+ .byte 28
+ .byte 62
+ .byte 62
+ .byte 127
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 127
+ .byte 126
+ .byte 126
+ .byte 108
+ .byte 96
+ .byte 96
+ .byte 112
+ .byte 48
+ .byte 48
+ .byte 56
+ .byte 56
+ .byte 30
+ .byte 30
  .byte 14
  .byte 6
 LEFT_7
@@ -447,6 +643,34 @@ RIGHT_7
  .byte 239
  .byte 239
  .byte 239
+HUNDPF1_7
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 24
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 6
+ .byte 6
+ .byte 6
+ .byte 6
+ .byte 3
+ .byte 3
+ .byte 3
+ .byte 99
+ .byte 127
+ .byte 127
+ .byte 127
+ .byte 127
 LEFT_8
  .byte 56
  .byte 124
@@ -503,6 +727,34 @@ RIGHT_8
  .byte 206
  .byte 206
  .byte 140
+HUNDPF1_8
+ .byte 28
+ .byte 62
+ .byte 62
+ .byte 127
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 63
+ .byte 62
+ .byte 126
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 127
+ .byte 62
+ .byte 62
+ .byte 28
 LEFT_9
  .byte 12
  .byte 28
@@ -559,3 +811,115 @@ RIGHT_9
  .byte 206
  .byte 206
  .byte 140
+HUNDPF1_9
+ .byte 48
+ .byte 56
+ .byte 60
+ .byte 60
+ .byte 14
+ .byte 14
+ .byte 6
+ .byte 7
+ .byte 7
+ .byte 3
+ .byte 3
+ .byte 27
+ .byte 63
+ .byte 63
+ .byte 127
+ .byte 119
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 127
+ .byte 62
+ .byte 62
+ .byte 28
+LEFT_star
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 0
+ .byte 0
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 12
+ .byte 28
+ .byte 28
+ .byte 56
+ .byte 56
+ .byte 112
+ .byte 112
+ .byte 96
+ .byte 99
+ .byte 99
+ .byte 99
+ .byte 119
+ .byte 119
+ .byte 62
+ .byte 62
+ .byte 28
+RIGHT_star
+ .byte 192
+ .byte 192
+ .byte 192
+ .byte 192
+ .byte 0
+ .byte 0
+ .byte 192
+ .byte 192
+ .byte 192
+ .byte 192
+ .byte 192
+ .byte 192
+ .byte 200
+ .byte 200
+ .byte 140
+ .byte 140
+ .byte 14
+ .byte 14
+ .byte 6
+ .byte 54
+ .byte 54
+ .byte 54
+ .byte 126
+ .byte 126
+ .byte 236
+ .byte 236
+ .byte 200
+HUNDPF1_star
+ .byte 48
+ .byte 48
+ .byte 48
+ .byte 48
+ .byte 0
+ .byte 0
+ .byte 48
+ .byte 48
+ .byte 48
+ .byte 48
+ .byte 48
+ .byte 48
+ .byte 56
+ .byte 56
+ .byte 28
+ .byte 28
+ .byte 14
+ .byte 14
+ .byte 6
+ .byte 198
+ .byte 198
+ .byte 198
+ .byte 238
+ .byte 238
+ .byte 124
+ .byte 124
+ .byte 56

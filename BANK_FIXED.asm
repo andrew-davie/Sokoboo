@@ -192,14 +192,7 @@ PutBoardCharacterSB ; =18
 
                 lda #BANK_VectorProcess         ;2
                 sta SET_BANK                    ;3
-
-                lda OSPointerHI,x               ;4
-                sta POS_Vector+1                ;3
-                lda OSPointerLO,x               ;4
-                sta POS_Vector                  ;3
-
-                jmp (POS_Vector)                ;5 = 87         vector to processor for particular object type
-
+                jmp VectorProcess
 
     ;---------------------------------------------------------------------------
     ; Now process the blank stack.  This stack holds all the recently blanked squares
@@ -257,8 +250,8 @@ keepFractional  sta Throttle                    ;3              save fractional 
 
     ; Pause the game with B/W switch:
 
-                lda gameMode
-                bmi .paused                     ; pause flag set
+;                lda gameMode
+;                bmi .paused                     ; pause flag set
 
     ; Now that we have completed processing the object stack, we switch
     ; the stack bank pointers for the next time around.
@@ -407,7 +400,7 @@ EarlyAbort4     rts
                 lda INTIM
                 cmp #SEGTIME_MAN
                 bcc EarlyAbort4
-                STRESS_TIME SEGTIME_MAN
+                ;STRESS_TIME SEGTIME_MAN
 
                 lda #BANK_ManProcess
                 sta ROM_Bank
@@ -417,7 +410,7 @@ EarlyAbort4     rts
                 lda #-1
                 sta TB_CHAR                         ; pre-set box takeback to NONE
 
-                jsr MovePlayer                  ; 6+{}
+                jsr MovePlayer
 
                 lda ManMode
                 cmp #MANMODE_NEXTLEVEL      ; kludge
@@ -427,7 +420,6 @@ EarlyAbort4     rts
                 lda #MANMODE_NEXTLEVEL
                 sta ManMode
 notComplete
-
 
                 lda #BANK_TrackPlayer           ;
                 sta SET_BANK                    ;
@@ -548,15 +540,10 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
 
     DEFINE_SUBROUTINE MovePlayer
 
-;                lda ManMode
-;                cmp #MANMODE_DEAD
-;                bcs ManIsDead2
-
                 ldy POS_Y_NEW
 
                 lda #BANK_GetBoardAddressRW         ;2
                 sta SET_BANK                        ;3
-                sta ROM_Bank                        ;3
                 jsr GetBoardAddressRW               ;6+32[-2]
     IF MULTI_BANK_BOARD = YES
                 stx RAM_Bank
@@ -1279,7 +1266,9 @@ NewFrameStart
                 ldy VBlankTime,x
                 sty TIM64T
 
-    #include "sound/intro1_player.asm"
+                lda #BANK_SoundFX
+                sta SET_BANK
+                jsr SoundFX
 
                 jsr StealCharDraw               ; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
 
@@ -1344,9 +1333,9 @@ VBlankTime
 
     DEFINE_SUBROUTINE nextLevelMan
 
-                lda #BANK_EOL
+                lda #BANK_EndOfLevel
                 sta SET_BANK
-                jmp EOL
+                jmp EndOfLevel
 
 
     DEFINE_SUBROUTINE nextLevelMan2
@@ -1358,10 +1347,6 @@ VBlankTime
                 sta ManMode
 
     DEFINE_SUBROUTINE switchLevels
-
-                ;lda #BANK_NextLevelX
-                ;sta SET_BANK
-                ;jmp NextLevelX
 
    ; Now do the actual switching
 
@@ -1417,7 +1402,6 @@ genericRTS      rts
     ;---------------------------------------------------------------------------
 
     ;include "circle.asm"
-    include "sound/intro1_trackdata.asm"
 
     include "characterset/character_TARGET.asm"
     include "characterset/character_STEEL.asm"
@@ -1437,12 +1421,6 @@ genericRTS      rts
     include "characterset/character_1.asm"
     include "characterset/character_0.asm"
     #endif
-
-    #if TROPHY
-    include "trophyData.asm"
-    #endif
-
-
 
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *

@@ -35,15 +35,7 @@
                 ORG $80
 
 
-GAMEMODE_2600                   = 64
-GAMEMODE_PAUSED                 = 128
-
-gameMode                        ds 1        ; bit7=0: 7800; bit7=1: 2600.  bit 6=1: paused: bit3: toggle bit for B/W
 Platform                        ds 1        ; TV system (%0x=NTSC, %10=PAL-50, %11=PAL-60)
-; above variables are preserved ALL the time!
-
-;rnd                             ds 1
-;rndHi                           ds 1        ; to get better random values
 
 DrawStackPointer                ds 1        ; points to start entry of drawing stack (-1 = nothing to draw)
 ObjStackNum                     ds 1        ; which stack in use
@@ -76,8 +68,6 @@ BoardEdge_Right                 = BoardLimit_Width  ; absolute rightmost scroll 
 BoardEdge_Bottom                = BoardLimit_Height ; absolute bottommost scroll value
 scrollBits                      ds 1
 
-whichPlayer                     ds 1        ; 0 = P1, 1 = P2
-manAnimationIndex               ds 1            ; old
 animation_index                 ds 1            ; new
 animation                       ds 2
 animation_delay                 ds 1
@@ -86,17 +76,12 @@ ManY                            ds 1
 ManDrawX                        ds 1
 ManDrawY                        ds 1
 ManMode                         ds 1
-ManDelayCount                   ds 1
-ManAnimation                    ds 2
-ManAnimationFrameLO             ds 1
 ManLastDirection                ds 1            ; so we don't overwrite animations in-progress
 ManPushCounter                  ds 1
 LookingAround                   ds 1
 ManAnimationID                  ds 1
-;ManCount                      ds 1            ; player life counter
 DelayEndOfLevel               ds 1
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
-;circle_d                        ds 2
 
 #if 0
 circ_x                 ds 1
@@ -115,7 +100,7 @@ blankState          ds 1
 ; 2 (shared) demo mode variables:
 demoMode                        = jtoggle       ; bit 7==1 => demo mode
 moveLen                         = jtoggle       ; bits 0..6
-moveIdx                         = whichPlayer
+moveIdx                        ds 1
 
 LastSpriteY                     ds 1
 
@@ -187,7 +172,7 @@ ethnic                          ds 1
 
 
 
-OVERLAY_SIZE    SET 16
+OVERLAY_SIZE    SET 23
 
 
 

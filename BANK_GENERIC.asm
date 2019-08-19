@@ -63,9 +63,8 @@
                 ldy #0 ;sJoysticks
                 sty jtoggle
                 stx level
-                ;sta ManCount                                  ; = #players
                 lda #0
-                sta levelX                                        ; make an immediate copy to safe variables!
+                ;sta levelX                                        ; make an immediate copy to safe variables!
                 sta startingLevel
 
     ; multiply with LEVEL_DEFINITION_SIZE (5):
@@ -77,17 +76,6 @@
                 lda #ANIMATION_IDLE_ID
                 sta ManAnimationID
 
-                lda #1
-                sta whichPlayer                                 ; will switch to 0 on 1st go
-
-                ;lda #NUM_LIVES<<4                               ; 3 lives
-                ;ldx ManCount                                  ; = sPlayers
-                ;beq opg
-                ;lda #NUM_LIVES<<4|NUM_LIVES
-opg             ;sta ManCount                                  ; P2P1 nybble each
-
-    ;---------------------------------------------------------------------------
-
                 lda #0
                 sta SWBCNT                      ; console I/O always set to INPUT
                 sta SWACNT                      ; set controller I/O to INPUT
@@ -96,7 +84,7 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
     ; cleanup remains of title screen
                 sta GRP0
                 sta GRP1
-                sta GRP0
+;?                sta GRP0
 
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
                 sta ethnic
@@ -112,7 +100,6 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
 
                 lda #%100                       ; players/missiles BEHIND BG
                 sta CTRLPF
-                ;sta rnd                         ; anything non-0
 
                 lda #$FF
                 sta DrawStackPointer
@@ -136,9 +123,6 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
 ; which is transferred to high score variable in RAM by GeneralScoringSetups
                 jmp ReadSaveKey
 
-;LEVEL0CREATURE  .byte TYPE_MAN,         0,      3,      5
-;                .byte -1
-
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE SwapPlayersGeneric
@@ -146,13 +130,13 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
     ; at the start of a level (or player, doesn't matter) we grab the current state of the colour/B&W switch
     ; into the gameMode variable.
 
-                lda gameMode
-                and #~(BW_SWITCH|GAMEMODE_PAUSED)
-                sta gameMode
-                lda SWCHB
-                and #BW_SWITCH
-                ora gameMode                    ; COLOR/B&W @start of level stored in gameMode -- so now we just detect a CHANGE is pause
-                sta gameMode                    ; also, BIT7=0 -- system is NOT paused
+;                lda gameMode
+;                and #~(BW_SWITCH|GAMEMODE_PAUSED)
+;                sta gameMode
+;                lda SWCHB
+;                and #BW_SWITCH
+;                ora gameMode                    ; COLOR/B&W @start of level stored in gameMode -- so now we just detect a CHANGE is pause
+;                sta gameMode                    ; also, BIT7=0 -- system is NOT paused
 
 
     ; restart level
@@ -192,23 +176,20 @@ opg             ;sta ManCount                                  ; P2P1 nybble eac
                 lda #0
 notL0           sta BoardScrollX
 
-
                 sec
                 lda ManY
-                sbc #3                    ; TJ: why 5???
+                sbc #4
                 bcs notU0
                 lda #0
 notU0           sta BoardScrollY
 
                 lda #0
                 sta ManMode
-                sta ManDelayCount
+                ;sta ManDelayCount
                 sta TakebackInhibit
-
-                ;lda #AnimateBLANK-Manimate ;0 ;<AnimateBLANK ;STAND
-                ;sta ManAnimation
-                ;lda #>AnimateBLANK ;
-                ;sta ManAnimation+1
+                sta base_x
+                sta base_y
+                sta ManPushCounter
 
                 lda #$FF
                 sta LastSpriteY
@@ -216,11 +197,6 @@ notU0           sta BoardScrollY
 
                 lda #DIRECTION_BITS             ;????
                 sta ManLastDirection            ; duplicate?
-
-                lda #0
-                sta base_x
-                sta base_y
-                sta ManPushCounter
 
                 rts
 
@@ -496,68 +472,10 @@ FlashColour     .byte $C0, $C0, $50, $50
                 sta Throttle
 noVerflo
 
-
-    ;----------------------------------------------------------------------------------------------
-    ; handle pause button for 2600 and 7800
-
-    ; Timings:  NOT including palette setting or platform detect
-    ; 2600:     no button press:    11 cycles
-    ;           with button press:  21 cycles
-    ; 7800      no button press:    16 cycles
-    ;           with button press:  21 cycles
-
-
-BW_SWITCH   = $08           ; NOTE: Shares bit position with SWCHB COLOUR/B&W SWITCH
-#if 0
-
-                bit gameMode
-                bvc .pause7800              ; 7800 platform
-
-    ; 2600 pause logic...
-
-                lda SWCHB
-                eor gameMode
-                and #BW_SWITCH
-                beq .setPauseCol            ; no different to original state = no pause change
-                bne .buttonDown             ; unconditional
-
-    ; 7800 pause logic...
-
-    ; When the button is pressed, we check if it's the FIRST time it's pressed.
-    ; This FIRST time is indicated by the PFLAG7800 being clear.  If it's the first time, we toggle the pause
-    ; flag (BIT6) AND we toggle the PFLAG7800 so continued button-down does nothing.  When the button is
-    ; released, then we again toggle the PFLAG7800, allowing a FIRST time check once again, when the button
-    ; is next pressed.
-
-.pause7800      lda #BW_SWITCH
-                bit SWCHB
-                beq .pausePress
-                ora gameMode                ; not pressed, so enable first time press
-                bne .fixPause               ; unconditional
-
-.pausePress     bit gameMode
-                beq .setPauseCol            ; NOT the first time in pause - so do nothing new
-
-        ; Button is down, and we have detected it as a FIRST-TIME button press.
-
-.buttonDown     eor gameMode                ; toggle first time flag(7800) or current switch state(2600)
-                eor #GAMEMODE_PAUSED        ; toggle pause flag
-.fixPause       sta gameMode
-
-.setPauseCol    lda gameMode                ; are we paused?
-                bpl .exitPause              ; only show pause colour when actually paused
-
-                ldx Platform
-                lda pscol,x
-                sta BGColour                ; set main screen background colour.  RED is paused.
-
-.exitPause
-#endif
-
     ;----------------------------------------------------------------------------------------------
 
     ; has to be done AFTER screen display, because it disables the effect!
-                SLEEP 6
+                ;SLEEP 6
                 ;lda rnd                     ; 3     randomly reposition the Cosmic Ark missile
                 ;sta HMM0                    ; 3     this assumes that HMOVE is called at least once/frame
 
@@ -578,26 +496,13 @@ noFlashBG       sta BGColour
 
 
     ; Create a 'standardised' joystick with D4-D7 having bits CLEAR if the appropriate direction is chosen.
-    ; P2 is shifted UP, so we don't need to worry in usage elsewhere (it's same format as a P1 joystick)
 
-                lda whichPlayer                 ; 3
-                and jtoggle                     ; 3
-                tax                             ; 2
-
-                lda INPT4,x                     ; 4
+                lda INPT4
                 and BufferedButton
-                sta BufferedButton              ; 3 = 15
+                sta BufferedButton
 
-                lda SWCHA                       ; 4
-
-                dex                             ; 2
-                bmi notP2                       ; 2/3= 8/9
-
-                asl                             ; 2
-                asl                             ; 2
-                asl                             ; 2
-                asl                             ; 2 =  8
-notP2           sta BufferedJoystick            ; 3
+                lda SWCHA
+                sta BufferedJoystick
 
 
 #if 0
@@ -613,70 +518,9 @@ notP2           sta BufferedJoystick            ; 3
 timer0now
 #endif
 
-                ; fall through
+    ; TODO - fast frame-based animation handling can go here
 
-    ;-------------------------------------------------------------------------------------
-    ; Player animation happens *every* frame so that we get good animation speeds.  Note that
-    ; the player animation consists of running a small animation 'program', and then actually drawing
-    ; the player.  The draw is the neat bit, because all it does is update some self-modifying pointers
-    ; inside the actual draw kernel in the appropriate bank.
-
-
-    DEFINE_SUBROUTINE AnimatePlayers ; in GENERIC_BANK_1
-    ; a bigggg ????
-
-    ; Optimised 7/1/2012 -- single page tables
-
-    ; This interesting code performs the animations for the player(s) and sets the
-    ; pointers INSIDE the row bank for the draw code to point to the correct player
-    ; shape.  Kind of neat, as it doesn't require any shape copying (=speed!)
-
-
-    ; Cycle the player through his animation list.  The animation of a player is a direct
-    ; pointer to the actual shape used to display the player.  This shape is in turn
-    ; written to the current bank's self-modifying locations for the draw.  Since
-    ; we are effectively drawing from this current bank, the same code can be used
-    ; to 'undraw' the player as required.
-
-
-    ; x = player index
-    ; sets ManAnimation = FRAME to display for player
-    ; ManAnimation = index of player program into Manimate list
-
-                bit gameMode
-                bmi AnimationOK                     ; don't animate during pause
-
-                dec ManDelayCount
-                bpl AnimationOK
-
-ReloadAnimation ldy ManAnimation
-ContinueAnim    lda Manimate,y                      ; delay count
-                bne NewFrameOK
-                lda Manimate+1,y
-                tay
-                jmp ContinueAnim
-
-NewFrameOK      bpl doDelay
-
-                iny                                 ; handle a REFLECT
-                lda ManLastDirection
-                and #%11110111
-                ora Manimate,y
-                sta ManLastDirection
-
-                iny
-                bne ContinueAnim
-
-doDelay         sta ManDelayCount
-
-                iny
-                lda Manimate,y
-                sta ManAnimationFrameLO
-
-                iny
-                sty ManAnimation
-
-AnimationOK     rts
+                rts
 
 
 
@@ -758,6 +602,7 @@ SAVEKEY_ADR     = $2F00         ;           tentative address for Sokoban (64 by
 
 
 ;------------------------------------------------------------------------------
+
     DEFINE_SUBROUTINE SetupSaveKey ; = 853
 
 ; calculate slot;
@@ -788,85 +633,6 @@ SAVEKEY_ADR     = $2F00         ;           tentative address for Sokoban (64 by
 NoSKfound
     rts
   ENDIF
-
-    align 256
-
-Manimate
-AnimateSTAND
-AnimateRIGHT
-AnimateLEFT
-AnimateUP
-AnimateSTOPPED
-    .byte 127
-    .byte <PLAYER_RIGHT0 ;PLAYER_STAND
-    ;.byte 10
-    ;.byte < PLAYER_BLINK
-    ;.byte 127
-    ;.byte < PLAYER_STAND
-    ;.byte 0
-    ;.word AnimateTAP
-
-AnimateTAP
-    ;.byte 128, %0                   ; reflect off, always tap with left foot
-    ;.byte 8
-    ;.byte < PLAYER_TAP0
-    ;.byte 8
-    ;.byte < PLAYER_TAP1
-    ;.byte 8
-    ;.byte < PLAYER_TAP0
-    ;.byte 8
-    ;.byte < PLAYER_TAP1
-    ;.byte 8
-    ;.byte < PLAYER_TAP0
-    ;.byte 8
-    ;.byte < PLAYER_TAP1
-    .byte 0
-    .byte AnimateSTAND-Manimate ;word AnimateSTAND
-
-;AnimateRIGHT
-    .byte 128, %0                   ; reflect off
-    .byte 5
-    .byte < PLAYER_RIGHT0
-    .byte 5
-    .byte < PLAYER_RIGHT1
-    .byte 0
-    .byte AnimateRIGHT-Manimate ;word AnimateRIGHT
-
-;AnimateLEFT
-    .byte 128, %1000                ; reflect ON
-    .byte 5
-    .byte < PLAYER_RIGHT0
-    .byte 5
-    .byte < PLAYER_RIGHT1
-    .byte 0
-    .byte AnimateLEFT-Manimate ;word AnimateLEFT
-
-;AnimateUP
-;    .byte 128, %0                ; reflect off
-;    .byte 5
-;    .byte < PLAYER_TAP
-;    .byte 128, %1000
-;    .byte 5
-;    .byte < PLAYER_TAP
-;    .byte 0
-;    .word AnimateUP
-
-;AnimateUP
-    .byte 5
-    .byte < PLAYER_RIGHT0
-    .byte 5
-    .byte < PLAYER_RIGHT1
-    .byte 0
-    .byte AnimateUP-Manimate ;word AnimateUP
-
-AnimateBLANK
-    .byte 127
-    .byte < PLAYER_BLANK
-    .byte 0
-    .byte AnimateBLANK-Manimate ;word AnimateBLANK
-
-AnimateEND
-    CHECKPAGEX Manimate, "AnimateEND @ BANK_GENERIC"
 
 
             CHECK_BANK_SIZE "GENERIC_BANK_1 -- full 2K"
