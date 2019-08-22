@@ -234,6 +234,18 @@ nodigchange
                 beq retX
 
 neverend                lda INPT4
+                bmi noret
+
+                ldx #2
+copyDigits      lda targetDigit,x
+                sta digit,x
+                dex
+                bpl copyDigits
+
+                lda #50
+                sta endwait
+
+noret                jmp oscanX
                 ;bpl retX
 
                 lda SWCHA
