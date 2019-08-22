@@ -157,7 +157,7 @@ colvec
     ENDM
 
 ;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
-colr_pal        LUMTABLE $b0, $70, $40, 5,6,7, $C,$E,$E
+colr_pal        LUMTABLE $b0, $70, $40, 6,7,8, $C,$E,$E
 colr_ntsc   LUMTABLE $90,$B0,$20,5,6,7,$C,$E,$E
 
     include "titleData.asm"

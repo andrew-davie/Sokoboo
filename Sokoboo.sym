@@ -8,6 +8,10 @@
 0.next1                  f168              (R )
 0.notPaired0             f13e              (R )
 0.notPaired1             f15f              (R )
+1017.CLEAR_STACK         fba7              (R )
+1018.CLEAR_STACK         fba7              (R )
+1021.CYCLES              0002              (R )
+1022.CYCLES              0002              (R )
 133.TEMP                 034e              (R )
 134.TEMP                 034e              (R )
 135.TEMP                 034e              (R )
@@ -113,52 +117,52 @@
 192.TEMP                 039d              (R )
 193.TEMP                 039d              (R )
 194.TEMP                 039d              (R )
-198.TEMP                 03c1              (R )
-199.TEMP                 03c1              (R )
-210.loopResync           f48a              (R )
-210.loopWait             f49d              (R )
-210.ntsc                 f49d              (R )
-211.loopResync           f48a              (R )
-211.loopWait             f49d              (R )
-211.ntsc                 f49d              (R )
-211.VSLP1                f48c              (R )
-212.VSLP1                f48c              (R )
-222.BOARD_LOCATION       01f0                  
-222.dirFound             f26e              (R )
-222.DRAW_LOCATION        f0a0                  
-222.exitSK               f660              (R )
-222.loopColor            f088              (R )
-222.loopDirs             f251              (R )
-222.loopRead             f617              (R )
-222.loopVSync2           f037              (R )
-222.loopVSync3           f05c              (R )
-222.loopWrite            f638              (R )
-222.platform0            f0a1              (R )
-222.skipEmpty            f620              (R )
-222.skipPatch            f086              (R )
-223.BOARD_LOCATION       01f0                  
-223.dirFound             f26e              (R )
-223.DRAW_LOCATION        f0a0                  
-223.exitSK               f660              (R )
-223.loopColor            f088              (R )
-223.loopDirs             f251              (R )
-223.loopRead             f617              (R )
-223.loopVSync2           f037              (R )
-223.loopVSync3           f05c              (R )
-223.loopWrite            f638              (R )
-223.platform0            f0a1              (R )
-223.skipEmpty            f620              (R )
-223.skipPatch            f086              (R )
-229.TEMP                 0662              (R )
-230.TEMP                 0662              (R )
-383.TEMP                 07b5              (R )
-384.TEMP                 07b5              (R )
+222.TEMP                 03c1              (R )
+223.TEMP                 03c1              (R )
+234.loopResync           f48a              (R )
+234.loopWait             f49d              (R )
+234.ntsc                 f49d              (R )
+235.loopResync           f48a              (R )
+235.loopWait             f49d              (R )
+235.ntsc                 f49d              (R )
+235.VSLP1                f48c              (R )
+236.VSLP1                f48c              (R )
+246.BOARD_LOCATION       01f0                  
+246.dirFound             f26e              (R )
+246.DRAW_LOCATION        f0a0                  
+246.exitSK               f660              (R )
+246.loopColor            f088              (R )
+246.loopDirs             f251              (R )
+246.loopRead             f617              (R )
+246.loopVSync2           f037              (R )
+246.loopVSync3           f05c              (R )
+246.loopWrite            f638              (R )
+246.platform0            f0a1              (R )
+246.skipEmpty            f620              (R )
+246.skipPatch            f086              (R )
+247.BOARD_LOCATION       01f0                  
+247.dirFound             f26e              (R )
+247.DRAW_LOCATION        f0a0                  
+247.exitSK               f660              (R )
+247.loopColor            f088              (R )
+247.loopDirs             f251              (R )
+247.loopRead             f617              (R )
+247.loopVSync2           f037              (R )
+247.loopVSync3           f05c              (R )
+247.loopWrite            f638              (R )
+247.platform0            f0a1              (R )
+247.skipEmpty            f620              (R )
+247.skipPatch            f086              (R )
+253.TEMP                 0662              (R )
+254.TEMP                 0662              (R )
+407.TEMP                 07b5              (R )
+408.TEMP                 07b5              (R )
 49.DUMMY                 0001                  
 50.DUMMY                 0001                  
-501.TEMP                 07be              (R )
-502.TEMP                 07be              (R )
 51.DUMMY                 0002                  
 52.DUMMY                 0002                  
+525.TEMP                 07be              (R )
+526.TEMP                 07be              (R )
 53.DUMMY                 0003                  
 54.DUMMY                 0003                  
 55.DUMMY                 0004                  
@@ -168,133 +172,129 @@
 59.DUMMY                 0006                  
 60.DUMMY                 0006                  
 61.DUMMY                 0007                  
-611.TEMP                 07c7              (R )
-612.TEMP                 07c7              (R )
 62.DUMMY                 0007                  
-709.TEMP                 074a              (R )
-710.TEMP                 074a              (R )
+635.TEMP                 07c7              (R )
+636.TEMP                 07c7              (R )
+733.TEMP                 074a              (R )
+734.TEMP                 074a              (R )
 78.CYCLES                0000              (R )
 79.CYCLES                0000              (R )
-791.TEMP                 0675              (R )
-792.TEMP                 0675              (R )
 80.CYCLES                0000              (R )
-853.TEMP                 059f              (R )
-854.TEMP                 059f              (R )
-855.TEMP                 04ea              (R )
-856.TEMP                 04ea              (R )
-859.loopResync           f018              (R )
-859.loopWait             f02b              (R )
-859.ntsc                 f02b              (R )
-860.loopResync           f018              (R )
-860.loopWait             f02b              (R )
-860.ntsc                 f02b              (R )
-860.VSLP1                f01a              (R )
-861.VSLP1                f01a              (R )
-863.CYCLES               0002              (R )
-864.CYCLES               0002              (R )
-865.CYCLES               0000              (R )
-865.LUM1                 0be0                  
-865.LUM2                 0df8                  
-865.LUM3                 0de0                  
-865.STEP1                002c              (R )
-865.STEP2                0033              (R )
-865.STEP3                002c              (R )
-866.LUM1                 0be0                  
-866.LUM2                 0df8                  
-866.LUM3                 0de0                  
-866.STEP1                002c              (R )
-866.STEP2                0033              (R )
-866.STEP3                002c              (R )
-867.LUM1                 0be0                  
-867.LUM2                 0df8                  
-867.LUM3                 0de0                  
-867.STEP1                002c              (R )
-867.STEP2                0033              (R )
-867.STEP3                002c              (R )
-867.TEMP                 046b              (R )
-868.TEMP                 046b              (R )
-871.loopResync           f006              (R )
-871.loopWait             f019              (R )
-871.ntsc                 f019              (R )
-872.loopResync           f006              (R )
-872.loopWait             f019              (R )
-872.ntsc                 f019              (R )
-872.VSLP1                f008              (R )
-873.LUM1                 0ee8                  
-873.LUM2                 0df8                  
-873.LUM3                 0ce0                  
-873.STEP1                0059              (R )
-873.STEP2                0053              (R )
-873.STEP3                004c              (R )
-873.VSLP1                f008              (R )
-874.LUM1                 0ee8                  
-874.LUM2                 0df8                  
-874.LUM3                 0ce0                  
-874.STEP1                0059              (R )
-874.STEP2                0053              (R )
-874.STEP3                004c              (R )
-875.LUM1                 0000                  
-875.LUM2                 0000                  
-875.LUM3                 0000                  
-875.STEP1                ffffffc0              (R )
-875.STEP2                ffffffc0              (R )
-875.STEP3                0000              (R )
-875.TEMP                 077b              (R )
-876.TEMP                 077b              (R )
-927.advanceLoop          f35c              (R )
-927.afterAudioUpdate     f430              (R )
-927.endOfEnvelope        f420              (R )
-927.endOfPercussion      f3d9              (R )
-927.exitCopy             fb90              (R )
-927.finishedNewNote      f3b8              (R )
-927.instrument           f407              (R )
-927.level_ok             fcb9              (R )
-927.loopVSync            fc3c              (R )
-927.newNote              f3a2              (R )
-927.noEndOfSustain       f419              (R )
-927.noNewNote            f3c8              (R )
-927.noOddFrame           f3c6              (R )
-927.pause                f365                  
-927.paused               f8c0                  
-927.sequencerNextChannel f3ba                  
-927.startInstrument      f3ae              (R )
-927.storeADIndex         f3b6              (R )
-927.updateLoop           f3ca              (R )
-928.advanceLoop          f35c              (R )
-928.afterAudioUpdate     f430              (R )
-928.constructPatPtr      f372              (R )
-928.endOfEnvelope        f420              (R )
-928.endOfPercussion      f3d9              (R )
-928.exitCopy             fb90              (R )
-928.finishedNewNote      f3b8              (R )
-928.instrument           f407              (R )
-928.level_ok             fcb9              (R )
-928.loopVSync            fc3c              (R )
-928.newNote              f3a2              (R )
-928.noEndOfPattern       f3a1              (R )
-928.noEndOfSustain       f419              (R )
-928.noNewNote            f3c8              (R )
-928.noOddFrame           f3c6              (R )
-928.noPatternGoto        f37f              (R )
-928.notPrefetched        f396              (R )
-928.pause                f365                  
-928.paused               f8c0                  
-928.sequencerNextChannel f3ba                  
-928.startInstrument      f3ae              (R )
-928.storeADIndex         f3b6              (R )
-928.updateLoop           f3ca              (R )
-929.constructPatPtr      f372              (R )
-929.noEndOfPattern       f3a1              (R )
-929.noPatternGoto        f37f              (R )
-929.notPrefetched        f396              (R )
-929.TEMP                 055f              (R )
+815.TEMP                 0675              (R )
+816.TEMP                 0675              (R )
+877.TEMP                 059f              (R )
+878.TEMP                 059f              (R )
+879.TEMP                 04ea              (R )
+880.TEMP                 04ea              (R )
+883.loopResync           f018              (R )
+883.loopWait             f02b              (R )
+883.ntsc                 f02b              (R )
+884.loopResync           f018              (R )
+884.loopWait             f02b              (R )
+884.ntsc                 f02b              (R )
+884.VSLP1                f01a              (R )
+885.VSLP1                f01a              (R )
+887.CYCLES               0002              (R )
+888.CYCLES               0002              (R )
+889.CYCLES               0000              (R )
+889.LUM1                 0bf0                  
+889.LUM2                 0de0                  
+889.LUM3                 0df0                  
+889.STEP1                0026              (R )
+889.STEP2                002c              (R )
+889.STEP3                0026              (R )
+890.LUM1                 0bf0                  
+890.LUM2                 0de0                  
+890.LUM3                 0df0                  
+890.STEP1                0026              (R )
+890.STEP2                002c              (R )
+890.STEP3                0026              (R )
+891.LUM1                 0be0                  
+891.LUM2                 0df8                  
+891.LUM3                 0de0                  
+891.STEP1                002c              (R )
+891.STEP2                0033              (R )
+891.STEP3                002c              (R )
+891.TEMP                 046b              (R )
+892.TEMP                 046b              (R )
+895.loopResync           f006              (R )
+895.loopWait             f019              (R )
+895.ntsc                 f019              (R )
+896.loopResync           f006              (R )
+896.loopWait             f019              (R )
+896.ntsc                 f019              (R )
+896.VSLP1                f008              (R )
+897.LUM1                 0ee8                  
+897.LUM2                 0df8                  
+897.LUM3                 0ce0                  
+897.STEP1                0059              (R )
+897.STEP2                0053              (R )
+897.STEP3                004c              (R )
+897.VSLP1                f008              (R )
+898.LUM1                 0ee8                  
+898.LUM2                 0df8                  
+898.LUM3                 0ce0                  
+898.STEP1                0059              (R )
+898.STEP2                0053              (R )
+898.STEP3                004c              (R )
+899.LUM1                 0000                  
+899.LUM2                 0000                  
+899.LUM3                 0000                  
+899.STEP1                ffffffc0              (R )
+899.STEP2                ffffffc0              (R )
+899.STEP3                0000              (R )
+899.TEMP                 077b              (R )
+900.TEMP                 077b              (R )
 93.TEMP                  02b6              (R )
-930.TEMP                 055f              (R )
 94.TEMP                  02b6              (R )
-993.CLEAR_STACK          fba7              (R )
-994.CLEAR_STACK          fba7              (R )
-997.CYCLES               0002              (R )
-998.CYCLES               0002              (R )
+951.advanceLoop          f35c              (R )
+951.afterAudioUpdate     f430              (R )
+951.endOfEnvelope        f420              (R )
+951.endOfPercussion      f3d9              (R )
+951.exitCopy             fb90              (R )
+951.finishedNewNote      f3b8              (R )
+951.instrument           f407              (R )
+951.level_ok             fcb9              (R )
+951.loopVSync            fc3c              (R )
+951.newNote              f3a2              (R )
+951.noEndOfSustain       f419              (R )
+951.noNewNote            f3c8              (R )
+951.noOddFrame           f3c6              (R )
+951.pause                f365                  
+951.paused               f8c0                  
+951.sequencerNextChannel f3ba                  
+951.startInstrument      f3ae              (R )
+951.storeADIndex         f3b6              (R )
+951.updateLoop           f3ca              (R )
+952.advanceLoop          f35c              (R )
+952.afterAudioUpdate     f430              (R )
+952.constructPatPtr      f372              (R )
+952.endOfEnvelope        f420              (R )
+952.endOfPercussion      f3d9              (R )
+952.exitCopy             fb90              (R )
+952.finishedNewNote      f3b8              (R )
+952.instrument           f407              (R )
+952.level_ok             fcb9              (R )
+952.loopVSync            fc3c              (R )
+952.newNote              f3a2              (R )
+952.noEndOfPattern       f3a1              (R )
+952.noEndOfSustain       f419              (R )
+952.noNewNote            f3c8              (R )
+952.noOddFrame           f3c6              (R )
+952.noPatternGoto        f37f              (R )
+952.notPrefetched        f396              (R )
+952.pause                f365                  
+952.paused               f8c0                  
+952.sequencerNextChannel f3ba                  
+952.startInstrument      f3ae              (R )
+952.storeADIndex         f3b6              (R )
+952.updateLoop           f3ca              (R )
+953.constructPatPtr      f372              (R )
+953.noEndOfPattern       f3a1              (R )
+953.noPatternGoto        f37f              (R )
+953.notPrefetched        f396              (R )
+953.TEMP                 055f              (R )
+954.TEMP                 055f              (R )
 __DASM__TOTAL_FREE_MEMORY 0000                  
 _CURRENT_BANK            000f              (R )
 _PROFILE_DRAW            0001                  

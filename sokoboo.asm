@@ -186,6 +186,8 @@ SCANLINES_PAL       = 312
 ;------------------------------------------------------------------------------
 ; MACRO definitions
 
+    include "macro2.h"
+
 ROM_BANK_SIZE               = $800
 
             MAC NEWBANK ; bank name

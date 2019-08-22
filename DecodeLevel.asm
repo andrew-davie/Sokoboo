@@ -599,22 +599,27 @@ endzapy2        dec POS_X
 ;B      soil (surround)
 ;C      box
 
+    MAC NTSCPAL ; {col} {intensity}
+    .byte {1}+{2}
+    NTSC_TO_PAL {1},{2}
+    ENDM
 
-C1 ;mortar
-    .byte $88,$b6
-    .byte $38,$68
-    .byte $5a,$AA
-    .byte $5a,$86
+C1 ;
+
+    NTSCPAL $70,$8
+    NTSCPAL $20,$C
+    NTSCPAL $20,$8
+    NTSCPAL $90,$A
 C2  ; soil stripes
-    .byte $34,$68
-    .byte $b4,$78
-    .byte $F4,$28
-    .byte $a4,$C8
-C3 ; brick
-    .byte $1A,$2a
-    .byte $8C,$BC
-    .byte $0A,$fA
-    .byte $ca,$3a
+    NTSCPAL $30,$4
+    NTSCPAL $80,$4
+    NTSCPAL $C0,$4
+    NTSCPAL $70,$4
+C3 ; mortar
+    NTSCPAL $10,$A
+    NTSCPAL $20,$8
+    NTSCPAL $90,$8
+    NTSCPAL $E0,$8
 
   DEFINE_SUBROUTINE UnpackLevel
 
