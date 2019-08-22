@@ -824,7 +824,7 @@ anim_direction   .byte 0,%1100,128,128,128
                 sta DelayEndOfLevel
                 lda Platform
                 sta ColourFlash                 ; green
-                lda #4
+                lda #6
                 sta ColourTimer
 
                 LOAD_ANIMATION Animation_WIN

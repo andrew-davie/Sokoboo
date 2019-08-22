@@ -686,7 +686,7 @@ noMovesToTake   lda Platform
                 clc
                 adc #4                      ; reds
                 sta ColourFlash
-                lda #10
+                lda #6
                 sta ColourTimer
                 rts
 
@@ -1188,7 +1188,7 @@ skipDemoCheck
 
                 lda #BANK_LevelScreen
                 sta SET_BANK
-                ;jsr LevelSequence
+                jsr LevelSequence
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
     ; including those for general systems function. But NOT those which do not need re-initialising between

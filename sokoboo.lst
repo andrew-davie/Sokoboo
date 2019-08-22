@@ -4221,7 +4221,7 @@
     692  0329		       48		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
     693  032a		       60		      .byte.b	<CHARACTERSHAPE_BOX
     694  032b		       78		      .byte.b	<CHARACTERSHAPE_BOX_MIRRORED
-    695  032c		       d9		      .byte.b	<CHARACTERSHAPE_TARGET
+    695  032c		       dc		      .byte.b	<CHARACTERSHAPE_TARGET
     696  032d		       00		      .byte.b	<CHARACTERSHAPE_TARGET_MIRRORED
     697  032e		       b6		      .byte.b	<CHARACTERSHAPE_BLANK
     698  032f		       b6		      .byte.b	<CHARACTERSHAPE_BLANK
@@ -7121,56 +7121,56 @@
      46  1a4a				  -	      IF	$30 = $F0
      47  1a4a				  -	      .byte	$42+$4
      48  1a4a					      ENDIF
-      0  1a4a					      NTSCPAL	$80,$4
-      1  1a4a		       84		      .byte.b	$80+$4
-      0  1a4b					      NTSC_TO_PAL	$80,$4
+      0  1a4a					      NTSCPAL	$80,$6
+      1  1a4a		       86		      .byte.b	$80+$6
+      0  1a4b					      NTSC_TO_PAL	$80,$6
       1  1a4b				  -	      IF	$80 = 0
-      2  1a4b				  -	      .byte	$80+$4
+      2  1a4b				  -	      .byte	$80+$6
       3  1a4b					      ENDIF
       4  1a4b				  -	      IF	$80 = $10
-      5  1a4b				  -	      .byte	$22+$4
+      5  1a4b				  -	      .byte	$22+$6
       6  1a4b					      ENDIF
       7  1a4b				  -	      IF	$80 = $20
-      8  1a4b				  -	      .byte	$42+$4
+      8  1a4b				  -	      .byte	$42+$6
       9  1a4b					      ENDIF
      10  1a4b				  -	      IF	$80 = $30
-     11  1a4b				  -	      .byte	$42+$4
+     11  1a4b				  -	      .byte	$42+$6
      12  1a4b					      ENDIF
      13  1a4b				  -	      IF	$80 = $40
-     14  1a4b				  -	      .byte	$62+$4
+     14  1a4b				  -	      .byte	$62+$6
      15  1a4b					      ENDIF
      16  1a4b				  -	      IF	$80 = $50
-     17  1a4b				  -	      .byte	$82+$4
+     17  1a4b				  -	      .byte	$82+$6
      18  1a4b					      ENDIF
      19  1a4b				  -	      IF	$80 = $60
-     20  1a4b				  -	      .byte	$C2+$4
+     20  1a4b				  -	      .byte	$C2+$6
      21  1a4b					      ENDIF
      22  1a4b				  -	      IF	$80 = $70
-     23  1a4b				  -	      .byte	$D2+$4
+     23  1a4b				  -	      .byte	$D2+$6
      24  1a4b					      ENDIF
      25  1a4b					      IF	$80 = $80
-     26  1a4b		       b6		      .byte.b	$B2+$4
+     26  1a4b		       b8		      .byte.b	$B2+$6
      27  1a4c					      ENDIF
      28  1a4c				  -	      IF	$80 = $90
-     29  1a4c				  -	      .byte	$92+$4
+     29  1a4c				  -	      .byte	$92+$6
      30  1a4c					      ENDIF
      31  1a4c				  -	      IF	$80 = $A0
-     32  1a4c				  -	      .byte	$72+$4
+     32  1a4c				  -	      .byte	$72+$6
      33  1a4c					      ENDIF
      34  1a4c				  -	      IF	$80 = $B0
-     35  1a4c				  -	      .byte	$52+$4
+     35  1a4c				  -	      .byte	$52+$6
      36  1a4c					      ENDIF
      37  1a4c				  -	      IF	$80 = $C0
-     38  1a4c				  -	      .byte	$32+$4
+     38  1a4c				  -	      .byte	$32+$6
      39  1a4c					      ENDIF
      40  1a4c				  -	      IF	$80 = $D0
-     41  1a4c				  -	      .byte	$32+$4
+     41  1a4c				  -	      .byte	$32+$6
      42  1a4c					      ENDIF
      43  1a4c				  -	      IF	$80 = $E0
-     44  1a4c				  -	      .byte	$22+$4
+     44  1a4c				  -	      .byte	$22+$6
      45  1a4c					      ENDIF
      46  1a4c				  -	      IF	$80 = $F0
-     47  1a4c				  -	      .byte	$42+$4
+     47  1a4c				  -	      .byte	$42+$6
      48  1a4c					      ENDIF
       0  1a4c					      NTSCPAL	$C0,$4
       1  1a4c		       c4		      .byte.b	$C0+$4
@@ -7223,56 +7223,56 @@
      46  1a4e				  -	      IF	$C0 = $F0
      47  1a4e				  -	      .byte	$42+$4
      48  1a4e					      ENDIF
-      0  1a4e					      NTSCPAL	$70,$4
-      1  1a4e		       74		      .byte.b	$70+$4
-      0  1a4f					      NTSC_TO_PAL	$70,$4
+      0  1a4e					      NTSCPAL	$70,$6
+      1  1a4e		       76		      .byte.b	$70+$6
+      0  1a4f					      NTSC_TO_PAL	$70,$6
       1  1a4f				  -	      IF	$70 = 0
-      2  1a4f				  -	      .byte	$70+$4
+      2  1a4f				  -	      .byte	$70+$6
       3  1a4f					      ENDIF
       4  1a4f				  -	      IF	$70 = $10
-      5  1a4f				  -	      .byte	$22+$4
+      5  1a4f				  -	      .byte	$22+$6
       6  1a4f					      ENDIF
       7  1a4f				  -	      IF	$70 = $20
-      8  1a4f				  -	      .byte	$42+$4
+      8  1a4f				  -	      .byte	$42+$6
       9  1a4f					      ENDIF
      10  1a4f				  -	      IF	$70 = $30
-     11  1a4f				  -	      .byte	$42+$4
+     11  1a4f				  -	      .byte	$42+$6
      12  1a4f					      ENDIF
      13  1a4f				  -	      IF	$70 = $40
-     14  1a4f				  -	      .byte	$62+$4
+     14  1a4f				  -	      .byte	$62+$6
      15  1a4f					      ENDIF
      16  1a4f				  -	      IF	$70 = $50
-     17  1a4f				  -	      .byte	$82+$4
+     17  1a4f				  -	      .byte	$82+$6
      18  1a4f					      ENDIF
      19  1a4f				  -	      IF	$70 = $60
-     20  1a4f				  -	      .byte	$C2+$4
+     20  1a4f				  -	      .byte	$C2+$6
      21  1a4f					      ENDIF
      22  1a4f					      IF	$70 = $70
-     23  1a4f		       d6		      .byte.b	$D2+$4
+     23  1a4f		       d8		      .byte.b	$D2+$6
      24  1a50					      ENDIF
      25  1a50				  -	      IF	$70 = $80
-     26  1a50				  -	      .byte	$B2+$4
+     26  1a50				  -	      .byte	$B2+$6
      27  1a50					      ENDIF
      28  1a50				  -	      IF	$70 = $90
-     29  1a50				  -	      .byte	$92+$4
+     29  1a50				  -	      .byte	$92+$6
      30  1a50					      ENDIF
      31  1a50				  -	      IF	$70 = $A0
-     32  1a50				  -	      .byte	$72+$4
+     32  1a50				  -	      .byte	$72+$6
      33  1a50					      ENDIF
      34  1a50				  -	      IF	$70 = $B0
-     35  1a50				  -	      .byte	$52+$4
+     35  1a50				  -	      .byte	$52+$6
      36  1a50					      ENDIF
      37  1a50				  -	      IF	$70 = $C0
-     38  1a50				  -	      .byte	$32+$4
+     38  1a50				  -	      .byte	$32+$6
      39  1a50					      ENDIF
      40  1a50				  -	      IF	$70 = $D0
-     41  1a50				  -	      .byte	$32+$4
+     41  1a50				  -	      .byte	$32+$6
      42  1a50					      ENDIF
      43  1a50				  -	      IF	$70 = $E0
-     44  1a50				  -	      .byte	$22+$4
+     44  1a50				  -	      .byte	$22+$6
      45  1a50					      ENDIF
      46  1a50				  -	      IF	$70 = $F0
-     47  1a50				  -	      .byte	$42+$4
+     47  1a50				  -	      .byte	$42+$6
      48  1a50					      ENDIF
     618  1a50				   C3			; mortar
       0  1a50					      NTSCPAL	$10,$A
@@ -7642,7 +7642,7 @@
     780  1b3a		       c9 2b		      cmp	#"+"	; player on goal square
     781  1b3c		       d0 07		      bne	notPlayerGoal
     782  1b3e
-    783  1b3e		       20 c5 fc 	      jsr	RegisterTarget
+    783  1b3e		       20 c8 fc 	      jsr	RegisterTarget
     784  1b41
     785  1b41							; put goal square, init player with POS_VAR = CHARACTER_TARGET
     786  1b41
@@ -7726,7 +7726,7 @@
     864  1b9f		       a5 8b		      lda	POS_Type
     865  1ba1		       c9 03		      cmp	#CHARACTER_TARGET
     866  1ba3		       d0 03		      bne	notargdet
-    867  1ba5		       20 c5 fc 	      jsr	RegisterTarget
+    867  1ba5		       20 c8 fc 	      jsr	RegisterTarget
     868  1ba8				   notargdet
     869  1ba8
     870  1ba8		       68		      pla
@@ -8192,9 +8192,9 @@
     419  1d42		       23 23		      .byte.b	OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
     420  1d44		       29 23		      .byte.b	OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
     421  1d46
-    422  1d46		       c0 c0 50 50 FlashColour .byte.b	$C0, $C0, $50, $50
-    423  1d4a		       30 30 60 60	      .byte.b	$30, $30, $60, $60	; reds - cannot takeback
-    424  1d4e		       12 12 22 22	      .byte.b	$12, $12, $22, $22	; yellow
+    422  1d46		       c4 c4 54 54 FlashColour .byte.b	$C4, $C4, $54, $54
+    423  1d4a		       34 34 64 64	      .byte.b	$34, $34, $64, $64	; reds - cannot takeback
+    424  1d4e		       16 16 26 26	      .byte.b	$16, $16, $26, $26	; yellow
     425  1d52
     426  1d52
       0  1d52					      DEFINE_SUBROUTINE	PostScreenCleanup
@@ -12675,7 +12675,7 @@
      29  583e							;------------------------------------------------------------------
      30  583e
      31  583e		       a6 80		      ldx	Platform
-     32  5840		       bc 96 fc 	      ldy	VBlankTime,x
+     32  5840		       bc 99 fc 	      ldy	VBlankTime,x
      33  5843		       8c 96 02 	      sty	TIM64T
      34  5846
      35  5846		       85 42	   VerticalBlank sta	WSYNC
@@ -14232,7 +14232,7 @@
      22  6033		       85 ec		      sta	initialdelay
      23  6035
      24  6035
-     25  6035		       a9 00		      lda	#0
+     25  6035		       a9 ff		      lda	#-1
      26  6037		       85 e9		      sta	targetDigit
      27  6039		       85 ea		      sta	targetDigit+1
      28  603b		       85 eb		      sta	targetDigit+2
@@ -14246,632 +14246,644 @@
      36  6045
      37  6045		       18		      clc
      38  6046		       a5 b2		      lda	levelX
-     39  6048							;		  adc #96
-     40  6048							;		  sec
-     41  6048		       e9 64	   m100       sbc	#100
-     42  604a		       e6 eb		      inc	targetDigit+2
-     43  604c		       b0 fa		      bcs	m100
-     44  604e		       69 64		      adc	#100
-     45  6050		       e9 0a	   m10	      sbc	#10
-     46  6052		       e6 ea		      inc	targetDigit+1
-     47  6054		       b0 fa		      bcs	m10
-     48  6056		       69 0a		      adc	#10
-     49  6058		       85 e9		      sta	targetDigit
-     50  605a
-     51  605a
-     52  605a				   RestartFrameX
-     53  605a		       a9 0e		      lda	#%1110	; VSYNC ON
-     54  605c		       85 42	   .loopVSync3 sta	WSYNC
-     55  605e		       85 40		      sta	VSYNC
-     56  6060		       4a		      lsr
-     57  6061		       d0 f9		      bne	.loopVSync3	; branch until VYSNC has been reset
-     58  6063
-     59  6063		       a6 80		      ldx	Platform
-     60  6065		       bc b7 f1 	      ldy	VBlankTime2x,x
-     61  6068		       8c 96 02 	      sty	TIM64T
-     62  606b
-     63  606b
-     64  606b		       a5 e7		      lda	digit+2	; hundreds
-     65  606d		       0a		      asl
-     66  606e		       aa		      tax
-     67  606f		       bd 33 f3 	      lda	DIGITHUND,x
-     68  6072		       85 ef		      sta	digitHundreds
-     69  6074		       bd 34 f3 	      lda	DIGITHUND+1,x
-     70  6077		       85 f0		      sta	digitHundreds+1
-     71  6079
-     72  6079		       a5 e6		      lda	digit+1	; tens
-     73  607b		       0a		      asl
-     74  607c		       aa		      tax
-     75  607d		       bd 0b f3 	      lda	LDIGIT,x
-     76  6080		       85 de		      sta	digit1
-     77  6082		       bd 0c f3 	      lda	LDIGIT+1,x
-     78  6085		       85 df		      sta	digit1+1
-     79  6087
-     80  6087		       a5 e5		      lda	digit	; units
-     81  6089		       0a		      asl
-     82  608a		       aa		      tax
-     83  608b		       bd 1f f3 	      lda	RDIGIT,x
-     84  608e		       85 e0		      sta	digit2
-     85  6090		       bd 20 f3 	      lda	RDIGIT+1,x
-     86  6093		       85 e1		      sta	digit2+1
-     87  6095
-     88  6095
-     89  6095
-     90  6095		       a9 2a		      lda	#<LEFT_star	; question mark
-     91  6097		       85 e3		      sta	digitstar
-     92  6099		       a9 f7		      lda	#>LEFT_star
-     93  609b		       85 e4		      sta	digitstar+1
-     94  609d
-     95  609d
-     96  609d
-     97  609d							;------------------------------------------------------------------
-     98  609d
-     99  609d
-    100  609d				   VerticalBlankX		;sta WSYNC
-    101  609d		       ad 84 02 	      lda	INTIM
-    102  60a0		       d0 fb		      bne	VerticalBlankX
-    103  60a2		       85 41		      sta	VBLANK
-    104  60a4
-    105  60a4		       a9 00		      lda	#0
-    106  60a6		       85 4d		      sta	PF0
-    107  60a8		       85 4e		      sta	PF1
-    108  60aa		       85 4f		      sta	PF2
-    109  60ac
-    110  60ac		       a6 80		      ldx	Platform
-    111  60ae		       bd bf f1 	      lda	colvecX,x
-    112  60b1		       aa		      tax
-    113  60b2
-    114  60b2
-    115  60b2							;------------------------------------------------------------------
-    116  60b2
-    117  60b2							; Do X scanlines of color-changing (our picture)
-    118  60b2
-    119  60b2		       a0 1a		      ldy	#26	; #lines in characters-1
-    120  60b4				   LevelNumberDigits
-    121  60b4					      REPEAT	3
-    122  60b4
-    123  60b4		       a9 00		      lda	#0	; 2
-    124  60b6		       85 4d		      sta	PF0	; 3
-    125  60b8
-    126  60b8		       85 42		      sta	WSYNC	; 3
-    127  60ba
-    128  60ba		       bd 00 f2 	      lda	COLOUR_TABLE,x	; 4
-    129  60bd		       85 48		      sta	COLUPF	; 3
-    130  60bf		       e8		      inx		; 2
-    131  60c0
-    132  60c0		       b1 ef		      lda	(digitHundreds),y	; 5
-    133  60c2		       85 4e		      sta	PF1	; 3
-    134  60c4
-    135  60c4		       b1 de		      lda	(digit1),y	; 5
-    136  60c6		       8d 4f 00 	      sta.w	PF2	; 3 @ 26 OK
-    137  60c9
-    138  60c9							; RHS
-    139  60c9
-    140  60c9		       b1 e0		      lda	(digit2),y	; 5
-    141  60cb		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
-    142  60cd
-    143  60cd		       0a		      asl		; 2
-    144  60ce		       0a		      asl		; 2
-    145  60cf		       0a		      asl		; 2
-    146  60d0		       0a		      asl		; 2
-    147  60d1		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
-    148  60d3
-    149  60d3
-    150  60d3		       b1 e3		      lda	(digitstar),y	; 5
-    151  60d5		       85 4f		      sta	PF2	; 3
-    152  60d7
-    153  60d7		       ea		      nop
-    154  60d8		       a9 44		      lda	#$44
-    155  60da		       85 48		      sta	COLUPF
-    156  60dc
-    157  60dc
-    121  60dc					      REPEND
-    122  60dc
-    123  60dc		       a9 00		      lda	#0	; 2
-    124  60de		       85 4d		      sta	PF0	; 3
-    125  60e0
-    126  60e0		       85 42		      sta	WSYNC	; 3
-    127  60e2
-    128  60e2		       bd 00 f2 	      lda	COLOUR_TABLE,x	; 4
-    129  60e5		       85 48		      sta	COLUPF	; 3
-    130  60e7		       e8		      inx		; 2
-    131  60e8
-    132  60e8		       b1 ef		      lda	(digitHundreds),y	; 5
-    133  60ea		       85 4e		      sta	PF1	; 3
-    134  60ec
-    135  60ec		       b1 de		      lda	(digit1),y	; 5
-    136  60ee		       8d 4f 00 	      sta.w	PF2	; 3 @ 26 OK
-    137  60f1
-    138  60f1							; RHS
-    139  60f1
-    140  60f1		       b1 e0		      lda	(digit2),y	; 5
-    141  60f3		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
-    142  60f5
-    143  60f5		       0a		      asl		; 2
-    144  60f6		       0a		      asl		; 2
-    145  60f7		       0a		      asl		; 2
-    146  60f8		       0a		      asl		; 2
-    147  60f9		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
-    148  60fb
-    149  60fb
-    150  60fb		       b1 e3		      lda	(digitstar),y	; 5
-    151  60fd		       85 4f		      sta	PF2	; 3
-    152  60ff
-    153  60ff		       ea		      nop
-    154  6100		       a9 44		      lda	#$44
-    155  6102		       85 48		      sta	COLUPF
-    156  6104
-    157  6104
-    121  6104					      REPEND
-    122  6104
-    123  6104		       a9 00		      lda	#0	; 2
-    124  6106		       85 4d		      sta	PF0	; 3
-    125  6108
-    126  6108		       85 42		      sta	WSYNC	; 3
-    127  610a
-    128  610a		       bd 00 f2 	      lda	COLOUR_TABLE,x	; 4
-    129  610d		       85 48		      sta	COLUPF	; 3
-    130  610f		       e8		      inx		; 2
-    131  6110
-    132  6110		       b1 ef		      lda	(digitHundreds),y	; 5
-    133  6112		       85 4e		      sta	PF1	; 3
-    134  6114
-    135  6114		       b1 de		      lda	(digit1),y	; 5
-    136  6116		       8d 4f 00 	      sta.w	PF2	; 3 @ 26 OK
-    137  6119
-    138  6119							; RHS
-    139  6119
-    140  6119		       b1 e0		      lda	(digit2),y	; 5
-    141  611b		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
-    142  611d
-    143  611d		       0a		      asl		; 2
-    144  611e		       0a		      asl		; 2
-    145  611f		       0a		      asl		; 2
-    146  6120		       0a		      asl		; 2
-    147  6121		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
-    148  6123
-    149  6123
-    150  6123		       b1 e3		      lda	(digitstar),y	; 5
-    151  6125		       85 4f		      sta	PF2	; 3
-    152  6127
-    153  6127		       ea		      nop
-    154  6128		       a9 44		      lda	#$44
-    155  612a		       85 48		      sta	COLUPF
-    156  612c
-    157  612c
-    158  612c					      REPEND
-    159  612c
-    160  612c		       88		      dey
-    161  612d		       30 03		      bmi	exss
-    162  612f		       4c b4 f0 	      jmp	LevelNumberDigits	; 2(3)
-    163  6132				   exss
-    164  6132		       a9 00		      lda	#0
-    165  6134		       85 4d		      sta	PF0
-    166  6136		       85 4e		      sta	PF1
-    167  6138		       85 4f		      sta	PF2
-    168  613a
-    169  613a		       a4 80		      ldy	Platform
-    170  613c		       b9 bb f1 	      lda	OverscanTime2X,y
-    171  613f		       8d 96 02 	      sta	TIM64T
-    172  6142
-    173  6142							;--------------------------------------------------------------------------
-    174  6142
-    175  6142
-    176  6142		       a5 ec		      lda	initialdelay
-    177  6144		       f0 05		      beq	canchange
-    178  6146		       c6 ec		      dec	initialdelay
-    179  6148		       4c 74 f1 	      jmp	nodigchange
-    180  614b
-    181  614b				   canchange
-    182  614b		       e6 e8		      inc	digitick
-    183  614d		       a5 e8		      lda	digitick
-    184  614f		       c9 05		      cmp	#5
-    185  6151		       90 21		      bcc	nodigchange
-    186  6153		       a9 00		      lda	#0
-    187  6155		       85 e8		      sta	digitick
-    188  6157
-    189  6157
-    190  6157
-    191  6157		       a2 02		      ldx	#2
-    192  6159		       b5 e5	   scanner    lda	digit,x
-    193  615b		       d5 e9		      cmp	targetDigit,x
-    194  615d		       f0 12		      beq	scanOK
-    195  615f
-    196  615f		       18		      clc
-    197  6160		       69 01		      adc	#1
-    198  6162		       c9 0a		      cmp	#10
-    199  6164		       90 02		      bcc	scanOK2
-    200  6166		       a9 00		      lda	#0
-    201  6168		       95 e5	   scanOK2    sta	digit,x
-    202  616a
-    203  616a		       a9 32		      lda	#50
-    204  616c		       85 ed		      sta	endwait
-    205  616e
-    206  616e		       4c 74 f1 	      jmp	donedig
-    207  6171
-    208  6171		       ca	   scanOK     dex
-    209  6172		       10 e5		      bpl	scanner
-    210  6174
-    211  6174
-    212  6174				   donedig
-    213  6174
-    214  6174
-    215  6174				   digok
-    216  6174				   nodigchange
-    217  6174
-    218  6174		       a5 ed		      lda	endwait
-    219  6176		       30 04		      bmi	neverend
-    220  6178
-    221  6178		       c6 ed		      dec	endwait
-    222  617a		       f0 1e		      beq	retX
-    223  617c
-    224  617c		       a5 4c	   neverend   lda	INPT4
-    225  617e							;bpl retX
-    226  617e
-    227  617e		       ad 80 02 	      lda	SWCHA
-    228  6181		       4a		      lsr
-    229  6182		       4a		      lsr
-    230  6183		       4a		      lsr
-    231  6184		       4a		      lsr
-    232  6185		       a8		      tay
-    233  6186
-    234  6186		       18		      clc
-    235  6187		       b9 9b f1 	      lda	xJoyMoveX,y
-    236  618a		       65 e5		      adc	digit
-    237  618c		       85 e5		      sta	digit
+     39  6048		       69 01		      adc	#1
+     40  604a							;		  adc #96
+     41  604a							;    lda #1
+     42  604a		       38		      sec
+     43  604b		       e9 64	   m100       sbc	#100
+     44  604d		       e6 eb		      inc	targetDigit+2
+     45  604f		       b0 fa		      bcs	m100
+     46  6051		       69 64		      adc	#100
+     47  6053		       e9 0a	   m10	      sbc	#10
+     48  6055		       e6 ea		      inc	targetDigit+1
+     49  6057		       b0 fa		      bcs	m10
+     50  6059		       69 0a		      adc	#10
+     51  605b		       85 e9		      sta	targetDigit
+     52  605d
+     53  605d
+     54  605d		       a5 eb		      lda	targetDigit+2
+     55  605f		       d0 06		      bne	hunds
+     56  6061		       a9 0a		      lda	#10
+     57  6063		       85 eb		      sta	targetDigit+2
+     58  6065		       85 e7		      sta	digit+2
+     59  6067				   hunds
+     60  6067
+     61  6067
+     62  6067
+     63  6067				   RestartFrameX
+     64  6067		       a9 0e		      lda	#%1110	; VSYNC ON
+     65  6069		       85 42	   .loopVSync3 sta	WSYNC
+     66  606b		       85 40		      sta	VSYNC
+     67  606d		       4a		      lsr
+     68  606e		       d0 f9		      bne	.loopVSync3	; branch until VYSNC has been reset
+     69  6070
+     70  6070		       a6 80		      ldx	Platform
+     71  6072		       bc c7 f1 	      ldy	VBlankTime2x,x
+     72  6075		       8c 96 02 	      sty	TIM64T
+     73  6078
+     74  6078
+     75  6078		       a5 e7		      lda	digit+2	; hundreds
+     76  607a		       0a		      asl
+     77  607b		       aa		      tax
+     78  607c		       bd 33 f3 	      lda	DIGITHUND,x
+     79  607f		       85 ef		      sta	digitHundreds
+     80  6081		       bd 34 f3 	      lda	DIGITHUND+1,x
+     81  6084		       85 f0		      sta	digitHundreds+1
+     82  6086
+     83  6086		       a5 e6		      lda	digit+1	; tens
+     84  6088		       0a		      asl
+     85  6089		       aa		      tax
+     86  608a		       bd 0b f3 	      lda	LDIGIT,x
+     87  608d		       85 de		      sta	digit1
+     88  608f		       bd 0c f3 	      lda	LDIGIT+1,x
+     89  6092		       85 df		      sta	digit1+1
+     90  6094
+     91  6094		       a5 e5		      lda	digit	; units
+     92  6096		       0a		      asl
+     93  6097		       aa		      tax
+     94  6098		       bd 1f f3 	      lda	RDIGIT,x
+     95  609b		       85 e0		      sta	digit2
+     96  609d		       bd 20 f3 	      lda	RDIGIT+1,x
+     97  60a0		       85 e1		      sta	digit2+1
+     98  60a2
+     99  60a2
+    100  60a2
+    101  60a2		       a9 2a		      lda	#<LEFT_star	; question mark
+    102  60a4		       85 e3		      sta	digitstar
+    103  60a6		       a9 f7		      lda	#>LEFT_star
+    104  60a8		       85 e4		      sta	digitstar+1
+    105  60aa
+    106  60aa
+    107  60aa
+    108  60aa							;------------------------------------------------------------------
+    109  60aa
+    110  60aa
+    111  60aa				   VerticalBlankX		;sta WSYNC
+    112  60aa		       ad 84 02 	      lda	INTIM
+    113  60ad		       d0 fb		      bne	VerticalBlankX
+    114  60af		       85 41		      sta	VBLANK
+    115  60b1
+    116  60b1		       a9 00		      lda	#0
+    117  60b3		       85 4d		      sta	PF0
+    118  60b5		       85 4e		      sta	PF1
+    119  60b7		       85 4f		      sta	PF2
+    120  60b9
+    121  60b9		       a6 80		      ldx	Platform
+    122  60bb		       bd cf f1 	      lda	colvecX,x
+    123  60be		       aa		      tax
+    124  60bf		       a2 00		      ldx	#0
+    125  60c1
+    126  60c1							;------------------------------------------------------------------
+    127  60c1
+    128  60c1							; Do X scanlines of color-changing (our picture)
+    129  60c1
+    130  60c1		       a0 1a		      ldy	#26	; #lines in characters-1
+    131  60c3				   LevelNumberDigits
+    132  60c3					      REPEAT	3
+    133  60c3
+    134  60c3		       a9 00		      lda	#0	; 2
+    135  60c5		       85 4d		      sta	PF0	; 3
+    136  60c7
+    137  60c7		       85 42		      sta	WSYNC	; 3
+    138  60c9
+    139  60c9		       bd 00 f2 	      lda	COLOUR_TABLE,x	; 4
+    140  60cc		       85 48		      sta	COLUPF	; 3
+    141  60ce		       ea		      nop		;inx			  ; 2
+    142  60cf
+    143  60cf		       b1 ef		      lda	(digitHundreds),y	; 5
+    144  60d1		       85 4e		      sta	PF1	; 3
+    145  60d3
+    146  60d3		       b1 de		      lda	(digit1),y	; 5
+    147  60d5		       8d 4f 00 	      sta.w	PF2	; 3 @ 26 OK
+    148  60d8
+    149  60d8							; RHS
+    150  60d8
+    151  60d8		       b1 e0		      lda	(digit2),y	; 5
+    152  60da		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
+    153  60dc
+    154  60dc		       0a		      asl		; 2
+    155  60dd		       0a		      asl		; 2
+    156  60de		       0a		      asl		; 2
+    157  60df		       0a		      asl		; 2
+    158  60e0		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
+    159  60e2
+    160  60e2
+    161  60e2		       b1 e3		      lda	(digitstar),y	; 5
+    162  60e4		       85 4f		      sta	PF2	; 3
+    163  60e6
+    164  60e6		       ea		      nop
+    165  60e7		       a9 00		      lda	#0	;$44
+    166  60e9		       85 48		      sta	COLUPF
+    167  60eb
+    168  60eb
+    132  60eb					      REPEND
+    133  60eb
+    134  60eb		       a9 00		      lda	#0	; 2
+    135  60ed		       85 4d		      sta	PF0	; 3
+    136  60ef
+    137  60ef		       85 42		      sta	WSYNC	; 3
+    138  60f1
+    139  60f1		       bd 00 f2 	      lda	COLOUR_TABLE,x	; 4
+    140  60f4		       85 48		      sta	COLUPF	; 3
+    141  60f6		       ea		      nop		;inx			  ; 2
+    142  60f7
+    143  60f7		       b1 ef		      lda	(digitHundreds),y	; 5
+    144  60f9		       85 4e		      sta	PF1	; 3
+    145  60fb
+    146  60fb		       b1 de		      lda	(digit1),y	; 5
+    147  60fd		       8d 4f 00 	      sta.w	PF2	; 3 @ 26 OK
+    148  6100
+    149  6100							; RHS
+    150  6100
+    151  6100		       b1 e0		      lda	(digit2),y	; 5
+    152  6102		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
+    153  6104
+    154  6104		       0a		      asl		; 2
+    155  6105		       0a		      asl		; 2
+    156  6106		       0a		      asl		; 2
+    157  6107		       0a		      asl		; 2
+    158  6108		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
+    159  610a
+    160  610a
+    161  610a		       b1 e3		      lda	(digitstar),y	; 5
+    162  610c		       85 4f		      sta	PF2	; 3
+    163  610e
+    164  610e		       ea		      nop
+    165  610f		       a9 00		      lda	#0	;$44
+    166  6111		       85 48		      sta	COLUPF
+    167  6113
+    168  6113
+    132  6113					      REPEND
+    133  6113
+    134  6113		       a9 00		      lda	#0	; 2
+    135  6115		       85 4d		      sta	PF0	; 3
+    136  6117
+    137  6117		       85 42		      sta	WSYNC	; 3
+    138  6119
+    139  6119		       bd 00 f2 	      lda	COLOUR_TABLE,x	; 4
+    140  611c		       85 48		      sta	COLUPF	; 3
+    141  611e		       ea		      nop		;inx			  ; 2
+    142  611f
+    143  611f		       b1 ef		      lda	(digitHundreds),y	; 5
+    144  6121		       85 4e		      sta	PF1	; 3
+    145  6123
+    146  6123		       b1 de		      lda	(digit1),y	; 5
+    147  6125		       8d 4f 00 	      sta.w	PF2	; 3 @ 26 OK
+    148  6128
+    149  6128							; RHS
+    150  6128
+    151  6128		       b1 e0		      lda	(digit2),y	; 5
+    152  612a		       85 4d		      sta	PF0	; 3 @ 34 OK	    D7D6D5D4 <--- mirrored
+    153  612c
+    154  612c		       0a		      asl		; 2
+    155  612d		       0a		      asl		; 2
+    156  612e		       0a		      asl		; 2
+    157  612f		       0a		      asl		; 2
+    158  6130		       85 4e		      sta	PF1	; 3 @40 OK	   NOT MIRRORED, D7D6D5D4 -->
+    159  6132
+    160  6132
+    161  6132		       b1 e3		      lda	(digitstar),y	; 5
+    162  6134		       85 4f		      sta	PF2	; 3
+    163  6136
+    164  6136		       ea		      nop
+    165  6137		       a9 00		      lda	#0	;$44
+    166  6139		       85 48		      sta	COLUPF
+    167  613b
+    168  613b
+    169  613b					      REPEND
+    170  613b		       e8		      inx
+    171  613c
+    172  613c		       88		      dey
+    173  613d		       30 03		      bmi	exss
+    174  613f		       4c c3 f0 	      jmp	LevelNumberDigits	; 2(3)
+    175  6142				   exss
+    176  6142		       a9 00		      lda	#0
+    177  6144		       85 4d		      sta	PF0
+    178  6146		       85 4e		      sta	PF1
+    179  6148		       85 4f		      sta	PF2
+    180  614a
+    181  614a		       a4 80		      ldy	Platform
+    182  614c		       b9 cb f1 	      lda	OverscanTime2X,y
+    183  614f		       8d 96 02 	      sta	TIM64T
+    184  6152
+    185  6152							;--------------------------------------------------------------------------
+    186  6152
+    187  6152
+    188  6152		       a5 ec		      lda	initialdelay
+    189  6154		       f0 05		      beq	canchange
+    190  6156		       c6 ec		      dec	initialdelay
+    191  6158		       4c 84 f1 	      jmp	nodigchange
+    192  615b
+    193  615b				   canchange
+    194  615b		       e6 e8		      inc	digitick
+    195  615d		       a5 e8		      lda	digitick
+    196  615f		       c9 08		      cmp	#8
+    197  6161		       90 21		      bcc	nodigchange
+    198  6163		       a9 00		      lda	#0
+    199  6165		       85 e8		      sta	digitick
+    200  6167
+    201  6167
+    202  6167
+    203  6167		       a2 02		      ldx	#2
+    204  6169		       b5 e5	   scanner    lda	digit,x
+    205  616b		       d5 e9		      cmp	targetDigit,x
+    206  616d		       f0 12		      beq	scanOK
+    207  616f
+    208  616f		       18		      clc
+    209  6170		       69 01		      adc	#1
+    210  6172		       c9 0a		      cmp	#10
+    211  6174		       90 02		      bcc	scanOK2
+    212  6176		       a9 00		      lda	#0
+    213  6178		       95 e5	   scanOK2    sta	digit,x
+    214  617a
+    215  617a		       a9 32		      lda	#50
+    216  617c		       85 ed		      sta	endwait
+    217  617e
+    218  617e		       4c 84 f1 	      jmp	donedig
+    219  6181
+    220  6181		       ca	   scanOK     dex
+    221  6182		       10 e5		      bpl	scanner
+    222  6184
+    223  6184
+    224  6184				   donedig
+    225  6184
+    226  6184
+    227  6184				   digok
+    228  6184				   nodigchange
+    229  6184
+    230  6184		       a5 ed		      lda	endwait
+    231  6186		       30 04		      bmi	neverend
+    232  6188
+    233  6188		       c6 ed		      dec	endwait
+    234  618a		       f0 1e		      beq	retX
+    235  618c
+    236  618c		       a5 4c	   neverend   lda	INPT4
+    237  618e							;bpl retX
     238  618e
-    239  618e							;nowY		      clc
-    240  618e							;		  adc xJoyMoveX,y
-    241  618e							;		  cmp #100
-    242  618e							;		  bcc lt100
-    243  618e							;		  lda #0
-    244  618e							;lt100 	  sta targetDigit
-    245  618e
-    246  618e
-    247  618e				   oscanX
-    248  618e		       ad 84 02 	      lda	INTIM
-    249  6191		       d0 fb		      bne	oscanX
-    250  6193
-    251  6193		       a9 42		      lda	#%01000010	; bit6 is not required
-    252  6195		       85 41		      sta	VBLANK	; end of screen - enter blanking
-    253  6197
-    254  6197
-    255  6197		       4c 5a f0 	      jmp	RestartFrameX
-    256  619a
-    257  619a		       60	   retX       rts
-    258  619b
-    259  619b		       00 00 00 00*xJoyMoveX  .byte.b	0,0,0,0,0,1, 1,1,0,-1,-1,-1	;,0, 0,0,0
-    260  61a7		       00 00 00 00*xJoyMoveY  .byte.b	0,0,0,0,0,1,-1,0,0, 1,-1,0,0,0,0,0	;, 0,0,1,-1,0
-    261  61b7
-    262  61b7				   VBlankTime2x
-    263  61b7		       6e 6e		      .byte.b	110,110
-    264  61b9		       96 96		      .byte.b	150,150
-    265  61bb				   OverscanTime2X
-    266  61bb		       55 55		      .byte.b	85, 85
-    267  61bd		       78 78		      .byte.b	120, 120
-    268  61bf
-    269  61bf				   colvecX
-    270  61bf		       00 00 51 51	      .byte.b	0, 0, COLOUR_LINES*3, COLOUR_LINES*3
-    271  61c3
-    272  61c3
-    273  61c3		       00 1b	   COLOUR_LINES =	27
-    274  61c3		       00 00 00 00*blankDig   ds	COLOUR_LINES,0
-    275  61de
-    276  61de					      MAC	lumtable
-    277  61de							; {4} MIN LUM 1
-    278  61de							; {5} MIN LUM 2
-    279  61de							; {6} MIN LUM 3
-    280  61de
-    281  61de				   .LUM1      SET	0	;{4}*256
-    282  61de				   .LUM2      SET	0	;{5}*256
-    283  61de				   .LUM3      SET	0	;{6}*256
-    284  61de
-    285  61de				   .STEP1     =	(256*({7}-{4}))/{10}
-    286  61de				   .STEP2     =	(256*({8}-{5}))/{10}
-    287  61de				   .STEP3     =	(256*({9}-{6}))/{10}
-    288  61de
-    289  61de					      REPEAT	COLOUR_LINES
-    290  61de					      .byte	{1}+(.LUM1/256)
-    291  61de					      .byte	{2}+(.LUM2/256)
-    292  61de					      .byte	{3}+(.LUM3/256)
-    293  61de							;.LUM1     SET .LUM1 + .STEP1
-    294  61de							;.LUM2     SET .LUM2 + .STEP2
-    295  61de							;.LUM3     SET .LUM3 + .STEP3
-    296  61de					      REPEND
-    297  61de					      ENDM		;{1}{2}{3} base colours
-    298  61de
-    299  6200		       00 00 00 00*	      ALIGN	256
-    300  6200				   COLOUR_TABLE
-      0  6200					      LUMTABLE	$90,$B0,$20,1,1,1,$F, $E,$D, COLOUR_LINES	; NTSC
+    239  618e		       ad 80 02 	      lda	SWCHA
+    240  6191		       4a		      lsr
+    241  6192		       4a		      lsr
+    242  6193		       4a		      lsr
+    243  6194		       4a		      lsr
+    244  6195		       a8		      tay
+    245  6196
+    246  6196		       18		      clc
+    247  6197		       b9 ab f1 	      lda	xJoyMoveX,y
+    248  619a		       65 e5		      adc	digit
+    249  619c		       85 e5		      sta	digit
+    250  619e
+    251  619e							;nowY		      clc
+    252  619e							;		  adc xJoyMoveX,y
+    253  619e							;		  cmp #100
+    254  619e							;		  bcc lt100
+    255  619e							;		  lda #0
+    256  619e							;lt100 	  sta targetDigit
+    257  619e
+    258  619e
+    259  619e				   oscanX
+    260  619e		       ad 84 02 	      lda	INTIM
+    261  61a1		       d0 fb		      bne	oscanX
+    262  61a3
+    263  61a3		       a9 42		      lda	#%01000010	; bit6 is not required
+    264  61a5		       85 41		      sta	VBLANK	; end of screen - enter blanking
+    265  61a7
+    266  61a7
+    267  61a7		       4c 67 f0 	      jmp	RestartFrameX
+    268  61aa
+    269  61aa		       60	   retX       rts
+    270  61ab
+    271  61ab		       00 00 00 00*xJoyMoveX  .byte.b	0,0,0,0,0,1, 1,1,0,-1,-1,-1	;,0, 0,0,0
+    272  61b7		       00 00 00 00*xJoyMoveY  .byte.b	0,0,0,0,0,1,-1,0,0, 1,-1,0,0,0,0,0	;, 0,0,1,-1,0
+    273  61c7
+    274  61c7				   VBlankTime2x
+    275  61c7		       6e 6e		      .byte.b	110,110
+    276  61c9		       96 96		      .byte.b	150,150
+    277  61cb				   OverscanTime2X
+    278  61cb		       57 57		      .byte.b	87, 87
+    279  61cd		       59 59		      .byte.b	89, 89
+    280  61cf
+    281  61cf		       00 1b	   COLOUR_LINES =	27
+    282  61cf				   colvecX
+    283  61cf		       00 00 51 51	      .byte.b	0, 0, COLOUR_LINES*3, COLOUR_LINES*3
+    284  61d3
+    285  61d3
+    286  61d3		       00 00 00 00*blankDig   ds	COLOUR_LINES,0
+    287  61ee
+    288  61ee					      MAC	lumtable
+    289  61ee							; {4} MIN LUM 1
+    290  61ee							; {5} MIN LUM 2
+    291  61ee							; {6} MIN LUM 3
+    292  61ee
+    293  61ee				   .LUM1      SET	{4}*256
+    294  61ee				   .LUM2      SET	{5}*256
+    295  61ee				   .LUM3      SET	{6}*256
+    296  61ee
+    297  61ee				   .STEP1     =	(256*({7}-{4}))/{10}
+    298  61ee				   .STEP2     =	(256*({8}-{5}))/{10}
+    299  61ee				   .STEP3     =	(256*({9}-{6}))/{10}
+    300  61ee
+    301  61ee					      REPEAT	COLOUR_LINES
+    302  61ee					      .byte	$44	;{1}+(.LUM1/256)
+    303  61ee					      .byte	$56	;{2}+(.LUM2/256)
+    304  61ee					      .byte	$78	;{3}+(.LUM3/256)
+    305  61ee				   .LUM1      SET	.LUM1 + .STEP1
+    306  61ee				   .LUM2      SET	.LUM2 + .STEP2
+    307  61ee				   .LUM3      SET	.LUM3 + .STEP3
+    308  61ee					      REPEND
+    309  61ee					      ENDM		;{1}{2}{3} base colours
+    310  61ee
+    311  6200		       00 00 00 00*	      ALIGN	256
+    312  6200				   COLOUR_TABLE
+      0  6200					      LUMTABLE	$90,$B0,$20,$C,$B,$A,0, 0,0, COLOUR_LINES	; NTSC
       1  6200
       2  6200
       3  6200
       4  6200
-      5  6200				   .LUM1      SET	1*256
-      6  6200				   .LUM2      SET	1*256
-      7  6200				   .LUM3      SET	1*256
+      5  6200				   .LUM1      SET	$C*256
+      6  6200				   .LUM2      SET	$B*256
+      7  6200				   .LUM3      SET	$A*256
       8  6200
-      9  6200		       00 59	   .STEP1     =	(256*($F-1))/40
-     10  6200		       00 53	   .STEP2     =	(256*($E-1))/40
-     11  6200		       00 4c	   .STEP3     =	(256*($D-1))/40
+      9  6200		       ff ff ff b4 .STEP1     =	(256*(0-$C))/40
+     10  6200		       ff ff ff ba .STEP2     =	(256*(0-$B))/40
+     11  6200		       ff ff ff c0 .STEP3     =	(256*(0-$A))/40
      12  6200
      13  6200					      REPEAT	40
-     14  6200		       91		      .byte.b	$90+(.LUM1/256)
-     15  6201		       b1		      .byte.b	$B0+(.LUM2/256)
-     16  6202		       21		      .byte.b	$20+(.LUM3/256)
+     14  6200		       9c		      .byte.b	$90+(.LUM1/256)
+     15  6201		       bb		      .byte.b	$B0+(.LUM2/256)
+     16  6202		       2a		      .byte.b	$20+(.LUM3/256)
      17  6202				   .LUM1      SET	.LUM1 + .STEP1
      18  6202				   .LUM2      SET	.LUM2 + .STEP2
      19  6202				   .LUM3      SET	.LUM3 + .STEP3
      13  6202					      REPEND
-     14  6203		       91		      .byte.b	$90+(.LUM1/256)
-     15  6204		       b1		      .byte.b	$B0+(.LUM2/256)
-     16  6205		       21		      .byte.b	$20+(.LUM3/256)
+     14  6203		       9b		      .byte.b	$90+(.LUM1/256)
+     15  6204		       ba		      .byte.b	$B0+(.LUM2/256)
+     16  6205		       29		      .byte.b	$20+(.LUM3/256)
      17  6205				   .LUM1      SET	.LUM1 + .STEP1
      18  6205				   .LUM2      SET	.LUM2 + .STEP2
      19  6205				   .LUM3      SET	.LUM3 + .STEP3
      13  6205					      REPEND
-     14  6206		       91		      .byte.b	$90+(.LUM1/256)
-     15  6207		       b1		      .byte.b	$B0+(.LUM2/256)
-     16  6208		       21		      .byte.b	$20+(.LUM3/256)
+     14  6206		       9b		      .byte.b	$90+(.LUM1/256)
+     15  6207		       ba		      .byte.b	$B0+(.LUM2/256)
+     16  6208		       29		      .byte.b	$20+(.LUM3/256)
      17  6208				   .LUM1      SET	.LUM1 + .STEP1
      18  6208				   .LUM2      SET	.LUM2 + .STEP2
      19  6208				   .LUM3      SET	.LUM3 + .STEP3
      13  6208					      REPEND
-     14  6209		       92		      .byte.b	$90+(.LUM1/256)
-     15  620a		       b1		      .byte.b	$B0+(.LUM2/256)
-     16  620b		       21		      .byte.b	$20+(.LUM3/256)
+     14  6209		       9b		      .byte.b	$90+(.LUM1/256)
+     15  620a		       ba		      .byte.b	$B0+(.LUM2/256)
+     16  620b		       29		      .byte.b	$20+(.LUM3/256)
      17  620b				   .LUM1      SET	.LUM1 + .STEP1
      18  620b				   .LUM2      SET	.LUM2 + .STEP2
      19  620b				   .LUM3      SET	.LUM3 + .STEP3
      13  620b					      REPEND
-     14  620c		       92		      .byte.b	$90+(.LUM1/256)
-     15  620d		       b2		      .byte.b	$B0+(.LUM2/256)
-     16  620e		       22		      .byte.b	$20+(.LUM3/256)
+     14  620c		       9a		      .byte.b	$90+(.LUM1/256)
+     15  620d		       b9		      .byte.b	$B0+(.LUM2/256)
+     16  620e		       29		      .byte.b	$20+(.LUM3/256)
      17  620e				   .LUM1      SET	.LUM1 + .STEP1
      18  620e				   .LUM2      SET	.LUM2 + .STEP2
      19  620e				   .LUM3      SET	.LUM3 + .STEP3
      13  620e					      REPEND
-     14  620f		       92		      .byte.b	$90+(.LUM1/256)
-     15  6210		       b2		      .byte.b	$B0+(.LUM2/256)
-     16  6211		       22		      .byte.b	$20+(.LUM3/256)
+     14  620f		       9a		      .byte.b	$90+(.LUM1/256)
+     15  6210		       b9		      .byte.b	$B0+(.LUM2/256)
+     16  6211		       28		      .byte.b	$20+(.LUM3/256)
      17  6211				   .LUM1      SET	.LUM1 + .STEP1
      18  6211				   .LUM2      SET	.LUM2 + .STEP2
      19  6211				   .LUM3      SET	.LUM3 + .STEP3
      13  6211					      REPEND
-     14  6212		       93		      .byte.b	$90+(.LUM1/256)
-     15  6213		       b2		      .byte.b	$B0+(.LUM2/256)
-     16  6214		       22		      .byte.b	$20+(.LUM3/256)
+     14  6212		       9a		      .byte.b	$90+(.LUM1/256)
+     15  6213		       b9		      .byte.b	$B0+(.LUM2/256)
+     16  6214		       28		      .byte.b	$20+(.LUM3/256)
      17  6214				   .LUM1      SET	.LUM1 + .STEP1
      18  6214				   .LUM2      SET	.LUM2 + .STEP2
      19  6214				   .LUM3      SET	.LUM3 + .STEP3
      13  6214					      REPEND
-     14  6215		       93		      .byte.b	$90+(.LUM1/256)
-     15  6216		       b3		      .byte.b	$B0+(.LUM2/256)
-     16  6217		       23		      .byte.b	$20+(.LUM3/256)
+     14  6215		       99		      .byte.b	$90+(.LUM1/256)
+     15  6216		       b9		      .byte.b	$B0+(.LUM2/256)
+     16  6217		       28		      .byte.b	$20+(.LUM3/256)
      17  6217				   .LUM1      SET	.LUM1 + .STEP1
      18  6217				   .LUM2      SET	.LUM2 + .STEP2
      19  6217				   .LUM3      SET	.LUM3 + .STEP3
      13  6217					      REPEND
-     14  6218		       93		      .byte.b	$90+(.LUM1/256)
-     15  6219		       b3		      .byte.b	$B0+(.LUM2/256)
-     16  621a		       23		      .byte.b	$20+(.LUM3/256)
+     14  6218		       99		      .byte.b	$90+(.LUM1/256)
+     15  6219		       b8		      .byte.b	$B0+(.LUM2/256)
+     16  621a		       28		      .byte.b	$20+(.LUM3/256)
      17  621a				   .LUM1      SET	.LUM1 + .STEP1
      18  621a				   .LUM2      SET	.LUM2 + .STEP2
      19  621a				   .LUM3      SET	.LUM3 + .STEP3
      13  621a					      REPEND
-     14  621b		       94		      .byte.b	$90+(.LUM1/256)
-     15  621c		       b3		      .byte.b	$B0+(.LUM2/256)
-     16  621d		       23		      .byte.b	$20+(.LUM3/256)
+     14  621b		       99		      .byte.b	$90+(.LUM1/256)
+     15  621c		       b8		      .byte.b	$B0+(.LUM2/256)
+     16  621d		       27		      .byte.b	$20+(.LUM3/256)
      17  621d				   .LUM1      SET	.LUM1 + .STEP1
      18  621d				   .LUM2      SET	.LUM2 + .STEP2
      19  621d				   .LUM3      SET	.LUM3 + .STEP3
      13  621d					      REPEND
-     14  621e		       94		      .byte.b	$90+(.LUM1/256)
-     15  621f		       b4		      .byte.b	$B0+(.LUM2/256)
-     16  6220		       23		      .byte.b	$20+(.LUM3/256)
+     14  621e		       99		      .byte.b	$90+(.LUM1/256)
+     15  621f		       b8		      .byte.b	$B0+(.LUM2/256)
+     16  6220		       27		      .byte.b	$20+(.LUM3/256)
      17  6220				   .LUM1      SET	.LUM1 + .STEP1
      18  6220				   .LUM2      SET	.LUM2 + .STEP2
      19  6220				   .LUM3      SET	.LUM3 + .STEP3
      13  6220					      REPEND
-     14  6221		       94		      .byte.b	$90+(.LUM1/256)
-     15  6222		       b4		      .byte.b	$B0+(.LUM2/256)
-     16  6223		       24		      .byte.b	$20+(.LUM3/256)
+     14  6221		       98		      .byte.b	$90+(.LUM1/256)
+     15  6222		       b7		      .byte.b	$B0+(.LUM2/256)
+     16  6223		       27		      .byte.b	$20+(.LUM3/256)
      17  6223				   .LUM1      SET	.LUM1 + .STEP1
      18  6223				   .LUM2      SET	.LUM2 + .STEP2
      19  6223				   .LUM3      SET	.LUM3 + .STEP3
      13  6223					      REPEND
-     14  6224		       95		      .byte.b	$90+(.LUM1/256)
-     15  6225		       b4		      .byte.b	$B0+(.LUM2/256)
-     16  6226		       24		      .byte.b	$20+(.LUM3/256)
+     14  6224		       98		      .byte.b	$90+(.LUM1/256)
+     15  6225		       b7		      .byte.b	$B0+(.LUM2/256)
+     16  6226		       27		      .byte.b	$20+(.LUM3/256)
      17  6226				   .LUM1      SET	.LUM1 + .STEP1
      18  6226				   .LUM2      SET	.LUM2 + .STEP2
      19  6226				   .LUM3      SET	.LUM3 + .STEP3
      13  6226					      REPEND
-     14  6227		       95		      .byte.b	$90+(.LUM1/256)
-     15  6228		       b5		      .byte.b	$B0+(.LUM2/256)
-     16  6229		       24		      .byte.b	$20+(.LUM3/256)
+     14  6227		       98		      .byte.b	$90+(.LUM1/256)
+     15  6228		       b7		      .byte.b	$B0+(.LUM2/256)
+     16  6229		       26		      .byte.b	$20+(.LUM3/256)
      17  6229				   .LUM1      SET	.LUM1 + .STEP1
      18  6229				   .LUM2      SET	.LUM2 + .STEP2
      19  6229				   .LUM3      SET	.LUM3 + .STEP3
      13  6229					      REPEND
-     14  622a		       95		      .byte.b	$90+(.LUM1/256)
-     15  622b		       b5		      .byte.b	$B0+(.LUM2/256)
-     16  622c		       25		      .byte.b	$20+(.LUM3/256)
+     14  622a		       97		      .byte.b	$90+(.LUM1/256)
+     15  622b		       b7		      .byte.b	$B0+(.LUM2/256)
+     16  622c		       26		      .byte.b	$20+(.LUM3/256)
      17  622c				   .LUM1      SET	.LUM1 + .STEP1
      18  622c				   .LUM2      SET	.LUM2 + .STEP2
      19  622c				   .LUM3      SET	.LUM3 + .STEP3
      13  622c					      REPEND
-     14  622d		       96		      .byte.b	$90+(.LUM1/256)
-     15  622e		       b5		      .byte.b	$B0+(.LUM2/256)
-     16  622f		       25		      .byte.b	$20+(.LUM3/256)
+     14  622d		       97		      .byte.b	$90+(.LUM1/256)
+     15  622e		       b6		      .byte.b	$B0+(.LUM2/256)
+     16  622f		       26		      .byte.b	$20+(.LUM3/256)
      17  622f				   .LUM1      SET	.LUM1 + .STEP1
      18  622f				   .LUM2      SET	.LUM2 + .STEP2
      19  622f				   .LUM3      SET	.LUM3 + .STEP3
      13  622f					      REPEND
-     14  6230		       96		      .byte.b	$90+(.LUM1/256)
+     14  6230		       97		      .byte.b	$90+(.LUM1/256)
      15  6231		       b6		      .byte.b	$B0+(.LUM2/256)
-     16  6232		       25		      .byte.b	$20+(.LUM3/256)
+     16  6232		       26		      .byte.b	$20+(.LUM3/256)
      17  6232				   .LUM1      SET	.LUM1 + .STEP1
      18  6232				   .LUM2      SET	.LUM2 + .STEP2
      19  6232				   .LUM3      SET	.LUM3 + .STEP3
      13  6232					      REPEND
      14  6233		       96		      .byte.b	$90+(.LUM1/256)
      15  6234		       b6		      .byte.b	$B0+(.LUM2/256)
-     16  6235		       26		      .byte.b	$20+(.LUM3/256)
+     16  6235		       25		      .byte.b	$20+(.LUM3/256)
      17  6235				   .LUM1      SET	.LUM1 + .STEP1
      18  6235				   .LUM2      SET	.LUM2 + .STEP2
      19  6235				   .LUM3      SET	.LUM3 + .STEP3
      13  6235					      REPEND
-     14  6236		       97		      .byte.b	$90+(.LUM1/256)
+     14  6236		       96		      .byte.b	$90+(.LUM1/256)
      15  6237		       b6		      .byte.b	$B0+(.LUM2/256)
-     16  6238		       26		      .byte.b	$20+(.LUM3/256)
+     16  6238		       25		      .byte.b	$20+(.LUM3/256)
      17  6238				   .LUM1      SET	.LUM1 + .STEP1
      18  6238				   .LUM2      SET	.LUM2 + .STEP2
      19  6238				   .LUM3      SET	.LUM3 + .STEP3
      13  6238					      REPEND
-     14  6239		       97		      .byte.b	$90+(.LUM1/256)
-     15  623a		       b7		      .byte.b	$B0+(.LUM2/256)
-     16  623b		       26		      .byte.b	$20+(.LUM3/256)
+     14  6239		       96		      .byte.b	$90+(.LUM1/256)
+     15  623a		       b5		      .byte.b	$B0+(.LUM2/256)
+     16  623b		       25		      .byte.b	$20+(.LUM3/256)
      17  623b				   .LUM1      SET	.LUM1 + .STEP1
      18  623b				   .LUM2      SET	.LUM2 + .STEP2
      19  623b				   .LUM3      SET	.LUM3 + .STEP3
      13  623b					      REPEND
-     14  623c		       97		      .byte.b	$90+(.LUM1/256)
-     15  623d		       b7		      .byte.b	$B0+(.LUM2/256)
-     16  623e		       26		      .byte.b	$20+(.LUM3/256)
+     14  623c		       96		      .byte.b	$90+(.LUM1/256)
+     15  623d		       b5		      .byte.b	$B0+(.LUM2/256)
+     16  623e		       25		      .byte.b	$20+(.LUM3/256)
      17  623e				   .LUM1      SET	.LUM1 + .STEP1
      18  623e				   .LUM2      SET	.LUM2 + .STEP2
      19  623e				   .LUM3      SET	.LUM3 + .STEP3
      13  623e					      REPEND
-     14  623f		       98		      .byte.b	$90+(.LUM1/256)
-     15  6240		       b7		      .byte.b	$B0+(.LUM2/256)
-     16  6241		       27		      .byte.b	$20+(.LUM3/256)
+     14  623f		       95		      .byte.b	$90+(.LUM1/256)
+     15  6240		       b5		      .byte.b	$B0+(.LUM2/256)
+     16  6241		       24		      .byte.b	$20+(.LUM3/256)
      17  6241				   .LUM1      SET	.LUM1 + .STEP1
      18  6241				   .LUM2      SET	.LUM2 + .STEP2
      19  6241				   .LUM3      SET	.LUM3 + .STEP3
      13  6241					      REPEND
-     14  6242		       98		      .byte.b	$90+(.LUM1/256)
-     15  6243		       b8		      .byte.b	$B0+(.LUM2/256)
-     16  6244		       27		      .byte.b	$20+(.LUM3/256)
+     14  6242		       95		      .byte.b	$90+(.LUM1/256)
+     15  6243		       b4		      .byte.b	$B0+(.LUM2/256)
+     16  6244		       24		      .byte.b	$20+(.LUM3/256)
      17  6244				   .LUM1      SET	.LUM1 + .STEP1
      18  6244				   .LUM2      SET	.LUM2 + .STEP2
      19  6244				   .LUM3      SET	.LUM3 + .STEP3
      13  6244					      REPEND
-     14  6245		       98		      .byte.b	$90+(.LUM1/256)
-     15  6246		       b8		      .byte.b	$B0+(.LUM2/256)
-     16  6247		       27		      .byte.b	$20+(.LUM3/256)
+     14  6245		       95		      .byte.b	$90+(.LUM1/256)
+     15  6246		       b4		      .byte.b	$B0+(.LUM2/256)
+     16  6247		       24		      .byte.b	$20+(.LUM3/256)
      17  6247				   .LUM1      SET	.LUM1 + .STEP1
      18  6247				   .LUM2      SET	.LUM2 + .STEP2
      19  6247				   .LUM3      SET	.LUM3 + .STEP3
      13  6247					      REPEND
-     14  6248		       99		      .byte.b	$90+(.LUM1/256)
-     15  6249		       b8		      .byte.b	$B0+(.LUM2/256)
-     16  624a		       28		      .byte.b	$20+(.LUM3/256)
+     14  6248		       94		      .byte.b	$90+(.LUM1/256)
+     15  6249		       b4		      .byte.b	$B0+(.LUM2/256)
+     16  624a		       24		      .byte.b	$20+(.LUM3/256)
      17  624a				   .LUM1      SET	.LUM1 + .STEP1
      18  624a				   .LUM2      SET	.LUM2 + .STEP2
      19  624a				   .LUM3      SET	.LUM3 + .STEP3
      13  624a					      REPEND
-     14  624b		       99		      .byte.b	$90+(.LUM1/256)
-     15  624c		       b9		      .byte.b	$B0+(.LUM2/256)
-     16  624d		       28		      .byte.b	$20+(.LUM3/256)
+     14  624b		       94		      .byte.b	$90+(.LUM1/256)
+     15  624c		       b4		      .byte.b	$B0+(.LUM2/256)
+     16  624d		       23		      .byte.b	$20+(.LUM3/256)
      17  624d				   .LUM1      SET	.LUM1 + .STEP1
      18  624d				   .LUM2      SET	.LUM2 + .STEP2
      19  624d				   .LUM3      SET	.LUM3 + .STEP3
      13  624d					      REPEND
-     14  624e		       9a		      .byte.b	$90+(.LUM1/256)
-     15  624f		       b9		      .byte.b	$B0+(.LUM2/256)
-     16  6250		       28		      .byte.b	$20+(.LUM3/256)
+     14  624e		       94		      .byte.b	$90+(.LUM1/256)
+     15  624f		       b3		      .byte.b	$B0+(.LUM2/256)
+     16  6250		       23		      .byte.b	$20+(.LUM3/256)
      17  6250				   .LUM1      SET	.LUM1 + .STEP1
      18  6250				   .LUM2      SET	.LUM2 + .STEP2
      19  6250				   .LUM3      SET	.LUM3 + .STEP3
      13  6250					      REPEND
-     14  6251		       9a		      .byte.b	$90+(.LUM1/256)
-     15  6252		       b9		      .byte.b	$B0+(.LUM2/256)
-     16  6253		       29		      .byte.b	$20+(.LUM3/256)
+     14  6251		       93		      .byte.b	$90+(.LUM1/256)
+     15  6252		       b3		      .byte.b	$B0+(.LUM2/256)
+     16  6253		       23		      .byte.b	$20+(.LUM3/256)
      17  6253				   .LUM1      SET	.LUM1 + .STEP1
      18  6253				   .LUM2      SET	.LUM2 + .STEP2
      19  6253				   .LUM3      SET	.LUM3 + .STEP3
      13  6253					      REPEND
-     14  6254		       9a		      .byte.b	$90+(.LUM1/256)
-     15  6255		       ba		      .byte.b	$B0+(.LUM2/256)
-     16  6256		       29		      .byte.b	$20+(.LUM3/256)
+     14  6254		       93		      .byte.b	$90+(.LUM1/256)
+     15  6255		       b3		      .byte.b	$B0+(.LUM2/256)
+     16  6256		       23		      .byte.b	$20+(.LUM3/256)
      17  6256				   .LUM1      SET	.LUM1 + .STEP1
      18  6256				   .LUM2      SET	.LUM2 + .STEP2
      19  6256				   .LUM3      SET	.LUM3 + .STEP3
      13  6256					      REPEND
-     14  6257		       9b		      .byte.b	$90+(.LUM1/256)
-     15  6258		       ba		      .byte.b	$B0+(.LUM2/256)
-     16  6259		       29		      .byte.b	$20+(.LUM3/256)
+     14  6257		       93		      .byte.b	$90+(.LUM1/256)
+     15  6258		       b3		      .byte.b	$B0+(.LUM2/256)
+     16  6259		       22		      .byte.b	$20+(.LUM3/256)
      17  6259				   .LUM1      SET	.LUM1 + .STEP1
      18  6259				   .LUM2      SET	.LUM2 + .STEP2
      19  6259				   .LUM3      SET	.LUM3 + .STEP3
      13  6259					      REPEND
-     14  625a		       9b		      .byte.b	$90+(.LUM1/256)
-     15  625b		       ba		      .byte.b	$B0+(.LUM2/256)
-     16  625c		       29		      .byte.b	$20+(.LUM3/256)
+     14  625a		       93		      .byte.b	$90+(.LUM1/256)
+     15  625b		       b2		      .byte.b	$B0+(.LUM2/256)
+     16  625c		       22		      .byte.b	$20+(.LUM3/256)
      17  625c				   .LUM1      SET	.LUM1 + .STEP1
      18  625c				   .LUM2      SET	.LUM2 + .STEP2
      19  625c				   .LUM3      SET	.LUM3 + .STEP3
      13  625c					      REPEND
-     14  625d		       9b		      .byte.b	$90+(.LUM1/256)
-     15  625e		       bb		      .byte.b	$B0+(.LUM2/256)
-     16  625f		       2a		      .byte.b	$20+(.LUM3/256)
+     14  625d		       92		      .byte.b	$90+(.LUM1/256)
+     15  625e		       b2		      .byte.b	$B0+(.LUM2/256)
+     16  625f		       22		      .byte.b	$20+(.LUM3/256)
      17  625f				   .LUM1      SET	.LUM1 + .STEP1
      18  625f				   .LUM2      SET	.LUM2 + .STEP2
      19  625f				   .LUM3      SET	.LUM3 + .STEP3
      13  625f					      REPEND
-     14  6260		       9c		      .byte.b	$90+(.LUM1/256)
-     15  6261		       bb		      .byte.b	$B0+(.LUM2/256)
-     16  6262		       2a		      .byte.b	$20+(.LUM3/256)
+     14  6260		       92		      .byte.b	$90+(.LUM1/256)
+     15  6261		       b2		      .byte.b	$B0+(.LUM2/256)
+     16  6262		       22		      .byte.b	$20+(.LUM3/256)
      17  6262				   .LUM1      SET	.LUM1 + .STEP1
      18  6262				   .LUM2      SET	.LUM2 + .STEP2
      19  6262				   .LUM3      SET	.LUM3 + .STEP3
      13  6262					      REPEND
-     14  6263		       9c		      .byte.b	$90+(.LUM1/256)
-     15  6264		       bb		      .byte.b	$B0+(.LUM2/256)
-     16  6265		       2a		      .byte.b	$20+(.LUM3/256)
+     14  6263		       92		      .byte.b	$90+(.LUM1/256)
+     15  6264		       b1		      .byte.b	$B0+(.LUM2/256)
+     16  6265		       21		      .byte.b	$20+(.LUM3/256)
      17  6265				   .LUM1      SET	.LUM1 + .STEP1
      18  6265				   .LUM2      SET	.LUM2 + .STEP2
      19  6265				   .LUM3      SET	.LUM3 + .STEP3
      13  6265					      REPEND
-     14  6266		       9c		      .byte.b	$90+(.LUM1/256)
-     15  6267		       bc		      .byte.b	$B0+(.LUM2/256)
-     16  6268		       2b		      .byte.b	$20+(.LUM3/256)
+     14  6266		       91		      .byte.b	$90+(.LUM1/256)
+     15  6267		       b1		      .byte.b	$B0+(.LUM2/256)
+     16  6268		       21		      .byte.b	$20+(.LUM3/256)
      17  6268				   .LUM1      SET	.LUM1 + .STEP1
      18  6268				   .LUM2      SET	.LUM2 + .STEP2
      19  6268				   .LUM3      SET	.LUM3 + .STEP3
      13  6268					      REPEND
-     14  6269		       9d		      .byte.b	$90+(.LUM1/256)
-     15  626a		       bc		      .byte.b	$B0+(.LUM2/256)
-     16  626b		       2b		      .byte.b	$20+(.LUM3/256)
+     14  6269		       91		      .byte.b	$90+(.LUM1/256)
+     15  626a		       b1		      .byte.b	$B0+(.LUM2/256)
+     16  626b		       21		      .byte.b	$20+(.LUM3/256)
      17  626b				   .LUM1      SET	.LUM1 + .STEP1
      18  626b				   .LUM2      SET	.LUM2 + .STEP2
      19  626b				   .LUM3      SET	.LUM3 + .STEP3
      13  626b					      REPEND
-     14  626c		       9d		      .byte.b	$90+(.LUM1/256)
-     15  626d		       bc		      .byte.b	$B0+(.LUM2/256)
-     16  626e		       2b		      .byte.b	$20+(.LUM3/256)
+     14  626c		       91		      .byte.b	$90+(.LUM1/256)
+     15  626d		       b1		      .byte.b	$B0+(.LUM2/256)
+     16  626e		       21		      .byte.b	$20+(.LUM3/256)
      17  626e				   .LUM1      SET	.LUM1 + .STEP1
      18  626e				   .LUM2      SET	.LUM2 + .STEP2
      19  626e				   .LUM3      SET	.LUM3 + .STEP3
      13  626e					      REPEND
-     14  626f		       9d		      .byte.b	$90+(.LUM1/256)
-     15  6270		       bc		      .byte.b	$B0+(.LUM2/256)
-     16  6271		       2b		      .byte.b	$20+(.LUM3/256)
+     14  626f		       91		      .byte.b	$90+(.LUM1/256)
+     15  6270		       b0		      .byte.b	$B0+(.LUM2/256)
+     16  6271		       20		      .byte.b	$20+(.LUM3/256)
      17  6271				   .LUM1      SET	.LUM1 + .STEP1
      18  6271				   .LUM2      SET	.LUM2 + .STEP2
      19  6271				   .LUM3      SET	.LUM3 + .STEP3
      13  6271					      REPEND
-     14  6272		       9e		      .byte.b	$90+(.LUM1/256)
-     15  6273		       bd		      .byte.b	$B0+(.LUM2/256)
-     16  6274		       2c		      .byte.b	$20+(.LUM3/256)
+     14  6272		       90		      .byte.b	$90+(.LUM1/256)
+     15  6273		       b0		      .byte.b	$B0+(.LUM2/256)
+     16  6274		       20		      .byte.b	$20+(.LUM3/256)
      17  6274				   .LUM1      SET	.LUM1 + .STEP1
      18  6274				   .LUM2      SET	.LUM2 + .STEP2
      19  6274				   .LUM3      SET	.LUM3 + .STEP3
      13  6274					      REPEND
-     14  6275		       9e		      .byte.b	$90+(.LUM1/256)
-     15  6276		       bd		      .byte.b	$B0+(.LUM2/256)
-     16  6277		       2c		      .byte.b	$20+(.LUM3/256)
+     14  6275		       90		      .byte.b	$90+(.LUM1/256)
+     15  6276		       b0		      .byte.b	$B0+(.LUM2/256)
+     16  6277		       20		      .byte.b	$20+(.LUM3/256)
      17  6277				   .LUM1      SET	.LUM1 + .STEP1
      18  6277				   .LUM2      SET	.LUM2 + .STEP2
      19  6277				   .LUM3      SET	.LUM3 + .STEP3
@@ -15170,70 +15182,71 @@
      18  62ef				   .LUM2      SET	.LUM2 + .STEP2
      19  62ef				   .LUM3      SET	.LUM3 + .STEP3
      20  62f0					      REPEND
-    303  62f0
-    304  62f0				   quest
-    305  62f0					      REPEAT	9
-    306  62f0		       60 60 00 	      .byte.b	$60,$60,$0
-    305  62f0					      REPEND
-    306  62f3		       60 60 00 	      .byte.b	$60,$60,$0
-    305  62f3					      REPEND
-    306  62f6		       60 60 00 	      .byte.b	$60,$60,$0
-    305  62f6					      REPEND
-    306  62f9		       60 60 00 	      .byte.b	$60,$60,$0
-    305  62f9					      REPEND
-    306  62fc		       60 60 00 	      .byte.b	$60,$60,$0
-    305  62fc					      REPEND
-    306  62ff		       60 60 00 	      .byte.b	$60,$60,$0
-    305  62ff					      REPEND
-    306  6302		       60 60 00 	      .byte.b	$60,$60,$0
-    305  6302					      REPEND
-    306  6305		       60 60 00 	      .byte.b	$60,$60,$0
-    305  6305					      REPEND
-    306  6308		       60 60 00 	      .byte.b	$60,$60,$0
-    307  630b					      REPEND
-    308  630b
-    309  630b				   LDIGIT
-    310  630b							;.word blankDig
-    311  630b		       00 f4		      .word.w	LEFT_0
-    312  630d		       51 f4		      .word.w	LEFT_1
-    313  630f		       a2 f4		      .word.w	LEFT_2
-    314  6311		       f3 f4		      .word.w	LEFT_3
-    315  6313		       44 f5		      .word.w	LEFT_4
-    316  6315		       95 f5		      .word.w	LEFT_5
-    317  6317		       e6 f5		      .word.w	LEFT_6
-    318  6319		       37 f6		      .word.w	LEFT_7
-    319  631b		       88 f6		      .word.w	LEFT_8
-    320  631d		       d9 f6		      .word.w	LEFT_9
-    321  631f
-    322  631f				   RDIGIT
-    323  631f							;.word blankDig
-    324  631f		       1b f4		      .word.w	RIGHT_0
-    325  6321		       6c f4		      .word.w	RIGHT_1
-    326  6323		       bd f4		      .word.w	RIGHT_2
-    327  6325		       0e f5		      .word.w	RIGHT_3
-    328  6327		       5f f5		      .word.w	RIGHT_4
-    329  6329		       b0 f5		      .word.w	RIGHT_5
-    330  632b		       01 f6		      .word.w	RIGHT_6
-    331  632d		       52 f6		      .word.w	RIGHT_7
-    332  632f		       a3 f6		      .word.w	RIGHT_8
-    333  6331		       f4 f6		      .word.w	RIGHT_9
-    334  6333
-    335  6333				   DIGITHUND
-    336  6333							;.word blankDig
-    337  6333		       36 f4		      .word.w	HUNDPF1_0
-    338  6335		       87 f4		      .word.w	HUNDPF1_1
-    339  6337		       d8 f4		      .word.w	HUNDPF1_2
-    340  6339		       29 f5		      .word.w	HUNDPF1_3
-    341  633b		       7a f5		      .word.w	HUNDPF1_4
-    342  633d		       cb f5		      .word.w	HUNDPF1_5
-    343  633f		       1c f6		      .word.w	HUNDPF1_6
-    344  6341		       6d f6		      .word.w	HUNDPF1_7
-    345  6343		       be f6		      .word.w	HUNDPF1_8
-    346  6345		       0f f7		      .word.w	HUNDPF1_9
-    347  6347
-    348  6347
+    315  62f0
+    316  62f0				   quest
+    317  62f0					      REPEAT	9
+    318  62f0		       60 60 00 	      .byte.b	$60,$60,$0
+    317  62f0					      REPEND
+    318  62f3		       60 60 00 	      .byte.b	$60,$60,$0
+    317  62f3					      REPEND
+    318  62f6		       60 60 00 	      .byte.b	$60,$60,$0
+    317  62f6					      REPEND
+    318  62f9		       60 60 00 	      .byte.b	$60,$60,$0
+    317  62f9					      REPEND
+    318  62fc		       60 60 00 	      .byte.b	$60,$60,$0
+    317  62fc					      REPEND
+    318  62ff		       60 60 00 	      .byte.b	$60,$60,$0
+    317  62ff					      REPEND
+    318  6302		       60 60 00 	      .byte.b	$60,$60,$0
+    317  6302					      REPEND
+    318  6305		       60 60 00 	      .byte.b	$60,$60,$0
+    317  6305					      REPEND
+    318  6308		       60 60 00 	      .byte.b	$60,$60,$0
+    319  630b					      REPEND
+    320  630b
+    321  630b				   LDIGIT
+    322  630b							;.word blankDig
+    323  630b		       00 f4		      .word.w	LEFT_0
+    324  630d		       51 f4		      .word.w	LEFT_1
+    325  630f		       a2 f4		      .word.w	LEFT_2
+    326  6311		       f3 f4		      .word.w	LEFT_3
+    327  6313		       44 f5		      .word.w	LEFT_4
+    328  6315		       95 f5		      .word.w	LEFT_5
+    329  6317		       e6 f5		      .word.w	LEFT_6
+    330  6319		       37 f6		      .word.w	LEFT_7
+    331  631b		       88 f6		      .word.w	LEFT_8
+    332  631d		       d9 f6		      .word.w	LEFT_9
+    333  631f
+    334  631f				   RDIGIT
+    335  631f							;.word blankDig
+    336  631f		       1b f4		      .word.w	RIGHT_0
+    337  6321		       6c f4		      .word.w	RIGHT_1
+    338  6323		       bd f4		      .word.w	RIGHT_2
+    339  6325		       0e f5		      .word.w	RIGHT_3
+    340  6327		       5f f5		      .word.w	RIGHT_4
+    341  6329		       b0 f5		      .word.w	RIGHT_5
+    342  632b		       01 f6		      .word.w	RIGHT_6
+    343  632d		       52 f6		      .word.w	RIGHT_7
+    344  632f		       a3 f6		      .word.w	RIGHT_8
+    345  6331		       f4 f6		      .word.w	RIGHT_9
+    346  6333
+    347  6333				   DIGITHUND
+    348  6333							;.word blankDig
+    349  6333		       36 f4		      .word.w	HUNDPF1_0
+    350  6335		       87 f4		      .word.w	HUNDPF1_1
+    351  6337		       d8 f4		      .word.w	HUNDPF1_2
+    352  6339		       29 f5		      .word.w	HUNDPF1_3
+    353  633b		       7a f5		      .word.w	HUNDPF1_4
+    354  633d		       cb f5		      .word.w	HUNDPF1_5
+    355  633f		       1c f6		      .word.w	HUNDPF1_6
+    356  6341		       6d f6		      .word.w	HUNDPF1_7
+    357  6343		       be f6		      .word.w	HUNDPF1_8
+    358  6345		       0f f7		      .word.w	HUNDPF1_9
+    359  6347		       d3 f1		      .word.w	blankDig
+    360  6349
+    361  6349
 ------- FILE bigDigits.asm LEVEL 3 PASS 4
-      0  6347					      include	"bigDigits.asm"
+      0  6349					      include	"bigDigits.asm"
       1  6400		       00 00 00 00*	      align	256
       2  6400				   LEFT_0
       3  6400		       38		      .byte.b	56
@@ -16160,7 +16173,7 @@
     924  6779		       7c		      .byte.b	124
     925  677a		       38		      .byte.b	56
 ------- FILE levelScreen.asm
-    350  677b
+    363  677b
       0  677b					      CHECK_BANK_SIZE	"LEVELSCREEN"
       1  677b		       07 7b	   .TEMP      =	* - BANK_START
  LEVELSCREEN (2K) SIZE =  $77b , FREE= $85
@@ -17110,7 +17123,7 @@
     378  6954
     379  6954							; Box is now on a target - so decrease the remaining targets
     380  6954
-    381  6954		       20 cf fc    decreaseTargets jsr	DeRegisterTarget
+    381  6954		       20 d2 fc    decreaseTargets jsr	DeRegisterTarget
     382  6957		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
     383  6959		       48	   canPushTarget pha
     384  695a
@@ -17123,7 +17136,7 @@
     391  6960
     392  6960							; increase the required targets as box is leaving one
     393  6960
-    394  6960		       20 c5 fc 	      jsr	RegisterTarget
+    394  6960		       20 c8 fc 	      jsr	RegisterTarget
     395  6963
     396  6963				   notOnTargetAlready
     397  6963
@@ -17243,9 +17256,9 @@
     508  69cb		       f0		      .byte.b	<waitingManPress	; 4		 timer
     509  69cc		       f0		      .byte.b	<waitingMan	; 5		 no timer
     510  69cd		       f0		      .byte.b	<waitingManPress	; 6		 no timer
-    511  69ce		       9a		      .byte.b	<nextLevelMan	; 7		 no timer
-    512  69cf		       a1		      .byte.b	<nextLevelMan2	; 8		 no timer
-    513  69d0		       a9		      .byte.b	<switchLevels	; 9		 no timer
+    511  69ce		       9d		      .byte.b	<nextLevelMan	; 7		 no timer
+    512  69cf		       a4		      .byte.b	<nextLevelMan2	; 8		 no timer
+    513  69d0		       ac		      .byte.b	<switchLevels	; 9		 no timer
     514  69d1
     515  69d1				   ManActionHI
     516  69d1		       f1		      .byte.b	>manStartup	; no timer
@@ -17589,7 +17602,7 @@
     824  6af5		       85 a8		      sta	DelayEndOfLevel
     825  6af7		       a5 80		      lda	Platform
     826  6af9		       85 c6		      sta	ColourFlash	; green
-    827  6afb		       a9 04		      lda	#4
+    827  6afb		       a9 06		      lda	#6
     828  6afd		       85 c5		      sta	ColourTimer
     829  6aff
       0  6aff					      LOAD_ANIMATION	Animation_WIN
@@ -19230,7 +19243,7 @@
     686  79ee		       18		      clc
     687  79ef		       69 04		      adc	#4	; reds
     688  79f1		       85 c6		      sta	ColourFlash
-    689  79f3		       a9 0a		      lda	#10
+    689  79f3		       a9 06		      lda	#6
     690  79f5		       85 c5		      sta	ColourTimer
     691  79f7		       60		      rts
     692  79f8
@@ -19332,7 +19345,7 @@
     779  7a3a		       f0 04		      beq	isaTarget
     780  7a3c		       c9 04		      cmp	#CHARACTER_TARGET2
     781  7a3e		       d0 03		      bne	notTarget1
-    782  7a40		       20 c5 fc    isaTarget  jsr	RegisterTarget
+    782  7a40		       20 c8 fc    isaTarget  jsr	RegisterTarget
     783  7a43				   notTarget1
     784  7a43
     785  7a43
@@ -19345,7 +19358,7 @@
     792  7a50
     793  7a50		       68		      pla
     794  7a51		       f0 07		      beq	blnkre
-    795  7a53		       20 cf fc 	      jsr	DeRegisterTarget
+    795  7a53		       20 d2 fc 	      jsr	DeRegisterTarget
     796  7a56		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
     797  7a58		       d0 02		      bne	skls
     798  7a5a		       a9 02	   blnkre     lda	#CHARACTER_BOX
@@ -19709,7 +19722,7 @@
    1123  7bac
    1124  7bac		       a2 02		      ldx	#ROM_SHADOW_OF_BANK_SCORING
    1125  7bae		       a0 09		      ldy	#BANK_SCORING
-   1126  7bb0		       20 bc fc 	      jsr	CopyROM2RAM_F000
+   1126  7bb0		       20 bf fc 	      jsr	CopyROM2RAM_F000
    1127  7bb3
    1128  7bb3				   Restart		; go here on RESET + SELECT
    1129  7bb3
@@ -19735,7 +19748,7 @@
    1146  7bbd
    1147  7bbd		       a2 03		      ldx	#BANK_DECODE_LEVEL_SHADOW
    1148  7bbf		       a0 0a		      ldy	#BANK_DECODE_LEVEL
-   1149  7bc1		       20 bc fc 	      jsr	CopyROM2RAM_F000
+   1149  7bc1		       20 bf fc 	      jsr	CopyROM2RAM_F000
    1150  7bc4
    1151  7bc4
    1152  7bc4							;---------------------------------------------------------------------------
@@ -19831,272 +19844,272 @@
    1188  7bed
    1189  7bed		       a9 0c		      lda	#BANK_LevelScreen
    1190  7bef		       85 3f		      sta	SET_BANK
-   1191  7bf1							;jsr LevelSequence
-   1192  7bf1
-   1193  7bf1							; Initialise all in-game variables; those that must be re-initialised at the start of each level,
-   1194  7bf1							; including those for general systems function. But NOT those which do not need re-initialising between
-   1195  7bf1							; levels.
-   1196  7bf1		       a9 03		      lda	#BANK_LevelInit	; 2
-   1197  7bf3		       85 3f		      sta	SET_BANK	; 3
-   1198  7bf5		       20 50 f4 	      jsr	LevelInit	; 6+x
-   1199  7bf8
-   1200  7bf8		       a9 0a		      lda	#BANK_DECODE_LEVEL
-   1201  7bfa		       85 3e		      sta	SET_BANK_RAM
-   1202  7bfc		       20 58 f2 	      jsr	UnpackLevel
-   1203  7bff
-   1204  7bff							; TODO now we KNOW the width, we can set the top left accordingly and re-unpack
-   1205  7bff
-   1206  7bff		       a9 18		      lda	#SIZE_BOARD_X
-   1207  7c01		       85 96		      sta	BoardLimit_Width
-   1208  7c03		       a9 14		      lda	#SIZE_BOARD_Y
-   1209  7c05		       85 97		      sta	BoardLimit_Height
-   1210  7c07
-   1211  7c07							; Setup player animation and scroll limits.
-   1212  7c07							; Mangle the board colours based on level
-   1213  7c07
-   1214  7c07		       a9 03		      lda	#BANK_CreateCreatures	; 2
-   1215  7c09		       85 3f		      sta	SET_BANK	; 3
-   1216  7c0b		       20 15 f4 	      jsr	CreateCreatures	; 6+x
-   1217  7c0e
-   1218  7c0e							; Setup the various digit and display pointers
-   1219  7c0e							; Grab current player's score/level from backup
-   1220  7c0e
-   1221  7c0e		       a9 09		      lda	#BANK_SCORING
-   1222  7c10		       85 3e		      sta	SET_BANK_RAM
-   1223  7c12		       20 87 f2 	      jsr	GeneralScoringSetups
-   1224  7c15							;lda ROM_Bank
-   1225  7c15							;sta SET_BANK
-   1226  7c15
-   1227  7c15							; copy the screen draw ROM shadow to RAM
-   1228  7c15
-   1229  7c15		       a0 07		      ldy	#SCREEN_LINES-1
-   1230  7c17		       a2 00	   CopyScreenBanks ldx	#ROM_SHADOW_OF_RAMBANK_CODE
-   1231  7c19		       20 bc fc 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
-   1232  7c1c		       20 71 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
-   1233  7c1f		       88		      dey
-   1234  7c20		       10 f5		      bpl	CopyScreenBanks
-   1235  7c22
-   1236  7c22		       a2 01		      ldx	#ROM_SHADOW_OF_BANK_DRAW_BUFFERS
-   1237  7c24		       a0 08		      ldy	#BANK_DRAW_BUFFERS
-   1238  7c26		       20 3d f0 	      jsr	CopyROMShadowToRAM_F000
-   1239  7c29
-   1240  7c29							;---------------------------------------------------------------------------
-   1241  7c29
-   1242  7c29					      IF	WAIT_FOR_INITIAL_DRAW
-   1243  7c29		       a9 02		      lda	#%10
-   1244  7c2b		       85 ad		      sta	blankState
-   1245  7c2d					      ENDIF
-   1246  7c2d
-   1247  7c2d		       a9 03		      lda	#BANK_Resync	; 2
-   1248  7c2f		       85 3f		      sta	SET_BANK	; 3
-   1249  7c31		       20 84 f4 	      jsr	Resync	; 6+x
-   1250  7c34
-   1251  7c34				   NewFrameStart
-   1252  7c34
-   1253  7c34		       24 ca		      bit	NextLevelTrigger
-   1254  7c36		       10 b5		      bpl	NextLevelLevel	; game-triggered next level
-   1255  7c38		       70 ac		      bvs	RestartLevelNextPlayer	; loss of life
-   1256  7c3a
-   1257  7c3a							; Note: VSYNC must NOT be on when starting a new level! Else you get annoying TV signals.
-   1258  7c3a
-   1259  7c3a		       a9 0e		      lda	#%1110	; VSYNC ON
-   1260  7c3c		       85 42	   .loopVSync sta	WSYNC
-   1261  7c3e		       85 40		      sta	VSYNC
-   1262  7c40		       4a		      lsr
-   1263  7c41		       d0 f9		      bne	.loopVSync	; branch until VYSNC has been reset
-   1264  7c43
-   1265  7c43							; moved *after* the loop since this allows to *increase* timer values by 1!
-   1266  7c43
-   1267  7c43		       a6 80		      ldx	Platform
-   1268  7c45		       bc 96 fc 	      ldy	VBlankTime,x
-   1269  7c48		       8c 96 02 	      sty	TIM64T
-   1270  7c4b
-   1271  7c4b		       a9 0d		      lda	#BANK_SoundFX
-   1272  7c4d		       85 3f		      sta	SET_BANK
-   1273  7c4f		       20 56 f3 	      jsr	SoundFX
-   1274  7c52
-   1275  7c52		       20 97 fa 	      jsr	StealCharDraw	; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
-   1276  7c55
-   1277  7c55							;---------------------------------------------------------------------------
-   1278  7c55
-   1279  7c55		       a9 09		      lda	#BANK_SCORING	; 2
-   1280  7c57		       85 3e		      sta	SET_BANK_RAM	; 3
-   1281  7c59		       20 d5 f1 	      jsr	DrawDigits	; 6 = 11
-   1282  7c5c
-   1283  7c5c							;---------------------------------------------------------------------------
-   1284  7c5c							; A 42-cycle timing window in the screen draw code.  Perform any general
-   1285  7c5c							; per-frame code here, provided it takes exactly 42 cycles to execute.
-   1286  7c5c							; TJ: Well, not exactly 42 cycles, but it works! :)
-   1287  7c5c							;	 @09
-   1288  7c5c							;sta COLUBK		      ; 3     value comes from subroutine
-   1289  7c5c							; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
-   1290  7c5c
-   1291  7c5c							;		  inc Throttle		      ; 5     speed limiter
-      0  7c5c					      SLEEP	2	;	 TODO: optimize for space
-      1  7c5c				   .CYCLES    SET	2
-      2  7c5c
-      3  7c5c				  -	      IF	.CYCLES < 2
-      4  7c5c				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
-      5  7c5c				  -	      ERR
-      6  7c5c					      ENDIF
-      7  7c5c
-      8  7c5c				  -	      IF	.CYCLES & 1
-      9  7c5c				  -	      IFNCONST	NO_ILLEGAL_OPCODES
-     10  7c5c				  -	      nop	0
-     11  7c5c				  -	      ELSE
-     12  7c5c				  -	      bit	VSYNC
-     13  7c5c				  -	      ENDIF
-     14  7c5c				  -.CYCLES    SET	.CYCLES - 3
-     15  7c5c					      ENDIF
-     16  7c5c
-     17  7c5c					      REPEAT	.CYCLES / 2
-     18  7c5c		       ea		      nop
-     19  7c5d					      REPEND
-   1293  7c5d
-   1294  7c5d		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
-   1295  7c5f		       ca		      dex		; 2	 = $6f, stars effect!
-   1296  7c60		       86 62		      stx	HMM0	; 3	 @24, exactly 21 cycles after the HMOVE
-   1297  7c62
-   1298  7c62		       85 44		      sta	NUSIZ0	; 3
-   1299  7c64		       84 65		      sty	VDELP0	; 3	 y = 0!
-   1300  7c66
-   1301  7c66		       c8		      iny		; 2	 this relies on Y == 0 before...
-   1302  7c67		       c4 c7		      cpy	extraLifeTimer	; 3	 ..,and bit 0 is set in A
-   1303  7c69		       69 02		      adc	#2	; 2
-   1304  7c6b		       85 5d		      sta	ENAM0	; 3	 dis/enable Cosmic Ark star effect
-   1305  7c6d
-   1306  7c6d		       a5 a4		      lda	ManLastDirection	; 3
-   1307  7c6f		       85 4b		      sta	REFP0	; 3
-   1308  7c71
-   1309  7c71		       a9 00		      lda	#BANK_SCREENMARKII1	; 2
-   1310  7c73		       85 3f		      sta	SET_BANK	; testing
-   1311  7c75		       85 3e		      sta	SET_BANK_RAM	; 3
-   1312  7c77		       20 00 f0 	      jsr	DrawTheScreen	; 6	 @57 from RAM, no less!!
-   1313  7c7a							;	 @66
-   1314  7c7a		       a9 03		      lda	#BANK_PostScreenCleanup	; 2
-   1315  7c7c		       85 3f		      sta	SET_BANK	; 3
-   1316  7c7e		       20 52 f5 	      jsr	PostScreenCleanup	; 6+x
-   1317  7c81
-   1318  7c81		       a9 00		      lda	#BANK_SelfModDrawPlayers	; 2
-   1319  7c83		       85 3f		      sta	SET_BANK	; 3
-   1320  7c85		       20 8c f2 	      jsr	SelfModDrawPlayers	; 6+x
-   1321  7c88
-   1322  7c88				   SkipSc
-   1323  7c88		       20 ea fa 	      jsr	writePlayerFrame
-   1324  7c8b		       20 97 fa 	      jsr	StealCharDraw
-   1325  7c8e
-   1326  7c8e		       ad 84 02    OverscanBD lda	INTIM	;4
-   1327  7c91		       d0 fb		      bne	OverscanBD	;2/3
-   1328  7c93
-   1329  7c93		       4c 34 fc 	      jmp	NewFrameStart
-   1330  7c96				   VBlankTime
-   1331  7c96		       30 30		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
-   1332  7c98		       55 55		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_PAL
-   1333  7c9a
-   1334  7c9a							;---------------------------------------------------------------------------
-   1335  7c9a
-      0  7c9a					      DEFINE_SUBROUTINE	nextLevelMan
-      1  7c9a		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
-      2  7c9a					      SUBROUTINE
-      3  7c9a				   nextLevelMan
-   1337  7c9a
-   1338  7c9a		       a9 0d		      lda	#BANK_EndOfLevel
-   1339  7c9c		       85 3f		      sta	SET_BANK
-   1340  7c9e		       4c f3 f2 	      jmp	EndOfLevel
-   1341  7ca1
-   1342  7ca1
-      0  7ca1					      DEFINE_SUBROUTINE	nextLevelMan2
-      1  7ca1		       00 0f	   BANK_nextLevelMan2 =	_CURRENT_BANK
-      2  7ca1					      SUBROUTINE
-      3  7ca1				   nextLevelMan2
-   1344  7ca1
-   1345  7ca1		       c6 a8		      dec	DelayEndOfLevel
-   1346  7ca3		       d0 29		      bne	genericRTS
-   1347  7ca5
-   1348  7ca5		       a9 09		      lda	#MANMODE_SWITCH
-   1349  7ca7		       85 a3		      sta	ManMode
-   1350  7ca9
-      0  7ca9					      DEFINE_SUBROUTINE	switchLevels
-      1  7ca9		       00 0f	   BANK_switchLevels =	_CURRENT_BANK
-      2  7ca9					      SUBROUTINE
-      3  7ca9				   switchLevels
-   1352  7ca9
-   1353  7ca9							; Now do the actual switching
-   1354  7ca9
-   1355  7ca9		       a5 ca		      lda	NextLevelTrigger
-   1356  7cab		       29 7f		      and	#<(~BIT_NEXTLEVEL)
-   1357  7cad		       85 ca		      sta	NextLevelTrigger
-   1358  7caf
-   1359  7caf							; Next level is due. Point to the next level, but if we're at the end of playable levels,
-   1360  7caf							; then increment the level number. This is completely circular, so we eventually wrap
-   1361  7caf							; the level back to 0 and start afresh.
-   1362  7caf
-   1363  7caf		       e6 b2		      inc	levelX
-   1364  7cb1		       a5 b2		      lda	levelX
-   1365  7cb3		       c9 9e		      cmp	#MAX_LEVEL_NUMBER
-   1366  7cb5		       90 02		      bcc	.level_ok
-   1367  7cb7		       a9 00		      lda	#0
-   1368  7cb9		       85 b2	   .level_ok  sta	levelX
-   1369  7cbb		       60		      rts
-   1370  7cbc
-   1371  7cbc							;---------------------------------------------------------------------------
-   1372  7cbc
-   1373  7cbc
-      0  7cbc					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
-      1  7cbc		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
-      2  7cbc					      SUBROUTINE
-      3  7cbc				   CopyROM2RAM_F000
-   1375  7cbc
-   1376  7cbc		       a9 0d		      lda	#BANK_CopyROMShadowToRAM
-   1377  7cbe		       85 3f		      sta	SET_BANK
-   1378  7cc0		       85 c3		      sta	ROM_Bank
-   1379  7cc2		       4c 3d f0 	      jmp	CopyROMShadowToRAM_F000
-   1380  7cc5
-   1381  7cc5
-   1382  7cc5							;---------------------------------------------------------------------------
-   1383  7cc5
-      0  7cc5					      DEFINE_SUBROUTINE	RegisterTarget
-      1  7cc5		       00 0f	   BANK_RegisterTarget =	_CURRENT_BANK
-      2  7cc5					      SUBROUTINE
-      3  7cc5				   RegisterTarget
-   1385  7cc5
-   1386  7cc5		       f8		      sed
-   1387  7cc6		       18		      clc
-   1388  7cc7		       a5 b7		      lda	BCD_targetsRequired
-   1389  7cc9		       69 01		      adc	#1
-   1390  7ccb		       85 b7		      sta	BCD_targetsRequired
-   1391  7ccd		       d8		      cld
-   1392  7cce		       60	   genericRTS rts
-   1393  7ccf
-      0  7ccf					      DEFINE_SUBROUTINE	DeRegisterTarget
-      1  7ccf		       00 0f	   BANK_DeRegisterTarget =	_CURRENT_BANK
-      2  7ccf					      SUBROUTINE
-      3  7ccf				   DeRegisterTarget
-   1395  7ccf
-   1396  7ccf		       f8		      sed
-   1397  7cd0		       38		      sec
-   1398  7cd1		       a5 b7		      lda	BCD_targetsRequired
-   1399  7cd3		       e9 01		      sbc	#1
-   1400  7cd5		       85 b7		      sta	BCD_targetsRequired
-   1401  7cd7		       d8		      cld
-   1402  7cd8		       60		      rts
-   1403  7cd9
-   1404  7cd9							;---------------------------------------------------------------------------
-   1405  7cd9
-   1406  7cd9							;include "circle.asm"
-   1407  7cd9
+   1191  7bf1		       20 00 f0 	      jsr	LevelSequence
+   1192  7bf4
+   1193  7bf4							; Initialise all in-game variables; those that must be re-initialised at the start of each level,
+   1194  7bf4							; including those for general systems function. But NOT those which do not need re-initialising between
+   1195  7bf4							; levels.
+   1196  7bf4		       a9 03		      lda	#BANK_LevelInit	; 2
+   1197  7bf6		       85 3f		      sta	SET_BANK	; 3
+   1198  7bf8		       20 50 f4 	      jsr	LevelInit	; 6+x
+   1199  7bfb
+   1200  7bfb		       a9 0a		      lda	#BANK_DECODE_LEVEL
+   1201  7bfd		       85 3e		      sta	SET_BANK_RAM
+   1202  7bff		       20 58 f2 	      jsr	UnpackLevel
+   1203  7c02
+   1204  7c02							; TODO now we KNOW the width, we can set the top left accordingly and re-unpack
+   1205  7c02
+   1206  7c02		       a9 18		      lda	#SIZE_BOARD_X
+   1207  7c04		       85 96		      sta	BoardLimit_Width
+   1208  7c06		       a9 14		      lda	#SIZE_BOARD_Y
+   1209  7c08		       85 97		      sta	BoardLimit_Height
+   1210  7c0a
+   1211  7c0a							; Setup player animation and scroll limits.
+   1212  7c0a							; Mangle the board colours based on level
+   1213  7c0a
+   1214  7c0a		       a9 03		      lda	#BANK_CreateCreatures	; 2
+   1215  7c0c		       85 3f		      sta	SET_BANK	; 3
+   1216  7c0e		       20 15 f4 	      jsr	CreateCreatures	; 6+x
+   1217  7c11
+   1218  7c11							; Setup the various digit and display pointers
+   1219  7c11							; Grab current player's score/level from backup
+   1220  7c11
+   1221  7c11		       a9 09		      lda	#BANK_SCORING
+   1222  7c13		       85 3e		      sta	SET_BANK_RAM
+   1223  7c15		       20 87 f2 	      jsr	GeneralScoringSetups
+   1224  7c18							;lda ROM_Bank
+   1225  7c18							;sta SET_BANK
+   1226  7c18
+   1227  7c18							; copy the screen draw ROM shadow to RAM
+   1228  7c18
+   1229  7c18		       a0 07		      ldy	#SCREEN_LINES-1
+   1230  7c1a		       a2 00	   CopyScreenBanks ldx	#ROM_SHADOW_OF_RAMBANK_CODE
+   1231  7c1c		       20 bf fc 	      jsr	CopyROM2RAM_F000	; copy draw ROMShadow to RAM
+   1232  7c1f		       20 71 f0 	      jsr	SetPlatformColours	; set NTSC or PAL RGB values for draw + index
+   1233  7c22		       88		      dey
+   1234  7c23		       10 f5		      bpl	CopyScreenBanks
+   1235  7c25
+   1236  7c25		       a2 01		      ldx	#ROM_SHADOW_OF_BANK_DRAW_BUFFERS
+   1237  7c27		       a0 08		      ldy	#BANK_DRAW_BUFFERS
+   1238  7c29		       20 3d f0 	      jsr	CopyROMShadowToRAM_F000
+   1239  7c2c
+   1240  7c2c							;---------------------------------------------------------------------------
+   1241  7c2c
+   1242  7c2c					      IF	WAIT_FOR_INITIAL_DRAW
+   1243  7c2c		       a9 02		      lda	#%10
+   1244  7c2e		       85 ad		      sta	blankState
+   1245  7c30					      ENDIF
+   1246  7c30
+   1247  7c30		       a9 03		      lda	#BANK_Resync	; 2
+   1248  7c32		       85 3f		      sta	SET_BANK	; 3
+   1249  7c34		       20 84 f4 	      jsr	Resync	; 6+x
+   1250  7c37
+   1251  7c37				   NewFrameStart
+   1252  7c37
+   1253  7c37		       24 ca		      bit	NextLevelTrigger
+   1254  7c39		       10 b2		      bpl	NextLevelLevel	; game-triggered next level
+   1255  7c3b		       70 a9		      bvs	RestartLevelNextPlayer	; loss of life
+   1256  7c3d
+   1257  7c3d							; Note: VSYNC must NOT be on when starting a new level! Else you get annoying TV signals.
+   1258  7c3d
+   1259  7c3d		       a9 0e		      lda	#%1110	; VSYNC ON
+   1260  7c3f		       85 42	   .loopVSync sta	WSYNC
+   1261  7c41		       85 40		      sta	VSYNC
+   1262  7c43		       4a		      lsr
+   1263  7c44		       d0 f9		      bne	.loopVSync	; branch until VYSNC has been reset
+   1264  7c46
+   1265  7c46							; moved *after* the loop since this allows to *increase* timer values by 1!
+   1266  7c46
+   1267  7c46		       a6 80		      ldx	Platform
+   1268  7c48		       bc 99 fc 	      ldy	VBlankTime,x
+   1269  7c4b		       8c 96 02 	      sty	TIM64T
+   1270  7c4e
+   1271  7c4e		       a9 0d		      lda	#BANK_SoundFX
+   1272  7c50		       85 3f		      sta	SET_BANK
+   1273  7c52		       20 56 f3 	      jsr	SoundFX
+   1274  7c55
+   1275  7c55		       20 97 fa 	      jsr	StealCharDraw	; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
+   1276  7c58
+   1277  7c58							;---------------------------------------------------------------------------
+   1278  7c58
+   1279  7c58		       a9 09		      lda	#BANK_SCORING	; 2
+   1280  7c5a		       85 3e		      sta	SET_BANK_RAM	; 3
+   1281  7c5c		       20 d5 f1 	      jsr	DrawDigits	; 6 = 11
+   1282  7c5f
+   1283  7c5f							;---------------------------------------------------------------------------
+   1284  7c5f							; A 42-cycle timing window in the screen draw code.  Perform any general
+   1285  7c5f							; per-frame code here, provided it takes exactly 42 cycles to execute.
+   1286  7c5f							; TJ: Well, not exactly 42 cycles, but it works! :)
+   1287  7c5f							;	 @09
+   1288  7c5f							;sta COLUBK		      ; 3     value comes from subroutine
+   1289  7c5f							; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
+   1290  7c5f
+   1291  7c5f							;		  inc Throttle		      ; 5     speed limiter
+      0  7c5f					      SLEEP	2	;	 TODO: optimize for space
+      1  7c5f				   .CYCLES    SET	2
+      2  7c5f
+      3  7c5f				  -	      IF	.CYCLES < 2
+      4  7c5f				  -	      ECHO	"MACRO ERROR: 'SLEEP': Duration must be > 1"
+      5  7c5f				  -	      ERR
+      6  7c5f					      ENDIF
+      7  7c5f
+      8  7c5f				  -	      IF	.CYCLES & 1
+      9  7c5f				  -	      IFNCONST	NO_ILLEGAL_OPCODES
+     10  7c5f				  -	      nop	0
+     11  7c5f				  -	      ELSE
+     12  7c5f				  -	      bit	VSYNC
+     13  7c5f				  -	      ENDIF
+     14  7c5f				  -.CYCLES    SET	.CYCLES - 3
+     15  7c5f					      ENDIF
+     16  7c5f
+     17  7c5f					      REPEAT	.CYCLES / 2
+     18  7c5f		       ea		      nop
+     19  7c60					      REPEND
+   1293  7c60
+   1294  7c60		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
+   1295  7c62		       ca		      dex		; 2	 = $6f, stars effect!
+   1296  7c63		       86 62		      stx	HMM0	; 3	 @24, exactly 21 cycles after the HMOVE
+   1297  7c65
+   1298  7c65		       85 44		      sta	NUSIZ0	; 3
+   1299  7c67		       84 65		      sty	VDELP0	; 3	 y = 0!
+   1300  7c69
+   1301  7c69		       c8		      iny		; 2	 this relies on Y == 0 before...
+   1302  7c6a		       c4 c7		      cpy	extraLifeTimer	; 3	 ..,and bit 0 is set in A
+   1303  7c6c		       69 02		      adc	#2	; 2
+   1304  7c6e		       85 5d		      sta	ENAM0	; 3	 dis/enable Cosmic Ark star effect
+   1305  7c70
+   1306  7c70		       a5 a4		      lda	ManLastDirection	; 3
+   1307  7c72		       85 4b		      sta	REFP0	; 3
+   1308  7c74
+   1309  7c74		       a9 00		      lda	#BANK_SCREENMARKII1	; 2
+   1310  7c76		       85 3f		      sta	SET_BANK	; testing
+   1311  7c78		       85 3e		      sta	SET_BANK_RAM	; 3
+   1312  7c7a		       20 00 f0 	      jsr	DrawTheScreen	; 6	 @57 from RAM, no less!!
+   1313  7c7d							;	 @66
+   1314  7c7d		       a9 03		      lda	#BANK_PostScreenCleanup	; 2
+   1315  7c7f		       85 3f		      sta	SET_BANK	; 3
+   1316  7c81		       20 52 f5 	      jsr	PostScreenCleanup	; 6+x
+   1317  7c84
+   1318  7c84		       a9 00		      lda	#BANK_SelfModDrawPlayers	; 2
+   1319  7c86		       85 3f		      sta	SET_BANK	; 3
+   1320  7c88		       20 8c f2 	      jsr	SelfModDrawPlayers	; 6+x
+   1321  7c8b
+   1322  7c8b				   SkipSc
+   1323  7c8b		       20 ea fa 	      jsr	writePlayerFrame
+   1324  7c8e		       20 97 fa 	      jsr	StealCharDraw
+   1325  7c91
+   1326  7c91		       ad 84 02    OverscanBD lda	INTIM	;4
+   1327  7c94		       d0 fb		      bne	OverscanBD	;2/3
+   1328  7c96
+   1329  7c96		       4c 37 fc 	      jmp	NewFrameStart
+   1330  7c99				   VBlankTime
+   1331  7c99		       30 30		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
+   1332  7c9b		       55 55		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_PAL
+   1333  7c9d
+   1334  7c9d							;---------------------------------------------------------------------------
+   1335  7c9d
+      0  7c9d					      DEFINE_SUBROUTINE	nextLevelMan
+      1  7c9d		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
+      2  7c9d					      SUBROUTINE
+      3  7c9d				   nextLevelMan
+   1337  7c9d
+   1338  7c9d		       a9 0d		      lda	#BANK_EndOfLevel
+   1339  7c9f		       85 3f		      sta	SET_BANK
+   1340  7ca1		       4c f3 f2 	      jmp	EndOfLevel
+   1341  7ca4
+   1342  7ca4
+      0  7ca4					      DEFINE_SUBROUTINE	nextLevelMan2
+      1  7ca4		       00 0f	   BANK_nextLevelMan2 =	_CURRENT_BANK
+      2  7ca4					      SUBROUTINE
+      3  7ca4				   nextLevelMan2
+   1344  7ca4
+   1345  7ca4		       c6 a8		      dec	DelayEndOfLevel
+   1346  7ca6		       d0 29		      bne	genericRTS
+   1347  7ca8
+   1348  7ca8		       a9 09		      lda	#MANMODE_SWITCH
+   1349  7caa		       85 a3		      sta	ManMode
+   1350  7cac
+      0  7cac					      DEFINE_SUBROUTINE	switchLevels
+      1  7cac		       00 0f	   BANK_switchLevels =	_CURRENT_BANK
+      2  7cac					      SUBROUTINE
+      3  7cac				   switchLevels
+   1352  7cac
+   1353  7cac							; Now do the actual switching
+   1354  7cac
+   1355  7cac		       a5 ca		      lda	NextLevelTrigger
+   1356  7cae		       29 7f		      and	#<(~BIT_NEXTLEVEL)
+   1357  7cb0		       85 ca		      sta	NextLevelTrigger
+   1358  7cb2
+   1359  7cb2							; Next level is due. Point to the next level, but if we're at the end of playable levels,
+   1360  7cb2							; then increment the level number. This is completely circular, so we eventually wrap
+   1361  7cb2							; the level back to 0 and start afresh.
+   1362  7cb2
+   1363  7cb2		       e6 b2		      inc	levelX
+   1364  7cb4		       a5 b2		      lda	levelX
+   1365  7cb6		       c9 9e		      cmp	#MAX_LEVEL_NUMBER
+   1366  7cb8		       90 02		      bcc	.level_ok
+   1367  7cba		       a9 00		      lda	#0
+   1368  7cbc		       85 b2	   .level_ok  sta	levelX
+   1369  7cbe		       60		      rts
+   1370  7cbf
+   1371  7cbf							;---------------------------------------------------------------------------
+   1372  7cbf
+   1373  7cbf
+      0  7cbf					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
+      1  7cbf		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
+      2  7cbf					      SUBROUTINE
+      3  7cbf				   CopyROM2RAM_F000
+   1375  7cbf
+   1376  7cbf		       a9 0d		      lda	#BANK_CopyROMShadowToRAM
+   1377  7cc1		       85 3f		      sta	SET_BANK
+   1378  7cc3		       85 c3		      sta	ROM_Bank
+   1379  7cc5		       4c 3d f0 	      jmp	CopyROMShadowToRAM_F000
+   1380  7cc8
+   1381  7cc8
+   1382  7cc8							;---------------------------------------------------------------------------
+   1383  7cc8
+      0  7cc8					      DEFINE_SUBROUTINE	RegisterTarget
+      1  7cc8		       00 0f	   BANK_RegisterTarget =	_CURRENT_BANK
+      2  7cc8					      SUBROUTINE
+      3  7cc8				   RegisterTarget
+   1385  7cc8
+   1386  7cc8		       f8		      sed
+   1387  7cc9		       18		      clc
+   1388  7cca		       a5 b7		      lda	BCD_targetsRequired
+   1389  7ccc		       69 01		      adc	#1
+   1390  7cce		       85 b7		      sta	BCD_targetsRequired
+   1391  7cd0		       d8		      cld
+   1392  7cd1		       60	   genericRTS rts
+   1393  7cd2
+      0  7cd2					      DEFINE_SUBROUTINE	DeRegisterTarget
+      1  7cd2		       00 0f	   BANK_DeRegisterTarget =	_CURRENT_BANK
+      2  7cd2					      SUBROUTINE
+      3  7cd2				   DeRegisterTarget
+   1395  7cd2
+   1396  7cd2		       f8		      sed
+   1397  7cd3		       38		      sec
+   1398  7cd4		       a5 b7		      lda	BCD_targetsRequired
+   1399  7cd6		       e9 01		      sbc	#1
+   1400  7cd8		       85 b7		      sta	BCD_targetsRequired
+   1401  7cda		       d8		      cld
+   1402  7cdb		       60		      rts
+   1403  7cdc
+   1404  7cdc							;---------------------------------------------------------------------------
+   1405  7cdc
+   1406  7cdc							;include "circle.asm"
+   1407  7cdc
 ------- FILE charset/CHARACTERSHAPE_TARGET.asm LEVEL 3 PASS 4
-      0  7cd9					      include	"charset/CHARACTERSHAPE_TARGET.asm"
-      0  7cd9					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET", LINES_PER_CHAR
-     10  7cd9					      LIST	ON
-      2  7cd9				   CHARACTERSHAPE_TARGET
-      3  7cd9		       00 00 66 66*	      .byte.b	0,0,102,102,102,102,0,0
-      4  7ce1		       00 00 66 66*	      .byte.b	0,0,102,102,102,102,0,0
-      5  7ce9		       00 00 66 66*	      .byte.b	0,0,102,102,102,102,0,0
-      0  7cf1					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET_MIRRORED", LINES_PER_CHAR
+      0  7cdc					      include	"charset/CHARACTERSHAPE_TARGET.asm"
+      0  7cdc					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET", LINES_PER_CHAR
+     10  7cdc					      LIST	ON
+      2  7cdc				   CHARACTERSHAPE_TARGET
+      3  7cdc		       00 00 66 66*	      .byte.b	0,0,102,102,102,102,0,0
+      4  7ce4		       00 00 66 66*	      .byte.b	0,0,102,102,102,102,0,0
+      5  7cec		       00 00 66 66*	      .byte.b	0,0,102,102,102,102,0,0
+      0  7cf4					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET_MIRRORED", LINES_PER_CHAR
  PAGE BREAK INSERTED FOR  CHARACTERSHAPE_TARGET_MIRRORED
  REQUESTED SIZE =  $18
- WASTED SPACE =  $f
+ WASTED SPACE =  $c
  PAGEBREAK LOCATION =  $fd00
      10  7d00					      LIST	ON
       7  7d00				   CHARACTERSHAPE_TARGET_MIRRORED

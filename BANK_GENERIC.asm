@@ -419,9 +419,9 @@ OverscanTime
     .byte OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
 
-FlashColour     .byte $C0, $C0, $50, $50
-                .byte $30, $30, $60, $60            ; reds - cannot takeback
-                .byte $12, $12, $22, $22            ; yellow
+FlashColour     .byte $C4, $C4, $54, $54
+                .byte $34, $34, $64, $64            ; reds - cannot takeback
+                .byte $16, $16, $26, $26            ; yellow
 
 
     DEFINE_SUBROUTINE PostScreenCleanup

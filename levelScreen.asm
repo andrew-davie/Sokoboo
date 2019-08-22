@@ -22,7 +22,7 @@ LevelSequence
                 sta initialdelay
 
 
-                lda #0
+                lda #-1
                 sta targetDigit
                 sta targetDigit+1
                 sta targetDigit+2
@@ -36,8 +36,10 @@ LevelSequence
 
                 clc
                 lda levelX
+                adc #1
 ;                adc #96
-;                sec
+;    lda #1
+                sec
 m100            sbc #100
                 inc targetDigit+2
                 bcs m100
@@ -47,6 +49,15 @@ m10             sbc #10
                 bcs m10
                 adc #10
                 sta targetDigit
+
+
+                lda targetDigit+2
+                bne hunds
+                lda #10
+                sta targetDigit+2
+                sta digit+2
+hunds
+
 
 
 RestartFrameX
@@ -110,7 +121,7 @@ VerticalBlankX  ;sta WSYNC
                 ldx Platform
                 lda colvecX,x
                 tax
-
+    ldx #0
 
       ;------------------------------------------------------------------
 
@@ -127,7 +138,7 @@ LevelNumberDigits
 
                 lda COLOUR_TABLE,x      ; 4
                 sta COLUPF              ; 3
-                inx                     ; 2
+                nop ;inx                     ; 2
 
                 lda (digitHundreds),y   ; 5
                 sta PF1                 ; 3
@@ -151,11 +162,12 @@ LevelNumberDigits
                 sta PF2                 ; 3
 
             nop
-    lda #$44
+    lda #0 ;$44
         sta COLUPF
 
 
     REPEND
+            inx
 
                 dey
                 bmi exss
@@ -181,7 +193,7 @@ exss
 canchange
                 inc digitick
                 lda digitick
-                cmp #5
+                cmp #8
                 bcc nodigchange
                 lda #0
                 sta digitick
@@ -263,14 +275,14 @@ VBlankTime2x
     .byte 110,110
     .byte 150,150
 OverscanTime2X
-    .byte 85, 85
-    .byte 120, 120
+    .byte 87, 87
+    .byte 89, 89
 
+COLOUR_LINES    = 27
 colvecX
     .byte 0, 0, COLOUR_LINES*3, COLOUR_LINES*3
 
 
-COLOUR_LINES    = 27
 blankDig ds COLOUR_LINES,0
 
     MAC LUMTABLE ;{1}{2}{3} base colours
@@ -278,27 +290,27 @@ blankDig ds COLOUR_LINES,0
 ; {5} MIN LUM 2
 ; {6} MIN LUM 3
 
-.LUM1     SET 0 ;{4}*256
-.LUM2     SET 0 ;{5}*256
-.LUM3     SET 0 ;{6}*256
+.LUM1     SET {4}*256
+.LUM2     SET {5}*256
+.LUM3     SET {6}*256
 
 .STEP1 = (256*({7}-{4}))/{10}
 .STEP2 = (256*({8}-{5}))/{10}
 .STEP3 = (256*({9}-{6}))/{10}
 
     REPEAT COLOUR_LINES
-            .byte {1}+(.LUM1/256)
-            .byte {2}+(.LUM2/256)
-            .byte {3}+(.LUM3/256)
-;.LUM1     SET .LUM1 + .STEP1
-;.LUM2     SET .LUM2 + .STEP2
-;.LUM3     SET .LUM3 + .STEP3
+            .byte $44 ;{1}+(.LUM1/256)
+            .byte $56 ;{2}+(.LUM2/256)
+            .byte $78 ;{3}+(.LUM3/256)
+.LUM1     SET .LUM1 + .STEP1
+.LUM2     SET .LUM2 + .STEP2
+.LUM3     SET .LUM3 + .STEP3
     REPEND
     ENDM
 
     ALIGN 256
 COLOUR_TABLE
-    LUMTABLE $90,$B0,$20,1,1,1,$F, $E,$D, COLOUR_LINES                ; NTSC
+    LUMTABLE $90,$B0,$20,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
     LUMTABLE $90, $70, $0, $A,$A,$0, $0,$0,$0, COLOUR_LINES          ; PAL
 
 quest
@@ -344,6 +356,7 @@ DIGITHUND
         .word HUNDPF1_7
         .word HUNDPF1_8
         .word HUNDPF1_9
+        .word blankDig
 
 
     include "bigDigits.asm"

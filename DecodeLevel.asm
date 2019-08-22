@@ -612,9 +612,9 @@ C1 ;
     NTSCPAL $90,$A
 C2  ; soil stripes
     NTSCPAL $30,$4
-    NTSCPAL $80,$4
+    NTSCPAL $80,$6
     NTSCPAL $C0,$4
-    NTSCPAL $70,$4
+    NTSCPAL $70,$6
 C3 ; mortar
     NTSCPAL $10,$A
     NTSCPAL $20,$8
