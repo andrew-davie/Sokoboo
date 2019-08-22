@@ -430,6 +430,54 @@ COLOUR_walk_right_1 .byte CL6 ; 23
  .byte CL2 ; 6
  .byte CL2 ; 3
  .byte CL0 ; 0
+FRAME_gowhite_png .byte 0 ; 23
+ .byte 0 ; 20
+ .byte 66 ; 17
+ .byte 129 ; 14
+ .byte 129 ; 11
+ .byte 129 ; 8
+ .byte 129 ; 5
+ .byte 66 ; 2
+ .byte 0 ; 22
+ .byte 60 ; 19
+ .byte 129 ; 16
+ .byte 129 ; 13
+ .byte 129 ; 10
+ .byte 129 ; 7
+ .byte 129 ; 4
+ .byte 66 ; 1
+ .byte 0 ; 21
+ .byte 66 ; 18
+ .byte 129 ; 15
+ .byte 129 ; 12
+ .byte 129 ; 9
+ .byte 129 ; 6
+ .byte 129 ; 3
+ .byte 60 ; 0
+COLOUR_gowhite .byte CL0 ; 23
+ .byte CL0 ; 20
+ .byte CL3 ; 17
+ .byte CL3 ; 14
+ .byte CL3 ; 11
+ .byte CL3 ; 8
+ .byte CL3 ; 5
+ .byte CL3 ; 2
+ .byte CL0 ; 22
+ .byte CL3 ; 19
+ .byte CL3 ; 16
+ .byte CL3 ; 13
+ .byte CL3 ; 10
+ .byte CL3 ; 7
+ .byte CL3 ; 4
+ .byte CL3 ; 1
+ .byte CL0 ; 21
+ .byte CL3 ; 18
+ .byte CL3 ; 15
+ .byte CL3 ; 12
+ .byte CL3 ; 9
+ .byte CL3 ; 6
+ .byte CL3 ; 3
+ .byte CL3 ; 0
 FRAME_blink_png .byte 52 ; 23
  .byte 40 ; 20
  .byte 56 ; 17

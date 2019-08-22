@@ -1109,7 +1109,8 @@ CopyRow2
     ;---------------------------------------------------------------------------
 
 
-Reset
+    DEFINE_SUBROUTINE Reset
+
                 CLEAN_START
 
                 ;lda #2
@@ -1126,8 +1127,9 @@ Reset
 
 Restart     ; go here on RESET + SELECT
 
+; breakpoint was not hit/detected!!!
 
-Title
+    DEFINE_SUBROUTINE Title
                 ldx #$ff                    ; adjust stack pointer after RESET + SELECT
                 txs
 
@@ -1186,7 +1188,7 @@ skipDemoCheck
 
                 lda #BANK_LevelScreen
                 sta SET_BANK
-                jsr LevelSequence
+                ;jsr LevelSequence
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
     ; including those for general systems function. But NOT those which do not need re-initialising between
@@ -1403,11 +1405,12 @@ genericRTS      rts
 
     ;include "circle.asm"
 
-    include "characterset/character_TARGET.asm"
-    include "characterset/character_STEEL.asm"
+    include "charset/CHARACTERSHAPE_TARGET.asm"
+    include "charset/CHARACTERSHAPE_STEEL.asm"
     include "characterset/character_SOIL.asm"
-    include "characterset/character_BOX.asm"
-    include "characterset/character_WALL.asm"
+    include "charset/CHARACTERSHAPE_BOX.asm"
+    include "charset/CHARACTERSHAPE_BOX_ON_TARGET.asm"
+    include "charset/CHARACTERSHAPE_WALL.asm"
 
     #if DIGITS
     include "characterset/character_9.asm"

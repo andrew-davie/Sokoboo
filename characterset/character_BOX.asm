@@ -1,68 +1,24 @@
-;    Sokoboo - a Sokoban implementation
-;    using a generic tile-based display engine for the Atari 2600
-;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
-;
-;    Code related to this Sokoban™ implementation was developed by Andrew Davie.
-;
-;    Code related to the generic tile-based display engine was developed by
-;    Andrew Davie and Thomas Jentzsch during 2003-2011 and is
-;    Copyright(C)2003-2019 Thomas Jentzsch and Andrew Davie - contacts details:
-;    Andrew Davie (andrew@taswegian.com), Thomas Jentzsch (tjentzsch@yahoo.de).
-;
-;    Code related to music and sound effects uses the TIATracker music player
-;    Copyright 2016 Andre "Kylearan" Wichmann - see source code in the "sound"
-;    directory for Apache licensing details.
-;
-;    Some level data incorporated in this program were created by Lee J Haywood.
-;    See the copyright notices in the License directory for a list of level
-;    contributors.
-;
-;    Except where otherwise indicated, this software is released under the
-;    following licensing arrangement...
-;
-;    This program is free software: you can redistribute it and/or modify
-;    it under the terms of the GNU General Public License as published by
-;    the Free Software Foundation, either version 3 of the License, or
-;    (at your option) any later version.
-;    see https://www.gnu.org/licenses/gpl-3.0.en.html
+    OPTIONAL_PAGEBREAK "CHARACTERSHAPE_BOX_ON_TARGET", LINES_PER_CHAR
+CHARACTERSHAPE_BOX_ON_TARGET
+ .byte 0,51,119,255,119,255,153,0
+ .byte 238,255,255,255,255,255,0,0
+ .byte 0,0,102,102,102,102,153,0
 
-;    This program is distributed in the hope that it will be useful,
-;    but WITHOUT ANY WARRANTY; without even the implied warranty of
-;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;    GNU General Public License for more details.
+    OPTIONAL_PAGEBREAK "CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED", LINES_PER_CHAR
+CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+ .byte 0,204,238,255,238,255,153,0
+ .byte 119,255,255,255,255,255,0,0
+ .byte 0,0,102,102,102,102,153,0
 
     OPTIONAL_PAGEBREAK "CHARACTERSHAPE_BOX", LINES_PER_CHAR
 CHARACTERSHAPE_BOX
-#if MIRRORED_BOX = NO
-CHARACTERSHAPE_BOX_MIRRORED
-#endif
- .byte %11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111,%0 ;R
- .byte %11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111,%11111111 ;G
- .byte %0,%0,%0,0,%0,%0,%0,0 ;B
+ .byte 0,51,119,153,17,153,153,0
+ .byte 238,255,255,153,153,153,0,0
+ .byte 0,0,0,0,0,0,153,0
 
-    ;--------------------------------------------------------------------------
-#if MIRRORED_BOX = YES
     OPTIONAL_PAGEBREAK "CHARACTERSHAPE_BOX_MIRRORED", LINES_PER_CHAR
 CHARACTERSHAPE_BOX_MIRRORED
-  .byte %11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111,%0 ;R
-  .byte %11111111,%11111111,%10011001,%10011001,%10011001,%11111111,%11111111,%11111111 ;G
-  .byte %0,%0,0,0,%0,%0,%0,0 ;B
-#endif
-
-  OPTIONAL_PAGEBREAK "CHARACTERSHAPE_BOX_ON_TARGET", LINES_PER_CHAR
-CHARACTERSHAPE_BOX_ON_TARGET
-#if MIRRORED_BOX = NO
-CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-#endif
-  .byte %11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%0 ;R
-  .byte %11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111 ;G
-  .byte %0,%01100110,%01100110,%01100110,%01100110,%0,%0,0 ;B
-
-;--------------------------------------------------------------------------
-#if MIRRORED_BOX = YES
-  OPTIONAL_PAGEBREAK "CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED", LINES_PER_CHAR
-CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-  .byte %11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%0 ;R
-  .byte %11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111,%11111111 ;G
-  .byte %0,%01100110,%01100110,%01100110,%01100110,0,%0,%0 ;B
-#endif
+ .byte 0,204,238,153,136,153,153,0
+ .byte 119,255,255,153,153,153,0,0
+ .byte 0,0,0,0,0,0,153,0
+    OPTIONAL_PAGEBREAK "CHARACTERSHAPE_box_target", LINES_PER_CHAR

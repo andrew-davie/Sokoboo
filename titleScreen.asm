@@ -19,7 +19,7 @@ TitleSequence
 
                 RESYNC
 
-RestartFrame
+    DEFINE_SUBROUTINE RestartFrame
                 lda #%1110                       ; VSYNC ON
 .loopVSync2     sta WSYNC
                 sta VSYNC
@@ -157,8 +157,8 @@ colvec
     ENDM
 
 ;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
-colr_pal        LUMTABLE $b0, $70, $40, 0,1,3, $F,$E,$D
-colr_ntsc   LUMTABLE $90,$B0,$20,0,1,3,$F,$E,$D
+colr_pal        LUMTABLE $b0, $70, $40, 5,6,7, $C,$E,$E
+colr_ntsc   LUMTABLE $90,$B0,$20,5,6,7,$C,$E,$E
 
     include "titleData.asm"
 ;    include "pizza.asm"

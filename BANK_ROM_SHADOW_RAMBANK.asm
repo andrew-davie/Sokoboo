@@ -574,6 +574,67 @@ NoMod           rts
 
 EthnicityColourPalette
 
+
+
+    MAC NTSC_TO_PAL ; {col} {intensity}
+    IF ({1}&$F0) = 0
+    .byte {1}+{2}
+    ENDIF
+    IF {1} = $10
+    .byte $20+{2}
+    ENDIF
+    IF {1} = $20
+    .byte $40+{2}
+    ENDIF
+    IF {1} = $30
+    .byte $40+{2}
+    ENDIF
+    IF {1} = $40
+    .byte $60+{2}
+    ENDIF
+    IF {1} = $50
+    .byte $80+{2}
+    ENDIF
+    IF {1} = $60
+    .byte $C0+{2}
+    ENDIF
+    IF {1} = $70
+    .byte $D0+{2}
+    ENDIF
+    IF {1} = $80
+    .byte $B0+{2}
+    ENDIF
+    IF {1} = $90
+    .byte $90+{2}
+    ENDIF
+    IF {1} = $A0
+    .byte $70+{2}
+    ENDIF
+    IF {1} = $B0
+    .byte $50+{2}
+    ENDIF
+    IF {1} = $C0
+    .byte $30+{2}
+    ENDIF
+    IF {1} = $D0
+    .byte $30+{2}
+    ENDIF
+    IF {1} = $E0
+    .byte $20+{2}
+    ENDIF
+    IF {1} = $F0
+    .byte $40+{2}
+    ENDIF
+    ENDM
+
+
+
+
+
+
+
+
+
 ; CL0     = BLACK
 ; CL1     = HAT
 ; CL2     = SKIN
@@ -583,21 +644,45 @@ EthnicityColourPalette
 ; CL6     = SHOES
 ; CL7     = UNUSED
 
-    ; ETHNICITY 0 - a caucasian guy with blue shirt and pants, yellow cap
-    .byte $00,      $1C,$4C,$0A,$88,$96,$14,    $00       ; NTSC
-    .byte $00,      $2C,$6C,$0A,$78,$96,$24,    $00       ; PAL
+; CL0 = black
+; CL1 = hat
+; CL2 = face, hands
+; CL3 = trim
+; CL4 = jumper
+; CL5 = pants
+; CL6 = shoes
+; CL7 = NOT USABLE
 
-    ; ETHNICITY 1  pink clothes, brown face
-    .byte $0,       $46,$F4,$08,$A2,$74,$44,    $00       ; NTSC
-    .byte $0,       $66,$24,$08,$92,$D4,$64,    $00       ; PAL
+; (*) = unchecked/converted
 
-    ; ETHNICITY 2
-    .byte $0,       $2A,$E8,$EA,$64,$34,$84,    $00       ; NTSC
-    .byte $0,       $4A,$28,$2A,$A4,$64,$D4,    $00       ; PAL
+    MAC COLOUR_GROUP
+    ; NTSC...
+    .byte 0
+    .byte {1}+{2}
+    .byte {3}+{4}
+    .byte {5}+{6}
+    .byte {7}+{8}
+    .byte {9}+{10}
+    .byte {11}+{12}
+    .byte 0
 
-    ; ETHNICITY 2
-    .byte $0,       $34,$5A,$1C,$B4,$86,$58,    $00       ; NTSC
-    .byte $0,       $64,$8A,$2C,$74,$B6,$88,    $00       ; PAL
+    ; PAL...
+    .byte 0
+    NTSC_TO_PAL {1}, {2}
+    NTSC_TO_PAL {3}, {4}
+    NTSC_TO_PAL {5}, {6}
+    NTSC_TO_PAL {7}, {8}
+    NTSC_TO_PAL {9}, {10}
+    NTSC_TO_PAL {11}, {12}
+    .byte 0
+    ENDM
+
+    ; USE NTSC COLOUR+INTENSITY. WILL AUTO-ADD PAL EQUIVALENT...
+    ;               HAT     FACE    TRIM    JUMPER  PANTS  SHOES
+    COLOUR_GROUP    $10,$A, $40,$8, $00,$C, $80,$8, $90,6, $10,6   ; 0
+    COLOUR_GROUP    $10,$A, $F0,$8, $60,$C, $50,$4, $70,6, $40,6   ; 1
+    COLOUR_GROUP    $40,$6, $E0,$8, $00,$C, $C0,$4, $90,6, $20,6   ; 2
+    COLOUR_GROUP    $30,$A, $50,$8, $10,$C, $40,$4, $60,6, $50,8    ; 3
 
    ;------------------------------------------------------------------------------
 

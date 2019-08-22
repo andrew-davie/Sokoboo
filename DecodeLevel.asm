@@ -604,12 +604,12 @@ C1 ;mortar
     .byte $88,$b6
     .byte $38,$68
     .byte $5a,$AA
-    .byte $5a,$8a
+    .byte $5a,$86
 C2  ; soil stripes
-    .byte $34,$62
-    .byte $b4,$74
-    .byte $F4,$24
-    .byte $a4,$74
+    .byte $34,$68
+    .byte $b4,$78
+    .byte $F4,$28
+    .byte $a4,$C8
 C3 ; brick
     .byte $1A,$2a
     .byte $8C,$BC
