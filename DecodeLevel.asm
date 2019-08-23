@@ -683,7 +683,8 @@ xyClear       jsr PutBoardCharacterFromRAM
               lda #$00                      ; BCD reminder!
               sta BCD_targetsRequired           ; # of targets that do NOT have boxes on them
 
-              lda #24 ; arbitrary
+              ldx Platform
+              lda theThrottler,x
               sta ThrottleSpeed
 
   ; first fill bg with character_soil
@@ -889,3 +890,6 @@ finishedUnpack
 
               rts
 #endif
+
+theThrottler
+        .byte 30, 30, 30*60/50, 30

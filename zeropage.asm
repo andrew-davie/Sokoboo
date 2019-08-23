@@ -77,6 +77,7 @@ ManDrawX                        ds 1
 ManDrawY                        ds 1
 ManMode                         ds 1
 ManLastDirection                ds 1            ; so we don't overwrite animations in-progress
+ManTurnStart                    ds 1
 ManPushCounter                  ds 1
 LookingAround                   ds 1
 ManAnimationID                  ds 1
@@ -172,7 +173,7 @@ ethnic                          ds 1
 
 
 
-OVERLAY_SIZE    SET 23
+OVERLAY_SIZE    SET 21
 
 
 

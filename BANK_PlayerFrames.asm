@@ -51,6 +51,136 @@ CL6     = 6 ;$64
 
 
 
-    include "spriteBank.asm"
+JUMP = $80
+FLIP = $40
+
+
+;ANIMATION_WALK_ID = JUMP+0
+;ANIMATION_IDLE_ID = JUMP+2
+;ANIMATION_WIN_ID = JUMP+4
+;ANIMATION_PUSH_ID = JUMP+6
+;ANIMATION_PUSHTRY_ID = JUMP+8
+;ANIMATION_PUSHUP_ID = JUMP+10
+
+ANIM_INDEX     SET 0
+    MAC INSERT_ANIMATION ; {animation address}
+ANIMATION_{1}_ID = ANIM_INDEX
+    .word Animation_{1}
+ANIM_INDEX     SET ANIM_INDEX + 2
+    ENDM
+
+ANIM_TABLE
+    INSERT_ANIMATION WALK
+    INSERT_ANIMATION IDLE
+    INSERT_ANIMATION WIN
+    INSERT_ANIMATION PUSH
+    INSERT_ANIMATION PUSHTRY
+    INSERT_ANIMATION PUSHUP
+    INSERT_ANIMATION WALK2
+
+Animation_WALK
+    .byte FRAME_WALK1,1
+    .byte FRAME_WALK2,2
+    .byte FRAME_WALK3,3
+    .byte FRAME_WALK2,8
+Animation_WALK2
+    .byte FRAME_WALK1,8
+    .byte FRAME_WALK2,8
+    .byte FRAME_WALK3,8
+    .byte FRAME_WALK2,8
+    .byte JUMP,ANIMATION_WALK2_ID
+
+Animation_WIN
+    .byte FRAME_WALK2,30
+    .byte FRAME_IDLE1,10
+    .byte FRAME_IDLE2,10
+;    .byte FRAME_IDLE3,10
+    .byte FRAME_IDLE1,10
+    .byte FRAME_IDLE2,10
+    .byte FRAME_IDLE3,10
+    .byte JUMP,ANIMATION_IDLE_ID
+
+Animation_IDLE
+
+;    .byte FRAME_LOOK2, 3
+;    .byte FRAME_LOOK3, 2
+;    .byte FRAME_WALK2, 20
+
+
+
+
+
+
+    REPEAT 2
+    .byte FRAME_WALK2,100
+    .byte FRAME_BLINK,2
+    REPEND
+
+    REPEAT 3
+    .byte FRAME_TAPFOOT,10
+    .byte FRAME_WALK2,5
+    REPEND
+
+    .byte FRAME_LOOK3,3
+    .byte FRAME_LOOK2,30
+    .byte FRAME_LOOK3,3
+
+    REPEAT 2
+    .byte FRAME_WALK2,100
+    .byte FRAME_BLINK,2
+    REPEND
+    .byte FRAME_LOOKUP,40
+    .byte FRAME_WALK2,20
+
+    .byte JUMP,ANIMATION_IDLE_ID
+
+
+Animation_TURNAROUND
+
+    ;.byte FRAME_LOOK3, 1
+    ;.byte FRAME_LOOK2, 1
+    .byte FRAME_LOOK1, 1
+    .byte FLIP, 0
+;    .byte FRAME_WALK2, 1
+;    .byte FRAME_BLINK,1
+;    .byte FRAME_WALK2, 2
+
+    .byte JUMP,ANIMATION_IDLE_ID
+
+
+Animation_YAWN
+
+    .byte FRAME_HANDLIP,40
+    .byte FRAME_WALK2,50
+    .byte FRAME_IDLE1,10
+    .byte FRAME_IDLE2,10
+    .byte FRAME_IDLE3,60
+    .byte FRAME_IDLE2,30
+    .byte JUMP,ANIMATION_IDLE_ID
+
+
+
+
+Animation_PUSHTRY
+    .byte FRAME_PUSH1,30
+    .byte FRAME_PUSH1,30
+    .byte JUMP,ANIMATION_IDLE_ID
+
+Animation_PUSH
+    .byte FRAME_PUSH1,20
+    .byte FRAME_PUSH2,20
+    .byte FRAME_PUSH3,20
+    .byte FRAME_PUSH2,20
+    .byte JUMP,ANIMATION_PUSH_ID
+
+Animation_PUSHUP
+    .byte FRAME_PUSH_UP_1, 10
+    .byte FRAME_PUSH_UP_2,10
+    .byte FRAME_PUSH_UP_3,10
+    .byte FRAME_PUSH_UP_2,10
+    .byte JUMP,ANIMATION_PUSHUP_ID
+
+
+    include "sprites/spriteData.asm"
 
   CHECK_BANK_SIZE "PLAYER_FRAMES"

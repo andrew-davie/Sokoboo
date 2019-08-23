@@ -308,7 +308,7 @@ cannotPush      inc ManPushCounter
                 cmp #ANIMATION_PUSHTRY_ID
                 beq alreadyAnimPush
 
-                LOAD_ANIMATION Animation_PushTry
+                LOAD_ANIMATION Animation_PUSHTRY
 
                 lda #ANIMATION_PUSHTRY_ID
                 sta ManAnimationID
@@ -324,7 +324,7 @@ alreadyAnimPush
                 beq alreadyPushing
                 sta ManAnimationID
 
-                LOAD_ANIMATION Animation_Push
+                LOAD_ANIMATION Animation_PUSH
 
 alreadyPushing
 
@@ -472,6 +472,9 @@ MANMODE_WAITING_NT2 = 6
 MANMODE_NEXTLEVEL   = 7
 MANMODE_NEXTLEVEL2 = 8
 MANMODE_SWITCH = 9
+MANMODE_TURNAROUND = 10
+MANMODE_TURNAROUND2 = 11
+
 
     DEFINE_SUBROUTINE ManProcess
 
@@ -511,6 +514,8 @@ ManActionLO
                 .byte <nextLevelMan             ; 7             no timer
                 .byte <nextLevelMan2             ; 8             no timer
                 .byte <switchLevels             ; 9             no timer
+                .byte <TurnAround               ; 10
+                .byte <TurnAround2               ; 10
 
 ManActionHI
                 .byte >manStartup               ; no timer
@@ -523,6 +528,34 @@ ManActionHI
                 .byte >nextLevelMan             ; no timer
                 .byte >nextLevelMan2             ; no timer
                 .byte >switchLevels             ;9  no timer
+                .byte >TurnAround               ; 10
+                .byte >TurnAround2               ; 10
+
+
+    DEFINE_SUBROUTINE TurnAround
+
+
+                LOAD_ANIMATION Animation_TURNAROUND
+
+                lda ManLastDirection
+                sta ManTurnStart
+
+                lda #MANMODE_TURNAROUND2
+                sta ManMode
+                rts
+
+    DEFINE_SUBROUTINE TurnAround2
+
+                lda ManTurnStart
+                cmp ManLastDirection
+                beq notTurnedYet
+
+                lda #MANMODE_NORMAL
+                sta ManMode
+
+
+notTurnedYet    rts
+
 
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE manStartup
@@ -683,9 +716,23 @@ alreadyIdling
 
                 lda anim_direction,x
                 bmi dontChange
+                eor ManLastDirection
+                and #%1000
+                beq dontChange
 
-                cmp ManLastDirection
+                ;LOAD_ANIMATION Animation_TURNAROUND
+                lda anim_direction,x
                 sta ManLastDirection
+
+    ; at this point we want to activate the stand/turn animation before continuing
+
+                ;lda #MANMODE_TURNAROUND
+                ;sta ManMode
+                rts
+
+
+
+
                 ;bne noMovement ;kipMove
 dontChange
 
@@ -710,12 +757,6 @@ skipMove        tya
 
 noMovement
 DFS_rts         rts
-
-
-;ManAnimTblLo
-;    .byte   AnimateRIGHT-Manimate, AnimateLEFT-Manimate, AnimateUP-Manimate, AnimateUP-Manimate, AnimateSTOPPED-Manimate
-;ManAnimTblHi
-;    .byte   >AnimateRIGHT, >AnimateLEFT, >AnimateUP, >AnimateUP, >AnimateSTOPPED
 
 
 
@@ -753,7 +794,7 @@ JoyDirX
 ;14  1110 up
 ;15  1111 none
 
-anim_direction   .byte 0,%1100,128,128,128
+anim_direction   .byte 0,%1000,128,128,128
 
     ;------------------------------------------------------------------------------
 
@@ -932,6 +973,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte <MOVE_GENERIC ;steel
         .byte <MOVE_GENERIC ;wall
         .byte <MOVE_BOX_ON_TARGET ;box on target
+        .byte <MOVE_BOX_ON_TARGET ;box on target
         .byte <MOVE_GENERIC ;nogo
 
 #if DIGITS
@@ -956,6 +998,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte >MOVE_GENERIC ;man occupied
         .byte >MOVE_GENERIC ;steel
         .byte >MOVE_GENERIC ;wall
+        .byte >MOVE_BOX_ON_TARGET ;box on target
         .byte >MOVE_BOX_ON_TARGET ;box on target
         .byte >MOVE_GENERIC ;nogo
 

@@ -106,8 +106,6 @@ SCORING_TIMER_FIRST         = 150               ; begin level timer is long to s
 
 DIRECTION_BITS              = %111              ; for ManLastDirection
 
-FACE_LEFT                   = 3
-
 MAX_THROTTLE                = 160               ; must be small enough to allow ~2 * max add value overflow (<256 - 2*max throttle value!)
 
 ;scoring flags contants:
@@ -472,7 +470,7 @@ ORIGIN          SET ORIGIN + RAM_SIZE
                 sta animation
                 lda #>{1}
                 sta animation+1
-                lda #-1
+                lda #0
                 sta animation_delay
     ENDM
 

@@ -272,7 +272,8 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
                 .byte CHARACTER_MANOCCUPIED ;  5
                 .byte CHARACTER_STEEL       ;  6
                 .byte CHARACTER_WALL        ;  7
-                .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
+ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
+                .byte CHARACTER_BOX_ON_TARGET2
                 .byte CHARACTER_BLANK       ;  9
 
     #if DIGITS
@@ -315,6 +316,12 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
                 lda ANIM_TARGET                               ;4
                 eor #CHARACTER_TARGET^CHARACTER_TARGET2       ;2
                 sta ANIM_TARGET + RAM_WRITE                   ;4 = 22         TARGET
+
+                ;lda ANIM_TARGET2                               ;4
+                ;eor #CHARACTER_BOX_ON_TARGET^CHARACTER_BOX_ON_TARGET2       ;2
+                ;sta ANIM_TARGET2 + RAM_WRITE                   ;4 = 22         TARGET
+
+
 
 nothingAnimates rts                                           ;6 = 28 if animating, less if not
 

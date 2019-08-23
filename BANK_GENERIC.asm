@@ -195,8 +195,8 @@ notU0           sta BoardScrollY
                 sta LastSpriteY
                 sta ManAnimationID
 
-                lda #DIRECTION_BITS             ;????
-                sta ManLastDirection            ; duplicate?
+                ;lda #DIRECTION_BITS             ;????
+                ;sta ManLastDirection            ; duplicate?
 
                 rts
 

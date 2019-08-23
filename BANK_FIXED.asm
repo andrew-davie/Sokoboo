@@ -641,7 +641,7 @@ noLog           lda #0
                 cmp ManAnimationID
                 beq walkingOK
                 sta ManAnimationID
-                LOAD_ANIMATION Animation_Walk
+                LOAD_ANIMATION Animation_WALK
 walkingOK
 
                 lda ManX
@@ -942,18 +942,6 @@ skipOffscreen       rts
                     bcs skipOffscreen
                     sta bank                            ; character line (and hence bank) of player position
 
-#if 0
-    ; rainbow-cycle the colours, just to show it works
-    sta SET_BANK_RAM
-    ldx #8
-eth    lda EthnicityColourPalette+24+16,x
-    clc
-    adc #1
-    sta EthnicityColourPalette+RAM_WRITE+24+16,x
-    dex
-    bpl eth
-#endif
-
                     lda Platform
                     and #%10
                     asl
@@ -962,18 +950,17 @@ eth    lda EthnicityColourPalette+24+16,x
                     sta ethnicity
 
 
-
     ; todo - compare with last + frame and skip if same
 
                     lda #PLAYER_FRAMES
                     sta SET_BANK
 
                     lda animation_delay
-                    bmi getDelay                ; 1st
+                    beq getDelay                        ; FIRST usage
                     dec animation_delay
-                    bpl nextAnimation2
+                    bne nextAnimation2                  ; just get shape
 
-                    clc
+nextAptr            clc
                     lda animation
                     adc #2
                     sta animation
@@ -985,20 +972,25 @@ getDelay            ldy #1
                     sta animation_delay
 nextAnimation2      ldy #0
                     lda (animation),y
-                    bpl notJump
-    ; we have a jump
+                    cmp #JUMP
+                    beq aJump
+                    cmp #FLIP
+                    bne notFlip
 
-                    and #$7F
-                    sta ManAnimationID
+                    lda ManLastDirection
+                    eor #%1000
+                    sta ManLastDirection
+                    jmp nextAptr
 
-                    tay
+    ; it's a jump
+aJump               ldy animation_delay         ; actually animation ID :)
                     lda ANIM_TABLE,y
                     sta animation
                     lda ANIM_TABLE+1,y
                     sta animation+1
                     jmp getDelay
 
-notJump             tay
+notFlip             tay
                     lda FRAME_PTR_LO,y
                     sta frame_ptr
                     lda FRAME_PTR_HI,y
@@ -1410,6 +1402,7 @@ genericRTS      rts
     include "characterset/character_SOIL.asm"
     include "charset/CHARACTERSHAPE_BOX.asm"
     include "charset/CHARACTERSHAPE_BOX_ON_TARGET.asm"
+    include "charset/CHARACTERSHAPE_BOX_ON_TARGET2.asm"
     include "charset/CHARACTERSHAPE_WALL.asm"
 
     #if DIGITS
