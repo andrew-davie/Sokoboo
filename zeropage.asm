@@ -112,7 +112,7 @@ BGColour                        ds 1
 ; levelx and level have to be consecutive variables!
 levelX                            ds 1            ; current player's level (other in scoring bank)
 level                           ds 1            ; current player's level (other in scoring bank)
-levelDisplay                     ds 1            ; what to display as the level ID
+;levelDisplay                     ds 1            ; what to display as the level ID
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
 ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
@@ -122,6 +122,7 @@ BCD_moveCounterHi                      ds 1
 
 takebackIndex               ds 1
 takebackBaseIndex                 ds 1
+TakebackInhibit                 ds 1
 
 color                           ds 3            ; RGB for NTSC, RGB for PAL
 Board_AddressR                  ds 2
@@ -155,18 +156,14 @@ NextLevelTrigger                ds 1            ; d7 -- next level.  d6 -- loss 
 BIT_NEXTLEVEL                   = 128
 BIT_NEXTLIFE                    = 64
 
-;---------------------------------------------------------------------------
-
-sortRequired                    ds 1
-sortPtr                         ds 1
-
 ;------------------------------------------------------------------------------
 
 ObjIterator                     ds 1            ; count UP iterator over objects
 DSL                             ds 1            ; stack line counter
-TakebackInhibit                 ds 1
 
 ethnic                          ds 1
+animate_char_index              ds 1
+
 
 
  #include "sound/intro1_variables.asm"

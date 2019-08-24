@@ -156,64 +156,63 @@ PutBoardCharacterSB ; =18
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE ProcessObjStack ; 15 minimum segtime abort
+    DEFINE_SUBROUTINE ProcessObjStack           ; @31✅ called from Vector
+                                                ; 15 minimum segtime abort
 
-                lda INTIM                       ;4
-                cmp #MINIMUM_SEGTIME            ;2
-                bcc EarlyAbort                  ;2/3= 8
-                STRESS_TIME MINIMUM_SEGTIME
+                lda INTIM                       ; 4
+                cmp #MINIMUM_SEGTIME            ; 2
+                bcc EarlyAbort                  ; 2(3)= 8
+                                                ; => [31]+9+6rts = 46✅ on abort
+                                                ; @0✅
 
-                lda ObjStackNum                 ;3
-                eor #1                          ;2
-                tax                             ;2
+                lda ObjStackNum                 ; 3
+                eor #1                          ; 2
+                tax                             ; 2 = 7✅
 
-                lda ObjIterator                 ;3
-                cmp ObjStackPtr,x               ;5
-                bcs nextPhase                   ;2/3
+                lda ObjIterator                 ; 3
+                cmp ObjStackPtr,x               ; 5
+                bcs nextPhase                   ; 2/3 = 10/11[+11] ==> @22✅ on exit
 
-
+                                                ; @17✅
     ; Process an object...
     ; Actual object code (the handlers) starts 82 cycles after previous segtime check!
 
-                ldy BankObjStack,x              ;4
-                sty SET_BANK_RAM                ;3
+                ldy BankObjStack,x              ; 4
+                sty SET_BANK_RAM                ; 3 = 7
 
-                tax                             ;2
-                ldy SortedObjPtr,x              ;4              indirect object pointer list (sorted)
+                tax                             ; 2
+                ldy SortedObjPtr,x              ; 4 = 6              indirect object pointer list (sorted)
 
-                lda ObjStackX,y                 ;4
-                sta POS_X                       ;3
-                lda ObjStackY,y                 ;4
-                sta POS_Y                       ;3
-                lda ObjStackVar,y               ;4
-                sta POS_VAR                     ;3
-                ldx ObjStackType,y              ;4
-                stx POS_Type                    ;3
+                lda ObjStackX,y                 ; 4
+                sta POS_X                       ; 3
+                lda ObjStackY,y                 ; 4
+                sta POS_Y                       ; 3
+                lda ObjStackVar,y               ; 4
+                sta POS_VAR                     ; 3
+                ldx ObjStackType,y              ; 4
+                stx POS_Type                    ; 3 = 28
 
-                lda #BANK_VectorProcess         ;2
-                sta SET_BANK                    ;3
-                jmp VectorProcess
+                lda #BANK_VectorProcess         ; 2
+                sta SET_BANK                    ; 3
+                jmp VectorProcess               ; 3 = 8
+
+                                                ; => [17]+7+6+28+8 = @64 entry to VectorProcess
+                                                ; + 31 minimum timeout return
+                                                ; = 95✅
 
     ;---------------------------------------------------------------------------
     ; Now process the blank stack.  This stack holds all the recently blanked squares
     ; and determines (and moves) BOXs or TARGETs into these squares.  The space vacated
     ; by these objects are added again to the blank stack.
 
-nextPhase
-
-            ;clc
-            ;lda circle_d
-            ;adc #255
-            ;sta circle_d
-            ;bcc nocirc
-;nocirc
+nextPhase       ; +11✅ for exit from here
 
                 inc ScreenDrawPhase             ;5              obj/blank finished -- let the draw stuff proceed
 EarlyAbort      rts                             ;6
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE SwitchObjects ;=72
+    DEFINE_SUBROUTINE SwitchObjects ; = 31 ✅
 
     ; The game loop has come to an end. The only possible "still happening" thing is the sort, which runs
     ; in parallel with other processes (objects, draw stack, etc). We may or may not want to wait for the
@@ -221,8 +220,7 @@ EarlyAbort      rts                             ;6
 
                 lda INTIM                       ; 4
                 cmp #SEGTIME_SWITCHOBJECTS      ; 2
-                bcc EarlyAbort                  ; 2/3= 8
-                STRESS_TIME SEGTIME_SWITCHOBJECTS
+                bcc EarlyAbort                  ; 2(3) => [31]+(9)+6rts = 46✅ on abort
 
     ; If we're undertime, then abort. The sort will continue to run, and that's great. Only when
     ; we're at the throttle cutoff do we switch game-frames.
@@ -231,27 +229,9 @@ EarlyAbort      rts                             ;6
                 lda Throttle                    ;3
                 sbc #MAX_THROTTLE               ;2
                 bcc EarlyAbort                  ;2/3            plenty of time left!
+                sta Throttle                    ;3 = 10         save fractional 'left over' bit
 
-    ; Time is up. But we may be in a level which requires perfect sorting
-    ; So we check for these levels, and wait for the sort to complete for those.
-
-                bit levelDisplay                 ;3
-                bvc keepFractional              ;2/3            screen does not require complete sort
-
-    ; We have a level which requires the sort to go to completion
-    ; Check to see if the sort is finished...
-
-                ldy sortPtr                     ;3
-                bne EarlyAbort                  ;2/3            sort still in progress, so wait
-                ldy sortRequired                ;3
-                bpl EarlyAbort                  ;2/3            sort still in progress, so wait
-
-keepFractional  sta Throttle                    ;3              save fractional 'left over' bit
-
-    ; Pause the game with B/W switch:
-
-;                lda gameMode
-;                bmi .paused                     ; pause flag set
+                inc animate_char_index          ; 5
 
     ; Now that we have completed processing the object stack, we switch
     ; the stack bank pointers for the next time around.
@@ -259,26 +239,18 @@ keepFractional  sta Throttle                    ;3              save fractional 
                 lda ObjStackNum                 ;3
                 eor #1                          ;2
                 tax                             ;2
-                stx ObjStackNum                 ;3              swap stacks @here
-
-    ; STOP the sort so it doesn't corrupt the "other" object stack. Sort may get a look-in immediately after
-    ; this code is finished, so we don't want it to do something unexpected!
-
-                ldy #<(-1)                      ;2
-                sty sortRequired                ;3
-                iny                             ;2              Y==0
-                sty sortPtr                     ;3
+                stx ObjStackNum                 ;3 = 10         swap stacks @here
 
     ; Initialise the iterator and stack pointer for next time around.
     ; Previously the stack pointer auto-initialised by popping the stack. Now we have an iterator it's
     ; necessary to initialise both.
 
-                sty ObjIterator                 ;3              Y==0
+                ldy #0                          ;2
+                sty ObjIterator                 ;3
                 sty ObjStackPtr,x               ;4
 
                 sty ScreenDrawPhase             ;3
-.paused
-quickExit       rts                             ;6
+                rts                             ;6
 
     ;---------------------------------------------------------------------------
 
@@ -397,10 +369,9 @@ EarlyAbort4     rts
 
     DEFINE_SUBROUTINE PROCESS_MAN
 
-                lda INTIM
-                cmp #SEGTIME_MAN
-                bcc EarlyAbort4
-                ;STRESS_TIME SEGTIME_MAN
+                lda INTIM                       ; 3
+                cmp #SEGTIME_MAN                ; 2
+                bcc EarlyAbort4                 ; 2/3 = 7 + 6rts = 13✅ on abort
 
                 lda #BANK_ManProcess
                 sta ROM_Bank
@@ -469,7 +440,8 @@ ReInsertObject  jsr InsertObjectStack           ; 6+76(B)  = 98 (if jumping here
 
 NextObject      inc ObjIterator                 ; 5
 ;                dec ObjStackPtr,x               ; 6
-                jmp ProcessObjStack             ; 3 = 16
+                rts ;jmp ProcessObjStack             ; 3 = 16       ; DON'T chain, instead return
+                                                                    ; let the segtime stuff do its job!
 
     ;---------------------------------------------------------------------------
 
@@ -545,9 +517,9 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
                 lda #BANK_GetBoardAddressRW         ;2
                 sta SET_BANK                        ;3
                 jsr GetBoardAddressRW               ;6+32[-2]
-    IF MULTI_BANK_BOARD = YES
-                stx RAM_Bank
-    ENDIF
+;    IF MULTI_BANK_BOARD = YES
+;                stx RAM_Bank
+;    ENDIF
                 stx SET_BANK_RAM                    ; 3
 
                 ldy POS_X_NEW
@@ -561,11 +533,11 @@ BankObjStack    .byte BANK_OBJSTACK, BANK_OBJSTACK2
                 lda MoveVecHI,x
                 sta MAN_Move+1
 
-    IF MULTI_BANK_BOARD = YES
-                lda RAM_Bank
-    ELSE
+;    IF MULTI_BANK_BOARD = YES
+;                lda RAM_Bank
+;    ELSE
                 lda #BANK_BOARD
-    ENDIF
+;    ENDIF
                 sta SET_BANK_RAM
                 jmp (MAN_Move)
 
@@ -857,7 +829,7 @@ timeExit        rts
                 lda #BANK_DRAW_BUFFERS          ; 2
                 sta SET_BANK_RAM                ; 3
                 ldy DrawStackPointer            ; 3         MUST have been set by BuildDrawStack!
-                bpl EnterStealCharDraw          ; 3 = 10(11)
+                bpl EnterStealCharDraw          ; 2(3) = 10(11)
 
 ExitStealCharDraw
 
@@ -874,6 +846,7 @@ ExitStealCharDraw
                 lda INTIM                       ; 4
                 cmp #SEGTIME_MINIMUM_TIMESLICE  ; 2
                 bcc timeExit                    ; 2(3)
+                                                ; @0✅
 
     ; Uses the phase variable to vector to the correct processing code for the given timeslice
     ; Code may be in any bank. Avoid the fixed bank at all costs!  Once a section is complete
@@ -882,25 +855,31 @@ ExitStealCharDraw
     ; Switched-in bank(s) are undefined after this function is called!
 
                 lda #BANK_TS_PhaseVectorLO      ; 2
-                sta SET_BANK                    ; 3
+                sta SET_BANK                    ; 3 = 5
 
                 ldx ScreenDrawPhase             ; 3             current phase of drawing
                 lda TS_PhaseVectorLO,x          ; 4
                 sta TS_Vector                   ; 3
                 lda TS_PhaseVectorHI,x          ; 4
-                sta TS_Vector+1                 ; 3
+                sta TS_Vector+1                 ; 3 = 17
 
                 lda TS_PhaseBank,x              ; 4
-                sta SET_BANK                    ; 3             switch bank
+                sta SET_BANK                    ; 3 = 7         switch bank
 
-                jmp (TS_Vector)                 ; 3 = 40        vector to timeslice handler
-
-                                                ; = 55 minimum return time (if segtime abort)
+                jmp (TS_Vector)                 ; 5 = 31✅      vector to timeslice handler
 
     ;---------------------------------------------------------------------------
 
 
-DrawAnother
+DrawAnother     ;344✅SCD_QUICK
+                ;676✅SCD_SLOW
+
+
+                ; add 44✅ cycles for the following in the case where there is something to draw
+                ; but no time to do it. As this is executed after EVERY type of draw, then this
+                ; is the base "extra" cost to add to each draw
+
+CYCLES_DRAWANOTHER = 53 ;✅
 
                 lda #BANK_DRAW_BUFFERS          ; 2         A = SCREEN_LINES
                 sta SET_BANK_RAM                ; 3 =  5
@@ -914,20 +893,24 @@ DrawAnother
 
                 dey                             ; 2
                 sty DrawStackPointer            ; 3         one less to draw
-                bmi ExitStealCharDraw           ; 2(3)=7
+                bmi ExitStealCharDraw           ; 2(3)=7    NOTE1: (3)+(15exit) -->45✅ <CYCLES_DRAWANOTHER)
+                                                ; => 29
 
-EnterStealCharDraw:                             ;           RAM bank MUST be at BANK_DRAW_BUFFERS
+EnterStealCharDraw:                             ; @11✅ from initial StealCharDraw call
+                                                ; RAM bank MUST be at BANK_DRAW_BUFFERS
 
                 lda INTIM                       ; 4
                 cmp #SEGTIME_SCD_MIN            ; 2
-                bcc ExitStealCharDraw           ; 2/3= 8
+                bcc ExitStealCharDraw           ; 2(3) = 8    ((9)+(15exit) IF EXITING HERE, from DrawAnother... 53✅)
+                                                ;              else exit from StealCharDraw ... 26✅
+                                                ; @0✅
 
                 ldx DrawStack,y                 ; 4         in actuality a character index
-                ldy ScreenBuffer,x              ; 4 =  8    new character to draw
+                ldy ScreenBuffer,x              ; 4 =  8✅  new character to draw
 
                 lda ROW_BankChar,x              ; 4         A = 0..SCREEN_LINES-1
                 sta SET_BANK_RAM                ; 3
-                jmp StealPart3                  ; 3 = 10    --> 18 cycles after check for SEGTIME_SCD_MIN
+                jmp StealPart3                  ; 3 = 10✅  --> 18✅ cycles after check for SEGTIME_SCD_MIN
 
     ;---------------------------------------------------------------------------
 
@@ -1041,11 +1024,11 @@ CopySpriteToBank
 
 CopyRow2
 
-    IF MULTI_BANK_BOARD = YES
-                lda BDF_BoardBank               ; 3
-    ELSE
+;    IF MULTI_BANK_BOARD = YES
+;                lda BDF_BoardBank               ; 3
+;    ELSE
                 lda #BANK_BOARD                 ; 2     saves 5*8 = 40 cyles
-    ENDIF
+;    ENDIF
                 sta SET_BANK_RAM                ; 3
                 lax (BDF_BoardAddress),y        ; 5
                 txs                             ; 2
@@ -1080,20 +1063,23 @@ CopyRow2
 
     ; fall through
 
-    DEFINE_SUBROUTINE BuildDrawStack
+    DEFINE_SUBROUTINE BuildDrawStack    ; @31✅
 
-                lda #BANK_DRAW_BUFFERS
-                sta SET_BANK_RAM
-                jmp DrawStackUpdate
+                lda #BANK_DRAW_BUFFERS          ; 2
+                sta SET_BANK_RAM                ; 3
+                jmp DrawStackUpdate             ; 3
+
+                                        ; => @39 at DrawStackUpdate
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawAIntoStack
+    DEFINE_SUBROUTINE DrawAIntoStack    ; @31✅
 
-                lda #BANK_DRAW_BUFFERS
-                sta SET_BANK_RAM
-                jmp DrawIntoStack
+                lda #BANK_DRAW_BUFFERS          ; 2
+                sta SET_BANK_RAM                ; 3
+                jmp DrawIntoStack               ; 3
 
+                                        ; ==>39✅ @DrawIntoStack
 
 
 
@@ -1264,7 +1250,7 @@ NewFrameStart
                 sta SET_BANK
                 jsr SoundFX
 
-                jsr StealCharDraw               ; NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
+                jsr StealCharDraw               ; 6 NOTE THIS IS THE *ONLY* AREA BIG ENOUGH FOR > 30 INTIM NEEDS
 
     ;---------------------------------------------------------------------------
 
@@ -1313,7 +1299,7 @@ NewFrameStart
 
 SkipSc
                 jsr writePlayerFrame
-                jsr StealCharDraw
+                jsr StealCharDraw           ; 6
 
 OverscanBD      lda INTIM                   ;4
                 bne OverscanBD              ;2/3
@@ -1398,6 +1384,10 @@ genericRTS      rts
     ;include "circle.asm"
 
     include "charset/CHARACTERSHAPE_TARGET.asm"
+    include "charset/CHARACTERSHAPE_TARGET1.asm"
+    include "charset/CHARACTERSHAPE_TARGET3.asm"
+    include "charset/CHARACTERSHAPE_TARGET5.asm"
+    include "charset/CHARACTERSHAPE_TARGET7.asm"
     include "charset/CHARACTERSHAPE_STEEL.asm"
     include "characterset/character_SOIL.asm"
     include "charset/CHARACTERSHAPE_BOX.asm"

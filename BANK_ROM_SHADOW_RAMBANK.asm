@@ -262,34 +262,33 @@ DIRECT          = $80
     ; TODO: check if DirectDraw for PF1/2 can be handle efficiently like this too
     ; Problem: SlowDraw cannot assume that the other nibble is set correctly anymore
 
-PF0Draw                                         ; 25 cycles until here
+PF0Draw                                         ; 25✅ cycles until here
 
                 ldx INTIM                       ; 4
                 cpx #SEGTIME_SCD_PF0            ; 2
-                bcc ExitDraw                    ; 2(3)=8
-                STRESS_TIME SEGTIME_SCD_PF0                     ; ok!
+                bcc ExitDraw                    ; 2(3)=8✅
 
                 and #<(~DIRECT)                 ; 2
-                tax                             ; 2 =  4
+                tax                             ; 2 =  4✅
 
                 tya                             ; 2
                 asl                             ; 2         no mirrored chars in PF0
-                tay                             ; 2 =  6
+                tay                             ; 2 =  6✅
 ;                clc                             ; 2
 
                 lda CharacterDataVecHI,y        ; 4
                 sta SM_PF0_REDl  +RAM_WRITE+2,x ; 5
                 sta SM_PF0_GREENl+RAM_WRITE+2,x ; 5
-                sta SM_PF0_BLUEl +RAM_WRITE+2,x ; 5 = 19
+                sta SM_PF0_BLUEl +RAM_WRITE+2,x ; 5 = 19✅
 
                 lda CharacterDataVecLO,y        ; 4
                 sta SM_PF0_REDl  +RAM_WRITE+1,x ; 5
                 adc #LINES_PER_CHAR/3-1         ; 2         CF is set!
                 sta SM_PF0_GREENl+RAM_WRITE+1,x ; 5
                 adc #LINES_PER_CHAR/3           ; 2
-                sta SM_PF0_BLUEl +RAM_WRITE+1,x ; 5 = 23
+                sta SM_PF0_BLUEl +RAM_WRITE+1,x ; 5 = 23✅
 
-                jmp DrawAnother                 ; 3 =  3
+                jmp DrawAnother                 ; 3 =  [25]+8+4+6+19+24+3 = 88✅ entering DrawAnother
 
     ; Timing for PF0Draw
     ; 88
@@ -300,17 +299,14 @@ PF0Draw                                         ; 25 cycles until here
     ; Direct draw draws to PF0, which only has one active member of the character
     ; pair -- so it can be a direct copy.  Quicker still!
 
-DirectDraw                                      ; 37 cycles until here
+DirectDraw                                      ; 37✅ cycles until here
 
- ;ldy #16
                 lda INTIM                       ; 4
                 cmp #SEGTIME_SCD_DIRECT         ; 2
                 bcc ExitDraw                    ; 2(3)=8
-                STRESS_TIME SEGTIME_SCD_DIRECT                     ; ok!
+                                                ; => [37]+(9)+6rts = 51 cycles if draw exits
 
-    ; TIME REQUIRED FROM HERE (9/JAN)
-    ; 16 + 20 + 20 + 2 + ( 8 * 32 ) - 1  + (42 SUFFIX)
-    ; = 323 --> /64 = 5.04 USE 7
+                                                ; @ [37]+8 =45✅
 
                 lda CharacterDataVecHI,y        ; 4
                 sta SM3LOAD+RAM_WRITE+2         ; 4
@@ -332,7 +328,9 @@ DirectDraw                                      ; 37 cycles until here
                 sta SM3STOREc+RAM_WRITE+1       ; 4 = 20
 
                 ldy #LINES_PER_CHAR/3 - 1       ; 2 =  2
-TSFill3
+
+                                                ; @45+16+20+20+2 = @103
+TSFill3                                         ; 8*{...
 SM3LOAD         lda $F000,y                     ; 4+
 SM3STORE        sta ScreenBitmap+RAM_WRITE,y    ; 5
 SM3LOADb        lda $F000,y                     ; 4+
@@ -341,43 +339,44 @@ SM3LOADc        lda $F000,y                     ; 4+
 SM3STOREc       sta ScreenBitmap+RAM_WRITE,y    ; 5 = 27
 
                 dey                             ; 2
-                CHECKPAGE_BPL TSFill3           ; 3(2)=5
+                CHECKPAGE_BPL TSFill3           ; 3(2)=5 ...32✅} = 8*32-1 = 255
 
                 jmp DrawAnother                 ; 3
+                                                ; => @103+255+3 = 361✅ entering DrawAnother
 
-    ; Timing for DirectDraw
-    ; 17+8+16+20+20+2+(32*7)-1+3 = 309 (was: 302 + 3)
-    ; total: 37+309+6 = 352 => 352/64 + 1.4 = 6.90 = 7 (= SEGTIME_SLOWDRAW-5)
-
-ExitDraw
-                rts
+ExitDraw        rts                             ; 6
 
     ;------------------------------------------------------------------------------
-    DEFINE_SUBROUTINE StealPart3                ; 18 CYCLES HERE
+
+    DEFINE_SUBROUTINE StealPart3                ; [18]✅ CYCLES TO HERE
 
                 lda MOD10,x                     ; 4
-                bmi PF0Draw                     ; 2/3
+                bmi PF0Draw                     ; 2/3 --> 25 cycles entering PF0Draw
+
                 lsr                             ; 2
                 tax                             ; 2
                 tya                             ; 2
-                rol                             ; 2         allows for mirrored char = * | 1
+                rol                             ; 2           allows for mirrored char = * | 1
                 tay                             ; 2
-                bcs  DirectDraw                 ; 2(3)      when draw stack was built, bit 7 flags direct-drawn character
-                                                ;           => +19 starting DirectDraw BUT WHO CARES AS IT'S ONLY AFTER THAT COUNTS
+                bcs  DirectDraw                 ; 2(3) = 18✅ when draw stack was built, bit 7 flags direct-drawn character
+                                                ; ==> [18]+{19) = 37 @ start of DirectDraw
 
                 lda CharacterDataVecHI,y        ; 4
-                bpl QuickDraw                   ; 2(3)=42   special-case blank characters for extra speed
-                                                ;           => 42 starting QuickDraw
-                sta SMEOR1+RAM_WRITE+2          ; 4 =  4
+                bpl QuickDraw                   ; 2(3) = 6(7)   special-case blank characters for extra speed
+                                                ; => [18]+18+(7) = 43✅ starting QuickDraw
+                                                ; +15 => 58✅ if QuickDraw exits
+
+                                                ; @ 24
+
+                sta SMEOR1+RAM_WRITE+2          ; 4
 
                 lda INTIM                       ; 4
                 cmp #SEGTIME_SCD_SLOW           ; 2
-                bcc ExitDraw                    ; 2(3)=8
-                STRESS_TIME SEGTIME_SCD_SLOW                     ; ok!
+                bcc ExitDraw                    ; 2(3) = 8
+                                                ; => [18]+55+6rts=79✅ cycles if we decline
 
-    ; TIME REQUIRED FROM HERE (9/JAN)
-    ; 8 + 16 + 8 + 2 + (24 * 24) -1 + (42 OVERHEAD WHEN RETURNING)
-    ; = 651
+                                                ; @36
+                                                ; [18]+36 = @54
 
                 lda CharacterDataVecLO,y        ; 4
                 sta SMEOR1+RAM_WRITE+1          ; 4 =  8
@@ -390,12 +389,12 @@ ExitDraw
                 lda CharMaskNeg,x               ; 4         masks out left or right
                 sta SMMASK+RAM_WRITE+1          ; 4 =  8
 
-SlowDraw        ldy #LINES_PER_CHAR - 1         ; 2 =  2
+SlowDraw        ldy #LINES_PER_CHAR - 1         ; 2 =  2 => @88+
 
     ; A very nice bit of Thomas Jentzsch replacement magic giving 77 cycle savings.
     ; Rewrite for self-modification by Andrew Davie giving another 90 cycles :)
 
-TSFill
+TSFill                                          ; 24*{...✅
 
 SMLOAD          lda ScreenBitmap,y              ; 4
 SMEOR1          eor $F000,y                     ; 4
@@ -404,13 +403,9 @@ SMEOR2          eor ScreenBitmap,y              ; 4         using ScreenBitmap h
 SMSTORE         sta ScreenBitmap+RAM_WRITE,y    ; 5 = 19
 
                 dey                             ; 2
-                CHECKPAGE_BPL TSFill            ; 3(2)=5
+                CHECKPAGE_BPL TSFill            ; 3(2)=5  ...24}-1 = 575✅
 
-                jmp DrawAnother                 ; 3
-
-    ; Timing for "SLOW" draw
-    ; 22+4+8+8+16+8+2+(21*24)-1+3 = 574 (was: 566 + 3)
-    ; total: 37+574+6 = 617 => 628/64 + 1.4 = 11.04 = 12 (= SEGTIME_SLOWDRAW)
+                jmp DrawAnother                 ; 3 = @88+575+3 = @676✅
 
 
    ;------------------------------------------------------------------------------
@@ -418,16 +413,13 @@ SMSTORE         sta ScreenBitmap+RAM_WRITE,y    ; 5 = 19
     ; existing character data, so can be special-cased from the normal character
     ; draw, saving roughly 230 cycles.
 
-QuickDraw                                       ; 42 cycles until here
+QuickDraw                                       ; [43]✅ cycles until here
 
                 lda INTIM                       ; 4
-                cmp #SEGTIME_SCD_QUICK          ; 2         SEE TIMING CALCS BELOW
-                bcc ExitDraw                    ; 2(3)=8
-                STRESS_TIME SEGTIME_SCD_QUICK                     ; ok!
-
-    ; TIME REQUIRED FROM HERE (9/JAN)
-    ;   = 32 + 4 + 2 + ( 8 * 38 ) - 1 + 3  + (42 SUFFIX)
-    ;   = 386 --> /64 = 5.43. USE 7
+                cmp #SEGTIME_SCD_QUICK          ; 2
+                bcc ExitDraw                    ; 2(3)=8(9)
+                                                ; =>[43]+(9)+6rts =58✅ if exit
+    ;@[43]+8=51✅
 
                 lda CharAddressLO,x             ; 4         ScreenBitmap(COL) LO byte
                 sta SM2LOAD+RAM_WRITE+1         ; 4
@@ -437,11 +429,11 @@ QuickDraw                                       ; 42 cycles until here
                 sta SM2STOREb+RAM_WRITE+1       ; 4
                 adc #LINES_PER_CHAR/3           ; 2
                 sta SM2LOADc+RAM_WRITE+1        ; 4
-                sta SM2STOREc+RAM_WRITE+1       ; 4 = 32
+                sta SM2STOREc+RAM_WRITE+1       ; 4 = 32✅
 
-                ldy CharMask,x                  ; 4 =  4    masks out left or right
+                ldy CharMask,x                  ; 4         masks out left or right
 
-                ldx #LINES_PER_CHAR/3 - 1       ; 2 =  2
+                ldx #LINES_PER_CHAR/3 - 1       ; 2         =32+4+2+8*{...✅
 TSFill2
                 tya                             ; 2
 SM2LOAD         and ScreenBitmap,x              ; 4+
@@ -451,17 +443,13 @@ SM2LOADb        and ScreenBitmap,x              ; 4+
 SM2STOREb       sta ScreenBitmap+RAM_WRITE,x    ; 5
                 tya                             ; 2
 SM2LOADc        and ScreenBitmap,x              ; 4+
-SM2STOREc       sta ScreenBitmap+RAM_WRITE,x    ; 5 = 33
+SM2STOREc       sta ScreenBitmap+RAM_WRITE,x    ; 5 = 33✅
 
                 dex                             ; 2
-                CHECKPAGE_BPL TSFill2           ; 3(2)=5
+                CHECKPAGE_BPL TSFill2           ; 3(2) = 5  ...} = 32+4+2+8*38-1
+                                                ;                => 341✅
 
-                jmp DrawAnother                 ; 3
-
-    ; Timing for QuickDraw
-    ; 23+8+32+4+2+(7*38)-1+3 = 337 (was: 330 + 3)
-    ; total: 37+337+6 = 380 => 380/64 + 1.4 = 7.34 = 8 (= SEGTIME_SLOWDRAW-4)
-
+                jmp DrawAnother                 ; 3 = 344
 
    ;------------------------------------------------------------------------------
 
@@ -665,6 +653,10 @@ OBJTYPE    .SET OBJTYPE + 1
     DEFINE_CHARACTER BOX_ON_TARGET
     DEFINE_CHARACTER BOX_ON_TARGET2
     DEFINE_CHARACTER NOGO
+    DEFINE_CHARACTER TARGET1
+    DEFINE_CHARACTER TARGET3
+    DEFINE_CHARACTER TARGET5
+    DEFINE_CHARACTER TARGET7
 
 #if DIGITS
     DEFINE_CHARACTER 0
@@ -709,6 +701,14 @@ CharacterDataVecLO
   .byte <CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
   .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
   .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
+  .byte <CHARACTERSHAPE_TARGET1
+  .byte <CHARACTERSHAPE_TARGET1_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET3
+  .byte <CHARACTERSHAPE_TARGET3_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET5
+  .byte <CHARACTERSHAPE_TARGET5_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET7
+  .byte <CHARACTERSHAPE_TARGET7_MIRRORED
 
     #if DIGITS
     .byte <CHARACTERSHAPE_0, <CHARACTERSHAPE_0_MIRRORED
@@ -758,6 +758,14 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
+    .byte >CHARACTERSHAPE_TARGET1
+    .byte >CHARACTERSHAPE_TARGET1_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET3
+    .byte >CHARACTERSHAPE_TARGET3_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET5
+    .byte >CHARACTERSHAPE_TARGET5_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET7
+    .byte >CHARACTERSHAPE_TARGET7_MIRRORED
 
     #if DIGITS
     .byte >CHARACTERSHAPE_0, >CHARACTERSHAPE_0_MIRRORED

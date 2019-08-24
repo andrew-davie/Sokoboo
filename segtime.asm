@@ -90,8 +90,9 @@ TEST_{1} = 0
 TEST_{1} = 1
  ENDM
 
+
     MAC SEGTIME_C
-{1} SET ({2}+32)/64 + 1
+{1} SET ({2}+16)/64 + 1
 TEST_{1} = 0
     ENDM
 
@@ -102,26 +103,35 @@ TEST_{1} = 0
 ; 2012/02/11 -- experimental reduction in times (but not stress tested)
 ; due to separation of timeslice overhead to separate check
 
-    SEGTIME_C SEGTIME_SCD_DIRECT, 355      ; @ 4/8/2019
-    SEGTIME_C SEGTIME_SCD_QUICK, 386       ; @ 4/8/2019
-    SEGTIME_C SEGTIME_SCD_SLOW, 651        ; @ 4/8/2019
-    SEGTIME_C SEGTIME_SCD_PF0, 88          ; @ 4/8/2019 ??
+    SEGTIME_C SEGTIME_SCD_DIRECT, 361 + CYCLES_DRAWANOTHER      ;✅ @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_QUICK, 344 + CYCLES_DRAWANOTHER       ;✅ @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_SLOW, 676 + CYCLES_DRAWANOTHER        ;✅ @ 4/8/2019
+    SEGTIME_C SEGTIME_SCD_PF0, 88 + CYCLES_DRAWANOTHER          ;✅ @ 4/8/2019 ??
 
-    SEGTIME SEGTIME_SCD_MIN,SEGTIME_SCD_PF0+1   ; * MINIMUM TIME OF THE ABOVE + 1
+;---------------------------------------------------------------------------------------------------
+; Pathways
+; StealPart3, not enough time for SCD_SLOW --> 79✅
+; if QuickDraw does immediate exit, 58✅
 
- IF MULTI_BANK_BOARD = YES
-    SEGTIME SEGTIME_BDF,42 +4 +5                     ; * 5/8/11 stress tested DHS->DS
- ELSE
-    SEGTIME SEGTIME_BDF,38 +2                       ; glitches on 37 - 10/8/2019
- ENDIF
 
-    SEGTIME SEGTIME_BDS, 2  +1                       ; *AD 11/8/11
-    SEGTIME_C SEGTIME_DSL, 125                      ; * 9/8/11 unrolled once
+SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 
+;    SEGTIME_C SEGTIME_SCD_MIN, SEGTIME_SCD_PF0
+;---------------------------------------------------------------------------------------------------
+
+; IF MULTI_BANK_BOARD = YES
+;    SEGTIME SEGTIME_BDF,42 +4 +5                     ; * 5/8/11 stress tested DHS->DS
+; ELSE
+    SEGTIME SEGTIME_BDF,39                       ; glitches on 37 - 10/8/2019
+; ENDIF
+
+    SEGTIME_C SEGTIME_BDS, 83                   ;✅
+    SEGTIME_C SEGTIME_DSL, 127                  ;✅
+    SEGTIME_C SEGTIME_SWITCHOBJECTS,46          ;✅
 
     ;following will lock-up system if used as 'XSEGTIME'.
-    SEGTIME_C MINIMUM_SEGTIME, 87                            ; processing slice minimum requirement
-    SEGTIME SEGTIME_MINIMUM_TIMESLICE,MINIMUM_SEGTIME+1      ; MINIMUM of the TIMESLICE segments listed above
+    SEGTIME_C MINIMUM_SEGTIME, 95               ;✅ processing slice minimum requirement
+    SEGTIME_C SEGTIME_MINIMUM_TIMESLICE, 54     ;✅ abort time maximum requirement for timeslice
 
         ; Note: we add 1 to the minimum because there's a bit of overhead at the start of the timeslice code which vectors
         ; to the appropriate timeslice.  That timeslice then checks the segtime again -- and in the case of the minimum we
@@ -137,13 +147,6 @@ TEST_{1} = 0
 ; The following are NOT object-related and timing is a bit of manual guesswork/calculation
 ; Comment may indicate at what value a glitch was DEFINITELY seen. These timings may not be optimal.
 
-    SEGTIME SEGTIME_MAN,10 +6 ;24 ;<< using this as XSEGTIME stops player working ...?!
+    SEGTIME SEGTIME_MAN,10; 10 +6 ;24 ;<< using this as XSEGTIME stops player working ...?!
     SEGTIME SEGTIME_CIRCLE, 10        ; drawing circle creature
     SEGTIME SEGTIME_CIRCLE_HELPER, 10        ; drawing circle creature's helper
-
-; TJ: I should only prevent processes with an extra check (e.g. get TARGET)
-
-; push BOX is slowest (besides get TARGET which has an extra timer check)
-; if we add another check for it, SEGTIME_MAN reduces by ~5
-
-    SEGTIME_C SEGTIME_SWITCHOBJECTS,74             ; 16/8/11 by calculation. 72 cycles -->  ceil(72/64)+1 --> 3 Object stack switchover

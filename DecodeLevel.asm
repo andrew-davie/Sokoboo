@@ -605,21 +605,30 @@ endzapy2        dec POS_X
     ENDM
 
 C1 ;
-
-    NTSCPAL $70,$8
-    NTSCPAL $20,$C
-    NTSCPAL $20,$8
-    NTSCPAL $90,$A
+    ; mortar for bricks
+    NTSCPAL $C0,$6
+    NTSCPAL $40,$4
+    NTSCPAL $40,$A
+    NTSCPAL $C0,$8
 C2  ; soil stripes
-    NTSCPAL $30,$4
-    NTSCPAL $80,$6
-    NTSCPAL $C0,$4
-    NTSCPAL $70,$6
-C3 ; mortar
-    NTSCPAL $10,$A
+    NTSCPAL $30,$6
     NTSCPAL $20,$8
-    NTSCPAL $90,$8
-    NTSCPAL $E0,$8
+    NTSCPAL $A0,$4
+    NTSCPAL $60,$6
+C3 ;
+    NTSCPAL $10,$6
+    NTSCPAL $C0,$6
+    NTSCPAL $70,$A
+    NTSCPAL $20,$A
+
+
+;good...
+;walls
+; C6/36/16
+; 4a/a4/7a
+;bricks
+; 44/28/C6
+
 
   DEFINE_SUBROUTINE UnpackLevel
 

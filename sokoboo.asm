@@ -321,17 +321,6 @@ FREE SET FREE + .
     echo "@", ., ":", FREE
   ENDM
 
-    MAC STRESS_TIME
-      IF TEST_{1} = 1
-
-
-      ;LIST OFF
-; has to be put *directly* after cmp #SEGTIME_... , bcc abort
-      ;LIST ON
-    echo "***** WARNING! STRESS_TIME enabled @", ., "! *****"
-            bne . - 7   ; branches to lda INTIM
-      ENDIF
-    ENDM
 
 IDENTITY    SET 0
     MAC IDENT ; {object}

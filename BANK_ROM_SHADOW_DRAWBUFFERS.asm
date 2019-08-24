@@ -73,7 +73,7 @@ waitForDraw    rts                             ; 6
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawStackUpdate ;=196 (+13 for fall-through bit)
+    DEFINE_SUBROUTINE DrawStackUpdate   ; @39✅
 
     ; Parse the DrawFlags buffer and create a draw stack
     ; so that the actual draw doesn't need to scan for characters to draw.
@@ -90,8 +90,7 @@ waitForDraw    rts                             ; 6
                 lda INTIM                       ;4
                 cmp #SEGTIME_BDS                ;2
                 bcc waitForDraw                 ;2/3
-                STRESS_TIME SEGTIME_BDS
-
+                                                ; =>[39]+(9)+6rts = 54✅ when exit
 
     ; Now that all characters are drawn, recalculate/move sprite. Doing this here prevents the player
     ; moving into the middle of dirt, or BOXs when pushing, or TARGETs when grabbing.
@@ -99,13 +98,13 @@ waitForDraw    rts                             ; 6
 ;                sec            already set
                 lda ManY                        ;3
                 sbc BoardScrollY                ;3
-                sta ManDrawY                    ;3
+                sta ManDrawY                    ;3 = 9✅
 
                 sec                             ;2
                 lda ManX                        ;3
                 sbc BoardScrollX                ;3
                 cmp #SCREEN_WIDTH               ;2
-                bcc onsc                        ;2/3
+                bcc onsc                        ;2/3 = 12(13)✅
 
     ; if the man is offscreen, we have a timing issue between the horizontal positioning code and the player
     ; draw code.  The following gets around this by setting the Y offscreen (causing the player draw code to
@@ -113,30 +112,36 @@ waitForDraw    rts                             ; 6
 
                 lda #SCREEN_LINES               ;2
                 sta ManDrawY                    ;3
-                bne skipsc                      ;3               unconditional
+                bne skipsc                      ;3 =8              unconditional
 
 onsc            sta ManDrawX                    ;3
 skipsc
 
-                inc timer                       ;5
-                jsr AnimateCharReplacements2    ;3+28
+            ;32✅ worst
 
-                inc ScreenDrawPhase             ;5
+                jsr AnimateCharReplacements2    ;6+29 = 35✅
+
+            ;@67✅ worst
 
                 lda #SCREEN_ARRAY_SIZE-1        ;2
                 sta DSL                         ;3
 
-    ; fall through...
+                inc ScreenDrawPhase             ;5
+                rts                             ; 6 TEST allows segtime test to be smaller on next part
+                                                ; ==> @83✅ worst
+
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawIntoStack
+    DEFINE_SUBROUTINE DrawIntoStack             ; @39✅
 
-                tsx                             ;2
-                stx save_SP                     ;3
-                ldx DrawStackPointer            ;3
-                txs                             ;2 = 10
+                tsx                             ; 2
+                stx save_SP                     ; 3
+                ldx DrawStackPointer            ; 3
+                txs                             ; 2 = 10
 
-                ldy DSL                         ;3
+                ldy DSL                         ; 3
+
+                                                ; @ 52✅
 
     ; worst-case DrawStackOne loop = 61 cycles per character (+11 for first one)
     ; + exit cost which is +10 cycles
@@ -155,23 +160,30 @@ skipsc
     ; first do a QuickDraw and then a SlowDraw, faster than two SlowDraws
     ; costs some detection time here, but saves ~240 cylces for drawing the two
 
-.loopDrawStack  lda INTIM                       ;4
-                cmp #SEGTIME_DSL                ;2
-                bcc .exitDrawStack              ;2/3= 8/9
-                STRESS_TIME SEGTIME_DSL
+.loopDrawStack                                  ; @100✅ from bottom of loop
 
-                lda DrawFlag,y                  ;4
-                cmp ScreenBuffer,y              ;4              Is the character already there the same as the new one?
-                beq .next0                      ;2/3=10/11      yes, so we don't draw anything
+                lda INTIM                       ; 4
+                cmp #SEGTIME_DSL                ; 2
+                bcc .exitDrawStack              ; 2(3)  + [costs 18 more to exit fully at .exit..]
+                                                ; => full exit on 1st pass = 78✅ cycles
+                                                ; => full exit on a single loop = 127✅ cycles
+
+                                                ; @0✅
+
+                lda DrawFlag,y                  ; 4
+                cmp ScreenBuffer,y              ; 4              Is the character already there the same as the new one?
+                beq .next0                      ; 2/3=10/11      yes, so we don't draw anything
+                                                ; @10✅
 
     ; Character is NOT the same. Figure out how it should be drawn.
     ; If it is in column 0 or 5 then it can be DirectDrawn (indirectly found by a A:A compare)
     ; If it is the same as its paired character (sharing same PF byte) then it can be DirectDrawn
     ; The top bit of the ScreenBuffer character indicates the DirectDrawn hint
 
-                ldx PairedCharacter,y           ;4              the "paired" character for this one
-                cmp DrawFlag,x                  ;4              same as partner character in new drawn screen?
-                bne .notPaired0                 ;2/3=10/11
+                ldx PairedCharacter,y           ; 4              the "paired" character for this one
+                cmp DrawFlag,x                  ; 4              same as partner character in new drawn screen?
+                bne .notPaired0                 ; 2(3)
+                                                ; @20✅
 
     ; Consider two 'paired' characters. Either A:A or A:B
     ; When we're scanning, and we check the first, if they are NOT paired, then the second character
@@ -180,45 +192,52 @@ skipsc
     ; on the comparison, so the character will not be added to the draw stack. So our first character will
     ; do the job of drawing BOTH characters to the screen.
 
-                sta ScreenBuffer+RAM_WRITE,x    ;5              mark paired character as drawn already (!!)
-                ora #$80                        ;2 =  7         DirectDraw this character 'pair'
-
+                sta ScreenBuffer+RAM_WRITE,x    ; 5              mark paired character as drawn already (!!)
+                ora #$80                        ; 2 =  7         DirectDraw this character 'pair'
+                                                ; @27✅
     ; In the case of columns 0 and 5, the X and Y registers will be the same -- no problemo, because
     ; the last write(below) marks the character as to be direct-drawn.
 
-.notPaired0     sta ScreenBuffer+RAM_WRITE,y    ;5              NEW character to draw + DirectDraw flag (128)
+.notPaired0                                     ; @27✅ worst
+
+                sta ScreenBuffer+RAM_WRITE,y    ; 5              NEW character to draw + DirectDraw flag (128)
 
     ; The following 'pla' really just increments the draw-stack pointer.  Value is unimportant. Unusual!
 
-                pla                             ;4              ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
-                tya                             ;2
-                tsx                             ;2              << now X holds drawstackpointer
-                sta DrawStack+RAM_WRITE,x       ;5 = 18         index of character to draw
+                pla                             ; 4              ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
+                tya                             ; 2
+                tsx                             ; 2              << now X holds drawstackpointer
+                sta DrawStack+RAM_WRITE,x       ; 5 = 18         index of character to draw
 
-.next0          dey                             ;2
-                bmi .finishedDrawStack          ;2/3= 4/5
-
+.next0          dey                             ; 2
+                bmi .finishedDrawStack          ; 2(3)= 4/5
+                                                ; @50✅
     ; unrolled 2nd loop:
-                lda DrawFlag,y                  ;4
-                cmp ScreenBuffer,y              ;4              Is the character already there the same as the new one?
-                beq .next1                      ;2/3=10/11      yes, so we don't draw anything
+                lda DrawFlag,y                  ; 4
+                cmp ScreenBuffer,y              ; 4              Is the character already there the same as the new one?
+                beq .next1                      ; 2(3)           yes, so we don't draw anything
 
-                ldx PairedCharacter,y           ;4              the "paired" character for this one
-                cmp DrawFlag,x                  ;4              same as partner character in new drawn screen?
-                bne .notPaired1                 ;2/3=10/11
+                ldx PairedCharacter,y           ; 4              the "paired" character for this one
+                cmp DrawFlag,x                  ; 4              same as partner character in new drawn screen?
+                bne .notPaired1                 ; 2(3)
 
-                sta ScreenBuffer+RAM_WRITE,x    ;5              mark paired character as drawn already (!!)
-                ora #$80                        ;2 =  7         DirectDraw this character 'pair'
+                sta ScreenBuffer+RAM_WRITE,x    ; 5              mark paired character as drawn already (!!)
+                ora #$80                        ; 2 =  7         DirectDraw this character 'pair'
 
-.notPaired1     sta ScreenBuffer+RAM_WRITE,y    ;5              NEW character to draw + DirectDraw flag (128)
+.notPaired1                                     ; @77✅ worst
 
-                pla                             ;4              ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
-                tya                             ;2
-                tsx                             ;2
-                sta DrawStack+RAM_WRITE,x       ;5 = 18         index of character to draw
+                sta ScreenBuffer+RAM_WRITE,y    ; 5              NEW character to draw + DirectDraw flag (128)
 
-.next1          dey                             ;2
-                bpl .loopDrawStack              ;2/3= 4/5
+                pla                             ; 4              ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
+                tya                             ; 2
+                tsx                             ; 2
+                sta DrawStack+RAM_WRITE,x       ; 5 = 18         index of character to draw
+                                                ; @95✅
+
+.next1          dey                             ; 2
+                bpl .loopDrawStack              ; 2(3)
+                                                ; @100✅ --> @.loopDrawStack
+
 ;worst case: 111-4
 ;40 loops(-4), max. 2 calls(+20) -> -160+40=-120, +8 bytes
 
@@ -231,9 +250,6 @@ skipsc
 
                 ldx save_SP                     ;3
                 txs                             ;2 = 10
-
-                ;jmp SwitchObjects
-
                 rts                             ;6 =  6
 
 .exitDrawStack
@@ -275,6 +291,10 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
 ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
                 .byte CHARACTER_BOX_ON_TARGET2
                 .byte CHARACTER_BLANK       ;  9
+                .byte CHARACTER_TARGET1
+                .byte CHARACTER_TARGET3
+                .byte CHARACTER_TARGET5
+                .byte CHARACTER_TARGET7
 
     #if DIGITS
         .byte CHARACTER_0
@@ -296,34 +316,35 @@ ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
     CHECKPAGEX CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
 
 
-    DEFINE_SUBROUTINE AnimateCharReplacements2 ;139
+    DEFINE_SUBROUTINE AnimateCharReplacements2 ; 29✅
 
     ; This manages character animation on a per-object basis.  Morph/animate these
     ; characters individually or as required.  Change will affect all characters
     ; of the same type in the visible display.
 
-    ; -------------------------------------------
+                lda animate_char_index                  ; 3
+                and #3                                  ; 2
+                tax                                     ; 2
 
-    ; handle the non-mandatory animating things
+                lda targetReplaceChar,x                 ; 4
+                sta ANIM_TARGET + RAM_WRITE             ; 4
+                lda targetReplaceChar2,x                ; 4
+                sta ANIM_TARGET2 + RAM_WRITE            ; 4 = 23
 
-                lda timer                                     ;3
-                and #1                                        ;2
-                bne nothingAnimates                           ;2/3
-
-                lda scrollBits                                ;3
-                bne nothingAnimates                           ;2/3            DON'T animate if we scrolled
-
-                lda ANIM_TARGET                               ;4
-                eor #CHARACTER_TARGET^CHARACTER_TARGET2       ;2
-                sta ANIM_TARGET + RAM_WRITE                   ;4 = 22         TARGET
-
-                ;lda ANIM_TARGET2                               ;4
-                ;eor #CHARACTER_BOX_ON_TARGET^CHARACTER_BOX_ON_TARGET2       ;2
-                ;sta ANIM_TARGET2 + RAM_WRITE                   ;4 = 22         TARGET
+                rts                                     ; 6 = 29✅
 
 
+targetReplaceChar
+    .byte CHARACTER_BLANK ;CHARACTER_TARGET1     ;  3  XOR'd to give flashing target squares
+    .byte CHARACTER_BLANK    ;  8    box on target
+    .byte CHARACTER_TARGET    ;  8    box on target
+    .byte CHARACTER_TARGET    ;  8    box on target
 
-nothingAnimates rts                                           ;6 = 28 if animating, less if not
+targetReplaceChar2
+    .byte CHARACTER_BOX ;CHARACTER_TARGET1     ;  3  XOR'd to give flashing target squares
+    .byte CHARACTER_BOX             ;  8    box on target
+    .byte CHARACTER_BOX_ON_TARGET    ;  8    box on target
+    .byte CHARACTER_BOX_ON_TARGET    ;  8    box on target
 
     ;------------------------------------------------------------------------------
 

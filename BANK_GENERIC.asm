@@ -109,15 +109,15 @@
                 ;lda #DIRECTION_BITS             ;???
                 ;sta ManLastDirection
 
-                lda #0
+                ;lda #0
 ;                sta ObjStackPtr                 ; object stack index of last entry
 ;                sta ObjStackPtr+1
 ;                sta ObjStackNum
 ;                sta ObjIterator
 
-                sta sortPtr
-                lda #<(-1)
-                sta sortRequired
+                ;sta sortPtr
+                ;lda #<(-1)
+                ;sta sortRequired
 
 ; read high score from SaveKey and store in highScoreSK,
 ; which is transferred to high score variable in RAM by GeneralScoringSetups
@@ -223,9 +223,9 @@ notU0           sta BoardScrollY
                 ;sta ManLastDirection
                 ;sta ManPushCounter
 
-                sta sortPtr                     ; sort stopped
-                lda #<(-1)
-                sta sortRequired                ; nothing needed
+                ;sta sortPtr                     ; sort stopped
+                ;lda #<(-1)
+                ;sta sortRequired                ; nothing needed
                 sta DrawStackPointer
 
                 lda #DISPLAY_TIME ;DISPLAY_SCORE
@@ -384,12 +384,13 @@ EarlyAbortx     rts                             ; 6 =  6
     DEFINE_SUBROUTINE TS_PhaseVectorLO
 
     ; Gives LO byte of addresses of subroutines for timeslice processing
+    ; note +31✅ cycles at start of the function called
 
-                .byte <ProcessObjStack
-                .byte <DrawFullScreen
-                .byte <BuildDrawStack
-                .byte <DrawAIntoStack
-                .byte <SwitchObjects
+                .byte <ProcessObjStack          ; abort = 46✅
+                .byte <DrawFullScreen           ; abort = 46✅
+                .byte <BuildDrawStack           ; abort = 54✅
+                .byte <DrawAIntoStack           ; abort = 54✅
+                .byte <SwitchObjects            ; abort = 46✅
 
 TS_PhaseVectorHI
 

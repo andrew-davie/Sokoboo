@@ -88,9 +88,9 @@ BoardLineStartHiW
     CHECKPAGEX BoardLineStartHiW, "BoardLineStartHiW in BANK_INITBANK"
 
 ;------------------------------------------------------------------------------
-    IF MULTI_BANK_BOARD = YES
-BoardBank
-    ENDIF
+;    IF MULTI_BANK_BOARD = YES
+;BoardBank
+;    ENDIF
     ; Gives the RAM bank of the start of the board row for a given row.
 
 .BOARD_LOCATION SET Board - RAM_3E
@@ -98,14 +98,14 @@ BoardBank
               IF >.BOARD_LOCATION != >(.BOARD_LOCATION + SIZE_BOARD_X-1)
 .BOARD_LOCATION SET .BOARD_LOCATION - <.BOARD_LOCATION + 256
               ENDIF
-    IF MULTI_BANK_BOARD = YES
-                .byte BANK_BOARD + (.BOARD_LOCATION / RAM_SIZE)            ; actual bank #
-    ENDIF
+;    IF MULTI_BANK_BOARD = YES
+;                .byte BANK_BOARD + (.BOARD_LOCATION / RAM_SIZE)            ; actual bank #
+;    ENDIF
 .BOARD_LOCATION SET .BOARD_LOCATION + SIZE_BOARD_X      ; note, we CANNOT cross a page boundary within a row
             REPEND
-    IF MULTI_BANK_BOARD = YES
-    CHECKPAGEX BoardBank, "BoardBank in BANK_INITBANK.asm"
-    ENDIF
+;    IF MULTI_BANK_BOARD = YES
+;    CHECKPAGEX BoardBank, "BoardBank in BANK_INITBANK.asm"
+;    ENDIF
 
 
     ;------------------------------------------------------------------------------
@@ -247,11 +247,11 @@ DrawLineStartLO
                 sta Board_AddressR+1            ; 3         READ address
                 ora #>RAM_WRITE                 ; 2
                 sta Board_AddressW+1            ; 3         WRITE address
-    IF MULTI_BANK_BOARD = YES
-                ldx BoardBank,y                 ; 4 = 26    switch this on return
-    ELSE
+;    IF MULTI_BANK_BOARD = YES
+;                ldx BoardBank,y                 ; 4 = 26    switch this on return
+;    ELSE
                 ldx #BANK_BOARD                 ; 2
-    ENDIF
+;    ENDIF
                 rts                             ; 6 = 32[-2]
 
     ;------------------------------------------------------------------------------
@@ -262,11 +262,11 @@ DrawLineStartLO
                 sta Board_AddressR              ; 3
                 lda BoardLineStartHiR,y         ; 4
                 sta Board_AddressR+1            ; 3     READ address
-    IF MULTI_BANK_BOARD = YES
-                lda BoardBank,y                 ; 4     switch this on return
-    ELSE
+;    IF MULTI_BANK_BOARD = YES
+;                lda BoardBank,y                 ; 4     switch this on return
+;    ELSE
                 lda #BANK_BOARD                 ; 2
-    ENDIF
+;    ENDIF
                 rts                             ; 6[-2]
 
     ;------------------------------------------------------------------------------
@@ -279,11 +279,11 @@ DrawLineStartLO
                 sta Board_AddressW              ;3
                 lda BoardLineStartHiW,y         ;4
                 sta Board_AddressW+1            ;3 WRITE address
-    IF MULTI_BANK_BOARD = YES
-                ldx BoardBank,y                 ;4 switch this on return
-    ELSE
+;    IF MULTI_BANK_BOARD = YES
+;                ldx BoardBank,y                 ;4 switch this on return
+;    ELSE
                 ldx #BANK_BOARD                 ;2
-    ENDIF
+;    ENDIF
 QRet            rts                             ;6
 
 ;-------------------------------------------------------------------------------
@@ -358,11 +358,11 @@ alreadyPushing
                 pha
                 tay
 
-    IF MULTI_BANK_BOARD = YES
-                lda RAM_Bank
-    ELSE
+;    IF MULTI_BANK_BOARD = YES
+;                lda RAM_Bank
+;    ELSE
                 lda #BANK_BOARD                 ; 2
-    ENDIF
+;    ENDIF
                 jsr GetBoardCharacter           ;6+20(A)
                 pla
                 tay
@@ -406,11 +406,11 @@ notOnTargetAlready
                 pla                             ; new char to go on board in box's new position
 
 
-  IF MULTI_BANK_BOARD = YES
-              ldx RAM_Bank                      ; <-- this will never work calling from INITBANK!!!
-  ELSE
+;  IF MULTI_BANK_BOARD = YES
+;              ldx RAM_Bank                      ; <-- this will never work calling from INITBANK!!!
+;  ELSE
               ldx #BANK_BOARD                 ; 2
-  ENDIF
+;  ENDIF
                 jsr PutBoardCharacter           ;6+21(A)
 
                 lda POS_VAR                     ; player's restoration character
@@ -799,15 +799,11 @@ anim_direction   .byte 0,%1000,128,128,128
     ;------------------------------------------------------------------------------
 
 
-    DEFINE_SUBROUTINE DrawFullScreen ; = 2568[-96]
-
-    ; 83[-7] + 2484[-89] = 2567[-96]
-
+    DEFINE_SUBROUTINE DrawFullScreen            ; @31✅
 
                 lda INTIM                       ; 4
                 cmp #SEGTIME_BDF                ; 2
-                bcc DFS_rts                     ; 2/3
-                STRESS_TIME SEGTIME_BDF
+                bcc DFS_rts                     ; 2/3 ==> [31]+(9)+6rts = 46✅ on abort
 
                 lda #>( DrawFlag + RAM_WRITE )  ; 2
                 sta BDF_DrawFlagAddress+1       ; 3
@@ -850,10 +846,10 @@ anim_direction   .byte 0,%1000,128,128,128
                 adc #SCREEN_WIDTH/2             ; 2
                 sta BDF_DrawFlagAddress2        ; 3 = 12
 
-    IF MULTI_BANK_BOARD = YES
-                lda BoardBank-1,y               ; 4
-                sta BDF_BoardBank               ; 3
-    ENDIF
+;    IF MULTI_BANK_BOARD = YES
+;                lda BoardBank-1,y               ; 4
+;                sta BDF_BoardBank               ; 3
+;    ENDIF
                 ldy #SCREEN_WIDTH/2-1           ; 2
                 jmp CopyRow2                    ; 3 = 12[-7]
 
@@ -903,14 +899,17 @@ baseOK
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE VectorProcess ;=19
+    DEFINE_SUBROUTINE VectorProcess ;=19 + 13, = 31✅ minimum
 
-                lda OSPointerHI,x               ;4
-                sta POS_Vector+1                ;3
-                lda OSPointerLO,x               ;4
-                sta POS_Vector                  ;3
+                lda OSPointerHI,x               ; 4
+                sta POS_Vector+1                ; 3
+                lda OSPointerLO,x               ; 4
+                sta POS_Vector                  ; 3
 
-                jmp (POS_Vector)                ;5 = 19         vector to processor for particular object type
+                jmp (POS_Vector)                ; 5 = 19         vector to processor for particular object type
+
+                                                ; earliest abort from process = +13
+
                                                 ;               NOTE: Bank is either INITBANK or FIXED.
     ;------------------------------------------------------------------------------
 
@@ -975,6 +974,10 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte <MOVE_BOX_ON_TARGET ;box on target
         .byte <MOVE_BOX_ON_TARGET ;box on target
         .byte <MOVE_GENERIC ;nogo
+        .byte <MOVE_TARGET ;1
+        .byte <MOVE_TARGET ;3
+        .byte <MOVE_TARGET ;5
+        .byte <MOVE_TARGET ;7
 
 #if DIGITS
     REPEAT 10   ; DIGITS 0-9
@@ -1001,6 +1004,10 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte >MOVE_BOX_ON_TARGET ;box on target
         .byte >MOVE_BOX_ON_TARGET ;box on target
         .byte >MOVE_GENERIC ;nogo
+        .byte >MOVE_TARGET ;1
+        .byte >MOVE_TARGET ;3
+        .byte >MOVE_TARGET ;5
+        .byte >MOVE_TARGET ; 7
 
 #if DIGITS
     REPEAT 10   ; DIGITS 0-9

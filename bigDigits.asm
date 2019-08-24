@@ -434,11 +434,11 @@ LEFT_5
  .byte 192
  .byte 192
  .byte 192
- .byte 224
+ .byte 230
  .byte 254
  .byte 126
  .byte 126
- .byte 62
+ .byte 54
  .byte 6
  .byte 6
  .byte 6
@@ -462,11 +462,11 @@ RIGHT_5
  .byte 3
  .byte 3
  .byte 3
- .byte 7
+ .byte 103
  .byte 239
  .byte 238
  .byte 238
- .byte 236
+ .byte 108
  .byte 96
  .byte 96
  .byte 96
@@ -490,11 +490,11 @@ HUNDPF1_5
  .byte 3
  .byte 3
  .byte 3
- .byte 7
+ .byte 103
  .byte 127
  .byte 126
  .byte 126
- .byte 124
+ .byte 108
  .byte 96
  .byte 96
  .byte 96
