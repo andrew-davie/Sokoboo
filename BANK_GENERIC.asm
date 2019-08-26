@@ -86,6 +86,10 @@
                 sta GRP1
 ;?                sta GRP0
 
+                lda #%00010000              ; 2     double width missile, double width player
+                sta NUSIZ0                  ; 3
+                sta NUSIZ1
+
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
                 sta ethnic
 

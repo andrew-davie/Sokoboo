@@ -254,117 +254,6 @@ EarlyAbort      rts                             ;6
 
     ;---------------------------------------------------------------------------
 
-#if 0
-    DEFINE_SUBROUTINE PROCESS_CIRCLE_DRAWER
-
-                ldy #CHARACTER_BLANK
-                lda circle_d+1
-                ;jsr DrawCircle
-                ;bcc finCircle
-                ;lda #TYPE_CIRCLE_DRAWER
-                ;sta POS_Type
-                ;jsr InsertObjectStack
-finCircle       jmp NextObject
-
-    DEFINE_SUBROUTINE PROCESS_CIRCLE_HELPER
-
-                lda INTIM
-                cmp #SEGTIME_CIRCLE_HELPER
-                bcc EarlyAbort
-
-
-                jmp NextObject                  ; and die
-
-
-    DEFINE_SUBROUTINE PROCESS_CIRCLE
-
-                lda INTIM
-                cmp #SEGTIME_CIRCLE
-                bcc EarlyAbort
-
-                clc
-                lda circle_d
-                adc #255
-                sta circle_d
-                bcc inactiveCircle
-
-                inc circle_d+1
-                lda circle_d+1
-                cmp #20
-                beq circleComplete
-                ; time to fire off another "ring" of the clearing circle
-
-                ;sta POS_VAR               ; diameter for helper to use
-                ;lda #TYPE_CIRCLE_HELPER
-                ;sta POS_Type
-                ;jsr InsertObjectStack
-
-
-                ; a = radius
-
-                ldy #CHARACTER_BLANK
-                sty circ_char
-
-                lda circle_d+1
-                sec
-                sbc #1
-                sta circ_x
-                eor #255
-                clc
-                adc #1
-                sta circ_scratch     ; "d" --> "1-r" in unit terms
-
-                lda #0
-                sta circ_y
-
-                ;lda circle_d+1                     ; radius
-                ;lda #TYPE_CIRCLE_DRAWER
-                ;sta POS_Type
-                ;jsr InsertObjectStack
-
-                            ldy #CHARACTER_BLANK
-                            lda circle_d+1
-                ;            sec
-                ;            sbc #1
-                            jsr DrawCircle
-
-                ;            ldy #CHARACTER_STEEL
-              ;              sty circ_char
-                            lda circle_d+1
-                            sta circ_x
-                            eor #255
-                            clc
-                            adc #1
-                            sta circ_scratch     ; "d" --> "1-r" in unit terms
-
-                            lda #0
-                            sta circ_y
-
-                            ;lda circle_d+1                     ; radius
-                            ;lda #TYPE_CIRCLE_DRAWER
-                            ;sta POS_Type
-                            ;jsr InsertObjectStack
-
-                            ;            ldy #CHARACTER_BLANK
-                            ;            lda circle_d+1
-                            ;            ;jsr DrawCircle
-
-
-
-;                            inc circle_d+1
-;                            ldy #CHARACTER_STEEL
-;                            lda circle_d+1
-;                            jsr DrawCircle
-
-inactiveCircle  lda #TYPE_CIRCLE
-                sta POS_Type
-                jsr InsertObjectStack
-
-circleComplete  jmp NextObject
-#endif
-
-    ;---------------------------------------------------------------------------
-
 EarlyAbort4     rts
 
     DEFINE_SUBROUTINE PROCESS_MAN
@@ -974,6 +863,19 @@ aJump               ldy animation_delay         ; actually animation ID :)
                     jmp getDelay
 
 notFlip             tay
+
+    ; Now we have the frame #, we can see if that frame has already been drawn into
+    ; the frame buffer of the relevant bank. If it has, then we don't need to repeat
+    ; and can save the enormous cost of frame copying...
+
+                    lda bank
+                    sta SET_BANK_RAM
+                    cpy ExistingFrame                   ; optimize - don't draw if same frame
+                    beq SkipFrameCopy
+                    sty ExistingFrame + RAM_WRITE
+
+                    lda #PLAYER_FRAMES
+                    sta SET_BANK
                     lda FRAME_PTR_LO,y
                     sta frame_ptr
                     lda FRAME_PTR_HI,y
@@ -985,7 +887,7 @@ notFlip             tay
                     sta colour_ptr+1
 
                     clc
-                    ldy #23
+                    ldy #LINES_PER_CHAR-1
 CopySpriteToBank
                     lda #PLAYER_FRAMES
                     sta SET_BANK
@@ -1005,17 +907,19 @@ CopySpriteToBank
                     lda bank
                     sta SET_BANK_RAM
                     lda EthnicityColourPalette,x
-                    sta SpriteColourRED+RAM_WRITE,y
+                    sta Sprite0ColourRED+RAM_WRITE,y
+                    ;sta Sprite1ColourRED+RAM_WRITE,y
                     pla
-                    sta PLAYER_RIGHT0+RAM_WRITE,y
+                    sta Sprite0ShapeRED+RAM_WRITE,y ;PLAYER_RIGHT0+RAM_WRITE,y
+                    ;sta Sprite1ShapeRED+RAM_WRITE,y ;PLAYER_RIGHT1+RAM_WRITE,y
                     dey
                     bpl CopySpriteToBank
 
-                    rts
+SkipFrameCopy       rts
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawFullScreenMain ;=2484[-89]
+;    DEFINE_SUBROUTINE DrawFullScreenMain ;=2484[-89]
 
     ; Check the screen for all those characters that need to be redrawn
     ; Just copies the mxn grid from the board to a DrawFlags array.  If the entry in
@@ -1267,19 +1171,21 @@ NewFrameStart
                                             ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
 
 ;                inc Throttle                ; 5     speed limiter
-                SLEEP 2                    ;       TODO: optimize for space
+                ;SLEEP 2                    ;       TODO: optimize for space
 
                 lda #%00010101              ; 2     double width missile, double width player
                 dex                         ; 2     = $6f, stars effect!
                 stx HMM0                    ; 3     @24, exactly 21 cycles after the HMOVE
 
                 sta NUSIZ0                  ; 3
+                sta NUSIZ1 ;SLEEP 3
                 sty VDELP0                  ; 3     y = 0!
 
                 iny                         ; 2     this relies on Y == 0 before...
                 cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
-                adc #2                      ; 2
-                sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
+                ;adc #2                      ; 2
+                ;sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
+                SLEEP 4
 
                 lda ManLastDirection        ; 3
                 sta REFP0                   ; 3
@@ -1380,8 +1286,6 @@ genericRTS      rts
                 rts
 
     ;---------------------------------------------------------------------------
-
-    ;include "circle.asm"
 
     include "charset/CHARACTERSHAPE_TARGET.asm"
     include "charset/CHARACTERSHAPE_TARGET1.asm"

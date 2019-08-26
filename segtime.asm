@@ -119,11 +119,7 @@ SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 ;    SEGTIME_C SEGTIME_SCD_MIN, SEGTIME_SCD_PF0
 ;---------------------------------------------------------------------------------------------------
 
-; IF MULTI_BANK_BOARD = YES
-;    SEGTIME SEGTIME_BDF,42 +4 +5                     ; * 5/8/11 stress tested DHS->DS
-; ELSE
-    SEGTIME SEGTIME_BDF,39                       ; glitches on 37 - 10/8/2019
-; ENDIF
+    SEGTIME SEGTIME_BDF,40                       ; glitches on 37 - 10/8/2019
 
     SEGTIME_C SEGTIME_BDS, 83                   ;✅
     SEGTIME_C SEGTIME_DSL, 127                  ;✅
@@ -147,6 +143,4 @@ SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 ; The following are NOT object-related and timing is a bit of manual guesswork/calculation
 ; Comment may indicate at what value a glitch was DEFINITELY seen. These timings may not be optimal.
 
-    SEGTIME SEGTIME_MAN,10; 10 +6 ;24 ;<< using this as XSEGTIME stops player working ...?!
-    SEGTIME SEGTIME_CIRCLE, 10        ; drawing circle creature
-    SEGTIME SEGTIME_CIRCLE_HELPER, 10        ; drawing circle creature's helper
+    SEGTIME SEGTIME_MAN,11; 10 +6 ;24 ;<< using this as XSEGTIME stops player working ...?!

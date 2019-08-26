@@ -34,10 +34,6 @@
 ;    OPTIONAL_PAGEBREAK "PLAYER", LINES_PER_CHAR * 6 - 1
 
 
-PLAYER_BLANK
-    REPEAT LINES_PER_CHAR   ;-1  ; as we have a "0" in the line below
-    .byte 0
-    REPEND
 
 PLAYER_RIGHT0
 

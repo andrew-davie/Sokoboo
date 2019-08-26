@@ -219,7 +219,7 @@ CopyPage        sty O_Index
 SelfModColOfsTbl:
     .byte   <(SELFMOD_BLUE+1), <(SELFMOD_GREEN+1), <(SELFMOD_RED+1)
 SelfModePlayerTbl:
-    .byte   <SpriteColourBLUE, <SpriteColourGREEN, <SpriteColourRED
+    .byte   <Sprite0ColourBLUE, <Sprite0ColourGREEN, <Sprite0ColourRED
 ;SelfModPlayerColOfsTbl:
 ;    .byte   <(SELFMOD_PLAYERCOL_BLUE+1), <(SELFMOD_PLAYERCOL_GREEN+1), <(SELFMOD_PLAYERCOL_RED+1)
 

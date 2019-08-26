@@ -474,13 +474,11 @@ ExitDigitKernel:                ;           @69
         ldx #$70                ; 2         magic value #1 for Cosmic Ark stars
         sta RESP0               ; 3 =  5    @22..67 (@look around!)
         lda BGColour                ; 3
-        stx HMM0                ; 3         for extra life stars!
-        sta WSYNC               ; 3
-;    sta WSYNC
-;    sta WSYNC
-;---------------------------------------------------------------
-        sta HMOVE               ; 3
         sta COLUBK
+        stx HMM0                ; 3         for extra life stars!
+
+        sta WSYNC               ; 3
+        sta HMOVE               ; 3
         rts                     ; 6         @09
 
     ;------------------------------------------------------------------------------

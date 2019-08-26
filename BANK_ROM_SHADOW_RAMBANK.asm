@@ -45,18 +45,6 @@
     ; continue to run -- because, of course, the same code is still at the same
     ; memory address.
 
-_PROFILE_DRAW    = YES
-
-    MAC PROFILE_DRAW ; {label}
-      IF _PROFILE_DRAW
-        inc     Profile{1}
-        bne     $skip
-        inc     Profile{1}+1
-$skip
-      ENDIF
-    ENDM
-
-
     DEFINE_SUBROUTINE DrawTheScreen
 
     ; Thomas Jentzsch strikes again.  And Andrew Davie too ;)
@@ -68,7 +56,7 @@ $skip
 
 ; TODO: remove GRP1 and COLUP1 access (or use higher resolution player)
                                                             ;           @57
-                SLEEP 3                                     ; 3
+                SLEEP 6                                     ; 3
 
                 ldx #<(BANK_SCREENMARKII1)                  ; 2                 == 0!!!
                 bpl NextALineStart                          ; 3 =  8    @65     unconditional
@@ -83,11 +71,12 @@ SM_PF0_REDl     lda CHARACTERSHAPE_BLANK,y                  ; 4
                 lda ScreenBitmapRED+0*LINES_PER_CHAR,y      ; 4
                 sta PF1                                     ; 3 = 14    @74
 ;SELFMOD_PLAYERCOL_RED
-                lda SpriteColourRED,y                       ; 4
+                lda Sprite0ColourRED,y                       ; 4
                 ;lda #$66
                 ;nop
                 sta COLUP0                                  ; 3         @05
-                sta COLUP1                                  ; 3 = 10    @08
+                SLEEP 3
+                ;sta COLUP1                                  ; 3 = 10    @08
 
     ; TIMING COUNTS ARE WRONG FROM HERE, DUE TO ABOVE CYCLE LOSS
 
@@ -111,7 +100,8 @@ SM_PF0_REDr     lda CHARACTERSHAPE_BLANK,y                  ; 4
 
 SELFMOD_PLAYER1_RED
                 lda ShapePlayerRED,y                        ; 4
-                sta.w GRP1                                  ; 4 =  8    @56   VDELed!
+                ;sta.w GRP1                                  ; 4 =  8    @56   VDELed!
+                SLEEP 4
 
                 dey                                         ; 2
                 bpl Proc2                                   ; 2(3)      --> 61 if taken
@@ -128,10 +118,11 @@ ScanBLUEBD                                                  ;           @67     
 SM_PF0_BLUEl    lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @74
 ;SELFMOD_PLAYERCOL_BLUE
-                lda SpriteColourBLUE,y                      ; 4
+                lda Sprite0ColourBLUE,y                      ; 4
                 ;lda #$66
                 ;nop
-                sta COLUP1                                  ; 3         @05
+                ;sta COLUP1                                  ; 3         @05
+                SLEEP 3
                 sta COLUP0                                  ; 3 = 10    @08
 
 SELFMOD_BLUE
@@ -156,7 +147,8 @@ SM_PF0_BLUEr    lda CHARACTERSHAPE_BLANK,y                  ; 4
 
 SELFMOD_PLAYER1_BLUE
                 lda ShapePlayerBLUE,y                       ; 4
-                sta GRP1                                    ; 3 =  7    VDELed! @62
+                ;sta GRP1                                    ; 3 =  7    VDELed! @62
+                SLEEP 3
 
     ;------------------------------------------------------------------------------
 
@@ -164,10 +156,11 @@ ScanGREEN                                                   ;           @62
 SM_PF0_GREENl   lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @69
 ;SELFMOD_PLAYERCOL_GREEN
-                lda SpriteColourGREEN,y                     ; 4
+                lda Sprite0ColourGREEN,y                     ; 4
                 ;lda #$66
                 ;nop
-                sta COLUP1                                  ; 3         @00
+                ;sta COLUP1                                  ; 3         @00
+                SLEEP 3
                 sta COLUP0                                  ; 3 = 10    @03
 
 SELFMOD_GREEN
@@ -192,37 +185,12 @@ SM_PF0_GREENr   lda CHARACTERSHAPE_BLANK,y                  ; 4
 
 SELFMOD_PLAYER1_GREEN
                 lda ShapePlayerGREEN,y                      ; 4
-                sta GRP1                                    ; 3 =  7    @57     VDELed!
+                ;sta GRP1                                    ; 3 =  7    @57     VDELed!
+                SLEEP 3
 
                 jmp ScanRED                                 ; 3         @60
 
     ;------------------------------------------------------------------------------
-
-;     OPTIONAL_PAGEBREAK "PLAYER BLANK SHAPE", LINES_PER_CHAR
-
-ShapePlayer         = PLAYER_BLANK
-ShapePlayerBLUE     = ShapePlayer   ; low adresses patched
-ShapePlayerGREEN    = ShapePlayer   ; low adresses patched
-ShapePlayerRED      = ShapePlayer   ; low adresses patched
-
-CHARACTERSHAPE_MANOCCUPIED = PLAYER_BLANK
-CHARACTERSHAPE_BLANK = PLAYER_BLANK
-
-
-PLAYER_COLOUR
-SpriteColourRED
-    REPEAT LINES_PER_CHAR/3
- .byte $24
-    REPEND
-SpriteColourGREEN
-    REPEAT LINES_PER_CHAR/3
- .byte $24
-    REPEND
-SpriteColourBLUE
-    REPEAT LINES_PER_CHAR/3
- .byte $24
-    REPEND
-
 
     ;------------------------------------------------------------------------------
 
@@ -530,7 +498,7 @@ ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
                 lda ManDrawY
                 sta LastSpriteY
 
-                ldx #<PLAYER_RIGHT0
+                ldx #<PLAYER0_SHAPE ;PLAYER_BLANK
 
 SetSelfModPlayer
                 cmp #SCREEN_LINES                       ; only erase/draw if was/is onscreen
@@ -544,6 +512,13 @@ SetSelfModPlayer
                 sta SELFMOD_PLAYER0_GREEN+RAM_WRITE+1
                 adc #LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_BLUE+RAM_WRITE+1
+
+                ;adc #LINES_PER_CHAR/3
+                ;sta SELFMOD_PLAYER1_RED+RAM_WRITE+1     ; lo of frame
+                ;adc #LINES_PER_CHAR/3
+                ;sta SELFMOD_PLAYER1_GREEN+RAM_WRITE+1
+                ;adc #LINES_PER_CHAR/3
+                ;sta SELFMOD_PLAYER1_BLUE+RAM_WRITE+1
 
 NoMod           rts
 
@@ -785,6 +760,48 @@ CharacterDataVecHI
         ECHO "ERROR: Incorrect CharacterDataVecHI table!"
         ERR
     ENDIF
+
+
+;     OPTIONAL_PAGEBREAK "PLAYER BLANK SHAPE", LINES_PER_CHAR
+
+ShapePlayer         = PLAYER0_SHAPE ;BLANK
+ShapePlayerBLUE     = ShapePlayer   ; low adresses patched
+ShapePlayerGREEN    = ShapePlayer   ; low adresses patched
+ShapePlayerRED      = ShapePlayer   ; low adresses patched
+
+CHARACTERSHAPE_MANOCCUPIED = PLAYER_BLANK
+CHARACTERSHAPE_BLANK = PLAYER_BLANK
+
+
+; The following are the RAM buffers into which the player shape and colour data are copied
+; The self-mod draw vectors point to this OR to a **blank** shape.
+
+    OPTIONAL_PAGEBREAK "PLAYER_BLANK", LINES_PER_CHAR
+PLAYER_BLANK
+    ds LINES_PER_CHAR, 0            ; P1
+    CHECKPAGEX PLAYER_BLANK, "PLAYER_BLANK in BANK_ROM_SHADOW_RAMBANK.asm"
+
+    OPTIONAL_PAGEBREAK "PLAYER0_SHAPE", LINES_PER_CHAR
+PLAYER0_SHAPE
+Sprite0ShapeRED
+    ds LINES_PER_CHAR/3,0
+Sprite0ShapeGREEN
+    ds LINES_PER_CHAR/3,0
+Sprite0ShapeBLUE
+    ds LINES_PER_CHAR/3,0
+    CHECKPAGEX PLAYER0_SHAPE, "PLAYER0_SHAPE in BANK_ROM_SHADOW_RAMBANK.asm"
+
+    OPTIONAL_PAGEBREAK "PLAYER0_COLOUR", LINES_PER_CHAR           ; BOTH on same page
+PLAYER0_COLOUR
+Sprite0ColourRED
+    ds LINES_PER_CHAR/3,0
+Sprite0ColourGREEN
+    ds LINES_PER_CHAR/3,0
+Sprite0ColourBLUE
+    ds LINES_PER_CHAR/3,0
+    CHECKPAGEX PLAYER0_COLOUR, "PLAYER0_COLOUR in BANK_ROM_SHADOW_RAMBANK.asm"
+
+ExistingFrame   .byte -1
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 
