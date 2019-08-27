@@ -110,12 +110,12 @@ waitForDraw    rts                             ; 6
     ; draw code.  The following gets around this by setting the Y offscreen (causing the player draw code to
     ; blank the graphic) and leaving the X alone (so we don't see a brief flash in left of screen).
 
-                lda #SCREEN_LINES               ;2
+                lda #-1 ;SCREEN_LINES               ;2
                 sta ManDrawY                    ;3
-                bne skipsc                      ;3 =8              unconditional
+                bne offsc
 
 onsc            sta ManDrawX                    ;3
-skipsc
+offsc
 
             ;32✅ worst
 
@@ -332,7 +332,6 @@ ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
                 sta ANIM_TARGET2 + RAM_WRITE            ; 4 = 23
 
                 rts                                     ; 6 = 29✅
-
 
 targetReplaceChar
     .byte CHARACTER_BLANK ;CHARACTER_TARGET1     ;  3  XOR'd to give flashing target squares

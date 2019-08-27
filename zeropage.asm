@@ -84,12 +84,6 @@ ManAnimationID                  ds 1
 DelayEndOfLevel               ds 1
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
 
-#if 0
-circ_x                 ds 1
-circ_y                  ds 1
-circ_char             ds 1
-circ_scratch          ds 1
-#endif
 LEVEL_bank         ds 1
 levelPtr            ds 2
 
@@ -99,9 +93,9 @@ blankState          ds 1
 
 ;---------------------------------------------------------------------------
 ; 2 (shared) demo mode variables:
-demoMode                        = jtoggle       ; bit 7==1 => demo mode
-moveLen                         = jtoggle       ; bits 0..6
-moveIdx                        ds 1
+;demoMode                        = jtoggle       ; bit 7==1 => demo mode
+;moveLen                         = jtoggle       ; bits 0..6
+;moveIdx                        ds 1
 
 LastSpriteY                     ds 1
 
@@ -114,7 +108,7 @@ levelX                            ds 1            ; current player's level (othe
 level                           ds 1            ; current player's level (other in scoring bank)
 ;levelDisplay                     ds 1            ; what to display as the level ID
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
-ThrottleSpeed                   ds 1            ; system-dependant throttle speed
+;ThrottleSpeed                   ds 1            ; system-dependant throttle speed
 
 BCD_targetsRequired                  ds 1           ; number of un-targeted left to go
 BCD_moveCounter                        ds 1            ; BCD seconds for level
@@ -131,14 +125,14 @@ ROM_Bank                        ds 1            ; last switched ROM bank (not ac
 RAM_Bank                        ds 1
 
 ColourTimer                     ds 1            ; colour of BG in scoring area to show level flash/complete
-ColourFlash                     ds 1             ; colour of flash
-extraLifeTimer                  ds 1            ; should be 5 seconds!
+;ColourFlash                     ds 1             ; colour of flash
+;extraLifeTimer                  ds 1            ; should be 5 seconds!
 
     ; extraLifeTimer:
     ;   When non-zero causes Cosmic Ark star effect in background. Used to indicate extra life.
 
-scoringTimer                    ds 1            ; times the various score displays
-scoringFlags                    ds 1            ; scoring flags are stored here
+;scoringTimer                    ds 1            ; times the various score displays
+;scoringFlags                    ds 1            ; scoring flags are stored here
 
     ; scoringFlags:
     ; D7            Extra TARGETs in effect (TARGETs collected over requirement score more) ASSUMED BPL/BMI usage

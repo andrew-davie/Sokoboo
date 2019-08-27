@@ -473,8 +473,11 @@ ExitDigitKernel:                ;           @69
 .zeroPos:
         ldx #$70                ; 2         magic value #1 for Cosmic Ark stars
         sta RESP0               ; 3 =  5    @22..67 (@look around!)
+
+        sta WSYNC
         lda BGColour                ; 3
         sta COLUBK
+
         stx HMM0                ; 3         for extra life stars!
 
         sta WSYNC               ; 3
@@ -532,9 +535,11 @@ VblankLoopGame
         ldy blankState
     ENDIF
         sty VBLANK              ; 3         <-- 0
-        lda scoringFlags        ; 3
-        and #DISPLAY_FLAGS                ; 2
-        tax                     ; 2
+        ;lda scoringFlags        ; 3
+        ;and #DISPLAY_FLAGS                ; 2
+        ;tax                     ; 2
+
+        ldx #0
 
 ;    DEFINE_SUBROUTINE DrawDigit2
 ;
@@ -634,17 +639,17 @@ SMCOLOR
         cld
 
     ; switch display
-        lda scoringFlags
-        and #DISPLAY_FLAGS
-        cmp newDisplay                      ; lower priority than current?
-        beq .restartTime
-        bcs .skipNew
-        eor scoringFlags                    ; remove existing score mode
-        ora newDisplay                      ; switch to new score mode
-        sta scoringFlags
+        ;lda scoringFlags
+        ;and #DISPLAY_FLAGS
+        ;cmp newDisplay                      ; lower priority than current?
+        ;beq .restartTime
+        ;bcs .skipNew
+        ;eor scoringFlags                    ; remove existing score mode
+        ;ora newDisplay                      ; switch to new score mode
+        ;sta scoringFlags
 .restartTime:
-        lda #SCORING_TIMER                  ; maybe always restart timer?
-        sta scoringTimer
+        ;lda #SCORING_TIMER                  ; maybe always restart timer?
+        ;sta scoringTimer
 .skipNew:
 
         rts
@@ -723,14 +728,14 @@ HighScoreColTbl:
 
                 ldy #SM_OFS_SCORE
 .loopScore2
-                lda scoringFlags
-                and #DISPLAY_FLAGS
-                cmp #DISPLAY_HIGH
-                ldx Platform
-                lda HighScoreColTbl,x
-                tax
-                lda HighScore-SM_OFS_SCORE,y
-                bcs .showHighScore
+                ;lda scoringFlags
+                ;and #DISPLAY_FLAGS
+                ;cmp #DISPLAY_HIGH
+                ;ldx Platform
+                ;lda HighScoreColTbl,x
+                ;tax
+                ;lda HighScore-SM_OFS_SCORE,y
+                ;bcs .showHighScore
                 ldx #SCORE_COL
                 lda ScoreCurrent-SM_OFS_SCORE,y
 .showHighScore
@@ -811,7 +816,7 @@ HighScoreColTbl:
                 jsr SetupBCDPtr
 
                 lda #ID_TARGET<<4                  ; if no extra targets, display the normal icon
-                bit scoringFlags                    ;
+                ;bit scoringFlags                    ;
                 bpl SetupBCDPtr
                 lda #ID_EXTRA<<4                    ; otherwise, display the extra icon
                 bvc SetupBCDPtr

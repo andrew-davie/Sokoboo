@@ -92,7 +92,7 @@ TEST_{1} = 1
 
 
     MAC SEGTIME_C
-{1} SET ({2}+16)/64 + 1
+{1} SET ({2}+32)/64 + 1
 TEST_{1} = 0
     ENDM
 

@@ -546,7 +546,7 @@ MOVE_GENERIC    lda #0                          ; 2
 noMovesToTake   lda Platform
                 clc
                 adc #4                      ; reds
-                sta ColourFlash
+                sta BGColour ;ColourFlash
                 lda #6
                 sta ColourTimer
                 rts
@@ -610,7 +610,7 @@ noMovesToTake   lda Platform
                 lda Platform
                 clc
                 adc #8
-                sta ColourFlash                 ; yellow flash
+                sta BGColour ;ColourFlash                 ; yellow flash
                 lda #3
                 sta ColourTimer
 #endif
@@ -807,11 +807,8 @@ skipOffscreen       rts
 
     DEFINE_SUBROUTINE writePlayerFrame
 
-                    sec
-                    lda ManY
-                    sbc BoardScrollY
-                    cmp #SCREEN_LINES                  ; todo - use const
-                    bcs skipOffscreen
+                    lda ManDrawY
+                    bmi skipOffscreen
                     sta bank                            ; character line (and hence bank) of player position
 
                     lda Platform
@@ -886,13 +883,11 @@ notFlip             tay
                     lda COLOUR_PTR_HI,y
                     sta colour_ptr+1
 
-                    clc
+
+
                     ldy #LINES_PER_CHAR-1
-CopySpriteToBank
-                    lda #PLAYER_FRAMES
-                    sta SET_BANK
-                    lda (frame_ptr),y
-                    pha
+                    clc
+CopySpriteToBank                                    ; 408
 
     ; The colours for the sprites are copied to the row bank's colour data. The frames contain
     ; colour *indexes*. These indexes are modified by the *base* which indicates both the
@@ -901,17 +896,20 @@ CopySpriteToBank
 
     ; ethnicity * 16 + PALNTSC * 8
 
+                    lda #PLAYER_FRAMES
+                    sta SET_BANK
+
                     lda (colour_ptr),y
                     adc ethnicity                      ; colour base
                     tax
+                    lda (frame_ptr),y
+                    pha
                     lda bank
                     sta SET_BANK_RAM
                     lda EthnicityColourPalette,x
                     sta Sprite0ColourRED+RAM_WRITE,y
-                    ;sta Sprite1ColourRED+RAM_WRITE,y
                     pla
-                    sta Sprite0ShapeRED+RAM_WRITE,y ;PLAYER_RIGHT0+RAM_WRITE,y
-                    ;sta Sprite1ShapeRED+RAM_WRITE,y ;PLAYER_RIGHT1+RAM_WRITE,y
+                    sta Sprite0ShapeRED+RAM_WRITE,y
                     dey
                     bpl CopySpriteToBank
 
@@ -1182,10 +1180,10 @@ NewFrameStart
                 sty VDELP0                  ; 3     y = 0!
 
                 iny                         ; 2     this relies on Y == 0 before...
-                cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
+                ;cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
                 ;adc #2                      ; 2
                 ;sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
-                SLEEP 4
+                SLEEP 7
 
                 lda ManLastDirection        ; 3
                 sta REFP0                   ; 3

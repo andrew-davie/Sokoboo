@@ -859,8 +859,9 @@ anim_direction   .byte 0,%1000,128,128,128
 
                 lda #20
                 sta DelayEndOfLevel
-                lda Platform
-                sta ColourFlash                 ; green
+                ldx Platform
+                lda FlashColour+4,x
+                sta BGColour ;ColourFlash                 ; green
                 lda #6
                 sta ColourTimer
 

@@ -232,10 +232,10 @@ notU0           sta BoardScrollY
                 ;sta sortRequired                ; nothing needed
                 sta DrawStackPointer
 
-                lda #DISPLAY_TIME ;DISPLAY_SCORE
-                sta scoringFlags
-                lda #0 ;SCORING_TIMER_FIRST                 ; We want the first timer display to be long, to show level and lives
-                sta scoringTimer
+                ;lda #DISPLAY_TIME ;DISPLAY_SCORE
+                ;sta scoringFlags
+                ;lda #0 ;SCORING_TIMER_FIRST                 ; We want the first timer display to be long, to show level and lives
+                ;sta scoringTimer
 
                 clc
                 lda ethnic
@@ -428,6 +428,8 @@ FlashColour     .byte $C4, $C4, $54, $54
                 .byte $34, $34, $64, $64            ; reds - cannot takeback
                 .byte $16, $16, $26, $26            ; yellow
 
+theThrottler
+        .byte 30, 30, 30*60/50, 30
 
     DEFINE_SUBROUTINE PostScreenCleanup
 
@@ -470,7 +472,8 @@ FlashColour     .byte $C4, $C4, $54, $54
 ;;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
 ;nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
 
-                lda ThrottleSpeed
+                ldx Platform
+                lda theThrottler,x
                 clc
                 adc Throttle
                 bcs noVerflo
@@ -489,9 +492,13 @@ noVerflo
                 lda ColourTimer
                 beq noFlashBG
                 dec ColourTimer
-                ldx ColourFlash
-                lda FlashColour,x
-noFlashBG       sta BGColour
+                bne noFlashBG
+                lda #0
+                sta BGColour
+                ;lda ColourFlash
+                ;lda FlashColour,x
+noFlashBG
+;       sta BGColour
 
     ; Handle the player joystick reading. We do it *every frame* so that we can incorporate a two-frame
     ; buffer.  This is designed to give a little better responsiveness to the 'quick tap' movement.
@@ -517,9 +524,9 @@ noFlashBG       sta BGColour
                 beq timer0now
                 dec scoringTimer
                 bne timer0now
-                lda scoringFlags
-                and #<(~DISPLAY_FLAGS)      ;       switches to time display
-                sta scoringFlags
+                ;lda scoringFlags
+                ;and #<(~DISPLAY_FLAGS)      ;       switches to time display
+                ;sta scoringFlags
 timer0now
 #endif
 

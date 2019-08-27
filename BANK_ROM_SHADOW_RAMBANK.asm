@@ -485,40 +485,34 @@ ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
 
     ; Sets the shapes to a blank player -- effectively erasing
 
-                lda LastSpriteY
-                ldx #<PLAYER_BLANK
-                jsr SetSelfModPlayer
+                ldx LastSpriteY
+                bmi erased                              ; offscreen
+                cpx ManDrawY
+                beq NoMod                               ; same, so all should be OK
+
+                stx SET_BANK_RAM                        ; switch old/new bank in (this code too!!!!)
+
+                lda #<PLAYER_BLANK
+                sta SELFMOD_PLAYER0_RED+RAM_WRITE+1
+                lda #<PLAYER_BLANK + LINES_PER_CHAR/3
+                sta SELFMOD_PLAYER0_GREEN+RAM_WRITE+1
+                lda #<PLAYER_BLANK + 2*LINES_PER_CHAR/3
+                sta SELFMOD_PLAYER0_BLUE+RAM_WRITE+1
 
     ; Now we've erased, we write the new shape
 
-                lda ManDrawX
-                cmp #SCREEN_WIDTH
-                bcs NoMod                               ; skip if off visible screen
+erased          ldx ManDrawY
+                stx LastSpriteY
+                bmi NoMod
 
-                lda ManDrawY
-                sta LastSpriteY
+                stx SET_BANK_RAM                        ; switch old/new bank in (this code too!!!!)
 
-                ldx #<PLAYER0_SHAPE ;PLAYER_BLANK
-
-SetSelfModPlayer
-                cmp #SCREEN_LINES                       ; only erase/draw if was/is onscreen
-                bcs NoMod
-                adc #BANK_SCREENMARKII1
-                sta SET_BANK_RAM                        ; switch old/new bank in
-
-                txa
-                sta SELFMOD_PLAYER0_RED+RAM_WRITE+1     ; lo of frame
-                adc #LINES_PER_CHAR/3
+                lda #<PLAYER0_SHAPE
+                sta SELFMOD_PLAYER0_RED+RAM_WRITE+1
+                lda #<PLAYER0_SHAPE + LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_GREEN+RAM_WRITE+1
-                adc #LINES_PER_CHAR/3
+                lda #<PLAYER0_SHAPE + 2*LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_BLUE+RAM_WRITE+1
-
-                ;adc #LINES_PER_CHAR/3
-                ;sta SELFMOD_PLAYER1_RED+RAM_WRITE+1     ; lo of frame
-                ;adc #LINES_PER_CHAR/3
-                ;sta SELFMOD_PLAYER1_GREEN+RAM_WRITE+1
-                ;adc #LINES_PER_CHAR/3
-                ;sta SELFMOD_PLAYER1_BLUE+RAM_WRITE+1
 
 NoMod           rts
 
