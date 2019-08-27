@@ -543,13 +543,14 @@ MOVE_GENERIC    lda #0                          ; 2
     ;---------------------------------------------------------------------------
     ; takeback buffer empty - flash red
 
-noMovesToTake   lda Platform
-                clc
-                adc #4                      ; reds
-                sta BGColour ;ColourFlash
+noMovesToTake   ldx Platform
+                lda redColour,x
+                sta BGColour
                 lda #6
                 sta ColourTimer
                 rts
+
+redColour       .byte $32, $32, $62, $62
 
     ;---------------------------------------------------------------------------
 
@@ -1164,29 +1165,6 @@ NewFrameStart
     ; A 42-cycle timing window in the screen draw code.  Perform any general
     ; per-frame code here, provided it takes exactly 42 cycles to execute.
     ; TJ: Well, not exactly 42 cycles, but it works! :)
-                                            ;       @09
-                ;sta COLUBK                  ; 3     value comes from subroutine
-                                            ; + the 'black' left-side of top screen colour change when look-around is actually a HMOVE bar, so we can't fix it :)
-
-;                inc Throttle                ; 5     speed limiter
-                ;SLEEP 2                    ;       TODO: optimize for space
-
-                lda #%00010101              ; 2     double width missile, double width player
-                dex                         ; 2     = $6f, stars effect!
-                stx HMM0                    ; 3     @24, exactly 21 cycles after the HMOVE
-
-                sta NUSIZ0                  ; 3
-                sta NUSIZ1 ;SLEEP 3
-                sty VDELP0                  ; 3     y = 0!
-
-                iny                         ; 2     this relies on Y == 0 before...
-                ;cpy extraLifeTimer          ; 3     ..,and bit 0 is set in A
-                ;adc #2                      ; 2
-                ;sta ENAM0                   ; 3     dis/enable Cosmic Ark star effect
-                SLEEP 7
-
-                lda ManLastDirection        ; 3
-                sta REFP0                   ; 3
 
                 lda #BANK_SCREENMARKII1     ; 2
                 sta SET_BANK                ; testing

@@ -650,7 +650,7 @@ xyClear       jsr PutBoardCharacterFromRAM
               dec POS_Y
               bpl xyLine
 
-              lda #4
+              lda #4                ;todo - crashes @12 ... why?
               sta base_x
               sta base_y
 

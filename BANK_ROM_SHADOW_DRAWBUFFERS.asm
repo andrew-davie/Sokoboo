@@ -119,16 +119,29 @@ offsc
 
             ;32✅ worst
 
-                jsr AnimateCharReplacements2    ;6+29 = 35✅
+    DEFINE_SUBROUTINE AnimateCharReplacements2      ; =23
 
-            ;@67✅ worst
+    ; This manages character animation on a per-object basis.  Morph/animate these characters
+    ; individually or as required.  Change will affect all characters of the same type in the
+    ; visible display.
+
+                lda animate_char_index              ; 3
+                and #3                              ; 2
+                tax                                 ; 2
+
+                lda targetReplaceChar,x             ; 4
+                sta ANIM_TARGET + RAM_WRITE         ; 4
+                lda targetReplaceChar2,x            ; 4
+                sta ANIM_TARGET2 + RAM_WRITE        ; 4
+
+            ;@55✅ worst
 
                 lda #SCREEN_ARRAY_SIZE-1        ;2
                 sta DSL                         ;3
 
                 inc ScreenDrawPhase             ;5
                 rts                             ; 6 TEST allows segtime test to be smaller on next part
-                                                ; ==> @83✅ worst
+                                                ; ==> @71✅ worst
 
     ;---------------------------------------------------------------------------
 
@@ -316,34 +329,18 @@ ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
     CHECKPAGEX CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
 
 
-    DEFINE_SUBROUTINE AnimateCharReplacements2 ; 29✅
-
-    ; This manages character animation on a per-object basis.  Morph/animate these
-    ; characters individually or as required.  Change will affect all characters
-    ; of the same type in the visible display.
-
-                lda animate_char_index                  ; 3
-                and #3                                  ; 2
-                tax                                     ; 2
-
-                lda targetReplaceChar,x                 ; 4
-                sta ANIM_TARGET + RAM_WRITE             ; 4
-                lda targetReplaceChar2,x                ; 4
-                sta ANIM_TARGET2 + RAM_WRITE            ; 4 = 23
-
-                rts                                     ; 6 = 29✅
 
 targetReplaceChar
-    .byte CHARACTER_BLANK ;CHARACTER_TARGET1     ;  3  XOR'd to give flashing target squares
-    .byte CHARACTER_BLANK    ;  8    box on target
-    .byte CHARACTER_TARGET    ;  8    box on target
-    .byte CHARACTER_TARGET    ;  8    box on target
+    .byte CHARACTER_BLANK
+    .byte CHARACTER_BLANK
+    .byte CHARACTER_TARGET
+    .byte CHARACTER_TARGET
 
 targetReplaceChar2
-    .byte CHARACTER_BOX ;CHARACTER_TARGET1     ;  3  XOR'd to give flashing target squares
-    .byte CHARACTER_BOX             ;  8    box on target
-    .byte CHARACTER_BOX_ON_TARGET    ;  8    box on target
-    .byte CHARACTER_BOX_ON_TARGET    ;  8    box on target
+    .byte CHARACTER_BOX
+    .byte CHARACTER_BOX
+    .byte CHARACTER_BOX_ON_TARGET
+    .byte CHARACTER_BOX_ON_TARGET
 
     ;------------------------------------------------------------------------------
 

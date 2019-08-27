@@ -475,14 +475,25 @@ ExitDigitKernel:                ;           @69
         sta RESP0               ; 3 =  5    @22..67 (@look around!)
 
         sta WSYNC
+        sta HMOVE               ; 3
+
         lda BGColour                ; 3
-        sta COLUBK
+        sta COLUBK                  ;3
 
         stx HMM0                ; 3         for extra life stars!
 
-        sta WSYNC               ; 3
-        sta HMOVE               ; 3
-        rts                     ; 6         @09
+                lda #%00010101              ; 2     double width missile, double width player
+                sta NUSIZ0                  ; 3
+                sta NUSIZ1
+                sty VDELP0                  ; 3     y = 0!
+
+                SLEEP 5
+
+                lda ManLastDirection        ; 3
+                sta REFP0                   ; 3
+
+        ;sta WSYNC               ; 3
+        rts                     ; 6         @21
 
     ;------------------------------------------------------------------------------
 Score3x2Fix SUBROUTINE
@@ -817,11 +828,11 @@ HighScoreColTbl:
 
                 lda #ID_TARGET<<4                  ; if no extra targets, display the normal icon
                 ;bit scoringFlags                    ;
-                bpl SetupBCDPtr
-                lda #ID_EXTRA<<4                    ; otherwise, display the extra icon
-                bvc SetupBCDPtr
-                ora #1                              ; display 1xx targets
-                bne SetupBCDPtr                     ; unconditional
+                jmp SetupBCDPtr
+                ;lda #ID_EXTRA<<4                    ; otherwise, display the extra icon
+                ;bvc SetupBCDPtr
+                ;ora #1                              ; display 1xx targets
+                ;bne SetupBCDPtr                     ; unconditional
 
     ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE DrawTime

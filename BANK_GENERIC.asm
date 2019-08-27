@@ -93,15 +93,6 @@
                 sta ScreenDrawPhase             ; sequences the sections of gameplay/screen drawing
                 sta ethnic
 
-        #if 0
-                sta circle_d
-                sta circle_d+1
-        #endif
-
-;    IFCONST DEBUG_CREATURE
-;                sta worstTime
-;    ENDIF
-
                 lda #%100                       ; players/missiles BEHIND BG
                 sta CTRLPF
 
@@ -423,10 +414,6 @@ lookColour2     .byte $02, $02
 OverscanTime
     .byte OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
-
-FlashColour     .byte $C4, $C4, $54, $54
-                .byte $34, $34, $64, $64            ; reds - cannot takeback
-                .byte $16, $16, $26, $26            ; yellow
 
 theThrottler
         .byte 30, 30, 30*60/50, 30

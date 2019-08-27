@@ -12,6 +12,8 @@ LevelSequence
                 lda #%00000000
                 sta COLUBK
                 sta CTRLPF
+                sta AUDV0
+                sta AUDV1                           ; turn off music while levels init
 
                 lda #$80
                 sta digitick
@@ -37,8 +39,6 @@ LevelSequence
                 clc
                 lda levelX
                 adc #1
-;                adc #96
-;    lda #1
                 sec
 m100            sbc #100
                 inc targetDigit+2
@@ -320,7 +320,7 @@ blankDig ds COLOUR_LINES,0
     REPEND
     ENDM
 
-    ALIGN 256
+    ;ALIGN 256 ???
 COLOUR_TABLE
     LUMTABLE $90,$B0,$20,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
     LUMTABLE $90, $70, $0, $A,$A,$0, $0,$0,$0, COLOUR_LINES          ; PAL

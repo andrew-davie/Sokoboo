@@ -51,44 +51,18 @@ FIXED_BANK             = 15 * 2048           ; ->> 32K
 YES                     = 1
 NO                      = 0
 
-DEBUG                   = NO
-
-TJ_MODE                 = NO                ; some changes which TJ prefers
-AD_MODE                 = YES                ; some changes which AD prefers
-
- IF TJ_MODE && AD_MODE
-     ECHO "ERROR: Both TJ_MODE and AD_MODE set. Can't do both TJ and AD at the same time!"
-     ERR
- ENDIF
-
-
-                  ; Note: you may also need to change the emulator "-format" switch in the Makefile.
-
-
 ;===================================
 FINAL_VERSION                   = NO           ; this OVERRIDES any selections below and sets everything correct for a final release
 ;===================================
 
 ;-------------------------------------------------------------------------------
-; The following should be YES for the final or DEMO version
-EMBED_COPYRIGHT                 SET YES         ; place embedded copyright notice in binary (hex string)
-
-;-------------------------------------------------------------------------------
 ; The following are optional YES/NO depending on phase of the moon
 L276                            SET YES         ; use 276 line display for NTSC
-;-------------------------------------------------------------------------------
-
-NUMPLAYERS      = 1                             ; 1-indexed
-NUM_LEVELS      = 5
-NUM_LIVES       SET 3                           ; use -1 for unlimited lives
-
 ;-------------------------------------------------------------------------------
 ; DO NOT MODIFY THE BELOW SETTINGS -- USE THE ONES ABOVE!
 ; Here we make sure everyting is OK based on the single switch -- less chance for accidents
  IF FINAL_VERSION = YES
 L276                            SET YES         ; use 276 line display for NTSC
-
-NUM_LIVES                       SET 3           ; use -1 for unlimited lives
  ENDIF
 
 ;-------------------------------------------------------------------------------
@@ -117,10 +91,6 @@ DISPLAY_HIGH                = %11
 
 ;------------------------------------------------------------------------------
 
-MIRRORED_BOX            = YES
-MIRRORED_STEEL              = YES
-MIRRORED_WALL               = YES
-
 DIGITS = NO
 WAIT_FOR_INITIAL_DRAW = YES             ; blank until all initial tiles drawn
 
@@ -141,14 +111,9 @@ SET_BANK_RAM                = $3E               ; write address to switch RAM ba
 ; color constants:
 WHITE                       = $0e               ; bright white, for NTSC and PAL
 
-YELLOW_NTSC                 = $10
-YELLOW_PAL                  = $20
-
-
 RAM_3E                      = $1000
 RAM_SIZE                    = $400
 RAM_WRITE                   = $400              ; add this to RAM address when doing writes
-
 
 RND_EOR_VAL                 = $b4
 
@@ -321,18 +286,6 @@ FREE SET FREE + .
     echo "@", ., ":", FREE
   ENDM
 
-
-IDENTITY    SET 0
-    MAC IDENT ; {object}
-#if DEBUG=YES
-        lda #IDENTITY
-        sta debug_ident
-        lda {1}
-        sta debug_object
-#endif
-IDENTITY    SET IDENTITY + 1
-    ENDM
-
     ;--------------------------------------------------------------------------
 
     MAC VECTOR              ; just a word pointer to code
@@ -414,44 +367,6 @@ ORIGIN          SET ORIGIN + RAM_SIZE
             and #%11
             eor #PAL
             sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
-    ENDM
-
-;  IF TJ_MODE
-;    MAC GET_RAM_BYTE_FROM_RAM ; = 29
-;        ldy #{1}                        ; 2     read bank
-;        ldx #{2}                        ; 2     return bank
-;        jsr GetRAMByteFromRAM           ;25
-;    ENDM
-;
-;    MAC PUT_RAM_BYTE_FROM_RAM ; = 30
-;        ldy #{1}                        ; 2     write bank
-;        ldx #{2}                        ; 2     return bank
-;        jsr PutRAMByteFromRAM           ;26
-;    ENDM
-;
-;    MAC GET_RAM_BYTE_FROM_RAM_ADR ; = 39
-;        ldx #<{1}                       ; 2
-;        stx addressR                    ; 3
-;        ldx #>{1}                       ; 2
-;        stx addressR+1                  ; 3
-;        GET_RAM_BYTE_FROM_RAM {2}, {3}  ;29
-;    ENDM
-;
-;    MAC PUT_RAM_BYTE_FROM_RAM_ADR ; = 40
-;        ldx #<{1}                       ; 2
-;        stx addressW                    ; 3
-;        ldx #>({1}+RAM_WRITE)           ; 2
-;        stx addressW+1                  ; 3
-;        PUT_RAM_BYTE_FROM_RAM {2}, {3}  ;30
-;    ENDM
-;  ENDIF
-
-    MAC NOP_B       ; unused
-        .byte   $82
-    ENDM
-
-    MAC NOP_W
-        .byte   $0c
     ENDM
 
     MAC LOAD_ANIMATION
@@ -776,24 +691,10 @@ ObjStackType    ds OBJ_STACK_SIZE       ; type of object
 
 ; now fits into one single bank (if we don't reserve too much space for code)
 
-SIZE_BOARD_X    = 24 ;
-SIZE_BOARD_Y    = 20 ;22
-#if 0
-; have to precalculate it here, else DASM freaks out:
-.BOARD_SIZE SET 0
-.BOARD_LOCATION SET 0
-            REPEAT SIZE_BOARD_Y
-              IF >.BOARD_LOCATION != >(.BOARD_LOCATION + SIZE_BOARD_X-1)
-.BOARD_SIZE SET .BOARD_SIZE - .BOARD_LOCATION
-.BOARD_LOCATION SET .BOARD_LOCATION - <.BOARD_LOCATION + 256
-.BOARD_SIZE SET .BOARD_SIZE + .BOARD_LOCATION
-              ENDIF
-.BOARD_SIZE SET .BOARD_SIZE + SIZE_BOARD_X
-.BOARD_LOCATION SET .BOARD_LOCATION + SIZE_BOARD_X
-            REPEND
+SIZE_BOARD_X    = 40 ;
+SIZE_BOARD_Y    = 22
 
-SIZE_BOARD      = .BOARD_SIZE
-#endif
+
   IF SIZE_BOARD > RAM_SIZE
 MULTI_BANK_BOARD = YES
   ELSE

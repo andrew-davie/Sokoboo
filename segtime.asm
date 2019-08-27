@@ -121,7 +121,7 @@ SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 
     SEGTIME SEGTIME_BDF,40                       ; glitches on 37 - 10/8/2019
 
-    SEGTIME_C SEGTIME_BDS, 83                   ;✅
+    SEGTIME_C SEGTIME_BDS, 71                   ;✅
     SEGTIME_C SEGTIME_DSL, 127                  ;✅
     SEGTIME_C SEGTIME_SWITCHOBJECTS,46          ;✅
 

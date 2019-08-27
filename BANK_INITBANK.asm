@@ -860,7 +860,7 @@ anim_direction   .byte 0,%1000,128,128,128
                 lda #20
                 sta DelayEndOfLevel
                 ldx Platform
-                lda FlashColour+4,x
+                lda FlashColour,x ;+4,x
                 sta BGColour ;ColourFlash                 ; green
                 lda #6
                 sta ColourTimer
@@ -870,6 +870,9 @@ anim_direction   .byte 0,%1000,128,128,128
                 lda #MANMODE_NEXTLEVEL2
                 sta ManMode
                 rts
+
+
+FlashColour     .byte $C4, $C4, $54, $54
 
 
     DEFINE_SUBROUTINE IMC

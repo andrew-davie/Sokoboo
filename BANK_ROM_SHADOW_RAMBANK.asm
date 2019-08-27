@@ -155,7 +155,7 @@ SELFMOD_PLAYER1_BLUE
 ScanGREEN                                                   ;           @62
 SM_PF0_GREENl   lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @69
-;SELFMOD_PLAYERCOL_GREEN
+
                 lda Sprite0ColourGREEN,y                     ; 4
                 ;lda #$66
                 ;nop
