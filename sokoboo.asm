@@ -534,11 +534,12 @@ loop            ds 1
 
                 OVERLAY UnpackLevelOverlay
 
-base_x          ds 1
-base_y          ds 1
-upk_length      ds 1
-upk_column      ds 1
-upk_temp      ds 1
+base_x                  ds 1
+base_y                  ds 1
+upk_length              ds 1
+upk_column              ds 1
+upk_temp                ds 1
+icc_colour              ds 3
 
     ;ECHO "FREE BYTES IN UnpackLevelOverlay = ", OVERLAY_SIZE - ( * - Overlay )
                 VALIDATE_OVERLAY
@@ -547,10 +548,6 @@ upk_temp      ds 1
 
                 OVERLAY ManProcessing
 actionVector        ds 2
-                VALIDATE_OVERLAY
-
-                OVERLAY SetPlatformColours
-colorIdx            ds 1
                 VALIDATE_OVERLAY
 
                 OVERLAY DrawIntoStack

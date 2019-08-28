@@ -804,13 +804,8 @@ EnterStealCharDraw:                             ; @11✅ from initial StealCharD
 
     ;---------------------------------------------------------------------------
 
-skipOffscreen       rts
 
     DEFINE_SUBROUTINE writePlayerFrame
-
-                    lda ManDrawY
-                    bmi skipOffscreen
-                    sta bank                            ; character line (and hence bank) of player position
 
                     lda Platform
                     and #%10
@@ -862,12 +857,16 @@ aJump               ldy animation_delay         ; actually animation ID :)
 
 notFlip             tay
 
+                    lda ManDrawY
+                    ;cmp #SCREEN_LINES
+                    ;bcs skipOffscreen
+                    sta bank                            ; character line (and hence bank) of player position
+                    sta SET_BANK_RAM
+
     ; Now we have the frame #, we can see if that frame has already been drawn into
     ; the frame buffer of the relevant bank. If it has, then we don't need to repeat
     ; and can save the enormous cost of frame copying...
 
-                    lda bank
-                    sta SET_BANK_RAM
                     cpy ExistingFrame                   ; optimize - don't draw if same frame
                     beq SkipFrameCopy
                     sty ExistingFrame + RAM_WRITE
@@ -908,12 +907,13 @@ CopySpriteToBank                                    ; 408
                     lda bank
                     sta SET_BANK_RAM
                     lda EthnicityColourPalette,x
-                    sta Sprite0ColourRED+RAM_WRITE,y
+                    sta PLAYER0_COLOUR+RAM_WRITE,y
                     pla
-                    sta Sprite0ShapeRED+RAM_WRITE,y
+                    sta PLAYER0_SHAPE+RAM_WRITE,y
                     dey
                     bpl CopySpriteToBank
 
+skipOffscreen
 SkipFrameCopy       rts
 
     ;---------------------------------------------------------------------------
@@ -1078,23 +1078,6 @@ skipDemoCheck
                 sta SET_BANK                    ; 3
                 jsr LevelInit                   ; 6+x
 
-                lda #BANK_DECODE_LEVEL
-                sta SET_BANK_RAM
-                jsr UnpackLevel
-
-    ; TODO now we KNOW the width, we can set the top left accordingly and re-unpack
-
-                lda #SIZE_BOARD_X
-                sta BoardLimit_Width
-                lda #SIZE_BOARD_Y
-                sta BoardLimit_Height
-
-    ; Setup player animation and scroll limits.
-    ; Mangle the board colours based on level
-
-                lda #BANK_CreateCreatures       ; 2
-                sta SET_BANK                    ; 3
-                jsr CreateCreatures             ; 6+x
 
     ; Setup the various digit and display pointers
     ; Grab current player's score/level from backup
@@ -1117,6 +1100,24 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 ldx #ROM_SHADOW_OF_BANK_DRAW_BUFFERS
                 ldy #BANK_DRAW_BUFFERS
                 jsr CopyROMShadowToRAM_F000
+
+                lda #BANK_DECODE_LEVEL
+                sta SET_BANK_RAM
+                jsr UnpackLevel
+
+    ; TODO now we KNOW the width, we can set the top left accordingly and re-unpack
+
+                lda #SIZE_BOARD_X
+                sta BoardLimit_Width
+                lda #SIZE_BOARD_Y
+                sta BoardLimit_Height
+
+    ; Setup player animation and scroll limits.
+    ; Mangle the board colours based on level
+
+                lda #BANK_CreateCreatures       ; 2
+                sta SET_BANK                    ; 3
+                jsr CreateCreatures             ; 6+x
 
     ;---------------------------------------------------------------------------
 

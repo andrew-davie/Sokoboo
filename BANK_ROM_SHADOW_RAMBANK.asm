@@ -71,7 +71,7 @@ SM_PF0_REDl     lda CHARACTERSHAPE_BLANK,y                  ; 4
                 lda ScreenBitmapRED+0*LINES_PER_CHAR,y      ; 4
                 sta PF1                                     ; 3 = 14    @74
 ;SELFMOD_PLAYERCOL_RED
-                lda Sprite0ColourRED,y                       ; 4
+                lda PLAYER0_COLOUR,y                       ; 4
                 ;lda #$66
                 ;nop
                 sta COLUP0                                  ; 3         @05
@@ -118,7 +118,7 @@ ScanBLUEBD                                                  ;           @67     
 SM_PF0_BLUEl    lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @74
 ;SELFMOD_PLAYERCOL_BLUE
-                lda Sprite0ColourBLUE,y                      ; 4
+                lda PLAYER0_COLOUR+2*LINES_PER_CHAR/3,y                      ; 4
                 ;lda #$66
                 ;nop
                 ;sta COLUP1                                  ; 3         @05
@@ -155,8 +155,8 @@ SELFMOD_PLAYER1_BLUE
 ScanGREEN                                                   ;           @62
 SM_PF0_GREENl   lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3 =  7    @69
-
-                lda Sprite0ColourGREEN,y                     ; 4
+;SELFMOD_PLAYERCOL_GREEN
+                lda PLAYER0_COLOUR+LINES_PER_CHAR/3,y                     ; 4
                 ;lda #$66
                 ;nop
                 ;sta COLUP1                                  ; 3         @00
@@ -480,19 +480,17 @@ ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
 
     DEFINE_SUBROUTINE SelfModDrawPlayers ; copied to ROW RAM BANKS
 
-    ; Now the player(s) have animated, update the appropriate shape pointers
-    ; in the draw code.
-
-    ; Sets the shapes to a blank player -- effectively erasing
+    ; Update the appropriate shape pointers in the draw code.
+    ; First, set the shape to a blank player -- effectively erasing
 
                 ldx LastSpriteY
-                bmi erased                              ; offscreen
+                bmi erased                                  ; offscreen
                 cpx ManDrawY
-                beq NoMod                               ; same, so all should be OK
+                beq NoMod                                   ; same line, so all should be OK already
 
-                stx SET_BANK_RAM                        ; switch old/new bank in (this code too!!!!)
+                stx SET_BANK_RAM                            ; switch old bank in (this code too!!!!)
 
-                lda #<PLAYER_BLANK
+                lda #<PLAYER_BLANK                          ; "erase"
                 sta SELFMOD_PLAYER0_RED+RAM_WRITE+1
                 lda #<PLAYER_BLANK + LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_GREEN+RAM_WRITE+1
@@ -505,9 +503,9 @@ erased          ldx ManDrawY
                 stx LastSpriteY
                 bmi NoMod
 
-                stx SET_BANK_RAM                        ; switch old/new bank in (this code too!!!!)
+                stx SET_BANK_RAM                            ; switch new bank in (this code too!!!!)
 
-                lda #<PLAYER0_SHAPE
+                lda #<PLAYER0_SHAPE                         ; draw buffer holding the new frame shape
                 sta SELFMOD_PLAYER0_RED+RAM_WRITE+1
                 lda #<PLAYER0_SHAPE + LINES_PER_CHAR/3
                 sta SELFMOD_PLAYER0_GREEN+RAM_WRITE+1
@@ -517,8 +515,6 @@ erased          ldx ManDrawY
 NoMod           rts
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
-
-    include "player.asm"        ; 6 * LINES_PER_CHAR          MUST FOLLOW DIRT.ASM as data is shared
 
    ;------------------------------------------------------------------------------
 
@@ -531,17 +527,6 @@ NoMod           rts
 
 EthnicityColourPalette
 
-
-
-
-
-
-
-
-
-
-
-
 ; CL0     = BLACK
 ; CL1     = HAT
 ; CL2     = SKIN
@@ -551,13 +536,6 @@ EthnicityColourPalette
 ; CL6     = SHOES
 ; CL7     = UNUSED
 
-; CL0 = black
-; CL1 = hat
-; CL2 = face, hands
-; CL3 = trim
-; CL4 = jumper
-; CL5 = pants
-; CL6 = shoes
 ; CL7 = NOT USABLE
 
 ; (*) = unchecked/converted
@@ -589,7 +567,7 @@ EthnicityColourPalette
     COLOUR_GROUP    $10,$A, $40,$8, $00,$C, $80,$8, $90,6, $10,6   ; 0
     COLOUR_GROUP    $10,$A, $F0,$8, $60,$C, $50,$4, $70,6, $40,6   ; 1
     COLOUR_GROUP    $40,$6, $E0,$8, $00,$C, $C0,$4, $90,6, $20,6   ; 2
-    COLOUR_GROUP    $30,$A, $50,$8, $10,$C, $40,$4, $60,6, $50,8    ; 3
+    COLOUR_GROUP    $30,$A, $50,$8, $10,$C, $40,$4, $60,6, $50,8   ; 3
 
    ;------------------------------------------------------------------------------
 
@@ -777,22 +755,12 @@ PLAYER_BLANK
 
     OPTIONAL_PAGEBREAK "PLAYER0_SHAPE", LINES_PER_CHAR
 PLAYER0_SHAPE
-Sprite0ShapeRED
-    ds LINES_PER_CHAR/3,0
-Sprite0ShapeGREEN
-    ds LINES_PER_CHAR/3,0
-Sprite0ShapeBLUE
-    ds LINES_PER_CHAR/3,0
+    ds LINES_PER_CHAR,0
     CHECKPAGEX PLAYER0_SHAPE, "PLAYER0_SHAPE in BANK_ROM_SHADOW_RAMBANK.asm"
 
     OPTIONAL_PAGEBREAK "PLAYER0_COLOUR", LINES_PER_CHAR           ; BOTH on same page
 PLAYER0_COLOUR
-Sprite0ColourRED
-    ds LINES_PER_CHAR/3,0
-Sprite0ColourGREEN
-    ds LINES_PER_CHAR/3,0
-Sprite0ColourBLUE
-    ds LINES_PER_CHAR/3,0
+    ds LINES_PER_CHAR,0
     CHECKPAGEX PLAYER0_COLOUR, "PLAYER0_COLOUR in BANK_ROM_SHADOW_RAMBANK.asm"
 
 ExistingFrame   .byte -1

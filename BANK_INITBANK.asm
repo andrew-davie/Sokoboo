@@ -186,42 +186,12 @@ CopyPage        sty O_Index
                 ldy #<SELFMOD_X
                 jsr PutBoardCharacter           ;6+21(A)        set index/rts
 .skipPatch
-
-                ldx #3-1
-.loopColor
-                stx colorIdx
-; set PF colors
-                lda color,x
-                ldy SelfModColOfsTbl,x
-                ;tax
-                ldx RAM_Bank
-                jsr PutBoardCharacter           ;6+21(A)        copy PF colour RED/GREEN/BLUE to self-modifying RAM
-; set player colors
-                ldx colorIdx
-                lda SelfModePlayerTbl,x
-                ldy Platform
-                cpy #PAL
-                bcc .platform0
-                adc #LINES_PER_CHAR-1           ; C==1!
-.platform0:
-                ;ldy SelfModPlayerColOfsTbl,x
-                ;tax
-                ;ldx RAM_Bank
-                ;jsr PutBoardCharacter           ;6+21(A)        copy player colour RED/GREEN/BLUE to self-modifying RAM
-; loop
-                ldx colorIdx
-                dex
-                bpl .loopColor
-
                 ldy RAM_Bank
                 rts
 
 SelfModColOfsTbl:
     .byte   <(SELFMOD_BLUE+1), <(SELFMOD_GREEN+1), <(SELFMOD_RED+1)
-SelfModePlayerTbl:
-    .byte   <Sprite0ColourBLUE, <Sprite0ColourGREEN, <Sprite0ColourRED
-;SelfModPlayerColOfsTbl:
-;    .byte   <(SELFMOD_PLAYERCOL_BLUE+1), <(SELFMOD_PLAYERCOL_GREEN+1), <(SELFMOD_PLAYERCOL_RED+1)
+
 
 
 DrawLineStartLO

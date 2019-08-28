@@ -118,7 +118,6 @@ takebackIndex               ds 1
 takebackBaseIndex                 ds 1
 TakebackInhibit                 ds 1
 
-color                           ds 3            ; RGB for NTSC, RGB for PAL
 Board_AddressR                  ds 2
 Board_AddressW                  ds 2
 ROM_Bank                        ds 1            ; last switched ROM bank (not accessible if RAM subsequently switched)

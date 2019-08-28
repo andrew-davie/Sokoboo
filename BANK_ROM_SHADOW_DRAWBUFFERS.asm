@@ -55,7 +55,7 @@ DrawFlag        ds SCREEN_ARRAY_SIZE,0                  ; holds new character to
     ; what we want to happen!
 
 ScreenBuffer    ds SCREEN_ARRAY_SIZE,0                    ; the char buffer for delta-drawing
-
+                CHECKPAGEX ScreenBuffer, "ScreenBuffer"
 
     ;------------------------------------------------------------------------------
     ; RAM-BASED SUBROUTINES...
@@ -98,6 +98,8 @@ waitForDraw    rts                             ; 6
 ;                sec            already set
                 lda ManY                        ;3
                 sbc BoardScrollY                ;3
+                cmp #SCREEN_LINES
+                bcs offy
                 sta ManDrawY                    ;3 = 9✅
 
                 sec                             ;2
@@ -110,7 +112,7 @@ waitForDraw    rts                             ; 6
     ; draw code.  The following gets around this by setting the Y offscreen (causing the player draw code to
     ; blank the graphic) and leaving the X alone (so we don't see a brief flash in left of screen).
 
-                lda #-1 ;SCREEN_LINES               ;2
+offy            lda #-1 ;SCREEN_LINES               ;2
                 sta ManDrawY                    ;3
                 bne offsc
 

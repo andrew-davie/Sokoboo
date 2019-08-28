@@ -35,28 +35,7 @@ LevelSequence
                 sta digit+2
 
     ; convert to 3 digits decimal
-
-                clc
-                lda levelX
-                adc #1
-                sec
-m100            sbc #100
-                inc targetDigit+2
-                bcs m100
-                adc #100
-m10             sbc #10
-                inc targetDigit+1
-                bcs m10
-                adc #10
-                sta targetDigit
-
-
-                lda targetDigit+2
-                bne hunds
-                lda #10
-                sta targetDigit+2
-                sta digit+2
-hunds
+                jsr dd3
 
 
 
@@ -104,11 +83,10 @@ RestartFrameX
                 sta digitstar+1
 
 
-
       ;------------------------------------------------------------------
 
 
-VerticalBlankX  ;sta WSYNC
+VerticalBlankX
                 lda INTIM
                 bne VerticalBlankX
                 sta VBLANK
@@ -118,33 +96,43 @@ VerticalBlankX  ;sta WSYNC
                 sta PF1
                 sta PF2
 
+                lda BGColour
+                sta COLUBK
+
                 ldx Platform
                 lda colvecX,x
                 tax
-    ldx #0
-
+ ldx #0 ;tmp
       ;------------------------------------------------------------------
 
       ; Do X scanlines of color-changing (our picture)
 
                 ldy #26                 ; #lines in characters-1
 LevelNumberDigits
+
+.LOOP SET 0
     REPEAT 3
 
+                sta WSYNC               ; 3
                 lda #0                  ; 2
                 sta PF0                 ; 3
 
-                sta WSYNC               ; 3
 
-                lda COLOUR_TABLE,x      ; 4
+        IF .LOOP < 2
+                lda COLOUR_TABLEX,x      ; 4
+        ENDIF
+
+        IF .LOOP = 2
+                lda #0
+        ENDIF
+
                 sta COLUPF              ; 3
-                nop ;inx                     ; 2
 
                 lda (digitHundreds),y   ; 5
                 sta PF1                 ; 3
 
                 lda (digit1),y          ; 5
-                sta.w PF2                 ; 3 @ 26 OK
+                sta PF2                 ; 3 @ 26 OK
 
         ; RHS
 
@@ -157,21 +145,25 @@ LevelNumberDigits
                 asl                     ; 2
                 sta PF1                 ; 3 @40 OK        NOT MIRRORED, D7D6D5D4 -->
 
-
                 lda (digitstar),y       ; 5
                 sta PF2                 ; 3
 
-            nop
-    lda #0 ;$44
-        sta COLUPF
+    IF .LOOP = 0
+                lda #$44
+    ENDIF
+    IF .LOOP = 1
+                lda #$14
+    ENDIF
+    IF .LOOP = 2
+                lda #0
+    ENDIF
 
-
+                sta COLUPF
+.LOOP SET .LOOP + 1
     REPEND
-            inx
-
+                inx
                 dey
-                bmi exss
-                jmp LevelNumberDigits ; 2(3)
+                bpl LevelNumberDigits ; 2(3)
 exss
                 lda #0
                 sta PF0
@@ -221,6 +213,39 @@ scanOK          dex
                 bpl scanner
 
 
+    lda #-1
+    sta targetDigit
+    sta targetDigit+1
+    sta targetDigit+2
+
+    lda SWCHA
+    lsr
+    lsr
+    lsr
+    lsr
+    tax
+    clc
+    lda levelX
+    adc xJoyMoveX,x
+    cmp #255
+    bne nml1
+    lda #MAX_LEVEL-1
+nml1 cmp #MAX_LEVEL
+    bne nml2
+    lda #0
+nml2
+
+    sta levelX
+    jsr dd3
+
+        ldx #2
+zapper lda targetDigit,x
+    sta digit,x
+    dex
+    bpl zapper
+
+nohitd2
+nojoy
 donedig
 
 
@@ -231,42 +256,11 @@ nodigchange
                 bmi neverend
 
                 dec endwait
-                beq retX
+                ;beq retX
 
-neverend                lda INPT4
-                bmi noret
-
-                ldx #2
-copyDigits      lda targetDigit,x
-                sta digit,x
-                dex
-                bpl copyDigits
-
-                lda #50
-                sta endwait
-
-noret                jmp oscanX
-                ;bpl retX
-
-                lda SWCHA
-                lsr
-                lsr
-                lsr
-                lsr
-                tay
-
-                clc
-                lda xJoyMoveX,y
-                adc digit
-                sta digit
-
-;nowY                clc
-;                adc xJoyMoveX,y
-;                cmp #100
-;                bcc lt100
-;                lda #0
-;lt100           sta targetDigit
-
+neverend
+                lda INPT4
+                bpl retX
 
 oscanX
                 lda INTIM
@@ -280,15 +274,42 @@ oscanX
 
 retX             rts
 
-xJoyMoveX        .byte 0,0,0,0,0,1, 1,1,0,-1,-1,-1;,0, 0,0,0
-xJoyMoveY        .byte 0,0,0,0,0,1,-1,0,0, 1,-1,0,0,0,0,0;, 0,0,1,-1,0
+
+
+dd3
+                clc
+                lda levelX
+                adc #1
+                sec
+m100            sbc #100
+                inc targetDigit+2
+                bcs m100
+                adc #100
+m10             sbc #10
+                inc targetDigit+1
+                bcs m10
+                adc #10
+                sta targetDigit
+
+
+                lda targetDigit+2
+                bne hunds
+                lda #10
+                sta targetDigit+2
+                sta digit+2             ; hide hundreds if 0
+hunds
+
+                rts
+
+
+xJoyMoveX        .byte 0,0,0,0,0,1, 1,1,0,-1,-1,-1,0,-1,1,0
 
 VBlankTime2x
     .byte 110,110
     .byte 150,150
 OverscanTime2X
-    .byte 87, 87
-    .byte 89, 89
+    .byte 118, 118
+    .byte 120, 120
 
 COLOUR_LINES    = 27
 colvecX
@@ -311,9 +332,9 @@ blankDig ds COLOUR_LINES,0
 .STEP3 = (256*({9}-{6}))/{10}
 
     REPEAT COLOUR_LINES
-            .byte $44 ;{1}+(.LUM1/256)
-            .byte $56 ;{2}+(.LUM2/256)
-            .byte $78 ;{3}+(.LUM3/256)
+            .byte {1}+(.LUM1/256)
+            .byte {2}+(.LUM2/256)
+            .byte {3}+(.LUM3/256)
 .LUM1     SET .LUM1 + .STEP1
 .LUM2     SET .LUM2 + .STEP2
 .LUM3     SET .LUM3 + .STEP3
@@ -321,9 +342,9 @@ blankDig ds COLOUR_LINES,0
     ENDM
 
     ;ALIGN 256 ???
-COLOUR_TABLE
+COLOUR_TABLEX
     LUMTABLE $90,$B0,$20,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
-    LUMTABLE $90, $70, $0, $A,$A,$0, $0,$0,$0, COLOUR_LINES          ; PAL
+    LUMTABLE $B0,$30,$40,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
 
 quest
     REPEAT 9

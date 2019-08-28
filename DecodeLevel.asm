@@ -606,20 +606,38 @@ endzapy2        dec POS_X
 
 C1 ;
     ; mortar for bricks
-    NTSCPAL $C0,$6
-    NTSCPAL $40,$4
+    NTSCPAL $C0,$6 ;ok blue soil aqua walls grey box
+    NTSCPAL $60,$8 ;ok red soil purple walls orange box
+    NTSCPAL $30,$6 ;ok both     green soil, yellow wall, blue box purple top
+    NTSCPAL $20,$6 ;ok both   blue soil, grey box/wall
     NTSCPAL $40,$A
     NTSCPAL $C0,$8
+    NTSCPAL $C0,$6 ; lovely????
+    NTSCPAL $10,$8
+;    NTSCPAL $40,$A
+;    NTSCPAL $C0,$8
 C2  ; soil stripes
-    NTSCPAL $30,$6
-    NTSCPAL $20,$8
-    NTSCPAL $A0,$4
+    NTSCPAL $90,$6 ; ok v nice
+    NTSCPAL $0,$4 ; ok v nice brick
+    NTSCPAL $D0,$6 ;ok both
+    NTSCPAL $A0,$4 ;ok both
     NTSCPAL $60,$6
+    NTSCPAL $90,$6 ; lovely
+    NTSCPAL $40,$8 ;ok
+    NTSCPAL $10,$4
+;    NTSCPAL $40,$A
+;    NTSCPAL $C0,$8
 C3 ;
-    NTSCPAL $10,$6
-    NTSCPAL $C0,$6
+    NTSCPAL $40,$8 ;ok
+    NTSCPAL $20,$8 ;ok
+    NTSCPAL $90,$6 ;ok both
+    NTSCPAL $20,$6 ;ok both
     NTSCPAL $70,$A
     NTSCPAL $20,$A
+    NTSCPAL $C0,$6 ; lovely
+    NTSCPAL $40,$8
+;    NTSCPAL $40,$A
+;    NTSCPAL $C0,$8
 
 
 ;good...
@@ -669,19 +687,40 @@ xyClear       jsr PutBoardCharacterFromRAM
                 lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
                 sta ROM_Bank                        ; GetROMByte returns to this bank
 
-              lda levelX
-              and #3
-              asl
-              asl
-              ora Platform              ; NTSC/PAL
-              lsr
-              tax
-              lda C1,x
-              sta color
-              lda C2,x
-              sta color+1
-              lda C3,x
-              sta color+2
+                lda levelX
+                and #7
+                asl
+                asl
+                ora Platform              ; NTSC/PAL
+                lsr
+                tax
+
+                lda C1,x
+                sta icc_colour
+                lda C2,x
+                sta icc_colour+1
+                lda C3,x
+                sta icc_colour+2
+
+    ; Update the level colours (self-modifying) in each of the character line banks
+
+                ldx #SCREEN_LINES-1
+setPlat
+                lda icc_colour
+                ldy #<SELFMOD_BLUE+1
+                jsr PutBoardCharacter
+
+                lda icc_colour+1
+                ldy #<SELFMOD_GREEN+1
+                jsr PutBoardCharacter
+
+                lda icc_colour+2
+                ldy #<SELFMOD_RED+1
+                jsr PutBoardCharacter
+
+                dex
+                bpl setPlat
+
 
               lda #$00
               sta BCD_moveCounter
