@@ -1051,25 +1051,23 @@ SEGMENT_DECODE_LEVEL_SHADOW = $F000      ; if not = $F000, this will cause an as
 
 RestartLevelNextPlayer
 
-
-
-    ; a player has lost a life.
-    ; store his vars, swap to other player, continue
-
-                ;lda #BANK_SCORING
-                ;sta SET_BANK_RAM
-                ;jsr SwapPlayers
-
                 lda #BANK_SwapPlayersGeneric
                 sta SET_BANK
                 jsr SwapPlayersGeneric
 
-NextLevelLevel
-skipDemoCheck
+                ldx #BANK_LevelScreen
+                stx SET_BANK
+                lda #0
+                beq selectLeveler
 
-                lda #BANK_LevelScreen
-                sta SET_BANK
-                jsr LevelSequence
+NextLevelLevel
+
+
+                ldx #BANK_LevelScreen
+                stx SET_BANK
+
+                lda #1
+selectLeveler   jsr LevelSequence
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
     ; including those for general systems function. But NOT those which do not need re-initialising between

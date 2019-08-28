@@ -128,13 +128,13 @@ offsc
     ; visible display.
 
                 lda animate_char_index              ; 3
-                and #3                              ; 2
+                and #7                              ; 2
                 tax                                 ; 2
 
                 lda targetReplaceChar,x             ; 4
                 sta ANIM_TARGET + RAM_WRITE         ; 4
-                lda targetReplaceChar2,x            ; 4
-                sta ANIM_TARGET2 + RAM_WRITE        ; 4
+                ;lda targetReplaceChar2,x            ; 4
+                ;sta ANIM_TARGET2 + RAM_WRITE        ; 4
 
             ;@55✅ worst
 
@@ -333,16 +333,20 @@ ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
 
 
 targetReplaceChar
-    .byte CHARACTER_BLANK
-    .byte CHARACTER_BLANK
     .byte CHARACTER_TARGET
     .byte CHARACTER_TARGET
+    .byte CHARACTER_TARGET1
+    .byte CHARACTER_TARGET1
+    .byte CHARACTER_TARGET2
+    .byte CHARACTER_TARGET2
+    .byte CHARACTER_TARGET3
+    .byte CHARACTER_TARGET3
 
-targetReplaceChar2
-    .byte CHARACTER_BOX
-    .byte CHARACTER_BOX
-    .byte CHARACTER_BOX_ON_TARGET
-    .byte CHARACTER_BOX_ON_TARGET
+;targetReplaceChar2
+;    .byte CHARACTER_BOX
+;    .byte CHARACTER_BOX
+;    .byte CHARACTER_BOX_ON_TARGET
+;    .byte CHARACTER_BOX_ON_TARGET
 
     ;------------------------------------------------------------------------------
 

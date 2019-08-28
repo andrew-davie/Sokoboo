@@ -610,32 +610,32 @@ C1 ;
     NTSCPAL $60,$8 ;ok red soil purple walls orange box
     NTSCPAL $30,$6 ;ok both     green soil, yellow wall, blue box purple top
     NTSCPAL $20,$6 ;ok both   blue soil, grey box/wall
-    NTSCPAL $40,$A
+    NTSCPAL $30,$6
     NTSCPAL $C0,$8
     NTSCPAL $C0,$6 ; lovely????
-    NTSCPAL $10,$8
+    NTSCPAL $70,$A
 ;    NTSCPAL $40,$A
 ;    NTSCPAL $C0,$8
 C2  ; soil stripes
     NTSCPAL $90,$6 ; ok v nice
-    NTSCPAL $0,$4 ; ok v nice brick
+    NTSCPAL $0,$6 ; ok v nice brick
     NTSCPAL $D0,$6 ;ok both
-    NTSCPAL $A0,$4 ;ok both
+    NTSCPAL $B0,$4 ;ok both
     NTSCPAL $60,$6
     NTSCPAL $90,$6 ; lovely
     NTSCPAL $40,$8 ;ok
-    NTSCPAL $10,$4
+    NTSCPAL $10,$6
 ;    NTSCPAL $40,$A
 ;    NTSCPAL $C0,$8
 C3 ;
     NTSCPAL $40,$8 ;ok
     NTSCPAL $20,$8 ;ok
     NTSCPAL $90,$6 ;ok both
-    NTSCPAL $20,$6 ;ok both
-    NTSCPAL $70,$A
+    NTSCPAL $70,$6 ;ok both
+    NTSCPAL $B0,$8
     NTSCPAL $20,$A
     NTSCPAL $C0,$6 ; lovely
-    NTSCPAL $40,$8
+    NTSCPAL $C0,$8
 ;    NTSCPAL $40,$A
 ;    NTSCPAL $C0,$8
 

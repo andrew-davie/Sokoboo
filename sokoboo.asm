@@ -451,6 +451,7 @@ initialdelay            ds 1
 endwait                 ds 1
 colourindex             ds 1
 digitHundreds           ds 2
+selector                ds 1
     VALIDATE_OVERLAY
 
 ;------------------------------------------------------------------------------

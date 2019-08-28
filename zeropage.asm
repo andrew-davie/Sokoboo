@@ -163,7 +163,7 @@ animate_char_index              ds 1
 
 
 
-OVERLAY_SIZE    SET 21
+OVERLAY_SIZE    SET 22
 
 
 

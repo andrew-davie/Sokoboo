@@ -5,7 +5,16 @@
 
   ; Start of vertical blank processing
 
+Qcolour         .byte $44,$44, $64,$64
+
 LevelSequence
+
+                cmp #0
+                beq noQuestion
+                ldx Platform
+                lda Qcolour,x
+noQuestion      sta selector
+
 
                 RESYNC  ; uses overlay
 
@@ -148,17 +157,12 @@ LevelNumberDigits
                 lda (digitstar),y       ; 5
                 sta PF2                 ; 3
 
-    IF .LOOP = 0
-                lda #$44
-    ENDIF
-    IF .LOOP = 1
-                lda #$14
-    ENDIF
-    IF .LOOP = 2
+    IF .LOOP = 0 || .LOOP=1
+                lda selector
+    ELSE
                 lda #0
     ENDIF
-
-                sta COLUPF
+                 sta COLUPF
 .LOOP SET .LOOP + 1
     REPEND
                 inx
@@ -204,7 +208,7 @@ scanner         lda digit,x
                 lda #0
 scanOK2         sta digit,x
 
-                lda #50
+                lda #75
                 sta endwait
 
                 jmp donedig
@@ -212,6 +216,8 @@ scanOK2         sta digit,x
 scanOK          dex
                 bpl scanner
 
+                lda selector
+                beq nodigchange               ; don't allow joystick selection
 
     lda #-1
     sta targetDigit
@@ -259,7 +265,13 @@ nodigchange
                 ;beq retX
 
 neverend
-                lda INPT4
+                lda selector
+                bne waitbutton
+                lda endwait
+                beq retX
+
+
+waitbutton                lda INPT4
                 bpl retX
 
 oscanX
@@ -318,20 +330,21 @@ colvecX
 
 blankDig ds COLOUR_LINES,0
 
-    MAC LUMTABLE ;{1}{2}{3} base colours
-; {4} MIN LUM 1
-; {5} MIN LUM 2
-; {6} MIN LUM 3
+    MAC LUMTABLE2
+;{1}{2}{3} base colours
+; {4}{5}{6}     base luminance
+; {7}{8}{9}     target luminance
+; {10}          number of lines
 
 .LUM1     SET {4}*256
 .LUM2     SET {5}*256
 .LUM3     SET {6}*256
 
-.STEP1 = (256*({7}-{4}))/{10}
-.STEP2 = (256*({8}-{5}))/{10}
-.STEP3 = (256*({9}-{6}))/{10}
+.STEP1 = (256*({7}-{4}))/8
+.STEP2 = (256*({8}-{5}))/8
+.STEP3 = (256*({9}-{6}))/8
 
-    REPEAT COLOUR_LINES
+    REPEAT 9 ;
             .byte {1}+(.LUM1/256)
             .byte {2}+(.LUM2/256)
             .byte {3}+(.LUM3/256)
@@ -343,8 +356,8 @@ blankDig ds COLOUR_LINES,0
 
     ;ALIGN 256 ???
 COLOUR_TABLEX
-    LUMTABLE $90,$B0,$20,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
-    LUMTABLE $B0,$30,$40,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
+    LUMTABLE2 $90,$B0,$20,12,12,12,4, 4,4, COLOUR_LINES                ; NTSC
+    LUMTABLE2 $B0,$30,$40,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
 
 quest
     REPEAT 9
