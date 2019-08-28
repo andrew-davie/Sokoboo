@@ -1049,6 +1049,8 @@ SEGMENT_DECODE_LEVEL_SHADOW = $F000      ; if not = $F000, this will cause an as
                 sta SET_BANK
                 jsr TitleSequence
 
+                jmp NextLevelLevel
+
 RestartLevelNextPlayer
 
                 lda #BANK_SwapPlayersGeneric
@@ -1057,8 +1059,8 @@ RestartLevelNextPlayer
 
                 ldx #BANK_LevelScreen
                 stx SET_BANK
-                lda #0
-                beq selectLeveler
+                lda #1
+                bne selectLeveler
 
 NextLevelLevel
 
@@ -1066,7 +1068,7 @@ NextLevelLevel
                 ldx #BANK_LevelScreen
                 stx SET_BANK
 
-                lda #1
+                lda #0
 selectLeveler   jsr LevelSequence
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
@@ -1131,8 +1133,8 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
 NewFrameStart
 
                 bit NextLevelTrigger
-                bpl NextLevelLevel               ; game-triggered next level
-                bvs RestartLevelNextPlayer       ; loss of life
+                bvs RestartLevelNextPlayer       ; loss of life (=SELECT)
+                bpl NextLevelLevel               ; game-triggered next level (=RESET/COMPLETED)
 
     ; Note: VSYNC must NOT be on when starting a new level! Else you get annoying TV signals.
 
@@ -1199,6 +1201,15 @@ VBlankTime
                 jmp EndOfLevel
 
 
+    DEFINE_SUBROUTINE switchLevels2
+
+        ; SELECT used, so we want to get back to selection
+
+               lda NextLevelTrigger
+               ora #$40 ; #<(~BIT_NEXTLEVEL)
+               sta NextLevelTrigger
+                rts
+
     DEFINE_SUBROUTINE nextLevelMan2
 
                 dec DelayEndOfLevel
@@ -1211,8 +1222,9 @@ VBlankTime
 
    ; Now do the actual switching
 
-               lda NextLevelTrigger
-               and #<(~BIT_NEXTLEVEL)
+;               lda NextLevelTrigger
+;               and #<(~BIT_NEXTLEVEL)
+                lda #$00
                sta NextLevelTrigger
 
    ; Next level is due. Point to the next level, but if we're at the end of playable levels,

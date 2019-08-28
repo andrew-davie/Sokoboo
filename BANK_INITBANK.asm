@@ -444,6 +444,8 @@ MANMODE_NEXTLEVEL2 = 8
 MANMODE_SWITCH = 9
 MANMODE_TURNAROUND = 10
 MANMODE_TURNAROUND2 = 11
+MANMODE_SWITCH2 = 12
+
 
 
     DEFINE_SUBROUTINE ManProcess
@@ -471,7 +473,7 @@ skipModeChange
                 sta actionVector+1
                 jmp (actionVector)
 
-newMode         .byte -1, MANMODE_SWITCH, MANMODE_WAITING2, -1
+newMode         .byte -1, MANMODE_SWITCH2, MANMODE_WAITING2, -1
 
 ManActionLO
                 .byte <manStartup               ; 0             no timer
@@ -486,6 +488,7 @@ ManActionLO
                 .byte <switchLevels             ; 9             no timer
                 .byte <TurnAround               ; 10
                 .byte <TurnAround2               ; 10
+                .byte <switchLevels2
 
 ManActionHI
                 .byte >manStartup               ; no timer
@@ -500,6 +503,7 @@ ManActionHI
                 .byte >switchLevels             ;9  no timer
                 .byte >TurnAround               ; 10
                 .byte >TurnAround2               ; 10
+                .byte >switchLevels2
 
 
     DEFINE_SUBROUTINE TurnAround
@@ -559,9 +563,12 @@ waitingManPress
 ;                lda #50
 ;                sta ColourTimer
 
+    ; RESET gets here
 
-                lda NextLevelTrigger
-                ora #BIT_NEXTLIFE
+                ;lda NextLevelTrigger
+                ;ora #BIT_NEXTLIFE
+
+                lda #0
                 sta NextLevelTrigger
                 rts
 
@@ -827,7 +834,7 @@ anim_direction   .byte 0,%1000,128,128,128
 
     DEFINE_SUBROUTINE EndOfLevel
 
-                lda #20
+                lda #25
                 sta DelayEndOfLevel
                 ldx Platform
                 lda FlashColour,x ;+4,x

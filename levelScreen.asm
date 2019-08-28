@@ -47,6 +47,17 @@ noQuestion      sta selector
                 jsr dd3
 
 
+                lda selector
+                beq RestartFrameX
+
+                lda targetDigit
+                sta digit
+                lda targetDigit+2
+                sta digit+2
+                lda targetDigit+1
+                sta digit+1
+
+
 
 RestartFrameX
                 lda #%1110                       ; VSYNC ON

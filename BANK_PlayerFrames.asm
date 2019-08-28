@@ -113,6 +113,8 @@ Animation_WIN
     .byte JUMP, ANIMATION_WIN_ID
 #endif
 
+.IDXX SET 0
+    REPEAT 2
     .byte FRAME_IDLE1,10
     .byte FRAME_IDLE2,10
 ;    .byte FRAME_IDLE3,10
@@ -120,15 +122,17 @@ Animation_WIN
     .byte FRAME_IDLE2,15
     .byte FRAME_IDLE3,10
 
-        REPEAT 1
+        IF .IDXX = 0
     .byte FRAME_LOOK3, 2
     .byte FRAME_LOOK2, 3
     .byte FRAME_LOOK1, 3
-    .byte FLIP, 0
+        .byte FLIP, 0
     .byte FRAME_WALK2, 3
+        ENDIF
+.IDXX SET .IDXX + 1
         REPEND
 
-    .byte JUMP,ANIMATION_WIN_ID
+    .byte JUMP,ANIMATION_IDLE_ID
 
 Animation_IDLE
 

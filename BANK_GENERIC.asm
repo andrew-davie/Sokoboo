@@ -246,130 +246,61 @@ Ret             rts
 
     ;---------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE TrackPlayer ; =145; in GENERIC_BANK_1
+    DEFINE_SUBROUTINE TrackPlayer ; =76
 
                 lda LookingAround               ; 3
-                bne Ret                         ; 2/3=5/6   don't track when looking around
+                bne EarlyAbortx                 ; 2/3       don't track when looking around
 
-    ; Contribution by Thomas Jentzsch
+.SCRL_START_LEFT    = 2
+.SCRL_START_RIGHT   = SCREEN_WIDTH-.SCRL_START_LEFT
+.SCRL_START_UP      = 2
+.SCRL_START_DOWN    = SCREEN_LINES-.SCRL_START_UP
 
-; scrolling constants:
-.SCRL_START_LEFT    = 2                                 ; 3
-.SCRL_STOP_LEFT     = 2 ;SCREEN_WIDTH-5                    ; 5 scrolls 5-3+1 = 3 pixel
-.SCRL_START_RIGHT   = SCREEN_WIDTH-.SCRL_START_LEFT     ; 7
-.SCRL_STOP_RIGHT    = SCREEN_WIDTH-.SCRL_STOP_LEFT      ; 5
-.SCRL_LEFT_BIT      = %00010001
-.SCRL_RIGHT_BIT     = %00100010
-.SCRL_X_BITS        = .SCRL_LEFT_BIT|.SCRL_RIGHT_BIT
-
-.SCRL_START_UP      = 2                                 ; 2
-.SCRL_STOP_UP       = 2 ;SCREEN_LINES-5                    ; 3 scrolls 3-2+1 = 2 pixel
-.SCRL_START_DOWN    = SCREEN_LINES-.SCRL_START_UP       ; 6
-.SCRL_STOP_DOWN     = SCREEN_LINES-.SCRL_STOP_UP        ; 5
-.SCRL_UP_BIT        = %01000100
-.SCRL_DOWN_BIT      = %10001000
-.SCRL_Y_BITS        = .SCRL_UP_BIT|.SCRL_DOWN_BIT
-
-; *** horizontal scrolling (unoptimized version): ***
-
-    ; check for enabling horizontal scrolling:
                 lda ManX                        ; 3
                 sec                             ; 2
                 sbc BoardScrollX                ; 3
-                tay                             ; 2         for later use
-                lda #.SCRL_LEFT_BIT             ; 2
-                cpy #.SCRL_START_LEFT           ; 2         <3?
-                bmi .startXScroll               ; 2/3       yes, scroll left
-                cpy #.SCRL_START_RIGHT          ; 2         <8?
-                bmi .skipStartXScroll           ; 2/3       no
-                lda #.SCRL_RIGHT_BIT            ; 2 = 22    yes, scroll right
-.startXScroll:
-                and #.SCRL_X_BITS >> 4          ; 2
-                ora scrollBits                  ; 3
-                sta scrollBits                  ; 3 =  8
-.skipStartXScroll:
+                tay                             ; 2 = 10         for later use
 
-    ; do horizontal scrolling:
-                lda scrollBits                  ; 3
-                and #.SCRL_X_BITS >> 4          ; 2
-                beq .skipXScroll                ; 2/3
-                and #.SCRL_RIGHT_BIT            ; 2
-                bne .xScrollRight               ; 2/3=11/12
+                lda #-1                         ; 2
+                cpy #.SCRL_START_LEFT           ; 2
+                bmi .startXScroll               ; 2/3
+                cpy #.SCRL_START_RIGHT          ; 2
+                bmi .skipXScroll                ; 2/3
+                lda #1                          ; 2 = 12
 
-    ; scroll left:
-                lda BoardScrollX                ; 3         already at left edge?
-                beq .stopXScroll                ; 2
-                dec BoardScrollX                ; 5
-                cpy #.SCRL_STOP_LEFT-1          ; 2
-                bpl .stopXScroll                ; 2/3=15
-                bmi .skipXScroll                ; 3
-;---------------------------------------
-.xScrollRight:
-                ldx BoardScrollX                ; 3
-                inx                             ; 2
-                cpx BoardEdge_Right             ; 3         already at right edge?
-                bpl .stopXScroll                ; 2/3
-                stx BoardScrollX                ; 3
-                cpy #.SCRL_STOP_RIGHT+1         ; 2
-                bpl .skipXScroll                ; 2/3=17/18
-.stopXScroll:
-                lda scrollBits                  ; 3
-                and #(~(.SCRL_X_BITS >> 4))     ; 2
-                sta scrollBits                  ; 3 =  8
+.startXScroll:  clc                             ; 2
+                adc BoardScrollX                ; 3
+                cmp BoardEdge_Right             ; 3
+                bcs .skipXScroll                ; 2/3
+                sta BoardScrollX                ; 3 = 13
+
 .skipXScroll:
-; worst case: 22 + 8 + 12 + 17 + 8 = 67
 
-; *** vertical scrolling (unoptimized version): ***
+    ; = 35 worst
 
-    ; check for enabling vertical scrolling:
                 lda ManY                        ; 3
                 sec                             ; 2
                 sbc BoardScrollY                ; 3
-                tay                             ; 2         for later use
-                lda #.SCRL_UP_BIT               ; 2
-                cpy #.SCRL_START_UP             ; 2         <2?
-                bmi .startYScroll               ; 2/3       yes, scroll up
-                cpy #.SCRL_START_DOWN           ; 2         <6?
-                bmi .skipStartYScroll           ; 2/3
-                lda #.SCRL_DOWN_BIT             ; 2 = 22    yes, scroll down
-.startYScroll:
-                and #.SCRL_Y_BITS >> 4          ; 2
-                ora scrollBits                  ; 3
-                sta scrollBits                  ; 3 =  8
-.skipStartYScroll:
+                tay                             ; 2 = 10         for later use
 
-    ; do vertical scrolling:
-                lda scrollBits                  ; 3
-                and #.SCRL_Y_BITS               ; 2
-                beq .skipYScroll                ; 2/3
-                and #.SCRL_DOWN_BIT             ; 2
-                bne .yScrollDown                ; 2/3=11/12
+                lda #-1                         ; 2
+                cpy #.SCRL_START_UP             ; 2
+                bmi .startYScroll               ; 2/3
+                cpy #.SCRL_START_DOWN           ; 2
+                bmi .skipYScroll                ; 2/3
+                lda #1                          ; 2 = 12
 
-    ; scroll up
-                lda BoardScrollY                ; 3
-                beq .stopYScroll                ; 2
-                dec BoardScrollY                ; 5
-                cpy #.SCRL_STOP_UP-1            ; 2
-                bpl .stopYScroll                ; 2/3=15
-                bmi .skipYScroll                ; 3
-;---------------------------------------
-.yScrollDown:
-                ldx BoardScrollY                ; 3
-                inx                             ; 2
-                cpx BoardEdge_Bottom      ;     ; 3
-                bpl .stopYScroll                ; 2/3
-                stx BoardScrollY                ; 3
-                cpy #.SCRL_STOP_DOWN+1          ; 2
-                bpl .skipYScroll                ; 2/3=17/18
-.stopYScroll:
-                lda scrollBits                  ; 3
-                and #(~(.SCRL_Y_BITS >> 4))     ; 2
-                sta scrollBits                  ; 3 =  8
+.startYScroll:  clc                             ; 2
+                adc BoardScrollY                ; 3
+                cmp BoardEdge_Bottom            ; 3
+                bcs .skipYScroll                ; 2/3
+                sta BoardScrollY                ; 3 = 13
+
 .skipYScroll:
-; worst case: 22 + 8 + 12 + 17 + 8 = 67
+
+    ; = 35 worst
 
 EarlyAbortx     rts                             ; 6 =  6
-; total: 5+67*2+6 = 145
 
 
 ;------------------------------------------------------------------------------
