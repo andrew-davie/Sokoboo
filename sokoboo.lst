@@ -594,7 +594,7 @@
      71  0000 ????	       00 0c	   RESERVED_FOR_STACK =	12	; bytes guaranteed not overwritten by variable use
      72  0000 ????
      73  0000 ????
-     74  0000 ????	       00 01	   PUSH_LIMIT =	1	; slowdown when pushing on a BOX
+     74  0000 ????	       00 03	   PUSH_LIMIT =	3	; slowdown when pushing on a BOX
      75  0000 ????
      76  0000 ????						; time bonus countdown constants:
      77  0000 ????	       00 ff	   EXTRA_LIFE_TIMER =	255	; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -8277,7 +8277,7 @@
      73  1c01		       85 b2		      sta	levelX
      74  1c03
       0  1c03					      LOAD_ANIMATION	IDLE
-      1  1c03		       a9 3a		      lda	#<Animation_IDLE
+      1  1c03		       a9 3c		      lda	#<Animation_IDLE
       2  1c05		       85 9a		      sta	animation
       3  1c07		       a9 f0		      lda	#>Animation_IDLE
       4  1c09		       85 9b		      sta	animation+1
@@ -11622,7 +11622,7 @@
      32  4d9f							;    GNU General Public License for more details.
      33  4d9f
       0  4d9f					      NEWBANK	PLAYER_FRAMES
-      1  54e6 ????				      SEG	PLAYER_FRAMES
+      1  5682 ????				      SEG	PLAYER_FRAMES
       2  5000					      ORG	ORIGIN
       3  5000					      RORG	$F000
       4  5000				   BANK_START SET	*
@@ -11648,8 +11648,8 @@
      51  5000
      52  5000
      53  5000
-     54  5000		       00 80	   JUMP       =	$80
-     55  5000		       00 40	   FLIP       =	$40
+     54  5000		       00 ff	   JUMP       =	$FF
+     55  5000		       00 fe	   FLIP       =	$FE
      56  5000
      57  5000
      58  5000							;ANIMATION_WALK_ID = JUMP+0
@@ -11669,1465 +11669,1795 @@
      72  5000				   ANIM_TABLE
       0  5000					      INSERT_ANIMATION	WALK
       1  5000		       00 00	   ANIMATION_WALK_ID =	ANIM_INDEX
-      2  5000		       0e f0		      .word.w	Animation_WALK
+      2  5000		       10 f0		      .word.w	Animation_WALK
       3  5000				   ANIM_INDEX SET	ANIM_INDEX + 2
       0  5002					      INSERT_ANIMATION	IDLE
       1  5002		       00 02	   ANIMATION_IDLE_ID =	ANIM_INDEX
-      2  5002		       3a f0		      .word.w	Animation_IDLE
+      2  5002		       3c f0		      .word.w	Animation_IDLE
       3  5002				   ANIM_INDEX SET	ANIM_INDEX + 2
       0  5004					      INSERT_ANIMATION	WIN
       1  5004		       00 04	   ANIMATION_WIN_ID =	ANIM_INDEX
-      2  5004		       18 f0		      .word.w	Animation_WIN
+      2  5004		       1a f0		      .word.w	Animation_WIN
       3  5004				   ANIM_INDEX SET	ANIM_INDEX + 2
       0  5006					      INSERT_ANIMATION	PUSH
       1  5006		       00 06	   ANIMATION_PUSH_ID =	ANIM_INDEX
-      2  5006		       8e f0		      .word.w	Animation_PUSH
+      2  5006		       2a f2		      .word.w	Animation_PUSH
       3  5006				   ANIM_INDEX SET	ANIM_INDEX + 2
      77  5008							;    INSERT_ANIMATION PUSHTRY
       0  5008					      INSERT_ANIMATION	PUSHUP
       1  5008		       00 08	   ANIMATION_PUSHUP_ID =	ANIM_INDEX
-      2  5008		       98 f0		      .word.w	Animation_PUSHUP
+      2  5008		       34 f2		      .word.w	Animation_PUSHUP
       3  5008				   ANIM_INDEX SET	ANIM_INDEX + 2
       0  500a					      INSERT_ANIMATION	WALK2
       1  500a		       00 0a	   ANIMATION_WALK2_ID =	ANIM_INDEX
-      2  500a		       0e f0		      .word.w	Animation_WALK2
+      2  500a		       10 f0		      .word.w	Animation_WALK2
       3  500a				   ANIM_INDEX SET	ANIM_INDEX + 2
       0  500c					      INSERT_ANIMATION	TURNAROUND
       1  500c		       00 0c	   ANIMATION_TURNAROUND_ID =	ANIM_INDEX
-      2  500c		       76 f0		      .word.w	Animation_TURNAROUND
+      2  500c		       10 f2		      .word.w	Animation_TURNAROUND
       3  500c				   ANIM_INDEX SET	ANIM_INDEX + 2
-     81  500e
-     82  500e							;    INSERT_ANIMATION PUSH_START
-     83  500e
-     84  500e				   Animation_WALK
-     85  500e							;    .byte FRAME_WALK1,4
-     86  500e							;    .byte FRAME_WALK2,2
-     87  500e							;    .byte FRAME_WALK3,3
-     88  500e							;    .byte FRAME_WALK2,4
-     89  500e				   Animation_WALK2
-     90  500e		       01 08		      .byte.b	FRAME_WALK1,8
-     91  5010		       02 08		      .byte.b	FRAME_WALK2,8
-     92  5012		       05 08		      .byte.b	FRAME_WALK3,8
-     93  5014		       02 08		      .byte.b	FRAME_WALK2,8
-     94  5016		       80 0a		      .byte.b	JUMP,ANIMATION_WALK2_ID
-     95  5018
-     96  5018				   Animation_WIN
-     97  5018
-     98  5018		       02 0a		      .byte.b	FRAME_WALK2, 10
-     99  501a
-    100  501a				   .IDXX      SET	0
-    101  501a					      REPEAT	2
-    102  501a		       0d 0a		      .byte.b	FRAME_IDLE1,10
-    103  501c		       0b 0a		      .byte.b	FRAME_IDLE2,10
-    104  501e							;    .byte FRAME_IDLE3,10
-    105  501e		       0d 0a		      .byte.b	FRAME_IDLE1,10
-    106  5020		       0b 0f		      .byte.b	FRAME_IDLE2,15
-    107  5022		       0a 0a		      .byte.b	FRAME_IDLE3,10
-    108  5024
-    109  5024					      IF	.IDXX = 0
-    110  5024		       12 02		      .byte.b	FRAME_LOOK3, 2
-    111  5026		       11 03		      .byte.b	FRAME_LOOK2, 3
-    112  5028		       13 03		      .byte.b	FRAME_LOOK1, 3
-    113  502a		       40 00		      .byte.b	FLIP, 0
-    114  502c		       02 03		      .byte.b	FRAME_WALK2, 3
-    115  502e					      ENDIF
-    116  502e				   .IDXX      SET	.IDXX + 1
-    101  502e					      REPEND
-    102  502e		       0d 0a		      .byte.b	FRAME_IDLE1,10
-    103  5030		       0b 0a		      .byte.b	FRAME_IDLE2,10
-    104  5032							;    .byte FRAME_IDLE3,10
-    105  5032		       0d 0a		      .byte.b	FRAME_IDLE1,10
-    106  5034		       0b 0f		      .byte.b	FRAME_IDLE2,15
-    107  5036		       0a 0a		      .byte.b	FRAME_IDLE3,10
-    108  5038
-    109  5038				  -	      IF	.IDXX = 0
-    110  5038				  -	      .byte	FRAME_LOOK3, 2
-    111  5038				  -	      .byte	FRAME_LOOK2, 3
-    112  5038				  -	      .byte	FRAME_LOOK1, 3
-    113  5038				  -	      .byte	FLIP, 0
-    114  5038				  -	      .byte	FRAME_WALK2, 3
-    115  5038					      ENDIF
-    116  5038				   .IDXX      SET	.IDXX + 1
-    117  5038					      REPEND
-    118  5038
-    119  5038		       80 02		      .byte.b	JUMP,ANIMATION_IDLE_ID
-    120  503a
-    121  503a				   Animation_IDLE
-    122  503a
-    123  503a							;    .byte FRAME_LOOK2, 3
-    124  503a							;    .byte FRAME_LOOK3, 2
-    125  503a							;    .byte FRAME_WALK2, 20
-    126  503a
-    127  503a
-    128  503a
-    129  503a
-    130  503a
-    131  503a
-    132  503a					      REPEAT	2
-    133  503a		       02 64		      .byte.b	FRAME_WALK2,100
-    134  503c		       0f 02		      .byte.b	FRAME_BLINK,2
-    132  503c					      REPEND
-    133  503e		       02 64		      .byte.b	FRAME_WALK2,100
-    134  5040		       0f 02		      .byte.b	FRAME_BLINK,2
-    135  5042					      REPEND
-    136  5042
-    137  5042					      REPEAT	3
-    138  5042		       14 0a		      .byte.b	FRAME_TAPFOOT,10
-    139  5044		       02 05		      .byte.b	FRAME_WALK2,5
-    137  5044					      REPEND
-    138  5046		       14 0a		      .byte.b	FRAME_TAPFOOT,10
-    139  5048		       02 05		      .byte.b	FRAME_WALK2,5
-    137  5048					      REPEND
-    138  504a		       14 0a		      .byte.b	FRAME_TAPFOOT,10
-    139  504c		       02 05		      .byte.b	FRAME_WALK2,5
-    140  504e					      REPEND
-    141  504e
-    142  504e		       12 03		      .byte.b	FRAME_LOOK3,3
-    143  5050		       11 1e		      .byte.b	FRAME_LOOK2,30
-    144  5052		       12 03		      .byte.b	FRAME_LOOK3,3
-    145  5054
-    146  5054					      REPEAT	2
-    147  5054		       02 64		      .byte.b	FRAME_WALK2,100
-    148  5056		       0f 02		      .byte.b	FRAME_BLINK,2
-    146  5056					      REPEND
-    147  5058		       02 64		      .byte.b	FRAME_WALK2,100
-    148  505a		       0f 02		      .byte.b	FRAME_BLINK,2
-    149  505c					      REPEND
-    150  505c		       04 28		      .byte.b	FRAME_LOOKUP,40
-    151  505e		       02 14		      .byte.b	FRAME_WALK2,20
-    152  5060
-    153  5060					      REPEAT	2
-    154  5060		       12 03		      .byte.b	FRAME_LOOK3, 3
-    155  5062		       11 03		      .byte.b	FRAME_LOOK2, 3
-    156  5064		       13 05		      .byte.b	FRAME_LOOK1, 5
-    157  5066		       40 00		      .byte.b	FLIP, 0
-    158  5068		       02 0a		      .byte.b	FRAME_WALK2, 10
-    153  5068					      REPEND
-    154  506a		       12 03		      .byte.b	FRAME_LOOK3, 3
-    155  506c		       11 03		      .byte.b	FRAME_LOOK2, 3
-    156  506e		       13 05		      .byte.b	FRAME_LOOK1, 5
-    157  5070		       40 00		      .byte.b	FLIP, 0
-    158  5072		       02 0a		      .byte.b	FRAME_WALK2, 10
-    159  5074					      REPEND
-    160  5074		       80 02		      .byte.b	JUMP,ANIMATION_IDLE_ID
-    161  5076
-    162  5076
-    163  5076				   Animation_TURNAROUND
-    164  5076
-    165  5076		       12 02		      .byte.b	FRAME_LOOK3, 2
-    166  5078		       11 01		      .byte.b	FRAME_LOOK2, 1
-    167  507a		       13 01		      .byte.b	FRAME_LOOK1, 1
-    168  507c		       40 00		      .byte.b	FLIP, 0
-    169  507e		       80 00		      .byte.b	JUMP,ANIMATION_WALK_ID
-    170  5080
-    171  5080
-    172  5080				   Animation_YAWN
-    173  5080
-    174  5080		       03 28		      .byte.b	FRAME_HANDLIP,40
-    175  5082		       02 32		      .byte.b	FRAME_WALK2,50
-    176  5084		       0d 0a		      .byte.b	FRAME_IDLE1,10
-    177  5086		       0b 0a		      .byte.b	FRAME_IDLE2,10
-    178  5088		       0a 3c		      .byte.b	FRAME_IDLE3,60
-    179  508a		       0b 1e		      .byte.b	FRAME_IDLE2,30
-    180  508c		       80 02		      .byte.b	JUMP,ANIMATION_IDLE_ID
-    181  508e
-    182  508e
-    183  508e
-    184  508e
-    185  508e							;Animation_PUSHTRY
-    186  508e							;    .byte FRAME_PUSH1,20
-    187  508e							;    .byte FRAME_PUSH2,20
-    188  508e							;    .byte JUMP,ANIMATION_PUSHTRY_ID
-    189  508e
-    190  508e							;Animation_PUSH_START
-    191  508e
-    192  508e							;    .byte FRAME_WALK2,2
-    193  508e
-    194  508e				   Animation_PUSH
-    195  508e		       0e 14		      .byte.b	FRAME_PUSH1,20
-    196  5090		       0c 14		      .byte.b	FRAME_PUSH2,20
-    197  5092		       09 14		      .byte.b	FRAME_PUSH3,20
-    198  5094		       0c 14		      .byte.b	FRAME_PUSH2,20
-    199  5096		       80 06		      .byte.b	JUMP,ANIMATION_PUSH_ID
-    200  5098
-    201  5098				   Animation_PUSHUP
-    202  5098		       06 0a		      .byte.b	FRAME_PUSH_UP_1, 10
-    203  509a		       08 0a		      .byte.b	FRAME_PUSH_UP_2,10
-    204  509c		       07 0a		      .byte.b	FRAME_PUSH_UP_3,10
-    205  509e		       08 0a		      .byte.b	FRAME_PUSH_UP_2,10
-    206  50a0		       80 08		      .byte.b	JUMP,ANIMATION_PUSHUP_ID
-    207  50a2
-    208  50a2
+      0  500e					      INSERT_ANIMATION	YAWN
+      1  500e		       00 0e	   ANIMATION_YAWN_ID =	ANIM_INDEX
+      2  500e		       1a f2		      .word.w	Animation_YAWN
+      3  500e				   ANIM_INDEX SET	ANIM_INDEX + 2
+     82  5010
+     83  5010							;    INSERT_ANIMATION PUSH_START
+     84  5010
+     85  5010				   Animation_WALK
+     86  5010							;    .byte FRAME_WALK1,4
+     87  5010							;    .byte FRAME_WALK2,2
+     88  5010							;    .byte FRAME_WALK3,3
+     89  5010							;    .byte FRAME_WALK2,4
+     90  5010				   Animation_WALK2
+     91  5010		       01 08		      .byte.b	FRAME_WALK1,8
+     92  5012		       02 08		      .byte.b	FRAME_WALK2,8
+     93  5014		       05 08		      .byte.b	FRAME_WALK3,8
+     94  5016		       02 08		      .byte.b	FRAME_WALK2,8
+     95  5018		       ff 0a		      .byte.b	JUMP,ANIMATION_WALK2_ID
+     96  501a
+     97  501a				   Animation_WIN
+     98  501a
+     99  501a		       02 0a		      .byte.b	FRAME_WALK2, 10
+    100  501c
+    101  501c				   .IDXX      SET	0
+    102  501c					      REPEAT	2
+    103  501c		       0d 0a		      .byte.b	FRAME_IDLE1,10
+    104  501e		       0b 0a		      .byte.b	FRAME_IDLE2,10
+    105  5020							;    .byte FRAME_IDLE3,10
+    106  5020		       0d 0a		      .byte.b	FRAME_IDLE1,10
+    107  5022		       0b 0f		      .byte.b	FRAME_IDLE2,15
+    108  5024		       0a 0a		      .byte.b	FRAME_IDLE3,10
+    109  5026
+    110  5026					      IF	.IDXX = 0
+    111  5026		       12 02		      .byte.b	FRAME_LOOK3, 2
+    112  5028		       11 03		      .byte.b	FRAME_LOOK2, 3
+    113  502a		       13 03		      .byte.b	FRAME_LOOK1, 3
+    114  502c		       fe 00		      .byte.b	FLIP, 0
+    115  502e		       02 03		      .byte.b	FRAME_WALK2, 3
+    116  5030					      ENDIF
+    117  5030				   .IDXX      SET	.IDXX + 1
+    102  5030					      REPEND
+    103  5030		       0d 0a		      .byte.b	FRAME_IDLE1,10
+    104  5032		       0b 0a		      .byte.b	FRAME_IDLE2,10
+    105  5034							;    .byte FRAME_IDLE3,10
+    106  5034		       0d 0a		      .byte.b	FRAME_IDLE1,10
+    107  5036		       0b 0f		      .byte.b	FRAME_IDLE2,15
+    108  5038		       0a 0a		      .byte.b	FRAME_IDLE3,10
+    109  503a
+    110  503a				  -	      IF	.IDXX = 0
+    111  503a				  -	      .byte	FRAME_LOOK3, 2
+    112  503a				  -	      .byte	FRAME_LOOK2, 3
+    113  503a				  -	      .byte	FRAME_LOOK1, 3
+    114  503a				  -	      .byte	FLIP, 0
+    115  503a				  -	      .byte	FRAME_WALK2, 3
+    116  503a					      ENDIF
+    117  503a				   .IDXX      SET	.IDXX + 1
+    118  503a					      REPEND
+    119  503a
+    120  503a		       ff 02		      .byte.b	JUMP,ANIMATION_IDLE_ID
+    121  503c
+    122  503c				   Animation_IDLE
+    123  503c
+    124  503c							;    .byte FRAME_LOOK2, 3
+    125  503c							;    .byte FRAME_LOOK3, 2
+    126  503c							;    .byte FRAME_WALK2, 20
+    127  503c
+    128  503c
+    129  503c
+    130  503c
+    131  503c
+    132  503c					      REPEAT	5
+    133  503c					      REPEAT	20
+    134  503c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  503e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  503e					      REPEND
+    134  5040		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5042		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5042					      REPEND
+    134  5044		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5046		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5046					      REPEND
+    134  5048		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  504a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  504a					      REPEND
+    134  504c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  504e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  504e					      REPEND
+    134  5050		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5052		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5052					      REPEND
+    134  5054		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5056		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5056					      REPEND
+    134  5058		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  505a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  505a					      REPEND
+    134  505c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  505e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  505e					      REPEND
+    134  5060		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5062		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5062					      REPEND
+    134  5064		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5066		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5066					      REPEND
+    134  5068		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  506a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  506a					      REPEND
+    134  506c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  506e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  506e					      REPEND
+    134  5070		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5072		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5072					      REPEND
+    134  5074		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5076		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5076					      REPEND
+    134  5078		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  507a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  507a					      REPEND
+    134  507c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  507e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  507e					      REPEND
+    134  5080		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5082		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5082					      REPEND
+    134  5084		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5086		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5086					      REPEND
+    134  5088		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  508a		       0f 02		      .byte.b	FRAME_BLINK,2
+    136  508c					      REPEND
+    137  508c
+    138  508c					      REPEAT	3
+    139  508c		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  508e		       02 05		      .byte.b	FRAME_WALK2,5
+    138  508e					      REPEND
+    139  5090		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  5092		       02 05		      .byte.b	FRAME_WALK2,5
+    138  5092					      REPEND
+    139  5094		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  5096		       02 05		      .byte.b	FRAME_WALK2,5
+    141  5098					      REPEND
+    132  5098					      REPEND
+    133  5098					      REPEAT	20
+    134  5098		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  509a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  509a					      REPEND
+    134  509c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  509e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  509e					      REPEND
+    134  50a0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50a2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50a2					      REPEND
+    134  50a4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50a6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50a6					      REPEND
+    134  50a8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50aa		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50aa					      REPEND
+    134  50ac		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50ae		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50ae					      REPEND
+    134  50b0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50b2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50b2					      REPEND
+    134  50b4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50b6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50b6					      REPEND
+    134  50b8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50ba		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50ba					      REPEND
+    134  50bc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50be		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50be					      REPEND
+    134  50c0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50c2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50c2					      REPEND
+    134  50c4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50c6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50c6					      REPEND
+    134  50c8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50ca		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50ca					      REPEND
+    134  50cc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50ce		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50ce					      REPEND
+    134  50d0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50d2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50d2					      REPEND
+    134  50d4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50d6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50d6					      REPEND
+    134  50d8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50da		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50da					      REPEND
+    134  50dc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50de		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50de					      REPEND
+    134  50e0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50e2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50e2					      REPEND
+    134  50e4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50e6		       0f 02		      .byte.b	FRAME_BLINK,2
+    136  50e8					      REPEND
+    137  50e8
+    138  50e8					      REPEAT	3
+    139  50e8		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  50ea		       02 05		      .byte.b	FRAME_WALK2,5
+    138  50ea					      REPEND
+    139  50ec		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  50ee		       02 05		      .byte.b	FRAME_WALK2,5
+    138  50ee					      REPEND
+    139  50f0		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  50f2		       02 05		      .byte.b	FRAME_WALK2,5
+    141  50f4					      REPEND
+    132  50f4					      REPEND
+    133  50f4					      REPEAT	20
+    134  50f4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50f6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50f6					      REPEND
+    134  50f8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50fa		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50fa					      REPEND
+    134  50fc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  50fe		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  50fe					      REPEND
+    134  5100		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5102		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5102					      REPEND
+    134  5104		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5106		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5106					      REPEND
+    134  5108		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  510a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  510a					      REPEND
+    134  510c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  510e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  510e					      REPEND
+    134  5110		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5112		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5112					      REPEND
+    134  5114		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5116		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5116					      REPEND
+    134  5118		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  511a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  511a					      REPEND
+    134  511c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  511e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  511e					      REPEND
+    134  5120		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5122		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5122					      REPEND
+    134  5124		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5126		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5126					      REPEND
+    134  5128		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  512a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  512a					      REPEND
+    134  512c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  512e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  512e					      REPEND
+    134  5130		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5132		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5132					      REPEND
+    134  5134		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5136		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5136					      REPEND
+    134  5138		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  513a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  513a					      REPEND
+    134  513c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  513e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  513e					      REPEND
+    134  5140		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5142		       0f 02		      .byte.b	FRAME_BLINK,2
+    136  5144					      REPEND
+    137  5144
+    138  5144					      REPEAT	3
+    139  5144		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  5146		       02 05		      .byte.b	FRAME_WALK2,5
+    138  5146					      REPEND
+    139  5148		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  514a		       02 05		      .byte.b	FRAME_WALK2,5
+    138  514a					      REPEND
+    139  514c		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  514e		       02 05		      .byte.b	FRAME_WALK2,5
+    141  5150					      REPEND
+    132  5150					      REPEND
+    133  5150					      REPEAT	20
+    134  5150		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5152		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5152					      REPEND
+    134  5154		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5156		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5156					      REPEND
+    134  5158		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  515a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  515a					      REPEND
+    134  515c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  515e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  515e					      REPEND
+    134  5160		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5162		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5162					      REPEND
+    134  5164		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5166		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5166					      REPEND
+    134  5168		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  516a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  516a					      REPEND
+    134  516c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  516e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  516e					      REPEND
+    134  5170		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5172		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5172					      REPEND
+    134  5174		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5176		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5176					      REPEND
+    134  5178		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  517a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  517a					      REPEND
+    134  517c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  517e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  517e					      REPEND
+    134  5180		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5182		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5182					      REPEND
+    134  5184		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5186		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5186					      REPEND
+    134  5188		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  518a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  518a					      REPEND
+    134  518c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  518e		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  518e					      REPEND
+    134  5190		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5192		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5192					      REPEND
+    134  5194		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  5196		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  5196					      REPEND
+    134  5198		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  519a		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  519a					      REPEND
+    134  519c		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  519e		       0f 02		      .byte.b	FRAME_BLINK,2
+    136  51a0					      REPEND
+    137  51a0
+    138  51a0					      REPEAT	3
+    139  51a0		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  51a2		       02 05		      .byte.b	FRAME_WALK2,5
+    138  51a2					      REPEND
+    139  51a4		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  51a6		       02 05		      .byte.b	FRAME_WALK2,5
+    138  51a6					      REPEND
+    139  51a8		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  51aa		       02 05		      .byte.b	FRAME_WALK2,5
+    141  51ac					      REPEND
+    132  51ac					      REPEND
+    133  51ac					      REPEAT	20
+    134  51ac		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51ae		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51ae					      REPEND
+    134  51b0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51b2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51b2					      REPEND
+    134  51b4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51b6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51b6					      REPEND
+    134  51b8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51ba		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51ba					      REPEND
+    134  51bc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51be		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51be					      REPEND
+    134  51c0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51c2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51c2					      REPEND
+    134  51c4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51c6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51c6					      REPEND
+    134  51c8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51ca		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51ca					      REPEND
+    134  51cc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51ce		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51ce					      REPEND
+    134  51d0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51d2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51d2					      REPEND
+    134  51d4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51d6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51d6					      REPEND
+    134  51d8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51da		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51da					      REPEND
+    134  51dc		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51de		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51de					      REPEND
+    134  51e0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51e2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51e2					      REPEND
+    134  51e4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51e6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51e6					      REPEND
+    134  51e8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51ea		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51ea					      REPEND
+    134  51ec		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51ee		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51ee					      REPEND
+    134  51f0		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51f2		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51f2					      REPEND
+    134  51f4		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51f6		       0f 02		      .byte.b	FRAME_BLINK,2
+    133  51f6					      REPEND
+    134  51f8		       02 fe		      .byte.b	FRAME_WALK2,254
+    135  51fa		       0f 02		      .byte.b	FRAME_BLINK,2
+    136  51fc					      REPEND
+    137  51fc
+    138  51fc					      REPEAT	3
+    139  51fc		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  51fe		       02 05		      .byte.b	FRAME_WALK2,5
+    138  51fe					      REPEND
+    139  5200		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  5202		       02 05		      .byte.b	FRAME_WALK2,5
+    138  5202					      REPEND
+    139  5204		       14 0a		      .byte.b	FRAME_TAPFOOT,10
+    140  5206		       02 05		      .byte.b	FRAME_WALK2,5
+    141  5208					      REPEND
+    142  5208					      REPEND
+    143  5208
+    144  5208		       12 03		      .byte.b	FRAME_LOOK3,3
+    145  520a		       11 1e		      .byte.b	FRAME_LOOK2,30
+    146  520c		       12 03		      .byte.b	FRAME_LOOK3,3
+    147  520e
+    148  520e		       ff 0e		      .byte.b	JUMP, ANIMATION_YAWN_ID
+    149  5210
+    150  5210
+    151  5210				   Animation_TURNAROUND
+    152  5210
+    153  5210		       12 02		      .byte.b	FRAME_LOOK3, 2
+    154  5212		       11 01		      .byte.b	FRAME_LOOK2, 1
+    155  5214		       13 01		      .byte.b	FRAME_LOOK1, 1
+    156  5216		       fe 00		      .byte.b	FLIP, 0
+    157  5218		       ff 00		      .byte.b	JUMP,ANIMATION_WALK_ID
+    158  521a
+    159  521a
+    160  521a				   Animation_YAWN
+    161  521a
+    162  521a							;.byte FRAME_HANDLIP,40
+    163  521a		       02 32		      .byte.b	FRAME_WALK2,50
+    164  521c		       0d 0a		      .byte.b	FRAME_IDLE1,10
+    165  521e		       0b 0a		      .byte.b	FRAME_IDLE2,10
+    166  5220		       0a 64		      .byte.b	FRAME_IDLE3,100
+    167  5222		       0b 1e		      .byte.b	FRAME_IDLE2,30
+    168  5224		       0a 64		      .byte.b	FRAME_IDLE3,100
+    169  5226		       0b 0a		      .byte.b	FRAME_IDLE2,10
+    170  5228		       ff 02		      .byte.b	JUMP,ANIMATION_IDLE_ID
+    171  522a
+    172  522a
+    173  522a
+    174  522a
+    175  522a							;Animation_PUSHTRY
+    176  522a							;    .byte FRAME_PUSH1,20
+    177  522a							;    .byte FRAME_PUSH2,20
+    178  522a							;    .byte JUMP,ANIMATION_PUSHTRY_ID
+    179  522a
+    180  522a							;Animation_PUSH_START
+    181  522a
+    182  522a							;    .byte FRAME_WALK2,2
+    183  522a
+    184  522a				   Animation_PUSH
+    185  522a		       0e 14		      .byte.b	FRAME_PUSH1,20
+    186  522c		       0c 14		      .byte.b	FRAME_PUSH2,20
+    187  522e		       09 14		      .byte.b	FRAME_PUSH3,20
+    188  5230		       0c 14		      .byte.b	FRAME_PUSH2,20
+    189  5232		       ff 06		      .byte.b	JUMP,ANIMATION_PUSH_ID
+    190  5234
+    191  5234				   Animation_PUSHUP
+    192  5234		       06 0a		      .byte.b	FRAME_PUSH_UP_1, 10
+    193  5236		       08 0a		      .byte.b	FRAME_PUSH_UP_2,10
+    194  5238		       07 0a		      .byte.b	FRAME_PUSH_UP_3,10
+    195  523a		       08 0a		      .byte.b	FRAME_PUSH_UP_2,10
+    196  523c		       ff 08		      .byte.b	JUMP,ANIMATION_PUSHUP_ID
+    197  523e
+    198  523e
 ------- FILE sprites/spriteData.asm LEVEL 3 PASS 3
-      0  50a2					      include	"sprites/spriteData.asm"
-      1  50a2				   FRAMEDATA_crouch1
-      2  50a2		       26		      .byte.b	38	; 23
-      3  50a3		       12		      .byte.b	18	; 20
-      4  50a4		       5a		      .byte.b	90	; 17
-      5  50a5		       fc		      .byte.b	252	; 14
-      6  50a6		       18		      .byte.b	24	; 11
-      7  50a7		       18		      .byte.b	24	; 8
-      8  50a8		       04		      .byte.b	4	; 5
-      9  50a9		       00		      .byte.b	0	; 2
-     10  50aa		       40		      .byte.b	64	; 22
-     11  50ab		       3e		      .byte.b	62	; 19
-     12  50ac		       ba		      .byte.b	186	; 16
-     13  50ad		       7c		      .byte.b	124	; 13
-     14  50ae		       18		      .byte.b	24	; 10
-     15  50af		       0c		      .byte.b	12	; 7
-     16  50b0		       1e		      .byte.b	30	; 4
-     17  50b1		       00		      .byte.b	0	; 1
-     18  50b2		       34		      .byte.b	52	; 21
-     19  50b3		       52		      .byte.b	82	; 18
-     20  50b4		       be		      .byte.b	190	; 15
-     21  50b5		       38		      .byte.b	56	; 12
-     22  50b6		       1c		      .byte.b	28	; 9
-     23  50b7		       0a		      .byte.b	10	; 6
-     24  50b8		       1d		      .byte.b	29	; 3
-     25  50b9		       00		      .byte.b	0	; 0
-     26  50ba
-     27  50ba				   COLOURDATA_crouch1
-     28  50ba		       06		      .byte.b	CL6	; 23
-     29  50bb		       05		      .byte.b	CL5	; 20
-     30  50bc		       03		      .byte.b	CL3	; 17
-     31  50bd		       04		      .byte.b	CL4	; 14
-     32  50be		       03		      .byte.b	CL3	; 11
-     33  50bf		       02		      .byte.b	CL2	; 8
-     34  50c0		       02		      .byte.b	CL2	; 5
-     35  50c1		       00		      .byte.b	CL0	; 2
-     36  50c2		       06		      .byte.b	CL6	; 22
-     37  50c3		       05		      .byte.b	CL5	; 19
-     38  50c4		       04		      .byte.b	CL4	; 16
-     39  50c5		       04		      .byte.b	CL4	; 13
-     40  50c6		       02		      .byte.b	CL2	; 10
-     41  50c7		       02		      .byte.b	CL2	; 7
-     42  50c8		       01		      .byte.b	CL1	; 4
-     43  50c9		       00		      .byte.b	CL0	; 1
-     44  50ca		       05		      .byte.b	CL5	; 21
-     45  50cb		       02		      .byte.b	CL2	; 18
-     46  50cc		       04		      .byte.b	CL4	; 15
-     47  50cd		       04		      .byte.b	CL4	; 12
-     48  50ce		       02		      .byte.b	CL2	; 9
-     49  50cf		       02		      .byte.b	CL2	; 6
-     50  50d0		       01		      .byte.b	CL1	; 3
-     51  50d1		       00		      .byte.b	CL0	; 0
-     52  50d2
-     53  50d2				   FRAMEDATA_walk1
-     54  50d2		       44		      .byte.b	68	; 23
-     55  50d3		       4c		      .byte.b	76	; 20
-     56  50d4		       28		      .byte.b	40	; 17
-     57  50d5		       ba		      .byte.b	186	; 14
-     58  50d6		       7c		      .byte.b	124	; 11
-     59  50d7		       18		      .byte.b	24	; 8
-     60  50d8		       0c		      .byte.b	12	; 5
-     61  50d9		       1e		      .byte.b	30	; 2
-     62  50da		       82		      .byte.b	130	; 22
-     63  50db		       1c		      .byte.b	28	; 19
-     64  50dc		       b2		      .byte.b	178	; 16
-     65  50dd		       bc		      .byte.b	188	; 13
-     66  50de		       38		      .byte.b	56	; 10
-     67  50df		       1c		      .byte.b	28	; 7
-     68  50e0		       0a		      .byte.b	10	; 4
-     69  50e1		       1d		      .byte.b	29	; 1
-     70  50e2		       6c		      .byte.b	108	; 21
-     71  50e3		       38		      .byte.b	56	; 18
-     72  50e4		       ba		      .byte.b	186	; 15
-     73  50e5		       fc		      .byte.b	252	; 12
-     74  50e6		       18		      .byte.b	24	; 9
-     75  50e7		       18		      .byte.b	24	; 6
-     76  50e8		       04		      .byte.b	4	; 3
-     77  50e9		       00		      .byte.b	0	; 0
-     78  50ea
-     79  50ea				   COLOURDATA_walk1
-     80  50ea		       06		      .byte.b	CL6	; 23
-     81  50eb		       05		      .byte.b	CL5	; 20
-     82  50ec		       05		      .byte.b	CL5	; 17
-     83  50ed		       04		      .byte.b	CL4	; 14
-     84  50ee		       04		      .byte.b	CL4	; 11
-     85  50ef		       02		      .byte.b	CL2	; 8
-     86  50f0		       02		      .byte.b	CL2	; 5
-     87  50f1		       01		      .byte.b	CL1	; 2
-     88  50f2		       06		      .byte.b	CL6	; 22
-     89  50f3		       05		      .byte.b	CL5	; 19
-     90  50f4		       02		      .byte.b	CL2	; 16
-     91  50f5		       04		      .byte.b	CL4	; 13
-     92  50f6		       04		      .byte.b	CL4	; 10
-     93  50f7		       02		      .byte.b	CL2	; 7
-     94  50f8		       02		      .byte.b	CL2	; 4
-     95  50f9		       01		      .byte.b	CL1	; 1
-     96  50fa		       05		      .byte.b	CL5	; 21
-     97  50fb		       05		      .byte.b	CL5	; 18
-     98  50fc		       03		      .byte.b	CL3	; 15
-     99  50fd		       04		      .byte.b	CL4	; 12
-    100  50fe		       03		      .byte.b	CL3	; 9
-    101  50ff		       02		      .byte.b	CL2	; 6
-    102  5100		       02		      .byte.b	CL2	; 3
-    103  5101		       00		      .byte.b	CL0	; 0
-    104  5102
-    105  5102				   FRAMEDATA_walk2
-    106  5102		       34		      .byte.b	52	; 23
-    107  5103		       28		      .byte.b	40	; 20
-    108  5104		       38		      .byte.b	56	; 17
-    109  5105		       ba		      .byte.b	186	; 14
-    110  5106		       fc		      .byte.b	252	; 11
-    111  5107		       18		      .byte.b	24	; 8
-    112  5108		       18		      .byte.b	24	; 5
-    113  5109		       04		      .byte.b	4	; 2
-    114  510a		       00		      .byte.b	0	; 22
-    115  510b		       28		      .byte.b	40	; 19
-    116  510c		       18		      .byte.b	24	; 16
-    117  510d		       ba		      .byte.b	186	; 13
-    118  510e		       7c		      .byte.b	124	; 10
-    119  510f		       18		      .byte.b	24	; 7
-    120  5110		       0c		      .byte.b	12	; 4
-    121  5111		       1e		      .byte.b	30	; 1
-    122  5112		       28		      .byte.b	40	; 21
-    123  5113		       28		      .byte.b	40	; 18
-    124  5114		       b2		      .byte.b	178	; 15
-    125  5115		       bc		      .byte.b	188	; 12
-    126  5116		       38		      .byte.b	56	; 9
-    127  5117		       1c		      .byte.b	28	; 6
-    128  5118		       0a		      .byte.b	10	; 3
-    129  5119		       1d		      .byte.b	29	; 0
-    130  511a
-    131  511a				   COLOURDATA_walk2
-    132  511a		       06		      .byte.b	CL6	; 23
-    133  511b		       05		      .byte.b	CL5	; 20
-    134  511c		       05		      .byte.b	CL5	; 17
-    135  511d		       03		      .byte.b	CL3	; 14
-    136  511e		       04		      .byte.b	CL4	; 11
-    137  511f		       03		      .byte.b	CL3	; 8
-    138  5120		       02		      .byte.b	CL2	; 5
-    139  5121		       02		      .byte.b	CL2	; 2
-    140  5122		       00		      .byte.b	CL0	; 22
-    141  5123		       05		      .byte.b	CL5	; 19
-    142  5124		       05		      .byte.b	CL5	; 16
-    143  5125		       04		      .byte.b	CL4	; 13
-    144  5126		       04		      .byte.b	CL4	; 10
-    145  5127		       02		      .byte.b	CL2	; 7
-    146  5128		       02		      .byte.b	CL2	; 4
-    147  5129		       01		      .byte.b	CL1	; 1
-    148  512a		       05		      .byte.b	CL5	; 21
-    149  512b		       05		      .byte.b	CL5	; 18
-    150  512c		       02		      .byte.b	CL2	; 15
-    151  512d		       04		      .byte.b	CL4	; 12
-    152  512e		       04		      .byte.b	CL4	; 9
-    153  512f		       02		      .byte.b	CL2	; 6
-    154  5130		       02		      .byte.b	CL2	; 3
-    155  5131		       01		      .byte.b	CL1	; 0
-    156  5132
-    157  5132				   FRAMEDATA_handlip
-    158  5132		       2c		      .byte.b	44	; 23
-    159  5133		       28		      .byte.b	40	; 20
-    160  5134		       38		      .byte.b	56	; 17
-    161  5135		       58		      .byte.b	88	; 14
-    162  5136		       fc		      .byte.b	252	; 11
-    163  5137		       1a		      .byte.b	26	; 8
-    164  5138		       18		      .byte.b	24	; 5
-    165  5139		       04		      .byte.b	4	; 2
-    166  513a		       00		      .byte.b	0	; 22
-    167  513b		       28		      .byte.b	40	; 19
-    168  513c		       38		      .byte.b	56	; 16
-    169  513d		       b8		      .byte.b	184	; 13
-    170  513e		       7e		      .byte.b	126	; 10
-    171  513f		       1a		      .byte.b	26	; 7
-    172  5140		       0c		      .byte.b	12	; 4
-    173  5141		       1e		      .byte.b	30	; 1
-    174  5142		       28		      .byte.b	40	; 21
-    175  5143		       28		      .byte.b	40	; 18
-    176  5144		       28		      .byte.b	40	; 15
-    177  5145		       b8		      .byte.b	184	; 12
-    178  5146		       3a		      .byte.b	58	; 9
-    179  5147		       1e		      .byte.b	30	; 6
-    180  5148		       0a		      .byte.b	10	; 3
-    181  5149		       1d		      .byte.b	29	; 0
-    182  514a
-    183  514a				   COLOURDATA_handlip
-    184  514a		       01		      .byte.b	CL1	; 23
-    185  514b		       02		      .byte.b	CL2	; 20
-    186  514c		       02		      .byte.b	CL2	; 17
-    187  514d		       06		      .byte.b	CL6	; 14
-    188  514e		       03		      .byte.b	CL3	; 11
-    189  514f		       06		      .byte.b	CL6	; 8
-    190  5150		       04		      .byte.b	CL4	; 5
-    191  5151		       04		      .byte.b	CL4	; 2
-    192  5152		       00		      .byte.b	CL0	; 22
-    193  5153		       02		      .byte.b	CL2	; 19
-    194  5154		       02		      .byte.b	CL2	; 16
-    195  5155		       03		      .byte.b	CL3	; 13
-    196  5156		       03		      .byte.b	CL3	; 10
-    197  5157		       04		      .byte.b	CL4	; 7
-    198  5158		       04		      .byte.b	CL4	; 4
-    199  5159		       05		      .byte.b	CL5	; 1
-    200  515a		       02		      .byte.b	CL2	; 21
-    201  515b		       02		      .byte.b	CL2	; 18
-    202  515c		       04		      .byte.b	CL4	; 15
-    203  515d		       03		      .byte.b	CL3	; 12
-    204  515e		       03		      .byte.b	CL3	; 9
-    205  515f		       04		      .byte.b	CL4	; 6
-    206  5160		       04		      .byte.b	CL4	; 3
-    207  5161		       05		      .byte.b	CL5	; 0
-    208  5162
-    209  5162				   FRAMEDATA_lookup
-    210  5162		       34		      .byte.b	52	; 23
-    211  5163		       28		      .byte.b	40	; 20
-    212  5164		       18		      .byte.b	24	; 17
-    213  5165		       b8		      .byte.b	184	; 14
-    214  5166		       7e		      .byte.b	126	; 11
-    215  5167		       32		      .byte.b	50	; 8
-    216  5168		       70		      .byte.b	112	; 5
-    217  5169		       40		      .byte.b	64	; 2
-    218  516a		       00		      .byte.b	0	; 22
-    219  516b		       28		      .byte.b	40	; 19
-    220  516c		       b0		      .byte.b	176	; 16
-    221  516d		       b8		      .byte.b	184	; 13
-    222  516e		       7a		      .byte.b	122	; 10
-    223  516f		       36		      .byte.b	54	; 7
-    224  5170		       58		      .byte.b	88	; 4
-    225  5171		       78		      .byte.b	120	; 1
-    226  5172		       28		      .byte.b	40	; 21
-    227  5173		       28		      .byte.b	40	; 18
-    228  5174		       b8		      .byte.b	184	; 15
-    229  5175		       fc		      .byte.b	252	; 12
-    230  5176		       32		      .byte.b	50	; 9
-    231  5177		       60		      .byte.b	96	; 6
-    232  5178		       30		      .byte.b	48	; 3
-    233  5179		       34		      .byte.b	52	; 0
-    234  517a
-    235  517a				   COLOURDATA_lookup
-    236  517a		       06		      .byte.b	CL6	; 23
-    237  517b		       05		      .byte.b	CL5	; 20
-    238  517c		       05		      .byte.b	CL5	; 17
-    239  517d		       04		      .byte.b	CL4	; 14
-    240  517e		       04		      .byte.b	CL4	; 11
-    241  517f		       02		      .byte.b	CL2	; 8
-    242  5180		       02		      .byte.b	CL2	; 5
-    243  5181		       01		      .byte.b	CL1	; 2
-    244  5182		       00		      .byte.b	CL0	; 22
-    245  5183		       05		      .byte.b	CL5	; 19
-    246  5184		       02		      .byte.b	CL2	; 16
-    247  5185		       04		      .byte.b	CL4	; 13
-    248  5186		       04		      .byte.b	CL4	; 10
-    249  5187		       02		      .byte.b	CL2	; 7
-    250  5188		       02		      .byte.b	CL2	; 4
-    251  5189		       01		      .byte.b	CL1	; 1
-    252  518a		       05		      .byte.b	CL5	; 21
-    253  518b		       05		      .byte.b	CL5	; 18
-    254  518c		       03		      .byte.b	CL3	; 15
-    255  518d		       04		      .byte.b	CL4	; 12
-    256  518e		       03		      .byte.b	CL3	; 9
-    257  518f		       02		      .byte.b	CL2	; 6
-    258  5190		       02		      .byte.b	CL2	; 3
-    259  5191		       01		      .byte.b	CL1	; 0
-    260  5192
-    261  5192				   FRAMEDATA_walk3
-    262  5192		       44		      .byte.b	68	; 23
-    263  5193		       74		      .byte.b	116	; 20
-    264  5194		       28		      .byte.b	40	; 17
-    265  5195		       ba		      .byte.b	186	; 14
-    266  5196		       7c		      .byte.b	124	; 11
-    267  5197		       18		      .byte.b	24	; 8
-    268  5198		       0c		      .byte.b	12	; 5
-    269  5199		       1e		      .byte.b	30	; 2
-    270  519a		       82		      .byte.b	130	; 22
-    271  519b		       34		      .byte.b	52	; 19
-    272  519c		       b2		      .byte.b	178	; 16
-    273  519d		       bc		      .byte.b	188	; 13
-    274  519e		       38		      .byte.b	56	; 10
-    275  519f		       1c		      .byte.b	28	; 7
-    276  51a0		       0a		      .byte.b	10	; 4
-    277  51a1		       1d		      .byte.b	29	; 1
-    278  51a2		       64		      .byte.b	100	; 21
-    279  51a3		       38		      .byte.b	56	; 18
-    280  51a4		       ba		      .byte.b	186	; 15
-    281  51a5		       fc		      .byte.b	252	; 12
-    282  51a6		       18		      .byte.b	24	; 9
-    283  51a7		       18		      .byte.b	24	; 6
-    284  51a8		       04		      .byte.b	4	; 3
-    285  51a9		       00		      .byte.b	0	; 0
-    286  51aa
-    287  51aa				   COLOURDATA_walk3
-    288  51aa		       06		      .byte.b	CL6	; 23
-    289  51ab		       05		      .byte.b	CL5	; 20
-    290  51ac		       05		      .byte.b	CL5	; 17
-    291  51ad		       04		      .byte.b	CL4	; 14
-    292  51ae		       04		      .byte.b	CL4	; 11
-    293  51af		       02		      .byte.b	CL2	; 8
-    294  51b0		       02		      .byte.b	CL2	; 5
-    295  51b1		       01		      .byte.b	CL1	; 2
-    296  51b2		       06		      .byte.b	CL6	; 22
-    297  51b3		       05		      .byte.b	CL5	; 19
-    298  51b4		       02		      .byte.b	CL2	; 16
-    299  51b5		       04		      .byte.b	CL4	; 13
-    300  51b6		       04		      .byte.b	CL4	; 10
-    301  51b7		       02		      .byte.b	CL2	; 7
-    302  51b8		       02		      .byte.b	CL2	; 4
-    303  51b9		       01		      .byte.b	CL1	; 1
-    304  51ba		       05		      .byte.b	CL5	; 21
-    305  51bb		       05		      .byte.b	CL5	; 18
-    306  51bc		       03		      .byte.b	CL3	; 15
-    307  51bd		       04		      .byte.b	CL4	; 12
-    308  51be		       03		      .byte.b	CL3	; 9
-    309  51bf		       02		      .byte.b	CL2	; 6
-    310  51c0		       02		      .byte.b	CL2	; 3
-    311  51c1		       00		      .byte.b	CL0	; 0
-    312  51c2
-    313  51c2				   FRAMEDATA_push_up_1
-    314  51c2		       00		      .byte.b	0	; 23
-    315  51c3		       20		      .byte.b	32	; 20
-    316  51c4		       20		      .byte.b	32	; 17
-    317  51c5		       20		      .byte.b	32	; 14
-    318  51c6		       38		      .byte.b	56	; 11
-    319  51c7		       38		      .byte.b	56	; 8
-    320  51c8		       ee		      .byte.b	238	; 5
-    321  51c9		       38		      .byte.b	56	; 2
-    322  51ca		       00		      .byte.b	0	; 22
-    323  51cb		       20		      .byte.b	32	; 19
-    324  51cc		       28		      .byte.b	40	; 16
-    325  51cd		       38		      .byte.b	56	; 13
-    326  51ce		       38		      .byte.b	56	; 10
-    327  51cf		       38		      .byte.b	56	; 7
-    328  51d0		       82		      .byte.b	130	; 4
-    329  51d1		       38		      .byte.b	56	; 1
-    330  51d2		       00		      .byte.b	0	; 21
-    331  51d3		       08		      .byte.b	8	; 18
-    332  51d4		       08		      .byte.b	8	; 15
-    333  51d5		       10		      .byte.b	16	; 12
-    334  51d6		       38		      .byte.b	56	; 9
-    335  51d7		       7c		      .byte.b	124	; 6
-    336  51d8		       aa		      .byte.b	170	; 3
-    337  51d9		       00		      .byte.b	0	; 0
-    338  51da
-    339  51da				   COLOURDATA_push_up_1
-    340  51da		       00		      .byte.b	CL0	; 23
-    341  51db		       06		      .byte.b	CL6	; 20
-    342  51dc		       05		      .byte.b	CL5	; 17
-    343  51dd		       05		      .byte.b	CL5	; 14
-    344  51de		       06		      .byte.b	CL6	; 11
-    345  51df		       04		      .byte.b	CL4	; 8
-    346  51e0		       04		      .byte.b	CL4	; 5
-    347  51e1		       01		      .byte.b	CL1	; 2
-    348  51e2		       00		      .byte.b	CL0	; 22
-    349  51e3		       06		      .byte.b	CL6	; 19
-    350  51e4		       05		      .byte.b	CL5	; 16
-    351  51e5		       05		      .byte.b	CL5	; 13
-    352  51e6		       03		      .byte.b	CL3	; 10
-    353  51e7		       04		      .byte.b	CL4	; 7
-    354  51e8		       03		      .byte.b	CL3	; 4
-    355  51e9		       01		      .byte.b	CL1	; 1
-    356  51ea		       00		      .byte.b	CL0	; 21
-    357  51eb		       06		      .byte.b	CL6	; 18
-    358  51ec		       05		      .byte.b	CL5	; 15
-    359  51ed		       05		      .byte.b	CL5	; 12
-    360  51ee		       04		      .byte.b	CL4	; 9
-    361  51ef		       04		      .byte.b	CL4	; 6
-    362  51f0		       02		      .byte.b	CL2	; 3
-    363  51f1		       00		      .byte.b	CL0	; 0
-    364  51f2
-    365  51f2				   FRAMEDATA_push_up_3
-    366  51f2		       00		      .byte.b	0	; 23
-    367  51f3		       08		      .byte.b	8	; 20
-    368  51f4		       08		      .byte.b	8	; 17
-    369  51f5		       08		      .byte.b	8	; 14
-    370  51f6		       38		      .byte.b	56	; 11
-    371  51f7		       38		      .byte.b	56	; 8
-    372  51f8		       ee		      .byte.b	238	; 5
-    373  51f9		       38		      .byte.b	56	; 2
-    374  51fa		       00		      .byte.b	0	; 22
-    375  51fb		       08		      .byte.b	8	; 19
-    376  51fc		       28		      .byte.b	40	; 16
-    377  51fd		       38		      .byte.b	56	; 13
-    378  51fe		       38		      .byte.b	56	; 10
-    379  51ff		       38		      .byte.b	56	; 7
-    380  5200		       82		      .byte.b	130	; 4
-    381  5201		       38		      .byte.b	56	; 1
-    382  5202		       00		      .byte.b	0	; 21
-    383  5203		       20		      .byte.b	32	; 18
-    384  5204		       20		      .byte.b	32	; 15
-    385  5205		       10		      .byte.b	16	; 12
-    386  5206		       38		      .byte.b	56	; 9
-    387  5207		       7c		      .byte.b	124	; 6
-    388  5208		       aa		      .byte.b	170	; 3
-    389  5209		       00		      .byte.b	0	; 0
-    390  520a
-    391  520a				   COLOURDATA_push_up_3
-    392  520a		       00		      .byte.b	CL0	; 23
-    393  520b		       06		      .byte.b	CL6	; 20
-    394  520c		       05		      .byte.b	CL5	; 17
-    395  520d		       05		      .byte.b	CL5	; 14
-    396  520e		       01		      .byte.b	CL1	; 11
-    397  520f		       04		      .byte.b	CL4	; 8
-    398  5210		       04		      .byte.b	CL4	; 5
-    399  5211		       01		      .byte.b	CL1	; 2
-    400  5212		       00		      .byte.b	CL0	; 22
-    401  5213		       06		      .byte.b	CL6	; 19
-    402  5214		       05		      .byte.b	CL5	; 16
-    403  5215		       05		      .byte.b	CL5	; 13
-    404  5216		       03		      .byte.b	CL3	; 10
-    405  5217		       04		      .byte.b	CL4	; 7
-    406  5218		       03		      .byte.b	CL3	; 4
-    407  5219		       01		      .byte.b	CL1	; 1
-    408  521a		       00		      .byte.b	CL0	; 21
-    409  521b		       06		      .byte.b	CL6	; 18
-    410  521c		       05		      .byte.b	CL5	; 15
-    411  521d		       05		      .byte.b	CL5	; 12
-    412  521e		       04		      .byte.b	CL4	; 9
-    413  521f		       04		      .byte.b	CL4	; 6
-    414  5220		       02		      .byte.b	CL2	; 3
-    415  5221		       00		      .byte.b	CL0	; 0
-    416  5222
-    417  5222				   FRAMEDATA_push_up_2
-    418  5222		       00		      .byte.b	0	; 23
-    419  5223		       00		      .byte.b	0	; 20
-    420  5224		       28		      .byte.b	40	; 17
-    421  5225		       28		      .byte.b	40	; 14
-    422  5226		       38		      .byte.b	56	; 11
-    423  5227		       38		      .byte.b	56	; 8
-    424  5228		       ee		      .byte.b	238	; 5
-    425  5229		       38		      .byte.b	56	; 2
-    426  522a		       00		      .byte.b	0	; 22
-    427  522b		       28		      .byte.b	40	; 19
-    428  522c		       28		      .byte.b	40	; 16
-    429  522d		       38		      .byte.b	56	; 13
-    430  522e		       38		      .byte.b	56	; 10
-    431  522f		       38		      .byte.b	56	; 7
-    432  5230		       82		      .byte.b	130	; 4
-    433  5231		       38		      .byte.b	56	; 1
-    434  5232		       00		      .byte.b	0	; 21
-    435  5233		       00		      .byte.b	0	; 18
-    436  5234		       00		      .byte.b	0	; 15
-    437  5235		       10		      .byte.b	16	; 12
-    438  5236		       38		      .byte.b	56	; 9
-    439  5237		       7c		      .byte.b	124	; 6
-    440  5238		       aa		      .byte.b	170	; 3
-    441  5239		       00		      .byte.b	0	; 0
-    442  523a
-    443  523a				   COLOURDATA_push_up_2
-    444  523a		       00		      .byte.b	CL0	; 23
-    445  523b		       00		      .byte.b	CL0	; 20
-    446  523c		       05		      .byte.b	CL5	; 17
-    447  523d		       05		      .byte.b	CL5	; 14
-    448  523e		       06		      .byte.b	CL6	; 11
-    449  523f		       04		      .byte.b	CL4	; 8
-    450  5240		       04		      .byte.b	CL4	; 5
-    451  5241		       01		      .byte.b	CL1	; 2
-    452  5242		       00		      .byte.b	CL0	; 22
-    453  5243		       06		      .byte.b	CL6	; 19
-    454  5244		       05		      .byte.b	CL5	; 16
-    455  5245		       05		      .byte.b	CL5	; 13
-    456  5246		       03		      .byte.b	CL3	; 10
-    457  5247		       04		      .byte.b	CL4	; 7
-    458  5248		       03		      .byte.b	CL3	; 4
-    459  5249		       01		      .byte.b	CL1	; 1
-    460  524a		       00		      .byte.b	CL0	; 21
-    461  524b		       00		      .byte.b	CL0	; 18
-    462  524c		       00		      .byte.b	CL0	; 15
-    463  524d		       05		      .byte.b	CL5	; 12
-    464  524e		       04		      .byte.b	CL4	; 9
-    465  524f		       04		      .byte.b	CL4	; 6
-    466  5250		       02		      .byte.b	CL2	; 3
-    467  5251		       00		      .byte.b	CL0	; 0
-    468  5252
-    469  5252				   FRAMEDATA_push3
-    470  5252		       46		      .byte.b	70	; 23
-    471  5253		       72		      .byte.b	114	; 20
-    472  5254		       18		      .byte.b	24	; 17
-    473  5255		       38		      .byte.b	56	; 14
-    474  5256		       3e		      .byte.b	62	; 11
-    475  5257		       19		      .byte.b	25	; 8
-    476  5258		       0c		      .byte.b	12	; 5
-    477  5259		       1e		      .byte.b	30	; 2
-    478  525a		       80		      .byte.b	128	; 22
-    479  525b		       3e		      .byte.b	62	; 19
-    480  525c		       30		      .byte.b	48	; 16
-    481  525d		       38		      .byte.b	56	; 13
-    482  525e		       3f		      .byte.b	63	; 10
-    483  525f		       1d		      .byte.b	29	; 7
-    484  5260		       0a		      .byte.b	10	; 4
-    485  5261		       1d		      .byte.b	29	; 1
-    486  5262		       64		      .byte.b	100	; 21
-    487  5263		       3c		      .byte.b	60	; 18
-    488  5264		       38		      .byte.b	56	; 15
-    489  5265		       3c		      .byte.b	60	; 12
-    490  5266		       19		      .byte.b	25	; 9
-    491  5267		       18		      .byte.b	24	; 6
-    492  5268		       04		      .byte.b	4	; 3
-    493  5269		       00		      .byte.b	0	; 0
-    494  526a
-    495  526a				   COLOURDATA_push3
-    496  526a		       06		      .byte.b	CL6	; 23
-    497  526b		       05		      .byte.b	CL5	; 20
-    498  526c		       05		      .byte.b	CL5	; 17
-    499  526d		       04		      .byte.b	CL4	; 14
-    500  526e		       04		      .byte.b	CL4	; 11
-    501  526f		       02		      .byte.b	CL2	; 8
-    502  5270		       02		      .byte.b	CL2	; 5
-    503  5271		       01		      .byte.b	CL1	; 2
-    504  5272		       06		      .byte.b	CL6	; 22
-    505  5273		       05		      .byte.b	CL5	; 19
-    506  5274		       05		      .byte.b	CL5	; 16
-    507  5275		       04		      .byte.b	CL4	; 13
-    508  5276		       04		      .byte.b	CL4	; 10
-    509  5277		       02		      .byte.b	CL2	; 7
-    510  5278		       02		      .byte.b	CL2	; 4
-    511  5279		       01		      .byte.b	CL1	; 1
-    512  527a		       05		      .byte.b	CL5	; 21
-    513  527b		       05		      .byte.b	CL5	; 18
-    514  527c		       03		      .byte.b	CL3	; 15
-    515  527d		       04		      .byte.b	CL4	; 12
-    516  527e		       03		      .byte.b	CL3	; 9
-    517  527f		       02		      .byte.b	CL2	; 6
-    518  5280		       02		      .byte.b	CL2	; 3
-    519  5281		       00		      .byte.b	CL0	; 0
-    520  5282
-    521  5282				   FRAMEDATA_idle3
-    522  5282		       2c		      .byte.b	44	; 23
-    523  5283		       28		      .byte.b	40	; 20
-    524  5284		       38		      .byte.b	56	; 17
-    525  5285		       38		      .byte.b	56	; 14
-    526  5286		       38		      .byte.b	56	; 11
-    527  5287		       b2		      .byte.b	178	; 8
-    528  5288		       30		      .byte.b	48	; 5
-    529  5289		       08		      .byte.b	8	; 2
-    530  528a		       00		      .byte.b	0	; 22
-    531  528b		       28		      .byte.b	40	; 19
-    532  528c		       38		      .byte.b	56	; 16
-    533  528d		       38		      .byte.b	56	; 13
-    534  528e		       fe		      .byte.b	254	; 10
-    535  528f		       ba		      .byte.b	186	; 7
-    536  5290		       18		      .byte.b	24	; 4
-    537  5291		       3c		      .byte.b	60	; 1
-    538  5292		       28		      .byte.b	40	; 21
-    539  5293		       28		      .byte.b	40	; 18
-    540  5294		       28		      .byte.b	40	; 15
-    541  5295		       38		      .byte.b	56	; 12
-    542  5296		       fe		      .byte.b	254	; 9
-    543  5297		       b2		      .byte.b	178	; 6
-    544  5298		       14		      .byte.b	20	; 3
-    545  5299		       3a		      .byte.b	58	; 0
-    546  529a
-    547  529a				   COLOURDATA_idle3
-    548  529a		       06		      .byte.b	CL6	; 23
-    549  529b		       05		      .byte.b	CL5	; 20
-    550  529c		       05		      .byte.b	CL5	; 17
-    551  529d		       03		      .byte.b	CL3	; 14
-    552  529e		       04		      .byte.b	CL4	; 11
-    553  529f		       03		      .byte.b	CL3	; 8
-    554  52a0		       02		      .byte.b	CL2	; 5
-    555  52a1		       02		      .byte.b	CL2	; 2
-    556  52a2		       00		      .byte.b	CL0	; 22
-    557  52a3		       05		      .byte.b	CL5	; 19
-    558  52a4		       05		      .byte.b	CL5	; 16
-    559  52a5		       04		      .byte.b	CL4	; 13
-    560  52a6		       04		      .byte.b	CL4	; 10
-    561  52a7		       02		      .byte.b	CL2	; 7
-    562  52a8		       02		      .byte.b	CL2	; 4
-    563  52a9		       01		      .byte.b	CL1	; 1
-    564  52aa		       05		      .byte.b	CL5	; 21
-    565  52ab		       05		      .byte.b	CL5	; 18
-    566  52ac		       06		      .byte.b	CL6	; 15
-    567  52ad		       04		      .byte.b	CL4	; 12
-    568  52ae		       04		      .byte.b	CL4	; 9
-    569  52af		       02		      .byte.b	CL2	; 6
-    570  52b0		       02		      .byte.b	CL2	; 3
-    571  52b1		       01		      .byte.b	CL1	; 0
-    572  52b2
-    573  52b2				   FRAMEDATA_idle2
-    574  52b2		       2c		      .byte.b	44	; 23
-    575  52b3		       28		      .byte.b	40	; 20
-    576  52b4		       38		      .byte.b	56	; 17
-    577  52b5		       38		      .byte.b	56	; 14
-    578  52b6		       fe		      .byte.b	254	; 11
-    579  52b7		       b2		      .byte.b	178	; 8
-    580  52b8		       30		      .byte.b	48	; 5
-    581  52b9		       08		      .byte.b	8	; 2
-    582  52ba		       00		      .byte.b	0	; 22
-    583  52bb		       28		      .byte.b	40	; 19
-    584  52bc		       38		      .byte.b	56	; 16
-    585  52bd		       38		      .byte.b	56	; 13
-    586  52be		       fe		      .byte.b	254	; 10
-    587  52bf		       ba		      .byte.b	186	; 7
-    588  52c0		       18		      .byte.b	24	; 4
-    589  52c1		       3c		      .byte.b	60	; 1
-    590  52c2		       28		      .byte.b	40	; 21
-    591  52c3		       28		      .byte.b	40	; 18
-    592  52c4		       28		      .byte.b	40	; 15
-    593  52c5		       38		      .byte.b	56	; 12
-    594  52c6		       ba		      .byte.b	186	; 9
-    595  52c7		       30		      .byte.b	48	; 6
-    596  52c8		       14		      .byte.b	20	; 3
-    597  52c9		       3a		      .byte.b	58	; 0
-    598  52ca
-    599  52ca				   COLOURDATA_idle2
-    600  52ca		       06		      .byte.b	CL6	; 23
-    601  52cb		       05		      .byte.b	CL5	; 20
-    602  52cc		       05		      .byte.b	CL5	; 17
-    603  52cd		       03		      .byte.b	CL3	; 14
-    604  52ce		       04		      .byte.b	CL4	; 11
-    605  52cf		       03		      .byte.b	CL3	; 8
-    606  52d0		       02		      .byte.b	CL2	; 5
-    607  52d1		       02		      .byte.b	CL2	; 2
-    608  52d2		       00		      .byte.b	CL0	; 22
-    609  52d3		       05		      .byte.b	CL5	; 19
-    610  52d4		       05		      .byte.b	CL5	; 16
-    611  52d5		       04		      .byte.b	CL4	; 13
-    612  52d6		       04		      .byte.b	CL4	; 10
-    613  52d7		       02		      .byte.b	CL2	; 7
-    614  52d8		       02		      .byte.b	CL2	; 4
-    615  52d9		       01		      .byte.b	CL1	; 1
-    616  52da		       05		      .byte.b	CL5	; 21
-    617  52db		       05		      .byte.b	CL5	; 18
-    618  52dc		       06		      .byte.b	CL6	; 15
-    619  52dd		       04		      .byte.b	CL4	; 12
-    620  52de		       04		      .byte.b	CL4	; 9
-    621  52df		       02		      .byte.b	CL2	; 6
-    622  52e0		       02		      .byte.b	CL2	; 3
-    623  52e1		       01		      .byte.b	CL1	; 0
-    624  52e2
-    625  52e2				   FRAMEDATA_push2
-    626  52e2		       26		      .byte.b	38	; 23
-    627  52e3		       14		      .byte.b	20	; 20
-    628  52e4		       3c		      .byte.b	60	; 17
-    629  52e5		       38		      .byte.b	56	; 14
-    630  52e6		       3c		      .byte.b	60	; 11
-    631  52e7		       19		      .byte.b	25	; 8
-    632  52e8		       18		      .byte.b	24	; 5
-    633  52e9		       04		      .byte.b	4	; 2
-    634  52ea		       40		      .byte.b	64	; 22
-    635  52eb		       14		      .byte.b	20	; 19
-    636  52ec		       28		      .byte.b	40	; 16
-    637  52ed		       38		      .byte.b	56	; 13
-    638  52ee		       3e		      .byte.b	62	; 10
-    639  52ef		       19		      .byte.b	25	; 7
-    640  52f0		       0c		      .byte.b	12	; 4
-    641  52f1		       1e		      .byte.b	30	; 1
-    642  52f2		       34		      .byte.b	52	; 21
-    643  52f3		       3c		      .byte.b	60	; 18
-    644  52f4		       30		      .byte.b	48	; 15
-    645  52f5		       38		      .byte.b	56	; 12
-    646  52f6		       3f		      .byte.b	63	; 9
-    647  52f7		       1d		      .byte.b	29	; 6
-    648  52f8		       0a		      .byte.b	10	; 3
-    649  52f9		       1d		      .byte.b	29	; 0
-    650  52fa
-    651  52fa				   COLOURDATA_push2
-    652  52fa		       06		      .byte.b	CL6	; 23
-    653  52fb		       05		      .byte.b	CL5	; 20
-    654  52fc		       05		      .byte.b	CL5	; 17
-    655  52fd		       03		      .byte.b	CL3	; 14
-    656  52fe		       04		      .byte.b	CL4	; 11
-    657  52ff		       03		      .byte.b	CL3	; 8
-    658  5300		       02		      .byte.b	CL2	; 5
-    659  5301		       02		      .byte.b	CL2	; 2
-    660  5302		       06		      .byte.b	CL6	; 22
-    661  5303		       05		      .byte.b	CL5	; 19
-    662  5304		       05		      .byte.b	CL5	; 16
-    663  5305		       04		      .byte.b	CL4	; 13
-    664  5306		       04		      .byte.b	CL4	; 10
-    665  5307		       02		      .byte.b	CL2	; 7
-    666  5308		       02		      .byte.b	CL2	; 4
-    667  5309		       01		      .byte.b	CL1	; 1
-    668  530a		       05		      .byte.b	CL5	; 21
-    669  530b		       05		      .byte.b	CL5	; 18
-    670  530c		       01		      .byte.b	CL1	; 15
-    671  530d		       04		      .byte.b	CL4	; 12
-    672  530e		       04		      .byte.b	CL4	; 9
-    673  530f		       02		      .byte.b	CL2	; 6
-    674  5310		       02		      .byte.b	CL2	; 3
-    675  5311		       01		      .byte.b	CL1	; 0
-    676  5312
-    677  5312				   FRAMEDATA_idle1
-    678  5312		       2c		      .byte.b	44	; 23
-    679  5313		       28		      .byte.b	40	; 20
-    680  5314		       38		      .byte.b	56	; 17
-    681  5315		       ba		      .byte.b	186	; 14
-    682  5316		       fc		      .byte.b	252	; 11
-    683  5317		       18		      .byte.b	24	; 8
-    684  5318		       18		      .byte.b	24	; 5
-    685  5319		       04		      .byte.b	4	; 2
-    686  531a		       00		      .byte.b	0	; 22
-    687  531b		       28		      .byte.b	40	; 19
-    688  531c		       38		      .byte.b	56	; 16
-    689  531d		       ba		      .byte.b	186	; 13
-    690  531e		       7c		      .byte.b	124	; 10
-    691  531f		       18		      .byte.b	24	; 7
-    692  5320		       0c		      .byte.b	12	; 4
-    693  5321		       1e		      .byte.b	30	; 1
-    694  5322		       28		      .byte.b	40	; 21
-    695  5323		       28		      .byte.b	40	; 18
-    696  5324		       aa		      .byte.b	170	; 15
-    697  5325		       bc		      .byte.b	188	; 12
-    698  5326		       38		      .byte.b	56	; 9
-    699  5327		       1c		      .byte.b	28	; 6
-    700  5328		       0a		      .byte.b	10	; 3
-    701  5329		       1d		      .byte.b	29	; 0
-    702  532a
-    703  532a				   COLOURDATA_idle1
-    704  532a		       06		      .byte.b	CL6	; 23
-    705  532b		       05		      .byte.b	CL5	; 20
-    706  532c		       05		      .byte.b	CL5	; 17
-    707  532d		       03		      .byte.b	CL3	; 14
-    708  532e		       04		      .byte.b	CL4	; 11
-    709  532f		       03		      .byte.b	CL3	; 8
-    710  5330		       02		      .byte.b	CL2	; 5
-    711  5331		       02		      .byte.b	CL2	; 2
-    712  5332		       00		      .byte.b	CL0	; 22
-    713  5333		       05		      .byte.b	CL5	; 19
-    714  5334		       05		      .byte.b	CL5	; 16
-    715  5335		       04		      .byte.b	CL4	; 13
-    716  5336		       04		      .byte.b	CL4	; 10
-    717  5337		       02		      .byte.b	CL2	; 7
-    718  5338		       02		      .byte.b	CL2	; 4
-    719  5339		       01		      .byte.b	CL1	; 1
-    720  533a		       05		      .byte.b	CL5	; 21
-    721  533b		       05		      .byte.b	CL5	; 18
-    722  533c		       02		      .byte.b	CL2	; 15
-    723  533d		       04		      .byte.b	CL4	; 12
-    724  533e		       04		      .byte.b	CL4	; 9
-    725  533f		       02		      .byte.b	CL2	; 6
-    726  5340		       02		      .byte.b	CL2	; 3
-    727  5341		       01		      .byte.b	CL1	; 0
-    728  5342
-    729  5342				   FRAMEDATA_push1
-    730  5342		       46		      .byte.b	70	; 23
-    731  5343		       62		      .byte.b	98	; 20
-    732  5344		       28		      .byte.b	40	; 17
-    733  5345		       38		      .byte.b	56	; 14
-    734  5346		       3e		      .byte.b	62	; 11
-    735  5347		       19		      .byte.b	25	; 8
-    736  5348		       0c		      .byte.b	12	; 5
-    737  5349		       1e		      .byte.b	30	; 2
-    738  534a		       80		      .byte.b	128	; 22
-    739  534b		       1e		      .byte.b	30	; 19
-    740  534c		       30		      .byte.b	48	; 16
-    741  534d		       38		      .byte.b	56	; 13
-    742  534e		       3f		      .byte.b	63	; 10
-    743  534f		       1d		      .byte.b	29	; 7
-    744  5350		       0a		      .byte.b	10	; 4
-    745  5351		       1d		      .byte.b	29	; 1
-    746  5352		       64		      .byte.b	100	; 21
-    747  5353		       3c		      .byte.b	60	; 18
-    748  5354		       38		      .byte.b	56	; 15
-    749  5355		       3c		      .byte.b	60	; 12
-    750  5356		       19		      .byte.b	25	; 9
-    751  5357		       18		      .byte.b	24	; 6
-    752  5358		       04		      .byte.b	4	; 3
-    753  5359		       00		      .byte.b	0	; 0
-    754  535a
-    755  535a				   COLOURDATA_push1
-    756  535a		       06		      .byte.b	CL6	; 23
-    757  535b		       05		      .byte.b	CL5	; 20
-    758  535c		       05		      .byte.b	CL5	; 17
-    759  535d		       04		      .byte.b	CL4	; 14
-    760  535e		       04		      .byte.b	CL4	; 11
-    761  535f		       02		      .byte.b	CL2	; 8
-    762  5360		       02		      .byte.b	CL2	; 5
-    763  5361		       01		      .byte.b	CL1	; 2
-    764  5362		       06		      .byte.b	CL6	; 22
-    765  5363		       05		      .byte.b	CL5	; 19
-    766  5364		       06		      .byte.b	CL6	; 16
-    767  5365		       04		      .byte.b	CL4	; 13
-    768  5366		       04		      .byte.b	CL4	; 10
-    769  5367		       02		      .byte.b	CL2	; 7
-    770  5368		       02		      .byte.b	CL2	; 4
-    771  5369		       01		      .byte.b	CL1	; 1
-    772  536a		       05		      .byte.b	CL5	; 21
-    773  536b		       05		      .byte.b	CL5	; 18
-    774  536c		       03		      .byte.b	CL3	; 15
-    775  536d		       04		      .byte.b	CL4	; 12
-    776  536e		       03		      .byte.b	CL3	; 9
-    777  536f		       02		      .byte.b	CL2	; 6
-    778  5370		       02		      .byte.b	CL2	; 3
-    779  5371		       00		      .byte.b	CL0	; 0
-    780  5372
-    781  5372				   FRAMEDATA_blink
-    782  5372		       34		      .byte.b	52	; 23
-    783  5373		       28		      .byte.b	40	; 20
-    784  5374		       38		      .byte.b	56	; 17
-    785  5375		       ba		      .byte.b	186	; 14
-    786  5376		       fc		      .byte.b	252	; 11
-    787  5377		       18		      .byte.b	24	; 8
-    788  5378		       18		      .byte.b	24	; 5
-    789  5379		       04		      .byte.b	4	; 2
-    790  537a		       00		      .byte.b	0	; 22
-    791  537b		       28		      .byte.b	40	; 19
-    792  537c		       18		      .byte.b	24	; 16
-    793  537d		       ba		      .byte.b	186	; 13
-    794  537e		       7c		      .byte.b	124	; 10
-    795  537f		       18		      .byte.b	24	; 7
-    796  5380		       0c		      .byte.b	12	; 4
-    797  5381		       1e		      .byte.b	30	; 1
-    798  5382		       28		      .byte.b	40	; 21
-    799  5383		       28		      .byte.b	40	; 18
-    800  5384		       b2		      .byte.b	178	; 15
-    801  5385		       bc		      .byte.b	188	; 12
-    802  5386		       38		      .byte.b	56	; 9
-    803  5387		       1c		      .byte.b	28	; 6
-    804  5388		       0e		      .byte.b	14	; 3
-    805  5389		       1d		      .byte.b	29	; 0
-    806  538a
-    807  538a				   COLOURDATA_blink
-    808  538a		       06		      .byte.b	CL6	; 23
-    809  538b		       05		      .byte.b	CL5	; 20
-    810  538c		       05		      .byte.b	CL5	; 17
-    811  538d		       03		      .byte.b	CL3	; 14
-    812  538e		       04		      .byte.b	CL4	; 11
-    813  538f		       03		      .byte.b	CL3	; 8
-    814  5390		       02		      .byte.b	CL2	; 5
-    815  5391		       02		      .byte.b	CL2	; 2
-    816  5392		       00		      .byte.b	CL0	; 22
-    817  5393		       05		      .byte.b	CL5	; 19
-    818  5394		       05		      .byte.b	CL5	; 16
-    819  5395		       04		      .byte.b	CL4	; 13
-    820  5396		       04		      .byte.b	CL4	; 10
-    821  5397		       02		      .byte.b	CL2	; 7
-    822  5398		       02		      .byte.b	CL2	; 4
-    823  5399		       01		      .byte.b	CL1	; 1
-    824  539a		       05		      .byte.b	CL5	; 21
-    825  539b		       05		      .byte.b	CL5	; 18
-    826  539c		       02		      .byte.b	CL2	; 15
-    827  539d		       04		      .byte.b	CL4	; 12
-    828  539e		       04		      .byte.b	CL4	; 9
-    829  539f		       02		      .byte.b	CL2	; 6
-    830  53a0		       02		      .byte.b	CL2	; 3
-    831  53a1		       01		      .byte.b	CL1	; 0
-    832  53a2
-    833  53a2				   FRAMEDATA_yell
-    834  53a2		       34		      .byte.b	52	; 23
-    835  53a3		       28		      .byte.b	40	; 20
-    836  53a4		       18		      .byte.b	24	; 17
-    837  53a5		       b8		      .byte.b	184	; 14
-    838  53a6		       7e		      .byte.b	126	; 11
-    839  53a7		       32		      .byte.b	50	; 8
-    840  53a8		       72		      .byte.b	114	; 5
-    841  53a9		       40		      .byte.b	64	; 2
-    842  53aa		       00		      .byte.b	0	; 22
-    843  53ab		       28		      .byte.b	40	; 19
-    844  53ac		       b0		      .byte.b	176	; 16
-    845  53ad		       b8		      .byte.b	184	; 13
-    846  53ae		       7a		      .byte.b	122	; 10
-    847  53af		       36		      .byte.b	54	; 7
-    848  53b0		       58		      .byte.b	88	; 4
-    849  53b1		       78		      .byte.b	120	; 1
-    850  53b2		       28		      .byte.b	40	; 21
-    851  53b3		       28		      .byte.b	40	; 18
-    852  53b4		       b8		      .byte.b	184	; 15
-    853  53b5		       fc		      .byte.b	252	; 12
-    854  53b6		       32		      .byte.b	50	; 9
-    855  53b7		       62		      .byte.b	98	; 6
-    856  53b8		       30		      .byte.b	48	; 3
-    857  53b9		       34		      .byte.b	52	; 0
-    858  53ba
-    859  53ba				   COLOURDATA_yell
-    860  53ba		       06		      .byte.b	CL6	; 23
-    861  53bb		       05		      .byte.b	CL5	; 20
-    862  53bc		       05		      .byte.b	CL5	; 17
-    863  53bd		       04		      .byte.b	CL4	; 14
-    864  53be		       04		      .byte.b	CL4	; 11
-    865  53bf		       02		      .byte.b	CL2	; 8
-    866  53c0		       02		      .byte.b	CL2	; 5
-    867  53c1		       01		      .byte.b	CL1	; 2
-    868  53c2		       00		      .byte.b	CL0	; 22
-    869  53c3		       05		      .byte.b	CL5	; 19
-    870  53c4		       02		      .byte.b	CL2	; 16
-    871  53c5		       04		      .byte.b	CL4	; 13
-    872  53c6		       04		      .byte.b	CL4	; 10
-    873  53c7		       02		      .byte.b	CL2	; 7
-    874  53c8		       02		      .byte.b	CL2	; 4
-    875  53c9		       01		      .byte.b	CL1	; 1
-    876  53ca		       05		      .byte.b	CL5	; 21
-    877  53cb		       05		      .byte.b	CL5	; 18
-    878  53cc		       03		      .byte.b	CL3	; 15
-    879  53cd		       04		      .byte.b	CL4	; 12
-    880  53ce		       03		      .byte.b	CL3	; 9
-    881  53cf		       02		      .byte.b	CL2	; 6
-    882  53d0		       02		      .byte.b	CL2	; 3
-    883  53d1		       01		      .byte.b	CL1	; 0
-    884  53d2
-    885  53d2				   FRAMEDATA_look2
-    886  53d2		       34		      .byte.b	52	; 23
-    887  53d3		       28		      .byte.b	40	; 20
-    888  53d4		       38		      .byte.b	56	; 17
-    889  53d5		       ba		      .byte.b	186	; 14
-    890  53d6		       fc		      .byte.b	252	; 11
-    891  53d7		       30		      .byte.b	48	; 8
-    892  53d8		       10		      .byte.b	16	; 5
-    893  53d9		       70		      .byte.b	112	; 2
-    894  53da		       00		      .byte.b	0	; 22
-    895  53db		       28		      .byte.b	40	; 19
-    896  53dc		       18		      .byte.b	24	; 16
-    897  53dd		       ba		      .byte.b	186	; 13
-    898  53de		       7c		      .byte.b	124	; 10
-    899  53df		       30		      .byte.b	48	; 7
-    900  53e0		       78		      .byte.b	120	; 4
-    901  53e1		       78		      .byte.b	120	; 1
-    902  53e2		       28		      .byte.b	40	; 21
-    903  53e3		       28		      .byte.b	40	; 18
-    904  53e4		       b2		      .byte.b	178	; 15
-    905  53e5		       bc		      .byte.b	188	; 12
-    906  53e6		       38		      .byte.b	56	; 9
-    907  53e7		       30		      .byte.b	48	; 6
-    908  53e8		       28		      .byte.b	40	; 3
-    909  53e9		       b8		      .byte.b	184	; 0
-    910  53ea
-    911  53ea				   COLOURDATA_look2
-    912  53ea		       06		      .byte.b	CL6	; 23
-    913  53eb		       05		      .byte.b	CL5	; 20
-    914  53ec		       05		      .byte.b	CL5	; 17
-    915  53ed		       03		      .byte.b	CL3	; 14
-    916  53ee		       04		      .byte.b	CL4	; 11
-    917  53ef		       03		      .byte.b	CL3	; 8
-    918  53f0		       02		      .byte.b	CL2	; 5
-    919  53f1		       02		      .byte.b	CL2	; 2
-    920  53f2		       00		      .byte.b	CL0	; 22
-    921  53f3		       05		      .byte.b	CL5	; 19
-    922  53f4		       05		      .byte.b	CL5	; 16
-    923  53f5		       04		      .byte.b	CL4	; 13
-    924  53f6		       04		      .byte.b	CL4	; 10
-    925  53f7		       02		      .byte.b	CL2	; 7
-    926  53f8		       02		      .byte.b	CL2	; 4
-    927  53f9		       01		      .byte.b	CL1	; 1
-    928  53fa		       05		      .byte.b	CL5	; 21
-    929  53fb		       05		      .byte.b	CL5	; 18
-    930  53fc		       02		      .byte.b	CL2	; 15
-    931  53fd		       04		      .byte.b	CL4	; 12
-    932  53fe		       04		      .byte.b	CL4	; 9
-    933  53ff		       02		      .byte.b	CL2	; 6
-    934  5400		       02		      .byte.b	CL2	; 3
-    935  5401		       01		      .byte.b	CL1	; 0
-    936  5402
-    937  5402				   FRAMEDATA_look3
-    938  5402		       34		      .byte.b	52	; 23
-    939  5403		       28		      .byte.b	40	; 20
-    940  5404		       38		      .byte.b	56	; 17
-    941  5405		       ba		      .byte.b	186	; 14
-    942  5406		       fc		      .byte.b	252	; 11
-    943  5407		       18		      .byte.b	24	; 8
-    944  5408		       10		      .byte.b	16	; 5
-    945  5409		       1c		      .byte.b	28	; 2
-    946  540a		       00		      .byte.b	0	; 22
-    947  540b		       28		      .byte.b	40	; 19
-    948  540c		       18		      .byte.b	24	; 16
-    949  540d		       ba		      .byte.b	186	; 13
-    950  540e		       7c		      .byte.b	124	; 10
-    951  540f		       18		      .byte.b	24	; 7
-    952  5410		       3c		      .byte.b	60	; 4
-    953  5411		       3c		      .byte.b	60	; 1
-    954  5412		       28		      .byte.b	40	; 21
-    955  5413		       28		      .byte.b	40	; 18
-    956  5414		       b2		      .byte.b	178	; 15
-    957  5415		       bc		      .byte.b	188	; 12
-    958  5416		       38		      .byte.b	56	; 9
-    959  5417		       18		      .byte.b	24	; 6
-    960  5418		       28		      .byte.b	40	; 3
-    961  5419		       3a		      .byte.b	58	; 0
-    962  541a
-    963  541a				   COLOURDATA_look3
-    964  541a		       06		      .byte.b	CL6	; 23
-    965  541b		       05		      .byte.b	CL5	; 20
-    966  541c		       05		      .byte.b	CL5	; 17
-    967  541d		       03		      .byte.b	CL3	; 14
-    968  541e		       04		      .byte.b	CL4	; 11
-    969  541f		       03		      .byte.b	CL3	; 8
-    970  5420		       02		      .byte.b	CL2	; 5
-    971  5421		       02		      .byte.b	CL2	; 2
-    972  5422		       00		      .byte.b	CL0	; 22
-    973  5423		       05		      .byte.b	CL5	; 19
-    974  5424		       05		      .byte.b	CL5	; 16
-    975  5425		       04		      .byte.b	CL4	; 13
-    976  5426		       04		      .byte.b	CL4	; 10
-    977  5427		       02		      .byte.b	CL2	; 7
-    978  5428		       02		      .byte.b	CL2	; 4
-    979  5429		       01		      .byte.b	CL1	; 1
-    980  542a		       05		      .byte.b	CL5	; 21
-    981  542b		       05		      .byte.b	CL5	; 18
-    982  542c		       02		      .byte.b	CL2	; 15
-    983  542d		       04		      .byte.b	CL4	; 12
-    984  542e		       04		      .byte.b	CL4	; 9
-    985  542f		       02		      .byte.b	CL2	; 6
-    986  5430		       02		      .byte.b	CL2	; 3
-    987  5431		       01		      .byte.b	CL1	; 0
-    988  5432
-    989  5432				   FRAMEDATA_look1
-    990  5432		       34		      .byte.b	52	; 23
-    991  5433		       14		      .byte.b	20	; 20
-    992  5434		       18		      .byte.b	24	; 17
-    993  5435		       59		      .byte.b	89	; 14
-    994  5436		       7c		      .byte.b	124	; 11
-    995  5437		       18		      .byte.b	24	; 8
-    996  5438		       18		      .byte.b	24	; 5
-    997  5439		       20		      .byte.b	32	; 2
-    998  543a		       00		      .byte.b	0	; 22
-    999  543b		       14		      .byte.b	20	; 19
-   1000  543c		       18		      .byte.b	24	; 16
-   1001  543d		       5a		      .byte.b	90	; 13
-   1002  543e		       3c		      .byte.b	60	; 10
-   1003  543f		       18		      .byte.b	24	; 7
-   1004  5440		       30		      .byte.b	48	; 4
-   1005  5441		       78		      .byte.b	120	; 1
-   1006  5442		       14		      .byte.b	20	; 21
-   1007  5443		       14		      .byte.b	20	; 18
-   1008  5444		       31		      .byte.b	49	; 15
-   1009  5445		       7e		      .byte.b	126	; 12
-   1010  5446		       18		      .byte.b	24	; 9
-   1011  5447		       38		      .byte.b	56	; 6
-   1012  5448		       50		      .byte.b	80	; 3
-   1013  5449		       b8		      .byte.b	184	; 0
-   1014  544a
-   1015  544a				   COLOURDATA_look1
-   1016  544a		       06		      .byte.b	CL6	; 23
-   1017  544b		       05		      .byte.b	CL5	; 20
-   1018  544c		       05		      .byte.b	CL5	; 17
-   1019  544d		       03		      .byte.b	CL3	; 14
-   1020  544e		       04		      .byte.b	CL4	; 11
-   1021  544f		       03		      .byte.b	CL3	; 8
-   1022  5450		       02		      .byte.b	CL2	; 5
-   1023  5451		       02		      .byte.b	CL2	; 2
-   1024  5452		       00		      .byte.b	CL0	; 22
-   1025  5453		       05		      .byte.b	CL5	; 19
-   1026  5454		       05		      .byte.b	CL5	; 16
-   1027  5455		       04		      .byte.b	CL4	; 13
-   1028  5456		       04		      .byte.b	CL4	; 10
-   1029  5457		       02		      .byte.b	CL2	; 7
-   1030  5458		       02		      .byte.b	CL2	; 4
-   1031  5459		       01		      .byte.b	CL1	; 1
-   1032  545a		       05		      .byte.b	CL5	; 21
-   1033  545b		       05		      .byte.b	CL5	; 18
-   1034  545c		       02		      .byte.b	CL2	; 15
-   1035  545d		       04		      .byte.b	CL4	; 12
-   1036  545e		       04		      .byte.b	CL4	; 9
-   1037  545f		       02		      .byte.b	CL2	; 6
-   1038  5460		       02		      .byte.b	CL2	; 3
-   1039  5461		       01		      .byte.b	CL1	; 0
-   1040  5462
-   1041  5462				   FRAMEDATA_tapfoot
-   1042  5462		       24		      .byte.b	36	; 23
-   1043  5463		       28		      .byte.b	40	; 20
-   1044  5464		       38		      .byte.b	56	; 17
-   1045  5465		       ba		      .byte.b	186	; 14
-   1046  5466		       fc		      .byte.b	252	; 11
-   1047  5467		       18		      .byte.b	24	; 8
-   1048  5468		       18		      .byte.b	24	; 5
-   1049  5469		       04		      .byte.b	4	; 2
-   1050  546a		       10		      .byte.b	16	; 22
-   1051  546b		       28		      .byte.b	40	; 19
-   1052  546c		       18		      .byte.b	24	; 16
-   1053  546d		       ba		      .byte.b	186	; 13
-   1054  546e		       7c		      .byte.b	124	; 10
-   1055  546f		       18		      .byte.b	24	; 7
-   1056  5470		       0c		      .byte.b	12	; 4
-   1057  5471		       1e		      .byte.b	30	; 1
-   1058  5472		       28		      .byte.b	40	; 21
-   1059  5473		       28		      .byte.b	40	; 18
-   1060  5474		       b2		      .byte.b	178	; 15
-   1061  5475		       bc		      .byte.b	188	; 12
-   1062  5476		       38		      .byte.b	56	; 9
-   1063  5477		       1c		      .byte.b	28	; 6
-   1064  5478		       0a		      .byte.b	10	; 3
-   1065  5479		       1d		      .byte.b	29	; 0
-   1066  547a
-   1067  547a				   COLOURDATA_tapfoot
-   1068  547a		       06		      .byte.b	CL6	; 23
-   1069  547b		       05		      .byte.b	CL5	; 20
-   1070  547c		       05		      .byte.b	CL5	; 17
-   1071  547d		       03		      .byte.b	CL3	; 14
-   1072  547e		       04		      .byte.b	CL4	; 11
-   1073  547f		       03		      .byte.b	CL3	; 8
-   1074  5480		       02		      .byte.b	CL2	; 5
-   1075  5481		       02		      .byte.b	CL2	; 2
-   1076  5482		       06		      .byte.b	CL6	; 22
-   1077  5483		       05		      .byte.b	CL5	; 19
-   1078  5484		       05		      .byte.b	CL5	; 16
-   1079  5485		       04		      .byte.b	CL4	; 13
-   1080  5486		       04		      .byte.b	CL4	; 10
-   1081  5487		       02		      .byte.b	CL2	; 7
-   1082  5488		       02		      .byte.b	CL2	; 4
-   1083  5489		       01		      .byte.b	CL1	; 1
-   1084  548a		       05		      .byte.b	CL5	; 21
-   1085  548b		       05		      .byte.b	CL5	; 18
-   1086  548c		       02		      .byte.b	CL2	; 15
-   1087  548d		       04		      .byte.b	CL4	; 12
-   1088  548e		       04		      .byte.b	CL4	; 9
-   1089  548f		       02		      .byte.b	CL2	; 6
-   1090  5490		       02		      .byte.b	CL2	; 3
-   1091  5491		       01		      .byte.b	CL1	; 0
-   1092  5492
-   1093  5492
-   1094  5492				   __FNUM     SET	0
-   1095  5492					      MAC	deframe
-   1096  5492				   FRAME_{1}  =	__FNUM
-   1097  5492				   __FNUM     SET	__FNUM + 1
-   1098  5492					      ENDM		;{name}
-   1099  5492
-      0  5492					      DEFRAME	CROUCH1
-      1  5492		       00 00	   FRAME_CROUCH1 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	WALK1
-      1  5492		       00 01	   FRAME_WALK1 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	WALK2
-      1  5492		       00 02	   FRAME_WALK2 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	HANDLIP
-      1  5492		       00 03	   FRAME_HANDLIP =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	LOOKUP
-      1  5492		       00 04	   FRAME_LOOKUP =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	WALK3
-      1  5492		       00 05	   FRAME_WALK3 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	PUSH_UP_1
-      1  5492		       00 06	   FRAME_PUSH_UP_1 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	PUSH_UP_3
-      1  5492		       00 07	   FRAME_PUSH_UP_3 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	PUSH_UP_2
-      1  5492		       00 08	   FRAME_PUSH_UP_2 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	PUSH3
-      1  5492		       00 09	   FRAME_PUSH3 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	IDLE3
-      1  5492		       00 0a	   FRAME_IDLE3 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	IDLE2
-      1  5492		       00 0b	   FRAME_IDLE2 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	PUSH2
-      1  5492		       00 0c	   FRAME_PUSH2 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	IDLE1
-      1  5492		       00 0d	   FRAME_IDLE1 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	PUSH1
-      1  5492		       00 0e	   FRAME_PUSH1 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	BLINK
-      1  5492		       00 0f	   FRAME_BLINK =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	YELL
-      1  5492		       00 10	   FRAME_YELL =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	LOOK2
-      1  5492		       00 11	   FRAME_LOOK2 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	LOOK3
-      1  5492		       00 12	   FRAME_LOOK3 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	LOOK1
-      1  5492		       00 13	   FRAME_LOOK1 =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-      0  5492					      DEFRAME	TAPFOOT
-      1  5492		       00 14	   FRAME_TAPFOOT =	__FNUM
-      2  5492				   __FNUM     SET	__FNUM + 1
-   1121  5492
-   1122  5492				   FRAME_PTR_LO
-   1123  5492		       a2		      .byte.b	<FRAMEDATA_crouch1
-   1124  5493		       d2		      .byte.b	<FRAMEDATA_walk1
-   1125  5494		       02		      .byte.b	<FRAMEDATA_walk2
-   1126  5495		       32		      .byte.b	<FRAMEDATA_handlip
-   1127  5496		       62		      .byte.b	<FRAMEDATA_lookup
-   1128  5497		       92		      .byte.b	<FRAMEDATA_walk3
-   1129  5498		       c2		      .byte.b	<FRAMEDATA_push_up_1
-   1130  5499		       f2		      .byte.b	<FRAMEDATA_push_up_3
-   1131  549a		       22		      .byte.b	<FRAMEDATA_push_up_2
-   1132  549b		       52		      .byte.b	<FRAMEDATA_push3
-   1133  549c		       82		      .byte.b	<FRAMEDATA_idle3
-   1134  549d		       b2		      .byte.b	<FRAMEDATA_idle2
-   1135  549e		       e2		      .byte.b	<FRAMEDATA_push2
-   1136  549f		       12		      .byte.b	<FRAMEDATA_idle1
-   1137  54a0		       42		      .byte.b	<FRAMEDATA_push1
-   1138  54a1		       72		      .byte.b	<FRAMEDATA_blink
-   1139  54a2		       a2		      .byte.b	<FRAMEDATA_yell
-   1140  54a3		       d2		      .byte.b	<FRAMEDATA_look2
-   1141  54a4		       02		      .byte.b	<FRAMEDATA_look3
-   1142  54a5		       32		      .byte.b	<FRAMEDATA_look1
-   1143  54a6		       62		      .byte.b	<FRAMEDATA_tapfoot
-   1144  54a7
-   1145  54a7				   FRAME_PTR_HI
-   1146  54a7		       f0		      .byte.b	>FRAMEDATA_crouch1
-   1147  54a8		       f0		      .byte.b	>FRAMEDATA_walk1
-   1148  54a9		       f1		      .byte.b	>FRAMEDATA_walk2
-   1149  54aa		       f1		      .byte.b	>FRAMEDATA_handlip
-   1150  54ab		       f1		      .byte.b	>FRAMEDATA_lookup
-   1151  54ac		       f1		      .byte.b	>FRAMEDATA_walk3
-   1152  54ad		       f1		      .byte.b	>FRAMEDATA_push_up_1
-   1153  54ae		       f1		      .byte.b	>FRAMEDATA_push_up_3
-   1154  54af		       f2		      .byte.b	>FRAMEDATA_push_up_2
-   1155  54b0		       f2		      .byte.b	>FRAMEDATA_push3
-   1156  54b1		       f2		      .byte.b	>FRAMEDATA_idle3
-   1157  54b2		       f2		      .byte.b	>FRAMEDATA_idle2
-   1158  54b3		       f2		      .byte.b	>FRAMEDATA_push2
-   1159  54b4		       f3		      .byte.b	>FRAMEDATA_idle1
-   1160  54b5		       f3		      .byte.b	>FRAMEDATA_push1
-   1161  54b6		       f3		      .byte.b	>FRAMEDATA_blink
-   1162  54b7		       f3		      .byte.b	>FRAMEDATA_yell
-   1163  54b8		       f3		      .byte.b	>FRAMEDATA_look2
-   1164  54b9		       f4		      .byte.b	>FRAMEDATA_look3
-   1165  54ba		       f4		      .byte.b	>FRAMEDATA_look1
-   1166  54bb		       f4		      .byte.b	>FRAMEDATA_tapfoot
-   1167  54bc
-   1168  54bc				   COLOUR_PTR_LO
-   1169  54bc		       ba		      .byte.b	<COLOURDATA_crouch1
-   1170  54bd		       ea		      .byte.b	<COLOURDATA_walk1
-   1171  54be		       1a		      .byte.b	<COLOURDATA_walk2
-   1172  54bf		       4a		      .byte.b	<COLOURDATA_handlip
-   1173  54c0		       7a		      .byte.b	<COLOURDATA_lookup
-   1174  54c1		       aa		      .byte.b	<COLOURDATA_walk3
-   1175  54c2		       da		      .byte.b	<COLOURDATA_push_up_1
-   1176  54c3		       0a		      .byte.b	<COLOURDATA_push_up_3
-   1177  54c4		       3a		      .byte.b	<COLOURDATA_push_up_2
-   1178  54c5		       6a		      .byte.b	<COLOURDATA_push3
-   1179  54c6		       9a		      .byte.b	<COLOURDATA_idle3
-   1180  54c7		       ca		      .byte.b	<COLOURDATA_idle2
-   1181  54c8		       fa		      .byte.b	<COLOURDATA_push2
-   1182  54c9		       2a		      .byte.b	<COLOURDATA_idle1
-   1183  54ca		       5a		      .byte.b	<COLOURDATA_push1
-   1184  54cb		       8a		      .byte.b	<COLOURDATA_blink
-   1185  54cc		       ba		      .byte.b	<COLOURDATA_yell
-   1186  54cd		       ea		      .byte.b	<COLOURDATA_look2
-   1187  54ce		       1a		      .byte.b	<COLOURDATA_look3
-   1188  54cf		       4a		      .byte.b	<COLOURDATA_look1
-   1189  54d0		       7a		      .byte.b	<COLOURDATA_tapfoot
-   1190  54d1
-   1191  54d1				   COLOUR_PTR_HI
-   1192  54d1		       f0		      .byte.b	>COLOURDATA_crouch1
-   1193  54d2		       f0		      .byte.b	>COLOURDATA_walk1
-   1194  54d3		       f1		      .byte.b	>COLOURDATA_walk2
-   1195  54d4		       f1		      .byte.b	>COLOURDATA_handlip
-   1196  54d5		       f1		      .byte.b	>COLOURDATA_lookup
-   1197  54d6		       f1		      .byte.b	>COLOURDATA_walk3
-   1198  54d7		       f1		      .byte.b	>COLOURDATA_push_up_1
-   1199  54d8		       f2		      .byte.b	>COLOURDATA_push_up_3
-   1200  54d9		       f2		      .byte.b	>COLOURDATA_push_up_2
-   1201  54da		       f2		      .byte.b	>COLOURDATA_push3
-   1202  54db		       f2		      .byte.b	>COLOURDATA_idle3
-   1203  54dc		       f2		      .byte.b	>COLOURDATA_idle2
-   1204  54dd		       f2		      .byte.b	>COLOURDATA_push2
-   1205  54de		       f3		      .byte.b	>COLOURDATA_idle1
-   1206  54df		       f3		      .byte.b	>COLOURDATA_push1
-   1207  54e0		       f3		      .byte.b	>COLOURDATA_blink
-   1208  54e1		       f3		      .byte.b	>COLOURDATA_yell
-   1209  54e2		       f3		      .byte.b	>COLOURDATA_look2
-   1210  54e3		       f4		      .byte.b	>COLOURDATA_look3
-   1211  54e4		       f4		      .byte.b	>COLOURDATA_look1
-   1212  54e5		       f4		      .byte.b	>COLOURDATA_tapfoot
+      0  523e					      include	"sprites/spriteData.asm"
+      1  523e				   FRAMEDATA_crouch1
+      2  523e		       26		      .byte.b	38	; 23
+      3  523f		       12		      .byte.b	18	; 20
+      4  5240		       5a		      .byte.b	90	; 17
+      5  5241		       fc		      .byte.b	252	; 14
+      6  5242		       18		      .byte.b	24	; 11
+      7  5243		       18		      .byte.b	24	; 8
+      8  5244		       04		      .byte.b	4	; 5
+      9  5245		       00		      .byte.b	0	; 2
+     10  5246		       40		      .byte.b	64	; 22
+     11  5247		       3e		      .byte.b	62	; 19
+     12  5248		       ba		      .byte.b	186	; 16
+     13  5249		       7c		      .byte.b	124	; 13
+     14  524a		       18		      .byte.b	24	; 10
+     15  524b		       0c		      .byte.b	12	; 7
+     16  524c		       1e		      .byte.b	30	; 4
+     17  524d		       00		      .byte.b	0	; 1
+     18  524e		       34		      .byte.b	52	; 21
+     19  524f		       52		      .byte.b	82	; 18
+     20  5250		       be		      .byte.b	190	; 15
+     21  5251		       38		      .byte.b	56	; 12
+     22  5252		       1c		      .byte.b	28	; 9
+     23  5253		       0a		      .byte.b	10	; 6
+     24  5254		       1d		      .byte.b	29	; 3
+     25  5255		       00		      .byte.b	0	; 0
+     26  5256
+     27  5256				   COLOURDATA_crouch1
+     28  5256		       06		      .byte.b	CL6	; 23
+     29  5257		       05		      .byte.b	CL5	; 20
+     30  5258		       03		      .byte.b	CL3	; 17
+     31  5259		       04		      .byte.b	CL4	; 14
+     32  525a		       03		      .byte.b	CL3	; 11
+     33  525b		       02		      .byte.b	CL2	; 8
+     34  525c		       02		      .byte.b	CL2	; 5
+     35  525d		       00		      .byte.b	CL0	; 2
+     36  525e		       06		      .byte.b	CL6	; 22
+     37  525f		       05		      .byte.b	CL5	; 19
+     38  5260		       04		      .byte.b	CL4	; 16
+     39  5261		       04		      .byte.b	CL4	; 13
+     40  5262		       02		      .byte.b	CL2	; 10
+     41  5263		       02		      .byte.b	CL2	; 7
+     42  5264		       01		      .byte.b	CL1	; 4
+     43  5265		       00		      .byte.b	CL0	; 1
+     44  5266		       05		      .byte.b	CL5	; 21
+     45  5267		       02		      .byte.b	CL2	; 18
+     46  5268		       04		      .byte.b	CL4	; 15
+     47  5269		       04		      .byte.b	CL4	; 12
+     48  526a		       02		      .byte.b	CL2	; 9
+     49  526b		       02		      .byte.b	CL2	; 6
+     50  526c		       01		      .byte.b	CL1	; 3
+     51  526d		       00		      .byte.b	CL0	; 0
+     52  526e
+     53  526e				   FRAMEDATA_walk1
+     54  526e		       44		      .byte.b	68	; 23
+     55  526f		       4c		      .byte.b	76	; 20
+     56  5270		       28		      .byte.b	40	; 17
+     57  5271		       ba		      .byte.b	186	; 14
+     58  5272		       7c		      .byte.b	124	; 11
+     59  5273		       18		      .byte.b	24	; 8
+     60  5274		       0c		      .byte.b	12	; 5
+     61  5275		       1e		      .byte.b	30	; 2
+     62  5276		       82		      .byte.b	130	; 22
+     63  5277		       1c		      .byte.b	28	; 19
+     64  5278		       b2		      .byte.b	178	; 16
+     65  5279		       bc		      .byte.b	188	; 13
+     66  527a		       38		      .byte.b	56	; 10
+     67  527b		       1c		      .byte.b	28	; 7
+     68  527c		       0a		      .byte.b	10	; 4
+     69  527d		       1d		      .byte.b	29	; 1
+     70  527e		       6c		      .byte.b	108	; 21
+     71  527f		       38		      .byte.b	56	; 18
+     72  5280		       ba		      .byte.b	186	; 15
+     73  5281		       fc		      .byte.b	252	; 12
+     74  5282		       18		      .byte.b	24	; 9
+     75  5283		       18		      .byte.b	24	; 6
+     76  5284		       04		      .byte.b	4	; 3
+     77  5285		       00		      .byte.b	0	; 0
+     78  5286
+     79  5286				   COLOURDATA_walk1
+     80  5286		       06		      .byte.b	CL6	; 23
+     81  5287		       05		      .byte.b	CL5	; 20
+     82  5288		       05		      .byte.b	CL5	; 17
+     83  5289		       04		      .byte.b	CL4	; 14
+     84  528a		       04		      .byte.b	CL4	; 11
+     85  528b		       02		      .byte.b	CL2	; 8
+     86  528c		       02		      .byte.b	CL2	; 5
+     87  528d		       01		      .byte.b	CL1	; 2
+     88  528e		       06		      .byte.b	CL6	; 22
+     89  528f		       05		      .byte.b	CL5	; 19
+     90  5290		       02		      .byte.b	CL2	; 16
+     91  5291		       04		      .byte.b	CL4	; 13
+     92  5292		       04		      .byte.b	CL4	; 10
+     93  5293		       02		      .byte.b	CL2	; 7
+     94  5294		       02		      .byte.b	CL2	; 4
+     95  5295		       01		      .byte.b	CL1	; 1
+     96  5296		       05		      .byte.b	CL5	; 21
+     97  5297		       05		      .byte.b	CL5	; 18
+     98  5298		       03		      .byte.b	CL3	; 15
+     99  5299		       04		      .byte.b	CL4	; 12
+    100  529a		       03		      .byte.b	CL3	; 9
+    101  529b		       02		      .byte.b	CL2	; 6
+    102  529c		       02		      .byte.b	CL2	; 3
+    103  529d		       00		      .byte.b	CL0	; 0
+    104  529e
+    105  529e				   FRAMEDATA_walk2
+    106  529e		       34		      .byte.b	52	; 23
+    107  529f		       28		      .byte.b	40	; 20
+    108  52a0		       38		      .byte.b	56	; 17
+    109  52a1		       ba		      .byte.b	186	; 14
+    110  52a2		       fc		      .byte.b	252	; 11
+    111  52a3		       18		      .byte.b	24	; 8
+    112  52a4		       18		      .byte.b	24	; 5
+    113  52a5		       04		      .byte.b	4	; 2
+    114  52a6		       00		      .byte.b	0	; 22
+    115  52a7		       28		      .byte.b	40	; 19
+    116  52a8		       18		      .byte.b	24	; 16
+    117  52a9		       ba		      .byte.b	186	; 13
+    118  52aa		       7c		      .byte.b	124	; 10
+    119  52ab		       18		      .byte.b	24	; 7
+    120  52ac		       0c		      .byte.b	12	; 4
+    121  52ad		       1e		      .byte.b	30	; 1
+    122  52ae		       28		      .byte.b	40	; 21
+    123  52af		       28		      .byte.b	40	; 18
+    124  52b0		       b2		      .byte.b	178	; 15
+    125  52b1		       bc		      .byte.b	188	; 12
+    126  52b2		       38		      .byte.b	56	; 9
+    127  52b3		       1c		      .byte.b	28	; 6
+    128  52b4		       0a		      .byte.b	10	; 3
+    129  52b5		       1d		      .byte.b	29	; 0
+    130  52b6
+    131  52b6				   COLOURDATA_walk2
+    132  52b6		       06		      .byte.b	CL6	; 23
+    133  52b7		       05		      .byte.b	CL5	; 20
+    134  52b8		       05		      .byte.b	CL5	; 17
+    135  52b9		       03		      .byte.b	CL3	; 14
+    136  52ba		       04		      .byte.b	CL4	; 11
+    137  52bb		       03		      .byte.b	CL3	; 8
+    138  52bc		       02		      .byte.b	CL2	; 5
+    139  52bd		       02		      .byte.b	CL2	; 2
+    140  52be		       00		      .byte.b	CL0	; 22
+    141  52bf		       05		      .byte.b	CL5	; 19
+    142  52c0		       05		      .byte.b	CL5	; 16
+    143  52c1		       04		      .byte.b	CL4	; 13
+    144  52c2		       04		      .byte.b	CL4	; 10
+    145  52c3		       02		      .byte.b	CL2	; 7
+    146  52c4		       02		      .byte.b	CL2	; 4
+    147  52c5		       01		      .byte.b	CL1	; 1
+    148  52c6		       05		      .byte.b	CL5	; 21
+    149  52c7		       05		      .byte.b	CL5	; 18
+    150  52c8		       02		      .byte.b	CL2	; 15
+    151  52c9		       04		      .byte.b	CL4	; 12
+    152  52ca		       04		      .byte.b	CL4	; 9
+    153  52cb		       02		      .byte.b	CL2	; 6
+    154  52cc		       02		      .byte.b	CL2	; 3
+    155  52cd		       01		      .byte.b	CL1	; 0
+    156  52ce
+    157  52ce				   FRAMEDATA_handlip
+    158  52ce		       2c		      .byte.b	44	; 23
+    159  52cf		       28		      .byte.b	40	; 20
+    160  52d0		       38		      .byte.b	56	; 17
+    161  52d1		       58		      .byte.b	88	; 14
+    162  52d2		       fc		      .byte.b	252	; 11
+    163  52d3		       1a		      .byte.b	26	; 8
+    164  52d4		       18		      .byte.b	24	; 5
+    165  52d5		       04		      .byte.b	4	; 2
+    166  52d6		       00		      .byte.b	0	; 22
+    167  52d7		       28		      .byte.b	40	; 19
+    168  52d8		       38		      .byte.b	56	; 16
+    169  52d9		       b8		      .byte.b	184	; 13
+    170  52da		       7e		      .byte.b	126	; 10
+    171  52db		       1a		      .byte.b	26	; 7
+    172  52dc		       0c		      .byte.b	12	; 4
+    173  52dd		       1e		      .byte.b	30	; 1
+    174  52de		       28		      .byte.b	40	; 21
+    175  52df		       28		      .byte.b	40	; 18
+    176  52e0		       28		      .byte.b	40	; 15
+    177  52e1		       b8		      .byte.b	184	; 12
+    178  52e2		       3a		      .byte.b	58	; 9
+    179  52e3		       1e		      .byte.b	30	; 6
+    180  52e4		       0a		      .byte.b	10	; 3
+    181  52e5		       1d		      .byte.b	29	; 0
+    182  52e6
+    183  52e6				   COLOURDATA_handlip
+    184  52e6		       01		      .byte.b	CL1	; 23
+    185  52e7		       02		      .byte.b	CL2	; 20
+    186  52e8		       02		      .byte.b	CL2	; 17
+    187  52e9		       06		      .byte.b	CL6	; 14
+    188  52ea		       03		      .byte.b	CL3	; 11
+    189  52eb		       06		      .byte.b	CL6	; 8
+    190  52ec		       04		      .byte.b	CL4	; 5
+    191  52ed		       04		      .byte.b	CL4	; 2
+    192  52ee		       00		      .byte.b	CL0	; 22
+    193  52ef		       02		      .byte.b	CL2	; 19
+    194  52f0		       02		      .byte.b	CL2	; 16
+    195  52f1		       03		      .byte.b	CL3	; 13
+    196  52f2		       03		      .byte.b	CL3	; 10
+    197  52f3		       04		      .byte.b	CL4	; 7
+    198  52f4		       04		      .byte.b	CL4	; 4
+    199  52f5		       05		      .byte.b	CL5	; 1
+    200  52f6		       02		      .byte.b	CL2	; 21
+    201  52f7		       02		      .byte.b	CL2	; 18
+    202  52f8		       04		      .byte.b	CL4	; 15
+    203  52f9		       03		      .byte.b	CL3	; 12
+    204  52fa		       03		      .byte.b	CL3	; 9
+    205  52fb		       04		      .byte.b	CL4	; 6
+    206  52fc		       04		      .byte.b	CL4	; 3
+    207  52fd		       05		      .byte.b	CL5	; 0
+    208  52fe
+    209  52fe				   FRAMEDATA_lookup
+    210  52fe		       34		      .byte.b	52	; 23
+    211  52ff		       28		      .byte.b	40	; 20
+    212  5300		       18		      .byte.b	24	; 17
+    213  5301		       b8		      .byte.b	184	; 14
+    214  5302		       7e		      .byte.b	126	; 11
+    215  5303		       32		      .byte.b	50	; 8
+    216  5304		       70		      .byte.b	112	; 5
+    217  5305		       40		      .byte.b	64	; 2
+    218  5306		       00		      .byte.b	0	; 22
+    219  5307		       28		      .byte.b	40	; 19
+    220  5308		       b0		      .byte.b	176	; 16
+    221  5309		       b8		      .byte.b	184	; 13
+    222  530a		       7a		      .byte.b	122	; 10
+    223  530b		       36		      .byte.b	54	; 7
+    224  530c		       58		      .byte.b	88	; 4
+    225  530d		       78		      .byte.b	120	; 1
+    226  530e		       28		      .byte.b	40	; 21
+    227  530f		       28		      .byte.b	40	; 18
+    228  5310		       b8		      .byte.b	184	; 15
+    229  5311		       fc		      .byte.b	252	; 12
+    230  5312		       32		      .byte.b	50	; 9
+    231  5313		       60		      .byte.b	96	; 6
+    232  5314		       30		      .byte.b	48	; 3
+    233  5315		       34		      .byte.b	52	; 0
+    234  5316
+    235  5316				   COLOURDATA_lookup
+    236  5316		       06		      .byte.b	CL6	; 23
+    237  5317		       05		      .byte.b	CL5	; 20
+    238  5318		       05		      .byte.b	CL5	; 17
+    239  5319		       04		      .byte.b	CL4	; 14
+    240  531a		       04		      .byte.b	CL4	; 11
+    241  531b		       02		      .byte.b	CL2	; 8
+    242  531c		       02		      .byte.b	CL2	; 5
+    243  531d		       01		      .byte.b	CL1	; 2
+    244  531e		       00		      .byte.b	CL0	; 22
+    245  531f		       05		      .byte.b	CL5	; 19
+    246  5320		       02		      .byte.b	CL2	; 16
+    247  5321		       04		      .byte.b	CL4	; 13
+    248  5322		       04		      .byte.b	CL4	; 10
+    249  5323		       02		      .byte.b	CL2	; 7
+    250  5324		       02		      .byte.b	CL2	; 4
+    251  5325		       01		      .byte.b	CL1	; 1
+    252  5326		       05		      .byte.b	CL5	; 21
+    253  5327		       05		      .byte.b	CL5	; 18
+    254  5328		       03		      .byte.b	CL3	; 15
+    255  5329		       04		      .byte.b	CL4	; 12
+    256  532a		       03		      .byte.b	CL3	; 9
+    257  532b		       02		      .byte.b	CL2	; 6
+    258  532c		       02		      .byte.b	CL2	; 3
+    259  532d		       01		      .byte.b	CL1	; 0
+    260  532e
+    261  532e				   FRAMEDATA_walk3
+    262  532e		       44		      .byte.b	68	; 23
+    263  532f		       74		      .byte.b	116	; 20
+    264  5330		       28		      .byte.b	40	; 17
+    265  5331		       ba		      .byte.b	186	; 14
+    266  5332		       7c		      .byte.b	124	; 11
+    267  5333		       18		      .byte.b	24	; 8
+    268  5334		       0c		      .byte.b	12	; 5
+    269  5335		       1e		      .byte.b	30	; 2
+    270  5336		       82		      .byte.b	130	; 22
+    271  5337		       34		      .byte.b	52	; 19
+    272  5338		       b2		      .byte.b	178	; 16
+    273  5339		       bc		      .byte.b	188	; 13
+    274  533a		       38		      .byte.b	56	; 10
+    275  533b		       1c		      .byte.b	28	; 7
+    276  533c		       0a		      .byte.b	10	; 4
+    277  533d		       1d		      .byte.b	29	; 1
+    278  533e		       64		      .byte.b	100	; 21
+    279  533f		       38		      .byte.b	56	; 18
+    280  5340		       ba		      .byte.b	186	; 15
+    281  5341		       fc		      .byte.b	252	; 12
+    282  5342		       18		      .byte.b	24	; 9
+    283  5343		       18		      .byte.b	24	; 6
+    284  5344		       04		      .byte.b	4	; 3
+    285  5345		       00		      .byte.b	0	; 0
+    286  5346
+    287  5346				   COLOURDATA_walk3
+    288  5346		       06		      .byte.b	CL6	; 23
+    289  5347		       05		      .byte.b	CL5	; 20
+    290  5348		       05		      .byte.b	CL5	; 17
+    291  5349		       04		      .byte.b	CL4	; 14
+    292  534a		       04		      .byte.b	CL4	; 11
+    293  534b		       02		      .byte.b	CL2	; 8
+    294  534c		       02		      .byte.b	CL2	; 5
+    295  534d		       01		      .byte.b	CL1	; 2
+    296  534e		       06		      .byte.b	CL6	; 22
+    297  534f		       05		      .byte.b	CL5	; 19
+    298  5350		       02		      .byte.b	CL2	; 16
+    299  5351		       04		      .byte.b	CL4	; 13
+    300  5352		       04		      .byte.b	CL4	; 10
+    301  5353		       02		      .byte.b	CL2	; 7
+    302  5354		       02		      .byte.b	CL2	; 4
+    303  5355		       01		      .byte.b	CL1	; 1
+    304  5356		       05		      .byte.b	CL5	; 21
+    305  5357		       05		      .byte.b	CL5	; 18
+    306  5358		       03		      .byte.b	CL3	; 15
+    307  5359		       04		      .byte.b	CL4	; 12
+    308  535a		       03		      .byte.b	CL3	; 9
+    309  535b		       02		      .byte.b	CL2	; 6
+    310  535c		       02		      .byte.b	CL2	; 3
+    311  535d		       00		      .byte.b	CL0	; 0
+    312  535e
+    313  535e				   FRAMEDATA_push_up_1
+    314  535e		       00		      .byte.b	0	; 23
+    315  535f		       20		      .byte.b	32	; 20
+    316  5360		       20		      .byte.b	32	; 17
+    317  5361		       20		      .byte.b	32	; 14
+    318  5362		       38		      .byte.b	56	; 11
+    319  5363		       38		      .byte.b	56	; 8
+    320  5364		       ee		      .byte.b	238	; 5
+    321  5365		       38		      .byte.b	56	; 2
+    322  5366		       00		      .byte.b	0	; 22
+    323  5367		       20		      .byte.b	32	; 19
+    324  5368		       28		      .byte.b	40	; 16
+    325  5369		       38		      .byte.b	56	; 13
+    326  536a		       38		      .byte.b	56	; 10
+    327  536b		       38		      .byte.b	56	; 7
+    328  536c		       82		      .byte.b	130	; 4
+    329  536d		       38		      .byte.b	56	; 1
+    330  536e		       00		      .byte.b	0	; 21
+    331  536f		       08		      .byte.b	8	; 18
+    332  5370		       08		      .byte.b	8	; 15
+    333  5371		       10		      .byte.b	16	; 12
+    334  5372		       38		      .byte.b	56	; 9
+    335  5373		       7c		      .byte.b	124	; 6
+    336  5374		       aa		      .byte.b	170	; 3
+    337  5375		       00		      .byte.b	0	; 0
+    338  5376
+    339  5376				   COLOURDATA_push_up_1
+    340  5376		       00		      .byte.b	CL0	; 23
+    341  5377		       06		      .byte.b	CL6	; 20
+    342  5378		       05		      .byte.b	CL5	; 17
+    343  5379		       05		      .byte.b	CL5	; 14
+    344  537a		       06		      .byte.b	CL6	; 11
+    345  537b		       04		      .byte.b	CL4	; 8
+    346  537c		       04		      .byte.b	CL4	; 5
+    347  537d		       01		      .byte.b	CL1	; 2
+    348  537e		       00		      .byte.b	CL0	; 22
+    349  537f		       06		      .byte.b	CL6	; 19
+    350  5380		       05		      .byte.b	CL5	; 16
+    351  5381		       05		      .byte.b	CL5	; 13
+    352  5382		       03		      .byte.b	CL3	; 10
+    353  5383		       04		      .byte.b	CL4	; 7
+    354  5384		       03		      .byte.b	CL3	; 4
+    355  5385		       01		      .byte.b	CL1	; 1
+    356  5386		       00		      .byte.b	CL0	; 21
+    357  5387		       06		      .byte.b	CL6	; 18
+    358  5388		       05		      .byte.b	CL5	; 15
+    359  5389		       05		      .byte.b	CL5	; 12
+    360  538a		       04		      .byte.b	CL4	; 9
+    361  538b		       04		      .byte.b	CL4	; 6
+    362  538c		       02		      .byte.b	CL2	; 3
+    363  538d		       00		      .byte.b	CL0	; 0
+    364  538e
+    365  538e				   FRAMEDATA_push_up_3
+    366  538e		       00		      .byte.b	0	; 23
+    367  538f		       08		      .byte.b	8	; 20
+    368  5390		       08		      .byte.b	8	; 17
+    369  5391		       08		      .byte.b	8	; 14
+    370  5392		       38		      .byte.b	56	; 11
+    371  5393		       38		      .byte.b	56	; 8
+    372  5394		       ee		      .byte.b	238	; 5
+    373  5395		       38		      .byte.b	56	; 2
+    374  5396		       00		      .byte.b	0	; 22
+    375  5397		       08		      .byte.b	8	; 19
+    376  5398		       28		      .byte.b	40	; 16
+    377  5399		       38		      .byte.b	56	; 13
+    378  539a		       38		      .byte.b	56	; 10
+    379  539b		       38		      .byte.b	56	; 7
+    380  539c		       82		      .byte.b	130	; 4
+    381  539d		       38		      .byte.b	56	; 1
+    382  539e		       00		      .byte.b	0	; 21
+    383  539f		       20		      .byte.b	32	; 18
+    384  53a0		       20		      .byte.b	32	; 15
+    385  53a1		       10		      .byte.b	16	; 12
+    386  53a2		       38		      .byte.b	56	; 9
+    387  53a3		       7c		      .byte.b	124	; 6
+    388  53a4		       aa		      .byte.b	170	; 3
+    389  53a5		       00		      .byte.b	0	; 0
+    390  53a6
+    391  53a6				   COLOURDATA_push_up_3
+    392  53a6		       00		      .byte.b	CL0	; 23
+    393  53a7		       06		      .byte.b	CL6	; 20
+    394  53a8		       05		      .byte.b	CL5	; 17
+    395  53a9		       05		      .byte.b	CL5	; 14
+    396  53aa		       01		      .byte.b	CL1	; 11
+    397  53ab		       04		      .byte.b	CL4	; 8
+    398  53ac		       04		      .byte.b	CL4	; 5
+    399  53ad		       01		      .byte.b	CL1	; 2
+    400  53ae		       00		      .byte.b	CL0	; 22
+    401  53af		       06		      .byte.b	CL6	; 19
+    402  53b0		       05		      .byte.b	CL5	; 16
+    403  53b1		       05		      .byte.b	CL5	; 13
+    404  53b2		       03		      .byte.b	CL3	; 10
+    405  53b3		       04		      .byte.b	CL4	; 7
+    406  53b4		       03		      .byte.b	CL3	; 4
+    407  53b5		       01		      .byte.b	CL1	; 1
+    408  53b6		       00		      .byte.b	CL0	; 21
+    409  53b7		       06		      .byte.b	CL6	; 18
+    410  53b8		       05		      .byte.b	CL5	; 15
+    411  53b9		       05		      .byte.b	CL5	; 12
+    412  53ba		       04		      .byte.b	CL4	; 9
+    413  53bb		       04		      .byte.b	CL4	; 6
+    414  53bc		       02		      .byte.b	CL2	; 3
+    415  53bd		       00		      .byte.b	CL0	; 0
+    416  53be
+    417  53be				   FRAMEDATA_push_up_2
+    418  53be		       00		      .byte.b	0	; 23
+    419  53bf		       00		      .byte.b	0	; 20
+    420  53c0		       28		      .byte.b	40	; 17
+    421  53c1		       28		      .byte.b	40	; 14
+    422  53c2		       38		      .byte.b	56	; 11
+    423  53c3		       38		      .byte.b	56	; 8
+    424  53c4		       ee		      .byte.b	238	; 5
+    425  53c5		       38		      .byte.b	56	; 2
+    426  53c6		       00		      .byte.b	0	; 22
+    427  53c7		       28		      .byte.b	40	; 19
+    428  53c8		       28		      .byte.b	40	; 16
+    429  53c9		       38		      .byte.b	56	; 13
+    430  53ca		       38		      .byte.b	56	; 10
+    431  53cb		       38		      .byte.b	56	; 7
+    432  53cc		       82		      .byte.b	130	; 4
+    433  53cd		       38		      .byte.b	56	; 1
+    434  53ce		       00		      .byte.b	0	; 21
+    435  53cf		       00		      .byte.b	0	; 18
+    436  53d0		       00		      .byte.b	0	; 15
+    437  53d1		       10		      .byte.b	16	; 12
+    438  53d2		       38		      .byte.b	56	; 9
+    439  53d3		       7c		      .byte.b	124	; 6
+    440  53d4		       aa		      .byte.b	170	; 3
+    441  53d5		       00		      .byte.b	0	; 0
+    442  53d6
+    443  53d6				   COLOURDATA_push_up_2
+    444  53d6		       00		      .byte.b	CL0	; 23
+    445  53d7		       00		      .byte.b	CL0	; 20
+    446  53d8		       05		      .byte.b	CL5	; 17
+    447  53d9		       05		      .byte.b	CL5	; 14
+    448  53da		       06		      .byte.b	CL6	; 11
+    449  53db		       04		      .byte.b	CL4	; 8
+    450  53dc		       04		      .byte.b	CL4	; 5
+    451  53dd		       01		      .byte.b	CL1	; 2
+    452  53de		       00		      .byte.b	CL0	; 22
+    453  53df		       06		      .byte.b	CL6	; 19
+    454  53e0		       05		      .byte.b	CL5	; 16
+    455  53e1		       05		      .byte.b	CL5	; 13
+    456  53e2		       03		      .byte.b	CL3	; 10
+    457  53e3		       04		      .byte.b	CL4	; 7
+    458  53e4		       03		      .byte.b	CL3	; 4
+    459  53e5		       01		      .byte.b	CL1	; 1
+    460  53e6		       00		      .byte.b	CL0	; 21
+    461  53e7		       00		      .byte.b	CL0	; 18
+    462  53e8		       00		      .byte.b	CL0	; 15
+    463  53e9		       05		      .byte.b	CL5	; 12
+    464  53ea		       04		      .byte.b	CL4	; 9
+    465  53eb		       04		      .byte.b	CL4	; 6
+    466  53ec		       02		      .byte.b	CL2	; 3
+    467  53ed		       00		      .byte.b	CL0	; 0
+    468  53ee
+    469  53ee				   FRAMEDATA_push3
+    470  53ee		       46		      .byte.b	70	; 23
+    471  53ef		       72		      .byte.b	114	; 20
+    472  53f0		       18		      .byte.b	24	; 17
+    473  53f1		       38		      .byte.b	56	; 14
+    474  53f2		       3e		      .byte.b	62	; 11
+    475  53f3		       19		      .byte.b	25	; 8
+    476  53f4		       0c		      .byte.b	12	; 5
+    477  53f5		       1e		      .byte.b	30	; 2
+    478  53f6		       80		      .byte.b	128	; 22
+    479  53f7		       3e		      .byte.b	62	; 19
+    480  53f8		       30		      .byte.b	48	; 16
+    481  53f9		       38		      .byte.b	56	; 13
+    482  53fa		       3f		      .byte.b	63	; 10
+    483  53fb		       1d		      .byte.b	29	; 7
+    484  53fc		       0a		      .byte.b	10	; 4
+    485  53fd		       1d		      .byte.b	29	; 1
+    486  53fe		       64		      .byte.b	100	; 21
+    487  53ff		       3c		      .byte.b	60	; 18
+    488  5400		       38		      .byte.b	56	; 15
+    489  5401		       3c		      .byte.b	60	; 12
+    490  5402		       19		      .byte.b	25	; 9
+    491  5403		       18		      .byte.b	24	; 6
+    492  5404		       04		      .byte.b	4	; 3
+    493  5405		       00		      .byte.b	0	; 0
+    494  5406
+    495  5406				   COLOURDATA_push3
+    496  5406		       06		      .byte.b	CL6	; 23
+    497  5407		       05		      .byte.b	CL5	; 20
+    498  5408		       05		      .byte.b	CL5	; 17
+    499  5409		       04		      .byte.b	CL4	; 14
+    500  540a		       04		      .byte.b	CL4	; 11
+    501  540b		       02		      .byte.b	CL2	; 8
+    502  540c		       02		      .byte.b	CL2	; 5
+    503  540d		       01		      .byte.b	CL1	; 2
+    504  540e		       06		      .byte.b	CL6	; 22
+    505  540f		       05		      .byte.b	CL5	; 19
+    506  5410		       05		      .byte.b	CL5	; 16
+    507  5411		       04		      .byte.b	CL4	; 13
+    508  5412		       04		      .byte.b	CL4	; 10
+    509  5413		       02		      .byte.b	CL2	; 7
+    510  5414		       02		      .byte.b	CL2	; 4
+    511  5415		       01		      .byte.b	CL1	; 1
+    512  5416		       05		      .byte.b	CL5	; 21
+    513  5417		       05		      .byte.b	CL5	; 18
+    514  5418		       03		      .byte.b	CL3	; 15
+    515  5419		       04		      .byte.b	CL4	; 12
+    516  541a		       03		      .byte.b	CL3	; 9
+    517  541b		       02		      .byte.b	CL2	; 6
+    518  541c		       02		      .byte.b	CL2	; 3
+    519  541d		       00		      .byte.b	CL0	; 0
+    520  541e
+    521  541e				   FRAMEDATA_idle3
+    522  541e		       2c		      .byte.b	44	; 23
+    523  541f		       28		      .byte.b	40	; 20
+    524  5420		       38		      .byte.b	56	; 17
+    525  5421		       38		      .byte.b	56	; 14
+    526  5422		       38		      .byte.b	56	; 11
+    527  5423		       b2		      .byte.b	178	; 8
+    528  5424		       30		      .byte.b	48	; 5
+    529  5425		       08		      .byte.b	8	; 2
+    530  5426		       00		      .byte.b	0	; 22
+    531  5427		       28		      .byte.b	40	; 19
+    532  5428		       38		      .byte.b	56	; 16
+    533  5429		       38		      .byte.b	56	; 13
+    534  542a		       fe		      .byte.b	254	; 10
+    535  542b		       ba		      .byte.b	186	; 7
+    536  542c		       18		      .byte.b	24	; 4
+    537  542d		       3c		      .byte.b	60	; 1
+    538  542e		       28		      .byte.b	40	; 21
+    539  542f		       28		      .byte.b	40	; 18
+    540  5430		       28		      .byte.b	40	; 15
+    541  5431		       38		      .byte.b	56	; 12
+    542  5432		       fe		      .byte.b	254	; 9
+    543  5433		       b2		      .byte.b	178	; 6
+    544  5434		       14		      .byte.b	20	; 3
+    545  5435		       3a		      .byte.b	58	; 0
+    546  5436
+    547  5436				   COLOURDATA_idle3
+    548  5436		       06		      .byte.b	CL6	; 23
+    549  5437		       05		      .byte.b	CL5	; 20
+    550  5438		       05		      .byte.b	CL5	; 17
+    551  5439		       03		      .byte.b	CL3	; 14
+    552  543a		       04		      .byte.b	CL4	; 11
+    553  543b		       03		      .byte.b	CL3	; 8
+    554  543c		       02		      .byte.b	CL2	; 5
+    555  543d		       02		      .byte.b	CL2	; 2
+    556  543e		       00		      .byte.b	CL0	; 22
+    557  543f		       05		      .byte.b	CL5	; 19
+    558  5440		       05		      .byte.b	CL5	; 16
+    559  5441		       04		      .byte.b	CL4	; 13
+    560  5442		       04		      .byte.b	CL4	; 10
+    561  5443		       02		      .byte.b	CL2	; 7
+    562  5444		       02		      .byte.b	CL2	; 4
+    563  5445		       01		      .byte.b	CL1	; 1
+    564  5446		       05		      .byte.b	CL5	; 21
+    565  5447		       05		      .byte.b	CL5	; 18
+    566  5448		       06		      .byte.b	CL6	; 15
+    567  5449		       04		      .byte.b	CL4	; 12
+    568  544a		       04		      .byte.b	CL4	; 9
+    569  544b		       02		      .byte.b	CL2	; 6
+    570  544c		       02		      .byte.b	CL2	; 3
+    571  544d		       01		      .byte.b	CL1	; 0
+    572  544e
+    573  544e				   FRAMEDATA_idle2
+    574  544e		       2c		      .byte.b	44	; 23
+    575  544f		       28		      .byte.b	40	; 20
+    576  5450		       38		      .byte.b	56	; 17
+    577  5451		       38		      .byte.b	56	; 14
+    578  5452		       fe		      .byte.b	254	; 11
+    579  5453		       b2		      .byte.b	178	; 8
+    580  5454		       30		      .byte.b	48	; 5
+    581  5455		       08		      .byte.b	8	; 2
+    582  5456		       00		      .byte.b	0	; 22
+    583  5457		       28		      .byte.b	40	; 19
+    584  5458		       38		      .byte.b	56	; 16
+    585  5459		       38		      .byte.b	56	; 13
+    586  545a		       fe		      .byte.b	254	; 10
+    587  545b		       ba		      .byte.b	186	; 7
+    588  545c		       18		      .byte.b	24	; 4
+    589  545d		       3c		      .byte.b	60	; 1
+    590  545e		       28		      .byte.b	40	; 21
+    591  545f		       28		      .byte.b	40	; 18
+    592  5460		       28		      .byte.b	40	; 15
+    593  5461		       38		      .byte.b	56	; 12
+    594  5462		       ba		      .byte.b	186	; 9
+    595  5463		       30		      .byte.b	48	; 6
+    596  5464		       14		      .byte.b	20	; 3
+    597  5465		       3a		      .byte.b	58	; 0
+    598  5466
+    599  5466				   COLOURDATA_idle2
+    600  5466		       06		      .byte.b	CL6	; 23
+    601  5467		       05		      .byte.b	CL5	; 20
+    602  5468		       05		      .byte.b	CL5	; 17
+    603  5469		       03		      .byte.b	CL3	; 14
+    604  546a		       04		      .byte.b	CL4	; 11
+    605  546b		       03		      .byte.b	CL3	; 8
+    606  546c		       02		      .byte.b	CL2	; 5
+    607  546d		       02		      .byte.b	CL2	; 2
+    608  546e		       00		      .byte.b	CL0	; 22
+    609  546f		       05		      .byte.b	CL5	; 19
+    610  5470		       05		      .byte.b	CL5	; 16
+    611  5471		       04		      .byte.b	CL4	; 13
+    612  5472		       04		      .byte.b	CL4	; 10
+    613  5473		       02		      .byte.b	CL2	; 7
+    614  5474		       02		      .byte.b	CL2	; 4
+    615  5475		       01		      .byte.b	CL1	; 1
+    616  5476		       05		      .byte.b	CL5	; 21
+    617  5477		       05		      .byte.b	CL5	; 18
+    618  5478		       06		      .byte.b	CL6	; 15
+    619  5479		       04		      .byte.b	CL4	; 12
+    620  547a		       04		      .byte.b	CL4	; 9
+    621  547b		       02		      .byte.b	CL2	; 6
+    622  547c		       02		      .byte.b	CL2	; 3
+    623  547d		       01		      .byte.b	CL1	; 0
+    624  547e
+    625  547e				   FRAMEDATA_push2
+    626  547e		       26		      .byte.b	38	; 23
+    627  547f		       14		      .byte.b	20	; 20
+    628  5480		       3c		      .byte.b	60	; 17
+    629  5481		       38		      .byte.b	56	; 14
+    630  5482		       3c		      .byte.b	60	; 11
+    631  5483		       19		      .byte.b	25	; 8
+    632  5484		       18		      .byte.b	24	; 5
+    633  5485		       04		      .byte.b	4	; 2
+    634  5486		       40		      .byte.b	64	; 22
+    635  5487		       14		      .byte.b	20	; 19
+    636  5488		       28		      .byte.b	40	; 16
+    637  5489		       38		      .byte.b	56	; 13
+    638  548a		       3e		      .byte.b	62	; 10
+    639  548b		       19		      .byte.b	25	; 7
+    640  548c		       0c		      .byte.b	12	; 4
+    641  548d		       1e		      .byte.b	30	; 1
+    642  548e		       34		      .byte.b	52	; 21
+    643  548f		       3c		      .byte.b	60	; 18
+    644  5490		       30		      .byte.b	48	; 15
+    645  5491		       38		      .byte.b	56	; 12
+    646  5492		       3f		      .byte.b	63	; 9
+    647  5493		       1d		      .byte.b	29	; 6
+    648  5494		       0a		      .byte.b	10	; 3
+    649  5495		       1d		      .byte.b	29	; 0
+    650  5496
+    651  5496				   COLOURDATA_push2
+    652  5496		       06		      .byte.b	CL6	; 23
+    653  5497		       05		      .byte.b	CL5	; 20
+    654  5498		       05		      .byte.b	CL5	; 17
+    655  5499		       03		      .byte.b	CL3	; 14
+    656  549a		       04		      .byte.b	CL4	; 11
+    657  549b		       03		      .byte.b	CL3	; 8
+    658  549c		       02		      .byte.b	CL2	; 5
+    659  549d		       02		      .byte.b	CL2	; 2
+    660  549e		       06		      .byte.b	CL6	; 22
+    661  549f		       05		      .byte.b	CL5	; 19
+    662  54a0		       05		      .byte.b	CL5	; 16
+    663  54a1		       04		      .byte.b	CL4	; 13
+    664  54a2		       04		      .byte.b	CL4	; 10
+    665  54a3		       02		      .byte.b	CL2	; 7
+    666  54a4		       02		      .byte.b	CL2	; 4
+    667  54a5		       01		      .byte.b	CL1	; 1
+    668  54a6		       05		      .byte.b	CL5	; 21
+    669  54a7		       05		      .byte.b	CL5	; 18
+    670  54a8		       01		      .byte.b	CL1	; 15
+    671  54a9		       04		      .byte.b	CL4	; 12
+    672  54aa		       04		      .byte.b	CL4	; 9
+    673  54ab		       02		      .byte.b	CL2	; 6
+    674  54ac		       02		      .byte.b	CL2	; 3
+    675  54ad		       01		      .byte.b	CL1	; 0
+    676  54ae
+    677  54ae				   FRAMEDATA_idle1
+    678  54ae		       2c		      .byte.b	44	; 23
+    679  54af		       28		      .byte.b	40	; 20
+    680  54b0		       38		      .byte.b	56	; 17
+    681  54b1		       ba		      .byte.b	186	; 14
+    682  54b2		       fc		      .byte.b	252	; 11
+    683  54b3		       18		      .byte.b	24	; 8
+    684  54b4		       18		      .byte.b	24	; 5
+    685  54b5		       04		      .byte.b	4	; 2
+    686  54b6		       00		      .byte.b	0	; 22
+    687  54b7		       28		      .byte.b	40	; 19
+    688  54b8		       38		      .byte.b	56	; 16
+    689  54b9		       ba		      .byte.b	186	; 13
+    690  54ba		       7c		      .byte.b	124	; 10
+    691  54bb		       18		      .byte.b	24	; 7
+    692  54bc		       0c		      .byte.b	12	; 4
+    693  54bd		       1e		      .byte.b	30	; 1
+    694  54be		       28		      .byte.b	40	; 21
+    695  54bf		       28		      .byte.b	40	; 18
+    696  54c0		       aa		      .byte.b	170	; 15
+    697  54c1		       bc		      .byte.b	188	; 12
+    698  54c2		       38		      .byte.b	56	; 9
+    699  54c3		       1c		      .byte.b	28	; 6
+    700  54c4		       0a		      .byte.b	10	; 3
+    701  54c5		       1d		      .byte.b	29	; 0
+    702  54c6
+    703  54c6				   COLOURDATA_idle1
+    704  54c6		       06		      .byte.b	CL6	; 23
+    705  54c7		       05		      .byte.b	CL5	; 20
+    706  54c8		       05		      .byte.b	CL5	; 17
+    707  54c9		       03		      .byte.b	CL3	; 14
+    708  54ca		       04		      .byte.b	CL4	; 11
+    709  54cb		       03		      .byte.b	CL3	; 8
+    710  54cc		       02		      .byte.b	CL2	; 5
+    711  54cd		       02		      .byte.b	CL2	; 2
+    712  54ce		       00		      .byte.b	CL0	; 22
+    713  54cf		       05		      .byte.b	CL5	; 19
+    714  54d0		       05		      .byte.b	CL5	; 16
+    715  54d1		       04		      .byte.b	CL4	; 13
+    716  54d2		       04		      .byte.b	CL4	; 10
+    717  54d3		       02		      .byte.b	CL2	; 7
+    718  54d4		       02		      .byte.b	CL2	; 4
+    719  54d5		       01		      .byte.b	CL1	; 1
+    720  54d6		       05		      .byte.b	CL5	; 21
+    721  54d7		       05		      .byte.b	CL5	; 18
+    722  54d8		       02		      .byte.b	CL2	; 15
+    723  54d9		       04		      .byte.b	CL4	; 12
+    724  54da		       04		      .byte.b	CL4	; 9
+    725  54db		       02		      .byte.b	CL2	; 6
+    726  54dc		       02		      .byte.b	CL2	; 3
+    727  54dd		       01		      .byte.b	CL1	; 0
+    728  54de
+    729  54de				   FRAMEDATA_push1
+    730  54de		       46		      .byte.b	70	; 23
+    731  54df		       62		      .byte.b	98	; 20
+    732  54e0		       28		      .byte.b	40	; 17
+    733  54e1		       38		      .byte.b	56	; 14
+    734  54e2		       3e		      .byte.b	62	; 11
+    735  54e3		       19		      .byte.b	25	; 8
+    736  54e4		       0c		      .byte.b	12	; 5
+    737  54e5		       1e		      .byte.b	30	; 2
+    738  54e6		       80		      .byte.b	128	; 22
+    739  54e7		       1e		      .byte.b	30	; 19
+    740  54e8		       30		      .byte.b	48	; 16
+    741  54e9		       38		      .byte.b	56	; 13
+    742  54ea		       3f		      .byte.b	63	; 10
+    743  54eb		       1d		      .byte.b	29	; 7
+    744  54ec		       0a		      .byte.b	10	; 4
+    745  54ed		       1d		      .byte.b	29	; 1
+    746  54ee		       64		      .byte.b	100	; 21
+    747  54ef		       3c		      .byte.b	60	; 18
+    748  54f0		       38		      .byte.b	56	; 15
+    749  54f1		       3c		      .byte.b	60	; 12
+    750  54f2		       19		      .byte.b	25	; 9
+    751  54f3		       18		      .byte.b	24	; 6
+    752  54f4		       04		      .byte.b	4	; 3
+    753  54f5		       00		      .byte.b	0	; 0
+    754  54f6
+    755  54f6				   COLOURDATA_push1
+    756  54f6		       06		      .byte.b	CL6	; 23
+    757  54f7		       05		      .byte.b	CL5	; 20
+    758  54f8		       05		      .byte.b	CL5	; 17
+    759  54f9		       04		      .byte.b	CL4	; 14
+    760  54fa		       04		      .byte.b	CL4	; 11
+    761  54fb		       02		      .byte.b	CL2	; 8
+    762  54fc		       02		      .byte.b	CL2	; 5
+    763  54fd		       01		      .byte.b	CL1	; 2
+    764  54fe		       06		      .byte.b	CL6	; 22
+    765  54ff		       05		      .byte.b	CL5	; 19
+    766  5500		       06		      .byte.b	CL6	; 16
+    767  5501		       04		      .byte.b	CL4	; 13
+    768  5502		       04		      .byte.b	CL4	; 10
+    769  5503		       02		      .byte.b	CL2	; 7
+    770  5504		       02		      .byte.b	CL2	; 4
+    771  5505		       01		      .byte.b	CL1	; 1
+    772  5506		       05		      .byte.b	CL5	; 21
+    773  5507		       05		      .byte.b	CL5	; 18
+    774  5508		       03		      .byte.b	CL3	; 15
+    775  5509		       04		      .byte.b	CL4	; 12
+    776  550a		       03		      .byte.b	CL3	; 9
+    777  550b		       02		      .byte.b	CL2	; 6
+    778  550c		       02		      .byte.b	CL2	; 3
+    779  550d		       00		      .byte.b	CL0	; 0
+    780  550e
+    781  550e				   FRAMEDATA_blink
+    782  550e		       34		      .byte.b	52	; 23
+    783  550f		       28		      .byte.b	40	; 20
+    784  5510		       38		      .byte.b	56	; 17
+    785  5511		       ba		      .byte.b	186	; 14
+    786  5512		       fc		      .byte.b	252	; 11
+    787  5513		       18		      .byte.b	24	; 8
+    788  5514		       18		      .byte.b	24	; 5
+    789  5515		       04		      .byte.b	4	; 2
+    790  5516		       00		      .byte.b	0	; 22
+    791  5517		       28		      .byte.b	40	; 19
+    792  5518		       18		      .byte.b	24	; 16
+    793  5519		       ba		      .byte.b	186	; 13
+    794  551a		       7c		      .byte.b	124	; 10
+    795  551b		       18		      .byte.b	24	; 7
+    796  551c		       0c		      .byte.b	12	; 4
+    797  551d		       1e		      .byte.b	30	; 1
+    798  551e		       28		      .byte.b	40	; 21
+    799  551f		       28		      .byte.b	40	; 18
+    800  5520		       b2		      .byte.b	178	; 15
+    801  5521		       bc		      .byte.b	188	; 12
+    802  5522		       38		      .byte.b	56	; 9
+    803  5523		       1c		      .byte.b	28	; 6
+    804  5524		       0e		      .byte.b	14	; 3
+    805  5525		       1d		      .byte.b	29	; 0
+    806  5526
+    807  5526				   COLOURDATA_blink
+    808  5526		       06		      .byte.b	CL6	; 23
+    809  5527		       05		      .byte.b	CL5	; 20
+    810  5528		       05		      .byte.b	CL5	; 17
+    811  5529		       03		      .byte.b	CL3	; 14
+    812  552a		       04		      .byte.b	CL4	; 11
+    813  552b		       03		      .byte.b	CL3	; 8
+    814  552c		       02		      .byte.b	CL2	; 5
+    815  552d		       02		      .byte.b	CL2	; 2
+    816  552e		       00		      .byte.b	CL0	; 22
+    817  552f		       05		      .byte.b	CL5	; 19
+    818  5530		       05		      .byte.b	CL5	; 16
+    819  5531		       04		      .byte.b	CL4	; 13
+    820  5532		       04		      .byte.b	CL4	; 10
+    821  5533		       02		      .byte.b	CL2	; 7
+    822  5534		       02		      .byte.b	CL2	; 4
+    823  5535		       01		      .byte.b	CL1	; 1
+    824  5536		       05		      .byte.b	CL5	; 21
+    825  5537		       05		      .byte.b	CL5	; 18
+    826  5538		       02		      .byte.b	CL2	; 15
+    827  5539		       04		      .byte.b	CL4	; 12
+    828  553a		       04		      .byte.b	CL4	; 9
+    829  553b		       02		      .byte.b	CL2	; 6
+    830  553c		       02		      .byte.b	CL2	; 3
+    831  553d		       01		      .byte.b	CL1	; 0
+    832  553e
+    833  553e				   FRAMEDATA_yell
+    834  553e		       34		      .byte.b	52	; 23
+    835  553f		       28		      .byte.b	40	; 20
+    836  5540		       18		      .byte.b	24	; 17
+    837  5541		       b8		      .byte.b	184	; 14
+    838  5542		       7e		      .byte.b	126	; 11
+    839  5543		       32		      .byte.b	50	; 8
+    840  5544		       72		      .byte.b	114	; 5
+    841  5545		       40		      .byte.b	64	; 2
+    842  5546		       00		      .byte.b	0	; 22
+    843  5547		       28		      .byte.b	40	; 19
+    844  5548		       b0		      .byte.b	176	; 16
+    845  5549		       b8		      .byte.b	184	; 13
+    846  554a		       7a		      .byte.b	122	; 10
+    847  554b		       36		      .byte.b	54	; 7
+    848  554c		       58		      .byte.b	88	; 4
+    849  554d		       78		      .byte.b	120	; 1
+    850  554e		       28		      .byte.b	40	; 21
+    851  554f		       28		      .byte.b	40	; 18
+    852  5550		       b8		      .byte.b	184	; 15
+    853  5551		       fc		      .byte.b	252	; 12
+    854  5552		       32		      .byte.b	50	; 9
+    855  5553		       62		      .byte.b	98	; 6
+    856  5554		       30		      .byte.b	48	; 3
+    857  5555		       34		      .byte.b	52	; 0
+    858  5556
+    859  5556				   COLOURDATA_yell
+    860  5556		       06		      .byte.b	CL6	; 23
+    861  5557		       05		      .byte.b	CL5	; 20
+    862  5558		       05		      .byte.b	CL5	; 17
+    863  5559		       04		      .byte.b	CL4	; 14
+    864  555a		       04		      .byte.b	CL4	; 11
+    865  555b		       02		      .byte.b	CL2	; 8
+    866  555c		       02		      .byte.b	CL2	; 5
+    867  555d		       01		      .byte.b	CL1	; 2
+    868  555e		       00		      .byte.b	CL0	; 22
+    869  555f		       05		      .byte.b	CL5	; 19
+    870  5560		       02		      .byte.b	CL2	; 16
+    871  5561		       04		      .byte.b	CL4	; 13
+    872  5562		       04		      .byte.b	CL4	; 10
+    873  5563		       02		      .byte.b	CL2	; 7
+    874  5564		       02		      .byte.b	CL2	; 4
+    875  5565		       01		      .byte.b	CL1	; 1
+    876  5566		       05		      .byte.b	CL5	; 21
+    877  5567		       05		      .byte.b	CL5	; 18
+    878  5568		       03		      .byte.b	CL3	; 15
+    879  5569		       04		      .byte.b	CL4	; 12
+    880  556a		       03		      .byte.b	CL3	; 9
+    881  556b		       02		      .byte.b	CL2	; 6
+    882  556c		       02		      .byte.b	CL2	; 3
+    883  556d		       01		      .byte.b	CL1	; 0
+    884  556e
+    885  556e				   FRAMEDATA_look2
+    886  556e		       34		      .byte.b	52	; 23
+    887  556f		       28		      .byte.b	40	; 20
+    888  5570		       38		      .byte.b	56	; 17
+    889  5571		       ba		      .byte.b	186	; 14
+    890  5572		       fc		      .byte.b	252	; 11
+    891  5573		       30		      .byte.b	48	; 8
+    892  5574		       10		      .byte.b	16	; 5
+    893  5575		       70		      .byte.b	112	; 2
+    894  5576		       00		      .byte.b	0	; 22
+    895  5577		       28		      .byte.b	40	; 19
+    896  5578		       18		      .byte.b	24	; 16
+    897  5579		       ba		      .byte.b	186	; 13
+    898  557a		       7c		      .byte.b	124	; 10
+    899  557b		       30		      .byte.b	48	; 7
+    900  557c		       78		      .byte.b	120	; 4
+    901  557d		       78		      .byte.b	120	; 1
+    902  557e		       28		      .byte.b	40	; 21
+    903  557f		       28		      .byte.b	40	; 18
+    904  5580		       b2		      .byte.b	178	; 15
+    905  5581		       bc		      .byte.b	188	; 12
+    906  5582		       38		      .byte.b	56	; 9
+    907  5583		       30		      .byte.b	48	; 6
+    908  5584		       28		      .byte.b	40	; 3
+    909  5585		       b8		      .byte.b	184	; 0
+    910  5586
+    911  5586				   COLOURDATA_look2
+    912  5586		       06		      .byte.b	CL6	; 23
+    913  5587		       05		      .byte.b	CL5	; 20
+    914  5588		       05		      .byte.b	CL5	; 17
+    915  5589		       03		      .byte.b	CL3	; 14
+    916  558a		       04		      .byte.b	CL4	; 11
+    917  558b		       03		      .byte.b	CL3	; 8
+    918  558c		       02		      .byte.b	CL2	; 5
+    919  558d		       02		      .byte.b	CL2	; 2
+    920  558e		       00		      .byte.b	CL0	; 22
+    921  558f		       05		      .byte.b	CL5	; 19
+    922  5590		       05		      .byte.b	CL5	; 16
+    923  5591		       04		      .byte.b	CL4	; 13
+    924  5592		       04		      .byte.b	CL4	; 10
+    925  5593		       02		      .byte.b	CL2	; 7
+    926  5594		       02		      .byte.b	CL2	; 4
+    927  5595		       01		      .byte.b	CL1	; 1
+    928  5596		       05		      .byte.b	CL5	; 21
+    929  5597		       05		      .byte.b	CL5	; 18
+    930  5598		       02		      .byte.b	CL2	; 15
+    931  5599		       04		      .byte.b	CL4	; 12
+    932  559a		       04		      .byte.b	CL4	; 9
+    933  559b		       02		      .byte.b	CL2	; 6
+    934  559c		       02		      .byte.b	CL2	; 3
+    935  559d		       01		      .byte.b	CL1	; 0
+    936  559e
+    937  559e				   FRAMEDATA_look3
+    938  559e		       34		      .byte.b	52	; 23
+    939  559f		       28		      .byte.b	40	; 20
+    940  55a0		       38		      .byte.b	56	; 17
+    941  55a1		       ba		      .byte.b	186	; 14
+    942  55a2		       fc		      .byte.b	252	; 11
+    943  55a3		       18		      .byte.b	24	; 8
+    944  55a4		       10		      .byte.b	16	; 5
+    945  55a5		       1c		      .byte.b	28	; 2
+    946  55a6		       00		      .byte.b	0	; 22
+    947  55a7		       28		      .byte.b	40	; 19
+    948  55a8		       18		      .byte.b	24	; 16
+    949  55a9		       ba		      .byte.b	186	; 13
+    950  55aa		       7c		      .byte.b	124	; 10
+    951  55ab		       18		      .byte.b	24	; 7
+    952  55ac		       3c		      .byte.b	60	; 4
+    953  55ad		       3c		      .byte.b	60	; 1
+    954  55ae		       28		      .byte.b	40	; 21
+    955  55af		       28		      .byte.b	40	; 18
+    956  55b0		       b2		      .byte.b	178	; 15
+    957  55b1		       bc		      .byte.b	188	; 12
+    958  55b2		       38		      .byte.b	56	; 9
+    959  55b3		       18		      .byte.b	24	; 6
+    960  55b4		       28		      .byte.b	40	; 3
+    961  55b5		       3a		      .byte.b	58	; 0
+    962  55b6
+    963  55b6				   COLOURDATA_look3
+    964  55b6		       06		      .byte.b	CL6	; 23
+    965  55b7		       05		      .byte.b	CL5	; 20
+    966  55b8		       05		      .byte.b	CL5	; 17
+    967  55b9		       03		      .byte.b	CL3	; 14
+    968  55ba		       04		      .byte.b	CL4	; 11
+    969  55bb		       03		      .byte.b	CL3	; 8
+    970  55bc		       02		      .byte.b	CL2	; 5
+    971  55bd		       02		      .byte.b	CL2	; 2
+    972  55be		       00		      .byte.b	CL0	; 22
+    973  55bf		       05		      .byte.b	CL5	; 19
+    974  55c0		       05		      .byte.b	CL5	; 16
+    975  55c1		       04		      .byte.b	CL4	; 13
+    976  55c2		       04		      .byte.b	CL4	; 10
+    977  55c3		       02		      .byte.b	CL2	; 7
+    978  55c4		       02		      .byte.b	CL2	; 4
+    979  55c5		       01		      .byte.b	CL1	; 1
+    980  55c6		       05		      .byte.b	CL5	; 21
+    981  55c7		       05		      .byte.b	CL5	; 18
+    982  55c8		       02		      .byte.b	CL2	; 15
+    983  55c9		       04		      .byte.b	CL4	; 12
+    984  55ca		       04		      .byte.b	CL4	; 9
+    985  55cb		       02		      .byte.b	CL2	; 6
+    986  55cc		       02		      .byte.b	CL2	; 3
+    987  55cd		       01		      .byte.b	CL1	; 0
+    988  55ce
+    989  55ce				   FRAMEDATA_look1
+    990  55ce		       34		      .byte.b	52	; 23
+    991  55cf		       14		      .byte.b	20	; 20
+    992  55d0		       18		      .byte.b	24	; 17
+    993  55d1		       59		      .byte.b	89	; 14
+    994  55d2		       7c		      .byte.b	124	; 11
+    995  55d3		       18		      .byte.b	24	; 8
+    996  55d4		       18		      .byte.b	24	; 5
+    997  55d5		       20		      .byte.b	32	; 2
+    998  55d6		       00		      .byte.b	0	; 22
+    999  55d7		       14		      .byte.b	20	; 19
+   1000  55d8		       18		      .byte.b	24	; 16
+   1001  55d9		       5a		      .byte.b	90	; 13
+   1002  55da		       3c		      .byte.b	60	; 10
+   1003  55db		       18		      .byte.b	24	; 7
+   1004  55dc		       30		      .byte.b	48	; 4
+   1005  55dd		       78		      .byte.b	120	; 1
+   1006  55de		       14		      .byte.b	20	; 21
+   1007  55df		       14		      .byte.b	20	; 18
+   1008  55e0		       31		      .byte.b	49	; 15
+   1009  55e1		       7e		      .byte.b	126	; 12
+   1010  55e2		       18		      .byte.b	24	; 9
+   1011  55e3		       38		      .byte.b	56	; 6
+   1012  55e4		       50		      .byte.b	80	; 3
+   1013  55e5		       b8		      .byte.b	184	; 0
+   1014  55e6
+   1015  55e6				   COLOURDATA_look1
+   1016  55e6		       06		      .byte.b	CL6	; 23
+   1017  55e7		       05		      .byte.b	CL5	; 20
+   1018  55e8		       05		      .byte.b	CL5	; 17
+   1019  55e9		       03		      .byte.b	CL3	; 14
+   1020  55ea		       04		      .byte.b	CL4	; 11
+   1021  55eb		       03		      .byte.b	CL3	; 8
+   1022  55ec		       02		      .byte.b	CL2	; 5
+   1023  55ed		       02		      .byte.b	CL2	; 2
+   1024  55ee		       00		      .byte.b	CL0	; 22
+   1025  55ef		       05		      .byte.b	CL5	; 19
+   1026  55f0		       05		      .byte.b	CL5	; 16
+   1027  55f1		       04		      .byte.b	CL4	; 13
+   1028  55f2		       04		      .byte.b	CL4	; 10
+   1029  55f3		       02		      .byte.b	CL2	; 7
+   1030  55f4		       02		      .byte.b	CL2	; 4
+   1031  55f5		       01		      .byte.b	CL1	; 1
+   1032  55f6		       05		      .byte.b	CL5	; 21
+   1033  55f7		       05		      .byte.b	CL5	; 18
+   1034  55f8		       02		      .byte.b	CL2	; 15
+   1035  55f9		       04		      .byte.b	CL4	; 12
+   1036  55fa		       04		      .byte.b	CL4	; 9
+   1037  55fb		       02		      .byte.b	CL2	; 6
+   1038  55fc		       02		      .byte.b	CL2	; 3
+   1039  55fd		       01		      .byte.b	CL1	; 0
+   1040  55fe
+   1041  55fe				   FRAMEDATA_tapfoot
+   1042  55fe		       24		      .byte.b	36	; 23
+   1043  55ff		       28		      .byte.b	40	; 20
+   1044  5600		       38		      .byte.b	56	; 17
+   1045  5601		       ba		      .byte.b	186	; 14
+   1046  5602		       fc		      .byte.b	252	; 11
+   1047  5603		       18		      .byte.b	24	; 8
+   1048  5604		       18		      .byte.b	24	; 5
+   1049  5605		       04		      .byte.b	4	; 2
+   1050  5606		       10		      .byte.b	16	; 22
+   1051  5607		       28		      .byte.b	40	; 19
+   1052  5608		       18		      .byte.b	24	; 16
+   1053  5609		       ba		      .byte.b	186	; 13
+   1054  560a		       7c		      .byte.b	124	; 10
+   1055  560b		       18		      .byte.b	24	; 7
+   1056  560c		       0c		      .byte.b	12	; 4
+   1057  560d		       1e		      .byte.b	30	; 1
+   1058  560e		       28		      .byte.b	40	; 21
+   1059  560f		       28		      .byte.b	40	; 18
+   1060  5610		       b2		      .byte.b	178	; 15
+   1061  5611		       bc		      .byte.b	188	; 12
+   1062  5612		       38		      .byte.b	56	; 9
+   1063  5613		       1c		      .byte.b	28	; 6
+   1064  5614		       0a		      .byte.b	10	; 3
+   1065  5615		       1d		      .byte.b	29	; 0
+   1066  5616
+   1067  5616				   COLOURDATA_tapfoot
+   1068  5616		       06		      .byte.b	CL6	; 23
+   1069  5617		       05		      .byte.b	CL5	; 20
+   1070  5618		       05		      .byte.b	CL5	; 17
+   1071  5619		       03		      .byte.b	CL3	; 14
+   1072  561a		       04		      .byte.b	CL4	; 11
+   1073  561b		       03		      .byte.b	CL3	; 8
+   1074  561c		       02		      .byte.b	CL2	; 5
+   1075  561d		       02		      .byte.b	CL2	; 2
+   1076  561e		       06		      .byte.b	CL6	; 22
+   1077  561f		       05		      .byte.b	CL5	; 19
+   1078  5620		       05		      .byte.b	CL5	; 16
+   1079  5621		       04		      .byte.b	CL4	; 13
+   1080  5622		       04		      .byte.b	CL4	; 10
+   1081  5623		       02		      .byte.b	CL2	; 7
+   1082  5624		       02		      .byte.b	CL2	; 4
+   1083  5625		       01		      .byte.b	CL1	; 1
+   1084  5626		       05		      .byte.b	CL5	; 21
+   1085  5627		       05		      .byte.b	CL5	; 18
+   1086  5628		       02		      .byte.b	CL2	; 15
+   1087  5629		       04		      .byte.b	CL4	; 12
+   1088  562a		       04		      .byte.b	CL4	; 9
+   1089  562b		       02		      .byte.b	CL2	; 6
+   1090  562c		       02		      .byte.b	CL2	; 3
+   1091  562d		       01		      .byte.b	CL1	; 0
+   1092  562e
+   1093  562e
+   1094  562e				   __FNUM     SET	0
+   1095  562e					      MAC	deframe
+   1096  562e				   FRAME_{1}  =	__FNUM
+   1097  562e				   __FNUM     SET	__FNUM + 1
+   1098  562e					      ENDM		;{name}
+   1099  562e
+      0  562e					      DEFRAME	CROUCH1
+      1  562e		       00 00	   FRAME_CROUCH1 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	WALK1
+      1  562e		       00 01	   FRAME_WALK1 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	WALK2
+      1  562e		       00 02	   FRAME_WALK2 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	HANDLIP
+      1  562e		       00 03	   FRAME_HANDLIP =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	LOOKUP
+      1  562e		       00 04	   FRAME_LOOKUP =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	WALK3
+      1  562e		       00 05	   FRAME_WALK3 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	PUSH_UP_1
+      1  562e		       00 06	   FRAME_PUSH_UP_1 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	PUSH_UP_3
+      1  562e		       00 07	   FRAME_PUSH_UP_3 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	PUSH_UP_2
+      1  562e		       00 08	   FRAME_PUSH_UP_2 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	PUSH3
+      1  562e		       00 09	   FRAME_PUSH3 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	IDLE3
+      1  562e		       00 0a	   FRAME_IDLE3 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	IDLE2
+      1  562e		       00 0b	   FRAME_IDLE2 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	PUSH2
+      1  562e		       00 0c	   FRAME_PUSH2 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	IDLE1
+      1  562e		       00 0d	   FRAME_IDLE1 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	PUSH1
+      1  562e		       00 0e	   FRAME_PUSH1 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	BLINK
+      1  562e		       00 0f	   FRAME_BLINK =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	YELL
+      1  562e		       00 10	   FRAME_YELL =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	LOOK2
+      1  562e		       00 11	   FRAME_LOOK2 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	LOOK3
+      1  562e		       00 12	   FRAME_LOOK3 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	LOOK1
+      1  562e		       00 13	   FRAME_LOOK1 =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+      0  562e					      DEFRAME	TAPFOOT
+      1  562e		       00 14	   FRAME_TAPFOOT =	__FNUM
+      2  562e				   __FNUM     SET	__FNUM + 1
+   1121  562e
+   1122  562e				   FRAME_PTR_LO
+   1123  562e		       3e		      .byte.b	<FRAMEDATA_crouch1
+   1124  562f		       6e		      .byte.b	<FRAMEDATA_walk1
+   1125  5630		       9e		      .byte.b	<FRAMEDATA_walk2
+   1126  5631		       ce		      .byte.b	<FRAMEDATA_handlip
+   1127  5632		       fe		      .byte.b	<FRAMEDATA_lookup
+   1128  5633		       2e		      .byte.b	<FRAMEDATA_walk3
+   1129  5634		       5e		      .byte.b	<FRAMEDATA_push_up_1
+   1130  5635		       8e		      .byte.b	<FRAMEDATA_push_up_3
+   1131  5636		       be		      .byte.b	<FRAMEDATA_push_up_2
+   1132  5637		       ee		      .byte.b	<FRAMEDATA_push3
+   1133  5638		       1e		      .byte.b	<FRAMEDATA_idle3
+   1134  5639		       4e		      .byte.b	<FRAMEDATA_idle2
+   1135  563a		       7e		      .byte.b	<FRAMEDATA_push2
+   1136  563b		       ae		      .byte.b	<FRAMEDATA_idle1
+   1137  563c		       de		      .byte.b	<FRAMEDATA_push1
+   1138  563d		       0e		      .byte.b	<FRAMEDATA_blink
+   1139  563e		       3e		      .byte.b	<FRAMEDATA_yell
+   1140  563f		       6e		      .byte.b	<FRAMEDATA_look2
+   1141  5640		       9e		      .byte.b	<FRAMEDATA_look3
+   1142  5641		       ce		      .byte.b	<FRAMEDATA_look1
+   1143  5642		       fe		      .byte.b	<FRAMEDATA_tapfoot
+   1144  5643
+   1145  5643				   FRAME_PTR_HI
+   1146  5643		       f2		      .byte.b	>FRAMEDATA_crouch1
+   1147  5644		       f2		      .byte.b	>FRAMEDATA_walk1
+   1148  5645		       f2		      .byte.b	>FRAMEDATA_walk2
+   1149  5646		       f2		      .byte.b	>FRAMEDATA_handlip
+   1150  5647		       f2		      .byte.b	>FRAMEDATA_lookup
+   1151  5648		       f3		      .byte.b	>FRAMEDATA_walk3
+   1152  5649		       f3		      .byte.b	>FRAMEDATA_push_up_1
+   1153  564a		       f3		      .byte.b	>FRAMEDATA_push_up_3
+   1154  564b		       f3		      .byte.b	>FRAMEDATA_push_up_2
+   1155  564c		       f3		      .byte.b	>FRAMEDATA_push3
+   1156  564d		       f4		      .byte.b	>FRAMEDATA_idle3
+   1157  564e		       f4		      .byte.b	>FRAMEDATA_idle2
+   1158  564f		       f4		      .byte.b	>FRAMEDATA_push2
+   1159  5650		       f4		      .byte.b	>FRAMEDATA_idle1
+   1160  5651		       f4		      .byte.b	>FRAMEDATA_push1
+   1161  5652		       f5		      .byte.b	>FRAMEDATA_blink
+   1162  5653		       f5		      .byte.b	>FRAMEDATA_yell
+   1163  5654		       f5		      .byte.b	>FRAMEDATA_look2
+   1164  5655		       f5		      .byte.b	>FRAMEDATA_look3
+   1165  5656		       f5		      .byte.b	>FRAMEDATA_look1
+   1166  5657		       f5		      .byte.b	>FRAMEDATA_tapfoot
+   1167  5658
+   1168  5658				   COLOUR_PTR_LO
+   1169  5658		       56		      .byte.b	<COLOURDATA_crouch1
+   1170  5659		       86		      .byte.b	<COLOURDATA_walk1
+   1171  565a		       b6		      .byte.b	<COLOURDATA_walk2
+   1172  565b		       e6		      .byte.b	<COLOURDATA_handlip
+   1173  565c		       16		      .byte.b	<COLOURDATA_lookup
+   1174  565d		       46		      .byte.b	<COLOURDATA_walk3
+   1175  565e		       76		      .byte.b	<COLOURDATA_push_up_1
+   1176  565f		       a6		      .byte.b	<COLOURDATA_push_up_3
+   1177  5660		       d6		      .byte.b	<COLOURDATA_push_up_2
+   1178  5661		       06		      .byte.b	<COLOURDATA_push3
+   1179  5662		       36		      .byte.b	<COLOURDATA_idle3
+   1180  5663		       66		      .byte.b	<COLOURDATA_idle2
+   1181  5664		       96		      .byte.b	<COLOURDATA_push2
+   1182  5665		       c6		      .byte.b	<COLOURDATA_idle1
+   1183  5666		       f6		      .byte.b	<COLOURDATA_push1
+   1184  5667		       26		      .byte.b	<COLOURDATA_blink
+   1185  5668		       56		      .byte.b	<COLOURDATA_yell
+   1186  5669		       86		      .byte.b	<COLOURDATA_look2
+   1187  566a		       b6		      .byte.b	<COLOURDATA_look3
+   1188  566b		       e6		      .byte.b	<COLOURDATA_look1
+   1189  566c		       16		      .byte.b	<COLOURDATA_tapfoot
+   1190  566d
+   1191  566d				   COLOUR_PTR_HI
+   1192  566d		       f2		      .byte.b	>COLOURDATA_crouch1
+   1193  566e		       f2		      .byte.b	>COLOURDATA_walk1
+   1194  566f		       f2		      .byte.b	>COLOURDATA_walk2
+   1195  5670		       f2		      .byte.b	>COLOURDATA_handlip
+   1196  5671		       f3		      .byte.b	>COLOURDATA_lookup
+   1197  5672		       f3		      .byte.b	>COLOURDATA_walk3
+   1198  5673		       f3		      .byte.b	>COLOURDATA_push_up_1
+   1199  5674		       f3		      .byte.b	>COLOURDATA_push_up_3
+   1200  5675		       f3		      .byte.b	>COLOURDATA_push_up_2
+   1201  5676		       f4		      .byte.b	>COLOURDATA_push3
+   1202  5677		       f4		      .byte.b	>COLOURDATA_idle3
+   1203  5678		       f4		      .byte.b	>COLOURDATA_idle2
+   1204  5679		       f4		      .byte.b	>COLOURDATA_push2
+   1205  567a		       f4		      .byte.b	>COLOURDATA_idle1
+   1206  567b		       f4		      .byte.b	>COLOURDATA_push1
+   1207  567c		       f5		      .byte.b	>COLOURDATA_blink
+   1208  567d		       f5		      .byte.b	>COLOURDATA_yell
+   1209  567e		       f5		      .byte.b	>COLOURDATA_look2
+   1210  567f		       f5		      .byte.b	>COLOURDATA_look3
+   1211  5680		       f5		      .byte.b	>COLOURDATA_look1
+   1212  5681		       f6		      .byte.b	>COLOURDATA_tapfoot
 ------- FILE BANK_PlayerFrames.asm
-    210  54e6
-      0  54e6					      CHECK_BANK_SIZE	"PLAYER_FRAMES"
-      1  54e6		       04 e6	   .TEMP      =	* - BANK_START
- PLAYER_FRAMES (2K) SIZE =  $4e6 , FREE= $31a
-      2  54e6					      ECHO	"PLAYER_FRAMES", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
-      3  54e6				  -	      if	( .TEMP ) > ROM_BANK_SIZE
-      4  54e6				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
-      5  54e6				  -	      ERR
-      6  54e6					      endif
+    200  5682
+      0  5682					      CHECK_BANK_SIZE	"PLAYER_FRAMES"
+      1  5682		       06 82	   .TEMP      =	* - BANK_START
+ PLAYER_FRAMES (2K) SIZE =  $682 , FREE= $17e
+      2  5682					      ECHO	"PLAYER_FRAMES", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
+      3  5682				  -	      if	( .TEMP ) > ROM_BANK_SIZE
+      4  5682				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
+      5  5682				  -	      ERR
+      6  5682					      endif
 ------- FILE ./sokoboo.asm
 ------- FILE titleScreen.asm LEVEL 2 PASS 3
-      0  54e6					      include	"titleScreen.asm"
-      0  54e6					      NEWBANK	TITLESCREEN
+      0  5682					      include	"titleScreen.asm"
+      0  5682					      NEWBANK	TITLESCREEN
       1  5c6b ????				      SEG	TITLESCREEN
       2  5800					      ORG	ORIGIN
       3  5800					      RORG	$F000
@@ -17223,9 +17553,9 @@
     277  68d0		       f0 14		      beq	alreadyAnimPush
     278  68d2
       0  68d2					      LOAD_ANIMATION	PUSH
-      1  68d2		       a9 8e		      lda	#<Animation_PUSH
+      1  68d2		       a9 2a		      lda	#<Animation_PUSH
       2  68d4		       85 9a		      sta	animation
-      3  68d6		       a9 f0		      lda	#>Animation_PUSH
+      3  68d6		       a9 f2		      lda	#>Animation_PUSH
       4  68d8		       85 9b		      sta	animation+1
       5  68da		       a9 00		      lda	#0
       6  68dc		       85 9c		      sta	animation_delay
@@ -17240,7 +17570,7 @@
     285  68e6
     286  68e6
     287  68e6		       a5 a4		      lda	ManPushCounter
-    288  68e8		       c9 01		      cmp	#PUSH_LIMIT
+    288  68e8		       c9 03		      cmp	#PUSH_LIMIT
     289  68ea		       90 db		      bcc	cannotPush
     290  68ec
     291  68ec		       86 d4		      stx	restorationCharacter	; players new location's restore
@@ -17471,9 +17801,9 @@
       3  69a4				   TurnAround
     511  69a4
       0  69a4					      LOAD_ANIMATION	TURNAROUND
-      1  69a4		       a9 76		      lda	#<Animation_TURNAROUND
+      1  69a4		       a9 10		      lda	#<Animation_TURNAROUND
       2  69a6		       85 9a		      sta	animation
-      3  69a8		       a9 f0		      lda	#>Animation_TURNAROUND
+      3  69a8		       a9 f2		      lda	#>Animation_TURNAROUND
       4  69aa		       85 9b		      sta	animation+1
       5  69ac		       a9 00		      lda	#0
       6  69ae		       85 9c		      sta	animation_delay
@@ -17532,7 +17862,7 @@
     556  69de		       85 a8		      sta	idleCount
     557  69e0
       0  69e0					      LOAD_ANIMATION	IDLE
-      1  69e0		       a9 3a		      lda	#<Animation_IDLE
+      1  69e0		       a9 3c		      lda	#<Animation_IDLE
       2  69e2		       85 9a		      sta	animation
       3  69e4		       a9 f0		      lda	#>Animation_IDLE
       4  69e6		       85 9b		      sta	animation+1
@@ -17686,7 +18016,7 @@
     698  6a67		       90 14		      bcc	alreadyIdling
     699  6a69
       0  6a69					      LOAD_ANIMATION	IDLE
-      1  6a69		       a9 3a		      lda	#<Animation_IDLE
+      1  6a69		       a9 3c		      lda	#<Animation_IDLE
       2  6a6b		       85 9a		      sta	animation
       3  6a6d		       a9 f0		      lda	#>Animation_IDLE
       4  6a6f		       85 9b		      sta	animation+1
@@ -17869,7 +18199,7 @@
     863  6b18		       85 a9		      sta	DelayEndOfLevel
     864  6b1a
       0  6b1a					      LOAD_ANIMATION	WIN
-      1  6b1a		       a9 18		      lda	#<Animation_WIN
+      1  6b1a		       a9 1a		      lda	#<Animation_WIN
       2  6b1c		       85 9a		      sta	animation
       3  6b1e		       a9 f0		      lda	#>Animation_WIN
       4  6b20		       85 9b		      sta	animation+1
@@ -19341,7 +19671,7 @@
     526  79b1		       c9 0a		      cmp	#ANIMATION_WALK2_ID
     527  79b3		       f0 10		      beq	walkingOK
       0  79b5					      LOAD_ANIMATION	WALK
-      1  79b5		       a9 0e		      lda	#<Animation_WALK
+      1  79b5		       a9 10		      lda	#<Animation_WALK
       2  79b7		       85 9a		      sta	animation
       3  79b9		       a9 f0		      lda	#>Animation_WALK
       4  79bb		       85 9b		      sta	animation+1
@@ -19702,9 +20032,9 @@
     860  7b18		       85 9c		      sta	animation_delay
     861  7b1a		       a0 00	   nextAnimation2 ldy	#0
     862  7b1c		       b1 9a		      lda	(animation),y
-    863  7b1e		       c9 80		      cmp	#JUMP
+    863  7b1e		       c9 ff		      cmp	#JUMP
     864  7b20		       f0 0d		      beq	aJump
-    865  7b22		       c9 40		      cmp	#FLIP
+    865  7b22		       c9 fe		      cmp	#FLIP
     866  7b24		       d0 18		      bne	notFlip
     867  7b26
     868  7b26		       a5 a2		      lda	ManLastDirection
@@ -19737,14 +20067,14 @@
     895  7b4f
     896  7b4f		       a9 0a		      lda	#PLAYER_FRAMES
     897  7b51		       85 3f		      sta	SET_BANK
-    898  7b53		       b9 92 f4 	      lda	FRAME_PTR_LO,y
+    898  7b53		       b9 2e f6 	      lda	FRAME_PTR_LO,y
     899  7b56		       85 d2		      sta	frame_ptr
-    900  7b58		       b9 a7 f4 	      lda	FRAME_PTR_HI,y
+    900  7b58		       b9 43 f6 	      lda	FRAME_PTR_HI,y
     901  7b5b		       85 d3		      sta	frame_ptr+1
     902  7b5d
-    903  7b5d		       b9 bc f4 	      lda	COLOUR_PTR_LO,y
+    903  7b5d		       b9 58 f6 	      lda	COLOUR_PTR_LO,y
     904  7b60		       85 d4		      sta	colour_ptr
-    905  7b62		       b9 d1 f4 	      lda	COLOUR_PTR_HI,y
+    905  7b62		       b9 6d f6 	      lda	COLOUR_PTR_HI,y
     906  7b65		       85 d5		      sta	colour_ptr+1
     907  7b67
     908  7b67
@@ -20185,7 +20515,7 @@
    1255  7cd4		       d0 44		      bne	genericRTS
    1256  7cd6
       0  7cd6					      LOAD_ANIMATION	WIN
-      1  7cd6		       a9 18		      lda	#<Animation_WIN
+      1  7cd6		       a9 1a		      lda	#<Animation_WIN
       2  7cd8		       85 9a		      sta	animation
       3  7cda		       a9 f0		      lda	#>Animation_WIN
       4  7cdc		       85 9b		      sta	animation+1

@@ -71,7 +71,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 1           ; slowdown when pushing on a BOX
+PUSH_LIMIT                      = 3           ; slowdown when pushing on a BOX
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original

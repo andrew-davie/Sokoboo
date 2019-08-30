@@ -51,8 +51,8 @@ CL6     = 6 ;$64
 
 
 
-JUMP = $80
-FLIP = $40
+JUMP = $FF
+FLIP = $FE
 
 
 ;ANIMATION_WALK_ID = JUMP+0
@@ -78,6 +78,7 @@ ANIM_TABLE
     INSERT_ANIMATION PUSHUP
     INSERT_ANIMATION WALK2
     INSERT_ANIMATION TURNAROUND
+    INSERT_ANIMATION YAWN
 
 ;    INSERT_ANIMATION PUSH_START
 
@@ -128,36 +129,23 @@ Animation_IDLE
 
 
 
+    REPEAT 5
+        REPEAT 20
+        .byte FRAME_WALK2,254
+        .byte FRAME_BLINK,2
+        REPEND
 
-    REPEAT 2
-    .byte FRAME_WALK2,100
-    .byte FRAME_BLINK,2
-    REPEND
-
-    REPEAT 3
-    .byte FRAME_TAPFOOT,10
-    .byte FRAME_WALK2,5
+        REPEAT 3
+        .byte FRAME_TAPFOOT,10
+        .byte FRAME_WALK2,5
+        REPEND
     REPEND
 
     .byte FRAME_LOOK3,3
     .byte FRAME_LOOK2,30
     .byte FRAME_LOOK3,3
 
-    REPEAT 2
-    .byte FRAME_WALK2,100
-    .byte FRAME_BLINK,2
-    REPEND
-    .byte FRAME_LOOKUP,40
-    .byte FRAME_WALK2,20
-
-        REPEAT 2
-    .byte FRAME_LOOK3, 3
-    .byte FRAME_LOOK2, 3
-    .byte FRAME_LOOK1, 5
-    .byte FLIP, 0
-    .byte FRAME_WALK2, 10
-        REPEND
-    .byte JUMP,ANIMATION_IDLE_ID
+    .byte JUMP, ANIMATION_YAWN_ID
 
 
 Animation_TURNAROUND
@@ -171,12 +159,14 @@ Animation_TURNAROUND
 
 Animation_YAWN
 
-    .byte FRAME_HANDLIP,40
+    ;.byte FRAME_HANDLIP,40
     .byte FRAME_WALK2,50
     .byte FRAME_IDLE1,10
     .byte FRAME_IDLE2,10
-    .byte FRAME_IDLE3,60
+    .byte FRAME_IDLE3,100
     .byte FRAME_IDLE2,30
+    .byte FRAME_IDLE3,100
+    .byte FRAME_IDLE2,10
     .byte JUMP,ANIMATION_IDLE_ID
 
 
