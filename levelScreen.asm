@@ -367,8 +367,8 @@ blankDig ds COLOUR_LINES,0
 
     ;ALIGN 256 ???
 COLOUR_TABLEX
-    LUMTABLE2 $90,$B0,$20,12,12,12,4, 4,4, COLOUR_LINES                ; NTSC
-    LUMTABLE2 $B0,$30,$40,$C,$B,$A,0, 0,0, COLOUR_LINES                ; NTSC
+    LUMTABLE2 $90,$B0,$20,14,14,14,2, 2,2, COLOUR_LINES                ; NTSC
+    LUMTABLE2 $B0,$30,$40,14,14,14,2, 2,2, COLOUR_LINES                ; NTSC
 
 quest
     REPEAT 9

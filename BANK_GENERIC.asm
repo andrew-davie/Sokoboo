@@ -72,9 +72,7 @@
                 asl
                 sta levelX
 
-                LOAD_ANIMATION Animation_IDLE
-                lda #ANIMATION_IDLE_ID
-                sta ManAnimationID
+                LOAD_ANIMATION IDLE
 
                 lda #0
                 sta SWBCNT                      ; console I/O always set to INPUT
@@ -98,8 +96,7 @@
 
                 lda #$FF
                 sta DrawStackPointer
-                sta BufferedButton
-                sta BufferedButton+1
+                sta BufferedJoystick
 
                 ;lda #DIRECTION_BITS             ;???
                 ;sta ManLastDirection
@@ -339,15 +336,15 @@ TS_PhaseBank
                 .byte BANK_SwitchObjects
 
 ;------------------------------------------------------------------------------
-lookColour2     .byte $02, $02
-                .byte $04, $04
 
 OverscanTime
     .byte OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
 
+
+THROT_BASE = 16
 theThrottler
-        .byte 30, 30, 30*60/50, 30
+        .byte THROT_BASE, THROT_BASE, THROT_BASE*60/50, THROT_BASE
 
     DEFINE_SUBROUTINE PostScreenCleanup
 
@@ -383,13 +380,6 @@ theThrottler
     ;      when paused                          gameMode... BIT7                RED
     ;      when the door opens (flash)          ColourTimer>0                   WHITE
 
-
-;                lda LookingAround
-;                bpl nolooker                    ; if not looking around, that will do nicely
-;                ldy #0 ;sok
-;;                ldy lookColour2,x               ; otherwise, use the lookaround colour as the base
-;nolooker        sty BGColour                    ; 'BASE' colour pause reverts TO when unpaused
-
                 ldx Platform
                 lda theThrottler,x
                 clc
@@ -418,44 +408,13 @@ noVerflo
 noFlashBG
 ;       sta BGColour
 
-    ; Handle the player joystick reading. We do it *every frame* so that we can incorporate a two-frame
-    ; buffer.  This is designed to give a little better responsiveness to the 'quick tap' movement.
-
-                lda BufferedJoystick            ; previous frame
-                sta BufferedJoystick+1          ; -> buffered
-
-
     ; Create a 'standardised' joystick with D4-D7 having bits CLEAR if the appropriate direction is chosen.
 
-                lda INPT4
-                and BufferedButton
-                sta BufferedButton
-
                 lda SWCHA
+                and BufferedJoystick
                 sta BufferedJoystick
 
-
-#if 0
-    ; "Scoring timer" reset stomp comment
-
-                lda scoringTimer
-                beq timer0now
-                dec scoringTimer
-                bne timer0now
-                ;lda scoringFlags
-                ;and #<(~DISPLAY_FLAGS)      ;       switches to time display
-                ;sta scoringFlags
-timer0now
-#endif
-
-    ; TODO - fast frame-based animation handling can go here
-
                 rts
-
-
-
-pscol       .byte $40, $40
-            .byte $60, $60
 
 ;------------------------------------------------------------------------------
 

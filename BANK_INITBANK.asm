@@ -272,44 +272,41 @@ cannotPush      inc ManPushCounter
 
                 sta ROM_Bank
 
-                lda ManAnimationID
-                cmp #ANIMATION_PUSH_ID
-                beq alreadyAnimPush
-                cmp #ANIMATION_PUSHTRY_ID
+                lda #ANIMATION_PUSH_ID
+                cmp ManAnimationID
                 beq alreadyAnimPush
 
-                LOAD_ANIMATION Animation_PUSHTRY
+                LOAD_ANIMATION PUSH
 
-                lda #ANIMATION_PUSHTRY_ID
-                sta ManAnimationID
+                lda #0
+                sta idleCount
 
 alreadyAnimPush
+
 
                 lda ManPushCounter
                 cmp #PUSH_LIMIT
                 bcc cannotPush
-
-                lda #ANIMATION_PUSH_ID
-                cmp ManAnimationID
-                beq alreadyPushing
-                sta ManAnimationID
-
-                LOAD_ANIMATION Animation_PUSH
-
-alreadyPushing
 
                 stx restorationCharacter          ; players new location's restore
 
     ; Determine if the box is pushable
     ; we use the joystick to calculate the subsequent square
 
-                lda BufferedJoystick
+                lda PreviousJoystick
                 lsr
                 lsr
                 lsr
                 lsr
-                pha
                 tay
+
+                lda JoyMoveX,y
+                beq x0
+                lda JoyMoveY,y
+                bne cannotPush              ; avoid diagonal pushes!
+
+x0              tya
+                pha
 
                 clc
                 lda POS_Y_NEW
@@ -419,11 +416,11 @@ notOnTargetAlready
 
 
 
-RDirY           .byte -1    ;,0,1,0
-RDirX           .byte 0,1   ;,0,-1
-DirPushModX      .byte 0,-1,1,0
-DirPushModY      .byte -1,0,0,1
-Directional     .byte 1,2,3,0,1,2, 0,0, 11,8,9,10,11,8
+;RDirY           .byte -1    ;,0,1,0
+;RDirX           .byte 0,1   ;,0,-1
+;DirPushModX      .byte 0,-1,1,0
+;DirPushModY      .byte -1,0,0,1
+;Directional     .byte 1,2,3,0,1,2, 0,0, 11,8,9,10,11,8
 
 
     ;------------------------------------------------------------------------------
@@ -445,6 +442,8 @@ MANMODE_SWITCH = 9
 MANMODE_TURNAROUND = 10
 MANMODE_TURNAROUND2 = 11
 MANMODE_SWITCH2 = 12
+MANMODE_NEXTLEVEL3 = 13
+
 
 
 
@@ -489,6 +488,7 @@ ManActionLO
                 .byte <TurnAround               ; 10
                 .byte <TurnAround2               ; 10
                 .byte <switchLevels2
+                .byte <nextLevelMan3
 
 ManActionHI
                 .byte >manStartup               ; no timer
@@ -504,12 +504,12 @@ ManActionHI
                 .byte >TurnAround               ; 10
                 .byte >TurnAround2               ; 10
                 .byte >switchLevels2
+                .byte >nextLevelMan3
 
 
     DEFINE_SUBROUTINE TurnAround
 
-
-                LOAD_ANIMATION Animation_TURNAROUND
+                LOAD_ANIMATION TURNAROUND
 
                 lda ManLastDirection
                 sta ManTurnStart
@@ -551,6 +551,11 @@ midDraw
 
                 lda #MANMODE_NORMAL
                 sta ManMode
+
+                lda #0
+                sta idleCount
+
+                LOAD_ANIMATION IDLE
 
 RTS_CF
                 rts
@@ -598,16 +603,14 @@ LOOK_DELAY = 0
     ; to allow the action to be "cancelled". Meanwhile, a button press + direction triggers
     ; "look-around mode"
 
-                lda BufferedButton
+                lda INPT4
                 bmi noLook                      ; button?
 
     ; button pressed, so in looking-around mode
 
-                ldx #$FF
-                stx BufferedButton              ; "release" button
-
                 lda LookingAround
                 bmi LookAround
+                ldx #$FF
                 stx LookingAround
 LookAround
 
@@ -619,6 +622,9 @@ LookAround
                 lsr
                 lsr
                 tay
+
+                lda #-1
+                sta BufferedJoystick
 
                 lda JoyMoveX,y
                 ora JoyMoveY,y
@@ -635,7 +641,11 @@ LookAround
                 bcs AbandonX
                 sta BoardScrollX
 
-AbandonX        lda JoyMoveY,y
+AbandonX
+                ;lda JoyMoveX,y
+                ;bne AbandonY                    ; don't allow diagonals!
+
+                lda JoyMoveY,y
                 ;asl
                 clc
                 adc BoardScrollY
@@ -660,14 +670,13 @@ noLook          ldx #0
 bProcComp
     ;------------------------------------------------------------------------------
 
-                ; control the scrolling via the joystick
-
                 lda ManLastDirection
                 and #DIRECTION_BITS
                 tay
 
                 lda BufferedJoystick                 ; joystick
-                and BufferedJoystick+1
+                sta PreviousJoystick
+                ;and BufferedJoystick+1
 
                 ldx #0
 .loopDirs       asl
@@ -682,8 +691,16 @@ bProcComp
                 lda #ANIMATION_IDLE_ID
                 cmp ManAnimationID
                 beq alreadyIdling
-                sta ManAnimationID
-                LOAD_ANIMATION Animation_IDLE
+
+                inc idleCount
+                ldy idleCount
+                cpy #2
+                bcc alreadyIdling
+
+                LOAD_ANIMATION IDLE
+
+                lda #0
+                sta idleCount
 alreadyIdling
 
 
@@ -697,14 +714,10 @@ alreadyIdling
                 and #%1000
                 beq dontChange
 
-                ;LOAD_ANIMATION Animation_TURNAROUND
-                lda anim_direction,x
-                sta ManLastDirection
-
     ; at this point we want to activate the stand/turn animation before continuing
 
-                ;lda #MANMODE_TURNAROUND
-                ;sta ManMode
+                lda #MANMODE_TURNAROUND
+                sta ManMode
                 rts
 
 
@@ -733,12 +746,17 @@ skipMove        tya
                 sta ManLastDirection
 
 noMovement
+
+                lda #-1
+                sta BufferedJoystick
+
 DFS_rts         rts
 
 
-
-JoyMoveX        .byte 0,0,0,0,0,1, 1,1,0,-1,-1,-1;,0, 0,0,0
-JoyMoveY        .byte 0,0,0,0,0,1,-1,0,0, 1,-1;, 0,0,1,-1,0
+;                      RLDU RLD  RL U RL   R DU R D  R  U R     LDU  LD   L U  L     DU   D     U
+;                      0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111
+JoyMoveX        .byte     0,   0,   0,   0,   0,   1,   1,   1,   0,  -1,  -1,  -1,   0,   0,   0,   0
+JoyMoveY        .byte     0,   0,   0,   0,   0,   1,  -1,   0,   0,   1,  -1,   0,   0,   1,  -1,   0
 
 JoyDirY
     .byte   0,0;,1,-1,0
@@ -784,7 +802,7 @@ anim_direction   .byte 0,%1000,128,128,128
 
                 lda #>( DrawFlag + RAM_WRITE )  ; 2
                 sta BDF_DrawFlagAddress+1       ; 3
-                sta BDF_DrawFlagAddress2+1      ; 3
+                sta BDF_DrawFlagAddress2+1      ; 3 = 8✅
 
                 tsx                             ; 2
                 stx DHS_Stack                   ; 3
@@ -793,56 +811,58 @@ anim_direction   .byte 0,%1000,128,128,128
 
                 clc                             ; 2         required clear for DrawScreenRowPreparation
                 ldx #SCREEN_LINES               ; 2
-                txa                             ; 2 = *32
+                txa                             ; 2 = 24✅
 
         ; fall through
 
     ;------------------------------------------------------------------------------
 
-    DEFINE_SUBROUTINE DrawScreenRowPreparation ; = *59[-7 if not multi-bank-board]
+                ; @311✅ (from loop)
+                ; @24✅ (fall through)
+
+                ; 8 lines x 311 + (24)
+                ; = 2512
+                ; = 39 :)
+
+    DEFINE_SUBROUTINE DrawScreenRowPreparation
 
                 ;clc
                 dex                             ; 2
                 stx DHS_Line                    ; 3
                 adc BoardScrollY                ; 3         the Y offset of screen into board
-                tay                             ; 2 = 10
+                tay                             ; 2 = 10✅
 
                 ;clc
                 lda BoardLineStartLO-1,y        ; 4         Y is one too big!
                 adc BoardScrollX                ; 3         the X offset of screen into board
                 sta BDF_BoardAddress            ; 3
                 adc #SCREEN_WIDTH/2             ; 2
-                sta BDF_BoardAddress2           ; 3
+                sta BDF_BoardAddress2           ; 3 = 15✅
 
                 lda BoardLineStartHiR-1,y       ; 4         a board line *WILL NOT CROSS* page boundary
                 sta BDF_BoardAddress+1          ; 3
-                sta BDF_BoardAddress2+1         ; 3 = 25
+                sta BDF_BoardAddress2+1         ; 3 = 10 @35✅
 
                 lda DrawLineStartLO,x           ; 4
                 sta BDF_DrawFlagAddress         ; 3
                 adc #SCREEN_WIDTH/2             ; 2
-                sta BDF_DrawFlagAddress2        ; 3 = 12
+                sta BDF_DrawFlagAddress2        ; 3 = 12✅
 
 ;    IF MULTI_BANK_BOARD = YES
 ;                lda BoardBank-1,y               ; 4
 ;                sta BDF_BoardBank               ; 3
 ;    ENDIF
                 ldy #SCREEN_WIDTH/2-1           ; 2
-                jmp CopyRow2                    ; 3 = 12[-7]
+                jmp CopyRow2                    ; 3 = 12 @59✅
 
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE EndOfLevel
 
-                lda #25
+                lda #10
                 sta DelayEndOfLevel
-                ldx Platform
-                lda FlashColour,x ;+4,x
-                sta BGColour ;ColourFlash                 ; green
-                lda #6
-                sta ColourTimer
 
-                LOAD_ANIMATION Animation_WIN
+                LOAD_ANIMATION WIN
 
                 lda #MANMODE_NEXTLEVEL2
                 sta ManMode

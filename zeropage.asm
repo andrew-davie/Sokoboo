@@ -56,8 +56,8 @@ TB_PUSHX    ds 1
 TB_PUSHY    ds 1
 TB_CHAR     ds 1
 
-BufferedJoystick                ds 2        ; player joystick input
-BufferedButton                  ds 2        ; player button press
+BufferedJoystick                ds 1        ; player joystick input
+PreviousJoystick                ds 1
 
     ; Scrolling is limited to only show board within the following area...
 BoardLimit_Width                ds 1        ; width of current playfield (only used in UnpackLevel)
@@ -81,6 +81,9 @@ ManTurnStart                    ds 1
 ManPushCounter                  ds 1
 LookingAround                   ds 1
 ManAnimationID                  ds 1
+ManNextAnimationID              ds 1            ; -1 for nothing
+idleCount                       ds 1
+
 DelayEndOfLevel               ds 1
 jtoggle                         ds 1            ; 0/1 toggles joystick on player swapping
 

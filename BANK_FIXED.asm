@@ -225,13 +225,14 @@ EarlyAbort      rts                             ;6
     ; If we're undertime, then abort. The sort will continue to run, and that's great. Only when
     ; we're at the throttle cutoff do we switch game-frames.
 
-                ;sec
-                lda Throttle                    ;3
-                sbc #MAX_THROTTLE               ;2
-                bcc EarlyAbort                  ;2/3            plenty of time left!
-                sta Throttle                    ;3 = 10         save fractional 'left over' bit
 
-                inc animate_char_index          ; 5
+
+;                ;sec
+;                lda Throttle                    ;3
+;                sbc #MAX_THROTTLE               ;2
+;            ;    bcc EarlyAbort                  ;2/3            plenty of time left!
+;                sta Throttle                    ;3 = 10         save fractional 'left over' bit
+
 
     ; Now that we have completed processing the object stack, we switch
     ; the stack bank pointers for the next time around.
@@ -267,12 +268,20 @@ EarlyAbort4     rts
                 sta SET_BANK
                 jsr ManProcess
 
+                sec
+                lda Throttle                    ;3
+                sbc #MAX_THROTTLE               ;2
+                bcc DoNothing                  ;2/3            plenty of time left!
+                sta Throttle                    ;3 = 10         save fractional 'left over' bit
+
+
                 lda #-1
                 sta TB_CHAR                         ; pre-set box takeback to NONE
+                ;sta BufferedJoystick
 
                 jsr MovePlayer
 
-                lda ManMode
+DoNothing                lda ManMode
                 cmp #MANMODE_NEXTLEVEL      ; kludge
                 bcs notComplete
                 lda BCD_targetsRequired
@@ -498,11 +507,25 @@ noLog           lda #0
                 txa                                 ; character man will be standing on
                 pha
 
-                lda #ANIMATION_WALK_ID
-                cmp ManAnimationID
+
+                lda ManAnimationID
+                cmp #ANIMATION_PUSH_ID
+                bne immediate
+
+                inc idleCount
+                lda idleCount
+                cmp #10
+                bcc walkingOK
+                lda #0
+                sta idleCount
+
+immediate
+                lda ManAnimationID
+                cmp #ANIMATION_WALK_ID
                 beq walkingOK
-                sta ManAnimationID
-                LOAD_ANIMATION Animation_WALK
+                cmp #ANIMATION_WALK2_ID
+                beq walkingOK
+                LOAD_ANIMATION WALK
 walkingOK
 
                 lda ManX
@@ -858,8 +881,7 @@ aJump               ldy animation_delay         ; actually animation ID :)
 notFlip             tay
 
                     lda ManDrawY
-                    ;cmp #SCREEN_LINES
-                    ;bcs skipOffscreen
+                    bmi SkipFrameCopy
                     sta bank                            ; character line (and hence bank) of player position
                     sta SET_BANK_RAM
 
@@ -925,6 +947,8 @@ SkipFrameCopy       rts
     ; the drawflags array is different to the ScreenBuffer array entry, then the
     ; screenbuffer will need redrawing.
 
+            ; @59✅
+
 CopyRow2
 
 ;    IF MULTI_BANK_BOARD = YES
@@ -935,7 +959,7 @@ CopyRow2
                 sta SET_BANK_RAM                ; 3
                 lax (BDF_BoardAddress),y        ; 5
                 txs                             ; 2
-                lax (BDF_BoardAddress2),y       ; 5(= 18[-1])
+                lax (BDF_BoardAddress2),y       ; 5 = 17✅
 
                 lda #BANK_DRAW_BUFFERS          ; 2
                 sta SET_BANK_RAM                ; 3
@@ -943,18 +967,24 @@ CopyRow2
                 sta (BDF_DrawFlagAddress2),y    ; 6
                 tsx                             ; 2
                 lda CharReplacement,x           ; 4
-                sta (BDF_DrawFlagAddress),y     ; 6(= 27)
+                sta (BDF_DrawFlagAddress),y     ; 6 = 27 @44✅
 
                 dey                             ; 2
-                bpl CopyRow2                    ; 2/3=49/50[-1]
-; total: 5*(50[-1])-1 = 244 *OR*  249 (MB)
+                bpl CopyRow2                    ; 2/3 @48 (-1)
+
+        CHECKPAGEX CopyRow2, "CopyRow2 in BANK_FIXED"
+
+        ; cost = 5 (rows) x 48 - 1 = 239
+        ; @ (59) + 239 = @298✅
 
                 lax DHS_Line                    ; 3
                 beq .exitCopy                   ; 2/3= 5/6
 
-                ldy #BANK_DrawScreenRowPreparation;2
-                sty SET_BANK                    ; 3
-                jmp DrawScreenRowPreparation    ;55[-7] = 60[-7]
+                ldy #BANK_DrawScreenRowPreparation  ; 2
+                sty SET_BANK                        ; 3
+                jmp DrawScreenRowPreparation        ; 3 = 8
+                                                    ; @298+8+5 = @311✅
+
 
 ; total: (244[-5]+5)*8 + 60[-7]*7 + 1 + 11 = 2424[-89]
 
@@ -983,9 +1013,6 @@ CopyRow2
                 jmp DrawIntoStack               ; 3
 
                                         ; ==>39✅ @DrawIntoStack
-
-
-
 
     ;---------------------------------------------------------------------------
 
@@ -1211,6 +1238,34 @@ VBlankTime
                 rts
 
     DEFINE_SUBROUTINE nextLevelMan2
+
+                lda DelayEndOfLevel
+                cmp #8
+                bne noflashingendyet
+
+                ldx Platform
+                lda FlashColour,x ;+4,x
+                sta BGColour ;ColourFlash                 ; green
+                lda #6
+                sta ColourTimer
+
+noflashingendyet
+
+                dec DelayEndOfLevel
+                bne genericRTS
+
+                LOAD_ANIMATION WIN
+
+                lda #50
+                sta DelayEndOfLevel
+
+
+                lda #MANMODE_NEXTLEVEL3
+                sta ManMode
+                rts
+
+
+    DEFINE_SUBROUTINE nextLevelMan3
 
                 dec DelayEndOfLevel
                 bne genericRTS

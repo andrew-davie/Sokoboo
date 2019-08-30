@@ -608,34 +608,34 @@ C1 ;
     ; mortar for bricks
     NTSCPAL $C0,$6 ;ok blue soil aqua walls grey box
     NTSCPAL $60,$8 ;ok red soil purple walls orange box
-    NTSCPAL $30,$6 ;ok both     green soil, yellow wall, blue box purple top
-    NTSCPAL $20,$6 ;ok both   blue soil, grey box/wall
+    NTSCPAL $40,$4 ;ok both     green soil, yellow wall, blue box purple top
+    NTSCPAL $F0,$4 ;ok both   blue soil, grey box/wall
     NTSCPAL $30,$6
-    NTSCPAL $C0,$8
-    NTSCPAL $C0,$6 ; lovely????
+    NTSCPAL $90,$8
+    NTSCPAL $20,$6 ; lovely????
     NTSCPAL $70,$A
 ;    NTSCPAL $40,$A
 ;    NTSCPAL $C0,$8
 C2  ; soil stripes
-    NTSCPAL $90,$6 ; ok v nice
+    NTSCPAL $90,$8 ; ok v nice
     NTSCPAL $0,$6 ; ok v nice brick
-    NTSCPAL $D0,$6 ;ok both
-    NTSCPAL $B0,$4 ;ok both
+    NTSCPAL $D0,$4 ;ok both
+    NTSCPAL $D0,$4 ;ok both
     NTSCPAL $60,$6
-    NTSCPAL $90,$6 ; lovely
-    NTSCPAL $40,$8 ;ok
+    NTSCPAL $40,$4 ; lovely
+    NTSCPAL $90,$8 ;ok
     NTSCPAL $10,$6
 ;    NTSCPAL $40,$A
 ;    NTSCPAL $C0,$8
 C3 ;
     NTSCPAL $40,$8 ;ok
-    NTSCPAL $20,$8 ;ok
+    NTSCPAL $90,$8 ;ok
     NTSCPAL $90,$6 ;ok both
     NTSCPAL $70,$6 ;ok both
     NTSCPAL $B0,$8
     NTSCPAL $20,$A
-    NTSCPAL $C0,$6 ; lovely
-    NTSCPAL $C0,$8
+    NTSCPAL $60,$6 ; lovely
+    NTSCPAL $C0,$a
 ;    NTSCPAL $40,$A
 ;    NTSCPAL $C0,$8
 
@@ -668,8 +668,9 @@ xyClear       jsr PutBoardCharacterFromRAM
               dec POS_Y
               bpl xyLine
 
-              lda #4                ;todo - crashes @12 ... why?
+              lda #12                ;todo - crashes @12 ... why?
               sta base_x
+                lda #6
               sta base_y
 
                 lda NextLevelTrigger

@@ -85,23 +85,11 @@
 TEST_{1} = 0
  ENDM
 
- MAC XSEGTIME
-{1} SET {2}-1
-TEST_{1} = 1
- ENDM
-
-
     MAC SEGTIME_C
-{1} SET ({2}+32)/64 + 1
+{1} SET ({2}+32)/64 + 2
 TEST_{1} = 0
     ENDM
 
-;@TJ -- SIMPLY PUT AN X IN FRONT OF THE LINE(S) YOU WANT TO TEST
-; eg: XSEGTIME SEGTIME_BOX1,5
-; No other action required.  All code enables/disables automatically.
-
-; 2012/02/11 -- experimental reduction in times (but not stress tested)
-; due to separation of timeslice overhead to separate check
 
     SEGTIME_C SEGTIME_SCD_DIRECT, 361 + CYCLES_DRAWANOTHER      ;✅ @ 4/8/2019
     SEGTIME_C SEGTIME_SCD_QUICK, 344 + CYCLES_DRAWANOTHER       ;✅ @ 4/8/2019
@@ -119,13 +107,11 @@ SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 ;    SEGTIME_C SEGTIME_SCD_MIN, SEGTIME_SCD_PF0
 ;---------------------------------------------------------------------------------------------------
 
-    SEGTIME SEGTIME_BDF,40                       ; glitches on 37 - 10/8/2019
-
-    SEGTIME_C SEGTIME_BDS, 71                   ;✅
+    SEGTIME_C SEGTIME_BDF, 2512                 ;✅
+    SEGTIME_C SEGTIME_BDS, 68                   ;✅
     SEGTIME_C SEGTIME_DSL, 127                  ;✅
     SEGTIME_C SEGTIME_SWITCHOBJECTS,46          ;✅
 
-    ;following will lock-up system if used as 'XSEGTIME'.
     SEGTIME_C MINIMUM_SEGTIME, 95               ;✅ processing slice minimum requirement
     SEGTIME_C SEGTIME_MINIMUM_TIMESLICE, 54     ;✅ abort time maximum requirement for timeslice
 
@@ -143,4 +129,4 @@ SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 ; The following are NOT object-related and timing is a bit of manual guesswork/calculation
 ; Comment may indicate at what value a glitch was DEFINITELY seen. These timings may not be optimal.
 
-    SEGTIME SEGTIME_MAN,11; 10 +6 ;24 ;<< using this as XSEGTIME stops player working ...?!
+    SEGTIME SEGTIME_MAN,16 ;12          ;NFI

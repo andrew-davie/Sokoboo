@@ -71,7 +71,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 2           ; slowdown when pushing on a BOX
+PUSH_LIMIT                      = 1           ; slowdown when pushing on a BOX
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -370,12 +370,15 @@ ORIGIN          SET ORIGIN + RAM_SIZE
     ENDM
 
     MAC LOAD_ANIMATION
-                lda #<{1}
+                lda #<Animation_{1}
                 sta animation
-                lda #>{1}
+                lda #>Animation_{1}
                 sta animation+1
                 lda #0
                 sta animation_delay
+                lda #ANIMATION_{1}_ID
+                sta ManAnimationID
+
     ENDM
 
 

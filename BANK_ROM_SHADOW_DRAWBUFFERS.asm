@@ -121,29 +121,30 @@ offsc
 
             ;32✅ worst
 
-    DEFINE_SUBROUTINE AnimateCharReplacements2      ; =23
+    DEFINE_SUBROUTINE AnimateCharReplacements2      ; =32
 
     ; This manages character animation on a per-object basis.  Morph/animate these characters
     ; individually or as required.  Change will affect all characters of the same type in the
     ; visible display.
 
+                inc animate_char_index              ; 5
                 lda animate_char_index              ; 3
                 and #7                              ; 2
-                tax                                 ; 2
+                tax                                 ; 2 = 12
 
                 lda targetReplaceChar,x             ; 4
-                sta ANIM_TARGET + RAM_WRITE         ; 4
+                sta ANIM_TARGET + RAM_WRITE         ; 4 = 8
                 ;lda targetReplaceChar2,x            ; 4
                 ;sta ANIM_TARGET2 + RAM_WRITE        ; 4
 
-            ;@55✅ worst
+            ;@52 worst
 
                 lda #SCREEN_ARRAY_SIZE-1        ;2
                 sta DSL                         ;3
 
                 inc ScreenDrawPhase             ;5
                 rts                             ; 6 TEST allows segtime test to be smaller on next part
-                                                ; ==> @71✅ worst
+                                                ; ==> @68 worst
 
     ;---------------------------------------------------------------------------
 

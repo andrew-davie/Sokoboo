@@ -74,15 +74,18 @@ ANIM_TABLE
     INSERT_ANIMATION IDLE
     INSERT_ANIMATION WIN
     INSERT_ANIMATION PUSH
-    INSERT_ANIMATION PUSHTRY
+;    INSERT_ANIMATION PUSHTRY
     INSERT_ANIMATION PUSHUP
     INSERT_ANIMATION WALK2
+    INSERT_ANIMATION TURNAROUND
+
+;    INSERT_ANIMATION PUSH_START
 
 Animation_WALK
-    .byte FRAME_WALK1,1
-    .byte FRAME_WALK2,2
-    .byte FRAME_WALK3,3
-    .byte FRAME_WALK2,8
+;    .byte FRAME_WALK1,4
+;    .byte FRAME_WALK2,2
+;    .byte FRAME_WALK3,3
+;    .byte FRAME_WALK2,4
 Animation_WALK2
     .byte FRAME_WALK1,8
     .byte FRAME_WALK2,8
@@ -92,26 +95,7 @@ Animation_WALK2
 
 Animation_WIN
 
-#if 0
-    REPEAT 2
-    .byte FRAME_PUSH1, 10
-    .byte FRAME_PUSH2, 10
-    .byte FRAME_PUSH3, 10
-    .byte FRAME_PUSH2, 10
-    REPEND
-
-;    .byte FRAME_WALK2,10
-
-        REPEAT 1
-    .byte FRAME_LOOK3, 2
-    .byte FRAME_LOOK2, 3
-    .byte FRAME_LOOK1, 3
-    .byte FLIP, 0
-    .byte FRAME_WALK2, 5
-        REPEND
-
-    .byte JUMP, ANIMATION_WIN_ID
-#endif
+    .byte FRAME_WALK2, 10
 
 .IDXX SET 0
     REPEAT 2
@@ -166,19 +150,23 @@ Animation_IDLE
     .byte FRAME_LOOKUP,40
     .byte FRAME_WALK2,20
 
-Animation_TURNAROUND
-
-        REPEAT 3
+        REPEAT 2
     .byte FRAME_LOOK3, 3
     .byte FRAME_LOOK2, 3
     .byte FRAME_LOOK1, 5
     .byte FLIP, 0
     .byte FRAME_WALK2, 10
         REPEND
-;    .byte FRAME_BLINK,1
-;    .byte FRAME_WALK2, 2
-
     .byte JUMP,ANIMATION_IDLE_ID
+
+
+Animation_TURNAROUND
+
+    .byte FRAME_LOOK3, 2
+    .byte FRAME_LOOK2, 1
+    .byte FRAME_LOOK1, 1
+    .byte FLIP, 0
+    .byte JUMP,ANIMATION_WALK_ID
 
 
 Animation_YAWN
@@ -194,10 +182,14 @@ Animation_YAWN
 
 
 
-Animation_PUSHTRY
-    .byte FRAME_PUSH1,30
-    .byte FRAME_PUSH1,30
-    .byte JUMP,ANIMATION_IDLE_ID
+;Animation_PUSHTRY
+;    .byte FRAME_PUSH1,20
+;    .byte FRAME_PUSH2,20
+;    .byte JUMP,ANIMATION_PUSHTRY_ID
+
+;Animation_PUSH_START
+
+;    .byte FRAME_WALK2,2
 
 Animation_PUSH
     .byte FRAME_PUSH1,20
