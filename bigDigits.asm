@@ -1,4 +1,4 @@
- align 256
+ OPTIONAL_PAGEBREAK "LEFT_0", 27
 LEFT_0
  .byte 56
  .byte 124
@@ -27,6 +27,7 @@ LEFT_0
  .byte 124
  .byte 124
  .byte 56
+ OPTIONAL_PAGEBREAK "RIGHT_0", 27
 RIGHT_0
  .byte 140
  .byte 206
@@ -55,6 +56,7 @@ RIGHT_0
  .byte 206
  .byte 206
  .byte 140
+ OPTIONAL_PAGEBREAK "HUNDPF1_0", 27
 HUNDPF1_0
  .byte 28
  .byte 62
@@ -83,6 +85,7 @@ HUNDPF1_0
  .byte 62
  .byte 62
  .byte 28
+ OPTIONAL_PAGEBREAK "LEFT_1", 27
 LEFT_1
  .byte 48
  .byte 48
@@ -111,6 +114,7 @@ LEFT_1
  .byte 56
  .byte 48
  .byte 48
+ OPTIONAL_PAGEBREAK "RIGHT_1", 27
 RIGHT_1
  .byte 12
  .byte 12
@@ -139,6 +143,7 @@ RIGHT_1
  .byte 140
  .byte 12
  .byte 12
+ OPTIONAL_PAGEBREAK "HUNDPF1_1", 27
 HUNDPF1_1
  .byte 12
  .byte 12
@@ -167,6 +172,7 @@ HUNDPF1_1
  .byte 28
  .byte 12
  .byte 12
+ OPTIONAL_PAGEBREAK "LEFT_2", 27
 LEFT_2
  .byte 254
  .byte 254
@@ -195,6 +201,7 @@ LEFT_2
  .byte 124
  .byte 124
  .byte 56
+ OPTIONAL_PAGEBREAK "RIGHT_2", 27
 RIGHT_2
  .byte 239
  .byte 239
@@ -223,6 +230,7 @@ RIGHT_2
  .byte 206
  .byte 206
  .byte 140
+ OPTIONAL_PAGEBREAK "HUNDPF1_2", 27
 HUNDPF1_2
  .byte 127
  .byte 127
@@ -251,6 +259,7 @@ HUNDPF1_2
  .byte 62
  .byte 62
  .byte 28
+ OPTIONAL_PAGEBREAK "LEFT_3", 27
 LEFT_3
  .byte 56
  .byte 124
@@ -279,6 +288,7 @@ LEFT_3
  .byte 124
  .byte 124
  .byte 56
+ OPTIONAL_PAGEBREAK "RIGHT_3", 27
 RIGHT_3
  .byte 140
  .byte 206
@@ -307,6 +317,7 @@ RIGHT_3
  .byte 206
  .byte 206
  .byte 140
+ OPTIONAL_PAGEBREAK "HUNDPF1_3", 27
 HUNDPF1_3
  .byte 28
  .byte 62
@@ -335,6 +346,7 @@ HUNDPF1_3
  .byte 62
  .byte 62
  .byte 28
+ OPTIONAL_PAGEBREAK "LEFT_4", 27
 LEFT_4
  .byte 96
  .byte 96
@@ -363,6 +375,7 @@ LEFT_4
  .byte 112
  .byte 96
  .byte 96
+ OPTIONAL_PAGEBREAK "RIGHT_4", 27
 RIGHT_4
  .byte 6
  .byte 6
@@ -391,6 +404,7 @@ RIGHT_4
  .byte 14
  .byte 6
  .byte 6
+ OPTIONAL_PAGEBREAK "HUNDPF1_4", 27
 HUNDPF1_4
  .byte 6
  .byte 6
@@ -419,6 +433,7 @@ HUNDPF1_4
  .byte 14
  .byte 6
  .byte 6
+ OPTIONAL_PAGEBREAK "LEFT_5", 27
 LEFT_5
  .byte 56
  .byte 124
@@ -447,6 +462,7 @@ LEFT_5
  .byte 254
  .byte 254
  .byte 254
+ OPTIONAL_PAGEBREAK "RIGHT_5", 27
 RIGHT_5
  .byte 140
  .byte 206
@@ -475,6 +491,7 @@ RIGHT_5
  .byte 239
  .byte 239
  .byte 239
+ OPTIONAL_PAGEBREAK "HUNDPF1_5", 27
 HUNDPF1_5
  .byte 28
  .byte 62
@@ -503,6 +520,7 @@ HUNDPF1_5
  .byte 127
  .byte 127
  .byte 127
+ OPTIONAL_PAGEBREAK "LEFT_6", 27
 LEFT_6
  .byte 56
  .byte 124
@@ -531,6 +549,7 @@ LEFT_6
  .byte 120
  .byte 112
  .byte 96
+ OPTIONAL_PAGEBREAK "RIGHT_6", 27
 RIGHT_6
  .byte 140
  .byte 206
@@ -559,6 +578,7 @@ RIGHT_6
  .byte 142
  .byte 14
  .byte 6
+ OPTIONAL_PAGEBREAK "HUNDPF1_6", 27
 HUNDPF1_6
  .byte 28
  .byte 62
@@ -587,6 +607,7 @@ HUNDPF1_6
  .byte 30
  .byte 14
  .byte 6
+ OPTIONAL_PAGEBREAK "LEFT_7", 27
 LEFT_7
  .byte 24
  .byte 24
@@ -615,6 +636,7 @@ LEFT_7
  .byte 254
  .byte 254
  .byte 254
+ OPTIONAL_PAGEBREAK "RIGHT_7", 27
 RIGHT_7
  .byte 136
  .byte 136
@@ -643,6 +665,7 @@ RIGHT_7
  .byte 239
  .byte 239
  .byte 239
+ OPTIONAL_PAGEBREAK "HUNDPF1_7", 27
 HUNDPF1_7
  .byte 24
  .byte 24
@@ -671,6 +694,7 @@ HUNDPF1_7
  .byte 127
  .byte 127
  .byte 127
+ OPTIONAL_PAGEBREAK "LEFT_8", 27
 LEFT_8
  .byte 56
  .byte 124
@@ -699,6 +723,7 @@ LEFT_8
  .byte 124
  .byte 124
  .byte 56
+ OPTIONAL_PAGEBREAK "RIGHT_8", 27
 RIGHT_8
  .byte 140
  .byte 206
@@ -727,6 +752,7 @@ RIGHT_8
  .byte 206
  .byte 206
  .byte 140
+ OPTIONAL_PAGEBREAK "HUNDPF1_8", 27
 HUNDPF1_8
  .byte 28
  .byte 62
@@ -755,6 +781,7 @@ HUNDPF1_8
  .byte 62
  .byte 62
  .byte 28
+ OPTIONAL_PAGEBREAK "LEFT_9", 27
 LEFT_9
  .byte 12
  .byte 28
@@ -783,6 +810,7 @@ LEFT_9
  .byte 124
  .byte 124
  .byte 56
+ OPTIONAL_PAGEBREAK "RIGHT_9", 27
 RIGHT_9
  .byte 192
  .byte 200
@@ -811,6 +839,7 @@ RIGHT_9
  .byte 206
  .byte 206
  .byte 140
+ OPTIONAL_PAGEBREAK "HUNDPF1_9", 27
 HUNDPF1_9
  .byte 48
  .byte 56
@@ -839,87 +868,119 @@ HUNDPF1_9
  .byte 62
  .byte 62
  .byte 28
-LEFT_star
- .byte 12
- .byte 12
- .byte 12
- .byte 12
+ OPTIONAL_PAGEBREAK "LEFT_star0", 27
+LEFT_star0
+ .byte 44
  .byte 0
- .byte 0
- .byte 12
- .byte 12
- .byte 12
- .byte 12
- .byte 12
- .byte 12
- .byte 28
- .byte 28
+ .byte 40
+ .byte 40
+ .byte 40
+ .byte 40
  .byte 56
  .byte 56
- .byte 112
- .byte 112
- .byte 96
- .byte 99
- .byte 99
- .byte 99
- .byte 119
- .byte 119
+ .byte 40
+ .byte 56
+ .byte 56
+ .byte 56
+ .byte 56
+ .byte 254
+ .byte 254
+ .byte 178
+ .byte 186
+ .byte 178
+ .byte 48
+ .byte 24
+ .byte 20
+ .byte 8
+ .byte 60
+ .byte 58
+ .byte 0
+ .byte 0
+ .byte 0
+ OPTIONAL_PAGEBREAK "LEFT_star1", 27
+LEFT_star1
+ .byte 70
+ .byte 128
+ .byte 100
+ .byte 98
+ .byte 30
+ .byte 60
+ .byte 40
+ .byte 48
+ .byte 56
+ .byte 56
+ .byte 56
+ .byte 60
  .byte 62
+ .byte 63
+ .byte 25
+ .byte 25
+ .byte 29
+ .byte 24
+ .byte 12
+ .byte 10
+ .byte 4
+ .byte 30
+ .byte 29
+ .byte 0
+ .byte 0
+ .byte 0
+ .byte 0
+ OPTIONAL_PAGEBREAK "LEFT_star2", 27
+LEFT_star2
+ .byte 38
+ .byte 64
+ .byte 52
+ .byte 20
+ .byte 20
+ .byte 60
+ .byte 60
+ .byte 40
+ .byte 48
+ .byte 56
+ .byte 56
+ .byte 56
+ .byte 60
  .byte 62
- .byte 28
-RIGHT_star
- .byte 192
- .byte 192
- .byte 192
- .byte 192
+ .byte 63
+ .byte 25
+ .byte 25
+ .byte 29
+ .byte 24
+ .byte 12
+ .byte 10
+ .byte 4
+ .byte 30
+ .byte 29
  .byte 0
  .byte 0
- .byte 192
- .byte 192
- .byte 192
- .byte 192
- .byte 192
- .byte 192
- .byte 200
- .byte 200
- .byte 140
- .byte 140
- .byte 14
- .byte 14
- .byte 6
- .byte 54
- .byte 54
- .byte 54
- .byte 126
- .byte 126
- .byte 236
- .byte 236
- .byte 200
-HUNDPF1_star
- .byte 48
- .byte 48
- .byte 48
- .byte 48
  .byte 0
- .byte 0
- .byte 48
- .byte 48
- .byte 48
- .byte 48
- .byte 48
+ OPTIONAL_PAGEBREAK "LEFT_star3", 27
+LEFT_star3
+ .byte 70
+ .byte 128
+ .byte 100
+ .byte 114
+ .byte 62
+ .byte 60
+ .byte 24
  .byte 48
  .byte 56
  .byte 56
- .byte 28
- .byte 28
- .byte 14
- .byte 14
- .byte 6
- .byte 198
- .byte 198
- .byte 198
- .byte 238
- .byte 238
- .byte 124
- .byte 124
  .byte 56
+ .byte 60
+ .byte 62
+ .byte 63
+ .byte 25
+ .byte 25
+ .byte 29
+ .byte 24
+ .byte 12
+ .byte 10
+ .byte 4
+ .byte 30
+ .byte 29
+ .byte 0
+ .byte 0
+ .byte 0
+ .byte 0

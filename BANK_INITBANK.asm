@@ -465,12 +465,21 @@ skipModeChange
 
                 jsr DrawTimeFromROM             ; Z-flag == 0!
 
+                sec
+                lda Throttle                    ;3
+                sbc #MAX_THROTTLE               ;2
+                bcc DoNothing2                  ;2/3            plenty of time left!
+                sta Throttle                    ;3 = 10         save fractional 'left over' bit
+
+
                 ldy ManMode
                 lda ManActionLO,y
                 sta actionVector
                 lda ManActionHI,y
                 sta actionVector+1
                 jmp (actionVector)
+
+DoNothing2      rts
 
 newMode         .byte -1, MANMODE_SWITCH2, MANMODE_WAITING2, -1
 
@@ -526,6 +535,7 @@ ManActionHI
 
                 lda #MANMODE_NORMAL
                 sta ManMode
+                jmp normalMan
 
 
 notTurnedYet    rts
@@ -616,15 +626,15 @@ LookAround
 
     ; Use the joystick as a window-scroller to change the viewport
 
-                lda BufferedJoystick
+                lda SWCHA ;BufferedJoystick
                 lsr
                 lsr
                 lsr
                 lsr
                 tay
 
-                lda #-1
-                sta BufferedJoystick
+                ;lda #-1
+                ;sta BufferedJoystick
 
                 lda JoyMoveX,y
                 ora JoyMoveY,y
@@ -632,6 +642,8 @@ LookAround
 
                 lda #$FE
                 sta LookingAround
+                lda #MAX_THROTTLE+1
+                sta Throttle               ; IMMEDIATE reaction to any joystick!
 
                 lda JoyMoveX,y
                 ;asl
@@ -703,10 +715,13 @@ bProcComp
                 sta idleCount
 alreadyIdling
 
-
-
+                ;lda #MAX_THROTTLE+1
+                ;sta Throttle               ; IMMEDIATE reaction to any joystick!
 
 .dirFound
+
+                lda #-1
+                sta BufferedJoystick
 
                 lda anim_direction,x
                 bmi dontChange
@@ -718,13 +733,15 @@ alreadyIdling
 
                 lda #MANMODE_TURNAROUND
                 sta ManMode
-                rts
+                jmp TurnAround
 
 
 
 
                 ;bne noMovement ;kipMove
 dontChange
+
+
 
                 clc
                 lda POS_X_NEW
@@ -735,6 +752,7 @@ dontChange
                 lda POS_Y_NEW
                 adc JoyDirY,x
                 sta POS_Y_NEW
+
 
 skipMove        tya
                 beq noMovement                  ; animation OK
@@ -747,8 +765,6 @@ skipMove        tya
 
 noMovement
 
-                lda #-1
-                sta BufferedJoystick
 
 DFS_rts         rts
 
@@ -861,6 +877,13 @@ anim_direction   .byte 0,%1000,128,128,128
 
                 lda #10
                 sta DelayEndOfLevel
+
+                ldx Platform
+                lda FlashColour,x ;+4,x
+                sta BGColour ;ColourFlash                 ; green
+                lda #6
+                sta ColourTimer
+
 
                 LOAD_ANIMATION WIN
 

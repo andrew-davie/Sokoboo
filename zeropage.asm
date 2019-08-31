@@ -166,7 +166,7 @@ animate_char_index              ds 1
 
 
 
-OVERLAY_SIZE    SET 22
+OVERLAY_SIZE    SET 25
 
 
 
@@ -179,7 +179,7 @@ OVERLAY_SIZE    SET 22
         ; ADD AN OVERLAY FOR EACH ROUTINE'S USE, SO CLASHES CAN BE EASILY CHECKED
 
 Overlay         ds OVERLAY_SIZE       ;--> overlay (share) variables
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "DEFINITION"
 
 
                 ds RESERVED_FOR_STACK

@@ -268,12 +268,6 @@ EarlyAbort4     rts
                 sta SET_BANK
                 jsr ManProcess
 
-                sec
-                lda Throttle                    ;3
-                sbc #MAX_THROTTLE               ;2
-                bcc DoNothing                  ;2/3            plenty of time left!
-                sta Throttle                    ;3 = 10         save fractional 'left over' bit
-
 
                 lda #-1
                 sta TB_CHAR                         ; pre-set box takeback to NONE
@@ -525,6 +519,8 @@ immediate
                 beq walkingOK
                 cmp #ANIMATION_WALK2_ID
                 beq walkingOK
+                lda #ANIMATION_WALK_ID
+                sta ManAnimationID
                 LOAD_ANIMATION WALK
 walkingOK
 
@@ -1239,30 +1235,16 @@ VBlankTime
 
     DEFINE_SUBROUTINE nextLevelMan2
 
-                lda DelayEndOfLevel
-                cmp #8
-                bne noflashingendyet
-
-                ldx Platform
-                lda FlashColour,x ;+4,x
-                sta BGColour ;ColourFlash                 ; green
-                lda #6
-                sta ColourTimer
-
-noflashingendyet
-
                 dec DelayEndOfLevel
                 bne genericRTS
 
-                LOAD_ANIMATION WIN
-
-                lda #50
+                lda #5
                 sta DelayEndOfLevel
-
 
                 lda #MANMODE_NEXTLEVEL3
                 sta ManMode
-                rts
+                jmp nextLevelMan3
+;                rts
 
 
     DEFINE_SUBROUTINE nextLevelMan3

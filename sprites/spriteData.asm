@@ -563,7 +563,7 @@ COLOURDATA_idle3
  .byte CL1 ; 1
  .byte CL5 ; 21
  .byte CL5 ; 18
- .byte CL6 ; 15
+ .byte CL2 ; 15
  .byte CL4 ; 12
  .byte CL4 ; 9
  .byte CL2 ; 6
@@ -615,7 +615,7 @@ COLOURDATA_idle2
  .byte CL1 ; 1
  .byte CL5 ; 21
  .byte CL5 ; 18
- .byte CL6 ; 15
+ .byte CL2 ; 15
  .byte CL4 ; 12
  .byte CL4 ; 9
  .byte CL2 ; 6
@@ -887,22 +887,22 @@ FRAMEDATA_look2
  .byte 40 ; 20
  .byte 56 ; 17
  .byte 186 ; 14
- .byte 252 ; 11
+ .byte 124 ; 11
  .byte 48 ; 8
  .byte 16 ; 5
  .byte 112 ; 2
  .byte 0 ; 22
  .byte 40 ; 19
  .byte 24 ; 16
- .byte 186 ; 13
- .byte 124 ; 10
+ .byte 190 ; 13
+ .byte 120 ; 10
  .byte 48 ; 7
  .byte 120 ; 4
  .byte 120 ; 1
  .byte 40 ; 21
  .byte 40 ; 18
  .byte 178 ; 15
- .byte 188 ; 12
+ .byte 252 ; 12
  .byte 56 ; 9
  .byte 48 ; 6
  .byte 40 ; 3
@@ -987,25 +987,25 @@ COLOURDATA_look3
  .byte CL1 ; 0
 
 FRAMEDATA_look1
- .byte 52 ; 23
- .byte 20 ; 20
- .byte 24 ; 17
+ .byte 40 ; 23
+ .byte 40 ; 20
+ .byte 56 ; 17
  .byte 89 ; 14
  .byte 124 ; 11
  .byte 24 ; 8
  .byte 24 ; 5
  .byte 32 ; 2
  .byte 0 ; 22
- .byte 20 ; 19
- .byte 24 ; 16
+ .byte 40 ; 19
+ .byte 56 ; 16
  .byte 90 ; 13
  .byte 60 ; 10
  .byte 24 ; 7
  .byte 48 ; 4
  .byte 120 ; 1
- .byte 20 ; 21
- .byte 20 ; 18
- .byte 49 ; 15
+ .byte 40 ; 21
+ .byte 40 ; 18
+ .byte 73 ; 15
  .byte 126 ; 12
  .byte 24 ; 9
  .byte 56 ; 6

@@ -54,13 +54,19 @@ CL6     = 6 ;$64
 JUMP = $FF
 FLIP = $FE
 
+    MAC FLIP
+    .byte FLIP,0
+    ENDM
 
-;ANIMATION_WALK_ID = JUMP+0
-;ANIMATION_IDLE_ID = JUMP+2
-;ANIMATION_WIN_ID = JUMP+4
-;ANIMATION_PUSH_ID = JUMP+6
-;ANIMATION_PUSHTRY_ID = JUMP+8
-;ANIMATION_PUSHUP_ID = JUMP+10
+    MAC GOTO
+    .byte JUMP
+    .byte ANIMATION_{1}_ID
+    ENDM
+
+    MAC SHOW
+    .byte FRAME_{1},{2}
+    ENDM
+
 
 ANIM_INDEX     SET 0
     MAC INSERT_ANIMATION ; {animation address}
@@ -73,103 +79,85 @@ ANIM_TABLE
     INSERT_ANIMATION WALK
     INSERT_ANIMATION IDLE
     INSERT_ANIMATION WIN
+    INSERT_ANIMATION WIN2
     INSERT_ANIMATION PUSH
 ;    INSERT_ANIMATION PUSHTRY
     INSERT_ANIMATION PUSHUP
     INSERT_ANIMATION WALK2
     INSERT_ANIMATION TURNAROUND
     INSERT_ANIMATION YAWN
-
 ;    INSERT_ANIMATION PUSH_START
 
+
 Animation_WALK
-;    .byte FRAME_WALK1,4
-;    .byte FRAME_WALK2,2
-;    .byte FRAME_WALK3,3
-;    .byte FRAME_WALK2,4
 Animation_WALK2
-    .byte FRAME_WALK1,8
-    .byte FRAME_WALK2,8
-    .byte FRAME_WALK3,8
-    .byte FRAME_WALK2,8
-    .byte JUMP,ANIMATION_WALK2_ID
+    SHOW WALK1, 8
+    SHOW WALK2, 8
+    SHOW WALK3, 8
+    SHOW WALK2, 8
+    GOTO WALK2
+
 
 Animation_WIN
 
-    .byte FRAME_WALK2, 10
+    SHOW IDLE1, 10
 
-.IDXX SET 0
-    REPEAT 2
-    .byte FRAME_IDLE1,10
-    .byte FRAME_IDLE2,10
-;    .byte FRAME_IDLE3,10
-    .byte FRAME_IDLE1,10
-    .byte FRAME_IDLE2,15
-    .byte FRAME_IDLE3,10
+Animation_WIN2
+    SHOW IDLE2, 10
+    SHOW IDLE3, 20
+    GOTO WIN2
 
-        IF .IDXX = 0
-    .byte FRAME_LOOK3, 2
-    .byte FRAME_LOOK2, 3
-    .byte FRAME_LOOK1, 3
-        .byte FLIP, 0
-    .byte FRAME_WALK2, 3
-        ENDIF
-.IDXX SET .IDXX + 1
-        REPEND
+Animation_WOBBLE
 
-    .byte JUMP,ANIMATION_IDLE_ID
+    ; pretty cool little wobble
+    REPEAT 4
+        SHOW WALK2, 10
+        FLIP
+        SHOW LOOK2, 10
+    REPEND
+    GOTO IDLE
+
+
 
 Animation_IDLE
 
-;    .byte FRAME_LOOK2, 3
-;    .byte FRAME_LOOK3, 2
-;    .byte FRAME_WALK2, 20
-
-
-
-
-
     REPEAT 5
         REPEAT 20
-        .byte FRAME_WALK2,254
-        .byte FRAME_BLINK,2
+            SHOW WALK2, 255
+            SHOW BLINK, 2
         REPEND
 
         REPEAT 3
-        .byte FRAME_TAPFOOT,10
-        .byte FRAME_WALK2,5
+            SHOW TAPFOOT, 10
+            SHOW WALK2, 5
         REPEND
     REPEND
 
-    .byte FRAME_LOOK3,3
-    .byte FRAME_LOOK2,30
-    .byte FRAME_LOOK3,3
+    SHOW LOOK3, 3
+    SHOW LOOK2, 30
+    SHOW LOOK3, 3
 
-    .byte JUMP, ANIMATION_YAWN_ID
+    GOTO YAWN
 
 
 Animation_TURNAROUND
 
-    .byte FRAME_LOOK3, 2
-    .byte FRAME_LOOK2, 1
-    .byte FRAME_LOOK1, 1
-    .byte FLIP, 0
-    .byte JUMP,ANIMATION_WALK_ID
-
+    SHOW LOOK3, 1
+    SHOW LOOK2, 1
+    SHOW LOOK1, 1
+    FLIP
+    GOTO IDLE
 
 Animation_YAWN
 
-    ;.byte FRAME_HANDLIP,40
-    .byte FRAME_WALK2,50
-    .byte FRAME_IDLE1,10
-    .byte FRAME_IDLE2,10
-    .byte FRAME_IDLE3,100
-    .byte FRAME_IDLE2,30
-    .byte FRAME_IDLE3,100
-    .byte FRAME_IDLE2,10
-    .byte JUMP,ANIMATION_IDLE_ID
-
-
+    SHOW WALK2, 50
+    SHOW IDLE1, 10
+    SHOW IDLE2, 10
+    SHOW IDLE3, 100
+    SHOW IDLE2, 30
+    SHOW IDLE3, 100
+    SHOW IDLE2, 10
+    GOTO IDLE
 
 
 ;Animation_PUSHTRY
@@ -182,18 +170,19 @@ Animation_YAWN
 ;    .byte FRAME_WALK2,2
 
 Animation_PUSH
-    .byte FRAME_PUSH1,20
-    .byte FRAME_PUSH2,20
-    .byte FRAME_PUSH3,20
-    .byte FRAME_PUSH2,20
-    .byte JUMP,ANIMATION_PUSH_ID
+
+    SHOW PUSH1, 20
+    SHOW PUSH2, 20
+    SHOW PUSH3, 20
+    SHOW PUSH2, 20
+    GOTO PUSH
 
 Animation_PUSHUP
-    .byte FRAME_PUSH_UP_1, 10
-    .byte FRAME_PUSH_UP_2,10
-    .byte FRAME_PUSH_UP_3,10
-    .byte FRAME_PUSH_UP_2,10
-    .byte JUMP,ANIMATION_PUSHUP_ID
+    SHOW PUSH_UP_1, 10
+    SHOW PUSH_UP_2, 10
+    SHOW PUSH_UP_3, 10
+    SHOW PUSH_UP_2, 10
+    GOTO PUSHUP
 
 
     include "sprites/spriteData.asm"

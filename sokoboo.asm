@@ -71,7 +71,7 @@ COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
 
-PUSH_LIMIT                      = 3           ; slowdown when pushing on a BOX
+PUSH_LIMIT                      = 6           ; slowdown when pushing on a BOX
 
 ; time bonus countdown constants:
 EXTRA_LIFE_TIMER            = 255               ; Cosmic Ark star effect on extra life. Should be 5 seconds like in original
@@ -201,6 +201,7 @@ BANK_{1}        SET _CURRENT_BANK
     MAC VALIDATE_OVERLAY
         LIST OFF
         #if * - Overlay > OVERLAY_SIZE
+            ECHO "Overlay ", {1}, "too big"
             ERR
         #endif
         LIST ON
@@ -413,7 +414,7 @@ BDF_BoardBank           ds 1                ; holds bank of current line
 DHS_Line                ds 1
 DHS_Stack               ds 1                ; for restoring SP
     ;ECHO "FREE BYTES IN OVERLAY_BuildDrawFlags = ", OVERLAY_SIZE - ( * - Overlay )
-    VALIDATE_OVERLAY
+    VALIDATE_OVERLAY "BuildDrawFlags"
 
 ;------------------------------------------------------------------------------
 
@@ -422,7 +423,7 @@ frame_ptr       ds 2
 colour_ptr      ds 2
 bank            ds 1
 ethnicity       ds 1
-    VALIDATE_OVERLAY
+    VALIDATE_OVERLAY "Animator"
 
 
     OVERLAY Process
@@ -431,14 +432,14 @@ BOXLeft         ds 1
 BOXRight        ds 1
 restorationCharacter  ds 1
 
-    VALIDATE_OVERLAY
+    VALIDATE_OVERLAY "Process"
 
 ;------------------------------------------------------------------------------
 
 
     OVERLAY Animate
 halftimer           ds 1
-    VALIDATE_OVERLAY
+    VALIDATE_OVERLAY "Animate"
 
 ;------------------------------------------------------------------------------
 
@@ -455,7 +456,9 @@ endwait                 ds 1
 colourindex             ds 1
 digitHundreds           ds 2
 selector                ds 1
-    VALIDATE_OVERLAY
+walkSpeed               ds 1
+manc                    ds 2
+    VALIDATE_OVERLAY "TitleScreen"
 
 ;------------------------------------------------------------------------------
 
@@ -463,7 +466,7 @@ selector                ds 1
 
 TS_Vector           ds 2                ; vector to correct processing code
     ;ECHO "FREE BYTES IN OVERLAY_TimeSlice = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "TimeSlice"
 
 ;------------------------------------------------------------------------------
 
@@ -473,7 +476,7 @@ O_CopyCount         ds 1
 O_ROM_Source_Bank   ds 1
 O_Index             ds 1
     ;ECHO "FREE BYTES IN OVERLAY_CopyROMShadowToRAM = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "CopyROMShadowToRAM"
 
 ;------------------------------------------------------------------------------
 
@@ -482,7 +485,7 @@ tmpStack            ds 1
 newDisplay          = tmpStack
 ; also for UpdateTimer
 tmpSound            = tmpStack
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "Scoring"
 
 
 ;------------------------------------------------------------------------------
@@ -495,7 +498,7 @@ startingLevel           ds 1        ; levelx * 5
 startLevel          ds 1
 offsetSK            ds 1        ; for calculating the SK slot address
 
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "SaveKey"
 
 ;------------------------------------------------------------------------------
 
@@ -504,7 +507,7 @@ offsetSK            ds 1        ; for calculating the SK slot address
 MAN_Move            ds 2
 
     ;ECHO "FREE BYTES IN OVERLAY_DrawMan = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "DrawMan"
 
 ;------------------------------------------------------------------------------
 
@@ -513,7 +516,7 @@ MAN_Move            ds 2
 POS_Vector          ds 2
 
     ;ECHO "FREE BYTES IN OVERLAY_ProcessObjStack = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "ProcessObjStack"
 
 ;------------------------------------------------------------------------------
 
@@ -531,7 +534,7 @@ sreg            ds 1
 loop            ds 1
 
     ;ECHO "FREE BYTES IN ScoreLineOverlay = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "ScoreLineOverlay"
 
 ;------------------------------------------------------------------------------
 
@@ -546,17 +549,17 @@ upk_temp                ds 1
 icc_colour              ds 3
 
     ;ECHO "FREE BYTES IN UnpackLevelOverlay = ", OVERLAY_SIZE - ( * - Overlay )
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "UnpackLevelOverlay"
 
 ;------------------------------------------------------------------------------
 
                 OVERLAY ManProcessing
 actionVector        ds 2
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "ManProcessing"
 
                 OVERLAY DrawIntoStack
 save_SP             ds 1
-                VALIDATE_OVERLAY
+                VALIDATE_OVERLAY "DrawIntoStack"
 
     ;------------------------------------------------------------------------------
     ;##############################################################################
