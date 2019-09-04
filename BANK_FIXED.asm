@@ -41,8 +41,6 @@ ORIGIN          SET FIXED_BANK
                 NEWBANK THE_FIXED_BANK
                 RORG $f800
 
-
-
     ;------------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE DrawTimeFromROM
@@ -1092,7 +1090,7 @@ NextLevelLevel
                 stx SET_BANK
 
                 lda #0
-selectLeveler   jsr LevelSequence
+selectLeveler   jsr LevelScreen
 
     ; Initialise all in-game variables; those that must be re-initialised at the start of each level,
     ; including those for general systems function. But NOT those which do not need re-initialising between

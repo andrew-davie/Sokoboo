@@ -1,7 +1,8 @@
   NEWBANK LEVELSCREEN
 
-WALLCOLOUR = $F0
 TOPHAT = 18
+BIGDIG_SIZE = 32
+
 
     DEFINE_SUBROUTINE SelectionScreenInit
 
@@ -12,6 +13,10 @@ TOPHAT = 18
                 sta VDELP1
                 sta REFP0
                 sta REFP1
+;                sta COLUBK
+                sta AUDV0
+                sta AUDV1                           ; turn off music while levels init
+                sta digitick
 
                 lda #%11110000
                 sta HMP0
@@ -19,53 +24,38 @@ TOPHAT = 18
                 lda #%11010000
                 sta HMP1
 
-                lda #WALLCOLOUR
-                sta COLUP0
-                sta COLUP1
 
                 lda #%100
                 sta CTRLPF
 
+                ldx Platform
+                lda PlatformAdjustColour,x
+                sta adjustColour
+                lda PlatformWallColour,x
+                sta wallColour
+
+                sta COLUP0
+                sta COLUP1
 
                 rts
 
-
+PlatformWallColour
+    .byte $F0, $F0, $22, $22
+PlatformAdjustColour
+    .byte 0,0, $c0, $c0
 
   DEFINE_SUBROUTINE LevelScreen
 
-  ; Start of new frame
+                sta selector
 
-  ; Start of vertical blank processing
+;    lda #%10
+;    sta VBLANK
 
-Qcolour         .byte $44,$44, $64,$64
-
-LevelSequence
-
-                cmp #0
-                beq noQuestion
-                ldx Platform
-                lda Qcolour,x
-noQuestion      sta selector
-
-
-
-                RESYNC  ; uses overlay
 
                 jsr SelectionScreenInit
 
-                lda #%00000000
-                sta COLUBK
-                sta AUDV0
-                sta AUDV1                           ; turn off music while levels init
-
-                lda #$80
-                sta digitick
                 lda #-1
                 sta endwait
-
-                lda #10
-                sta initialdelay
-
 
                 lda #-1
                 sta targetDigit
@@ -82,6 +72,8 @@ noQuestion      sta selector
                 jsr dd3
 
                 jsr fixWalkFrame
+
+                RESYNC  ; uses overlay
 
                 lda selector
                 beq RestartFrameX
@@ -178,19 +170,13 @@ VerticalBlankX
                 sta PF1
                 sta PF2
 
-                sta WSYNC
-                sta WSYNC
-                sta WSYNC
-
-
-
-
-;                lda #WALLCOLOUR
-;                sta COLUPF
-
                 ldy #TOPHAT-1
 boxtop          sta WSYNC               ;@0
-                lda topcolour,y
+
+                tya
+                asl
+                and #%110
+                ora wallColour
                 sta COLUPF
                 lda lid0,y ;#%11100000
                 sta PF0
@@ -255,30 +241,31 @@ boxtop          sta WSYNC               ;@0
                 lda #$2A                  ; 2
                 sta COLUPF              ; 3 = 5 @8
 
-                ldy #26                 ; #lines in characters-1
+                ldy #BIGDIG_SIZE-1              ; #lines in characters-1
                 ldx #0 ;%01000000                  ; PF0
 
 
                 sta WSYNC
 
-    SLEEP 4
 
+DUPES   = 4
 LevelNumberDigits
 
 .LOOP SET 0
-    REPEAT 3
+    REPEAT DUPES
 
     ;@5
 
                 stx PF0                 ; 3
 
-    IF .LOOP < 2
+    IF .LOOP < DUPES-1
                 lda colbk,y             ; 4
+                adc adjustColour        ; 3
                 sta COLUPF              ; 3 = 7 @15
     ELSE
-                lda #0
-                nop
+                lda wallColour
                 sta COLUPF              ; 3 = 7 @15
+                SLEEP 4
 
     ENDIF
                 lda (digitHundreds),y   ; 5
@@ -305,14 +292,13 @@ LevelNumberDigits
                 sta COLUPF              ; 3 = 8 @64
 
 
-SPARE = 15
+SPARE = 12
 
-
-    IF .LOOP < 2
+    IF .LOOP < DUPES-1
         SLEEP SPARE
     ENDIF
 
-    IF .LOOP = 2
+    IF .LOOP = DUPES-1
         SLEEP SPARE-7
     ENDIF
 
@@ -322,26 +308,18 @@ SPARE = 15
                 dey                     ; 2
                 bmi ess                 ; 2/3
                 jmp LevelNumberDigits   ; 3 = 7 mostly @ 71
+
+
 ess
 
     ; now a bottom for the 'box'
 
-                lda #0
-                sta PF0
-                sta PF1
-                sta PF2
+;                lda #0
+;                sta PF0
+;                sta PF1
+;                sta PF2
 
-                sta WSYNC
-                sta WSYNC
-                sta WSYNC
-
-
-
-
-;                lda #WALLCOLOUR
-;                sta COLUPF
-
-                lda #WALLCOLOUR
+                lda wallColour
                 sta COLUPF
 
                 ldy #8
@@ -366,7 +344,7 @@ boxbottom       sta WSYNC               ;@0
 ;                nop
                 sta PF2                 ; 3 = 8 @48
 
-                lda #4
+                lda #6
                 sta COLUBK
 
 
@@ -383,122 +361,97 @@ boxbottom       sta WSYNC               ;@0
 
       ;--------------------------------------------------------------------------
 
-
-                lda initialdelay
-                beq canchange
-                dec initialdelay
-                jmp nodigchange
-
-canchange
-                inc digitick
-                lda digitick
-                cmp #8
-                bcc nodigchange
-                lda #0
+                dec digitick
+                bpl donedig
+                lda #7
                 sta digitick
-
-
 
                 ldx #2
 scanner         lda digit,x
                 cmp targetDigit,x
                 beq scanOK
 
-                clc
+                sed
                 adc #1
-                cmp #10
-                bcc scanOK2
-                lda #0
-scanOK2         sta digit,x
+                and #$F
+                sta digit,x
+                cld
 
-                lda #125
+                lda #100
                 sta endwait
-
-                jmp donedig
+                bne donedig
 
 scanOK          dex
                 bpl scanner
 
                 lda selector
-                beq nodigchange               ; don't allow joystick selection
+                beq donedig               ; don't allow joystick selection
 
-    lda #-1
-    sta targetDigit
-    sta targetDigit+1
-    sta targetDigit+2
+                lda #-1
+                sta targetDigit
+                sta targetDigit+1
+                sta targetDigit+2
 
-    lda SWCHA
-    lsr
-    lsr
-    lsr
-    lsr
-    tax
+                lda SWCHA
+                lsr
+                lsr
+                lsr
+                lsr
+                tax
 
                 lda xJoyMoveX,x
                 beq adjustLevelNum
 
     ; level is changing, so animate the man too
 
-                    jsr fixWalkFrame
+                jsr fixWalkFrame
 
 
-adjustLevelNum      clc
-                    lda levelX
-                    adc xJoyMoveX,x
-                    cmp #255
-                    bne nml1
-                    lda #MAX_LEVEL-1
-nml1                cmp #MAX_LEVEL
-                    bne nml2
-                    lda #0
-nml2
+adjustLevelNum  clc
+                lda levelX
+                adc xJoyMoveX,x
+                cmp #255
+                bne nml1
+                lda #MAX_LEVEL-1
+nml1            cmp #MAX_LEVEL
+                bne nml2
+                lda #0
+nml2            sta levelX
 
-                    sta levelX
-                    jsr dd3
+                jsr dd3
 
-        ldx #2
-zapper lda targetDigit,x
-    sta digit,x
-    dex
-    bpl zapper
+                ldx #2
+zapper          lda targetDigit,x
+                sta digit,x
+                dex
+                bpl zapper
 
-nohitd2
-nojoy
 donedig
 
 
-digok
-nodigchange
-
-                lda endwait
-                bmi neverend
-
-                dec endwait
-                ;beq retX
-
-neverend
-                lda selector
-                bne waitbutton
-                lda endwait
-                beq retX
-
-
-waitbutton                lda INPT4
-                bpl retX
-
-oscanX
-                lda INTIM
+oscanX          lda INTIM
                 bne oscanX
 
-                lda #%01000010                  ; bit6 is not required
-                sta VBLANK                      ; end of screen - enter blanking
+                sta WSYNC
+                lda #2
+                sta VBLANK
 
+
+
+
+                sta COLUBK
+
+                lda selector
+                bne waitbutton
+                dec endwait
+                beq retX
+
+waitbutton      lda INPT4
+                bpl retX
 
                 jmp RestartFrameX
 
-retX             lda #0
-                sta COLUBK
-                rts
+retX            rts
 
 
 
@@ -564,8 +517,9 @@ walk0               tay
 
 
 
+    OPTIONAL_PAGEBREAK "colbk @levelScreen.asm", BIGDIG_SIZE
 
-colbk
+colbk   ; hardwired for 32 - will need manual changing
 
 .CRK SET 256*$B2
 .CGK SET 256*$B2
@@ -578,8 +532,14 @@ colbk
 
 .CRK SET .CRK + 180 ;135
 .CGK SET .CGK + 190 ;135
-.CBK SET .CBK + 200 ;135
+.CBK SET .CBK + 190 ;135
     REPEND
+    .byte .CRK/256
+    .byte .CBK/256
+
+    CHECKPAGEX colbk, "WARNING: colbk crosses page @levelScreen.asm"
+
+
 
 walkOrder   .byte 1,2,3,2
 walkFrame
@@ -598,52 +558,52 @@ walkColour
 mancolourPAL
 ; NTSC_TO_PAL $10, 4
  NTSC_TO_PAL $10, 4
+ NTSC_TO_PAL $10, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
  NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $0, 10
- NTSC_TO_PAL $90, $a
+ NTSC_TO_PAL $0, 12
  NTSC_TO_PAL $90, 6
  NTSC_TO_PAL $90, 6
  NTSC_TO_PAL $90, 6
  NTSC_TO_PAL $90, 6
- NTSC_TO_PAL $0, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
+ NTSC_TO_PAL $90, 6
+ NTSC_TO_PAL $0, 12
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
  NTSC_TO_PAL $10, $C
  NTSC_TO_PAL $10, $C
 
 mancolourPAL2
  NTSC_TO_PAL $10, 4
  NTSC_TO_PAL $10, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
+ NTSC_TO_PAL $90, 4
  NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $30, 4
- NTSC_TO_PAL $0,10
- NTSC_TO_PAL $90, $a
+ NTSC_TO_PAL $0,12
  NTSC_TO_PAL $90, 6
  NTSC_TO_PAL $90, 6
  NTSC_TO_PAL $90, 6
  NTSC_TO_PAL $90, 6
- NTSC_TO_PAL $0, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
- NTSC_TO_PAL $30, 10
+ NTSC_TO_PAL $90, 6
+ NTSC_TO_PAL $0, 12
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
+ NTSC_TO_PAL $30, 8
  NTSC_TO_PAL $10, $C
  NTSC_TO_PAL $10, $C
 
@@ -651,27 +611,27 @@ mancolourPAL2
 xJoyMoveX        .byte 0,0,0,0,0,1, 1,1,0,-1,-1,-1,0,-1,1,0
 
 VBlankTime2x
-    .byte 80,80
-    .byte 150,150
+    .byte 62,62
+    .byte 112,112
 OverscanTime2X
-    .byte 245, 245
-    .byte 120, 120
+    .byte 246, 246
+    .byte 255, 255
 
-COLOUR_LINES    = 27
+COLOUR_LINES    = 32
 colvecX
     .byte 0, 0, COLOUR_LINES, COLOUR_LINES
 
 
 ;blankDig ds COLOUR_LINES,0
 
-topcolour
+;topcolour
 
 ;    .byte 0
 
-    REPEAT TOPHAT/2
-    .byte $F2
-    .byte $F0
-    REPEND
+;    REPEAT TOPHAT/2
+;    .byte $F2
+;    .byte $F0
+;    REPEND
 
 ;quest
 ;    REPEAT 9

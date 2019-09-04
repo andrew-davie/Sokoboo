@@ -39,6 +39,9 @@ TIA_BASE_ADDRESS = $40
                 include "vcs.h"
                 include "macro.h"
 
+ORIGIN          SET 0
+ORIGIN_RAM      SET 0
+
                 include "segtime.asm"
 
 ;FIXED_BANK             = 3 * 2048           ;-->  8K ROM tested OK
@@ -306,11 +309,11 @@ BANK_{1}        = _CURRENT_BANK         ; bank in which this subroutine resides
 
     MAC NEWRAMBANK ; bank name
                 SEG.U {1}
-                ORG ORIGIN
+                ORG ORIGIN_RAM
                 RORG RAM_3E
 BANK_START      SET *
-{1}             SET ORIGIN / RAM_SIZE
-ORIGIN          SET ORIGIN + RAM_SIZE
+{1}             SET ORIGIN_RAM / RAM_SIZE
+ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
     ENDM
 
     MAC VALIDATE_RAM_SIZE
@@ -446,18 +449,19 @@ halftimer           ds 1
     OVERLAY TitleScreen
 colour_table           ds 2
 digit1                  ds 2
-digit2                  ds 3
+digit2                  ds 2
 digitstar               ds 2
 digit                   ds 3
 digitick                ds 1
 targetDigit             ds 3
-initialdelay            ds 1
 endwait                 ds 1
 colourindex             ds 1
 digitHundreds           ds 2
 selector                ds 1
 walkSpeed               ds 1
 manc                    ds 2
+wallColour              ds 1
+adjustColour            ds 1
     VALIDATE_OVERLAY "TitleScreen"
 
 ;------------------------------------------------------------------------------
@@ -568,7 +572,6 @@ save_SP             ds 1
     ; NOW THE VERY INTERESTING '3E' RAM BANKS
     ; EACH BANK HAS A READ-ADDRESS AND A WRITE-ADDRESS, WITH 2k TOTAL
 
-ORIGIN          SET 0
                 NEWRAMBANK BANK_SCREENMARKII1
 
     ; NOTE: THIS BANK JUST *LOOKS* EMPTY.
@@ -737,8 +740,8 @@ TakeBackPushChar    ds $40
     ; So we need to calculate where the next free bank is!
     ; TODO: This looks dodgy.  Check..
 
-ORIGIN          SET ( * + RAM_SIZE - 1 ) / RAM_SIZE
-ORIGIN          SET ORIGIN * RAM_SIZE
+;ORIGIN          SET ( * + RAM_SIZE - 1 ) / RAM_SIZE
+;ORIGIN          SET ORIGIN * RAM_SIZE
 
 
 
@@ -779,7 +782,7 @@ MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
 
 ;--------------------------------------------------------------------------------
 
-ORIGIN      SET $00000
+;ORIGIN      SET 0
 
             include "BANK_ROM_SHADOW_RAMBANK.asm"
             include "BANK_ROM_SHADOW_DRAWBUFFERS.asm"
@@ -795,6 +798,8 @@ ORIGIN      SET $00000
             include "titleScreen.asm"
             include "levelScreen.asm"
             include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
+
+    ; MUST BE LAST...
             include "BANK_FIXED.asm"
 
             ;END

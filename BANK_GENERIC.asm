@@ -113,7 +113,8 @@
 
 ; read high score from SaveKey and store in highScoreSK,
 ; which is transferred to high score variable in RAM by GeneralScoringSetups
-                jmp ReadSaveKey
+                rts
+                ;jmp ReadSaveKey
 
     ;------------------------------------------------------------------------------
 
@@ -138,7 +139,8 @@
 
     ; if new high score was set by SwapPlayers, update it:
 
-                jmp WriteSaveKey
+                rts
+                ;jmp WriteSaveKey
 
 
     ;------------------------------------------------------------------------------

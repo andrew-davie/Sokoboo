@@ -264,7 +264,7 @@ QRet            rts                             ;6
 cannotPush      inc ManPushCounter
                 rts
 
-    DEFINE_SUBROUTINE PushBox ; in INITBANK
+    DEFINE_SUBROUTINE PushBox
 
       ; X = restoration character for square we are moving TO
       ; so, if X = CHARACTER_TARGET AND we move, THEN we are pushing a box off a target
@@ -602,13 +602,6 @@ waitingManPress
                 sta POS_Y_NEW
 
     ;------------------------------------------------------------------------------
-    ; Look around is triggered by holding down the fire button for a while, without any other
-    ; joystick directions chosen. The variable LookingAround has a negative value ($FF) when looking
-    ; is active. Otherwise, it is counting down to the time where it will trigger.
-
-LOOK_DELAY = 0
-
-    ;------------------------------------------------------------------------------
     ; Take-back is a press/release of the button, with the press being limited in duratino
     ; to allow the action to be "cancelled". Meanwhile, a button press + direction triggers
     ; "look-around mode"
@@ -682,6 +675,21 @@ noLook          ldx #0
 bProcComp
     ;------------------------------------------------------------------------------
 
+                lda #ANIMATION_IDLE_ID
+                cmp ManAnimationID
+                beq alreadyIdling
+
+                inc idleCount
+                ldy idleCount
+                cpy #2
+                bcc alreadyIdling
+
+                LOAD_ANIMATION IDLE
+
+                lda #0
+                sta idleCount
+alreadyIdling
+
                 lda ManLastDirection
                 and #DIRECTION_BITS
                 tay
@@ -700,20 +708,8 @@ bProcComp
 
     ; no direction!
 
-                lda #ANIMATION_IDLE_ID
-                cmp ManAnimationID
-                beq alreadyIdling
+    ;inc BGColour
 
-                inc idleCount
-                ldy idleCount
-                cpy #2
-                bcc alreadyIdling
-
-                LOAD_ANIMATION IDLE
-
-                lda #0
-                sta idleCount
-alreadyIdling
 
                 ;lda #MAX_THROTTLE+1
                 ;sta Throttle               ; IMMEDIATE reaction to any joystick!

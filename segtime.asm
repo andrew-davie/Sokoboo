@@ -129,4 +129,4 @@ SEGTIME_SCD_MIN = SEGTIME_SCD_PF0
 ; The following are NOT object-related and timing is a bit of manual guesswork/calculation
 ; Comment may indicate at what value a glitch was DEFINITELY seen. These timings may not be optimal.
 
-    SEGTIME SEGTIME_MAN,16 ;12          ;NFI
+    SEGTIME SEGTIME_MAN,18 ;12          ;NFI
