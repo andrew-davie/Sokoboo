@@ -215,9 +215,13 @@ notU0           sta BoardScrollY
                 sta Throttle
                 sta BufferedJoystick
 
+                lda #0
                 sta AUDV0
                 sta AUDV1                           ; turn off music while levels init
 ;                sta AUDC0
+
+;                sta VBLANK
+
 
                 ;sta ManLastDirection
                 ;sta ManPushCounter
@@ -349,7 +353,7 @@ OverscanTime
     .byte OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
 
 
-THROT_BASE = 20
+THROT_BASE = 18
 theThrottler
         .byte THROT_BASE, THROT_BASE, THROT_BASE*60/50, THROT_BASE
 

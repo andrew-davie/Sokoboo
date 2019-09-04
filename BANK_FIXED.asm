@@ -1106,8 +1106,6 @@ selectLeveler   jsr LevelScreen
                 lda #BANK_SCORING
                 sta SET_BANK_RAM
                 jsr GeneralScoringSetups
-                ;lda ROM_Bank
-                ;sta SET_BANK
 
     ; copy the screen draw ROM shadow to RAM
 
@@ -1125,8 +1123,6 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
                 jsr UnpackLevel
-
-    ; TODO now we KNOW the width, we can set the top left accordingly and re-unpack
 
                 lda #SIZE_BOARD_X
                 sta BoardLimit_Width

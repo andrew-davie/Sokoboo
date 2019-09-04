@@ -536,6 +536,17 @@ SMLEVEL
 
 
     ;------------------------------------------------------------------------------
+
+ScoreKernelLo:
+        .byte <Score2x4Fix      ; TARGETs, time
+        .byte <Score1x6Fix      ; score
+        .byte <Score3x2Fix      ; player, lives, level
+        .byte <Score1x6Fix      ; high score
+
+    CHECKPAGE DrawDigits1x6     ; AD: the jump requires all in the same page, so let's enforce that
+
+    ;------------------------------------------------------------------------------
+
     DEFINE_SUBROUTINE DrawDigits
 
 VblankLoopGame
@@ -544,6 +555,9 @@ VblankLoopGame
 
     IF WAIT_FOR_INITIAL_DRAW
         ldy blankState
+        beq state0
+        ldy #2
+state0
     ENDIF
         sty VBLANK              ; 3         <-- 0
         ;lda scoringFlags        ; 3
@@ -559,20 +573,12 @@ VblankLoopGame
         lda ScoreKernelLo,x     ; 4
 
         sta WSYNC               ; 3
-;---------------------------------------------------------------
         sta SMJUMP+1+RAM_WRITE  ; 4
 SMJUMP:
         jmp DrawDigits1x6       ; 3 =  7    @07
 
-ScoreKernelLo:
-        .byte <Score2x4Fix      ; TARGETs, time
-        .byte <Score1x6Fix      ; score
-        .byte <Score3x2Fix      ; player, lives, level
-        .byte <Score1x6Fix      ; high score
+;---------------------------------------------------------------
 
-    CHECKPAGE DrawDigits1x6     ; AD: the jump requires all in the same page, so let's enforce that
-
-    ;------------------------------------------------------------------------------
     DEFINE_SUBROUTINE PrepareDrawDigits
 ;                                           @13
         ldy #$d1                ; 2

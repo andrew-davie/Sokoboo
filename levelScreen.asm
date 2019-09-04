@@ -93,14 +93,27 @@ RestartFrameX
                 lsr
                 bne .loopVSync3                  ; branch until VYSNC has been reset
 
+                ldx Platform
+                lda VBlankTime2x,x
+                sta TIM64T
+
+                lda #2
+                sta VBLANK
+                ldx #37
+toplines        sta WSYNC
+                dex
+                bne toplines
+                stx VBLANK
+
                 lda #0
                 sta COLUBK
 
+topsync         lda INTIM
+                bne topsync
 
-                ldx Platform
-                ldy VBlankTime2x,x
-                sty TIM64T
-
+;                ldx Platform
+;                ldy VBlankTime2x,x
+;                sty TIM64T
 
                 lda digit+2                     ; hundreds
                 asl
@@ -131,14 +144,9 @@ RestartFrameX
       ;------------------------------------------------------------------
 
 
-VerticalBlankX
-                lda INTIM
-                bne VerticalBlankX
-                sta VBLANK
-
-                ldy Platform
-                lda OverscanTime2X,y
-                sta TIM64T
+;VerticalBlankX;
+;                lda INTIM
+;                bne VerticalBlankX
 
 
                 lda #0
@@ -222,10 +230,10 @@ boxtop          sta WSYNC               ;@0
 
 
                 sta WSYNC
-                sta WSYNC
-                sta WSYNC
-                sta WSYNC
-                sta WSYNC
+;                sta WSYNC
+;                sta WSYNC
+;                sta WSYNC
+;                sta WSYNC
 
 ;===================================================================================================
 
@@ -242,9 +250,8 @@ boxtop          sta WSYNC               ;@0
                 sta COLUPF              ; 3 = 5 @8
 
                 ldy #BIGDIG_SIZE-1              ; #lines in characters-1
-                ldx #0 ;%01000000                  ; PF0
 
-
+                ldx #0                  ; used as a generic "0" during the kernel
                 sta WSYNC
 
 
@@ -254,43 +261,40 @@ LevelNumberDigits
 .LOOP SET 0
     REPEAT DUPES
 
-    ;@5
-
                 stx PF0                 ; 3
 
     IF .LOOP < DUPES-1
                 lda colbk,y             ; 4
                 adc adjustColour        ; 3
-                sta COLUPF              ; 3 = 7 @15
+                sta COLUPF              ; 3 = 10 @13
     ELSE
-                lda wallColour
-                sta COLUPF              ; 3 = 7 @15
-                SLEEP 4
+                lda #0 ;wallColour          ; 3
+                sta COLUPF              ; 3 = 7
+                SLEEP 5                 ; 4 = 10 @13
 
     ENDIF
                 lda (digitHundreds),y   ; 5
-                sta PF1                 ; 3 = 8 @23
+                sta PF1                 ; 3 = 8 @21
 
                 lda (digit1),y          ; 5
-                sta PF2                 ; 3 = 8 @ 31
+                sta PF2                 ; 3 = 8 @29
 
         ; RHS
 
                 lda (digit2),y          ; 5
-                sta PF0                 ; 3 = 8 @ 39        D7D6D5D4 <--- mirrored
+                sta PF0                 ; 3 = 8 @ 37        D7D6D5D4 <--- mirrored
 
                 asl                     ; 2
                 asl                     ; 2
                 asl                     ; 2
                 asl                     ; 2
-                sta PF1                 ; 3 = 11 @50        NOT MIRRORED, D7D6D5D4 -->
+                sta PF1                 ; 3 = 11 @48        NOT MIRRORED, D7D6D5D4 -->
 
                 lda (digitstar),y       ; 5
                 sta PF2                 ; 3 = 8 @56
 
                 lda (manc),y            ; 5
                 sta COLUPF              ; 3 = 8 @64
-
 
 SPARE = 12
 
@@ -312,12 +316,15 @@ SPARE = 12
 
 ess
 
+;                sta WSYNC
+
+
     ; now a bottom for the 'box'
 
-;                lda #0
-;                sta PF0
-;                sta PF1
-;                sta PF2
+                lda #0
+                sta PF0
+                sta PF1
+                sta PF2
 
                 lda wallColour
                 sta COLUPF
@@ -358,6 +365,12 @@ boxbottom       sta WSYNC               ;@0
                 sta PF2
                 sta GRP0
                 sta GRP1
+
+                ldy Platform
+                lda OverscanTime2X,y
+                sta TIM64T
+
+                sta WSYNC
 
       ;--------------------------------------------------------------------------
 
@@ -428,18 +441,16 @@ zapper          lda targetDigit,x
 
 donedig
 
-
 oscanX          lda INTIM
                 bne oscanX
 
-                sta WSYNC
-                lda #2
-                sta VBLANK
-
-
-
-
                 sta COLUBK
+                lda #%01000010                  ; bit6 is not required
+                sta VBLANK                      ; end of screen - enter blanking
+
+                lda #0
+                sta VSYNC
+
 
                 lda selector
                 bne waitbutton
@@ -611,11 +622,11 @@ mancolourPAL2
 xJoyMoveX        .byte 0,0,0,0,0,1, 1,1,0,-1,-1,-1,0,-1,1,0
 
 VBlankTime2x
-    .byte 62,62
-    .byte 112,112
+    .byte 70,70
+    .byte 98,98
 OverscanTime2X
-    .byte 246, 246
-    .byte 255, 255
+    .byte 63, 63
+    .byte 77, 77
 
 COLOUR_LINES    = 32
 colvecX
