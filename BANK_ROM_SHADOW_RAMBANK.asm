@@ -65,7 +65,7 @@ Proc2                                                       ; 5
                 SLEEP 3                                     ; 3         @64
                 bpl ScanBLUEBD                              ; 3 = 11    @67     unconditional
 
-ScanRED                                                     ;           @60
+    DEFINE_SUBROUTINE ScanRED                                                     ;           @60
 SM_PF0_REDl     lda CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3         @67
                 lda ScreenBitmapRED+0*LINES_PER_CHAR,y      ; 4
@@ -91,7 +91,7 @@ SELFMOD_PLAYER0_RED
                 lda ScreenBitmapRED+1*LINES_PER_CHAR,y      ; 4
                 sta PF2                                     ; 3 =  7    @27
 
-SM_PF0_REDr     lda CHARACTERSHAPE_BLANK,y                  ; 4
+SM_PF0_REDr     lda #CHARACTERSHAPE_BLANK,y                  ; 4
                 sta PF0                                     ; 3         @34
                 lda ScreenBitmapRED+2*LINES_PER_CHAR,y      ; 4
                 sta PF1                                     ; 3         @41

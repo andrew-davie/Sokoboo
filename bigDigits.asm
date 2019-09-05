@@ -832,13 +832,13 @@ LEFT_star1
  .byte 0
  OPTIONAL_PAGEBREAK "LEFT_star2", 32
 LEFT_star2
- .byte 38
- .byte 64
- .byte 52
- .byte 20
- .byte 20
+ .byte 48
+ .byte 0
+ .byte 48
+ .byte 24
+ .byte 28
  .byte 60
- .byte 60
+ .byte 56
  .byte 40
  .byte 48
  .byte 56

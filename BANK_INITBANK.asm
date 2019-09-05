@@ -278,8 +278,8 @@ cannotPush      inc ManPushCounter
 
                 LOAD_ANIMATION PUSH
 
-                lda #0
-                sta idleCount
+                ;lda #0
+                ;sta idleCount
 
 alreadyAnimPush
 
@@ -678,6 +678,9 @@ bProcComp
                 lda #ANIMATION_IDLE_ID
                 cmp ManAnimationID
                 beq alreadyIdling
+
+                lda ManPushCounter
+                bne alreadyIdling
 
                 inc idleCount
                 ldy idleCount

@@ -502,10 +502,7 @@ hunds
                     clc
                     lda walkSpeed
                     adc #4
-                    cmp #4*3
-                    bcc walkFrameOK
-                    lda #0
-walkFrameOK         sta walkSpeed
+                    sta walkSpeed
 
                     lsr
                     lsr

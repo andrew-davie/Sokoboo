@@ -113,8 +113,8 @@
 
 ; read high score from SaveKey and store in highScoreSK,
 ; which is transferred to high score variable in RAM by GeneralScoringSetups
-                rts
-                ;jmp ReadSaveKey
+
+                jmp ReadSaveKey
 
     ;------------------------------------------------------------------------------
 
@@ -139,8 +139,7 @@
 
     ; if new high score was set by SwapPlayers, update it:
 
-                rts
-                ;jmp WriteSaveKey
+                jmp WriteSaveKey
 
 
     ;------------------------------------------------------------------------------
@@ -223,12 +222,6 @@ notU0           sta BoardScrollY
 ;                sta VBLANK
 
 
-                ;sta ManLastDirection
-                ;sta ManPushCounter
-
-                ;sta sortPtr                     ; sort stopped
-                ;lda #<(-1)
-                ;sta sortRequired                ; nothing needed
                 sta DrawStackPointer
 
                 ;lda #DISPLAY_TIME ;DISPLAY_SCORE

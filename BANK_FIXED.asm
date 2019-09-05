@@ -499,6 +499,9 @@ noLog           lda #0
                 txa                                 ; character man will be standing on
                 pha
 
+    lda #$FF
+    sta BufferedJoystick
+
 
                 lda ManAnimationID
                 cmp #ANIMATION_PUSH_ID
@@ -1083,7 +1086,7 @@ RestartLevelNextPlayer
                 lda #1
                 bne selectLeveler
 
-NextLevelLevel
+    DEFINE_SUBROUTINE NextLevelLevel
 
 
                 ldx #BANK_LevelScreen

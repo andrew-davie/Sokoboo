@@ -100,11 +100,18 @@ Animation_WALK2
 
 Animation_WIN
 
-    SHOW IDLE1, 10
+    ; pretty cool little wobble
+    REPEAT 3
+        SHOW WALK2, 6
+        FLIP
+        SHOW LOOK2, 6
+    REPEND
 
 Animation_WIN2
+    SHOW IDLE2, 5
+    SHOW IDLE3, 10
     SHOW IDLE2, 10
-    SHOW IDLE3, 20
+    SHOW IDLE3, 40
     GOTO WIN2
 
 Animation_WOBBLE
@@ -121,12 +128,19 @@ Animation_WOBBLE
 
 Animation_IDLE
 
-    REPEAT 5
-        REPEAT 20
-            SHOW WALK2, 255
+    REPEAT 2
+        REPEAT 2
             SHOW BLINK, 2
+            SHOW WALK2, 255
         REPEND
-
+        REPEAT 6
+            SHOW HANDLIP1, 20
+            SHOW HANDLIP2, 20
+        REPEND
+        REPEAT 2
+            SHOW BLINK, 2
+            SHOW WALK2, 255
+        REPEND
         REPEAT 3
             SHOW TAPFOOT, 10
             SHOW WALK2, 5
@@ -150,13 +164,11 @@ Animation_TURNAROUND
 
 Animation_YAWN
 
-    SHOW WALK2, 50
+;    SHOW WALK2, 50
     SHOW IDLE1, 10
     SHOW IDLE2, 10
     SHOW IDLE3, 100
-    SHOW IDLE2, 30
-    SHOW IDLE3, 100
-    SHOW IDLE2, 10
+    SHOW IDLE2, 20
     GOTO IDLE
 
 
@@ -171,10 +183,10 @@ Animation_YAWN
 
 Animation_PUSH
 
-    SHOW PUSH1, 20
-    SHOW PUSH2, 20
-    SHOW PUSH3, 20
-    SHOW PUSH2, 20
+    SHOW PUSH1, 10
+    SHOW PUSH2, 10
+    SHOW PUSH3, 10
+    SHOW PUSH2, 10
     GOTO PUSH
 
 Animation_PUSHUP
