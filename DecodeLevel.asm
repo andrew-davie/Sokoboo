@@ -604,48 +604,62 @@ endzapy2        dec POS_X
     NTSC_TO_PAL {1},{2}
     ENDM
 
+
+; NTSC Colour names...
+
+
+GREY = 0
+YELLOW = $10
+ORANGE = $20
+RED = $30
+PINK = $40
+PURPLE = $50
+VIOLET = $60
+BLUE = $70
+AQUA = $80
+SKYBLUE = $90
+TEAL = $A0
+GREEN = $B0
+LIME = $C0
+OLIVE = $D0
+TAN = $E0
+BROWN = $F0
+
+
+
+
+
+
 C1 ;
     ; mortar for bricks
-    NTSCPAL $C0,$8 ;ok blue soil aqua walls grey box
-    NTSCPAL $60,$8 ;ok red soil purple walls orange box
-    NTSCPAL $40,$8 ;ok both     green soil, yellow wall, blue box purple top
-    NTSCPAL $F0,$8 ;ok both   blue soil, grey box/wall
-    NTSCPAL $30,$8
-    NTSCPAL $90,$8
-    NTSCPAL $20,$8 ; lovely????
-    NTSCPAL $70,$8
-;    NTSCPAL $40,$A
-;    NTSCPAL $C0,$8
+    NTSCPAL LIME,$8
+    NTSCPAL VIOLET,$8
+    NTSCPAL BLUE,$8
+    NTSCPAL PINK,$8
+    NTSCPAL LIME,$4
+    NTSCPAL SKYBLUE,$8
+    NTSCPAL ORANGE,$8
+    NTSCPAL VIOLET,$8
+
 C2  ; soil stripes
-    NTSCPAL $90,$6 ; ok v nice
-    NTSCPAL $0,$6 ; ok v nice brick
-    NTSCPAL $D0,$6 ;ok both
-    NTSCPAL $D0,$6 ;ok both
-    NTSCPAL $60,$6
-    NTSCPAL $40,$6 ; lovely
-    NTSCPAL $90,$6 ;ok
-    NTSCPAL $10,$6
-;    NTSCPAL $40,$A
-;    NTSCPAL $C0,$8
+    NTSCPAL SKYBLUE,$6
+    NTSCPAL ORANGE,$8
+    NTSCPAL PINK,$6
+    NTSCPAL SKYBLUE,$8
+    NTSCPAL YELLOW,$4
+    NTSCPAL PINK,$6
+    NTSCPAL TEAL,$6
+    NTSCPAL LIME,$8
+
 C3 ;
-    NTSCPAL $40,$8 ;ok
-    NTSCPAL $90,$8 ;ok
-    NTSCPAL $90,$8 ;ok both
-    NTSCPAL $70,$8 ;ok both
-    NTSCPAL $B0,$8
-    NTSCPAL $20,$8
-    NTSCPAL $60,$8 ; lovely
-    NTSCPAL $C0,$8
-;    NTSCPAL $40,$A
-;    NTSCPAL $C0,$8
-
-
-;good...
-;walls
-; C6/36/16
-; 4a/a4/7a
-;bricks
-; 44/28/C6
+    NTSCPAL PINK,$8
+    NTSCPAL LIME,$8
+    NTSCPAL LIME,$8
+    NTSCPAL ORANGE,$8
+    NTSCPAL BLUE,$8
+    NTSCPAL ORANGE,$8
+    NTSCPAL VIOLET,$8
+    NTSCPAL ORANGE,$8
 
 
   DEFINE_SUBROUTINE UnpackLevel

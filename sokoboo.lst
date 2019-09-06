@@ -3552,7 +3552,7 @@
      47  02d4				  -	      .byte	$40+6
      48  02d4					      ENDIF
      19  02d4		       00		      .byte.b	0
-      0  02d5					      COLOUR_GROUP	$30,$A, $50,$8, $10,$C, $40,$4, $60,6, $50,8	; 3
+      0  02d5					      COLOUR_GROUP	$30,$A, $50,$8, $10,$C, $40,$4, $60,6, $E0,8	; 3
       1  02d5
       2  02d5		       00		      .byte.b	0
       3  02d6		       3a		      .byte.b	$30+$A
@@ -3560,7 +3560,7 @@
       5  02d8		       1c		      .byte.b	$10+$C
       6  02d9		       44		      .byte.b	$40+$4
       7  02da		       66		      .byte.b	$60+6
-      8  02db		       58		      .byte.b	$50+8
+      8  02db		       e8		      .byte.b	$E0+8
       9  02dc		       00		      .byte.b	0
      10  02dd
      11  02dd
@@ -3810,53 +3810,53 @@
      46  02e3				  -	      IF	$60 = $F0
      47  02e3				  -	      .byte	$40+6
      48  02e3					      ENDIF
-      0  02e3					      NTSC_TO_PAL	$50, 8
-      1  02e3				  -	      IF	$50 = 0
-      2  02e3				  -	      .byte	$50+8
+      0  02e3					      NTSC_TO_PAL	$E0, 8
+      1  02e3				  -	      IF	$E0 = 0
+      2  02e3				  -	      .byte	$E0+8
       3  02e3					      ENDIF
-      4  02e3				  -	      IF	$50 = $10
+      4  02e3				  -	      IF	$E0 = $10
       5  02e3				  -	      .byte	$20+8
       6  02e3					      ENDIF
-      7  02e3				  -	      IF	$50 = $20
+      7  02e3				  -	      IF	$E0 = $20
       8  02e3				  -	      .byte	$40+8
       9  02e3					      ENDIF
-     10  02e3				  -	      IF	$50 = $30
+     10  02e3				  -	      IF	$E0 = $30
      11  02e3				  -	      .byte	$40+8
      12  02e3					      ENDIF
-     13  02e3				  -	      IF	$50 = $40
+     13  02e3				  -	      IF	$E0 = $40
      14  02e3				  -	      .byte	$60+8
      15  02e3					      ENDIF
-     16  02e3					      IF	$50 = $50
-     17  02e3		       88		      .byte.b	$80+8
-     18  02e4					      ENDIF
-     19  02e4				  -	      IF	$50 = $60
-     20  02e4				  -	      .byte	$C0+8
-     21  02e4					      ENDIF
-     22  02e4				  -	      IF	$50 = $70
-     23  02e4				  -	      .byte	$D0+8
-     24  02e4					      ENDIF
-     25  02e4				  -	      IF	$50 = $80
-     26  02e4				  -	      .byte	$B0+8
-     27  02e4					      ENDIF
-     28  02e4				  -	      IF	$50 = $90
-     29  02e4				  -	      .byte	$90+8
-     30  02e4					      ENDIF
-     31  02e4				  -	      IF	$50 = $A0
-     32  02e4				  -	      .byte	$70+8
-     33  02e4					      ENDIF
-     34  02e4				  -	      IF	$50 = $B0
-     35  02e4				  -	      .byte	$50+8
-     36  02e4					      ENDIF
-     37  02e4				  -	      IF	$50 = $C0
-     38  02e4				  -	      .byte	$30+8
-     39  02e4					      ENDIF
-     40  02e4				  -	      IF	$50 = $D0
-     41  02e4				  -	      .byte	$30+8
-     42  02e4					      ENDIF
-     43  02e4				  -	      IF	$50 = $E0
-     44  02e4				  -	      .byte	$20+8
+     16  02e3				  -	      IF	$E0 = $50
+     17  02e3				  -	      .byte	$80+8
+     18  02e3					      ENDIF
+     19  02e3				  -	      IF	$E0 = $60
+     20  02e3				  -	      .byte	$C0+8
+     21  02e3					      ENDIF
+     22  02e3				  -	      IF	$E0 = $70
+     23  02e3				  -	      .byte	$D0+8
+     24  02e3					      ENDIF
+     25  02e3				  -	      IF	$E0 = $80
+     26  02e3				  -	      .byte	$B0+8
+     27  02e3					      ENDIF
+     28  02e3				  -	      IF	$E0 = $90
+     29  02e3				  -	      .byte	$90+8
+     30  02e3					      ENDIF
+     31  02e3				  -	      IF	$E0 = $A0
+     32  02e3				  -	      .byte	$70+8
+     33  02e3					      ENDIF
+     34  02e3				  -	      IF	$E0 = $B0
+     35  02e3				  -	      .byte	$50+8
+     36  02e3					      ENDIF
+     37  02e3				  -	      IF	$E0 = $C0
+     38  02e3				  -	      .byte	$30+8
+     39  02e3					      ENDIF
+     40  02e3				  -	      IF	$E0 = $D0
+     41  02e3				  -	      .byte	$30+8
+     42  02e3					      ENDIF
+     43  02e3					      IF	$E0 = $E0
+     44  02e3		       28		      .byte.b	$20+8
      45  02e4					      ENDIF
-     46  02e4				  -	      IF	$50 = $F0
+     46  02e4				  -	      IF	$E0 = $F0
      47  02e4				  -	      .byte	$40+8
      48  02e4					      ENDIF
      19  02e4		       00		      .byte.b	0
@@ -4256,7 +4256,7 @@
     121  0913
     122  0913							;32✅ worst
     123  0913
-      0  0913					      DEFINE_SUBROUTINE	AnimateCharReplacements2	; =32
+      0  0913					      DEFINE_SUBROUTINE	AnimateCharReplacements2	; =38
       1  0913		       00 01	   BANK_AnimateCharReplacements2 =	_CURRENT_BANK
       2  0913					      SUBROUTINE
       3  0913				   AnimateCharReplacements2
@@ -4267,452 +4267,449 @@
     129  0913
     130  0913		       e6 c6		      inc	animate_char_index	; 5
     131  0915		       a5 c6		      lda	animate_char_index	; 3
-    132  0917		       29 07		      and	#7	; 2
-    133  0919		       aa		      tax		; 2 = 12
-    134  091a
-    135  091a		       bd e9 f1 	      lda	targetReplaceChar,x	; 4
-    136  091d		       8d dd f5 	      sta	ANIM_TARGET + RAM_WRITE	; 4 = 8
-    137  0920							;lda targetReplaceChar2,x	      ; 4
-    138  0920							;sta ANIM_TARGET2 + RAM_WRITE	      ; 4
-    139  0920
-    140  0920							;@52 worst
-    141  0920
-    142  0920		       a9 4f		      lda	#SCREEN_ARRAY_SIZE-1	;2
-    143  0922		       85 c4		      sta	DSL	;3
-    144  0924
-    145  0924		       e6 86		      inc	ScreenDrawPhase	;5
-    146  0926		       60		      rts		; 6 TEST allows segtime test to be smaller on next part
-    147  0927							; ==> @68 worst
-    148  0927
-    149  0927							;---------------------------------------------------------------------------
-    150  0927
-      0  0927					      DEFINE_SUBROUTINE	DrawIntoStack	; @39✅
-      1  0927		       00 01	   BANK_DrawIntoStack =	_CURRENT_BANK
-      2  0927					      SUBROUTINE
-      3  0927				   DrawIntoStack
-    152  0927
-    153  0927		       ba		      tsx		; 2
-    154  0928		       86 d2		      stx	save_SP	; 3
-    155  092a		       a6 81		      ldx	DrawStackPointer	; 3
-    156  092c		       9a		      txs		; 2 = 10
-    157  092d
-    158  092d		       a4 c4		      ldy	DSL	; 3
-    159  092f
-    160  092f							; @ 52✅
-    161  092f
-    162  092f							; worst-case DrawStackOne loop = 61 cycles per character (+11 for first one)
-    163  092f							; + exit cost which is +10 cycles
-    164  092f							; TJ: I count 63
-    165  092f							;   + 14 for the wtf2 exit
-    166  092f							;   + 22 for the end of loop exit
-    167  092f
-    168  092f							; This loops 80 times/frame and is called 1-2 times/frame, so any saving inside the loop will make up for a lot of overhead outside
-    169  092f							; For 80 iterations that is 640 cycles, just for checking INTIM
-    170  092f							; Worst case we would have ~5000. Though that will most likely never happen, we have to optimize for it, since
-    171  092f							; it also will require a lot of CPU time for updating the screen data.
-    172  092f
-    173  092f							; TODO: optimize!
-    174  092f							;
-    175  092f							; idea #4: the mixed draw idea (two different characters have to be redrawn),
-    176  092f							; first do a QuickDraw and then a SlowDraw, faster than two SlowDraws
-    177  092f							; costs some detection time here, but saves ~240 cylces for drawing the two
-    178  092f
-    179  092f				   .loopDrawStack		; @100✅ from bottom of loop
-    180  092f
-    181  092f		       ad 84 02 	      lda	INTIM	; 4
-    182  0932		       c9 04		      cmp	#SEGTIME_DSL	; 2
-    183  0934		       90 4b		      bcc	.exitDrawStack	; 2(3)  + [costs 18 more to exit fully at .exit..]
-    184  0936							; => full exit on 1st pass = 78✅ cycles
-    185  0936							; => full exit on a single loop = 127✅ cycles
-    186  0936
-    187  0936							; @0✅
-    188  0936
-    189  0936		       b9 50 f0 	      lda	DrawFlag,y	; 4
-    190  0939		       d9 a0 f0 	      cmp	ScreenBuffer,y	; 4		  Is the character already there the same as the new one?
-    191  093c		       f0 16		      beq	.next0	; 2/3=10/11	  yes, so we don't draw anything
-    192  093e							; @10✅
-    193  093e
-    194  093e							; Character is NOT the same. Figure out how it should be drawn.
-    195  093e							; If it is in column 0 or 5 then it can be DirectDrawn (indirectly found by a A:A compare)
-    196  093e							; If it is the same as its paired character (sharing same PF byte) then it can be DirectDrawn
-    197  093e							; The top bit of the ScreenBuffer character indicates the DirectDrawn hint
-    198  093e
-    199  093e		       be 8a f1 	      ldx	PairedCharacter,y	; 4		  the "paired" character for this one
-    200  0941		       dd 50 f0 	      cmp	DrawFlag,x	; 4		  same as partner character in new drawn screen?
-    201  0944		       d0 05		      bne	.notPaired0	; 2(3)
-    202  0946							; @20✅
-    203  0946
-    204  0946							; Consider two 'paired' characters. Either A:A or A:B
-    205  0946							; When we're scanning, and we check the first, if they are NOT paired, then the second character
-    206  0946							; can be considered in isolation -- its check comes later, will determine itself if the pair can be written
-    207  0946							; If, however, the first character IS paired, then the write below will cause the second check to FAIL
-    208  0946							; on the comparison, so the character will not be added to the draw stack. So our first character will
-    209  0946							; do the job of drawing BOTH characters to the screen.
-    210  0946
-    211  0946		       9d a0 f4 	      sta	ScreenBuffer+RAM_WRITE,x	; 5		  mark paired character as drawn already (!!)
-    212  0949		       09 80		      ora	#$80	; 2 =	7	  DirectDraw this character 'pair'
-    213  094b							; @27✅
-    214  094b							; In the case of columns 0 and 5, the X and Y registers will be the same -- no problemo, because
-    215  094b							; the last write(below) marks the character as to be direct-drawn.
-    216  094b
-    217  094b				   .notPaired0		; @27✅ worst
-    218  094b
-    219  094b		       99 a0 f4 	      sta	ScreenBuffer+RAM_WRITE,y	; 5		  NEW character to draw + DirectDraw flag (128)
-    220  094e
-    221  094e							; The following 'pla' really just increments the draw-stack pointer.  Value is unimportant. Unusual!
-    222  094e
-    223  094e		       68		      pla		; 4		  ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
-    224  094f		       98		      tya		; 2
-    225  0950		       ba		      tsx		; 2		  << now X holds drawstackpointer
-    226  0951		       9d 00 f4 	      sta	DrawStack+RAM_WRITE,x	; 5 = 18	  index of character to draw
-    227  0954
-    228  0954		       88	   .next0     dey		; 2
-    229  0955		       30 21		      bmi	.finishedDrawStack	; 2(3)= 4/5
-    230  0957							; @50✅
-    231  0957							; unrolled 2nd loop:
-    232  0957		       b9 50 f0 	      lda	DrawFlag,y	; 4
-    233  095a		       d9 a0 f0 	      cmp	ScreenBuffer,y	; 4		  Is the character already there the same as the new one?
-    234  095d		       f0 16		      beq	.next1	; 2(3) 	  yes, so we don't draw anything
-    235  095f
-    236  095f		       be 8a f1 	      ldx	PairedCharacter,y	; 4		  the "paired" character for this one
-    237  0962		       dd 50 f0 	      cmp	DrawFlag,x	; 4		  same as partner character in new drawn screen?
-    238  0965		       d0 05		      bne	.notPaired1	; 2(3)
-    239  0967
-    240  0967		       9d a0 f4 	      sta	ScreenBuffer+RAM_WRITE,x	; 5		  mark paired character as drawn already (!!)
-    241  096a		       09 80		      ora	#$80	; 2 =	7	  DirectDraw this character 'pair'
-    242  096c
-    243  096c				   .notPaired1		; @77✅ worst
-    244  096c
-    245  096c		       99 a0 f4 	      sta	ScreenBuffer+RAM_WRITE,y	; 5		  NEW character to draw + DirectDraw flag (128)
-    246  096f
-    247  096f		       68		      pla		; 4		  ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
-    248  0970		       98		      tya		; 2
-    249  0971		       ba		      tsx		; 2
-    250  0972		       9d 00 f4 	      sta	DrawStack+RAM_WRITE,x	; 5 = 18	  index of character to draw
-    251  0975							; @95✅
-    252  0975
-    253  0975		       88	   .next1     dey		; 2
-    254  0976		       10 b7		      bpl	.loopDrawStack	; 2(3)
-    255  0978							; @100✅ --> @.loopDrawStack
-    256  0978
-    257  0978							;worst case: 111-4
-    258  0978							;40 loops(-4), max. 2 calls(+20) -> -160+40=-120, +8 bytes
-    259  0978
-    260  0978							; THE FOLLOWING OPTIMISATION IS STUFFED IF PROCESSOBJSTACK is not first in the vector processor!
-    261  0978
-    262  0978				   .finishedDrawStack
-    263  0978		       e6 86		      inc	ScreenDrawPhase	;5 =  5
-    264  097a		       ba		      tsx		;2
-    265  097b		       86 81		      stx	DrawStackPointer	;3
-    266  097d
-    267  097d		       a6 d2		      ldx	save_SP	;3
-    268  097f		       9a		      txs		;2 = 10
-    269  0980		       60		      rts		;6 =  6
-    270  0981
-    271  0981				   .exitDrawStack
-    272  0981		       84 c4		      sty	DSL	;3 =  3
-    273  0983		       ba		      tsx		;2
-    274  0984		       86 81		      stx	DrawStackPointer	;3
-    275  0986		       a6 d2		      ldx	save_SP	;3
-    276  0988		       9a		      txs		;2 = 10
-    277  0989		       60		      rts		;6 =  6
-    278  098a
-    279  098a				   PairedCharacter
-    280  098a
-    281  098a				   SOFF       SET	0
-    282  098a					      REPEAT	SCREEN_LINES
-    283  098a		       00 02 01 04*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  098a				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  098a					      REPEND
-    283  0994		       0a 0c 0b 0e*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  0994				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  0994					      REPEND
-    283  099e		       14 16 15 18*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  099e				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  099e					      REPEND
-    283  09a8		       1e 20 1f 22*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  09a8				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  09a8					      REPEND
-    283  09b2		       28 2a 29 2c*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  09b2				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  09b2					      REPEND
-    283  09bc		       32 34 33 36*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  09bc				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  09bc					      REPEND
-    283  09c6		       3c 3e 3d 40*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  09c6				   SOFF       SET	SOFF + SCREEN_WIDTH
-    282  09c6					      REPEND
-    283  09d0		       46 48 47 4a*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
-    284  09d0				   SOFF       SET	SOFF + SCREEN_WIDTH
-    285  09da					      REPEND
-    286  09da
-    287  09da							;------------------------------------------------------------------------------
-    288  09da							; Gives character replacements used during screen drawing.
-    289  09da							; The character from the board is morphed via this array into an actual character
-    290  09da							; to draw.  This allows global animation and replacment of characters without
-    291  09da							; individual objects needing to do this.  Note, the draw-time replacement happens,
-    292  09da							; not board-time.
-    293  09da
-    294  09da				   CharReplacement		; in RAM -- BANK_DRAW_BUFFERS
-    295  09da
-    296  09da							; Converts a character # to an animated creature type
-    297  09da							; The array is indexed by CHARACTER_...
-    298  09da
-    299  09da		       00		      .byte.b	CHARACTER_BLANK	;  0
-    300  09db		       01		      .byte.b	CHARACTER_SOIL	;  1
-    301  09dc		       02		      .byte.b	CHARACTER_BOX	;  2
-    302  09dd		       03	   ANIM_TARGET .byte.b	CHARACTER_TARGET	;  3  XOR'd to give flashing target squares
-    303  09de		       04		      .byte.b	CHARACTER_TARGET2	;  4
-    304  09df		       05		      .byte.b	CHARACTER_MANOCCUPIED	;  5
-    305  09e0		       06		      .byte.b	CHARACTER_STEEL	;  6
-    306  09e1		       07		      .byte.b	CHARACTER_WALL	;  7
-    307  09e2		       08	   ANIM_TARGET2 .byte.b	CHARACTER_BOX_ON_TARGET	;  8	 box on target
-    308  09e3		       09		      .byte.b	CHARACTER_BOX_ON_TARGET2
-    309  09e4		       00		      .byte.b	CHARACTER_BLANK	;  9
-    310  09e5		       0b		      .byte.b	CHARACTER_TARGET1
-    311  09e6		       0c		      .byte.b	CHARACTER_TARGET3
-    312  09e7		       0d		      .byte.b	CHARACTER_TARGET5
-    313  09e8		       0e		      .byte.b	CHARACTER_TARGET7
-    314  09e9
-    315  09e9				  -	      if	DIGITS
-    316  09e9				  -	      .byte	CHARACTER_0
-    317  09e9				  -	      .byte	CHARACTER_1
-    318  09e9				  -	      .byte	CHARACTER_2
-    319  09e9				  -	      .byte	CHARACTER_3
-    320  09e9				  -	      .byte	CHARACTER_4
-    321  09e9				  -	      .byte	CHARACTER_5
-    322  09e9				  -	      .byte	CHARACTER_6
-    323  09e9				  -	      .byte	CHARACTER_7
-    324  09e9				  -	      .byte	CHARACTER_8
-    325  09e9				  -	      .byte	CHARACTER_9
-    326  09e9					      endif
-    327  09e9
-    328  09e9				  -	      IF	(* - CharReplacement != CHARACTER_MAXIMUM)
-    329  09e9				  -	      ECHO	"ERROR: Incorrect CharReplacement table!"
-    330  09e9				  -	      ERR
-    331  09e9					      ENDIF
-      0  09e9					      CHECKPAGEX	CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
-      9  09e9					      LIST	ON
-    333  09e9
-    334  09e9
-    335  09e9
-    336  09e9				   targetReplaceChar
-    337  09e9		       03		      .byte.b	CHARACTER_TARGET
+    132  0917		       4a		      lsr		; 2
+    133  0918		       29 03		      and	#3	; 2
+    134  091a		       aa		      tax		; 2 = 14
+    135  091b
+    136  091b		       bd ea f1 	      lda	targetReplaceChar,x	; 4
+    137  091e		       8d de f5 	      sta	ANIM_TARGET + RAM_WRITE	; 4 = 8
+    138  0921							;lda targetReplaceChar2,x	      ; 4
+    139  0921							;sta ANIM_TARGET2 + RAM_WRITE	      ; 4
+    140  0921
+    141  0921							;@54 worst
+    142  0921
+    143  0921		       a9 4f		      lda	#SCREEN_ARRAY_SIZE-1	;2
+    144  0923		       85 c4		      sta	DSL	;3
+    145  0925
+    146  0925		       e6 86		      inc	ScreenDrawPhase	;5
+    147  0927		       60		      rts		; 6 TEST allows segtime test to be smaller on next part
+    148  0928							; ==> @70 worst
+    149  0928
+    150  0928							;---------------------------------------------------------------------------
+    151  0928
+      0  0928					      DEFINE_SUBROUTINE	DrawIntoStack	; @39✅
+      1  0928		       00 01	   BANK_DrawIntoStack =	_CURRENT_BANK
+      2  0928					      SUBROUTINE
+      3  0928				   DrawIntoStack
+    153  0928
+    154  0928		       ba		      tsx		; 2
+    155  0929		       86 d2		      stx	save_SP	; 3
+    156  092b		       a6 81		      ldx	DrawStackPointer	; 3
+    157  092d		       9a		      txs		; 2 = 10
+    158  092e
+    159  092e		       a4 c4		      ldy	DSL	; 3
+    160  0930
+    161  0930							; @ 52✅
+    162  0930
+    163  0930							; worst-case DrawStackOne loop = 61 cycles per character (+11 for first one)
+    164  0930							; + exit cost which is +10 cycles
+    165  0930							; TJ: I count 63
+    166  0930							;   + 14 for the wtf2 exit
+    167  0930							;   + 22 for the end of loop exit
+    168  0930
+    169  0930							; This loops 80 times/frame and is called 1-2 times/frame, so any saving inside the loop will make up for a lot of overhead outside
+    170  0930							; For 80 iterations that is 640 cycles, just for checking INTIM
+    171  0930							; Worst case we would have ~5000. Though that will most likely never happen, we have to optimize for it, since
+    172  0930							; it also will require a lot of CPU time for updating the screen data.
+    173  0930
+    174  0930							; TODO: optimize!
+    175  0930							;
+    176  0930							; idea #4: the mixed draw idea (two different characters have to be redrawn),
+    177  0930							; first do a QuickDraw and then a SlowDraw, faster than two SlowDraws
+    178  0930							; costs some detection time here, but saves ~240 cylces for drawing the two
+    179  0930
+    180  0930				   .loopDrawStack		; @100✅ from bottom of loop
+    181  0930
+    182  0930		       ad 84 02 	      lda	INTIM	; 4
+    183  0933		       c9 04		      cmp	#SEGTIME_DSL	; 2
+    184  0935		       90 4b		      bcc	.exitDrawStack	; 2(3)  + [costs 18 more to exit fully at .exit..]
+    185  0937							; => full exit on 1st pass = 78✅ cycles
+    186  0937							; => full exit on a single loop = 127✅ cycles
+    187  0937
+    188  0937							; @0✅
+    189  0937
+    190  0937		       b9 50 f0 	      lda	DrawFlag,y	; 4
+    191  093a		       d9 a0 f0 	      cmp	ScreenBuffer,y	; 4		  Is the character already there the same as the new one?
+    192  093d		       f0 16		      beq	.next0	; 2/3=10/11	  yes, so we don't draw anything
+    193  093f							; @10✅
+    194  093f
+    195  093f							; Character is NOT the same. Figure out how it should be drawn.
+    196  093f							; If it is in column 0 or 5 then it can be DirectDrawn (indirectly found by a A:A compare)
+    197  093f							; If it is the same as its paired character (sharing same PF byte) then it can be DirectDrawn
+    198  093f							; The top bit of the ScreenBuffer character indicates the DirectDrawn hint
+    199  093f
+    200  093f		       be 8b f1 	      ldx	PairedCharacter,y	; 4		  the "paired" character for this one
+    201  0942		       dd 50 f0 	      cmp	DrawFlag,x	; 4		  same as partner character in new drawn screen?
+    202  0945		       d0 05		      bne	.notPaired0	; 2(3)
+    203  0947							; @20✅
+    204  0947
+    205  0947							; Consider two 'paired' characters. Either A:A or A:B
+    206  0947							; When we're scanning, and we check the first, if they are NOT paired, then the second character
+    207  0947							; can be considered in isolation -- its check comes later, will determine itself if the pair can be written
+    208  0947							; If, however, the first character IS paired, then the write below will cause the second check to FAIL
+    209  0947							; on the comparison, so the character will not be added to the draw stack. So our first character will
+    210  0947							; do the job of drawing BOTH characters to the screen.
+    211  0947
+    212  0947		       9d a0 f4 	      sta	ScreenBuffer+RAM_WRITE,x	; 5		  mark paired character as drawn already (!!)
+    213  094a		       09 80		      ora	#$80	; 2 =	7	  DirectDraw this character 'pair'
+    214  094c							; @27✅
+    215  094c							; In the case of columns 0 and 5, the X and Y registers will be the same -- no problemo, because
+    216  094c							; the last write(below) marks the character as to be direct-drawn.
+    217  094c
+    218  094c				   .notPaired0		; @27✅ worst
+    219  094c
+    220  094c		       99 a0 f4 	      sta	ScreenBuffer+RAM_WRITE,y	; 5		  NEW character to draw + DirectDraw flag (128)
+    221  094f
+    222  094f							; The following 'pla' really just increments the draw-stack pointer.  Value is unimportant. Unusual!
+    223  094f
+    224  094f		       68		      pla		; 4		  ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
+    225  0950		       98		      tya		; 2
+    226  0951		       ba		      tsx		; 2		  << now X holds drawstackpointer
+    227  0952		       9d 00 f4 	      sta	DrawStack+RAM_WRITE,x	; 5 = 18	  index of character to draw
+    228  0955
+    229  0955		       88	   .next0     dey		; 2
+    230  0956		       30 21		      bmi	.finishedDrawStack	; 2(3)= 4/5
+    231  0958							; @50✅
+    232  0958							; unrolled 2nd loop:
+    233  0958		       b9 50 f0 	      lda	DrawFlag,y	; 4
+    234  095b		       d9 a0 f0 	      cmp	ScreenBuffer,y	; 4		  Is the character already there the same as the new one?
+    235  095e		       f0 16		      beq	.next1	; 2(3) 	  yes, so we don't draw anything
+    236  0960
+    237  0960		       be 8b f1 	      ldx	PairedCharacter,y	; 4		  the "paired" character for this one
+    238  0963		       dd 50 f0 	      cmp	DrawFlag,x	; 4		  same as partner character in new drawn screen?
+    239  0966		       d0 05		      bne	.notPaired1	; 2(3)
+    240  0968
+    241  0968		       9d a0 f4 	      sta	ScreenBuffer+RAM_WRITE,x	; 5		  mark paired character as drawn already (!!)
+    242  096b		       09 80		      ora	#$80	; 2 =	7	  DirectDraw this character 'pair'
+    243  096d
+    244  096d				   .notPaired1		; @77✅ worst
+    245  096d
+    246  096d		       99 a0 f4 	      sta	ScreenBuffer+RAM_WRITE,y	; 5		  NEW character to draw + DirectDraw flag (128)
+    247  0970
+    248  0970		       68		      pla		; 4		  ASSUMPTION IS WE DON'T OvERFLOW DRAW STACK
+    249  0971		       98		      tya		; 2
+    250  0972		       ba		      tsx		; 2
+    251  0973		       9d 00 f4 	      sta	DrawStack+RAM_WRITE,x	; 5 = 18	  index of character to draw
+    252  0976							; @95✅
+    253  0976
+    254  0976		       88	   .next1     dey		; 2
+    255  0977		       10 b7		      bpl	.loopDrawStack	; 2(3)
+    256  0979							; @100✅ --> @.loopDrawStack
+    257  0979
+    258  0979							;worst case: 111-4
+    259  0979							;40 loops(-4), max. 2 calls(+20) -> -160+40=-120, +8 bytes
+    260  0979
+    261  0979							; THE FOLLOWING OPTIMISATION IS STUFFED IF PROCESSOBJSTACK is not first in the vector processor!
+    262  0979
+    263  0979				   .finishedDrawStack
+    264  0979		       e6 86		      inc	ScreenDrawPhase	;5 =  5
+    265  097b		       ba		      tsx		;2
+    266  097c		       86 81		      stx	DrawStackPointer	;3
+    267  097e
+    268  097e		       a6 d2		      ldx	save_SP	;3
+    269  0980		       9a		      txs		;2 = 10
+    270  0981		       60		      rts		;6 =  6
+    271  0982
+    272  0982				   .exitDrawStack
+    273  0982		       84 c4		      sty	DSL	;3 =  3
+    274  0984		       ba		      tsx		;2
+    275  0985		       86 81		      stx	DrawStackPointer	;3
+    276  0987		       a6 d2		      ldx	save_SP	;3
+    277  0989		       9a		      txs		;2 = 10
+    278  098a		       60		      rts		;6 =  6
+    279  098b
+    280  098b				   PairedCharacter
+    281  098b
+    282  098b				   SOFF       SET	0
+    283  098b					      REPEAT	SCREEN_LINES
+    284  098b		       00 02 01 04*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  098b				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  098b					      REPEND
+    284  0995		       0a 0c 0b 0e*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  0995				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  0995					      REPEND
+    284  099f		       14 16 15 18*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  099f				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  099f					      REPEND
+    284  09a9		       1e 20 1f 22*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  09a9				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  09a9					      REPEND
+    284  09b3		       28 2a 29 2c*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  09b3				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  09b3					      REPEND
+    284  09bd		       32 34 33 36*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  09bd				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  09bd					      REPEND
+    284  09c7		       3c 3e 3d 40*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  09c7				   SOFF       SET	SOFF + SCREEN_WIDTH
+    283  09c7					      REPEND
+    284  09d1		       46 48 47 4a*	      .byte.b	SOFF,SOFF+2,SOFF+1,SOFF+4,SOFF+3,SOFF+5,SOFF+7,SOFF+6,SOFF+9,SOFF+8
+    285  09d1				   SOFF       SET	SOFF + SCREEN_WIDTH
+    286  09db					      REPEND
+    287  09db
+    288  09db							;------------------------------------------------------------------------------
+    289  09db							; Gives character replacements used during screen drawing.
+    290  09db							; The character from the board is morphed via this array into an actual character
+    291  09db							; to draw.  This allows global animation and replacment of characters without
+    292  09db							; individual objects needing to do this.  Note, the draw-time replacement happens,
+    293  09db							; not board-time.
+    294  09db
+    295  09db				   CharReplacement		; in RAM -- BANK_DRAW_BUFFERS
+    296  09db
+    297  09db							; Converts a character # to an animated creature type
+    298  09db							; The array is indexed by CHARACTER_...
+    299  09db
+    300  09db		       00		      .byte.b	CHARACTER_BLANK	;  0
+    301  09dc		       01		      .byte.b	CHARACTER_SOIL	;  1
+    302  09dd		       02		      .byte.b	CHARACTER_BOX	;  2
+    303  09de		       03	   ANIM_TARGET .byte.b	CHARACTER_TARGET	;  3  XOR'd to give flashing target squares
+    304  09df		       04		      .byte.b	CHARACTER_TARGET2	;  4
+    305  09e0		       05		      .byte.b	CHARACTER_MANOCCUPIED	;  5
+    306  09e1		       06		      .byte.b	CHARACTER_STEEL	;  6
+    307  09e2		       07		      .byte.b	CHARACTER_WALL	;  7
+    308  09e3		       08	   ANIM_TARGET2 .byte.b	CHARACTER_BOX_ON_TARGET	;  8	 box on target
+    309  09e4		       09		      .byte.b	CHARACTER_BOX_ON_TARGET2
+    310  09e5		       00		      .byte.b	CHARACTER_BLANK	;  9
+    311  09e6		       0b		      .byte.b	CHARACTER_TARGET1
+    312  09e7		       0c		      .byte.b	CHARACTER_TARGET3
+    313  09e8		       0d		      .byte.b	CHARACTER_TARGET5
+    314  09e9		       0e		      .byte.b	CHARACTER_TARGET7
+    315  09ea
+    316  09ea				  -	      if	DIGITS
+    317  09ea				  -	      .byte	CHARACTER_0
+    318  09ea				  -	      .byte	CHARACTER_1
+    319  09ea				  -	      .byte	CHARACTER_2
+    320  09ea				  -	      .byte	CHARACTER_3
+    321  09ea				  -	      .byte	CHARACTER_4
+    322  09ea				  -	      .byte	CHARACTER_5
+    323  09ea				  -	      .byte	CHARACTER_6
+    324  09ea				  -	      .byte	CHARACTER_7
+    325  09ea				  -	      .byte	CHARACTER_8
+    326  09ea				  -	      .byte	CHARACTER_9
+    327  09ea					      endif
+    328  09ea
+    329  09ea				  -	      IF	(* - CharReplacement != CHARACTER_MAXIMUM)
+    330  09ea				  -	      ECHO	"ERROR: Incorrect CharReplacement table!"
+    331  09ea				  -	      ERR
+    332  09ea					      ENDIF
+      0  09ea					      CHECKPAGEX	CharReplacement, "CharReplacement in BANK_ROM_SHADOW_DRAWBUFFERS"
+      9  09ea					      LIST	ON
+    334  09ea
+    335  09ea
+    336  09ea
+    337  09ea				   targetReplaceChar
     338  09ea		       03		      .byte.b	CHARACTER_TARGET
     339  09eb		       0b		      .byte.b	CHARACTER_TARGET1
-    340  09ec		       0b		      .byte.b	CHARACTER_TARGET1
-    341  09ed		       04		      .byte.b	CHARACTER_TARGET2
-    342  09ee		       04		      .byte.b	CHARACTER_TARGET2
-    343  09ef		       0c		      .byte.b	CHARACTER_TARGET3
-    344  09f0		       0c		      .byte.b	CHARACTER_TARGET3
-    345  09f1
-    346  09f1							;targetReplaceChar2
-    347  09f1							;    .byte CHARACTER_BOX
-    348  09f1							;    .byte CHARACTER_BOX
-    349  09f1							;    .byte CHARACTER_BOX_ON_TARGET
-    350  09f1							;    .byte CHARACTER_BOX_ON_TARGET
-    351  09f1
-    352  09f1							;------------------------------------------------------------------------------
-    353  09f1
-    354  09f1
-      0  09f1					      OPTIONAL_PAGEBREAK	"ROW_BankChar", SCREEN_LINES * SCREEN_WIDTH
+    340  09ec		       04		      .byte.b	CHARACTER_TARGET2
+    341  09ed		       0c		      .byte.b	CHARACTER_TARGET3
+    342  09ee
+    343  09ee							;targetReplaceChar2
+    344  09ee							;    .byte CHARACTER_BOX
+    345  09ee							;    .byte CHARACTER_BOX
+    346  09ee							;    .byte CHARACTER_BOX_ON_TARGET
+    347  09ee							;    .byte CHARACTER_BOX_ON_TARGET
+    348  09ee
+    349  09ee							;------------------------------------------------------------------------------
+    350  09ee
+    351  09ee
+      0  09ee					      OPTIONAL_PAGEBREAK	"ROW_BankChar", SCREEN_LINES * SCREEN_WIDTH
  PAGE BREAK INSERTED FOR  ROW_BankChar
  REQUESTED SIZE =  $50
- WASTED SPACE =  $f
+ WASTED SPACE =  $12
  PAGEBREAK LOCATION =  $f200
      10  0a00					      LIST	ON
       0  0a00					      DEFINE_SUBROUTINE	ROW_BankChar
       1  0a00		       00 01	   BANK_ROW_BankChar =	_CURRENT_BANK
       2  0a00					      SUBROUTINE
       3  0a00				   ROW_BankChar
-    357  0a00
-    358  0a00				   .BANK      SET	BANK_SCREENMARKII1
-    359  0a00					      REPEAT	SCREEN_LINES
-    360  0a00					      REPEAT	SCREEN_WIDTH
-    361  0a00		       00		      .byte.b	.BANK
-    360  0a00					      REPEND
-    361  0a01		       00		      .byte.b	.BANK
-    360  0a01					      REPEND
-    361  0a02		       00		      .byte.b	.BANK
-    360  0a02					      REPEND
-    361  0a03		       00		      .byte.b	.BANK
-    360  0a03					      REPEND
-    361  0a04		       00		      .byte.b	.BANK
-    360  0a04					      REPEND
-    361  0a05		       00		      .byte.b	.BANK
-    360  0a05					      REPEND
-    361  0a06		       00		      .byte.b	.BANK
-    360  0a06					      REPEND
-    361  0a07		       00		      .byte.b	.BANK
-    360  0a07					      REPEND
-    361  0a08		       00		      .byte.b	.BANK
-    360  0a08					      REPEND
-    361  0a09		       00		      .byte.b	.BANK
-    362  0a0a					      REPEND
-    363  0a0a				   .BANK      SET	.BANK + 1
+    354  0a00
+    355  0a00				   .BANK      SET	BANK_SCREENMARKII1
+    356  0a00					      REPEAT	SCREEN_LINES
+    357  0a00					      REPEAT	SCREEN_WIDTH
+    358  0a00		       00		      .byte.b	.BANK
+    357  0a00					      REPEND
+    358  0a01		       00		      .byte.b	.BANK
+    357  0a01					      REPEND
+    358  0a02		       00		      .byte.b	.BANK
+    357  0a02					      REPEND
+    358  0a03		       00		      .byte.b	.BANK
+    357  0a03					      REPEND
+    358  0a04		       00		      .byte.b	.BANK
+    357  0a04					      REPEND
+    358  0a05		       00		      .byte.b	.BANK
+    357  0a05					      REPEND
+    358  0a06		       00		      .byte.b	.BANK
+    357  0a06					      REPEND
+    358  0a07		       00		      .byte.b	.BANK
+    357  0a07					      REPEND
+    358  0a08		       00		      .byte.b	.BANK
+    357  0a08					      REPEND
+    358  0a09		       00		      .byte.b	.BANK
     359  0a0a					      REPEND
-    360  0a0a					      REPEAT	SCREEN_WIDTH
-    361  0a0a		       01		      .byte.b	.BANK
-    360  0a0a					      REPEND
-    361  0a0b		       01		      .byte.b	.BANK
-    360  0a0b					      REPEND
-    361  0a0c		       01		      .byte.b	.BANK
-    360  0a0c					      REPEND
-    361  0a0d		       01		      .byte.b	.BANK
-    360  0a0d					      REPEND
-    361  0a0e		       01		      .byte.b	.BANK
-    360  0a0e					      REPEND
-    361  0a0f		       01		      .byte.b	.BANK
-    360  0a0f					      REPEND
-    361  0a10		       01		      .byte.b	.BANK
-    360  0a10					      REPEND
-    361  0a11		       01		      .byte.b	.BANK
-    360  0a11					      REPEND
-    361  0a12		       01		      .byte.b	.BANK
-    360  0a12					      REPEND
-    361  0a13		       01		      .byte.b	.BANK
-    362  0a14					      REPEND
-    363  0a14				   .BANK      SET	.BANK + 1
+    360  0a0a				   .BANK      SET	.BANK + 1
+    356  0a0a					      REPEND
+    357  0a0a					      REPEAT	SCREEN_WIDTH
+    358  0a0a		       01		      .byte.b	.BANK
+    357  0a0a					      REPEND
+    358  0a0b		       01		      .byte.b	.BANK
+    357  0a0b					      REPEND
+    358  0a0c		       01		      .byte.b	.BANK
+    357  0a0c					      REPEND
+    358  0a0d		       01		      .byte.b	.BANK
+    357  0a0d					      REPEND
+    358  0a0e		       01		      .byte.b	.BANK
+    357  0a0e					      REPEND
+    358  0a0f		       01		      .byte.b	.BANK
+    357  0a0f					      REPEND
+    358  0a10		       01		      .byte.b	.BANK
+    357  0a10					      REPEND
+    358  0a11		       01		      .byte.b	.BANK
+    357  0a11					      REPEND
+    358  0a12		       01		      .byte.b	.BANK
+    357  0a12					      REPEND
+    358  0a13		       01		      .byte.b	.BANK
     359  0a14					      REPEND
-    360  0a14					      REPEAT	SCREEN_WIDTH
-    361  0a14		       02		      .byte.b	.BANK
-    360  0a14					      REPEND
-    361  0a15		       02		      .byte.b	.BANK
-    360  0a15					      REPEND
-    361  0a16		       02		      .byte.b	.BANK
-    360  0a16					      REPEND
-    361  0a17		       02		      .byte.b	.BANK
-    360  0a17					      REPEND
-    361  0a18		       02		      .byte.b	.BANK
-    360  0a18					      REPEND
-    361  0a19		       02		      .byte.b	.BANK
-    360  0a19					      REPEND
-    361  0a1a		       02		      .byte.b	.BANK
-    360  0a1a					      REPEND
-    361  0a1b		       02		      .byte.b	.BANK
-    360  0a1b					      REPEND
-    361  0a1c		       02		      .byte.b	.BANK
-    360  0a1c					      REPEND
-    361  0a1d		       02		      .byte.b	.BANK
-    362  0a1e					      REPEND
-    363  0a1e				   .BANK      SET	.BANK + 1
+    360  0a14				   .BANK      SET	.BANK + 1
+    356  0a14					      REPEND
+    357  0a14					      REPEAT	SCREEN_WIDTH
+    358  0a14		       02		      .byte.b	.BANK
+    357  0a14					      REPEND
+    358  0a15		       02		      .byte.b	.BANK
+    357  0a15					      REPEND
+    358  0a16		       02		      .byte.b	.BANK
+    357  0a16					      REPEND
+    358  0a17		       02		      .byte.b	.BANK
+    357  0a17					      REPEND
+    358  0a18		       02		      .byte.b	.BANK
+    357  0a18					      REPEND
+    358  0a19		       02		      .byte.b	.BANK
+    357  0a19					      REPEND
+    358  0a1a		       02		      .byte.b	.BANK
+    357  0a1a					      REPEND
+    358  0a1b		       02		      .byte.b	.BANK
+    357  0a1b					      REPEND
+    358  0a1c		       02		      .byte.b	.BANK
+    357  0a1c					      REPEND
+    358  0a1d		       02		      .byte.b	.BANK
     359  0a1e					      REPEND
-    360  0a1e					      REPEAT	SCREEN_WIDTH
-    361  0a1e		       03		      .byte.b	.BANK
-    360  0a1e					      REPEND
-    361  0a1f		       03		      .byte.b	.BANK
-    360  0a1f					      REPEND
-    361  0a20		       03		      .byte.b	.BANK
-    360  0a20					      REPEND
-    361  0a21		       03		      .byte.b	.BANK
-    360  0a21					      REPEND
-    361  0a22		       03		      .byte.b	.BANK
-    360  0a22					      REPEND
-    361  0a23		       03		      .byte.b	.BANK
-    360  0a23					      REPEND
-    361  0a24		       03		      .byte.b	.BANK
-    360  0a24					      REPEND
-    361  0a25		       03		      .byte.b	.BANK
-    360  0a25					      REPEND
-    361  0a26		       03		      .byte.b	.BANK
-    360  0a26					      REPEND
-    361  0a27		       03		      .byte.b	.BANK
-    362  0a28					      REPEND
-    363  0a28				   .BANK      SET	.BANK + 1
+    360  0a1e				   .BANK      SET	.BANK + 1
+    356  0a1e					      REPEND
+    357  0a1e					      REPEAT	SCREEN_WIDTH
+    358  0a1e		       03		      .byte.b	.BANK
+    357  0a1e					      REPEND
+    358  0a1f		       03		      .byte.b	.BANK
+    357  0a1f					      REPEND
+    358  0a20		       03		      .byte.b	.BANK
+    357  0a20					      REPEND
+    358  0a21		       03		      .byte.b	.BANK
+    357  0a21					      REPEND
+    358  0a22		       03		      .byte.b	.BANK
+    357  0a22					      REPEND
+    358  0a23		       03		      .byte.b	.BANK
+    357  0a23					      REPEND
+    358  0a24		       03		      .byte.b	.BANK
+    357  0a24					      REPEND
+    358  0a25		       03		      .byte.b	.BANK
+    357  0a25					      REPEND
+    358  0a26		       03		      .byte.b	.BANK
+    357  0a26					      REPEND
+    358  0a27		       03		      .byte.b	.BANK
     359  0a28					      REPEND
-    360  0a28					      REPEAT	SCREEN_WIDTH
-    361  0a28		       04		      .byte.b	.BANK
-    360  0a28					      REPEND
-    361  0a29		       04		      .byte.b	.BANK
-    360  0a29					      REPEND
-    361  0a2a		       04		      .byte.b	.BANK
-    360  0a2a					      REPEND
-    361  0a2b		       04		      .byte.b	.BANK
-    360  0a2b					      REPEND
-    361  0a2c		       04		      .byte.b	.BANK
-    360  0a2c					      REPEND
-    361  0a2d		       04		      .byte.b	.BANK
-    360  0a2d					      REPEND
-    361  0a2e		       04		      .byte.b	.BANK
-    360  0a2e					      REPEND
-    361  0a2f		       04		      .byte.b	.BANK
-    360  0a2f					      REPEND
-    361  0a30		       04		      .byte.b	.BANK
-    360  0a30					      REPEND
-    361  0a31		       04		      .byte.b	.BANK
-    362  0a32					      REPEND
-    363  0a32				   .BANK      SET	.BANK + 1
+    360  0a28				   .BANK      SET	.BANK + 1
+    356  0a28					      REPEND
+    357  0a28					      REPEAT	SCREEN_WIDTH
+    358  0a28		       04		      .byte.b	.BANK
+    357  0a28					      REPEND
+    358  0a29		       04		      .byte.b	.BANK
+    357  0a29					      REPEND
+    358  0a2a		       04		      .byte.b	.BANK
+    357  0a2a					      REPEND
+    358  0a2b		       04		      .byte.b	.BANK
+    357  0a2b					      REPEND
+    358  0a2c		       04		      .byte.b	.BANK
+    357  0a2c					      REPEND
+    358  0a2d		       04		      .byte.b	.BANK
+    357  0a2d					      REPEND
+    358  0a2e		       04		      .byte.b	.BANK
+    357  0a2e					      REPEND
+    358  0a2f		       04		      .byte.b	.BANK
+    357  0a2f					      REPEND
+    358  0a30		       04		      .byte.b	.BANK
+    357  0a30					      REPEND
+    358  0a31		       04		      .byte.b	.BANK
     359  0a32					      REPEND
-    360  0a32					      REPEAT	SCREEN_WIDTH
-    361  0a32		       05		      .byte.b	.BANK
-    360  0a32					      REPEND
-    361  0a33		       05		      .byte.b	.BANK
-    360  0a33					      REPEND
-    361  0a34		       05		      .byte.b	.BANK
-    360  0a34					      REPEND
-    361  0a35		       05		      .byte.b	.BANK
-    360  0a35					      REPEND
-    361  0a36		       05		      .byte.b	.BANK
-    360  0a36					      REPEND
-    361  0a37		       05		      .byte.b	.BANK
-    360  0a37					      REPEND
-    361  0a38		       05		      .byte.b	.BANK
-    360  0a38					      REPEND
-    361  0a39		       05		      .byte.b	.BANK
-    360  0a39					      REPEND
-    361  0a3a		       05		      .byte.b	.BANK
-    360  0a3a					      REPEND
-    361  0a3b		       05		      .byte.b	.BANK
-    362  0a3c					      REPEND
-    363  0a3c				   .BANK      SET	.BANK + 1
+    360  0a32				   .BANK      SET	.BANK + 1
+    356  0a32					      REPEND
+    357  0a32					      REPEAT	SCREEN_WIDTH
+    358  0a32		       05		      .byte.b	.BANK
+    357  0a32					      REPEND
+    358  0a33		       05		      .byte.b	.BANK
+    357  0a33					      REPEND
+    358  0a34		       05		      .byte.b	.BANK
+    357  0a34					      REPEND
+    358  0a35		       05		      .byte.b	.BANK
+    357  0a35					      REPEND
+    358  0a36		       05		      .byte.b	.BANK
+    357  0a36					      REPEND
+    358  0a37		       05		      .byte.b	.BANK
+    357  0a37					      REPEND
+    358  0a38		       05		      .byte.b	.BANK
+    357  0a38					      REPEND
+    358  0a39		       05		      .byte.b	.BANK
+    357  0a39					      REPEND
+    358  0a3a		       05		      .byte.b	.BANK
+    357  0a3a					      REPEND
+    358  0a3b		       05		      .byte.b	.BANK
     359  0a3c					      REPEND
-    360  0a3c					      REPEAT	SCREEN_WIDTH
-    361  0a3c		       06		      .byte.b	.BANK
-    360  0a3c					      REPEND
-    361  0a3d		       06		      .byte.b	.BANK
-    360  0a3d					      REPEND
-    361  0a3e		       06		      .byte.b	.BANK
-    360  0a3e					      REPEND
-    361  0a3f		       06		      .byte.b	.BANK
-    360  0a3f					      REPEND
-    361  0a40		       06		      .byte.b	.BANK
-    360  0a40					      REPEND
-    361  0a41		       06		      .byte.b	.BANK
-    360  0a41					      REPEND
-    361  0a42		       06		      .byte.b	.BANK
-    360  0a42					      REPEND
-    361  0a43		       06		      .byte.b	.BANK
-    360  0a43					      REPEND
-    361  0a44		       06		      .byte.b	.BANK
-    360  0a44					      REPEND
-    361  0a45		       06		      .byte.b	.BANK
-    362  0a46					      REPEND
-    363  0a46				   .BANK      SET	.BANK + 1
+    360  0a3c				   .BANK      SET	.BANK + 1
+    356  0a3c					      REPEND
+    357  0a3c					      REPEAT	SCREEN_WIDTH
+    358  0a3c		       06		      .byte.b	.BANK
+    357  0a3c					      REPEND
+    358  0a3d		       06		      .byte.b	.BANK
+    357  0a3d					      REPEND
+    358  0a3e		       06		      .byte.b	.BANK
+    357  0a3e					      REPEND
+    358  0a3f		       06		      .byte.b	.BANK
+    357  0a3f					      REPEND
+    358  0a40		       06		      .byte.b	.BANK
+    357  0a40					      REPEND
+    358  0a41		       06		      .byte.b	.BANK
+    357  0a41					      REPEND
+    358  0a42		       06		      .byte.b	.BANK
+    357  0a42					      REPEND
+    358  0a43		       06		      .byte.b	.BANK
+    357  0a43					      REPEND
+    358  0a44		       06		      .byte.b	.BANK
+    357  0a44					      REPEND
+    358  0a45		       06		      .byte.b	.BANK
     359  0a46					      REPEND
-    360  0a46					      REPEAT	SCREEN_WIDTH
-    361  0a46		       07		      .byte.b	.BANK
-    360  0a46					      REPEND
-    361  0a47		       07		      .byte.b	.BANK
-    360  0a47					      REPEND
-    361  0a48		       07		      .byte.b	.BANK
-    360  0a48					      REPEND
-    361  0a49		       07		      .byte.b	.BANK
-    360  0a49					      REPEND
-    361  0a4a		       07		      .byte.b	.BANK
-    360  0a4a					      REPEND
-    361  0a4b		       07		      .byte.b	.BANK
-    360  0a4b					      REPEND
-    361  0a4c		       07		      .byte.b	.BANK
-    360  0a4c					      REPEND
-    361  0a4d		       07		      .byte.b	.BANK
-    360  0a4d					      REPEND
-    361  0a4e		       07		      .byte.b	.BANK
-    360  0a4e					      REPEND
-    361  0a4f		       07		      .byte.b	.BANK
-    362  0a50					      REPEND
-    363  0a50				   .BANK      SET	.BANK + 1
-    364  0a50					      REPEND
-    365  0a50
+    360  0a46				   .BANK      SET	.BANK + 1
+    356  0a46					      REPEND
+    357  0a46					      REPEAT	SCREEN_WIDTH
+    358  0a46		       07		      .byte.b	.BANK
+    357  0a46					      REPEND
+    358  0a47		       07		      .byte.b	.BANK
+    357  0a47					      REPEND
+    358  0a48		       07		      .byte.b	.BANK
+    357  0a48					      REPEND
+    358  0a49		       07		      .byte.b	.BANK
+    357  0a49					      REPEND
+    358  0a4a		       07		      .byte.b	.BANK
+    357  0a4a					      REPEND
+    358  0a4b		       07		      .byte.b	.BANK
+    357  0a4b					      REPEND
+    358  0a4c		       07		      .byte.b	.BANK
+    357  0a4c					      REPEND
+    358  0a4d		       07		      .byte.b	.BANK
+    357  0a4d					      REPEND
+    358  0a4e		       07		      .byte.b	.BANK
+    357  0a4e					      REPEND
+    358  0a4f		       07		      .byte.b	.BANK
+    359  0a50					      REPEND
+    360  0a50				   .BANK      SET	.BANK + 1
+    361  0a50					      REPEND
+    362  0a50
       0  0a50					      CHECK_HALF_BANK_SIZE	"ROM_SHADOW_OF_BANK_DRAW_BUFFERS"
       1  0a50
       2  0a50
@@ -4723,8 +4720,8 @@
       6  0a50				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
       7  0a50				  -	      ERR
       8  0a50					      endif
-    367  0a50
-    368  0a50
+    364  0a50
+    365  0a50
       0  0a50					      CHECK_BANK_SIZE	"ROM_SHADOW_OF_BANK_DRAW_BUFFERS -- full 2K"
       1  0a50		       02 50	   .TEMP      =	* - BANK_START
  ROM_SHADOW_OF_BANK_DRAW_BUFFERS -- full 2K (2K) SIZE =  $250 , FREE= $5b0
@@ -6709,1544 +6706,1558 @@
     604  1a40					      NTSC_TO_PAL	{1},{2}
     605  1a40					      ENDM		; {col} {intensity}
     606  1a40
-    607  1a40				   C1			;
-    608  1a40							; mortar for bricks
-      0  1a40					      NTSCPAL	$C0,$8	;ok blue soil aqua walls grey box
-      1  1a40		       c8		      .byte.b	$C0+$8
-      0  1a41					      NTSC_TO_PAL	$C0,$8
-      1  1a41				  -	      IF	$C0 = 0
-      2  1a41				  -	      .byte	$C0+$8
+    607  1a40
+    608  1a40							; NTSC Colour names...
+    609  1a40
+    610  1a40
+    611  1a40		       00 00	   GREY       =	0
+    612  1a40		       00 10	   YELLOW     =	$10
+    613  1a40		       00 20	   ORANGE     =	$20
+    614  1a40		       00 30	   RED	      =	$30
+    615  1a40		       00 40	   PINK       =	$40
+    616  1a40		       00 50	   PURPLE     =	$50
+    617  1a40		       00 60	   VIOLET     =	$60
+    618  1a40		       00 70	   BLUE       =	$70
+    619  1a40		       00 80	   AQUA       =	$80
+    620  1a40		       00 90	   SKYBLUE    =	$90
+    621  1a40		       00 a0	   TEAL       =	$A0
+    622  1a40		       00 b0	   GREEN      =	$B0
+    623  1a40		       00 c0	   LIME       =	$C0
+    624  1a40		       00 d0	   OLIVE      =	$D0
+    625  1a40		       00 e0	   TAN	      =	$E0
+    626  1a40		       00 f0	   BROWN      =	$F0
+    627  1a40
+    628  1a40
+    629  1a40
+    630  1a40
+    631  1a40
+    632  1a40
+    633  1a40				   C1			;
+    634  1a40							; mortar for bricks
+      0  1a40					      NTSCPAL	LIME,$8
+      1  1a40		       c8		      .byte.b	LIME+$8
+      0  1a41					      NTSC_TO_PAL	LIME,$8
+      1  1a41				  -	      IF	LIME = 0
+      2  1a41				  -	      .byte	LIME+$8
       3  1a41					      ENDIF
-      4  1a41				  -	      IF	$C0 = $10
+      4  1a41				  -	      IF	LIME = $10
       5  1a41				  -	      .byte	$20+$8
       6  1a41					      ENDIF
-      7  1a41				  -	      IF	$C0 = $20
+      7  1a41				  -	      IF	LIME = $20
       8  1a41				  -	      .byte	$40+$8
       9  1a41					      ENDIF
-     10  1a41				  -	      IF	$C0 = $30
+     10  1a41				  -	      IF	LIME = $30
      11  1a41				  -	      .byte	$40+$8
      12  1a41					      ENDIF
-     13  1a41				  -	      IF	$C0 = $40
+     13  1a41				  -	      IF	LIME = $40
      14  1a41				  -	      .byte	$60+$8
      15  1a41					      ENDIF
-     16  1a41				  -	      IF	$C0 = $50
+     16  1a41				  -	      IF	LIME = $50
      17  1a41				  -	      .byte	$80+$8
      18  1a41					      ENDIF
-     19  1a41				  -	      IF	$C0 = $60
+     19  1a41				  -	      IF	LIME = $60
      20  1a41				  -	      .byte	$C0+$8
      21  1a41					      ENDIF
-     22  1a41				  -	      IF	$C0 = $70
+     22  1a41				  -	      IF	LIME = $70
      23  1a41				  -	      .byte	$D0+$8
      24  1a41					      ENDIF
-     25  1a41				  -	      IF	$C0 = $80
+     25  1a41				  -	      IF	LIME = $80
      26  1a41				  -	      .byte	$B0+$8
      27  1a41					      ENDIF
-     28  1a41				  -	      IF	$C0 = $90
+     28  1a41				  -	      IF	LIME = $90
      29  1a41				  -	      .byte	$90+$8
      30  1a41					      ENDIF
-     31  1a41				  -	      IF	$C0 = $A0
+     31  1a41				  -	      IF	LIME = $A0
      32  1a41				  -	      .byte	$70+$8
      33  1a41					      ENDIF
-     34  1a41				  -	      IF	$C0 = $B0
+     34  1a41				  -	      IF	LIME = $B0
      35  1a41				  -	      .byte	$50+$8
      36  1a41					      ENDIF
-     37  1a41					      IF	$C0 = $C0
+     37  1a41					      IF	LIME = $C0
      38  1a41		       38		      .byte.b	$30+$8
      39  1a42					      ENDIF
-     40  1a42				  -	      IF	$C0 = $D0
+     40  1a42				  -	      IF	LIME = $D0
      41  1a42				  -	      .byte	$30+$8
      42  1a42					      ENDIF
-     43  1a42				  -	      IF	$C0 = $E0
+     43  1a42				  -	      IF	LIME = $E0
      44  1a42				  -	      .byte	$20+$8
      45  1a42					      ENDIF
-     46  1a42				  -	      IF	$C0 = $F0
+     46  1a42				  -	      IF	LIME = $F0
      47  1a42				  -	      .byte	$40+$8
      48  1a42					      ENDIF
-      0  1a42					      NTSCPAL	$60,$8	;ok red soil purple walls orange box
-      1  1a42		       68		      .byte.b	$60+$8
-      0  1a43					      NTSC_TO_PAL	$60,$8
-      1  1a43				  -	      IF	$60 = 0
-      2  1a43				  -	      .byte	$60+$8
+      0  1a42					      NTSCPAL	VIOLET,$8
+      1  1a42		       68		      .byte.b	VIOLET+$8
+      0  1a43					      NTSC_TO_PAL	VIOLET,$8
+      1  1a43				  -	      IF	VIOLET = 0
+      2  1a43				  -	      .byte	VIOLET+$8
       3  1a43					      ENDIF
-      4  1a43				  -	      IF	$60 = $10
+      4  1a43				  -	      IF	VIOLET = $10
       5  1a43				  -	      .byte	$20+$8
       6  1a43					      ENDIF
-      7  1a43				  -	      IF	$60 = $20
+      7  1a43				  -	      IF	VIOLET = $20
       8  1a43				  -	      .byte	$40+$8
       9  1a43					      ENDIF
-     10  1a43				  -	      IF	$60 = $30
+     10  1a43				  -	      IF	VIOLET = $30
      11  1a43				  -	      .byte	$40+$8
      12  1a43					      ENDIF
-     13  1a43				  -	      IF	$60 = $40
+     13  1a43				  -	      IF	VIOLET = $40
      14  1a43				  -	      .byte	$60+$8
      15  1a43					      ENDIF
-     16  1a43				  -	      IF	$60 = $50
+     16  1a43				  -	      IF	VIOLET = $50
      17  1a43				  -	      .byte	$80+$8
      18  1a43					      ENDIF
-     19  1a43					      IF	$60 = $60
+     19  1a43					      IF	VIOLET = $60
      20  1a43		       c8		      .byte.b	$C0+$8
      21  1a44					      ENDIF
-     22  1a44				  -	      IF	$60 = $70
+     22  1a44				  -	      IF	VIOLET = $70
      23  1a44				  -	      .byte	$D0+$8
      24  1a44					      ENDIF
-     25  1a44				  -	      IF	$60 = $80
+     25  1a44				  -	      IF	VIOLET = $80
      26  1a44				  -	      .byte	$B0+$8
      27  1a44					      ENDIF
-     28  1a44				  -	      IF	$60 = $90
+     28  1a44				  -	      IF	VIOLET = $90
      29  1a44				  -	      .byte	$90+$8
      30  1a44					      ENDIF
-     31  1a44				  -	      IF	$60 = $A0
+     31  1a44				  -	      IF	VIOLET = $A0
      32  1a44				  -	      .byte	$70+$8
      33  1a44					      ENDIF
-     34  1a44				  -	      IF	$60 = $B0
+     34  1a44				  -	      IF	VIOLET = $B0
      35  1a44				  -	      .byte	$50+$8
      36  1a44					      ENDIF
-     37  1a44				  -	      IF	$60 = $C0
+     37  1a44				  -	      IF	VIOLET = $C0
      38  1a44				  -	      .byte	$30+$8
      39  1a44					      ENDIF
-     40  1a44				  -	      IF	$60 = $D0
+     40  1a44				  -	      IF	VIOLET = $D0
      41  1a44				  -	      .byte	$30+$8
      42  1a44					      ENDIF
-     43  1a44				  -	      IF	$60 = $E0
+     43  1a44				  -	      IF	VIOLET = $E0
      44  1a44				  -	      .byte	$20+$8
      45  1a44					      ENDIF
-     46  1a44				  -	      IF	$60 = $F0
+     46  1a44				  -	      IF	VIOLET = $F0
      47  1a44				  -	      .byte	$40+$8
      48  1a44					      ENDIF
-      0  1a44					      NTSCPAL	$40,$8	;ok both     green soil, yellow wall, blue box purple top
-      1  1a44		       48		      .byte.b	$40+$8
-      0  1a45					      NTSC_TO_PAL	$40,$8
-      1  1a45				  -	      IF	$40 = 0
-      2  1a45				  -	      .byte	$40+$8
+      0  1a44					      NTSCPAL	BLUE,$8
+      1  1a44		       78		      .byte.b	BLUE+$8
+      0  1a45					      NTSC_TO_PAL	BLUE,$8
+      1  1a45				  -	      IF	BLUE = 0
+      2  1a45				  -	      .byte	BLUE+$8
       3  1a45					      ENDIF
-      4  1a45				  -	      IF	$40 = $10
+      4  1a45				  -	      IF	BLUE = $10
       5  1a45				  -	      .byte	$20+$8
       6  1a45					      ENDIF
-      7  1a45				  -	      IF	$40 = $20
+      7  1a45				  -	      IF	BLUE = $20
       8  1a45				  -	      .byte	$40+$8
       9  1a45					      ENDIF
-     10  1a45				  -	      IF	$40 = $30
+     10  1a45				  -	      IF	BLUE = $30
      11  1a45				  -	      .byte	$40+$8
      12  1a45					      ENDIF
-     13  1a45					      IF	$40 = $40
-     14  1a45		       68		      .byte.b	$60+$8
-     15  1a46					      ENDIF
-     16  1a46				  -	      IF	$40 = $50
-     17  1a46				  -	      .byte	$80+$8
-     18  1a46					      ENDIF
-     19  1a46				  -	      IF	$40 = $60
-     20  1a46				  -	      .byte	$C0+$8
-     21  1a46					      ENDIF
-     22  1a46				  -	      IF	$40 = $70
-     23  1a46				  -	      .byte	$D0+$8
+     13  1a45				  -	      IF	BLUE = $40
+     14  1a45				  -	      .byte	$60+$8
+     15  1a45					      ENDIF
+     16  1a45				  -	      IF	BLUE = $50
+     17  1a45				  -	      .byte	$80+$8
+     18  1a45					      ENDIF
+     19  1a45				  -	      IF	BLUE = $60
+     20  1a45				  -	      .byte	$C0+$8
+     21  1a45					      ENDIF
+     22  1a45					      IF	BLUE = $70
+     23  1a45		       d8		      .byte.b	$D0+$8
      24  1a46					      ENDIF
-     25  1a46				  -	      IF	$40 = $80
+     25  1a46				  -	      IF	BLUE = $80
      26  1a46				  -	      .byte	$B0+$8
      27  1a46					      ENDIF
-     28  1a46				  -	      IF	$40 = $90
+     28  1a46				  -	      IF	BLUE = $90
      29  1a46				  -	      .byte	$90+$8
      30  1a46					      ENDIF
-     31  1a46				  -	      IF	$40 = $A0
+     31  1a46				  -	      IF	BLUE = $A0
      32  1a46				  -	      .byte	$70+$8
      33  1a46					      ENDIF
-     34  1a46				  -	      IF	$40 = $B0
+     34  1a46				  -	      IF	BLUE = $B0
      35  1a46				  -	      .byte	$50+$8
      36  1a46					      ENDIF
-     37  1a46				  -	      IF	$40 = $C0
+     37  1a46				  -	      IF	BLUE = $C0
      38  1a46				  -	      .byte	$30+$8
      39  1a46					      ENDIF
-     40  1a46				  -	      IF	$40 = $D0
+     40  1a46				  -	      IF	BLUE = $D0
      41  1a46				  -	      .byte	$30+$8
      42  1a46					      ENDIF
-     43  1a46				  -	      IF	$40 = $E0
+     43  1a46				  -	      IF	BLUE = $E0
      44  1a46				  -	      .byte	$20+$8
      45  1a46					      ENDIF
-     46  1a46				  -	      IF	$40 = $F0
+     46  1a46				  -	      IF	BLUE = $F0
      47  1a46				  -	      .byte	$40+$8
      48  1a46					      ENDIF
-      0  1a46					      NTSCPAL	$F0,$8	;ok both   blue soil, grey box/wall
-      1  1a46		       f8		      .byte.b	$F0+$8
-      0  1a47					      NTSC_TO_PAL	$F0,$8
-      1  1a47				  -	      IF	$F0 = 0
-      2  1a47				  -	      .byte	$F0+$8
+      0  1a46					      NTSCPAL	PINK,$8
+      1  1a46		       48		      .byte.b	PINK+$8
+      0  1a47					      NTSC_TO_PAL	PINK,$8
+      1  1a47				  -	      IF	PINK = 0
+      2  1a47				  -	      .byte	PINK+$8
       3  1a47					      ENDIF
-      4  1a47				  -	      IF	$F0 = $10
+      4  1a47				  -	      IF	PINK = $10
       5  1a47				  -	      .byte	$20+$8
       6  1a47					      ENDIF
-      7  1a47				  -	      IF	$F0 = $20
+      7  1a47				  -	      IF	PINK = $20
       8  1a47				  -	      .byte	$40+$8
       9  1a47					      ENDIF
-     10  1a47				  -	      IF	$F0 = $30
+     10  1a47				  -	      IF	PINK = $30
      11  1a47				  -	      .byte	$40+$8
      12  1a47					      ENDIF
-     13  1a47				  -	      IF	$F0 = $40
-     14  1a47				  -	      .byte	$60+$8
-     15  1a47					      ENDIF
-     16  1a47				  -	      IF	$F0 = $50
-     17  1a47				  -	      .byte	$80+$8
-     18  1a47					      ENDIF
-     19  1a47				  -	      IF	$F0 = $60
-     20  1a47				  -	      .byte	$C0+$8
-     21  1a47					      ENDIF
-     22  1a47				  -	      IF	$F0 = $70
-     23  1a47				  -	      .byte	$D0+$8
-     24  1a47					      ENDIF
-     25  1a47				  -	      IF	$F0 = $80
-     26  1a47				  -	      .byte	$B0+$8
-     27  1a47					      ENDIF
-     28  1a47				  -	      IF	$F0 = $90
-     29  1a47				  -	      .byte	$90+$8
-     30  1a47					      ENDIF
-     31  1a47				  -	      IF	$F0 = $A0
-     32  1a47				  -	      .byte	$70+$8
-     33  1a47					      ENDIF
-     34  1a47				  -	      IF	$F0 = $B0
-     35  1a47				  -	      .byte	$50+$8
-     36  1a47					      ENDIF
-     37  1a47				  -	      IF	$F0 = $C0
-     38  1a47				  -	      .byte	$30+$8
-     39  1a47					      ENDIF
-     40  1a47				  -	      IF	$F0 = $D0
-     41  1a47				  -	      .byte	$30+$8
-     42  1a47					      ENDIF
-     43  1a47				  -	      IF	$F0 = $E0
-     44  1a47				  -	      .byte	$20+$8
-     45  1a47					      ENDIF
-     46  1a47					      IF	$F0 = $F0
-     47  1a47		       48		      .byte.b	$40+$8
+     13  1a47					      IF	PINK = $40
+     14  1a47		       68		      .byte.b	$60+$8
+     15  1a48					      ENDIF
+     16  1a48				  -	      IF	PINK = $50
+     17  1a48				  -	      .byte	$80+$8
+     18  1a48					      ENDIF
+     19  1a48				  -	      IF	PINK = $60
+     20  1a48				  -	      .byte	$C0+$8
+     21  1a48					      ENDIF
+     22  1a48				  -	      IF	PINK = $70
+     23  1a48				  -	      .byte	$D0+$8
+     24  1a48					      ENDIF
+     25  1a48				  -	      IF	PINK = $80
+     26  1a48				  -	      .byte	$B0+$8
+     27  1a48					      ENDIF
+     28  1a48				  -	      IF	PINK = $90
+     29  1a48				  -	      .byte	$90+$8
+     30  1a48					      ENDIF
+     31  1a48				  -	      IF	PINK = $A0
+     32  1a48				  -	      .byte	$70+$8
+     33  1a48					      ENDIF
+     34  1a48				  -	      IF	PINK = $B0
+     35  1a48				  -	      .byte	$50+$8
+     36  1a48					      ENDIF
+     37  1a48				  -	      IF	PINK = $C0
+     38  1a48				  -	      .byte	$30+$8
+     39  1a48					      ENDIF
+     40  1a48				  -	      IF	PINK = $D0
+     41  1a48				  -	      .byte	$30+$8
+     42  1a48					      ENDIF
+     43  1a48				  -	      IF	PINK = $E0
+     44  1a48				  -	      .byte	$20+$8
+     45  1a48					      ENDIF
+     46  1a48				  -	      IF	PINK = $F0
+     47  1a48				  -	      .byte	$40+$8
      48  1a48					      ENDIF
-      0  1a48					      NTSCPAL	$30,$8
-      1  1a48		       38		      .byte.b	$30+$8
-      0  1a49					      NTSC_TO_PAL	$30,$8
-      1  1a49				  -	      IF	$30 = 0
-      2  1a49				  -	      .byte	$30+$8
+      0  1a48					      NTSCPAL	LIME,$4
+      1  1a48		       c4		      .byte.b	LIME+$4
+      0  1a49					      NTSC_TO_PAL	LIME,$4
+      1  1a49				  -	      IF	LIME = 0
+      2  1a49				  -	      .byte	LIME+$4
       3  1a49					      ENDIF
-      4  1a49				  -	      IF	$30 = $10
-      5  1a49				  -	      .byte	$20+$8
+      4  1a49				  -	      IF	LIME = $10
+      5  1a49				  -	      .byte	$20+$4
       6  1a49					      ENDIF
-      7  1a49				  -	      IF	$30 = $20
-      8  1a49				  -	      .byte	$40+$8
+      7  1a49				  -	      IF	LIME = $20
+      8  1a49				  -	      .byte	$40+$4
       9  1a49					      ENDIF
-     10  1a49					      IF	$30 = $30
-     11  1a49		       48		      .byte.b	$40+$8
-     12  1a4a					      ENDIF
-     13  1a4a				  -	      IF	$30 = $40
-     14  1a4a				  -	      .byte	$60+$8
-     15  1a4a					      ENDIF
-     16  1a4a				  -	      IF	$30 = $50
-     17  1a4a				  -	      .byte	$80+$8
-     18  1a4a					      ENDIF
-     19  1a4a				  -	      IF	$30 = $60
-     20  1a4a				  -	      .byte	$C0+$8
-     21  1a4a					      ENDIF
-     22  1a4a				  -	      IF	$30 = $70
-     23  1a4a				  -	      .byte	$D0+$8
-     24  1a4a					      ENDIF
-     25  1a4a				  -	      IF	$30 = $80
-     26  1a4a				  -	      .byte	$B0+$8
-     27  1a4a					      ENDIF
-     28  1a4a				  -	      IF	$30 = $90
-     29  1a4a				  -	      .byte	$90+$8
-     30  1a4a					      ENDIF
-     31  1a4a				  -	      IF	$30 = $A0
-     32  1a4a				  -	      .byte	$70+$8
-     33  1a4a					      ENDIF
-     34  1a4a				  -	      IF	$30 = $B0
-     35  1a4a				  -	      .byte	$50+$8
-     36  1a4a					      ENDIF
-     37  1a4a				  -	      IF	$30 = $C0
-     38  1a4a				  -	      .byte	$30+$8
+     10  1a49				  -	      IF	LIME = $30
+     11  1a49				  -	      .byte	$40+$4
+     12  1a49					      ENDIF
+     13  1a49				  -	      IF	LIME = $40
+     14  1a49				  -	      .byte	$60+$4
+     15  1a49					      ENDIF
+     16  1a49				  -	      IF	LIME = $50
+     17  1a49				  -	      .byte	$80+$4
+     18  1a49					      ENDIF
+     19  1a49				  -	      IF	LIME = $60
+     20  1a49				  -	      .byte	$C0+$4
+     21  1a49					      ENDIF
+     22  1a49				  -	      IF	LIME = $70
+     23  1a49				  -	      .byte	$D0+$4
+     24  1a49					      ENDIF
+     25  1a49				  -	      IF	LIME = $80
+     26  1a49				  -	      .byte	$B0+$4
+     27  1a49					      ENDIF
+     28  1a49				  -	      IF	LIME = $90
+     29  1a49				  -	      .byte	$90+$4
+     30  1a49					      ENDIF
+     31  1a49				  -	      IF	LIME = $A0
+     32  1a49				  -	      .byte	$70+$4
+     33  1a49					      ENDIF
+     34  1a49				  -	      IF	LIME = $B0
+     35  1a49				  -	      .byte	$50+$4
+     36  1a49					      ENDIF
+     37  1a49					      IF	LIME = $C0
+     38  1a49		       34		      .byte.b	$30+$4
      39  1a4a					      ENDIF
-     40  1a4a				  -	      IF	$30 = $D0
-     41  1a4a				  -	      .byte	$30+$8
+     40  1a4a				  -	      IF	LIME = $D0
+     41  1a4a				  -	      .byte	$30+$4
      42  1a4a					      ENDIF
-     43  1a4a				  -	      IF	$30 = $E0
-     44  1a4a				  -	      .byte	$20+$8
+     43  1a4a				  -	      IF	LIME = $E0
+     44  1a4a				  -	      .byte	$20+$4
      45  1a4a					      ENDIF
-     46  1a4a				  -	      IF	$30 = $F0
-     47  1a4a				  -	      .byte	$40+$8
+     46  1a4a				  -	      IF	LIME = $F0
+     47  1a4a				  -	      .byte	$40+$4
      48  1a4a					      ENDIF
-      0  1a4a					      NTSCPAL	$90,$8
-      1  1a4a		       98		      .byte.b	$90+$8
-      0  1a4b					      NTSC_TO_PAL	$90,$8
-      1  1a4b				  -	      IF	$90 = 0
-      2  1a4b				  -	      .byte	$90+$8
+      0  1a4a					      NTSCPAL	SKYBLUE,$8
+      1  1a4a		       98		      .byte.b	SKYBLUE+$8
+      0  1a4b					      NTSC_TO_PAL	SKYBLUE,$8
+      1  1a4b				  -	      IF	SKYBLUE = 0
+      2  1a4b				  -	      .byte	SKYBLUE+$8
       3  1a4b					      ENDIF
-      4  1a4b				  -	      IF	$90 = $10
+      4  1a4b				  -	      IF	SKYBLUE = $10
       5  1a4b				  -	      .byte	$20+$8
       6  1a4b					      ENDIF
-      7  1a4b				  -	      IF	$90 = $20
+      7  1a4b				  -	      IF	SKYBLUE = $20
       8  1a4b				  -	      .byte	$40+$8
       9  1a4b					      ENDIF
-     10  1a4b				  -	      IF	$90 = $30
+     10  1a4b				  -	      IF	SKYBLUE = $30
      11  1a4b				  -	      .byte	$40+$8
      12  1a4b					      ENDIF
-     13  1a4b				  -	      IF	$90 = $40
+     13  1a4b				  -	      IF	SKYBLUE = $40
      14  1a4b				  -	      .byte	$60+$8
      15  1a4b					      ENDIF
-     16  1a4b				  -	      IF	$90 = $50
+     16  1a4b				  -	      IF	SKYBLUE = $50
      17  1a4b				  -	      .byte	$80+$8
      18  1a4b					      ENDIF
-     19  1a4b				  -	      IF	$90 = $60
+     19  1a4b				  -	      IF	SKYBLUE = $60
      20  1a4b				  -	      .byte	$C0+$8
      21  1a4b					      ENDIF
-     22  1a4b				  -	      IF	$90 = $70
+     22  1a4b				  -	      IF	SKYBLUE = $70
      23  1a4b				  -	      .byte	$D0+$8
      24  1a4b					      ENDIF
-     25  1a4b				  -	      IF	$90 = $80
+     25  1a4b				  -	      IF	SKYBLUE = $80
      26  1a4b				  -	      .byte	$B0+$8
      27  1a4b					      ENDIF
-     28  1a4b					      IF	$90 = $90
+     28  1a4b					      IF	SKYBLUE = $90
      29  1a4b		       98		      .byte.b	$90+$8
      30  1a4c					      ENDIF
-     31  1a4c				  -	      IF	$90 = $A0
+     31  1a4c				  -	      IF	SKYBLUE = $A0
      32  1a4c				  -	      .byte	$70+$8
      33  1a4c					      ENDIF
-     34  1a4c				  -	      IF	$90 = $B0
+     34  1a4c				  -	      IF	SKYBLUE = $B0
      35  1a4c				  -	      .byte	$50+$8
      36  1a4c					      ENDIF
-     37  1a4c				  -	      IF	$90 = $C0
+     37  1a4c				  -	      IF	SKYBLUE = $C0
      38  1a4c				  -	      .byte	$30+$8
      39  1a4c					      ENDIF
-     40  1a4c				  -	      IF	$90 = $D0
+     40  1a4c				  -	      IF	SKYBLUE = $D0
      41  1a4c				  -	      .byte	$30+$8
      42  1a4c					      ENDIF
-     43  1a4c				  -	      IF	$90 = $E0
+     43  1a4c				  -	      IF	SKYBLUE = $E0
      44  1a4c				  -	      .byte	$20+$8
      45  1a4c					      ENDIF
-     46  1a4c				  -	      IF	$90 = $F0
+     46  1a4c				  -	      IF	SKYBLUE = $F0
      47  1a4c				  -	      .byte	$40+$8
      48  1a4c					      ENDIF
-      0  1a4c					      NTSCPAL	$20,$8	; lovely????
-      1  1a4c		       28		      .byte.b	$20+$8
-      0  1a4d					      NTSC_TO_PAL	$20,$8
-      1  1a4d				  -	      IF	$20 = 0
-      2  1a4d				  -	      .byte	$20+$8
+      0  1a4c					      NTSCPAL	ORANGE,$8
+      1  1a4c		       28		      .byte.b	ORANGE+$8
+      0  1a4d					      NTSC_TO_PAL	ORANGE,$8
+      1  1a4d				  -	      IF	ORANGE = 0
+      2  1a4d				  -	      .byte	ORANGE+$8
       3  1a4d					      ENDIF
-      4  1a4d				  -	      IF	$20 = $10
+      4  1a4d				  -	      IF	ORANGE = $10
       5  1a4d				  -	      .byte	$20+$8
       6  1a4d					      ENDIF
-      7  1a4d					      IF	$20 = $20
+      7  1a4d					      IF	ORANGE = $20
       8  1a4d		       48		      .byte.b	$40+$8
       9  1a4e					      ENDIF
-     10  1a4e				  -	      IF	$20 = $30
+     10  1a4e				  -	      IF	ORANGE = $30
      11  1a4e				  -	      .byte	$40+$8
      12  1a4e					      ENDIF
-     13  1a4e				  -	      IF	$20 = $40
+     13  1a4e				  -	      IF	ORANGE = $40
      14  1a4e				  -	      .byte	$60+$8
      15  1a4e					      ENDIF
-     16  1a4e				  -	      IF	$20 = $50
+     16  1a4e				  -	      IF	ORANGE = $50
      17  1a4e				  -	      .byte	$80+$8
      18  1a4e					      ENDIF
-     19  1a4e				  -	      IF	$20 = $60
+     19  1a4e				  -	      IF	ORANGE = $60
      20  1a4e				  -	      .byte	$C0+$8
      21  1a4e					      ENDIF
-     22  1a4e				  -	      IF	$20 = $70
+     22  1a4e				  -	      IF	ORANGE = $70
      23  1a4e				  -	      .byte	$D0+$8
      24  1a4e					      ENDIF
-     25  1a4e				  -	      IF	$20 = $80
+     25  1a4e				  -	      IF	ORANGE = $80
      26  1a4e				  -	      .byte	$B0+$8
      27  1a4e					      ENDIF
-     28  1a4e				  -	      IF	$20 = $90
+     28  1a4e				  -	      IF	ORANGE = $90
      29  1a4e				  -	      .byte	$90+$8
      30  1a4e					      ENDIF
-     31  1a4e				  -	      IF	$20 = $A0
+     31  1a4e				  -	      IF	ORANGE = $A0
      32  1a4e				  -	      .byte	$70+$8
      33  1a4e					      ENDIF
-     34  1a4e				  -	      IF	$20 = $B0
+     34  1a4e				  -	      IF	ORANGE = $B0
      35  1a4e				  -	      .byte	$50+$8
      36  1a4e					      ENDIF
-     37  1a4e				  -	      IF	$20 = $C0
+     37  1a4e				  -	      IF	ORANGE = $C0
      38  1a4e				  -	      .byte	$30+$8
      39  1a4e					      ENDIF
-     40  1a4e				  -	      IF	$20 = $D0
+     40  1a4e				  -	      IF	ORANGE = $D0
      41  1a4e				  -	      .byte	$30+$8
      42  1a4e					      ENDIF
-     43  1a4e				  -	      IF	$20 = $E0
+     43  1a4e				  -	      IF	ORANGE = $E0
      44  1a4e				  -	      .byte	$20+$8
      45  1a4e					      ENDIF
-     46  1a4e				  -	      IF	$20 = $F0
+     46  1a4e				  -	      IF	ORANGE = $F0
      47  1a4e				  -	      .byte	$40+$8
      48  1a4e					      ENDIF
-      0  1a4e					      NTSCPAL	$70,$8
-      1  1a4e		       78		      .byte.b	$70+$8
-      0  1a4f					      NTSC_TO_PAL	$70,$8
-      1  1a4f				  -	      IF	$70 = 0
-      2  1a4f				  -	      .byte	$70+$8
+      0  1a4e					      NTSCPAL	VIOLET,$8
+      1  1a4e		       68		      .byte.b	VIOLET+$8
+      0  1a4f					      NTSC_TO_PAL	VIOLET,$8
+      1  1a4f				  -	      IF	VIOLET = 0
+      2  1a4f				  -	      .byte	VIOLET+$8
       3  1a4f					      ENDIF
-      4  1a4f				  -	      IF	$70 = $10
+      4  1a4f				  -	      IF	VIOLET = $10
       5  1a4f				  -	      .byte	$20+$8
       6  1a4f					      ENDIF
-      7  1a4f				  -	      IF	$70 = $20
+      7  1a4f				  -	      IF	VIOLET = $20
       8  1a4f				  -	      .byte	$40+$8
       9  1a4f					      ENDIF
-     10  1a4f				  -	      IF	$70 = $30
+     10  1a4f				  -	      IF	VIOLET = $30
      11  1a4f				  -	      .byte	$40+$8
      12  1a4f					      ENDIF
-     13  1a4f				  -	      IF	$70 = $40
+     13  1a4f				  -	      IF	VIOLET = $40
      14  1a4f				  -	      .byte	$60+$8
      15  1a4f					      ENDIF
-     16  1a4f				  -	      IF	$70 = $50
+     16  1a4f				  -	      IF	VIOLET = $50
      17  1a4f				  -	      .byte	$80+$8
      18  1a4f					      ENDIF
-     19  1a4f				  -	      IF	$70 = $60
-     20  1a4f				  -	      .byte	$C0+$8
-     21  1a4f					      ENDIF
-     22  1a4f					      IF	$70 = $70
-     23  1a4f		       d8		      .byte.b	$D0+$8
+     19  1a4f					      IF	VIOLET = $60
+     20  1a4f		       c8		      .byte.b	$C0+$8
+     21  1a50					      ENDIF
+     22  1a50				  -	      IF	VIOLET = $70
+     23  1a50				  -	      .byte	$D0+$8
      24  1a50					      ENDIF
-     25  1a50				  -	      IF	$70 = $80
+     25  1a50				  -	      IF	VIOLET = $80
      26  1a50				  -	      .byte	$B0+$8
      27  1a50					      ENDIF
-     28  1a50				  -	      IF	$70 = $90
+     28  1a50				  -	      IF	VIOLET = $90
      29  1a50				  -	      .byte	$90+$8
      30  1a50					      ENDIF
-     31  1a50				  -	      IF	$70 = $A0
+     31  1a50				  -	      IF	VIOLET = $A0
      32  1a50				  -	      .byte	$70+$8
      33  1a50					      ENDIF
-     34  1a50				  -	      IF	$70 = $B0
+     34  1a50				  -	      IF	VIOLET = $B0
      35  1a50				  -	      .byte	$50+$8
      36  1a50					      ENDIF
-     37  1a50				  -	      IF	$70 = $C0
+     37  1a50				  -	      IF	VIOLET = $C0
      38  1a50				  -	      .byte	$30+$8
      39  1a50					      ENDIF
-     40  1a50				  -	      IF	$70 = $D0
+     40  1a50				  -	      IF	VIOLET = $D0
      41  1a50				  -	      .byte	$30+$8
      42  1a50					      ENDIF
-     43  1a50				  -	      IF	$70 = $E0
+     43  1a50				  -	      IF	VIOLET = $E0
      44  1a50				  -	      .byte	$20+$8
      45  1a50					      ENDIF
-     46  1a50				  -	      IF	$70 = $F0
+     46  1a50				  -	      IF	VIOLET = $F0
      47  1a50				  -	      .byte	$40+$8
      48  1a50					      ENDIF
-    617  1a50							;    NTSCPAL $40,$A
-    618  1a50							;    NTSCPAL $C0,$8
-    619  1a50				   C2			; soil stripes
-      0  1a50					      NTSCPAL	$90,$6	; ok v nice
-      1  1a50		       96		      .byte.b	$90+$6
-      0  1a51					      NTSC_TO_PAL	$90,$6
-      1  1a51				  -	      IF	$90 = 0
-      2  1a51				  -	      .byte	$90+$6
+    643  1a50
+    644  1a50				   C2			; soil stripes
+      0  1a50					      NTSCPAL	SKYBLUE,$6
+      1  1a50		       96		      .byte.b	SKYBLUE+$6
+      0  1a51					      NTSC_TO_PAL	SKYBLUE,$6
+      1  1a51				  -	      IF	SKYBLUE = 0
+      2  1a51				  -	      .byte	SKYBLUE+$6
       3  1a51					      ENDIF
-      4  1a51				  -	      IF	$90 = $10
+      4  1a51				  -	      IF	SKYBLUE = $10
       5  1a51				  -	      .byte	$20+$6
       6  1a51					      ENDIF
-      7  1a51				  -	      IF	$90 = $20
+      7  1a51				  -	      IF	SKYBLUE = $20
       8  1a51				  -	      .byte	$40+$6
       9  1a51					      ENDIF
-     10  1a51				  -	      IF	$90 = $30
+     10  1a51				  -	      IF	SKYBLUE = $30
      11  1a51				  -	      .byte	$40+$6
      12  1a51					      ENDIF
-     13  1a51				  -	      IF	$90 = $40
+     13  1a51				  -	      IF	SKYBLUE = $40
      14  1a51				  -	      .byte	$60+$6
      15  1a51					      ENDIF
-     16  1a51				  -	      IF	$90 = $50
+     16  1a51				  -	      IF	SKYBLUE = $50
      17  1a51				  -	      .byte	$80+$6
      18  1a51					      ENDIF
-     19  1a51				  -	      IF	$90 = $60
+     19  1a51				  -	      IF	SKYBLUE = $60
      20  1a51				  -	      .byte	$C0+$6
      21  1a51					      ENDIF
-     22  1a51				  -	      IF	$90 = $70
+     22  1a51				  -	      IF	SKYBLUE = $70
      23  1a51				  -	      .byte	$D0+$6
      24  1a51					      ENDIF
-     25  1a51				  -	      IF	$90 = $80
+     25  1a51				  -	      IF	SKYBLUE = $80
      26  1a51				  -	      .byte	$B0+$6
      27  1a51					      ENDIF
-     28  1a51					      IF	$90 = $90
+     28  1a51					      IF	SKYBLUE = $90
      29  1a51		       96		      .byte.b	$90+$6
      30  1a52					      ENDIF
-     31  1a52				  -	      IF	$90 = $A0
+     31  1a52				  -	      IF	SKYBLUE = $A0
      32  1a52				  -	      .byte	$70+$6
      33  1a52					      ENDIF
-     34  1a52				  -	      IF	$90 = $B0
+     34  1a52				  -	      IF	SKYBLUE = $B0
      35  1a52				  -	      .byte	$50+$6
      36  1a52					      ENDIF
-     37  1a52				  -	      IF	$90 = $C0
+     37  1a52				  -	      IF	SKYBLUE = $C0
      38  1a52				  -	      .byte	$30+$6
      39  1a52					      ENDIF
-     40  1a52				  -	      IF	$90 = $D0
+     40  1a52				  -	      IF	SKYBLUE = $D0
      41  1a52				  -	      .byte	$30+$6
      42  1a52					      ENDIF
-     43  1a52				  -	      IF	$90 = $E0
+     43  1a52				  -	      IF	SKYBLUE = $E0
      44  1a52				  -	      .byte	$20+$6
      45  1a52					      ENDIF
-     46  1a52				  -	      IF	$90 = $F0
+     46  1a52				  -	      IF	SKYBLUE = $F0
      47  1a52				  -	      .byte	$40+$6
      48  1a52					      ENDIF
-      0  1a52					      NTSCPAL	$0,$6	; ok v nice brick
-      1  1a52		       06		      .byte.b	$0+$6
-      0  1a53					      NTSC_TO_PAL	$0,$6
-      1  1a53					      IF	$0 = 0
-      2  1a53		       06		      .byte.b	$0+$6
-      3  1a54					      ENDIF
-      4  1a54				  -	      IF	$0 = $10
-      5  1a54				  -	      .byte	$20+$6
-      6  1a54					      ENDIF
-      7  1a54				  -	      IF	$0 = $20
-      8  1a54				  -	      .byte	$40+$6
+      0  1a52					      NTSCPAL	ORANGE,$8
+      1  1a52		       28		      .byte.b	ORANGE+$8
+      0  1a53					      NTSC_TO_PAL	ORANGE,$8
+      1  1a53				  -	      IF	ORANGE = 0
+      2  1a53				  -	      .byte	ORANGE+$8
+      3  1a53					      ENDIF
+      4  1a53				  -	      IF	ORANGE = $10
+      5  1a53				  -	      .byte	$20+$8
+      6  1a53					      ENDIF
+      7  1a53					      IF	ORANGE = $20
+      8  1a53		       48		      .byte.b	$40+$8
       9  1a54					      ENDIF
-     10  1a54				  -	      IF	$0 = $30
-     11  1a54				  -	      .byte	$40+$6
+     10  1a54				  -	      IF	ORANGE = $30
+     11  1a54				  -	      .byte	$40+$8
      12  1a54					      ENDIF
-     13  1a54				  -	      IF	$0 = $40
-     14  1a54				  -	      .byte	$60+$6
+     13  1a54				  -	      IF	ORANGE = $40
+     14  1a54				  -	      .byte	$60+$8
      15  1a54					      ENDIF
-     16  1a54				  -	      IF	$0 = $50
-     17  1a54				  -	      .byte	$80+$6
+     16  1a54				  -	      IF	ORANGE = $50
+     17  1a54				  -	      .byte	$80+$8
      18  1a54					      ENDIF
-     19  1a54				  -	      IF	$0 = $60
-     20  1a54				  -	      .byte	$C0+$6
+     19  1a54				  -	      IF	ORANGE = $60
+     20  1a54				  -	      .byte	$C0+$8
      21  1a54					      ENDIF
-     22  1a54				  -	      IF	$0 = $70
-     23  1a54				  -	      .byte	$D0+$6
+     22  1a54				  -	      IF	ORANGE = $70
+     23  1a54				  -	      .byte	$D0+$8
      24  1a54					      ENDIF
-     25  1a54				  -	      IF	$0 = $80
-     26  1a54				  -	      .byte	$B0+$6
+     25  1a54				  -	      IF	ORANGE = $80
+     26  1a54				  -	      .byte	$B0+$8
      27  1a54					      ENDIF
-     28  1a54				  -	      IF	$0 = $90
-     29  1a54				  -	      .byte	$90+$6
+     28  1a54				  -	      IF	ORANGE = $90
+     29  1a54				  -	      .byte	$90+$8
      30  1a54					      ENDIF
-     31  1a54				  -	      IF	$0 = $A0
-     32  1a54				  -	      .byte	$70+$6
+     31  1a54				  -	      IF	ORANGE = $A0
+     32  1a54				  -	      .byte	$70+$8
      33  1a54					      ENDIF
-     34  1a54				  -	      IF	$0 = $B0
-     35  1a54				  -	      .byte	$50+$6
+     34  1a54				  -	      IF	ORANGE = $B0
+     35  1a54				  -	      .byte	$50+$8
      36  1a54					      ENDIF
-     37  1a54				  -	      IF	$0 = $C0
-     38  1a54				  -	      .byte	$30+$6
+     37  1a54				  -	      IF	ORANGE = $C0
+     38  1a54				  -	      .byte	$30+$8
      39  1a54					      ENDIF
-     40  1a54				  -	      IF	$0 = $D0
-     41  1a54				  -	      .byte	$30+$6
+     40  1a54				  -	      IF	ORANGE = $D0
+     41  1a54				  -	      .byte	$30+$8
      42  1a54					      ENDIF
-     43  1a54				  -	      IF	$0 = $E0
-     44  1a54				  -	      .byte	$20+$6
+     43  1a54				  -	      IF	ORANGE = $E0
+     44  1a54				  -	      .byte	$20+$8
      45  1a54					      ENDIF
-     46  1a54				  -	      IF	$0 = $F0
-     47  1a54				  -	      .byte	$40+$6
+     46  1a54				  -	      IF	ORANGE = $F0
+     47  1a54				  -	      .byte	$40+$8
      48  1a54					      ENDIF
-      0  1a54					      NTSCPAL	$D0,$6	;ok both
-      1  1a54		       d6		      .byte.b	$D0+$6
-      0  1a55					      NTSC_TO_PAL	$D0,$6
-      1  1a55				  -	      IF	$D0 = 0
-      2  1a55				  -	      .byte	$D0+$6
+      0  1a54					      NTSCPAL	PINK,$6
+      1  1a54		       46		      .byte.b	PINK+$6
+      0  1a55					      NTSC_TO_PAL	PINK,$6
+      1  1a55				  -	      IF	PINK = 0
+      2  1a55				  -	      .byte	PINK+$6
       3  1a55					      ENDIF
-      4  1a55				  -	      IF	$D0 = $10
+      4  1a55				  -	      IF	PINK = $10
       5  1a55				  -	      .byte	$20+$6
       6  1a55					      ENDIF
-      7  1a55				  -	      IF	$D0 = $20
+      7  1a55				  -	      IF	PINK = $20
       8  1a55				  -	      .byte	$40+$6
       9  1a55					      ENDIF
-     10  1a55				  -	      IF	$D0 = $30
+     10  1a55				  -	      IF	PINK = $30
      11  1a55				  -	      .byte	$40+$6
      12  1a55					      ENDIF
-     13  1a55				  -	      IF	$D0 = $40
-     14  1a55				  -	      .byte	$60+$6
-     15  1a55					      ENDIF
-     16  1a55				  -	      IF	$D0 = $50
-     17  1a55				  -	      .byte	$80+$6
-     18  1a55					      ENDIF
-     19  1a55				  -	      IF	$D0 = $60
-     20  1a55				  -	      .byte	$C0+$6
-     21  1a55					      ENDIF
-     22  1a55				  -	      IF	$D0 = $70
-     23  1a55				  -	      .byte	$D0+$6
-     24  1a55					      ENDIF
-     25  1a55				  -	      IF	$D0 = $80
-     26  1a55				  -	      .byte	$B0+$6
-     27  1a55					      ENDIF
-     28  1a55				  -	      IF	$D0 = $90
-     29  1a55				  -	      .byte	$90+$6
-     30  1a55					      ENDIF
-     31  1a55				  -	      IF	$D0 = $A0
-     32  1a55				  -	      .byte	$70+$6
-     33  1a55					      ENDIF
-     34  1a55				  -	      IF	$D0 = $B0
-     35  1a55				  -	      .byte	$50+$6
-     36  1a55					      ENDIF
-     37  1a55				  -	      IF	$D0 = $C0
-     38  1a55				  -	      .byte	$30+$6
-     39  1a55					      ENDIF
-     40  1a55					      IF	$D0 = $D0
-     41  1a55		       36		      .byte.b	$30+$6
+     13  1a55					      IF	PINK = $40
+     14  1a55		       66		      .byte.b	$60+$6
+     15  1a56					      ENDIF
+     16  1a56				  -	      IF	PINK = $50
+     17  1a56				  -	      .byte	$80+$6
+     18  1a56					      ENDIF
+     19  1a56				  -	      IF	PINK = $60
+     20  1a56				  -	      .byte	$C0+$6
+     21  1a56					      ENDIF
+     22  1a56				  -	      IF	PINK = $70
+     23  1a56				  -	      .byte	$D0+$6
+     24  1a56					      ENDIF
+     25  1a56				  -	      IF	PINK = $80
+     26  1a56				  -	      .byte	$B0+$6
+     27  1a56					      ENDIF
+     28  1a56				  -	      IF	PINK = $90
+     29  1a56				  -	      .byte	$90+$6
+     30  1a56					      ENDIF
+     31  1a56				  -	      IF	PINK = $A0
+     32  1a56				  -	      .byte	$70+$6
+     33  1a56					      ENDIF
+     34  1a56				  -	      IF	PINK = $B0
+     35  1a56				  -	      .byte	$50+$6
+     36  1a56					      ENDIF
+     37  1a56				  -	      IF	PINK = $C0
+     38  1a56				  -	      .byte	$30+$6
+     39  1a56					      ENDIF
+     40  1a56				  -	      IF	PINK = $D0
+     41  1a56				  -	      .byte	$30+$6
      42  1a56					      ENDIF
-     43  1a56				  -	      IF	$D0 = $E0
+     43  1a56				  -	      IF	PINK = $E0
      44  1a56				  -	      .byte	$20+$6
      45  1a56					      ENDIF
-     46  1a56				  -	      IF	$D0 = $F0
+     46  1a56				  -	      IF	PINK = $F0
      47  1a56				  -	      .byte	$40+$6
      48  1a56					      ENDIF
-      0  1a56					      NTSCPAL	$D0,$6	;ok both
-      1  1a56		       d6		      .byte.b	$D0+$6
-      0  1a57					      NTSC_TO_PAL	$D0,$6
-      1  1a57				  -	      IF	$D0 = 0
-      2  1a57				  -	      .byte	$D0+$6
+      0  1a56					      NTSCPAL	SKYBLUE,$8
+      1  1a56		       98		      .byte.b	SKYBLUE+$8
+      0  1a57					      NTSC_TO_PAL	SKYBLUE,$8
+      1  1a57				  -	      IF	SKYBLUE = 0
+      2  1a57				  -	      .byte	SKYBLUE+$8
       3  1a57					      ENDIF
-      4  1a57				  -	      IF	$D0 = $10
-      5  1a57				  -	      .byte	$20+$6
+      4  1a57				  -	      IF	SKYBLUE = $10
+      5  1a57				  -	      .byte	$20+$8
       6  1a57					      ENDIF
-      7  1a57				  -	      IF	$D0 = $20
-      8  1a57				  -	      .byte	$40+$6
+      7  1a57				  -	      IF	SKYBLUE = $20
+      8  1a57				  -	      .byte	$40+$8
       9  1a57					      ENDIF
-     10  1a57				  -	      IF	$D0 = $30
-     11  1a57				  -	      .byte	$40+$6
+     10  1a57				  -	      IF	SKYBLUE = $30
+     11  1a57				  -	      .byte	$40+$8
      12  1a57					      ENDIF
-     13  1a57				  -	      IF	$D0 = $40
-     14  1a57				  -	      .byte	$60+$6
+     13  1a57				  -	      IF	SKYBLUE = $40
+     14  1a57				  -	      .byte	$60+$8
      15  1a57					      ENDIF
-     16  1a57				  -	      IF	$D0 = $50
-     17  1a57				  -	      .byte	$80+$6
+     16  1a57				  -	      IF	SKYBLUE = $50
+     17  1a57				  -	      .byte	$80+$8
      18  1a57					      ENDIF
-     19  1a57				  -	      IF	$D0 = $60
-     20  1a57				  -	      .byte	$C0+$6
+     19  1a57				  -	      IF	SKYBLUE = $60
+     20  1a57				  -	      .byte	$C0+$8
      21  1a57					      ENDIF
-     22  1a57				  -	      IF	$D0 = $70
-     23  1a57				  -	      .byte	$D0+$6
+     22  1a57				  -	      IF	SKYBLUE = $70
+     23  1a57				  -	      .byte	$D0+$8
      24  1a57					      ENDIF
-     25  1a57				  -	      IF	$D0 = $80
-     26  1a57				  -	      .byte	$B0+$6
+     25  1a57				  -	      IF	SKYBLUE = $80
+     26  1a57				  -	      .byte	$B0+$8
      27  1a57					      ENDIF
-     28  1a57				  -	      IF	$D0 = $90
-     29  1a57				  -	      .byte	$90+$6
-     30  1a57					      ENDIF
-     31  1a57				  -	      IF	$D0 = $A0
-     32  1a57				  -	      .byte	$70+$6
-     33  1a57					      ENDIF
-     34  1a57				  -	      IF	$D0 = $B0
-     35  1a57				  -	      .byte	$50+$6
-     36  1a57					      ENDIF
-     37  1a57				  -	      IF	$D0 = $C0
-     38  1a57				  -	      .byte	$30+$6
-     39  1a57					      ENDIF
-     40  1a57					      IF	$D0 = $D0
-     41  1a57		       36		      .byte.b	$30+$6
+     28  1a57					      IF	SKYBLUE = $90
+     29  1a57		       98		      .byte.b	$90+$8
+     30  1a58					      ENDIF
+     31  1a58				  -	      IF	SKYBLUE = $A0
+     32  1a58				  -	      .byte	$70+$8
+     33  1a58					      ENDIF
+     34  1a58				  -	      IF	SKYBLUE = $B0
+     35  1a58				  -	      .byte	$50+$8
+     36  1a58					      ENDIF
+     37  1a58				  -	      IF	SKYBLUE = $C0
+     38  1a58				  -	      .byte	$30+$8
+     39  1a58					      ENDIF
+     40  1a58				  -	      IF	SKYBLUE = $D0
+     41  1a58				  -	      .byte	$30+$8
      42  1a58					      ENDIF
-     43  1a58				  -	      IF	$D0 = $E0
-     44  1a58				  -	      .byte	$20+$6
+     43  1a58				  -	      IF	SKYBLUE = $E0
+     44  1a58				  -	      .byte	$20+$8
      45  1a58					      ENDIF
-     46  1a58				  -	      IF	$D0 = $F0
-     47  1a58				  -	      .byte	$40+$6
+     46  1a58				  -	      IF	SKYBLUE = $F0
+     47  1a58				  -	      .byte	$40+$8
      48  1a58					      ENDIF
-      0  1a58					      NTSCPAL	$60,$6
-      1  1a58		       66		      .byte.b	$60+$6
-      0  1a59					      NTSC_TO_PAL	$60,$6
-      1  1a59				  -	      IF	$60 = 0
-      2  1a59				  -	      .byte	$60+$6
+      0  1a58					      NTSCPAL	YELLOW,$4
+      1  1a58		       14		      .byte.b	YELLOW+$4
+      0  1a59					      NTSC_TO_PAL	YELLOW,$4
+      1  1a59				  -	      IF	YELLOW = 0
+      2  1a59				  -	      .byte	YELLOW+$4
       3  1a59					      ENDIF
-      4  1a59				  -	      IF	$60 = $10
-      5  1a59				  -	      .byte	$20+$6
-      6  1a59					      ENDIF
-      7  1a59				  -	      IF	$60 = $20
-      8  1a59				  -	      .byte	$40+$6
-      9  1a59					      ENDIF
-     10  1a59				  -	      IF	$60 = $30
-     11  1a59				  -	      .byte	$40+$6
-     12  1a59					      ENDIF
-     13  1a59				  -	      IF	$60 = $40
-     14  1a59				  -	      .byte	$60+$6
-     15  1a59					      ENDIF
-     16  1a59				  -	      IF	$60 = $50
-     17  1a59				  -	      .byte	$80+$6
-     18  1a59					      ENDIF
-     19  1a59					      IF	$60 = $60
-     20  1a59		       c6		      .byte.b	$C0+$6
+      4  1a59					      IF	YELLOW = $10
+      5  1a59		       24		      .byte.b	$20+$4
+      6  1a5a					      ENDIF
+      7  1a5a				  -	      IF	YELLOW = $20
+      8  1a5a				  -	      .byte	$40+$4
+      9  1a5a					      ENDIF
+     10  1a5a				  -	      IF	YELLOW = $30
+     11  1a5a				  -	      .byte	$40+$4
+     12  1a5a					      ENDIF
+     13  1a5a				  -	      IF	YELLOW = $40
+     14  1a5a				  -	      .byte	$60+$4
+     15  1a5a					      ENDIF
+     16  1a5a				  -	      IF	YELLOW = $50
+     17  1a5a				  -	      .byte	$80+$4
+     18  1a5a					      ENDIF
+     19  1a5a				  -	      IF	YELLOW = $60
+     20  1a5a				  -	      .byte	$C0+$4
      21  1a5a					      ENDIF
-     22  1a5a				  -	      IF	$60 = $70
-     23  1a5a				  -	      .byte	$D0+$6
+     22  1a5a				  -	      IF	YELLOW = $70
+     23  1a5a				  -	      .byte	$D0+$4
      24  1a5a					      ENDIF
-     25  1a5a				  -	      IF	$60 = $80
-     26  1a5a				  -	      .byte	$B0+$6
+     25  1a5a				  -	      IF	YELLOW = $80
+     26  1a5a				  -	      .byte	$B0+$4
      27  1a5a					      ENDIF
-     28  1a5a				  -	      IF	$60 = $90
-     29  1a5a				  -	      .byte	$90+$6
+     28  1a5a				  -	      IF	YELLOW = $90
+     29  1a5a				  -	      .byte	$90+$4
      30  1a5a					      ENDIF
-     31  1a5a				  -	      IF	$60 = $A0
-     32  1a5a				  -	      .byte	$70+$6
+     31  1a5a				  -	      IF	YELLOW = $A0
+     32  1a5a				  -	      .byte	$70+$4
      33  1a5a					      ENDIF
-     34  1a5a				  -	      IF	$60 = $B0
-     35  1a5a				  -	      .byte	$50+$6
+     34  1a5a				  -	      IF	YELLOW = $B0
+     35  1a5a				  -	      .byte	$50+$4
      36  1a5a					      ENDIF
-     37  1a5a				  -	      IF	$60 = $C0
-     38  1a5a				  -	      .byte	$30+$6
+     37  1a5a				  -	      IF	YELLOW = $C0
+     38  1a5a				  -	      .byte	$30+$4
      39  1a5a					      ENDIF
-     40  1a5a				  -	      IF	$60 = $D0
-     41  1a5a				  -	      .byte	$30+$6
+     40  1a5a				  -	      IF	YELLOW = $D0
+     41  1a5a				  -	      .byte	$30+$4
      42  1a5a					      ENDIF
-     43  1a5a				  -	      IF	$60 = $E0
-     44  1a5a				  -	      .byte	$20+$6
+     43  1a5a				  -	      IF	YELLOW = $E0
+     44  1a5a				  -	      .byte	$20+$4
      45  1a5a					      ENDIF
-     46  1a5a				  -	      IF	$60 = $F0
-     47  1a5a				  -	      .byte	$40+$6
+     46  1a5a				  -	      IF	YELLOW = $F0
+     47  1a5a				  -	      .byte	$40+$4
      48  1a5a					      ENDIF
-      0  1a5a					      NTSCPAL	$40,$6	; lovely
-      1  1a5a		       46		      .byte.b	$40+$6
-      0  1a5b					      NTSC_TO_PAL	$40,$6
-      1  1a5b				  -	      IF	$40 = 0
-      2  1a5b				  -	      .byte	$40+$6
+      0  1a5a					      NTSCPAL	PINK,$6
+      1  1a5a		       46		      .byte.b	PINK+$6
+      0  1a5b					      NTSC_TO_PAL	PINK,$6
+      1  1a5b				  -	      IF	PINK = 0
+      2  1a5b				  -	      .byte	PINK+$6
       3  1a5b					      ENDIF
-      4  1a5b				  -	      IF	$40 = $10
+      4  1a5b				  -	      IF	PINK = $10
       5  1a5b				  -	      .byte	$20+$6
       6  1a5b					      ENDIF
-      7  1a5b				  -	      IF	$40 = $20
+      7  1a5b				  -	      IF	PINK = $20
       8  1a5b				  -	      .byte	$40+$6
       9  1a5b					      ENDIF
-     10  1a5b				  -	      IF	$40 = $30
+     10  1a5b				  -	      IF	PINK = $30
      11  1a5b				  -	      .byte	$40+$6
      12  1a5b					      ENDIF
-     13  1a5b					      IF	$40 = $40
+     13  1a5b					      IF	PINK = $40
      14  1a5b		       66		      .byte.b	$60+$6
      15  1a5c					      ENDIF
-     16  1a5c				  -	      IF	$40 = $50
+     16  1a5c				  -	      IF	PINK = $50
      17  1a5c				  -	      .byte	$80+$6
      18  1a5c					      ENDIF
-     19  1a5c				  -	      IF	$40 = $60
+     19  1a5c				  -	      IF	PINK = $60
      20  1a5c				  -	      .byte	$C0+$6
      21  1a5c					      ENDIF
-     22  1a5c				  -	      IF	$40 = $70
+     22  1a5c				  -	      IF	PINK = $70
      23  1a5c				  -	      .byte	$D0+$6
      24  1a5c					      ENDIF
-     25  1a5c				  -	      IF	$40 = $80
+     25  1a5c				  -	      IF	PINK = $80
      26  1a5c				  -	      .byte	$B0+$6
      27  1a5c					      ENDIF
-     28  1a5c				  -	      IF	$40 = $90
+     28  1a5c				  -	      IF	PINK = $90
      29  1a5c				  -	      .byte	$90+$6
      30  1a5c					      ENDIF
-     31  1a5c				  -	      IF	$40 = $A0
+     31  1a5c				  -	      IF	PINK = $A0
      32  1a5c				  -	      .byte	$70+$6
      33  1a5c					      ENDIF
-     34  1a5c				  -	      IF	$40 = $B0
+     34  1a5c				  -	      IF	PINK = $B0
      35  1a5c				  -	      .byte	$50+$6
      36  1a5c					      ENDIF
-     37  1a5c				  -	      IF	$40 = $C0
+     37  1a5c				  -	      IF	PINK = $C0
      38  1a5c				  -	      .byte	$30+$6
      39  1a5c					      ENDIF
-     40  1a5c				  -	      IF	$40 = $D0
+     40  1a5c				  -	      IF	PINK = $D0
      41  1a5c				  -	      .byte	$30+$6
      42  1a5c					      ENDIF
-     43  1a5c				  -	      IF	$40 = $E0
+     43  1a5c				  -	      IF	PINK = $E0
      44  1a5c				  -	      .byte	$20+$6
      45  1a5c					      ENDIF
-     46  1a5c				  -	      IF	$40 = $F0
+     46  1a5c				  -	      IF	PINK = $F0
      47  1a5c				  -	      .byte	$40+$6
      48  1a5c					      ENDIF
-      0  1a5c					      NTSCPAL	$90,$6	;ok
-      1  1a5c		       96		      .byte.b	$90+$6
-      0  1a5d					      NTSC_TO_PAL	$90,$6
-      1  1a5d				  -	      IF	$90 = 0
-      2  1a5d				  -	      .byte	$90+$6
+      0  1a5c					      NTSCPAL	TEAL,$6
+      1  1a5c		       a6		      .byte.b	TEAL+$6
+      0  1a5d					      NTSC_TO_PAL	TEAL,$6
+      1  1a5d				  -	      IF	TEAL = 0
+      2  1a5d				  -	      .byte	TEAL+$6
       3  1a5d					      ENDIF
-      4  1a5d				  -	      IF	$90 = $10
+      4  1a5d				  -	      IF	TEAL = $10
       5  1a5d				  -	      .byte	$20+$6
       6  1a5d					      ENDIF
-      7  1a5d				  -	      IF	$90 = $20
+      7  1a5d				  -	      IF	TEAL = $20
       8  1a5d				  -	      .byte	$40+$6
       9  1a5d					      ENDIF
-     10  1a5d				  -	      IF	$90 = $30
+     10  1a5d				  -	      IF	TEAL = $30
      11  1a5d				  -	      .byte	$40+$6
      12  1a5d					      ENDIF
-     13  1a5d				  -	      IF	$90 = $40
+     13  1a5d				  -	      IF	TEAL = $40
      14  1a5d				  -	      .byte	$60+$6
      15  1a5d					      ENDIF
-     16  1a5d				  -	      IF	$90 = $50
+     16  1a5d				  -	      IF	TEAL = $50
      17  1a5d				  -	      .byte	$80+$6
      18  1a5d					      ENDIF
-     19  1a5d				  -	      IF	$90 = $60
+     19  1a5d				  -	      IF	TEAL = $60
      20  1a5d				  -	      .byte	$C0+$6
      21  1a5d					      ENDIF
-     22  1a5d				  -	      IF	$90 = $70
+     22  1a5d				  -	      IF	TEAL = $70
      23  1a5d				  -	      .byte	$D0+$6
      24  1a5d					      ENDIF
-     25  1a5d				  -	      IF	$90 = $80
+     25  1a5d				  -	      IF	TEAL = $80
      26  1a5d				  -	      .byte	$B0+$6
      27  1a5d					      ENDIF
-     28  1a5d					      IF	$90 = $90
-     29  1a5d		       96		      .byte.b	$90+$6
-     30  1a5e					      ENDIF
-     31  1a5e				  -	      IF	$90 = $A0
-     32  1a5e				  -	      .byte	$70+$6
+     28  1a5d				  -	      IF	TEAL = $90
+     29  1a5d				  -	      .byte	$90+$6
+     30  1a5d					      ENDIF
+     31  1a5d					      IF	TEAL = $A0
+     32  1a5d		       76		      .byte.b	$70+$6
      33  1a5e					      ENDIF
-     34  1a5e				  -	      IF	$90 = $B0
+     34  1a5e				  -	      IF	TEAL = $B0
      35  1a5e				  -	      .byte	$50+$6
      36  1a5e					      ENDIF
-     37  1a5e				  -	      IF	$90 = $C0
+     37  1a5e				  -	      IF	TEAL = $C0
      38  1a5e				  -	      .byte	$30+$6
      39  1a5e					      ENDIF
-     40  1a5e				  -	      IF	$90 = $D0
+     40  1a5e				  -	      IF	TEAL = $D0
      41  1a5e				  -	      .byte	$30+$6
      42  1a5e					      ENDIF
-     43  1a5e				  -	      IF	$90 = $E0
+     43  1a5e				  -	      IF	TEAL = $E0
      44  1a5e				  -	      .byte	$20+$6
      45  1a5e					      ENDIF
-     46  1a5e				  -	      IF	$90 = $F0
+     46  1a5e				  -	      IF	TEAL = $F0
      47  1a5e				  -	      .byte	$40+$6
      48  1a5e					      ENDIF
-      0  1a5e					      NTSCPAL	$10,$6
-      1  1a5e		       16		      .byte.b	$10+$6
-      0  1a5f					      NTSC_TO_PAL	$10,$6
-      1  1a5f				  -	      IF	$10 = 0
-      2  1a5f				  -	      .byte	$10+$6
+      0  1a5e					      NTSCPAL	LIME,$8
+      1  1a5e		       c8		      .byte.b	LIME+$8
+      0  1a5f					      NTSC_TO_PAL	LIME,$8
+      1  1a5f				  -	      IF	LIME = 0
+      2  1a5f				  -	      .byte	LIME+$8
       3  1a5f					      ENDIF
-      4  1a5f					      IF	$10 = $10
-      5  1a5f		       26		      .byte.b	$20+$6
-      6  1a60					      ENDIF
-      7  1a60				  -	      IF	$10 = $20
-      8  1a60				  -	      .byte	$40+$6
-      9  1a60					      ENDIF
-     10  1a60				  -	      IF	$10 = $30
-     11  1a60				  -	      .byte	$40+$6
-     12  1a60					      ENDIF
-     13  1a60				  -	      IF	$10 = $40
-     14  1a60				  -	      .byte	$60+$6
-     15  1a60					      ENDIF
-     16  1a60				  -	      IF	$10 = $50
-     17  1a60				  -	      .byte	$80+$6
-     18  1a60					      ENDIF
-     19  1a60				  -	      IF	$10 = $60
-     20  1a60				  -	      .byte	$C0+$6
-     21  1a60					      ENDIF
-     22  1a60				  -	      IF	$10 = $70
-     23  1a60				  -	      .byte	$D0+$6
-     24  1a60					      ENDIF
-     25  1a60				  -	      IF	$10 = $80
-     26  1a60				  -	      .byte	$B0+$6
-     27  1a60					      ENDIF
-     28  1a60				  -	      IF	$10 = $90
-     29  1a60				  -	      .byte	$90+$6
-     30  1a60					      ENDIF
-     31  1a60				  -	      IF	$10 = $A0
-     32  1a60				  -	      .byte	$70+$6
-     33  1a60					      ENDIF
-     34  1a60				  -	      IF	$10 = $B0
-     35  1a60				  -	      .byte	$50+$6
-     36  1a60					      ENDIF
-     37  1a60				  -	      IF	$10 = $C0
-     38  1a60				  -	      .byte	$30+$6
+      4  1a5f				  -	      IF	LIME = $10
+      5  1a5f				  -	      .byte	$20+$8
+      6  1a5f					      ENDIF
+      7  1a5f				  -	      IF	LIME = $20
+      8  1a5f				  -	      .byte	$40+$8
+      9  1a5f					      ENDIF
+     10  1a5f				  -	      IF	LIME = $30
+     11  1a5f				  -	      .byte	$40+$8
+     12  1a5f					      ENDIF
+     13  1a5f				  -	      IF	LIME = $40
+     14  1a5f				  -	      .byte	$60+$8
+     15  1a5f					      ENDIF
+     16  1a5f				  -	      IF	LIME = $50
+     17  1a5f				  -	      .byte	$80+$8
+     18  1a5f					      ENDIF
+     19  1a5f				  -	      IF	LIME = $60
+     20  1a5f				  -	      .byte	$C0+$8
+     21  1a5f					      ENDIF
+     22  1a5f				  -	      IF	LIME = $70
+     23  1a5f				  -	      .byte	$D0+$8
+     24  1a5f					      ENDIF
+     25  1a5f				  -	      IF	LIME = $80
+     26  1a5f				  -	      .byte	$B0+$8
+     27  1a5f					      ENDIF
+     28  1a5f				  -	      IF	LIME = $90
+     29  1a5f				  -	      .byte	$90+$8
+     30  1a5f					      ENDIF
+     31  1a5f				  -	      IF	LIME = $A0
+     32  1a5f				  -	      .byte	$70+$8
+     33  1a5f					      ENDIF
+     34  1a5f				  -	      IF	LIME = $B0
+     35  1a5f				  -	      .byte	$50+$8
+     36  1a5f					      ENDIF
+     37  1a5f					      IF	LIME = $C0
+     38  1a5f		       38		      .byte.b	$30+$8
      39  1a60					      ENDIF
-     40  1a60				  -	      IF	$10 = $D0
-     41  1a60				  -	      .byte	$30+$6
+     40  1a60				  -	      IF	LIME = $D0
+     41  1a60				  -	      .byte	$30+$8
      42  1a60					      ENDIF
-     43  1a60				  -	      IF	$10 = $E0
-     44  1a60				  -	      .byte	$20+$6
+     43  1a60				  -	      IF	LIME = $E0
+     44  1a60				  -	      .byte	$20+$8
      45  1a60					      ENDIF
-     46  1a60				  -	      IF	$10 = $F0
-     47  1a60				  -	      .byte	$40+$6
+     46  1a60				  -	      IF	LIME = $F0
+     47  1a60				  -	      .byte	$40+$8
      48  1a60					      ENDIF
-    628  1a60							;    NTSCPAL $40,$A
-    629  1a60							;    NTSCPAL $C0,$8
-    630  1a60				   C3			;
-      0  1a60					      NTSCPAL	$40,$8	;ok
-      1  1a60		       48		      .byte.b	$40+$8
-      0  1a61					      NTSC_TO_PAL	$40,$8
-      1  1a61				  -	      IF	$40 = 0
-      2  1a61				  -	      .byte	$40+$8
+    653  1a60
+    654  1a60				   C3			;
+      0  1a60					      NTSCPAL	PINK,$8
+      1  1a60		       48		      .byte.b	PINK+$8
+      0  1a61					      NTSC_TO_PAL	PINK,$8
+      1  1a61				  -	      IF	PINK = 0
+      2  1a61				  -	      .byte	PINK+$8
       3  1a61					      ENDIF
-      4  1a61				  -	      IF	$40 = $10
+      4  1a61				  -	      IF	PINK = $10
       5  1a61				  -	      .byte	$20+$8
       6  1a61					      ENDIF
-      7  1a61				  -	      IF	$40 = $20
+      7  1a61				  -	      IF	PINK = $20
       8  1a61				  -	      .byte	$40+$8
       9  1a61					      ENDIF
-     10  1a61				  -	      IF	$40 = $30
+     10  1a61				  -	      IF	PINK = $30
      11  1a61				  -	      .byte	$40+$8
      12  1a61					      ENDIF
-     13  1a61					      IF	$40 = $40
+     13  1a61					      IF	PINK = $40
      14  1a61		       68		      .byte.b	$60+$8
      15  1a62					      ENDIF
-     16  1a62				  -	      IF	$40 = $50
+     16  1a62				  -	      IF	PINK = $50
      17  1a62				  -	      .byte	$80+$8
      18  1a62					      ENDIF
-     19  1a62				  -	      IF	$40 = $60
+     19  1a62				  -	      IF	PINK = $60
      20  1a62				  -	      .byte	$C0+$8
      21  1a62					      ENDIF
-     22  1a62				  -	      IF	$40 = $70
+     22  1a62				  -	      IF	PINK = $70
      23  1a62				  -	      .byte	$D0+$8
      24  1a62					      ENDIF
-     25  1a62				  -	      IF	$40 = $80
+     25  1a62				  -	      IF	PINK = $80
      26  1a62				  -	      .byte	$B0+$8
      27  1a62					      ENDIF
-     28  1a62				  -	      IF	$40 = $90
+     28  1a62				  -	      IF	PINK = $90
      29  1a62				  -	      .byte	$90+$8
      30  1a62					      ENDIF
-     31  1a62				  -	      IF	$40 = $A0
+     31  1a62				  -	      IF	PINK = $A0
      32  1a62				  -	      .byte	$70+$8
      33  1a62					      ENDIF
-     34  1a62				  -	      IF	$40 = $B0
+     34  1a62				  -	      IF	PINK = $B0
      35  1a62				  -	      .byte	$50+$8
      36  1a62					      ENDIF
-     37  1a62				  -	      IF	$40 = $C0
+     37  1a62				  -	      IF	PINK = $C0
      38  1a62				  -	      .byte	$30+$8
      39  1a62					      ENDIF
-     40  1a62				  -	      IF	$40 = $D0
+     40  1a62				  -	      IF	PINK = $D0
      41  1a62				  -	      .byte	$30+$8
      42  1a62					      ENDIF
-     43  1a62				  -	      IF	$40 = $E0
+     43  1a62				  -	      IF	PINK = $E0
      44  1a62				  -	      .byte	$20+$8
      45  1a62					      ENDIF
-     46  1a62				  -	      IF	$40 = $F0
+     46  1a62				  -	      IF	PINK = $F0
      47  1a62				  -	      .byte	$40+$8
      48  1a62					      ENDIF
-      0  1a62					      NTSCPAL	$90,$8	;ok
-      1  1a62		       98		      .byte.b	$90+$8
-      0  1a63					      NTSC_TO_PAL	$90,$8
-      1  1a63				  -	      IF	$90 = 0
-      2  1a63				  -	      .byte	$90+$8
+      0  1a62					      NTSCPAL	LIME,$8
+      1  1a62		       c8		      .byte.b	LIME+$8
+      0  1a63					      NTSC_TO_PAL	LIME,$8
+      1  1a63				  -	      IF	LIME = 0
+      2  1a63				  -	      .byte	LIME+$8
       3  1a63					      ENDIF
-      4  1a63				  -	      IF	$90 = $10
+      4  1a63				  -	      IF	LIME = $10
       5  1a63				  -	      .byte	$20+$8
       6  1a63					      ENDIF
-      7  1a63				  -	      IF	$90 = $20
+      7  1a63				  -	      IF	LIME = $20
       8  1a63				  -	      .byte	$40+$8
       9  1a63					      ENDIF
-     10  1a63				  -	      IF	$90 = $30
+     10  1a63				  -	      IF	LIME = $30
      11  1a63				  -	      .byte	$40+$8
      12  1a63					      ENDIF
-     13  1a63				  -	      IF	$90 = $40
+     13  1a63				  -	      IF	LIME = $40
      14  1a63				  -	      .byte	$60+$8
      15  1a63					      ENDIF
-     16  1a63				  -	      IF	$90 = $50
+     16  1a63				  -	      IF	LIME = $50
      17  1a63				  -	      .byte	$80+$8
      18  1a63					      ENDIF
-     19  1a63				  -	      IF	$90 = $60
+     19  1a63				  -	      IF	LIME = $60
      20  1a63				  -	      .byte	$C0+$8
      21  1a63					      ENDIF
-     22  1a63				  -	      IF	$90 = $70
+     22  1a63				  -	      IF	LIME = $70
      23  1a63				  -	      .byte	$D0+$8
      24  1a63					      ENDIF
-     25  1a63				  -	      IF	$90 = $80
+     25  1a63				  -	      IF	LIME = $80
      26  1a63				  -	      .byte	$B0+$8
      27  1a63					      ENDIF
-     28  1a63					      IF	$90 = $90
-     29  1a63		       98		      .byte.b	$90+$8
-     30  1a64					      ENDIF
-     31  1a64				  -	      IF	$90 = $A0
-     32  1a64				  -	      .byte	$70+$8
-     33  1a64					      ENDIF
-     34  1a64				  -	      IF	$90 = $B0
-     35  1a64				  -	      .byte	$50+$8
-     36  1a64					      ENDIF
-     37  1a64				  -	      IF	$90 = $C0
-     38  1a64				  -	      .byte	$30+$8
+     28  1a63				  -	      IF	LIME = $90
+     29  1a63				  -	      .byte	$90+$8
+     30  1a63					      ENDIF
+     31  1a63				  -	      IF	LIME = $A0
+     32  1a63				  -	      .byte	$70+$8
+     33  1a63					      ENDIF
+     34  1a63				  -	      IF	LIME = $B0
+     35  1a63				  -	      .byte	$50+$8
+     36  1a63					      ENDIF
+     37  1a63					      IF	LIME = $C0
+     38  1a63		       38		      .byte.b	$30+$8
      39  1a64					      ENDIF
-     40  1a64				  -	      IF	$90 = $D0
+     40  1a64				  -	      IF	LIME = $D0
      41  1a64				  -	      .byte	$30+$8
      42  1a64					      ENDIF
-     43  1a64				  -	      IF	$90 = $E0
+     43  1a64				  -	      IF	LIME = $E0
      44  1a64				  -	      .byte	$20+$8
      45  1a64					      ENDIF
-     46  1a64				  -	      IF	$90 = $F0
+     46  1a64				  -	      IF	LIME = $F0
      47  1a64				  -	      .byte	$40+$8
      48  1a64					      ENDIF
-      0  1a64					      NTSCPAL	$90,$8	;ok both
-      1  1a64		       98		      .byte.b	$90+$8
-      0  1a65					      NTSC_TO_PAL	$90,$8
-      1  1a65				  -	      IF	$90 = 0
-      2  1a65				  -	      .byte	$90+$8
+      0  1a64					      NTSCPAL	LIME,$8
+      1  1a64		       c8		      .byte.b	LIME+$8
+      0  1a65					      NTSC_TO_PAL	LIME,$8
+      1  1a65				  -	      IF	LIME = 0
+      2  1a65				  -	      .byte	LIME+$8
       3  1a65					      ENDIF
-      4  1a65				  -	      IF	$90 = $10
+      4  1a65				  -	      IF	LIME = $10
       5  1a65				  -	      .byte	$20+$8
       6  1a65					      ENDIF
-      7  1a65				  -	      IF	$90 = $20
+      7  1a65				  -	      IF	LIME = $20
       8  1a65				  -	      .byte	$40+$8
       9  1a65					      ENDIF
-     10  1a65				  -	      IF	$90 = $30
+     10  1a65				  -	      IF	LIME = $30
      11  1a65				  -	      .byte	$40+$8
      12  1a65					      ENDIF
-     13  1a65				  -	      IF	$90 = $40
+     13  1a65				  -	      IF	LIME = $40
      14  1a65				  -	      .byte	$60+$8
      15  1a65					      ENDIF
-     16  1a65				  -	      IF	$90 = $50
+     16  1a65				  -	      IF	LIME = $50
      17  1a65				  -	      .byte	$80+$8
      18  1a65					      ENDIF
-     19  1a65				  -	      IF	$90 = $60
+     19  1a65				  -	      IF	LIME = $60
      20  1a65				  -	      .byte	$C0+$8
      21  1a65					      ENDIF
-     22  1a65				  -	      IF	$90 = $70
+     22  1a65				  -	      IF	LIME = $70
      23  1a65				  -	      .byte	$D0+$8
      24  1a65					      ENDIF
-     25  1a65				  -	      IF	$90 = $80
+     25  1a65				  -	      IF	LIME = $80
      26  1a65				  -	      .byte	$B0+$8
      27  1a65					      ENDIF
-     28  1a65					      IF	$90 = $90
-     29  1a65		       98		      .byte.b	$90+$8
-     30  1a66					      ENDIF
-     31  1a66				  -	      IF	$90 = $A0
-     32  1a66				  -	      .byte	$70+$8
-     33  1a66					      ENDIF
-     34  1a66				  -	      IF	$90 = $B0
-     35  1a66				  -	      .byte	$50+$8
-     36  1a66					      ENDIF
-     37  1a66				  -	      IF	$90 = $C0
-     38  1a66				  -	      .byte	$30+$8
+     28  1a65				  -	      IF	LIME = $90
+     29  1a65				  -	      .byte	$90+$8
+     30  1a65					      ENDIF
+     31  1a65				  -	      IF	LIME = $A0
+     32  1a65				  -	      .byte	$70+$8
+     33  1a65					      ENDIF
+     34  1a65				  -	      IF	LIME = $B0
+     35  1a65				  -	      .byte	$50+$8
+     36  1a65					      ENDIF
+     37  1a65					      IF	LIME = $C0
+     38  1a65		       38		      .byte.b	$30+$8
      39  1a66					      ENDIF
-     40  1a66				  -	      IF	$90 = $D0
+     40  1a66				  -	      IF	LIME = $D0
      41  1a66				  -	      .byte	$30+$8
      42  1a66					      ENDIF
-     43  1a66				  -	      IF	$90 = $E0
+     43  1a66				  -	      IF	LIME = $E0
      44  1a66				  -	      .byte	$20+$8
      45  1a66					      ENDIF
-     46  1a66				  -	      IF	$90 = $F0
+     46  1a66				  -	      IF	LIME = $F0
      47  1a66				  -	      .byte	$40+$8
      48  1a66					      ENDIF
-      0  1a66					      NTSCPAL	$70,$8	;ok both
-      1  1a66		       78		      .byte.b	$70+$8
-      0  1a67					      NTSC_TO_PAL	$70,$8
-      1  1a67				  -	      IF	$70 = 0
-      2  1a67				  -	      .byte	$70+$8
+      0  1a66					      NTSCPAL	ORANGE,$8
+      1  1a66		       28		      .byte.b	ORANGE+$8
+      0  1a67					      NTSC_TO_PAL	ORANGE,$8
+      1  1a67				  -	      IF	ORANGE = 0
+      2  1a67				  -	      .byte	ORANGE+$8
       3  1a67					      ENDIF
-      4  1a67				  -	      IF	$70 = $10
+      4  1a67				  -	      IF	ORANGE = $10
       5  1a67				  -	      .byte	$20+$8
       6  1a67					      ENDIF
-      7  1a67				  -	      IF	$70 = $20
-      8  1a67				  -	      .byte	$40+$8
-      9  1a67					      ENDIF
-     10  1a67				  -	      IF	$70 = $30
-     11  1a67				  -	      .byte	$40+$8
-     12  1a67					      ENDIF
-     13  1a67				  -	      IF	$70 = $40
-     14  1a67				  -	      .byte	$60+$8
-     15  1a67					      ENDIF
-     16  1a67				  -	      IF	$70 = $50
-     17  1a67				  -	      .byte	$80+$8
-     18  1a67					      ENDIF
-     19  1a67				  -	      IF	$70 = $60
-     20  1a67				  -	      .byte	$C0+$8
-     21  1a67					      ENDIF
-     22  1a67					      IF	$70 = $70
-     23  1a67		       d8		      .byte.b	$D0+$8
+      7  1a67					      IF	ORANGE = $20
+      8  1a67		       48		      .byte.b	$40+$8
+      9  1a68					      ENDIF
+     10  1a68				  -	      IF	ORANGE = $30
+     11  1a68				  -	      .byte	$40+$8
+     12  1a68					      ENDIF
+     13  1a68				  -	      IF	ORANGE = $40
+     14  1a68				  -	      .byte	$60+$8
+     15  1a68					      ENDIF
+     16  1a68				  -	      IF	ORANGE = $50
+     17  1a68				  -	      .byte	$80+$8
+     18  1a68					      ENDIF
+     19  1a68				  -	      IF	ORANGE = $60
+     20  1a68				  -	      .byte	$C0+$8
+     21  1a68					      ENDIF
+     22  1a68				  -	      IF	ORANGE = $70
+     23  1a68				  -	      .byte	$D0+$8
      24  1a68					      ENDIF
-     25  1a68				  -	      IF	$70 = $80
+     25  1a68				  -	      IF	ORANGE = $80
      26  1a68				  -	      .byte	$B0+$8
      27  1a68					      ENDIF
-     28  1a68				  -	      IF	$70 = $90
+     28  1a68				  -	      IF	ORANGE = $90
      29  1a68				  -	      .byte	$90+$8
      30  1a68					      ENDIF
-     31  1a68				  -	      IF	$70 = $A0
+     31  1a68				  -	      IF	ORANGE = $A0
      32  1a68				  -	      .byte	$70+$8
      33  1a68					      ENDIF
-     34  1a68				  -	      IF	$70 = $B0
+     34  1a68				  -	      IF	ORANGE = $B0
      35  1a68				  -	      .byte	$50+$8
      36  1a68					      ENDIF
-     37  1a68				  -	      IF	$70 = $C0
+     37  1a68				  -	      IF	ORANGE = $C0
      38  1a68				  -	      .byte	$30+$8
      39  1a68					      ENDIF
-     40  1a68				  -	      IF	$70 = $D0
+     40  1a68				  -	      IF	ORANGE = $D0
      41  1a68				  -	      .byte	$30+$8
      42  1a68					      ENDIF
-     43  1a68				  -	      IF	$70 = $E0
+     43  1a68				  -	      IF	ORANGE = $E0
      44  1a68				  -	      .byte	$20+$8
      45  1a68					      ENDIF
-     46  1a68				  -	      IF	$70 = $F0
+     46  1a68				  -	      IF	ORANGE = $F0
      47  1a68				  -	      .byte	$40+$8
      48  1a68					      ENDIF
-      0  1a68					      NTSCPAL	$B0,$8
-      1  1a68		       b8		      .byte.b	$B0+$8
-      0  1a69					      NTSC_TO_PAL	$B0,$8
-      1  1a69				  -	      IF	$B0 = 0
-      2  1a69				  -	      .byte	$B0+$8
+      0  1a68					      NTSCPAL	BLUE,$8
+      1  1a68		       78		      .byte.b	BLUE+$8
+      0  1a69					      NTSC_TO_PAL	BLUE,$8
+      1  1a69				  -	      IF	BLUE = 0
+      2  1a69				  -	      .byte	BLUE+$8
       3  1a69					      ENDIF
-      4  1a69				  -	      IF	$B0 = $10
+      4  1a69				  -	      IF	BLUE = $10
       5  1a69				  -	      .byte	$20+$8
       6  1a69					      ENDIF
-      7  1a69				  -	      IF	$B0 = $20
+      7  1a69				  -	      IF	BLUE = $20
       8  1a69				  -	      .byte	$40+$8
       9  1a69					      ENDIF
-     10  1a69				  -	      IF	$B0 = $30
+     10  1a69				  -	      IF	BLUE = $30
      11  1a69				  -	      .byte	$40+$8
      12  1a69					      ENDIF
-     13  1a69				  -	      IF	$B0 = $40
+     13  1a69				  -	      IF	BLUE = $40
      14  1a69				  -	      .byte	$60+$8
      15  1a69					      ENDIF
-     16  1a69				  -	      IF	$B0 = $50
+     16  1a69				  -	      IF	BLUE = $50
      17  1a69				  -	      .byte	$80+$8
      18  1a69					      ENDIF
-     19  1a69				  -	      IF	$B0 = $60
+     19  1a69				  -	      IF	BLUE = $60
      20  1a69				  -	      .byte	$C0+$8
      21  1a69					      ENDIF
-     22  1a69				  -	      IF	$B0 = $70
-     23  1a69				  -	      .byte	$D0+$8
-     24  1a69					      ENDIF
-     25  1a69				  -	      IF	$B0 = $80
-     26  1a69				  -	      .byte	$B0+$8
-     27  1a69					      ENDIF
-     28  1a69				  -	      IF	$B0 = $90
-     29  1a69				  -	      .byte	$90+$8
-     30  1a69					      ENDIF
-     31  1a69				  -	      IF	$B0 = $A0
-     32  1a69				  -	      .byte	$70+$8
-     33  1a69					      ENDIF
-     34  1a69					      IF	$B0 = $B0
-     35  1a69		       58		      .byte.b	$50+$8
+     22  1a69					      IF	BLUE = $70
+     23  1a69		       d8		      .byte.b	$D0+$8
+     24  1a6a					      ENDIF
+     25  1a6a				  -	      IF	BLUE = $80
+     26  1a6a				  -	      .byte	$B0+$8
+     27  1a6a					      ENDIF
+     28  1a6a				  -	      IF	BLUE = $90
+     29  1a6a				  -	      .byte	$90+$8
+     30  1a6a					      ENDIF
+     31  1a6a				  -	      IF	BLUE = $A0
+     32  1a6a				  -	      .byte	$70+$8
+     33  1a6a					      ENDIF
+     34  1a6a				  -	      IF	BLUE = $B0
+     35  1a6a				  -	      .byte	$50+$8
      36  1a6a					      ENDIF
-     37  1a6a				  -	      IF	$B0 = $C0
+     37  1a6a				  -	      IF	BLUE = $C0
      38  1a6a				  -	      .byte	$30+$8
      39  1a6a					      ENDIF
-     40  1a6a				  -	      IF	$B0 = $D0
+     40  1a6a				  -	      IF	BLUE = $D0
      41  1a6a				  -	      .byte	$30+$8
      42  1a6a					      ENDIF
-     43  1a6a				  -	      IF	$B0 = $E0
+     43  1a6a				  -	      IF	BLUE = $E0
      44  1a6a				  -	      .byte	$20+$8
      45  1a6a					      ENDIF
-     46  1a6a				  -	      IF	$B0 = $F0
+     46  1a6a				  -	      IF	BLUE = $F0
      47  1a6a				  -	      .byte	$40+$8
      48  1a6a					      ENDIF
-      0  1a6a					      NTSCPAL	$20,$8
-      1  1a6a		       28		      .byte.b	$20+$8
-      0  1a6b					      NTSC_TO_PAL	$20,$8
-      1  1a6b				  -	      IF	$20 = 0
-      2  1a6b				  -	      .byte	$20+$8
+      0  1a6a					      NTSCPAL	ORANGE,$8
+      1  1a6a		       28		      .byte.b	ORANGE+$8
+      0  1a6b					      NTSC_TO_PAL	ORANGE,$8
+      1  1a6b				  -	      IF	ORANGE = 0
+      2  1a6b				  -	      .byte	ORANGE+$8
       3  1a6b					      ENDIF
-      4  1a6b				  -	      IF	$20 = $10
+      4  1a6b				  -	      IF	ORANGE = $10
       5  1a6b				  -	      .byte	$20+$8
       6  1a6b					      ENDIF
-      7  1a6b					      IF	$20 = $20
+      7  1a6b					      IF	ORANGE = $20
       8  1a6b		       48		      .byte.b	$40+$8
       9  1a6c					      ENDIF
-     10  1a6c				  -	      IF	$20 = $30
+     10  1a6c				  -	      IF	ORANGE = $30
      11  1a6c				  -	      .byte	$40+$8
      12  1a6c					      ENDIF
-     13  1a6c				  -	      IF	$20 = $40
+     13  1a6c				  -	      IF	ORANGE = $40
      14  1a6c				  -	      .byte	$60+$8
      15  1a6c					      ENDIF
-     16  1a6c				  -	      IF	$20 = $50
+     16  1a6c				  -	      IF	ORANGE = $50
      17  1a6c				  -	      .byte	$80+$8
      18  1a6c					      ENDIF
-     19  1a6c				  -	      IF	$20 = $60
+     19  1a6c				  -	      IF	ORANGE = $60
      20  1a6c				  -	      .byte	$C0+$8
      21  1a6c					      ENDIF
-     22  1a6c				  -	      IF	$20 = $70
+     22  1a6c				  -	      IF	ORANGE = $70
      23  1a6c				  -	      .byte	$D0+$8
      24  1a6c					      ENDIF
-     25  1a6c				  -	      IF	$20 = $80
+     25  1a6c				  -	      IF	ORANGE = $80
      26  1a6c				  -	      .byte	$B0+$8
      27  1a6c					      ENDIF
-     28  1a6c				  -	      IF	$20 = $90
+     28  1a6c				  -	      IF	ORANGE = $90
      29  1a6c				  -	      .byte	$90+$8
      30  1a6c					      ENDIF
-     31  1a6c				  -	      IF	$20 = $A0
+     31  1a6c				  -	      IF	ORANGE = $A0
      32  1a6c				  -	      .byte	$70+$8
      33  1a6c					      ENDIF
-     34  1a6c				  -	      IF	$20 = $B0
+     34  1a6c				  -	      IF	ORANGE = $B0
      35  1a6c				  -	      .byte	$50+$8
      36  1a6c					      ENDIF
-     37  1a6c				  -	      IF	$20 = $C0
+     37  1a6c				  -	      IF	ORANGE = $C0
      38  1a6c				  -	      .byte	$30+$8
      39  1a6c					      ENDIF
-     40  1a6c				  -	      IF	$20 = $D0
+     40  1a6c				  -	      IF	ORANGE = $D0
      41  1a6c				  -	      .byte	$30+$8
      42  1a6c					      ENDIF
-     43  1a6c				  -	      IF	$20 = $E0
+     43  1a6c				  -	      IF	ORANGE = $E0
      44  1a6c				  -	      .byte	$20+$8
      45  1a6c					      ENDIF
-     46  1a6c				  -	      IF	$20 = $F0
+     46  1a6c				  -	      IF	ORANGE = $F0
      47  1a6c				  -	      .byte	$40+$8
      48  1a6c					      ENDIF
-      0  1a6c					      NTSCPAL	$60,$8	; lovely
-      1  1a6c		       68		      .byte.b	$60+$8
-      0  1a6d					      NTSC_TO_PAL	$60,$8
-      1  1a6d				  -	      IF	$60 = 0
-      2  1a6d				  -	      .byte	$60+$8
+      0  1a6c					      NTSCPAL	VIOLET,$8
+      1  1a6c		       68		      .byte.b	VIOLET+$8
+      0  1a6d					      NTSC_TO_PAL	VIOLET,$8
+      1  1a6d				  -	      IF	VIOLET = 0
+      2  1a6d				  -	      .byte	VIOLET+$8
       3  1a6d					      ENDIF
-      4  1a6d				  -	      IF	$60 = $10
+      4  1a6d				  -	      IF	VIOLET = $10
       5  1a6d				  -	      .byte	$20+$8
       6  1a6d					      ENDIF
-      7  1a6d				  -	      IF	$60 = $20
+      7  1a6d				  -	      IF	VIOLET = $20
       8  1a6d				  -	      .byte	$40+$8
       9  1a6d					      ENDIF
-     10  1a6d				  -	      IF	$60 = $30
+     10  1a6d				  -	      IF	VIOLET = $30
      11  1a6d				  -	      .byte	$40+$8
      12  1a6d					      ENDIF
-     13  1a6d				  -	      IF	$60 = $40
+     13  1a6d				  -	      IF	VIOLET = $40
      14  1a6d				  -	      .byte	$60+$8
      15  1a6d					      ENDIF
-     16  1a6d				  -	      IF	$60 = $50
+     16  1a6d				  -	      IF	VIOLET = $50
      17  1a6d				  -	      .byte	$80+$8
      18  1a6d					      ENDIF
-     19  1a6d					      IF	$60 = $60
+     19  1a6d					      IF	VIOLET = $60
      20  1a6d		       c8		      .byte.b	$C0+$8
      21  1a6e					      ENDIF
-     22  1a6e				  -	      IF	$60 = $70
+     22  1a6e				  -	      IF	VIOLET = $70
      23  1a6e				  -	      .byte	$D0+$8
      24  1a6e					      ENDIF
-     25  1a6e				  -	      IF	$60 = $80
+     25  1a6e				  -	      IF	VIOLET = $80
      26  1a6e				  -	      .byte	$B0+$8
      27  1a6e					      ENDIF
-     28  1a6e				  -	      IF	$60 = $90
+     28  1a6e				  -	      IF	VIOLET = $90
      29  1a6e				  -	      .byte	$90+$8
      30  1a6e					      ENDIF
-     31  1a6e				  -	      IF	$60 = $A0
+     31  1a6e				  -	      IF	VIOLET = $A0
      32  1a6e				  -	      .byte	$70+$8
      33  1a6e					      ENDIF
-     34  1a6e				  -	      IF	$60 = $B0
+     34  1a6e				  -	      IF	VIOLET = $B0
      35  1a6e				  -	      .byte	$50+$8
      36  1a6e					      ENDIF
-     37  1a6e				  -	      IF	$60 = $C0
+     37  1a6e				  -	      IF	VIOLET = $C0
      38  1a6e				  -	      .byte	$30+$8
      39  1a6e					      ENDIF
-     40  1a6e				  -	      IF	$60 = $D0
+     40  1a6e				  -	      IF	VIOLET = $D0
      41  1a6e				  -	      .byte	$30+$8
      42  1a6e					      ENDIF
-     43  1a6e				  -	      IF	$60 = $E0
+     43  1a6e				  -	      IF	VIOLET = $E0
      44  1a6e				  -	      .byte	$20+$8
      45  1a6e					      ENDIF
-     46  1a6e				  -	      IF	$60 = $F0
+     46  1a6e				  -	      IF	VIOLET = $F0
      47  1a6e				  -	      .byte	$40+$8
      48  1a6e					      ENDIF
-      0  1a6e					      NTSCPAL	$C0,$8
-      1  1a6e		       c8		      .byte.b	$C0+$8
-      0  1a6f					      NTSC_TO_PAL	$C0,$8
-      1  1a6f				  -	      IF	$C0 = 0
-      2  1a6f				  -	      .byte	$C0+$8
+      0  1a6e					      NTSCPAL	ORANGE,$8
+      1  1a6e		       28		      .byte.b	ORANGE+$8
+      0  1a6f					      NTSC_TO_PAL	ORANGE,$8
+      1  1a6f				  -	      IF	ORANGE = 0
+      2  1a6f				  -	      .byte	ORANGE+$8
       3  1a6f					      ENDIF
-      4  1a6f				  -	      IF	$C0 = $10
+      4  1a6f				  -	      IF	ORANGE = $10
       5  1a6f				  -	      .byte	$20+$8
       6  1a6f					      ENDIF
-      7  1a6f				  -	      IF	$C0 = $20
-      8  1a6f				  -	      .byte	$40+$8
-      9  1a6f					      ENDIF
-     10  1a6f				  -	      IF	$C0 = $30
-     11  1a6f				  -	      .byte	$40+$8
-     12  1a6f					      ENDIF
-     13  1a6f				  -	      IF	$C0 = $40
-     14  1a6f				  -	      .byte	$60+$8
-     15  1a6f					      ENDIF
-     16  1a6f				  -	      IF	$C0 = $50
-     17  1a6f				  -	      .byte	$80+$8
-     18  1a6f					      ENDIF
-     19  1a6f				  -	      IF	$C0 = $60
-     20  1a6f				  -	      .byte	$C0+$8
-     21  1a6f					      ENDIF
-     22  1a6f				  -	      IF	$C0 = $70
-     23  1a6f				  -	      .byte	$D0+$8
-     24  1a6f					      ENDIF
-     25  1a6f				  -	      IF	$C0 = $80
-     26  1a6f				  -	      .byte	$B0+$8
-     27  1a6f					      ENDIF
-     28  1a6f				  -	      IF	$C0 = $90
-     29  1a6f				  -	      .byte	$90+$8
-     30  1a6f					      ENDIF
-     31  1a6f				  -	      IF	$C0 = $A0
-     32  1a6f				  -	      .byte	$70+$8
-     33  1a6f					      ENDIF
-     34  1a6f				  -	      IF	$C0 = $B0
-     35  1a6f				  -	      .byte	$50+$8
-     36  1a6f					      ENDIF
-     37  1a6f					      IF	$C0 = $C0
-     38  1a6f		       38		      .byte.b	$30+$8
+      7  1a6f					      IF	ORANGE = $20
+      8  1a6f		       48		      .byte.b	$40+$8
+      9  1a70					      ENDIF
+     10  1a70				  -	      IF	ORANGE = $30
+     11  1a70				  -	      .byte	$40+$8
+     12  1a70					      ENDIF
+     13  1a70				  -	      IF	ORANGE = $40
+     14  1a70				  -	      .byte	$60+$8
+     15  1a70					      ENDIF
+     16  1a70				  -	      IF	ORANGE = $50
+     17  1a70				  -	      .byte	$80+$8
+     18  1a70					      ENDIF
+     19  1a70				  -	      IF	ORANGE = $60
+     20  1a70				  -	      .byte	$C0+$8
+     21  1a70					      ENDIF
+     22  1a70				  -	      IF	ORANGE = $70
+     23  1a70				  -	      .byte	$D0+$8
+     24  1a70					      ENDIF
+     25  1a70				  -	      IF	ORANGE = $80
+     26  1a70				  -	      .byte	$B0+$8
+     27  1a70					      ENDIF
+     28  1a70				  -	      IF	ORANGE = $90
+     29  1a70				  -	      .byte	$90+$8
+     30  1a70					      ENDIF
+     31  1a70				  -	      IF	ORANGE = $A0
+     32  1a70				  -	      .byte	$70+$8
+     33  1a70					      ENDIF
+     34  1a70				  -	      IF	ORANGE = $B0
+     35  1a70				  -	      .byte	$50+$8
+     36  1a70					      ENDIF
+     37  1a70				  -	      IF	ORANGE = $C0
+     38  1a70				  -	      .byte	$30+$8
      39  1a70					      ENDIF
-     40  1a70				  -	      IF	$C0 = $D0
+     40  1a70				  -	      IF	ORANGE = $D0
      41  1a70				  -	      .byte	$30+$8
      42  1a70					      ENDIF
-     43  1a70				  -	      IF	$C0 = $E0
+     43  1a70				  -	      IF	ORANGE = $E0
      44  1a70				  -	      .byte	$20+$8
      45  1a70					      ENDIF
-     46  1a70				  -	      IF	$C0 = $F0
+     46  1a70				  -	      IF	ORANGE = $F0
      47  1a70				  -	      .byte	$40+$8
      48  1a70					      ENDIF
-    639  1a70							;    NTSCPAL $40,$A
-    640  1a70							;    NTSCPAL $C0,$8
-    641  1a70
-    642  1a70
-    643  1a70							;good...
-    644  1a70							;walls
-    645  1a70							; C6/36/16
-    646  1a70							; 4a/a4/7a
-    647  1a70							;bricks
-    648  1a70							; 44/28/C6
-    649  1a70
-    650  1a70
+    663  1a70
+    664  1a70
       0  1a70					      DEFINE_SUBROUTINE	UnpackLevel
       1  1a70		       00 03	   BANK_UnpackLevel =	_CURRENT_BANK
       2  1a70					      SUBROUTINE
       3  1a70				   UnpackLevel
-    652  1a70
-    653  1a70		       85 c0		      sta	RAM_Bank
-    654  1a72
-    655  1a72							; has to be done before decoding the level to have the platform right:
-    656  1a72							;	    SET_PLATFORM
-    657  1a72
-    658  1a72		       a9 01		      lda	#CHARACTER_SOIL
-    659  1a74		       85 8b		      sta	POS_Type
-    660  1a76
-    661  1a76		       a9 15		      lda	#SIZE_BOARD_Y-1
-    662  1a78		       85 88		      sta	POS_Y
-    663  1a7a		       a9 27	   xyLine     lda	#SIZE_BOARD_X-1
-    664  1a7c		       85 87		      sta	POS_X
-    665  1a7e		       20 3a f8    xyClear    jsr	PutBoardCharacterFromRAM
-    666  1a81		       c6 87		      dec	POS_X
-    667  1a83		       10 f9		      bpl	xyClear
-    668  1a85		       c6 88		      dec	POS_Y
-    669  1a87		       10 f1		      bpl	xyLine
-    670  1a89
-    671  1a89		       a9 0c		      lda	#12	;todo - crashes @12 ... why?
-    672  1a8b		       85 d2		      sta	base_x
-    673  1a8d		       a9 06		      lda	#6
-    674  1a8f		       85 d3		      sta	base_y
-    675  1a91
-    676  1a91		       a5 c2		      lda	NextLevelTrigger
-    677  1a93		       09 80		      ora	#BIT_NEXTLEVEL
-    678  1a95		       85 c2		      sta	NextLevelTrigger
-    679  1a97
-    680  1a97		       a6 b2		      ldx	levelX
-    681  1a99		       bd 00 f0 	      lda	LevelInfoLO,x
-    682  1a9c		       85 bb		      sta	Board_AddressR
-    683  1a9e		       bd 99 f0 	      lda	LevelInfoHI,x
-    684  1aa1		       85 bc		      sta	Board_AddressR+1
-    685  1aa3		       bd 32 f1 	      lda	LevelInfoBANK,x
-    686  1aa6		       85 ab		      sta	LEVEL_bank
-    687  1aa8
-    688  1aa8		       a9 03		      lda	#BANK_UnpackLevel	; the *ROM* bank of this routine (NOT RAM)
-    689  1aaa		       85 bf		      sta	ROM_Bank	; GetROMByte returns to this bank
-    690  1aac
-    691  1aac		       a5 b2		      lda	levelX
-    692  1aae		       29 07		      and	#7
-    693  1ab0		       0a		      asl
-    694  1ab1		       0a		      asl
-    695  1ab2		       05 80		      ora	Platform	; NTSC/PAL
-    696  1ab4		       4a		      lsr
-    697  1ab5		       aa		      tax
-    698  1ab6
-    699  1ab6		       bd 40 f2 	      lda	C1,x
-    700  1ab9		       85 d7		      sta	icc_colour
-    701  1abb		       bd 50 f2 	      lda	C2,x
-    702  1abe		       85 d8		      sta	icc_colour+1
-    703  1ac0		       bd 60 f2 	      lda	C3,x
-    704  1ac3		       85 d9		      sta	icc_colour+2
-    705  1ac5
-    706  1ac5							; Update the level colours (self-modifying) in each of the character line banks
-    707  1ac5
-    708  1ac5		       a2 07		      ldx	#SCREEN_LINES-1
-    709  1ac7				   setPlat
-    710  1ac7		       a5 d7		      lda	icc_colour
-    711  1ac9		       a0 53		      ldy	#<SELFMOD_BLUE+1
-    712  1acb		       20 1d f8 	      jsr	PutBoardCharacter
-    713  1ace
-    714  1ace		       a5 d8		      lda	icc_colour+1
-    715  1ad0		       a0 86		      ldy	#<SELFMOD_GREEN+1
-    716  1ad2		       20 1d f8 	      jsr	PutBoardCharacter
-    717  1ad5
-    718  1ad5		       a5 d9		      lda	icc_colour+2
-    719  1ad7		       a0 1d		      ldy	#<SELFMOD_RED+1
-    720  1ad9		       20 1d f8 	      jsr	PutBoardCharacter
-    721  1adc
-    722  1adc		       ca		      dex
-    723  1add		       10 e8		      bpl	setPlat
-    724  1adf
-    725  1adf
-    726  1adf		       a9 00		      lda	#$00
-    727  1ae1		       85 b6		      sta	BCD_moveCounter
-    728  1ae3		       85 b7		      sta	BCD_moveCounterHi
-    729  1ae5		       85 b8		      sta	takebackIndex
-    730  1ae7		       85 b9		      sta	takebackBaseIndex
-    731  1ae9
-    732  1ae9		       a9 00		      lda	#$00	; BCD reminder!
-    733  1aeb		       85 b5		      sta	BCD_targetsRequired	; # of targets that do NOT have boxes on them
-    734  1aed
-    735  1aed							;		ldx Platform
-    736  1aed							;		lda theThrottler,x
-    737  1aed							;		sta ThrottleSpeed
-    738  1aed
-    739  1aed							; first fill bg with character_soil
-    740  1aed							; then rle unpack level
-    741  1aed							; change level colours
-    742  1aed
-    743  1aed		       a9 00		      lda	#0
-    744  1aef		       85 87		      sta	POS_X
-    745  1af1		       85 88		      sta	POS_Y
-    746  1af3		       85 94		      sta	BoardLimit_Width
-    747  1af5		       85 95		      sta	BoardLimit_Height
-    748  1af7
-    749  1af7				   GetNextItem
-    750  1af7
-    751  1af7		       a9 01		      lda	#1
-    752  1af9		       85 d4		      sta	upk_length
-    753  1afb		       a9 00		      lda	#0
-    754  1afd		       85 d5		      sta	upk_column	; reuse var - this flags a digit already
-    755  1aff
-    756  1aff		       e6 bb	   Get2       inc	Board_AddressR
-    757  1b01		       d0 02		      bne	addrOK
-    758  1b03		       e6 bc		      inc	Board_AddressR+1
-    759  1b05				   addrOK
-    760  1b05
-    761  1b05		       a5 ab		      lda	LEVEL_bank
-    762  1b07		       a0 00		      ldy	#0
-    763  1b09		       20 0f f8 	      jsr	GetROMByte
-    764  1b0c		       85 d6		      sta	upk_temp	;scratch
-    765  1b0e
-    766  1b0e
-    767  1b0e		       c9 00		      cmp	#0
-    768  1b10		       d0 03		      bne	parse
-    769  1b12		       4c cb f1 	      jmp	finX
-    770  1b15				   parse
-    771  1b15		       c9 3a		      cmp	#"9"+1
-    772  1b17		       b0 1e		      bcs	notDigit
-    773  1b19		       c9 30		      cmp	#"0"
-    774  1b1b		       90 1a		      bcc	notDigit
-    775  1b1d
-    776  1b1d		       a5 d5		      lda	upk_column
-    777  1b1f		       f0 09		      beq	firstDig
-    778  1b21
-    779  1b21		       a5 d4		      lda	upk_length
-    780  1b23		       0a		      asl
-    781  1b24		       0a		      asl
-    782  1b25		       0a		      asl
-    783  1b26		       65 d4		      adc	upk_length
-    784  1b28		       65 d4		      adc	upk_length
-    785  1b2a
-    786  1b2a		       18	   firstDig   clc
-    787  1b2b		       65 d6		      adc	upk_temp
-    788  1b2d		       38		      sec
-    789  1b2e		       e9 30		      sbc	#"0"
-    790  1b30		       85 d4		      sta	upk_length
-    791  1b32		       e6 d5		      inc	upk_column	; flag we have seen a digit
-    792  1b34		       4c ff f2 	      jmp	Get2
-    793  1b37
-    794  1b37		       c9 7c	   notDigit   cmp	#"|"	; newline
-    795  1b39		       d0 11		      bne	checkWall
-    796  1b3b
-    797  1b3b							; Handle new-line
-    798  1b3b		       a9 00		      lda	#0
-    799  1b3d		       85 87		      sta	POS_X
-    800  1b3f		       e6 88		      inc	POS_Y
-    801  1b41
-    802  1b41
-    803  1b41		       a5 88		      lda	POS_Y
-    804  1b43		       c5 95		      cmp	BoardLimit_Height
-    805  1b45		       90 02		      bcc	wOK2
-    806  1b47		       85 95		      sta	BoardLimit_Height	;???^^^
-    807  1b49				   wOK2
-    808  1b49
-    809  1b49		       4c f7 f2 	      jmp	GetNextItem
-    810  1b4c
-    811  1b4c		       c9 23	   checkWall  cmp	#"#"	; wall
-    812  1b4e		       d0 09		      bne	checkForGap
-    813  1b50		       a5 b2		      lda	levelX
-    814  1b52		       29 01		      and	#1
-    815  1b54		       18		      clc
-    816  1b55		       69 06		      adc	#CHARACTER_STEEL
-    817  1b57		       d0 62		      bne	WriteChars
-    818  1b59
-    819  1b59		       c9 20	   checkForGap cmp	#32
-    820  1b5b		       f0 08		      beq	writeGap
-    821  1b5d		       c9 2d		      cmp	#"-"
-    822  1b5f		       f0 04		      beq	writeGap
-    823  1b61		       c9 5f		      cmp	#"_"
-    824  1b63		       d0 05		      bne	checkForMan
-    825  1b65
-    826  1b65		       a9 00	   writeGap   lda	#CHARACTER_BLANK
-    827  1b67		       4c bb f3 	      jmp	WriteChars
-    828  1b6a
-    829  1b6a				   checkForMan
-    830  1b6a		       c9 2b		      cmp	#"+"	; player on goal square
-    831  1b6c		       d0 07		      bne	notPlayerGoal
-    832  1b6e
-    833  1b6e		       20 f1 fc 	      jsr	RegisterTarget
-    834  1b71
-    835  1b71							; put goal square, init player with POS_VAR = CHARACTER_TARGET
-    836  1b71
-    837  1b71		       a9 03		      lda	#CHARACTER_TARGET
-    838  1b73		       d0 06		      bne	genPlayer
-    839  1b75
-    840  1b75				   notPlayerGoal
-    841  1b75		       c9 40		      cmp	#"@"	; player on normal square
-    842  1b77		       d0 29		      bne	checkBox
-    843  1b79
-    844  1b79		       a9 00		      lda	#CHARACTER_BLANK
-    845  1b7b
-    846  1b7b				   genPlayer
-    847  1b7b
-    848  1b7b		       85 8c		      sta	POS_VAR	; character man is on
-    849  1b7d
-    850  1b7d		       18		      clc
-    851  1b7e		       a5 87		      lda	POS_X
-    852  1b80		       48		      pha
-    853  1b81		       65 d2		      adc	base_x
-    854  1b83		       85 87		      sta	POS_X
-    855  1b85		       85 9d		      sta	ManX
-    856  1b87
-    857  1b87		       a5 88		      lda	POS_Y
-    858  1b89		       48		      pha
-    859  1b8a		       65 d3		      adc	base_y
-    860  1b8c		       85 88		      sta	POS_Y
-    861  1b8e		       85 9e		      sta	ManY
-    862  1b90
-    863  1b90							; POS_X     x position
-    864  1b90							; POS_Y     y position
-    865  1b90							; POS_VAR   CHARACTER UNDER MAN TO RESTORE
-    866  1b90							; POS_Type  type of object
-    867  1b90
-    868  1b90		       a9 00		      lda	#TYPE_MAN
-    869  1b92		       85 8b		      sta	POS_Type	;	 creature TYPE
-    870  1b94		       20 fb f8 	      jsr	InsertObjectStackFromRAM	;6+94(B)
-    871  1b97
-    872  1b97		       68		      pla
-    873  1b98		       85 88		      sta	POS_Y
-    874  1b9a		       68		      pla
-    875  1b9b		       85 87		      sta	POS_X
-    876  1b9d
-    877  1b9d		       a9 05		      lda	#CHARACTER_MANOCCUPIED
-    878  1b9f		       4c bb f3 	      jmp	WriteChars
-    879  1ba2
-    880  1ba2		       c9 24	   checkBox   cmp	#"$"
-    881  1ba4		       d0 04		      bne	checkBoxTarget
-    882  1ba6
-    883  1ba6		       a9 02		      lda	#CHARACTER_BOX
-    884  1ba8		       d0 11		      bne	WriteChars
-    885  1baa
-    886  1baa		       c9 2a	   checkBoxTarget cmp	#"*"
-    887  1bac		       d0 04		      bne	checkTarget
-    888  1bae
-    889  1bae		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
-    890  1bb0		       d0 09		      bne	WriteChars
-    891  1bb2
-    892  1bb2		       c9 2e	   checkTarget cmp	#"."
-    893  1bb4		       f0 03		      beq	targ
-    894  1bb6		       4c f7 f2 	      jmp	GetNextItem
-    895  1bb9				   targ
-    896  1bb9
-    897  1bb9		       a9 03		      lda	#CHARACTER_TARGET
-    898  1bbb
-    899  1bbb		       85 8b	   WriteChars sta	POS_Type
-    900  1bbd
-    901  1bbd		       18	   Wc2x       clc
-    902  1bbe		       a5 87		      lda	POS_X
-    903  1bc0		       48		      pha
-    904  1bc1		       65 d2		      adc	base_x
-    905  1bc3		       85 87		      sta	POS_X
-    906  1bc5
-    907  1bc5		       a5 88		      lda	POS_Y
-    908  1bc7		       48		      pha
-    909  1bc8		       65 d3		      adc	base_y
-    910  1bca		       85 88		      sta	POS_Y
-    911  1bcc
-    912  1bcc		       20 3a f8 	      jsr	PutBoardCharacterFromRAM
-    913  1bcf
-    914  1bcf		       a5 8b		      lda	POS_Type
-    915  1bd1		       c9 03		      cmp	#CHARACTER_TARGET
-    916  1bd3		       d0 03		      bne	notargdet
-    917  1bd5		       20 f1 fc 	      jsr	RegisterTarget
-    918  1bd8				   notargdet
-    919  1bd8
-    920  1bd8		       68		      pla
-    921  1bd9		       85 88		      sta	POS_Y
-    922  1bdb		       68		      pla
-    923  1bdc		       85 87		      sta	POS_X
-    924  1bde
-    925  1bde		       18		      clc
-    926  1bdf		       69 01		      adc	#1
-    927  1be1		       85 87		      sta	POS_X
-    928  1be3
-    929  1be3		       c5 94		      cmp	BoardLimit_Width
-    930  1be5		       90 02		      bcc	wOK
-    931  1be7		       85 94		      sta	BoardLimit_Width
-    932  1be9				   wOK
-    933  1be9
-    934  1be9		       c6 d4		      dec	upk_length
-    935  1beb		       d0 d0		      bne	Wc2x
-    936  1bed		       4c f7 f2 	      jmp	GetNextItem
-    937  1bf0
-    938  1bf0				   finishedUnpack
-    939  1bf0
-    940  1bf0		       60		      rts
-    941  1bf0					      endif
+    666  1a70
+    667  1a70		       85 c0		      sta	RAM_Bank
+    668  1a72
+    669  1a72							; has to be done before decoding the level to have the platform right:
+    670  1a72							;	    SET_PLATFORM
+    671  1a72
+    672  1a72		       a9 01		      lda	#CHARACTER_SOIL
+    673  1a74		       85 8b		      sta	POS_Type
+    674  1a76
+    675  1a76		       a9 15		      lda	#SIZE_BOARD_Y-1
+    676  1a78		       85 88		      sta	POS_Y
+    677  1a7a		       a9 27	   xyLine     lda	#SIZE_BOARD_X-1
+    678  1a7c		       85 87		      sta	POS_X
+    679  1a7e		       20 3a f8    xyClear    jsr	PutBoardCharacterFromRAM
+    680  1a81		       c6 87		      dec	POS_X
+    681  1a83		       10 f9		      bpl	xyClear
+    682  1a85		       c6 88		      dec	POS_Y
+    683  1a87		       10 f1		      bpl	xyLine
+    684  1a89
+    685  1a89		       a9 0c		      lda	#12	;todo - crashes @12 ... why?
+    686  1a8b		       85 d2		      sta	base_x
+    687  1a8d		       a9 06		      lda	#6
+    688  1a8f		       85 d3		      sta	base_y
+    689  1a91
+    690  1a91		       a5 c2		      lda	NextLevelTrigger
+    691  1a93		       09 80		      ora	#BIT_NEXTLEVEL
+    692  1a95		       85 c2		      sta	NextLevelTrigger
+    693  1a97
+    694  1a97		       a6 b2		      ldx	levelX
+    695  1a99		       bd 00 f0 	      lda	LevelInfoLO,x
+    696  1a9c		       85 bb		      sta	Board_AddressR
+    697  1a9e		       bd 99 f0 	      lda	LevelInfoHI,x
+    698  1aa1		       85 bc		      sta	Board_AddressR+1
+    699  1aa3		       bd 32 f1 	      lda	LevelInfoBANK,x
+    700  1aa6		       85 ab		      sta	LEVEL_bank
+    701  1aa8
+    702  1aa8		       a9 03		      lda	#BANK_UnpackLevel	; the *ROM* bank of this routine (NOT RAM)
+    703  1aaa		       85 bf		      sta	ROM_Bank	; GetROMByte returns to this bank
+    704  1aac
+    705  1aac		       a5 b2		      lda	levelX
+    706  1aae		       29 07		      and	#7
+    707  1ab0		       0a		      asl
+    708  1ab1		       0a		      asl
+    709  1ab2		       05 80		      ora	Platform	; NTSC/PAL
+    710  1ab4		       4a		      lsr
+    711  1ab5		       aa		      tax
+    712  1ab6
+    713  1ab6		       bd 40 f2 	      lda	C1,x
+    714  1ab9		       85 d7		      sta	icc_colour
+    715  1abb		       bd 50 f2 	      lda	C2,x
+    716  1abe		       85 d8		      sta	icc_colour+1
+    717  1ac0		       bd 60 f2 	      lda	C3,x
+    718  1ac3		       85 d9		      sta	icc_colour+2
+    719  1ac5
+    720  1ac5							; Update the level colours (self-modifying) in each of the character line banks
+    721  1ac5
+    722  1ac5		       a2 07		      ldx	#SCREEN_LINES-1
+    723  1ac7				   setPlat
+    724  1ac7		       a5 d7		      lda	icc_colour
+    725  1ac9		       a0 53		      ldy	#<SELFMOD_BLUE+1
+    726  1acb		       20 1d f8 	      jsr	PutBoardCharacter
+    727  1ace
+    728  1ace		       a5 d8		      lda	icc_colour+1
+    729  1ad0		       a0 86		      ldy	#<SELFMOD_GREEN+1
+    730  1ad2		       20 1d f8 	      jsr	PutBoardCharacter
+    731  1ad5
+    732  1ad5		       a5 d9		      lda	icc_colour+2
+    733  1ad7		       a0 1d		      ldy	#<SELFMOD_RED+1
+    734  1ad9		       20 1d f8 	      jsr	PutBoardCharacter
+    735  1adc
+    736  1adc		       ca		      dex
+    737  1add		       10 e8		      bpl	setPlat
+    738  1adf
+    739  1adf
+    740  1adf		       a9 00		      lda	#$00
+    741  1ae1		       85 b6		      sta	BCD_moveCounter
+    742  1ae3		       85 b7		      sta	BCD_moveCounterHi
+    743  1ae5		       85 b8		      sta	takebackIndex
+    744  1ae7		       85 b9		      sta	takebackBaseIndex
+    745  1ae9
+    746  1ae9		       a9 00		      lda	#$00	; BCD reminder!
+    747  1aeb		       85 b5		      sta	BCD_targetsRequired	; # of targets that do NOT have boxes on them
+    748  1aed
+    749  1aed							;		ldx Platform
+    750  1aed							;		lda theThrottler,x
+    751  1aed							;		sta ThrottleSpeed
+    752  1aed
+    753  1aed							; first fill bg with character_soil
+    754  1aed							; then rle unpack level
+    755  1aed							; change level colours
+    756  1aed
+    757  1aed		       a9 00		      lda	#0
+    758  1aef		       85 87		      sta	POS_X
+    759  1af1		       85 88		      sta	POS_Y
+    760  1af3		       85 94		      sta	BoardLimit_Width
+    761  1af5		       85 95		      sta	BoardLimit_Height
+    762  1af7
+    763  1af7				   GetNextItem
+    764  1af7
+    765  1af7		       a9 01		      lda	#1
+    766  1af9		       85 d4		      sta	upk_length
+    767  1afb		       a9 00		      lda	#0
+    768  1afd		       85 d5		      sta	upk_column	; reuse var - this flags a digit already
+    769  1aff
+    770  1aff		       e6 bb	   Get2       inc	Board_AddressR
+    771  1b01		       d0 02		      bne	addrOK
+    772  1b03		       e6 bc		      inc	Board_AddressR+1
+    773  1b05				   addrOK
+    774  1b05
+    775  1b05		       a5 ab		      lda	LEVEL_bank
+    776  1b07		       a0 00		      ldy	#0
+    777  1b09		       20 0f f8 	      jsr	GetROMByte
+    778  1b0c		       85 d6		      sta	upk_temp	;scratch
+    779  1b0e
+    780  1b0e
+    781  1b0e		       c9 00		      cmp	#0
+    782  1b10		       d0 03		      bne	parse
+    783  1b12		       4c cb f1 	      jmp	finX
+    784  1b15				   parse
+    785  1b15		       c9 3a		      cmp	#"9"+1
+    786  1b17		       b0 1e		      bcs	notDigit
+    787  1b19		       c9 30		      cmp	#"0"
+    788  1b1b		       90 1a		      bcc	notDigit
+    789  1b1d
+    790  1b1d		       a5 d5		      lda	upk_column
+    791  1b1f		       f0 09		      beq	firstDig
+    792  1b21
+    793  1b21		       a5 d4		      lda	upk_length
+    794  1b23		       0a		      asl
+    795  1b24		       0a		      asl
+    796  1b25		       0a		      asl
+    797  1b26		       65 d4		      adc	upk_length
+    798  1b28		       65 d4		      adc	upk_length
+    799  1b2a
+    800  1b2a		       18	   firstDig   clc
+    801  1b2b		       65 d6		      adc	upk_temp
+    802  1b2d		       38		      sec
+    803  1b2e		       e9 30		      sbc	#"0"
+    804  1b30		       85 d4		      sta	upk_length
+    805  1b32		       e6 d5		      inc	upk_column	; flag we have seen a digit
+    806  1b34		       4c ff f2 	      jmp	Get2
+    807  1b37
+    808  1b37		       c9 7c	   notDigit   cmp	#"|"	; newline
+    809  1b39		       d0 11		      bne	checkWall
+    810  1b3b
+    811  1b3b							; Handle new-line
+    812  1b3b		       a9 00		      lda	#0
+    813  1b3d		       85 87		      sta	POS_X
+    814  1b3f		       e6 88		      inc	POS_Y
+    815  1b41
+    816  1b41
+    817  1b41		       a5 88		      lda	POS_Y
+    818  1b43		       c5 95		      cmp	BoardLimit_Height
+    819  1b45		       90 02		      bcc	wOK2
+    820  1b47		       85 95		      sta	BoardLimit_Height	;???^^^
+    821  1b49				   wOK2
+    822  1b49
+    823  1b49		       4c f7 f2 	      jmp	GetNextItem
+    824  1b4c
+    825  1b4c		       c9 23	   checkWall  cmp	#"#"	; wall
+    826  1b4e		       d0 09		      bne	checkForGap
+    827  1b50		       a5 b2		      lda	levelX
+    828  1b52		       29 01		      and	#1
+    829  1b54		       18		      clc
+    830  1b55		       69 06		      adc	#CHARACTER_STEEL
+    831  1b57		       d0 62		      bne	WriteChars
+    832  1b59
+    833  1b59		       c9 20	   checkForGap cmp	#32
+    834  1b5b		       f0 08		      beq	writeGap
+    835  1b5d		       c9 2d		      cmp	#"-"
+    836  1b5f		       f0 04		      beq	writeGap
+    837  1b61		       c9 5f		      cmp	#"_"
+    838  1b63		       d0 05		      bne	checkForMan
+    839  1b65
+    840  1b65		       a9 00	   writeGap   lda	#CHARACTER_BLANK
+    841  1b67		       4c bb f3 	      jmp	WriteChars
+    842  1b6a
+    843  1b6a				   checkForMan
+    844  1b6a		       c9 2b		      cmp	#"+"	; player on goal square
+    845  1b6c		       d0 07		      bne	notPlayerGoal
+    846  1b6e
+    847  1b6e		       20 f1 fc 	      jsr	RegisterTarget
+    848  1b71
+    849  1b71							; put goal square, init player with POS_VAR = CHARACTER_TARGET
+    850  1b71
+    851  1b71		       a9 03		      lda	#CHARACTER_TARGET
+    852  1b73		       d0 06		      bne	genPlayer
+    853  1b75
+    854  1b75				   notPlayerGoal
+    855  1b75		       c9 40		      cmp	#"@"	; player on normal square
+    856  1b77		       d0 29		      bne	checkBox
+    857  1b79
+    858  1b79		       a9 00		      lda	#CHARACTER_BLANK
+    859  1b7b
+    860  1b7b				   genPlayer
+    861  1b7b
+    862  1b7b		       85 8c		      sta	POS_VAR	; character man is on
+    863  1b7d
+    864  1b7d		       18		      clc
+    865  1b7e		       a5 87		      lda	POS_X
+    866  1b80		       48		      pha
+    867  1b81		       65 d2		      adc	base_x
+    868  1b83		       85 87		      sta	POS_X
+    869  1b85		       85 9d		      sta	ManX
+    870  1b87
+    871  1b87		       a5 88		      lda	POS_Y
+    872  1b89		       48		      pha
+    873  1b8a		       65 d3		      adc	base_y
+    874  1b8c		       85 88		      sta	POS_Y
+    875  1b8e		       85 9e		      sta	ManY
+    876  1b90
+    877  1b90							; POS_X     x position
+    878  1b90							; POS_Y     y position
+    879  1b90							; POS_VAR   CHARACTER UNDER MAN TO RESTORE
+    880  1b90							; POS_Type  type of object
+    881  1b90
+    882  1b90		       a9 00		      lda	#TYPE_MAN
+    883  1b92		       85 8b		      sta	POS_Type	;	 creature TYPE
+    884  1b94		       20 fb f8 	      jsr	InsertObjectStackFromRAM	;6+94(B)
+    885  1b97
+    886  1b97		       68		      pla
+    887  1b98		       85 88		      sta	POS_Y
+    888  1b9a		       68		      pla
+    889  1b9b		       85 87		      sta	POS_X
+    890  1b9d
+    891  1b9d		       a9 05		      lda	#CHARACTER_MANOCCUPIED
+    892  1b9f		       4c bb f3 	      jmp	WriteChars
+    893  1ba2
+    894  1ba2		       c9 24	   checkBox   cmp	#"$"
+    895  1ba4		       d0 04		      bne	checkBoxTarget
+    896  1ba6
+    897  1ba6		       a9 02		      lda	#CHARACTER_BOX
+    898  1ba8		       d0 11		      bne	WriteChars
+    899  1baa
+    900  1baa		       c9 2a	   checkBoxTarget cmp	#"*"
+    901  1bac		       d0 04		      bne	checkTarget
+    902  1bae
+    903  1bae		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
+    904  1bb0		       d0 09		      bne	WriteChars
+    905  1bb2
+    906  1bb2		       c9 2e	   checkTarget cmp	#"."
+    907  1bb4		       f0 03		      beq	targ
+    908  1bb6		       4c f7 f2 	      jmp	GetNextItem
+    909  1bb9				   targ
+    910  1bb9
+    911  1bb9		       a9 03		      lda	#CHARACTER_TARGET
+    912  1bbb
+    913  1bbb		       85 8b	   WriteChars sta	POS_Type
+    914  1bbd
+    915  1bbd		       18	   Wc2x       clc
+    916  1bbe		       a5 87		      lda	POS_X
+    917  1bc0		       48		      pha
+    918  1bc1		       65 d2		      adc	base_x
+    919  1bc3		       85 87		      sta	POS_X
+    920  1bc5
+    921  1bc5		       a5 88		      lda	POS_Y
+    922  1bc7		       48		      pha
+    923  1bc8		       65 d3		      adc	base_y
+    924  1bca		       85 88		      sta	POS_Y
+    925  1bcc
+    926  1bcc		       20 3a f8 	      jsr	PutBoardCharacterFromRAM
+    927  1bcf
+    928  1bcf		       a5 8b		      lda	POS_Type
+    929  1bd1		       c9 03		      cmp	#CHARACTER_TARGET
+    930  1bd3		       d0 03		      bne	notargdet
+    931  1bd5		       20 f1 fc 	      jsr	RegisterTarget
+    932  1bd8				   notargdet
+    933  1bd8
+    934  1bd8		       68		      pla
+    935  1bd9		       85 88		      sta	POS_Y
+    936  1bdb		       68		      pla
+    937  1bdc		       85 87		      sta	POS_X
+    938  1bde
+    939  1bde		       18		      clc
+    940  1bdf		       69 01		      adc	#1
+    941  1be1		       85 87		      sta	POS_X
+    942  1be3
+    943  1be3		       c5 94		      cmp	BoardLimit_Width
+    944  1be5		       90 02		      bcc	wOK
+    945  1be7		       85 94		      sta	BoardLimit_Width
+    946  1be9				   wOK
+    947  1be9
+    948  1be9		       c6 d4		      dec	upk_length
+    949  1beb		       d0 d0		      bne	Wc2x
+    950  1bed		       4c f7 f2 	      jmp	GetNextItem
+    951  1bf0
+    952  1bf0				   finishedUnpack
+    953  1bf0
+    954  1bf0		       60		      rts
+    955  1bf0					      endif
 ------- FILE BANK_GENERIC.asm
      44  1bf1
       0  1bf1					      CHECK_HALF_BANK_SIZE	"GENERIC_BANK_1 (DECODE_LEVEL)"
@@ -22999,10 +23010,10 @@
     960  7b90
     961  7b90		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2
     962  7b92		       85 3e		      sta	SET_BANK_RAM	; 3
-    963  7b94		       bd da f1 	      lda	CharReplacement,x	; 4
+    963  7b94		       bd db f1 	      lda	CharReplacement,x	; 4
     964  7b97		       91 d4		      sta	(BDF_DrawFlagAddress2),y	; 6
     965  7b99		       ba		      tsx		; 2
-    966  7b9a		       bd da f1 	      lda	CharReplacement,x	; 4
+    966  7b9a		       bd db f1 	      lda	CharReplacement,x	; 4
     967  7b9d		       91 d2		      sta	(BDF_DrawFlagAddress),y	; 6 = 27 @44✅
     968  7b9f
     969  7b9f		       88		      dey		; 2
@@ -23054,7 +23065,7 @@
    1007  7bb7
    1008  7bb7		       a9 08		      lda	#BANK_DRAW_BUFFERS	; 2
    1009  7bb9		       85 3e		      sta	SET_BANK_RAM	; 3
-   1010  7bbb		       4c 27 f1 	      jmp	DrawIntoStack	; 3
+   1010  7bbb		       4c 28 f1 	      jmp	DrawIntoStack	; 3
    1011  7bbe
    1012  7bbe							; ==>39✅ @DrawIntoStack
    1013  7bbe

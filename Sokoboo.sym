@@ -1,13 +1,13 @@
 --- Symbol List (sorted by symbol)
 0.BANK                   0008                  
-0.exitDrawStack          f181              (R )
-0.finishedDrawStack      f178              (R )
+0.exitDrawStack          f182              (R )
+0.finishedDrawStack      f179              (R )
 0.FREE_BYTES             0000                  
-0.loopDrawStack          f12f              (R )
-0.next0                  f154              (R )
-0.next1                  f175              (R )
-0.notPaired0             f14b              (R )
-0.notPaired1             f16c              (R )
+0.loopDrawStack          f130              (R )
+0.next0                  f155              (R )
+0.next1                  f176              (R )
+0.notPaired0             f14c              (R )
+0.notPaired1             f16d              (R )
 1054.TEMP                0596              (R )
 1058.loopResync          f018              (R )
 1058.loopWait            f02b              (R )
@@ -166,8 +166,8 @@ alwaysAllowMan           f926              (R )
 anim_direction           f2e5              (R )
 ANIM_INDEX               0012                  
 ANIM_TABLE               f000              (R )
-ANIM_TARGET              f1dd              (R )
-ANIM_TARGET2             f1e2                  
+ANIM_TARGET              f1de              (R )
+ANIM_TARGET2             f1e3                  
 animate_char_index       00c6              (R )
 AnimateCharReplacements2 f113                  
 animation                009a              (R )
@@ -192,6 +192,7 @@ ANIMATION_WIN_ID         0004              (R )
 Animation_WOBBLE         f038                  
 Animation_YAWN           f0cc              (R )
 ANIMATION_YAWN_ID        0010              (R )
+AQUA                     0080                  
 AUDC0                    0055              (R )
 AUDC1                    0056                  
 AUDF0                    0057              (R )
@@ -486,6 +487,7 @@ BLANKR                   f301              (R )
 BlankStackPtr            0085                  
 blankState               00ae              (R )
 blnkre                   fa63              (R )
+BLUE                     0070              (R )
 Board                    1000              (R )
 Board_AddressR           00bb              (R )
 Board_AddressW           00bd              (R )
@@ -503,6 +505,7 @@ BOXLeft                  00d2
 BOXRight                 00d3                  
 boxtop                   f118              (R )
 bProcComp                f251              (R )
+BROWN                    00f0                  
 BufferedJoystick         0092              (R )
 BuildDrawStack           fbb0              (R )
 C1                       f240              (R )
@@ -573,7 +576,7 @@ CharN                    f0ae              (R )
 CharO                    f0ae              (R )
 CharP                    f0ae              (R )
 charPlace                f0b5              (R )
-CharReplacement          f1da              (R )
+CharReplacement          f1db              (R )
 CharVectorLO             f027                  
 checkBox                 f3a2              (R )
 checkBoxTarget           f3aa              (R )
@@ -696,7 +699,7 @@ DrawDigits2x4            f13b
 DrawDigits3x2            f1aa                  
 DrawFlag                 f050              (R )
 DrawFullScreen           f2ea              (R )
-DrawIntoStack            f127              (R )
+DrawIntoStack            f128              (R )
 DrawLineStartLO          f092              (R )
 DrawScreenRowPreparation f300              (R )
 DrawStack                f000              (R )
@@ -815,6 +818,8 @@ GetNextItem              f2f7              (R )
 GetROMByte               f80f              (R )
 GL                       f0a7                  
 gnobj                    f8dc                  
+GREEN                    00b0                  
+GREY                     0000                  
 GRP0                     005b              (R )
 GRP1                     005c              (R )
 halftimer                00d2                  
@@ -1233,8 +1238,8 @@ LEVELS3                  0006              (R )
 LEVELS4                  0007              (R )
 LEVELS5                  0008              (R )
 LEVELS6                  0009              (R )
-LEVELSCREEN              000c              (R )
 LevelScreen              f039              (R )
+LEVELSCREEN              000c              (R )
 levelX                   00b2              (R )
 lid0                     f3dd              (R )
 lid1                     f3ef              (R )
@@ -1246,6 +1251,7 @@ lidb1                    f413              (R )
 lidb2                    f413              (R )
 lidb3                    f413              (R )
 lidb4                    f413              (R )
+LIME                     00c0              (R )
 LINES_PER_CHAR           0018              (R )
 LookAround               f213              (R )
 LookingAround            00a5              (R )
@@ -1363,9 +1369,11 @@ OBJTYPE                  0002
 offsc                    f113              (R )
 offsetSK                 00da              (R )
 offy                     f10b              (R )
+OLIVE                    00d0                  
 OneL                     f062              (R )
 OneR                     f340              (R )
 onsc                     f111              (R )
+ORANGE                   0020              (R )
 ORIGIN                   8000                  
 ORIGIN_RAM               3c00                  
 oscan                    f092              (R )
@@ -1380,7 +1388,7 @@ OverscanBD               fca6              (R )
 OverscanTime             f516              (R )
 OverscanTime2            f0a3              (R )
 OverscanTime2X           f399              (R )
-PairedCharacter          f18a              (R )
+PairedCharacter          f18b              (R )
 PAL                      0002              (R )
 PAL_50                   0002              (R )
 PAL_60                   0003                  
@@ -1389,6 +1397,7 @@ PF0                      004d              (R )
 PF0Draw                  f0af              (R )
 PF1                      004e              (R )
 PF2                      004f              (R )
+PINK                     0040              (R )
 PL                       f099                  
 Platform                 0080              (R )
 PlatformAdjustColour     f035              (R )
@@ -1415,6 +1424,7 @@ PreviousJoystick         0093              (R )
 Proc2                    f007              (R )
 PROCESS_MAN              f8a9              (R )
 ProcessObjStack          f858              (R )
+PURPLE                   0050                  
 PUSH_LIMIT               0006              (R )
 PushBox                  f0ca              (R )
 PutBoardCharacter        f81d              (R )
@@ -1431,6 +1441,7 @@ RAM_WRITE                0400              (R )
 RDIGIT                   f3b5              (R )
 ReadSaveKey              f5c4              (R )
 RecordTakeBackPosition   f957              (R )
+RED                      0030                  
 redColour                f9fd              (R )
 REFP0                    004b              (R )
 REFP1                    004c              (R )
@@ -1562,6 +1573,7 @@ skipMove                 f2b1
 skipOffscreen            fb86                  
 SkipSc                   fca0                  
 skls                     fa65              (R )
+SKYBLUE                  0090              (R )
 SlowDraw                 f15c                  
 SM2LOAD                  f198              (R )
 SM2LOADb                 f19f              (R )
@@ -1622,8 +1634,8 @@ SoundFX                  f39e              (R )
 SPARE                    000c              (R )
 sreg                     00df                  
 startingLevel            00d8              (R )
-startLevel               00d9              (R )
 StartLevel               f392              (R )
+startLevel               00d9              (R )
 StartLevelX              f391              (R )
 state0                   f1f3              (R )
 StealCharDraw            faa0              (R )
@@ -1649,14 +1661,16 @@ TakeBackPushChar         1100              (R )
 TakeBackPushX            1080              (R )
 TakeBackPushY            10c0              (R )
 takebackRestoreEarlierPosition fa13              (R )
+TAN                      00e0                  
 targ                     f3b9              (R )
 targetDigit              00de              (R )
-targetReplaceChar        f1e9              (R )
+targetReplaceChar        f1ea              (R )
 TB_CHAR                  0091              (R )
 TB_PUSHX                 008f              (R )
 TB_PUSHY                 0090              (R )
 TB_X                     008d              (R )
 TB_Y                     008e              (R )
+TEAL                     00a0              (R )
 TEST_MINIMUM_SEGTIME     0000                  
 TEST_SEGTIME_BDF         0000                  
 TEST_SEGTIME_BDS         0000                  
@@ -1770,6 +1784,7 @@ VectorProcess            f371              (R )
 VERSION_MACRO            006a                  
 VERSION_VCS              0069                  
 VerticalBlank            f046              (R )
+VIOLET                   0060              (R )
 VSYNC                    0040              (R )
 WAIT_FOR_INITIAL_DRAW    0001              (R )
 waitbutton               f2d7              (R )
@@ -1797,6 +1812,7 @@ xJoyMoveX                f385              (R )
 xlin                     f1d3              (R )
 xyClear                  f27e              (R )
 xyLine                   f27a              (R )
+YELLOW                   0010              (R )
 YES                      0001              (R )
 ylin                     f20b              (R )
 zap1                     f1d7              (R )
