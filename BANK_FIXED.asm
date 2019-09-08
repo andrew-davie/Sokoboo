@@ -1201,6 +1201,11 @@ NewFrameStart
                 jsr SelfModDrawPlayers      ; 6+x
 
 SkipSc
+
+                lda #0
+                sta SET_BANK_RAM
+                jsr FixColours
+
                 jsr writePlayerFrame
                 jsr StealCharDraw           ; 6
 
@@ -1304,6 +1309,11 @@ genericRTS      rts
                 sbc #1
                 sta BCD_targetsRequired
                 cld
+                rts
+
+
+    DEFINE_SUBROUTINE Random
+                NEXT_RANDOM
                 rts
 
     ;---------------------------------------------------------------------------

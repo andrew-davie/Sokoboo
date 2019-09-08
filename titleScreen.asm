@@ -17,6 +17,10 @@ TitleSequence
                 lda colvec+1,x
                 sta colour_table+1
 
+                sta rndHi
+                sta rnd
+
+
                 RESYNC
 
     DEFINE_SUBROUTINE RestartFrame
@@ -107,6 +111,7 @@ triplet         lda (colour_table),y
 ;              sta PF2
 
 
+                NEXT_RANDOM
 
     ; D1 VBLANK turns off beam
     ; It needs to be turned on 37 scanlines later

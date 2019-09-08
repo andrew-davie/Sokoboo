@@ -628,6 +628,24 @@ BROWN = $F0
 
 
 
+;c0d4de greens
+;7b3daa
+;559e4f very nice
+;a6e773
+;8d4697
+;ffcb65
+;ca6532
+;190cb2
+;a75329
+;b85c2e
+;110804
+;1dba5d
+;9af9c8 nice
+;2914be
+;a9549e
+;ab552a
+;bd5e2f
+;92fdca
 
 
 C1 ;
@@ -636,27 +654,27 @@ C1 ;
     NTSCPAL VIOLET,$8
     NTSCPAL BLUE,$8
     NTSCPAL PINK,$8
-    NTSCPAL LIME,$4
+    NTSCPAL VIOLET,$a
     NTSCPAL SKYBLUE,$8
     NTSCPAL ORANGE,$8
     NTSCPAL VIOLET,$8
 
 C2  ; soil stripes
     NTSCPAL SKYBLUE,$6
-    NTSCPAL ORANGE,$8
+    NTSCPAL ORANGE,$6
     NTSCPAL PINK,$6
     NTSCPAL SKYBLUE,$8
-    NTSCPAL YELLOW,$4
+    NTSCPAL LIME,$6
     NTSCPAL PINK,$6
     NTSCPAL TEAL,$6
-    NTSCPAL LIME,$8
+    NTSCPAL TEAL,$6
 
 C3 ;
     NTSCPAL PINK,$8
     NTSCPAL LIME,$8
     NTSCPAL LIME,$8
     NTSCPAL ORANGE,$8
-    NTSCPAL BLUE,$8
+    NTSCPAL GREEN,$8
     NTSCPAL ORANGE,$8
     NTSCPAL VIOLET,$8
     NTSCPAL ORANGE,$8
@@ -702,19 +720,33 @@ xyClear       jsr PutBoardCharacterFromRAM
                 lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
                 sta ROM_Bank                        ; GetROMByte returns to this bank
 
-                lda levelX
-                and #7
-                asl
-                asl
-                ora Platform              ; NTSC/PAL
-                lsr
-                tax
+;                NEXT_RANDOM
+;                lda levelX
+;                and #7
+;                asl
+;                asl
+;                ora Platform              ; NTSC/PAL
+;                lsr
+;                tax
 
-                lda C1,x
+;                lda C1,x
+    jsr Random
+    and #$F0
+    ora #$8
                 sta icc_colour
-                lda C2,x
-                sta icc_colour+1
-                lda C3,x
+;                lda C2,x
+;    NEXT_RANDOM
+;            and #$F0
+;            ora #6
+;                sta icc_colour+1
+;                lda C3,x
+    jsr Random
+ranother
+    adc #$10
+    and #$F0
+    ora #$8
+    cmp icc_colour
+    beq ranother
                 sta icc_colour+2
 
     ; Update the level colours (self-modifying) in each of the character line banks
@@ -722,13 +754,18 @@ xyClear       jsr PutBoardCharacterFromRAM
                 ldx #SCREEN_LINES-1
 setPlat
                 lda icc_colour
+;                    NEXT_RANDOM
+;    ora #8
                 ldy #<SELFMOD_BLUE+1
                 jsr PutBoardCharacter
 
-                lda icc_colour+1
-                ldy #<SELFMOD_GREEN+1
-                jsr PutBoardCharacter
+;                lda icc_colour+1
+;                    NEXT_RANDOM
+;                ldy #<SELFMOD_GREEN+1
+;                jsr PutBoardCharacter
 
+;                    NEXT_RANDOM
+;    ora #4
                 lda icc_colour+2
                 ldy #<SELFMOD_RED+1
                 jsr PutBoardCharacter
@@ -824,7 +861,8 @@ wOK2
 
 checkWall     cmp #"#"          ; wall
               bne checkForGap
-              lda levelX
+;                NEXT_RANDOM
+                lda rnd
               and #1
               clc
               adc #CHARACTER_STEEL

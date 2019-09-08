@@ -623,23 +623,23 @@ COLOURDATA_idle2
  .byte CL1 ; 0
 
 FRAMEDATA_push2
- .byte 48 ; 23
- .byte 24 ; 20
- .byte 56 ; 17
+ .byte 38 ; 23
+ .byte 20 ; 20
+ .byte 60 ; 17
  .byte 56 ; 14
  .byte 60 ; 11
  .byte 25 ; 8
  .byte 24 ; 5
  .byte 4 ; 2
- .byte 0 ; 22
- .byte 28 ; 19
+ .byte 64 ; 22
+ .byte 20 ; 19
  .byte 40 ; 16
  .byte 56 ; 13
  .byte 62 ; 10
  .byte 25 ; 7
  .byte 12 ; 4
  .byte 30 ; 1
- .byte 48 ; 21
+ .byte 52 ; 21
  .byte 60 ; 18
  .byte 48 ; 15
  .byte 56 ; 12
@@ -649,6 +649,58 @@ FRAMEDATA_push2
  .byte 29 ; 0
 
 COLOURDATA_push2
+ .byte CL6 ; 23
+ .byte CL5 ; 20
+ .byte CL5 ; 17
+ .byte CL3 ; 14
+ .byte CL4 ; 11
+ .byte CL3 ; 8
+ .byte CL2 ; 5
+ .byte CL2 ; 2
+ .byte CL6 ; 22
+ .byte CL5 ; 19
+ .byte CL5 ; 16
+ .byte CL4 ; 13
+ .byte CL4 ; 10
+ .byte CL2 ; 7
+ .byte CL2 ; 4
+ .byte CL1 ; 1
+ .byte CL5 ; 21
+ .byte CL5 ; 18
+ .byte CL6 ; 15
+ .byte CL4 ; 12
+ .byte CL4 ; 9
+ .byte CL2 ; 6
+ .byte CL2 ; 3
+ .byte CL1 ; 0
+
+FRAMEDATA_idle1
+ .byte 52 ; 23
+ .byte 40 ; 20
+ .byte 56 ; 17
+ .byte 186 ; 14
+ .byte 252 ; 11
+ .byte 24 ; 8
+ .byte 24 ; 5
+ .byte 4 ; 2
+ .byte 0 ; 22
+ .byte 40 ; 19
+ .byte 24 ; 16
+ .byte 186 ; 13
+ .byte 124 ; 10
+ .byte 24 ; 7
+ .byte 12 ; 4
+ .byte 30 ; 1
+ .byte 40 ; 21
+ .byte 40 ; 18
+ .byte 178 ; 15
+ .byte 188 ; 12
+ .byte 56 ; 9
+ .byte 28 ; 6
+ .byte 10 ; 3
+ .byte 29 ; 0
+
+COLOURDATA_idle1
  .byte CL6 ; 23
  .byte CL5 ; 20
  .byte CL5 ; 17
@@ -667,64 +719,12 @@ COLOURDATA_push2
  .byte CL1 ; 1
  .byte CL5 ; 21
  .byte CL5 ; 18
- .byte CL6 ; 15
+ .byte CL2 ; 15
  .byte CL4 ; 12
  .byte CL4 ; 9
  .byte CL2 ; 6
  .byte CL2 ; 3
  .byte CL1 ; 0
-
-FRAMEDATA_idle1
- .byte 70 ; 23
- .byte 98 ; 20
- .byte 40 ; 17
- .byte 56 ; 14
- .byte 62 ; 11
- .byte 25 ; 8
- .byte 12 ; 5
- .byte 30 ; 2
- .byte 128 ; 22
- .byte 30 ; 19
- .byte 48 ; 16
- .byte 56 ; 13
- .byte 63 ; 10
- .byte 29 ; 7
- .byte 10 ; 4
- .byte 29 ; 1
- .byte 100 ; 21
- .byte 60 ; 18
- .byte 56 ; 15
- .byte 60 ; 12
- .byte 25 ; 9
- .byte 24 ; 6
- .byte 4 ; 3
- .byte 0 ; 0
-
-COLOURDATA_idle1
- .byte CL6 ; 23
- .byte CL5 ; 20
- .byte CL5 ; 17
- .byte CL4 ; 14
- .byte CL4 ; 11
- .byte CL2 ; 8
- .byte CL2 ; 5
- .byte CL1 ; 2
- .byte CL6 ; 22
- .byte CL5 ; 19
- .byte CL6 ; 16
- .byte CL4 ; 13
- .byte CL4 ; 10
- .byte CL2 ; 7
- .byte CL2 ; 4
- .byte CL1 ; 1
- .byte CL5 ; 21
- .byte CL5 ; 18
- .byte CL3 ; 15
- .byte CL4 ; 12
- .byte CL3 ; 9
- .byte CL2 ; 6
- .byte CL2 ; 3
- .byte CL0 ; 0
 
 FRAMEDATA_push1
  .byte 70 ; 23

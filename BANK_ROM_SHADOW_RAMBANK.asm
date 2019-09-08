@@ -764,6 +764,92 @@ PLAYER0_COLOUR
     CHECKPAGEX PLAYER0_COLOUR, "PLAYER0_COLOUR in BANK_ROM_SHADOW_RAMBANK.asm"
 
 ExistingFrame   .byte -1
+LastYScroll     .byte -1
+BandOffset      .byte 0
+PlatformBase    .byte 0
+
+ColourBandsGreen
+
+; NTSC...
+
+    ds 2,$16
+    ds 2,$28
+    ds 3,$36
+    ds 2,$48
+    ds 2,$58
+    ds 3,$68
+    ds 2,$7A
+    ds 3,$8C
+    ds 2,$9A
+    ds 2,$AA
+    ds 2,$B8
+    ds 2,$C8
+    ds 2,$D8
+    ds 3,$E8
+    ;ds 3,$F8
+
+; PAL...
+
+    ds 3,$28
+    ds 2,$48
+    ds 3,$68
+    ds 2,$88
+    ds 3,$A8
+    ds 3,$C8
+    ds 2,$D8
+    ds 3,$B8
+    ds 3,$98
+    ds 2,$78
+    ds 3,$58
+    ds 3,$38
+
+
+
+    DEFINE_SUBROUTINE FixColours
+
+
+
+                ldy BoardScrollY
+                cpy LastYScroll
+                beq BandsNotChanged
+                sty LastYScroll+RAM_WRITE
+
+                lda Platform
+                and #%10
+                asl
+                asl
+                asl
+                asl
+                sta PlatformBase+RAM_WRITE
+
+                tya
+                adc levelX
+                clc
+                adc levelX
+                and #31
+                ora PlatformBase
+                tay
+
+                ldx #0
+LoopBankLines   lda PlatformBase
+                stx SET_BANK_RAM
+                sta PlatformBase+RAM_WRITE
+
+                lda ColourBandsGreen,y
+                sta SELFMOD_GREEN+RAM_WRITE+1
+
+                iny
+                tya
+                and #31
+                ora PlatformBase
+                tay
+
+                inx
+                cpx #SCREEN_LINES
+                bcc LoopBankLines
+
+BandsNotChanged rts
+
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 

@@ -16,6 +16,8 @@ BIGDIG_SIZE = 32
 ;                sta COLUBK
                 sta AUDV0
                 sta AUDV1                           ; turn off music while levels init
+
+                lda #20
                 sta digitick
 
                 lda #%11110000
@@ -29,9 +31,16 @@ BIGDIG_SIZE = 32
                 sta CTRLPF
 
                 ldx Platform
-                lda PlatformAdjustColour,x
+;                lda PlatformAdjustColour,x
+    NEXT_RANDOM
+    and #$F0
                 sta adjustColour
-                lda PlatformWallColour,x
+;                lda PlatformWallColour,x
+    NEXT_RANDOM
+    and #$F0
+    bne n00
+    lda #2
+n00
                 sta wallColour
 
                 sta COLUP0
@@ -441,6 +450,8 @@ zapper          lda targetDigit,x
 
 donedig
 
+                NEXT_RANDOM
+
 oscanX          lda INTIM
                 bne oscanX
 
@@ -538,9 +549,9 @@ colbk   ; hardwired for 32 - will need manual changing
         .byte .CBK/256
         .byte .CGK/256
 
-.CRK SET .CRK + 180 ;135
-.CGK SET .CGK + 190 ;135
-.CBK SET .CBK + 190 ;135
+.CRK SET .CRK + 280 ;135
+.CGK SET .CGK + 280 ;135
+.CBK SET .CBK + 280 ;135
     REPEND
     .byte .CRK/256
     .byte .CBK/256

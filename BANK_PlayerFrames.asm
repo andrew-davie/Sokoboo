@@ -100,19 +100,17 @@ Animation_WALK2
 
 Animation_WIN
 
-    ; pretty cool little wobble
-    REPEAT 3
-        SHOW WALK2, 6
-        FLIP
-        SHOW LOOK2, 6
-    REPEND
-
 Animation_WIN2
-    SHOW IDLE2, 5
-    SHOW IDLE3, 10
-    SHOW IDLE2, 10
-    SHOW IDLE3, 40
+
+    SHOW IDLE1,10
+    SHOW IDLE2,10
+    SHOW IDLE1,10
+    SHOW IDLE2,15
+    SHOW IDLE3,15
     GOTO WIN2
+
+
+
 
 Animation_WOBBLE
 
@@ -167,7 +165,7 @@ Animation_YAWN
 ;    SHOW WALK2, 50
     SHOW IDLE1, 10
     SHOW IDLE2, 10
-    SHOW IDLE3, 100
+    SHOW IDLE3, 150
     SHOW IDLE2, 20
     GOTO IDLE
 

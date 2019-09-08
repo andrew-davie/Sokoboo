@@ -550,7 +550,7 @@ base_y                  ds 1
 upk_length              ds 1
 upk_column              ds 1
 upk_temp                ds 1
-icc_colour              ds 3
+;icc_colour              ds 3
 
     ;ECHO "FREE BYTES IN UnpackLevelOverlay = ", OVERLAY_SIZE - ( * - Overlay )
                 VALIDATE_OVERLAY "UnpackLevelOverlay"

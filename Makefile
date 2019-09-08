@@ -1,14 +1,17 @@
-all: sprites/spriteData.asm characters sokoboo.bin
+all: sprites/spriteData.asm bigDigits.asm characters sokoboo.bin
 
 characters: charset/*.png
 	echo 'Building CHARACTER SET'
 	python tools/icc.py
 
+bigDigits.asm: bigDigits/*.gif
+	python tools/digits.py
+
 sokoboo.bin: *.asm Makefile FORCE
 	-killall Stella
 	tools/dasm ./sokoboo.asm -l./sokoboo.lst -f3 -s./sokoboo.sym -o./sokoboo.bin
 	chmod 777 ./sokoboo.bin
-	tools/stella -rd A ./sokoboo.bin
+	tools/stella -rd B ./sokoboo.bin
 #	open -a tools/stella ./sokoboo.bin
 	exit 0
 

@@ -160,6 +160,10 @@ DSL                             ds 1            ; stack line counter
 ethnic                          ds 1
 animate_char_index              ds 1
 
+rndHi                           ds 1
+rnd                             ds 1
+icc_colour                      ds 3
+
 
 
  #include "sound/intro1_variables.asm"
