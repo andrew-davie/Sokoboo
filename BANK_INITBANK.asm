@@ -186,6 +186,22 @@ CopyPage        sty O_Index
                 ldy #<SELFMOD_X
                 jsr PutBoardCharacter           ;6+21(A)        set index/rts
 .skipPatch
+
+
+    ; randomise the rainbow band starting point. Technically we only need
+    ; to do this on the FIRST bank
+
+                lda #<(BandOffset+RAM_WRITE)
+                sta Board_AddressW
+                lda #>(BandOffset+RAM_WRITE)
+                sta Board_AddressW+1
+                jsr Random
+                and #31
+                ldy #0              ; offset from address
+                jsr PutBoardCharacter
+
+
+
                 ldy RAM_Bank
                 rts
 

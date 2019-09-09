@@ -765,7 +765,7 @@ PLAYER0_COLOUR
 
 ExistingFrame   .byte -1
 LastYScroll     .byte -1
-BandOffset      .byte 0
+BandOffset      .byte 20
 PlatformBase    .byte 0
 
 ColourBandsGreen
@@ -823,9 +823,8 @@ ColourBandsGreen
                 sta PlatformBase+RAM_WRITE
 
                 tya
-                adc levelX
                 clc
-                adc levelX
+                adc BandOffset
                 and #31
                 ora PlatformBase
                 tay

@@ -687,6 +687,11 @@ C3 ;
   ; has to be done before decoding the level to have the platform right:
     ;          SET_PLATFORM
 
+                lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
+                sta ROM_Bank                        ; GetROMByte returns to this bank
+
+
+
               lda #CHARACTER_SOIL
               sta POS_Type
 
@@ -717,8 +722,6 @@ xyClear       jsr PutBoardCharacterFromRAM
                 lda LevelInfoBANK,x
                 sta LEVEL_bank
 
-                lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
-                sta ROM_Bank                        ; GetROMByte returns to this bank
 
 ;                NEXT_RANDOM
 ;                lda levelX

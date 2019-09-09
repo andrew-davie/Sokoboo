@@ -1081,8 +1081,10 @@ RestartLevelNextPlayer
                 sta SET_BANK
                 jsr SwapPlayersGeneric
 
+
                 ldx #BANK_LevelScreen
                 stx SET_BANK
+
                 lda #1
                 bne selectLeveler
 
@@ -1122,6 +1124,7 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 ldx #ROM_SHADOW_OF_BANK_DRAW_BUFFERS
                 ldy #BANK_DRAW_BUFFERS
                 jsr CopyROMShadowToRAM_F000
+
 
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
