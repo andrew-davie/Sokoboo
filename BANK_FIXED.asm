@@ -1224,7 +1224,7 @@ FadeInPossible
                 beq FadeNotRequired
                 dec fadeslow
                 bpl FadeNotRequired
-                lda #4
+                lda #2
                 sta fadeslow
                 jsr FadeIn
 FadeNotRequired

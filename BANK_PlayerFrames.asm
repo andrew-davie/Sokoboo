@@ -90,10 +90,13 @@ ANIM_TABLE
 
 
 Animation_WALK
+
+    SHOW WALK2, 4
+
 Animation_WALK2
-    SHOW WALK1, 8
-    SHOW WALK2, 8
     SHOW WALK3, 8
+    SHOW WALK2, 8
+    SHOW WALK1, 8
     SHOW WALK2, 8
     GOTO WALK2
 
