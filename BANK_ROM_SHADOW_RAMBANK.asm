@@ -80,6 +80,7 @@ SM_PF0_REDl     lda CHARACTERSHAPE_BLANK,y                  ; 4
 
     ; TIMING COUNTS ARE WRONG FROM HERE, DUE TO ABOVE CYCLE LOSS
 
+Colour_A_Actual = * + 1
 SELFMOD_RED
                 lda #0                                      ; 2
                 sta COLUPF                                  ; 3 =  5    @13
@@ -125,6 +126,7 @@ SM_PF0_BLUEl    lda CHARACTERSHAPE_BLANK,y                  ; 4
                 SLEEP 3
                 sta COLUP0                                  ; 3 = 10    @08
 
+Colour_C_Actual = * + 1
 SELFMOD_BLUE
                 lda #0                                      ; 2
                 sta COLUPF                                  ; 3 =  5    @13
@@ -163,6 +165,7 @@ SM_PF0_GREENl   lda CHARACTERSHAPE_BLANK,y                  ; 4
                 SLEEP 3
                 sta COLUP0                                  ; 3 = 10    @03
 
+Colour_B_Actual = * + 1
 SELFMOD_GREEN
                 lda #0                                      ; 2
                 sta COLUPF                                  ; 3 =  5    @08
@@ -768,6 +771,14 @@ LastYScroll     .byte -1
 BandOffset      .byte 20
 PlatformBase    .byte 0
 
+Colour_A         .byte 0
+Colour_B         .byte 0
+Colour_C         .byte 0
+
+
+
+
+
 ColourBandsGreen
 
 ; NTSC...
@@ -807,8 +818,6 @@ ColourBandsGreen
 
     DEFINE_SUBROUTINE FixColours
 
-
-
                 ldy BoardScrollY
                 cpy LastYScroll
                 beq BandsNotChanged
@@ -835,7 +844,17 @@ LoopBankLines   lda PlatformBase
                 sta PlatformBase+RAM_WRITE
 
                 lda ColourBandsGreen,y
-                sta SELFMOD_GREEN+RAM_WRITE+1
+                sta Colour_B + RAM_WRITE
+
+                lda FadeComplete
+                bne set0
+                lda ColourBandsGreen,y
+                jmp writeActualCol
+
+set0            lda #0
+                beq writeActualCol
+
+writeActualCol  sta SELFMOD_GREEN+RAM_WRITE+1
 
                 iny
                 tya
@@ -848,7 +867,6 @@ LoopBankLines   lda PlatformBase
                 bcc LoopBankLines
 
 BandsNotChanged rts
-
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 

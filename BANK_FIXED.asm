@@ -1209,6 +1209,17 @@ SkipSc
                 sta SET_BANK_RAM
                 jsr FixColours
 
+                lda FadeComplete
+                beq FadeNotRequired
+                dec fadeslow
+                bpl FadeNotRequired
+                lda #3
+                sta fadeslow
+                jsr FadeIn
+FadeNotRequired
+
+
+
                 jsr writePlayerFrame
                 jsr StealCharDraw           ; 6
 
@@ -1233,9 +1244,9 @@ VBlankTime
 
         ; SELECT used, so we want to get back to selection
 
-               lda NextLevelTrigger
-               ora #$40 ; #<(~BIT_NEXTLEVEL)
-               sta NextLevelTrigger
+                lda NextLevelTrigger
+                ora #$40 ; #<(~BIT_NEXTLEVEL)
+                sta NextLevelTrigger
                 rts
 
     DEFINE_SUBROUTINE nextLevelMan2
@@ -1267,19 +1278,19 @@ VBlankTime
 ;               lda NextLevelTrigger
 ;               and #<(~BIT_NEXTLEVEL)
                 lda #$00
-               sta NextLevelTrigger
+                sta NextLevelTrigger
 
    ; Next level is due. Point to the next level, but if we're at the end of playable levels,
    ; then increment the level number. This is completely circular, so we eventually wrap
    ; the level back to 0 and start afresh.
 
-               inc levelX
-               lda levelX
-               cmp #MAX_LEVEL_NUMBER
-               bcc .level_ok
-               lda #0
-.level_ok      sta levelX
-               rts
+                inc levelX
+                lda levelX
+                cmp #MAX_LEVEL_NUMBER
+                bcc .level_ok
+                lda #0
+.level_ok       sta levelX
+                rts
 
     ;---------------------------------------------------------------------------
 
@@ -1317,6 +1328,63 @@ genericRTS      rts
 
     DEFINE_SUBROUTINE Random
                 NEXT_RANDOM
+                rts
+
+
+    DEFINE_SUBROUTINE FadeIn
+
+                lda #0
+                sta FadeComplete
+
+                ldx #SCREEN_LINES-1
+CopyAcols       stx SET_BANK_RAM
+
+                lda Colour_A_Actual
+                bne notFirstA
+                lda Colour_A
+                and #$F0
+                ora #1
+                bne FirstA
+notFirstA       cmp Colour_A
+                beq AOK
+                adc #1
+FirstA          sta Colour_A_Actual+RAM_WRITE
+                inc FadeComplete                    ; NOT complete
+AOK
+                lda Colour_B_Actual
+                bne notFirstB
+                lda Colour_B
+                and #$F0
+                ora #1
+                bne FirstB
+notFirstB       cmp Colour_B
+                beq BOK
+                adc #1
+FirstB
+                sta Colour_B_Actual+RAM_WRITE
+                inc FadeComplete                    ; NOT complete
+BOK
+                lda Colour_C_Actual
+                bne notFirstC
+                lda Colour_C
+                and #$F0
+                ora #1
+                bne FirstC
+notFirstC       cmp Colour_C
+                beq COK
+                adc #1
+FirstC          sta Colour_C_Actual+RAM_WRITE
+                inc FadeComplete                    ; NOT complete
+COK
+
+                ;lda FadeComplete
+                ;cmp #3
+                ;bcs exitfade
+                ;bne exitfade
+
+                dex
+                bpl CopyAcols
+exitfade
                 rts
 
     ;---------------------------------------------------------------------------

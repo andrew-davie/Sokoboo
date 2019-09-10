@@ -163,7 +163,8 @@ animate_char_index              ds 1
 rndHi                           ds 1
 rnd                             ds 1
 icc_colour                      ds 3
-
+FadeComplete                    ds 1
+fadeslow                        ds 1
 
 
  #include "sound/intro1_variables.asm"

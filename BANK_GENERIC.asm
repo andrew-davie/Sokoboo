@@ -187,6 +187,10 @@ notU0           sta BoardScrollY
                 lda #$FF
                 sta LastSpriteY
                 sta ManAnimationID
+                sta FadeComplete                    ; start fading
+
+                lda #20
+                sta fadeslow
 
                 ;lda #DIRECTION_BITS             ;????
                 ;sta ManLastDirection            ; duplicate?

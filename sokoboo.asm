@@ -337,26 +337,26 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
 
     MAC RESYNC
 ; resync screen, X and Y == 0 afterwards
-        lda #%10                        ; make sure VBLANK is ON
-        sta VBLANK
+                lda #%10                        ; make sure VBLANK is ON
+                sta VBLANK
 
-        ldx #8                          ; 5 or more RESYNC_FRAMES
+                ldx #8                          ; 5 or more RESYNC_FRAMES
 .loopResync
-        VERTICAL_SYNC
+                VERTICAL_SYNC
 
-        ldy #SCANLINES_NTSC/2 - 2
-        lda Platform
-        eor #PAL_50                     ; PAL-50?
-        bne .ntsc
-        ldy #SCANLINES_PAL/2 - 2
+                ldy #SCANLINES_NTSC/2 - 2
+                lda Platform
+                eor #PAL_50                     ; PAL-50?
+                bne .ntsc
+                ldy #SCANLINES_PAL/2 - 2
 .ntsc
 .loopWait
-        sta WSYNC
-        sta WSYNC
-        dey
-        bne .loopWait
-        dex
-        bne .loopResync
+                sta WSYNC
+                sta WSYNC
+                dey
+                bne .loopWait
+                dex
+                bne .loopResync
     ENDM
 
     MAC SET_PLATFORM
@@ -364,13 +364,13 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
 ; 01 = NTSC
 ; 10 = PAL-50
 ; 11 = PAL-60
-            lda SWCHB
-            rol
-            rol
-            rol
-            and #%11
-            eor #PAL
-            sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
+                lda SWCHB
+                rol
+                rol
+                rol
+                and #%11
+                eor #PAL
+                sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
     ENDM
 
     MAC LOAD_ANIMATION
@@ -382,7 +382,6 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
                 sta animation_delay
                 lda #ANIMATION_{1}_ID
                 sta ManAnimationID
-
     ENDM
 
 

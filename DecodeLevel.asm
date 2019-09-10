@@ -175,7 +175,8 @@ LevelInfoLO
      .byte <(LEVEL__069_R-1)
      .byte <(LEVEL__069_L-1)
 
-     .byte <(LEVEL__103_Arielle-1)
+        #if 0
+        .byte <(LEVEL__103_Arielle-1)
      .byte <(LEVEL__103_Ajalae-1)
      .byte <(LEVEL__103_Adin-1)
      .byte <(LEVEL__102_Raven-1)
@@ -191,6 +192,7 @@ LevelInfoLO
      .byte <(LEVEL__0IZ1_Sophia-1)
      .byte <(LEVEL__0CNH_Alice-1)
         .byte <(LEVEL__122_Maya-1)
+    #endif
 
 MAX_LEVEL = * - LevelInfoLO
     ECHO MAX_LEVEL, "LEVELS INSTALLED"
@@ -337,22 +339,22 @@ LevelInfoHI
     .byte >(LEVEL__069_R-1)
     .byte >(LEVEL__069_L-1)
 
-    .byte >(LEVEL__103_Arielle-1)
-    .byte >(LEVEL__103_Ajalae-1)
-    .byte >(LEVEL__103_Adin-1)
-    .byte >(LEVEL__102_Raven-1)
-    .byte >(LEVEL__102_Oralia-1)
-    .byte >(LEVEL__102_Natalie-1)
-    .byte >(LEVEL__102_Mirabel-1)
-    .byte >(LEVEL__1XJH_Tara_Gelson-1)
-    .byte >(LEVEL__1R7X_Alison-1)
-    .byte >(LEVEL__1KWD_Cecile_Clayworth-1)
-    .byte >(LEVEL__1EKT_Samantha_Gelson-1)
-    .byte >(LEVEL__0VM5_Andrea_Wadd-1)
-    .byte >(LEVEL__0PAL_Jill_Leatherby-1)
-    .byte >(LEVEL__0IZ1_Sophia-1)
-    .byte >(LEVEL__0CNH_Alice-1)
-    .byte >(LEVEL__122_Maya-1)
+;    .byte >(LEVEL__103_Arielle-1)
+;    .byte >(LEVEL__103_Ajalae-1)
+;    .byte >(LEVEL__103_Adin-1)
+;    .byte >(LEVEL__102_Raven-1)
+;    .byte >(LEVEL__102_Oralia-1)
+;    .byte >(LEVEL__102_Natalie-1)
+;    .byte >(LEVEL__102_Mirabel-1)
+;    .byte >(LEVEL__1XJH_Tara_Gelson-1)
+;    .byte >(LEVEL__1R7X_Alison-1)
+;    .byte >(LEVEL__1KWD_Cecile_Clayworth-1)
+;    .byte >(LEVEL__1EKT_Samantha_Gelson-1)
+;    .byte >(LEVEL__0VM5_Andrea_Wadd-1)
+;    .byte >(LEVEL__0PAL_Jill_Leatherby-1)
+;    .byte >(LEVEL__0IZ1_Sophia-1)
+;    .byte >(LEVEL__0CNH_Alice-1)
+;    .byte >(LEVEL__122_Maya-1)
 
     IF (* - LevelInfoHI != MAX_LEVEL)
         ECHO "ERROR: Incorrect LevelInfoHI table!"
@@ -502,23 +504,23 @@ LevelInfoBANK
     .byte BANK_LEVEL__069_R
     .byte BANK_LEVEL__069_L
 
-    .byte BANK_LEVEL__103_Arielle
-    .byte BANK_LEVEL__103_Ajalae
-    .byte BANK_LEVEL__103_Adin
-    .byte BANK_LEVEL__102_Raven
-    .byte BANK_LEVEL__102_Oralia
-    .byte BANK_LEVEL__102_Natalie
-    .byte BANK_LEVEL__102_Mirabel
-    .byte BANK_LEVEL__1XJH_Tara_Gelson
-    .byte BANK_LEVEL__1R7X_Alison
-    .byte BANK_LEVEL__1KWD_Cecile_Clayworth
-    .byte BANK_LEVEL__1EKT_Samantha_Gelson
-    .byte BANK_LEVEL__0VM5_Andrea_Wadd
-    .byte BANK_LEVEL__0PAL_Jill_Leatherby
-    .byte BANK_LEVEL__0IZ1_Sophia
-    .byte BANK_LEVEL__0CNH_Alice
-
-    .byte BANK_LEVEL__122_Maya
+;    .byte BANK_LEVEL__103_Arielle
+;    .byte BANK_LEVEL__103_Ajalae
+;    .byte BANK_LEVEL__103_Adin
+;    .byte BANK_LEVEL__102_Raven
+;    .byte BANK_LEVEL__102_Oralia
+;    .byte BANK_LEVEL__102_Natalie
+;    .byte BANK_LEVEL__102_Mirabel
+;    .byte BANK_LEVEL__1XJH_Tara_Gelson
+;    .byte BANK_LEVEL__1R7X_Alison
+;    .byte BANK_LEVEL__1KWD_Cecile_Clayworth
+;    .byte BANK_LEVEL__1EKT_Samantha_Gelson
+;    .byte BANK_LEVEL__0VM5_Andrea_Wadd
+;    .byte BANK_LEVEL__0PAL_Jill_Leatherby
+;    .byte BANK_LEVEL__0IZ1_Sophia
+;    .byte BANK_LEVEL__0CNH_Alice
+;
+;    .byte BANK_LEVEL__122_Maya
 
     IF (* - LevelInfoBANK != MAX_LEVEL)
         ECHO "ERROR: Incorrect LevelInfoBANK table!"
@@ -692,23 +694,23 @@ C3 ;
 
 
 
-              lda #CHARACTER_SOIL
-              sta POS_Type
+                lda #CHARACTER_SOIL
+                sta POS_Type
 
-              lda #SIZE_BOARD_Y-1
-              sta POS_Y
-xyLine        lda #SIZE_BOARD_X-1
-              sta POS_X
-xyClear       jsr PutBoardCharacterFromRAM
-              dec POS_X
-              bpl xyClear
-              dec POS_Y
-              bpl xyLine
+                lda #SIZE_BOARD_Y-1
+                sta POS_Y
+xyLine          lda #SIZE_BOARD_X-1
+                sta POS_X
+xyClear         jsr PutBoardCharacterFromRAM
+                dec POS_X
+                bpl xyClear
+                dec POS_Y
+                bpl xyLine
 
-              lda #12                ;todo - crashes @12 ... why?
-              sta base_x
+                lda #12                ;todo - crashes @12 ... why?
+                sta base_x
                 lda #6
-              sta base_y
+                sta base_y
 
                 lda NextLevelTrigger
                 ora #BIT_NEXTLEVEL
@@ -722,69 +724,84 @@ xyClear       jsr PutBoardCharacterFromRAM
                 lda LevelInfoBANK,x
                 sta LEVEL_bank
 
-
-;                NEXT_RANDOM
-;                lda levelX
-;                and #7
-;                asl
-;                asl
-;                ora Platform              ; NTSC/PAL
-;                lsr
-;                tax
-
-;                lda C1,x
-    jsr Random
-    and #$F0
-    ora #$8
+                lda #$FF
                 sta icc_colour
-;                lda C2,x
-;    NEXT_RANDOM
-;            and #$F0
-;            ora #6
-;                sta icc_colour+1
-;                lda C3,x
-    jsr Random
+                sta icc_colour+1
+                sta icc_colour+2
+
+
+                jsr Random
+                and #$F0
+                ora #$8
+                sta icc_colour
+
+                jsr Random
 ranother
-    adc #$10
-    and #$F0
-    ora #$8
-    cmp icc_colour
-    beq ranother
+                adc #$10
+                and #$F0
+                ora #$8
+                cmp icc_colour
+                beq ranother
                 sta icc_colour+2
 
     ; Update the level colours (self-modifying) in each of the character line banks
 
+
                 ldx #SCREEN_LINES-1
-setPlat
+
+setPlat         lda #<Colour_C
+                sta Board_AddressW
+                lda #>Colour_C
+                sta Board_AddressW+1
+
                 lda icc_colour
-;                    NEXT_RANDOM
-;    ora #8
-                ldy #<SELFMOD_BLUE+1
+                ldy #0 ;<SELFMOD_BLUE+1
                 jsr PutBoardCharacter
 
-;                lda icc_colour+1
-;                    NEXT_RANDOM
-;                ldy #<SELFMOD_GREEN+1
-;                jsr PutBoardCharacter
-
-;                    NEXT_RANDOM
-;    ora #4
-                lda icc_colour+2
-                ldy #<SELFMOD_RED+1
+                lda #<Colour_C_Actual
+                sta Board_AddressW
+                lda #>Colour_C_Actual
+                sta Board_AddressW+1
+                ;lda icc_colour
+                ;and #$F0
+                lda #0
+                ldy #0
                 jsr PutBoardCharacter
+
+
+    IF 1
+                lda #<Colour_A
+                sta Board_AddressW
+                lda #>Colour_A
+                sta Board_AddressW+1
+
+
+                lda icc_colour+1
+                ldy #0 ;<SELFMOD_RED+1
+                jsr PutBoardCharacter
+
+                lda #<Colour_A_Actual
+                sta Board_AddressW
+                lda #>Colour_A_Actual
+                sta Board_AddressW+1
+                ;lda icc_colour
+                ;and #$F0
+                lda #0
+                ldy #0
+                jsr PutBoardCharacter
+    ENDIF
+
 
                 dex
                 bpl setPlat
 
 
-              lda #$00
-              sta BCD_moveCounter
-              sta BCD_moveCounterHi
-              sta takebackIndex
-              sta takebackBaseIndex
-
-              lda #$00                      ; BCD reminder!
-              sta BCD_targetsRequired           ; # of targets that do NOT have boxes on them
+                lda #$00
+                sta BCD_moveCounter
+                sta BCD_moveCounterHi
+                sta takebackIndex
+                sta takebackBaseIndex
+                sta BCD_targetsRequired           ; # of targets that do NOT have boxes on them
 
 ;              ldx Platform
 ;              lda theThrottler,x
@@ -794,73 +811,72 @@ setPlat
   ; then rle unpack level
   ; change level colours
 
-              lda #0
-              sta POS_X
-              sta POS_Y
-              sta BoardLimit_Width
-              sta BoardLimit_Height
+                lda #0
+                sta POS_X
+                sta POS_Y
+                sta BoardLimit_Width
+                sta BoardLimit_Height
 
 GetNextItem
 
-              lda #1
-              sta upk_length
-              lda #0
-              sta upk_column         ; reuse var - this flags a digit already
+                lda #1
+                sta upk_length
+                lda #0
+                sta upk_column         ; reuse var - this flags a digit already
 
-Get2          inc Board_AddressR
-              bne addrOK
-              inc Board_AddressR+1
+Get2            inc Board_AddressR
+                bne addrOK
+                inc Board_AddressR+1
 addrOK
 
-              lda LEVEL_bank
-              ldy #0
-              jsr GetROMByte
-              sta upk_temp       ;scratch
+                lda LEVEL_bank
+                ldy #0
+                jsr GetROMByte
+                sta upk_temp       ;scratch
 
-
-              cmp #0
-              bne parse
-              jmp  finX
+                cmp #0
+                bne parse
+                jmp  finX
 parse
-              cmp #"9"+1
-              bcs notDigit
-              cmp #"0"
-              bcc notDigit
+                cmp #"9"+1
+                bcs notDigit
+                cmp #"0"
+                bcc notDigit
 
-              lda upk_column
-              beq firstDig
+                lda upk_column
+                beq firstDig
 
-              lda upk_length
-              asl
-              asl
-              asl
-              adc upk_length
-              adc upk_length
+                lda upk_length
+                asl
+                asl
+                asl
+                adc upk_length
+                adc upk_length
 
-firstDig      clc
-              adc upk_temp
-              sec
-              sbc #"0"
-              sta upk_length
-              inc upk_column     ; flag we have seen a digit
-              jmp Get2
+firstDig        clc
+                adc upk_temp
+                sec
+                sbc #"0"
+                sta upk_length
+                inc upk_column     ; flag we have seen a digit
+                jmp Get2
 
-notDigit      cmp #"|"          ; newline
-              bne checkWall
+notDigit        cmp #"|"          ; newline
+                bne checkWall
 
     ; Handle new-line
-              lda #0
-              sta POS_X
-              inc POS_Y
+                lda #0
+                sta POS_X
+                inc POS_Y
 
 
-              lda POS_Y
-              cmp BoardLimit_Height
-              bcc wOK2
-              sta BoardLimit_Height ;???^^^
+                lda POS_Y
+                cmp BoardLimit_Height
+                bcc wOK2
+                sta BoardLimit_Height ;???^^^
 wOK2
 
-              jmp GetNextItem
+                jmp GetNextItem
 
 checkWall     cmp #"#"          ; wall
               bne checkForGap

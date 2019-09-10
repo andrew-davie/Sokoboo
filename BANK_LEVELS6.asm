@@ -42,6 +42,7 @@
   ; Level definitions
 
     ; "sokhard" collection
+    #if 0
 
     START_LEVEL _102_Natalie
     .byte "11#|2#2-#@4.#|2#3-2$.2*#|2#-$2-2$#.#|#2-$#-#2-.#|#2-$-#-2#-#|#9-#|11#",0
@@ -207,5 +208,7 @@
 
 ;If only two level elements are grouped together they may be run length encoded, but needn't to. Example:
 
+
+    #endif
 
    CHECK_BANK_SIZE "LEVELS6 -- full 2K"
