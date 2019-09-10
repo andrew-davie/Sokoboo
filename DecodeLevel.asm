@@ -724,10 +724,12 @@ xyClear         jsr PutBoardCharacterFromRAM
                 lda LevelInfoBANK,x
                 sta LEVEL_bank
 
-                lda #$FF
+                lda #$02
                 sta icc_colour
+                sta icc_colour+2
+
+                lda #$F
                 sta icc_colour+1
-                sta icc_colour+2
 
 
                 jsr Random
@@ -735,14 +737,15 @@ xyClear         jsr PutBoardCharacterFromRAM
                 ora #$8
                 sta icc_colour
 
-                jsr Random
-ranother
-                adc #$10
+ranother        jsr Random
                 and #$F0
                 ora #$8
-                cmp icc_colour
-                beq ranother
-                sta icc_colour+2
+                sta icc_colour+1
+
+                eor icc_colour
+                and #$F0
+                beq ranother            ; don't allow same colour
+
 
     ; Update the level colours (self-modifying) in each of the character line banks
 

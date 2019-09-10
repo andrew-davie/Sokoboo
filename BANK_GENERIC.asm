@@ -184,10 +184,12 @@ notU0           sta BoardScrollY
                 sta base_y
                 sta ManPushCounter
 
+
                 lda #$FF
                 sta LastSpriteY
                 sta ManAnimationID
                 sta FadeComplete                    ; start fading
+                sta FadeOutComplete                 ; flags "not fading out"
 
                 lda #20
                 sta fadeslow

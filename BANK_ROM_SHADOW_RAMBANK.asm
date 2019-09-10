@@ -771,9 +771,9 @@ LastYScroll     .byte -1
 BandOffset      .byte 20
 PlatformBase    .byte 0
 
-Colour_A         .byte 0
-Colour_B         .byte 0
-Colour_C         .byte 0
+Colour_A        .byte 0
+Colour_B        .byte 0
+Colour_C        .byte 0
 
 
 
@@ -783,36 +783,36 @@ ColourBandsGreen
 
 ; NTSC...
 
-    ds 2,$16
-    ds 2,$28
-    ds 3,$36
-    ds 2,$48
-    ds 2,$58
-    ds 3,$68
-    ds 2,$7A
-    ds 3,$8C
-    ds 2,$9A
-    ds 2,$AA
-    ds 2,$B8
-    ds 2,$C8
-    ds 2,$D8
-    ds 3,$E8
+    ds 2,$16-4
+    ds 2,$28-4
+    ds 3,$36-4
+    ds 2,$48-4
+    ds 2,$58-4
+    ds 3,$68-4
+    ds 2,$7A-4
+    ds 3,$8C-4
+    ds 2,$9A-4
+    ds 2,$AA-4
+    ds 2,$B8-4
+    ds 2,$C8-4
+    ds 2,$D8-4
+    ds 3,$E8-4
     ;ds 3,$F8
 
 ; PAL...
 
-    ds 3,$28
-    ds 2,$48
-    ds 3,$68
-    ds 2,$88
-    ds 3,$A8
-    ds 3,$C8
-    ds 2,$D8
-    ds 3,$B8
-    ds 3,$98
-    ds 2,$78
-    ds 3,$58
-    ds 3,$38
+    ds 3,$28-4
+    ds 2,$48-4
+    ds 3,$68-4
+    ds 2,$88-4
+    ds 3,$A8-4
+    ds 3,$C8-4
+    ds 2,$D8-4
+    ds 3,$B8-4
+    ds 3,$98-4
+    ds 2,$78-4
+    ds 3,$58-4
+    ds 3,$38-4
 
 
 
@@ -849,11 +849,9 @@ LoopBankLines   lda PlatformBase
                 lda FadeComplete
                 bne set0
                 lda ColourBandsGreen,y
-                jmp writeActualCol
+                bne writeActualCol
 
 set0            lda #0
-                beq writeActualCol
-
 writeActualCol  sta SELFMOD_GREEN+RAM_WRITE+1
 
                 iny

@@ -164,6 +164,7 @@ rndHi                           ds 1
 rnd                             ds 1
 icc_colour                      ds 3
 FadeComplete                    ds 1
+FadeOutComplete                 ds 1
 fadeslow                        ds 1
 
 

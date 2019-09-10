@@ -1205,6 +1205,17 @@ NewFrameStart
 
 SkipSc
 
+
+                lda FadeOutComplete
+                bmi FadeInPossible
+                dec fadeslow
+                bpl FadeNotRequired
+                lda #2
+                sta fadeslow
+                jsr FadeOut
+                jmp FadeNotRequired
+FadeInPossible
+
                 lda #0
                 sta SET_BANK_RAM
                 jsr FixColours
@@ -1213,7 +1224,7 @@ SkipSc
                 beq FadeNotRequired
                 dec fadeslow
                 bpl FadeNotRequired
-                lda #3
+                lda #4
                 sta fadeslow
                 jsr FadeIn
 FadeNotRequired
@@ -1254,12 +1265,17 @@ VBlankTime
                 dec DelayEndOfLevel
                 bne genericRTS
 
+                lda #0
+                sta FadeOutComplete                       ; start fading OUT
+                lda #0
+                sta FadeComplete                            ; stop fade IN
+
                 lda #5
                 sta DelayEndOfLevel
 
                 lda #MANMODE_NEXTLEVEL3
                 sta ManMode
-                jmp nextLevelMan3
+;                jmp nextLevelMan3
 ;                rts
 
 
@@ -1328,6 +1344,46 @@ genericRTS      rts
 
     DEFINE_SUBROUTINE Random
                 NEXT_RANDOM
+                rts
+
+
+    DEFINE_SUBROUTINE FadeOut
+
+                lda #0
+                sta FadeOutComplete
+
+                ldy #SCREEN_LINES-1
+ZeroColours     sty SET_BANK_RAM
+
+                lda Colour_A_Actual
+                and #$F
+                beq AisZero
+                lda Colour_A_Actual
+                sec
+                sbc #1
+AisZero         sta Colour_A_Actual+RAM_WRITE
+                inc FadeOutComplete                    ; NOT complete
+
+                lda Colour_B_Actual
+                and #$F
+                beq BisZero
+                lda Colour_B_Actual
+                sec
+                sbc #1
+BisZero         sta Colour_B_Actual+RAM_WRITE
+                inc FadeOutComplete                    ; NOT complete
+
+                lda Colour_C_Actual
+                and #$F
+                beq CisZero
+                lda Colour_C_Actual
+                sec
+                sbc #1
+CisZero         sta Colour_C_Actual+RAM_WRITE
+                inc FadeOutComplete                    ; NOT complete
+
+                dey
+                bpl ZeroColours
                 rts
 
 
