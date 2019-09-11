@@ -454,7 +454,7 @@ digit                   ds 3
 digitick                ds 1
 targetDigit             ds 3
 endwait                 ds 1
-colourindex             ds 1
+;colourindex             ds 1
 digitHundreds           ds 2
 selector                ds 1
 walkSpeed               ds 1

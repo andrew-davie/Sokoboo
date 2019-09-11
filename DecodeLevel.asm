@@ -749,55 +749,7 @@ ranother        jsr Random
 
     ; Update the level colours (self-modifying) in each of the character line banks
 
-
-                ldx #SCREEN_LINES-1
-
-setPlat         lda #<Colour_C
-                sta Board_AddressW
-                lda #>Colour_C
-                sta Board_AddressW+1
-
-                lda icc_colour
-                ldy #0 ;<SELFMOD_BLUE+1
-                jsr PutBoardCharacter
-
-                lda #<Colour_C_Actual
-                sta Board_AddressW
-                lda #>Colour_C_Actual
-                sta Board_AddressW+1
-                ;lda icc_colour
-                ;and #$F0
-                lda #0
-                ldy #0
-                jsr PutBoardCharacter
-
-
-    IF 1
-                lda #<Colour_A
-                sta Board_AddressW
-                lda #>Colour_A
-                sta Board_AddressW+1
-
-
-                lda icc_colour+1
-                ldy #0 ;<SELFMOD_RED+1
-                jsr PutBoardCharacter
-
-                lda #<Colour_A_Actual
-                sta Board_AddressW
-                lda #>Colour_A_Actual
-                sta Board_AddressW+1
-                ;lda icc_colour
-                ;and #$F0
-                lda #0
-                ldy #0
-                jsr PutBoardCharacter
-    ENDIF
-
-
-                dex
-                bpl setPlat
-
+                jsr CopyColoursToScreenLines
 
                 lda #$00
                 sta BCD_moveCounter

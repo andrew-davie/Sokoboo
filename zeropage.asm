@@ -167,12 +167,11 @@ FadeComplete                    ds 1
 FadeOutComplete                 ds 1
 fadeslow                        ds 1
 
-
  #include "sound/intro1_variables.asm"
 
 
 
-OVERLAY_SIZE    SET 25
+OVERLAY_SIZE    SET 24
 
 
 

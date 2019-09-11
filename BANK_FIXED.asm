@@ -566,7 +566,7 @@ MOVE_GENERIC    lda #0                          ; 2
 noMovesToTake   ldx Platform
                 lda redColour,x
                 sta BGColour
-                lda #6
+                lda #8
                 sta ColourTimer
                 rts
 
@@ -1222,6 +1222,7 @@ FadeInPossible
 
                 lda FadeComplete
                 beq FadeNotRequired
+
                 dec fadeslow
                 bpl FadeNotRequired
                 lda #2
@@ -1349,42 +1350,41 @@ genericRTS      rts
 
     DEFINE_SUBROUTINE FadeOut
 
-                lda #0
-                sta FadeOutComplete
+;                lda #0
+;                sta FadeOutComplete
 
                 ldy #SCREEN_LINES-1
 ZeroColours     sty SET_BANK_RAM
 
-                lda Colour_A_Actual
+                lax Colour_A_Actual
                 and #$F
                 beq AisZero
-                lda Colour_A_Actual
-                sec
-                sbc #1
+                dex
+                txa
 AisZero         sta Colour_A_Actual+RAM_WRITE
-                inc FadeOutComplete                    ; NOT complete
+;                inc FadeOutComplete                    ; NOT complete
 
-                lda Colour_B_Actual
+                lax Colour_B_Actual
                 and #$F
                 beq BisZero
-                lda Colour_B_Actual
-                sec
-                sbc #1
+                dex
+                txa
 BisZero         sta Colour_B_Actual+RAM_WRITE
-                inc FadeOutComplete                    ; NOT complete
+;                inc FadeOutComplete                    ; NOT complete
 
-                lda Colour_C_Actual
+                lax Colour_C_Actual
                 and #$F
                 beq CisZero
-                lda Colour_C_Actual
-                sec
-                sbc #1
+                dex
+                txa
 CisZero         sta Colour_C_Actual+RAM_WRITE
-                inc FadeOutComplete                    ; NOT complete
+;                inc FadeOutComplete                    ; NOT complete
 
                 dey
                 bpl ZeroColours
                 rts
+
+
 
 
     DEFINE_SUBROUTINE FadeIn
@@ -1392,55 +1392,71 @@ CisZero         sta Colour_C_Actual+RAM_WRITE
                 lda #0
                 sta FadeComplete
 
-                ldx #SCREEN_LINES-1
-CopyAcols       stx SET_BANK_RAM
+                ldy #SCREEN_LINES-1
+CopyAcols       sty SET_BANK_RAM
 
-                lda Colour_A_Actual
+                lax Colour_A_Actual
                 bne notFirstA
                 lda Colour_A
                 and #$F0
-                ora #1
-                bne FirstA
-notFirstA       cmp Colour_A
+                tax
+                inx
+                jmp FirstA
+notFirstA       cpx Colour_A
                 beq AOK
-                adc #1
-FirstA          sta Colour_A_Actual+RAM_WRITE
+                inx
+FirstA          stx Colour_A_Actual+RAM_WRITE
                 inc FadeComplete                    ; NOT complete
 AOK
-                lda Colour_B_Actual
+                lax Colour_B_Actual
                 bne notFirstB
                 lda Colour_B
                 and #$F0
-                ora #1
-                bne FirstB
-notFirstB       cmp Colour_B
+                tax
+                inx
+                jmp FirstB
+notFirstB       cpx Colour_B
                 beq BOK
-                adc #1
-FirstB
-                sta Colour_B_Actual+RAM_WRITE
+                inx
+FirstB          stx Colour_B_Actual+RAM_WRITE
                 inc FadeComplete                    ; NOT complete
 BOK
-                lda Colour_C_Actual
+                lax Colour_C_Actual
                 bne notFirstC
                 lda Colour_C
                 and #$F0
-                ora #1
-                bne FirstC
-notFirstC       cmp Colour_C
+                tax
+                inx
+                jmp FirstC
+notFirstC       cpx Colour_C
                 beq COK
-                adc #1
-FirstC          sta Colour_C_Actual+RAM_WRITE
+                inx
+FirstC          stx Colour_C_Actual+RAM_WRITE
                 inc FadeComplete                    ; NOT complete
 COK
 
-                ;lda FadeComplete
-                ;cmp #3
-                ;bcs exitfade
-                ;bne exitfade
+                dey
+                bpl CopyAcols
+                rts
+
+
+    DEFINE_SUBROUTINE CopyColoursToScreenLines
+
+                ldx #SCREEN_LINES-1
+setPlat         stx SET_BANK_RAM
+
+                lda icc_colour
+                sta Colour_A + RAM_WRITE
+                lda icc_colour+2            ; note : screwy/backward because I goofed.
+                sta Colour_B + RAM_WRITE
+                lda icc_colour+1
+                sta Colour_C + RAM_WRITE
 
                 dex
-                bpl CopyAcols
-exitfade
+                bpl setPlat
+
+                lda ROM_Bank
+                sta SET_BANK
                 rts
 
     ;---------------------------------------------------------------------------

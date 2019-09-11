@@ -562,8 +562,8 @@
     129  0000 ????						; The following are NOT object-related and timing is a bit of manual guesswork/calculation
     130  0000 ????						; Comment may indicate at what value a glitch was DEFINITELY seen. These timings may not be optimal.
     131  0000 ????
-      0  0000 ????				      SEGTIME	SEGTIME_MAN,18	;12	      ;NFI
-      1  0000 ????			   SEGTIME_MAN SET	18
+      0  0000 ????				      SEGTIME	SEGTIME_MAN,22	;18 ;12	  ;NFI
+      1  0000 ????			   SEGTIME_MAN SET	22
       2  0000 ????	       00 00	   TEST_SEGTIME_MAN =	0
 ------- FILE ./sokoboo.asm
      46  0000 ????
@@ -1000,7 +1000,7 @@
      31  0000 ????						;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
      32  0000 ????						;    GNU General Public License for more details.
      33  0000 ????
-     34 U00ff ????				      SEG.U	variables
+     34 U00fe ????				      SEG.U	variables
      35 U0080					      ORG	$80
      36 U0080
      37 U0080
@@ -1136,7 +1136,6 @@
     167 U00cd		       00	   FadeOutComplete ds	1
     168 U00ce		       00	   fadeslow   ds	1
     169 U00cf
-    170 U00cf
 ------- FILE sound/intro1_variables.asm LEVEL 3 PASS 3
       0 U00cf					      include	"sound/intro1_variables.asm"
       1 U00cf							; TIATracker music player
@@ -1207,50 +1206,50 @@
      66 U00d8							; =====================================================================
      67 U00d8		       00 00	   tt_ptr     ds	2
 ------- FILE zeropage.asm
+    171 U00da
     172 U00da
     173 U00da
-    174 U00da
-    175 U00da				   OVERLAY_SIZE SET	25
+    174 U00da				   OVERLAY_SIZE SET	24
+    175 U00da
     176 U00da
     177 U00da
-    178 U00da
-    179 U00da							; This overlay variable is used for the overlay variables.  That's OK.
-    180 U00da							; However, it is positioned at the END of the variables so, if on the off chance we're overlapping
-    181 U00da							; stack space and variable, it is LIKELY that that won't be a problem, as the temp variables
-    182 U00da							; (especially the latter ones) are only used in rare occasions.
-    183 U00da
-    184 U00da							; FOR SAFETY, DO NOT USE THIS AREA DIRECTLY (ie: NEVER reference 'Overlay' in the code)
-    185 U00da							; ADD AN OVERLAY FOR EACH ROUTINE'S USE, SO CLASHES CAN BE EASILY CHECKED
-    186 U00da
-    187 U00da		       00 00 00 00*Overlay    ds	OVERLAY_SIZE	;--> overlay (share) variables
-      0 U00f3					      VALIDATE_OVERLAY	"DEFINITION"
-      6 U00f3					      LIST	ON
-    189 U00f3
-    190 U00f3
-    191 U00f3		       00 00 00 00*	      ds	RESERVED_FOR_STACK
-    192 U00ff
- FREE BYTES IN ZERO PAGE =  $0
-    193 U00ff					      ECHO	"FREE BYTES IN ZERO PAGE = ", $FF - *
-    194 U00ff				  -	      IF	* > $FF
-    195 U00ff				  -	      ERR
-    196 U00ff					      ENDIF
+    178 U00da							; This overlay variable is used for the overlay variables.  That's OK.
+    179 U00da							; However, it is positioned at the END of the variables so, if on the off chance we're overlapping
+    180 U00da							; stack space and variable, it is LIKELY that that won't be a problem, as the temp variables
+    181 U00da							; (especially the latter ones) are only used in rare occasions.
+    182 U00da
+    183 U00da							; FOR SAFETY, DO NOT USE THIS AREA DIRECTLY (ie: NEVER reference 'Overlay' in the code)
+    184 U00da							; ADD AN OVERLAY FOR EACH ROUTINE'S USE, SO CLASHES CAN BE EASILY CHECKED
+    185 U00da
+    186 U00da		       00 00 00 00*Overlay    ds	OVERLAY_SIZE	;--> overlay (share) variables
+      0 U00f2					      VALIDATE_OVERLAY	"DEFINITION"
+      6 U00f2					      LIST	ON
+    188 U00f2
+    189 U00f2
+    190 U00f2		       00 00 00 00*	      ds	RESERVED_FOR_STACK
+    191 U00fe
+ FREE BYTES IN ZERO PAGE =  $1
+    192 U00fe					      ECHO	"FREE BYTES IN ZERO PAGE = ", $FF - *
+    193 U00fe				  -	      IF	* > $FF
+    194 U00fe				  -	      ERR
+    195 U00fe					      ENDIF
 ------- FILE ./sokoboo.asm
-    392 U00ff
-    393 U00ff
-    394 U00ff							;------------------------------------------------------------------------------
-    395 U00ff							; OVERLAYS!
-    396 U00ff							; These variables are overlays, and should be managed with care
-    397 U00ff							; That is, variables are ALREADY DEFINED, and we're reusing RAM for other purposes
-    398 U00ff
-    399 U00ff							; EACH OF THESE ARE VARIABLES (TEMPORARY) USED BY ONE ROUTINE (AND IT'S SUBROUTINES)
-    400 U00ff							; THAT IS, LOCAL VARIABLES.  USE 'EM FREELY, THEY COST NOTHING
-    401 U00ff
-    402 U00ff							; TOTAL SPACE USED BY ANY OVERLAY GROUP SHOULD BE <= SIZE OF 'Overlay'
-    403 U00ff
-    404 U00ff
-    405 U00ff
-    406 U00ff							;------------------------------------------------------------------------------
-      0 U00ff					      OVERLAY	BuildDrawFlags
+    392 U00fe
+    393 U00fe
+    394 U00fe							;------------------------------------------------------------------------------
+    395 U00fe							; OVERLAYS!
+    396 U00fe							; These variables are overlays, and should be managed with care
+    397 U00fe							; That is, variables are ALREADY DEFINED, and we're reusing RAM for other purposes
+    398 U00fe
+    399 U00fe							; EACH OF THESE ARE VARIABLES (TEMPORARY) USED BY ONE ROUTINE (AND IT'S SUBROUTINES)
+    400 U00fe							; THAT IS, LOCAL VARIABLES.  USE 'EM FREELY, THEY COST NOTHING
+    401 U00fe
+    402 U00fe							; TOTAL SPACE USED BY ANY OVERLAY GROUP SHOULD BE <= SIZE OF 'Overlay'
+    403 U00fe
+    404 U00fe
+    405 U00fe
+    406 U00fe							;------------------------------------------------------------------------------
+      0 U00fe					      OVERLAY	BuildDrawFlags
       1 U00e5 ????				      SEG.U	OVERLAY_BuildDrawFlags
       2 U00da					      org	Overlay
     408 U00da
@@ -1304,7 +1303,7 @@
     446 U00db							;------------------------------------------------------------------------------
     447 U00db
       0 U00db					      OVERLAY	TitleScreen
-      1 U00f3 ????				      SEG.U	OVERLAY_TitleScreen
+      1 U00f2 ????				      SEG.U	OVERLAY_TitleScreen
       2 U00da					      org	Overlay
     449 U00da		       00 00	   colour_table ds	2
     450 U00dc		       00 00	   digit1     ds	2
@@ -1314,19 +1313,19 @@
     454 U00e5		       00	   digitick   ds	1
     455 U00e6		       00 00 00    targetDigit ds	3
     456 U00e9		       00	   endwait    ds	1
-    457 U00ea		       00	   colourindex ds	1
-    458 U00eb		       00 00	   digitHundreds ds	2
-    459 U00ed		       00	   selector   ds	1
-    460 U00ee		       00	   walkSpeed  ds	1
-    461 U00ef		       00 00	   manc       ds	2
-    462 U00f1		       00	   wallColour ds	1
-    463 U00f2		       00	   adjustColour ds	1
-      0 U00f3					      VALIDATE_OVERLAY	"TitleScreen"
-      6 U00f3					      LIST	ON
-    465 U00f3
-    466 U00f3							;------------------------------------------------------------------------------
-    467 U00f3
-      0 U00f3					      OVERLAY	TimeSlice
+    457 U00ea							;colourindex		  ds 1
+    458 U00ea		       00 00	   digitHundreds ds	2
+    459 U00ec		       00	   selector   ds	1
+    460 U00ed		       00	   walkSpeed  ds	1
+    461 U00ee		       00 00	   manc       ds	2
+    462 U00f0		       00	   wallColour ds	1
+    463 U00f1		       00	   adjustColour ds	1
+      0 U00f2					      VALIDATE_OVERLAY	"TitleScreen"
+      6 U00f2					      LIST	ON
+    465 U00f2
+    466 U00f2							;------------------------------------------------------------------------------
+    467 U00f2
+      0 U00f2					      OVERLAY	TimeSlice
       1 U00dc ????				      SEG.U	OVERLAY_TimeSlice
       2 U00da					      org	Overlay
     469 U00da
@@ -2577,65 +2576,55 @@
     517  02a4
     518  02a4		       60	   NoMod      rts
     519  02a5
-      0  02a5					      CHECK_HALF_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE (1K)"
-      1  02a5
-      2  02a5
-      3  02a5		       02 a5	   .TEMP      =	* - BANK_START
- ROM_SHADOW_OF_RAMBANK_CODE (1K) (1K) SIZE =  $2a5 , FREE= $15b
-      4  02a5					      ECHO	"ROM_SHADOW_OF_RAMBANK_CODE (1K)", "(1K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE/2 - .TEMP
-      5  02a5				  -	      if	( .TEMP ) > ROM_BANK_SIZE/2
-      6  02a5				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
-      7  02a5				  -	      ERR
-      8  02a5					      endif
-    521  02a5
-    522  02a5							;------------------------------------------------------------------------------
-    523  02a5
-    524  02a5							; The acutal colour palette to use for the player. The player may be any "ethnicity" which refers
-    525  02a5							; to the colours for a frame. The skin could be asian/black/caucasian, the cloting could be anything.
-    526  02a5							; Each ethnicity is defined as first 8 bytes for NTSC and then 8 bytes for PAL. The 8 bytes refer
-    527  02a5							; to the "CL#" index values defined in the player COLOUR frames. So, an index is grabbed from the
-    528  02a5							; player frame, it is adjusted to add the base ethnicity and the NTSC/PAL, and that gives the base
-    529  02a5							; for reading 8 successive bytes for CL0..CL7 from the frame definitions.
-    530  02a5
-    531  02a5				   EthnicityColourPalette
-    532  02a5
-    533  02a5							; CL0	   = BLACK
-    534  02a5							; CL1	   = HAT
-    535  02a5							; CL2	   = SKIN
-    536  02a5							; CL3	   = CUFFS/TRIM
-    537  02a5							; CL4	   = JUMPER
-    538  02a5							; CL5	   = PANTS
-    539  02a5							; CL6	   = SHOES
-    540  02a5							; CL7	   = UNUSED
-    541  02a5
-    542  02a5							; CL7 = NOT USABLE
-    543  02a5
-    544  02a5							; (*) = unchecked/converted
-    545  02a5
-    546  02a5					      MAC	colour_group
-    547  02a5							; NTSC...
-    548  02a5					      .byte	0
-    549  02a5					      .byte	{1}+{2}
-    550  02a5					      .byte	{3}+{4}
-    551  02a5					      .byte	{5}+{6}
-    552  02a5					      .byte	{7}+{8}
-    553  02a5					      .byte	{9}+{10}
-    554  02a5					      .byte	{11}+{12}
-    555  02a5					      .byte	0
-    556  02a5
-    557  02a5							; PAL...
-    558  02a5					      .byte	0
-    559  02a5					      NTSC_TO_PAL	{1}, {2}
-    560  02a5					      NTSC_TO_PAL	{3}, {4}
-    561  02a5					      NTSC_TO_PAL	{5}, {6}
-    562  02a5					      NTSC_TO_PAL	{7}, {8}
-    563  02a5					      NTSC_TO_PAL	{9}, {10}
-    564  02a5					      NTSC_TO_PAL	{11}, {12}
-    565  02a5					      .byte	0
-    566  02a5					      ENDM
-    567  02a5
-    568  02a5							; USE NTSC COLOUR+INTENSITY. WILL AUTO-ADD PAL EQUIVALENT...
-    569  02a5							;		 HAT	 FACE	 TRIM	 JUMPER  PANTS	SHOES
+    520  02a5
+    521  02a5							;------------------------------------------------------------------------------
+    522  02a5
+    523  02a5							; The acutal colour palette to use for the player. The player may be any "ethnicity" which refers
+    524  02a5							; to the colours for a frame. The skin could be asian/black/caucasian, the cloting could be anything.
+    525  02a5							; Each ethnicity is defined as first 8 bytes for NTSC and then 8 bytes for PAL. The 8 bytes refer
+    526  02a5							; to the "CL#" index values defined in the player COLOUR frames. So, an index is grabbed from the
+    527  02a5							; player frame, it is adjusted to add the base ethnicity and the NTSC/PAL, and that gives the base
+    528  02a5							; for reading 8 successive bytes for CL0..CL7 from the frame definitions.
+    529  02a5
+    530  02a5				   EthnicityColourPalette
+    531  02a5
+    532  02a5							; CL0	   = BLACK
+    533  02a5							; CL1	   = HAT
+    534  02a5							; CL2	   = SKIN
+    535  02a5							; CL3	   = CUFFS/TRIM
+    536  02a5							; CL4	   = JUMPER
+    537  02a5							; CL5	   = PANTS
+    538  02a5							; CL6	   = SHOES
+    539  02a5							; CL7	   = UNUSED
+    540  02a5
+    541  02a5							; CL7 = NOT USABLE
+    542  02a5
+    543  02a5							; (*) = unchecked/converted
+    544  02a5
+    545  02a5					      MAC	colour_group
+    546  02a5							; NTSC...
+    547  02a5					      .byte	0
+    548  02a5					      .byte	{1}+{2}
+    549  02a5					      .byte	{3}+{4}
+    550  02a5					      .byte	{5}+{6}
+    551  02a5					      .byte	{7}+{8}
+    552  02a5					      .byte	{9}+{10}
+    553  02a5					      .byte	{11}+{12}
+    554  02a5					      .byte	0
+    555  02a5
+    556  02a5							; PAL...
+    557  02a5					      .byte	0
+    558  02a5					      NTSC_TO_PAL	{1}, {2}
+    559  02a5					      NTSC_TO_PAL	{3}, {4}
+    560  02a5					      NTSC_TO_PAL	{5}, {6}
+    561  02a5					      NTSC_TO_PAL	{7}, {8}
+    562  02a5					      NTSC_TO_PAL	{9}, {10}
+    563  02a5					      NTSC_TO_PAL	{11}, {12}
+    564  02a5					      .byte	0
+    565  02a5					      ENDM
+    566  02a5
+    567  02a5							; USE NTSC COLOUR+INTENSITY. WILL AUTO-ADD PAL EQUIVALENT...
+    568  02a5							;		 HAT	 FACE	 TRIM	 JUMPER  PANTS	SHOES
       0  02a5					      COLOUR_GROUP	$10,$A, $40,$8, $00,$C, $80,$8, $90,6, $10,6	; 0
       1  02a5
       2  02a5		       00		      .byte.b	0
@@ -3868,27 +3857,27 @@
      47  02e4				  -	      .byte	$40+8
      48  02e4					      ENDIF
      19  02e4		       00		      .byte.b	0
-    574  02e5
-    575  02e5							;------------------------------------------------------------------------------
-    576  02e5
-    577  02e5							;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
-    578  02e5
-    579  02e5							;------------------------------------------------------------------------------
+    573  02e5
+    574  02e5							;------------------------------------------------------------------------------
+    575  02e5
+    576  02e5							;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
+    577  02e5
+    578  02e5							;------------------------------------------------------------------------------
+    579  02e5
     580  02e5
     581  02e5
     582  02e5
-    583  02e5
-    584  02e5				   OBJTYPE    SET	0
-    585  02e5					      MAC	define_character
-    586  02e5				   CHARACTER_{1} =	OBJTYPE
-    587  02e5				   OBJTYPE    .SET	OBJTYPE + 1
-    588  02e5					      ENDM
-    589  02e5
-    590  02e5							; Modifications to character #/order must also ensure the following are correct...
-    591  02e5							;   CharacterDataVecLO/HI	   in this file
-    592  02e5							;   MoveVecLO/HI		   in BANK_INITBANK
-    593  02e5							;   CharReplacement		   in BANK_ROM_SHADOW_DRAWBUFFERS
-    594  02e5
+    583  02e5				   OBJTYPE    SET	0
+    584  02e5					      MAC	define_character
+    585  02e5				   CHARACTER_{1} =	OBJTYPE
+    586  02e5				   OBJTYPE    .SET	OBJTYPE + 1
+    587  02e5					      ENDM
+    588  02e5
+    589  02e5							; Modifications to character #/order must also ensure the following are correct...
+    590  02e5							;   CharacterDataVecLO/HI	   in this file
+    591  02e5							;   MoveVecLO/HI		   in BANK_INITBANK
+    592  02e5							;   CharReplacement		   in BANK_ROM_SHADOW_DRAWBUFFERS
+    593  02e5
       0  02e5					      DEFINE_CHARACTER	BLANK
       1  02e5		       00 00	   CHARACTER_BLANK =	OBJTYPE
       2  02e5				   OBJTYPE    .SET	OBJTYPE + 1
@@ -3934,227 +3923,228 @@
       0  02e5					      DEFINE_CHARACTER	TARGET7
       1  02e5		       00 0e	   CHARACTER_TARGET7 =	OBJTYPE
       2  02e5				   OBJTYPE    .SET	OBJTYPE + 1
-    610  02e5
-    611  02e5				  -	      if	DIGITS
-    612  02e5				  -	      DEFINE_CHARACTER	0
-    613  02e5				  -	      DEFINE_CHARACTER	1
-    614  02e5				  -	      DEFINE_CHARACTER	2
-    615  02e5				  -	      DEFINE_CHARACTER	3
-    616  02e5				  -	      DEFINE_CHARACTER	4
-    617  02e5				  -	      DEFINE_CHARACTER	5
-    618  02e5				  -	      DEFINE_CHARACTER	6
-    619  02e5				  -	      DEFINE_CHARACTER	7
-    620  02e5				  -	      DEFINE_CHARACTER	8
-    621  02e5				  -	      DEFINE_CHARACTER	9
-    622  02e5					      endif
-    623  02e5
+    609  02e5
+    610  02e5				  -	      if	DIGITS
+    611  02e5				  -	      DEFINE_CHARACTER	0
+    612  02e5				  -	      DEFINE_CHARACTER	1
+    613  02e5				  -	      DEFINE_CHARACTER	2
+    614  02e5				  -	      DEFINE_CHARACTER	3
+    615  02e5				  -	      DEFINE_CHARACTER	4
+    616  02e5				  -	      DEFINE_CHARACTER	5
+    617  02e5				  -	      DEFINE_CHARACTER	6
+    618  02e5				  -	      DEFINE_CHARACTER	7
+    619  02e5				  -	      DEFINE_CHARACTER	8
+    620  02e5				  -	      DEFINE_CHARACTER	9
+    621  02e5					      endif
+    622  02e5
       0  02e5					      DEFINE_CHARACTER	MAXIMUM
       1  02e5		       00 0f	   CHARACTER_MAXIMUM =	OBJTYPE
       2  02e5				   OBJTYPE    .SET	OBJTYPE + 1
+    624  02e5
     625  02e5
-    626  02e5
-    627  02e5				   CharacterDataVecLO
-    628  02e5
-    629  02e5							; Two entries per character.  2nd is ptr to mirrored character
-    630  02e5							; Characters don't have to be mirrored, obviously -- use the same pointer for both!
-    631  02e5
-    632  02e5		       21		      .byte.b	<CHARACTERSHAPE_BLANK
-    633  02e6		       21		      .byte.b	<CHARACTERSHAPE_BLANK
-    634  02e7		       18		      .byte.b	<CHARACTERSHAPE_SOIL
-    635  02e8		       18		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
-    636  02e9		       30		      .byte.b	<CHARACTERSHAPE_BOX
-    637  02ea		       48		      .byte.b	<CHARACTERSHAPE_BOX_MIRRORED
-    638  02eb		       da		      .byte.b	<CHARACTERSHAPE_TARGET
-    639  02ec		       00		      .byte.b	<CHARACTERSHAPE_TARGET_MIRRORED
-    640  02ed		       21		      .byte.b	<CHARACTERSHAPE_BLANK
-    641  02ee		       21		      .byte.b	<CHARACTERSHAPE_BLANK
-    642  02ef		       21		      .byte.b	<CHARACTERSHAPE_BLANK	; man occupied
-    643  02f0		       21		      .byte.b	<CHARACTERSHAPE_BLANK
-    644  02f1		       d8		      .byte.b	<CHARACTERSHAPE_STEEL
-    645  02f2		       00		      .byte.b	<CHARACTERSHAPE_STEEL_MIRRORED
-    646  02f3		       c0		      .byte.b	<CHARACTERSHAPE_WALL
-    647  02f4		       d8		      .byte.b	<CHARACTERSHAPE_WALL_MIRRORED
-    648  02f5		       60		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET
-    649  02f6		       78		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-    650  02f7		       90		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET2
-    651  02f8		       a8		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
-    652  02f9		       21		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
-    653  02fa		       21		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
-    654  02fb		       18		      .byte.b	<CHARACTERSHAPE_TARGET1
-    655  02fc		       30		      .byte.b	<CHARACTERSHAPE_TARGET1_MIRRORED
-    656  02fd		       48		      .byte.b	<CHARACTERSHAPE_TARGET3
-    657  02fe		       60		      .byte.b	<CHARACTERSHAPE_TARGET3_MIRRORED
-    658  02ff		       78		      .byte.b	<CHARACTERSHAPE_TARGET5
-    659  0300		       90		      .byte.b	<CHARACTERSHAPE_TARGET5_MIRRORED
-    660  0301		       a8		      .byte.b	<CHARACTERSHAPE_TARGET7
-    661  0302		       c0		      .byte.b	<CHARACTERSHAPE_TARGET7_MIRRORED
-    662  0303
-    663  0303				  -	      if	DIGITS
-    664  0303				  -	      .byte	<CHARACTERSHAPE_0, <CHARACTERSHAPE_0_MIRRORED
-    665  0303				  -	      .byte	<CHARACTERSHAPE_1, <CHARACTERSHAPE_1_MIRRORED
-    666  0303				  -	      .byte	<CHARACTERSHAPE_2, <CHARACTERSHAPE_2_MIRRORED
-    667  0303				  -	      .byte	<CHARACTERSHAPE_3, <CHARACTERSHAPE_3_MIRRORED
-    668  0303				  -	      .byte	<CHARACTERSHAPE_4, <CHARACTERSHAPE_4_MIRRORED
-    669  0303				  -	      .byte	<CHARACTERSHAPE_5, <CHARACTERSHAPE_5_MIRRORED
-    670  0303				  -	      .byte	<CHARACTERSHAPE_6, <CHARACTERSHAPE_6_MIRRORED
-    671  0303				  -	      .byte	<CHARACTERSHAPE_7, <CHARACTERSHAPE_7_MIRRORED
-    672  0303				  -	      .byte	<CHARACTERSHAPE_8, <CHARACTERSHAPE_8_MIRRORED
-    673  0303				  -	      .byte	<CHARACTERSHAPE_9, <CHARACTERSHAPE_9_MIRRORED
-    674  0303					      endif
+    626  02e5				   CharacterDataVecLO
+    627  02e5
+    628  02e5							; Two entries per character.  2nd is ptr to mirrored character
+    629  02e5							; Characters don't have to be mirrored, obviously -- use the same pointer for both!
+    630  02e5
+    631  02e5		       21		      .byte.b	<CHARACTERSHAPE_BLANK
+    632  02e6		       21		      .byte.b	<CHARACTERSHAPE_BLANK
+    633  02e7		       18		      .byte.b	<CHARACTERSHAPE_SOIL
+    634  02e8		       18		      .byte.b	<CHARACTERSHAPE_SOIL_MIRRORED
+    635  02e9		       30		      .byte.b	<CHARACTERSHAPE_BOX
+    636  02ea		       48		      .byte.b	<CHARACTERSHAPE_BOX_MIRRORED
+    637  02eb		       df		      .byte.b	<CHARACTERSHAPE_TARGET
+    638  02ec		       00		      .byte.b	<CHARACTERSHAPE_TARGET_MIRRORED
+    639  02ed		       21		      .byte.b	<CHARACTERSHAPE_BLANK
+    640  02ee		       21		      .byte.b	<CHARACTERSHAPE_BLANK
+    641  02ef		       21		      .byte.b	<CHARACTERSHAPE_BLANK	; man occupied
+    642  02f0		       21		      .byte.b	<CHARACTERSHAPE_BLANK
+    643  02f1		       d8		      .byte.b	<CHARACTERSHAPE_STEEL
+    644  02f2		       00		      .byte.b	<CHARACTERSHAPE_STEEL_MIRRORED
+    645  02f3		       c0		      .byte.b	<CHARACTERSHAPE_WALL
+    646  02f4		       d8		      .byte.b	<CHARACTERSHAPE_WALL_MIRRORED
+    647  02f5		       60		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET
+    648  02f6		       78		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+    649  02f7		       90		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET2
+    650  02f8		       a8		      .byte.b	<CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
+    651  02f9		       21		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
+    652  02fa		       21		      .byte.b	<CHARACTERSHAPE_BLANK	; unkillable man
+    653  02fb		       18		      .byte.b	<CHARACTERSHAPE_TARGET1
+    654  02fc		       30		      .byte.b	<CHARACTERSHAPE_TARGET1_MIRRORED
+    655  02fd		       48		      .byte.b	<CHARACTERSHAPE_TARGET3
+    656  02fe		       60		      .byte.b	<CHARACTERSHAPE_TARGET3_MIRRORED
+    657  02ff		       78		      .byte.b	<CHARACTERSHAPE_TARGET5
+    658  0300		       90		      .byte.b	<CHARACTERSHAPE_TARGET5_MIRRORED
+    659  0301		       a8		      .byte.b	<CHARACTERSHAPE_TARGET7
+    660  0302		       c0		      .byte.b	<CHARACTERSHAPE_TARGET7_MIRRORED
+    661  0303
+    662  0303				  -	      if	DIGITS
+    663  0303				  -	      .byte	<CHARACTERSHAPE_0, <CHARACTERSHAPE_0_MIRRORED
+    664  0303				  -	      .byte	<CHARACTERSHAPE_1, <CHARACTERSHAPE_1_MIRRORED
+    665  0303				  -	      .byte	<CHARACTERSHAPE_2, <CHARACTERSHAPE_2_MIRRORED
+    666  0303				  -	      .byte	<CHARACTERSHAPE_3, <CHARACTERSHAPE_3_MIRRORED
+    667  0303				  -	      .byte	<CHARACTERSHAPE_4, <CHARACTERSHAPE_4_MIRRORED
+    668  0303				  -	      .byte	<CHARACTERSHAPE_5, <CHARACTERSHAPE_5_MIRRORED
+    669  0303				  -	      .byte	<CHARACTERSHAPE_6, <CHARACTERSHAPE_6_MIRRORED
+    670  0303				  -	      .byte	<CHARACTERSHAPE_7, <CHARACTERSHAPE_7_MIRRORED
+    671  0303				  -	      .byte	<CHARACTERSHAPE_8, <CHARACTERSHAPE_8_MIRRORED
+    672  0303				  -	      .byte	<CHARACTERSHAPE_9, <CHARACTERSHAPE_9_MIRRORED
+    673  0303					      endif
+    674  0303
     675  0303
-    676  0303
-    677  0303				  -	      IF	* - CharacterDataVecLO != CHARACTER_MAXIMUM*2
-    678  0303				  -	      ECHO	"ERROR: Incorrect CharacterDataVecLO table!"
-    679  0303				  -	      ERR
-    680  0303					      ENDIF
+    676  0303				  -	      IF	* - CharacterDataVecLO != CHARACTER_MAXIMUM*2
+    677  0303				  -	      ECHO	"ERROR: Incorrect CharacterDataVecLO table!"
+    678  0303				  -	      ERR
+    679  0303					      ENDIF
+    680  0303
     681  0303
-    682  0303
-    683  0303							;ds 20,0
-    684  0303
-    685  0303							;---------------------------------------------------------------------------
-    686  0303
-    687  0303				   CharacterDataVecHI
-    688  0303
-    689  0303		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
-    690  0304		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
-    691  0305		       ff		      .byte.b	>CHARACTERSHAPE_SOIL
-    692  0306		       ff		      .byte.b	>CHARACTERSHAPE_SOIL_MIRRORED
-    693  0307		       ff		      .byte.b	>CHARACTERSHAPE_BOX
-    694  0308		       ff		      .byte.b	>CHARACTERSHAPE_BOX_MIRRORED
-    695  0309		       fd		      .byte.b	>CHARACTERSHAPE_TARGET
-    696  030a		       fe		      .byte.b	>CHARACTERSHAPE_TARGET_MIRRORED
-    697  030b		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
-    698  030c		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
-    699  030d		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; man occupied
-    700  030e		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
-    701  030f		       fe		      .byte.b	>CHARACTERSHAPE_STEEL
-    702  0310		       ff		      .byte.b	>CHARACTERSHAPE_STEEL_MIRRORED
-    703  0311		       ff		      .byte.b	>CHARACTERSHAPE_WALL
-    704  0312		       ff		      .byte.b	>CHARACTERSHAPE_WALL_MIRRORED
-    705  0313		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET
-    706  0314		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-    707  0315		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET2
-    708  0316		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
-    709  0317		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
-    710  0318		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
-    711  0319		       fe		      .byte.b	>CHARACTERSHAPE_TARGET1
-    712  031a		       fe		      .byte.b	>CHARACTERSHAPE_TARGET1_MIRRORED
-    713  031b		       fe		      .byte.b	>CHARACTERSHAPE_TARGET3
-    714  031c		       fe		      .byte.b	>CHARACTERSHAPE_TARGET3_MIRRORED
-    715  031d		       fe		      .byte.b	>CHARACTERSHAPE_TARGET5
-    716  031e		       fe		      .byte.b	>CHARACTERSHAPE_TARGET5_MIRRORED
-    717  031f		       fe		      .byte.b	>CHARACTERSHAPE_TARGET7
-    718  0320		       fe		      .byte.b	>CHARACTERSHAPE_TARGET7_MIRRORED
-    719  0321
-    720  0321				  -	      if	DIGITS
-    721  0321				  -	      .byte	>CHARACTERSHAPE_0, >CHARACTERSHAPE_0_MIRRORED
-    722  0321				  -	      .byte	>CHARACTERSHAPE_1, >CHARACTERSHAPE_1_MIRRORED
-    723  0321				  -	      .byte	>CHARACTERSHAPE_2, >CHARACTERSHAPE_2_MIRRORED
-    724  0321				  -	      .byte	>CHARACTERSHAPE_3, >CHARACTERSHAPE_3_MIRRORED
-    725  0321				  -	      .byte	>CHARACTERSHAPE_4, >CHARACTERSHAPE_4_MIRRORED
-    726  0321				  -	      .byte	>CHARACTERSHAPE_5, >CHARACTERSHAPE_5_MIRRORED
-    727  0321				  -	      .byte	>CHARACTERSHAPE_6, >CHARACTERSHAPE_6_MIRRORED
-    728  0321				  -	      .byte	>CHARACTERSHAPE_7, >CHARACTERSHAPE_7_MIRRORED
-    729  0321				  -	      .byte	>CHARACTERSHAPE_8, >CHARACTERSHAPE_8_MIRRORED
-    730  0321				  -	      .byte	>CHARACTERSHAPE_9, >CHARACTERSHAPE_9_MIRRORED
-    731  0321					      endif
+    682  0303							;ds 20,0
+    683  0303
+    684  0303							;---------------------------------------------------------------------------
+    685  0303
+    686  0303				   CharacterDataVecHI
+    687  0303
+    688  0303		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
+    689  0304		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
+    690  0305		       ff		      .byte.b	>CHARACTERSHAPE_SOIL
+    691  0306		       ff		      .byte.b	>CHARACTERSHAPE_SOIL_MIRRORED
+    692  0307		       ff		      .byte.b	>CHARACTERSHAPE_BOX
+    693  0308		       ff		      .byte.b	>CHARACTERSHAPE_BOX_MIRRORED
+    694  0309		       fd		      .byte.b	>CHARACTERSHAPE_TARGET
+    695  030a		       fe		      .byte.b	>CHARACTERSHAPE_TARGET_MIRRORED
+    696  030b		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
+    697  030c		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
+    698  030d		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; man occupied
+    699  030e		       f3		      .byte.b	>CHARACTERSHAPE_BLANK
+    700  030f		       fe		      .byte.b	>CHARACTERSHAPE_STEEL
+    701  0310		       ff		      .byte.b	>CHARACTERSHAPE_STEEL_MIRRORED
+    702  0311		       ff		      .byte.b	>CHARACTERSHAPE_WALL
+    703  0312		       ff		      .byte.b	>CHARACTERSHAPE_WALL_MIRRORED
+    704  0313		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET
+    705  0314		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+    706  0315		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET2
+    707  0316		       ff		      .byte.b	>CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
+    708  0317		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
+    709  0318		       f3		      .byte.b	>CHARACTERSHAPE_BLANK	; unkillable man
+    710  0319		       fe		      .byte.b	>CHARACTERSHAPE_TARGET1
+    711  031a		       fe		      .byte.b	>CHARACTERSHAPE_TARGET1_MIRRORED
+    712  031b		       fe		      .byte.b	>CHARACTERSHAPE_TARGET3
+    713  031c		       fe		      .byte.b	>CHARACTERSHAPE_TARGET3_MIRRORED
+    714  031d		       fe		      .byte.b	>CHARACTERSHAPE_TARGET5
+    715  031e		       fe		      .byte.b	>CHARACTERSHAPE_TARGET5_MIRRORED
+    716  031f		       fe		      .byte.b	>CHARACTERSHAPE_TARGET7
+    717  0320		       fe		      .byte.b	>CHARACTERSHAPE_TARGET7_MIRRORED
+    718  0321
+    719  0321				  -	      if	DIGITS
+    720  0321				  -	      .byte	>CHARACTERSHAPE_0, >CHARACTERSHAPE_0_MIRRORED
+    721  0321				  -	      .byte	>CHARACTERSHAPE_1, >CHARACTERSHAPE_1_MIRRORED
+    722  0321				  -	      .byte	>CHARACTERSHAPE_2, >CHARACTERSHAPE_2_MIRRORED
+    723  0321				  -	      .byte	>CHARACTERSHAPE_3, >CHARACTERSHAPE_3_MIRRORED
+    724  0321				  -	      .byte	>CHARACTERSHAPE_4, >CHARACTERSHAPE_4_MIRRORED
+    725  0321				  -	      .byte	>CHARACTERSHAPE_5, >CHARACTERSHAPE_5_MIRRORED
+    726  0321				  -	      .byte	>CHARACTERSHAPE_6, >CHARACTERSHAPE_6_MIRRORED
+    727  0321				  -	      .byte	>CHARACTERSHAPE_7, >CHARACTERSHAPE_7_MIRRORED
+    728  0321				  -	      .byte	>CHARACTERSHAPE_8, >CHARACTERSHAPE_8_MIRRORED
+    729  0321				  -	      .byte	>CHARACTERSHAPE_9, >CHARACTERSHAPE_9_MIRRORED
+    730  0321					      endif
+    731  0321
     732  0321
-    733  0321
-    734  0321				  -	      IF	* - CharacterDataVecHI != CHARACTER_MAXIMUM*2
-    735  0321				  -	      ECHO	"ERROR: Incorrect CharacterDataVecHI table!"
-    736  0321				  -	      ERR
-    737  0321					      ENDIF
+    733  0321				  -	      IF	* - CharacterDataVecHI != CHARACTER_MAXIMUM*2
+    734  0321				  -	      ECHO	"ERROR: Incorrect CharacterDataVecHI table!"
+    735  0321				  -	      ERR
+    736  0321					      ENDIF
+    737  0321
     738  0321
-    739  0321
-    740  0321							;     OPTIONAL_PAGEBREAK "PLAYER BLANK SHAPE", LINES_PER_CHAR
-    741  0321
-    742  0321		       f3 39	   ShapePlayer =	PLAYER0_SHAPE	;BLANK
-    743  0321		       f3 39	   ShapePlayerBLUE =	ShapePlayer	; low adresses patched
-    744  0321		       f3 39	   ShapePlayerGREEN =	ShapePlayer	; low adresses patched
-    745  0321		       f3 39	   ShapePlayerRED =	ShapePlayer	; low adresses patched
-    746  0321
-    747  0321		       f3 21	   CHARACTERSHAPE_MANOCCUPIED =	PLAYER_BLANK
-    748  0321		       f3 21	   CHARACTERSHAPE_BLANK =	PLAYER_BLANK
+    739  0321							;     OPTIONAL_PAGEBREAK "PLAYER BLANK SHAPE", LINES_PER_CHAR
+    740  0321
+    741  0321		       f3 39	   ShapePlayer =	PLAYER0_SHAPE	;BLANK
+    742  0321		       f3 39	   ShapePlayerBLUE =	ShapePlayer	; low adresses patched
+    743  0321		       f3 39	   ShapePlayerGREEN =	ShapePlayer	; low adresses patched
+    744  0321		       f3 39	   ShapePlayerRED =	ShapePlayer	; low adresses patched
+    745  0321
+    746  0321		       f3 21	   CHARACTERSHAPE_MANOCCUPIED =	PLAYER_BLANK
+    747  0321		       f3 21	   CHARACTERSHAPE_BLANK =	PLAYER_BLANK
+    748  0321
     749  0321
-    750  0321
-    751  0321							; The following are the RAM buffers into which the player shape and colour data are copied
-    752  0321							; The self-mod draw vectors point to this OR to a **blank** shape.
-    753  0321
+    750  0321							; The following are the RAM buffers into which the player shape and colour data are copied
+    751  0321							; The self-mod draw vectors point to this OR to a **blank** shape.
+    752  0321
       0  0321					      OPTIONAL_PAGEBREAK	"PLAYER_BLANK", LINES_PER_CHAR
      10  0321					      LIST	ON
-    755  0321				   PLAYER_BLANK
-    756  0321		       00 00 00 00*	      ds	LINES_PER_CHAR, 0	; P1
+    754  0321				   PLAYER_BLANK
+    755  0321		       00 00 00 00*	      ds	LINES_PER_CHAR, 0	; P1
       0  0339					      CHECKPAGEX	PLAYER_BLANK, "PLAYER_BLANK in BANK_ROM_SHADOW_RAMBANK.asm"
       9  0339					      LIST	ON
-    758  0339
+    757  0339
       0  0339					      OPTIONAL_PAGEBREAK	"PLAYER0_SHAPE", LINES_PER_CHAR
      10  0339					      LIST	ON
-    760  0339				   PLAYER0_SHAPE
-    761  0339		       00 00 00 00*	      ds	LINES_PER_CHAR,0
+    759  0339				   PLAYER0_SHAPE
+    760  0339		       00 00 00 00*	      ds	LINES_PER_CHAR,0
       0  0351					      CHECKPAGEX	PLAYER0_SHAPE, "PLAYER0_SHAPE in BANK_ROM_SHADOW_RAMBANK.asm"
       9  0351					      LIST	ON
-    763  0351
+    762  0351
       0  0351					      OPTIONAL_PAGEBREAK	"PLAYER0_COLOUR", LINES_PER_CHAR	; BOTH on same page
      10  0351					      LIST	ON
-    765  0351				   PLAYER0_COLOUR
-    766  0351		       00 00 00 00*	      ds	LINES_PER_CHAR,0
+    764  0351				   PLAYER0_COLOUR
+    765  0351		       00 00 00 00*	      ds	LINES_PER_CHAR,0
       0  0369					      CHECKPAGEX	PLAYER0_COLOUR, "PLAYER0_COLOUR in BANK_ROM_SHADOW_RAMBANK.asm"
       9  0369					      LIST	ON
-    768  0369
-    769  0369		       ff	   ExistingFrame .byte.b	-1
-    770  036a		       ff	   LastYScroll .byte.b	-1
-    771  036b		       14	   BandOffset .byte.b	20
-    772  036c		       00	   PlatformBase .byte.b	0
-    773  036d
-    774  036d		       00	   Colour_A   .byte.b	0
-    775  036e		       00	   Colour_B   .byte.b	0
-    776  036f		       00	   Colour_C   .byte.b	0
+    767  0369
+    768  0369		       ff	   ExistingFrame .byte.b	-1
+    769  036a		       ff	   LastYScroll .byte.b	-1
+    770  036b		       14	   BandOffset .byte.b	20
+    771  036c		       00	   PlatformBase .byte.b	0
+    772  036d
+    773  036d		       48	   Colour_A   .byte.b	$48
+    774  036e		       58	   Colour_B   .byte.b	$58
+    775  036f		       68	   Colour_C   .byte.b	$68
+    776  0370
     777  0370
     778  0370
     779  0370
     780  0370
-    781  0370
-    782  0370				   ColourBandsGreen
-    783  0370
-    784  0370							; NTSC...
-    785  0370
-    786  0370		       16 16		      ds	2,$16-0
-    787  0372		       28 28		      ds	2,$28-0
-    788  0374		       36 36 36 	      ds	3,$36-0
-    789  0377		       48 48		      ds	2,$48-0
-    790  0379		       58 58		      ds	2,$58-0
-    791  037b		       68 68 68 	      ds	3,$68-0
-    792  037e		       7a 7a		      ds	2,$7A-0
-    793  0380		       8c 8c 8c 	      ds	3,$8C-0
-    794  0383		       9a 9a		      ds	2,$9A-0
-    795  0385		       aa aa		      ds	2,$AA-0
-    796  0387		       b8 b8		      ds	2,$B8-0
-    797  0389		       c8 c8		      ds	2,$C8-0
-    798  038b		       d8 d8		      ds	2,$D8-0
-    799  038d		       e8 e8 e8 	      ds	3,$E8-0
-    800  0390							;ds 3,$F8
-    801  0390
-    802  0390							; PAL...
-    803  0390
-    804  0390		       28 28 28 	      ds	3,$28-0
-    805  0393		       48 48		      ds	2,$48-0
-    806  0395		       68 68 68 	      ds	3,$68-0
-    807  0398		       88 88		      ds	2,$88-0
-    808  039a		       a8 a8 a8 	      ds	3,$A8-0
-    809  039d		       c8 c8 c8 	      ds	3,$C8-0
-    810  03a0		       d8 d8		      ds	2,$D8-0
-    811  03a2		       b8 b8 b8 	      ds	3,$B8-0
-    812  03a5		       98 98 98 	      ds	3,$98-0
-    813  03a8		       78 78		      ds	2,$78-0
-    814  03aa		       58 58 58 	      ds	3,$58-0
-    815  03ad		       38 38 38 	      ds	3,$38-0
+    781  0370				   ColourBandsGreen
+    782  0370
+    783  0370							; NTSC...
+    784  0370
+    785  0370		       14 14		      ds	2,$16-2
+    786  0372		       24 24		      ds	2,$26-2	; brown
+    787  0374		       34 34 34 	      ds	3,$36-2
+    788  0377		       46 46		      ds	2,$48-2
+    789  0379		       56 56		      ds	2,$58-2
+    790  037b		       66 66 66 	      ds	3,$68-2
+    791  037e		       78 78		      ds	2,$7A-2
+    792  0380		       88 88 88 	      ds	3,$8A-2	; deep blue
+    793  0383		       96 96		      ds	2,$98-2
+    794  0385		       a6 a6		      ds	2,$A8-2
+    795  0387		       b6 b6		      ds	2,$B8-2
+    796  0389		       c6 c6		      ds	2,$C8-2
+    797  038b		       d6 d6		      ds	2,$D8-2
+    798  038d		       e6 e6 e6 	      ds	3,$E8-2
+    799  0390							;ds 3,$F8
+    800  0390
+    801  0390							; PAL...
+    802  0390
+    803  0390		       26 26 26 	      ds	3,$28-2
+    804  0393		       46 46		      ds	2,$48-2
+    805  0395		       66 66 66 	      ds	3,$68-2
+    806  0398		       86 86		      ds	2,$88-2
+    807  039a		       a6 a6 a6 	      ds	3,$A8-2
+    808  039d		       c6 c6 c6 	      ds	3,$C8-2
+    809  03a0		       d6 d6		      ds	2,$D8-2
+    810  03a2		       b6 b6 b6 	      ds	3,$B8-2
+    811  03a5		       96 96 96 	      ds	3,$98-2
+    812  03a8		       76 76		      ds	2,$78-2
+    813  03aa		       56 56 56 	      ds	3,$58-2
+    814  03ad		       36 36 36 	      ds	3,$38-2
+    815  03b0
     816  03b0
     817  03b0
-    818  03b0
       0  03b0					      DEFINE_SUBROUTINE	FixColours
       1  03b0		       00 00	   BANK_FixColours =	_CURRENT_BANK
       2  03b0					      SUBROUTINE
       3  03b0				   FixColours
+    819  03b0
     820  03b0
     821  03b0		       a4 96		      ldy	BoardScrollY
     822  03b2		       cc 6a f3 	      cpy	LastYScroll
@@ -4204,6 +4194,8 @@
     866  03fb
     867  03fb		       60	   BandsNotChanged rts
     868  03fc
+    869  03fc
+    870  03fc
       0  03fc					      CHECK_HALF_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
       1  03fc
       2  03fc
@@ -4214,11 +4206,11 @@
       6  03fc				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
       7  03fc				  -	      ERR
       8  03fc					      endif
-    870  03fc
-    871  03fc							; Here there's another 1K of usable ROM....
-    872  03fc							; Anything here is ONLY accessible if the bank is switched in as a ROM bank
-    873  03fc							; WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
-    874  03fc
+    872  03fc
+    873  03fc							; Here there's another 1K of usable ROM....
+    874  03fc							; Anything here is ONLY accessible if the bank is switched in as a ROM bank
+    875  03fc							; WE CAN'T HAVE ANYTHING REQUIRED IN THE ROM_SHADOW (IN RAM) IN THIS HALF
+    876  03fc
       0  03fc					      CHECK_BANK_SIZE	"ROM_SHADOW_OF_RAMBANK_CODE -- full 2K"
       1  03fc		       03 fc	   .TEMP      =	* - BANK_START
  ROM_SHADOW_OF_RAMBANK_CODE -- full 2K (2K) SIZE =  $3fc , FREE= $404
@@ -6192,7 +6184,7 @@
      36  139d							;------------------------------------------------------------------------------
      37  139d
       0  139d					      NEWBANK	GENERIC_BANK_1
-      1  1e2a ????				      SEG	GENERIC_BANK_1
+      1  1dec ????				      SEG	GENERIC_BANK_1
       2  1800					      ORG	ORIGIN
       3  1800					      RORG	$F000
       4  1800				   BANK_START SET	*
@@ -8163,1171 +8155,1123 @@
     749  1a9e
     750  1a9e							; Update the level colours (self-modifying) in each of the character line banks
     751  1a9e
-    752  1a9e
-    753  1a9e		       a2 07		      ldx	#SCREEN_LINES-1
-    754  1aa0
-    755  1aa0		       a9 6f	   setPlat    lda	#<Colour_C
-    756  1aa2		       85 bd		      sta	Board_AddressW
-    757  1aa4		       a9 f3		      lda	#>Colour_C
-    758  1aa6		       85 be		      sta	Board_AddressW+1
-    759  1aa8
-    760  1aa8		       a5 c9		      lda	icc_colour
-    761  1aaa		       a0 00		      ldy	#0	;<SELFMOD_BLUE+1
-    762  1aac		       20 1d f8 	      jsr	PutBoardCharacter
-    763  1aaf
-    764  1aaf		       a9 53		      lda	#<Colour_C_Actual
-    765  1ab1		       85 bd		      sta	Board_AddressW
-    766  1ab3		       a9 f0		      lda	#>Colour_C_Actual
-    767  1ab5		       85 be		      sta	Board_AddressW+1
-    768  1ab7							;lda icc_colour
-    769  1ab7							;and #$F0
-    770  1ab7		       a9 00		      lda	#0
-    771  1ab9		       a0 00		      ldy	#0
-    772  1abb		       20 1d f8 	      jsr	PutBoardCharacter
-    773  1abe
-    774  1abe
-    775  1abe					      IF	1
-    776  1abe		       a9 6d		      lda	#<Colour_A
-    777  1ac0		       85 bd		      sta	Board_AddressW
-    778  1ac2		       a9 f3		      lda	#>Colour_A
-    779  1ac4		       85 be		      sta	Board_AddressW+1
-    780  1ac6
-    781  1ac6
-    782  1ac6		       a5 ca		      lda	icc_colour+1
-    783  1ac8		       a0 00		      ldy	#0	;<SELFMOD_RED+1
-    784  1aca		       20 1d f8 	      jsr	PutBoardCharacter
-    785  1acd
-    786  1acd		       a9 1d		      lda	#<Colour_A_Actual
-    787  1acf		       85 bd		      sta	Board_AddressW
-    788  1ad1		       a9 f0		      lda	#>Colour_A_Actual
-    789  1ad3		       85 be		      sta	Board_AddressW+1
-    790  1ad5							;lda icc_colour
-    791  1ad5							;and #$F0
-    792  1ad5		       a9 00		      lda	#0
-    793  1ad7		       a0 00		      ldy	#0
-    794  1ad9		       20 1d f8 	      jsr	PutBoardCharacter
-    795  1adc					      ENDIF
-    796  1adc
-    797  1adc
-    798  1adc		       ca		      dex
-    799  1add		       10 c1		      bpl	setPlat
-    800  1adf
-    801  1adf
-    802  1adf		       a9 00		      lda	#$00
-    803  1ae1		       85 b6		      sta	BCD_moveCounter
-    804  1ae3		       85 b7		      sta	BCD_moveCounterHi
-    805  1ae5		       85 b8		      sta	takebackIndex
-    806  1ae7		       85 b9		      sta	takebackBaseIndex
-    807  1ae9		       85 b5		      sta	BCD_targetsRequired	; # of targets that do NOT have boxes on them
-    808  1aeb
-    809  1aeb							;		ldx Platform
-    810  1aeb							;		lda theThrottler,x
-    811  1aeb							;		sta ThrottleSpeed
-    812  1aeb
-    813  1aeb							; first fill bg with character_soil
-    814  1aeb							; then rle unpack level
-    815  1aeb							; change level colours
-    816  1aeb
-    817  1aeb		       a9 00		      lda	#0
-    818  1aed		       85 87		      sta	POS_X
-    819  1aef		       85 88		      sta	POS_Y
-    820  1af1		       85 94		      sta	BoardLimit_Width
-    821  1af3		       85 95		      sta	BoardLimit_Height
-    822  1af5
-    823  1af5				   GetNextItem
-    824  1af5
-    825  1af5		       a9 01		      lda	#1
-    826  1af7		       85 dc		      sta	upk_length
-    827  1af9		       a9 00		      lda	#0
-    828  1afb		       85 dd		      sta	upk_column	; reuse var - this flags a digit already
-    829  1afd
-    830  1afd		       e6 bb	   Get2       inc	Board_AddressR
-    831  1aff		       d0 02		      bne	addrOK
-    832  1b01		       e6 bc		      inc	Board_AddressR+1
-    833  1b03				   addrOK
-    834  1b03
-    835  1b03		       a5 ab		      lda	LEVEL_bank
-    836  1b05		       a0 00		      ldy	#0
-    837  1b07		       20 0f f8 	      jsr	GetROMByte
-    838  1b0a		       85 de		      sta	upk_temp	;scratch
-    839  1b0c
-    840  1b0c		       c9 00		      cmp	#0
-    841  1b0e		       d0 03		      bne	parse
-    842  1b10		       4c 9b f1 	      jmp	finX
-    843  1b13				   parse
-    844  1b13		       c9 3a		      cmp	#"9"+1
-    845  1b15		       b0 1e		      bcs	notDigit
-    846  1b17		       c9 30		      cmp	#"0"
-    847  1b19		       90 1a		      bcc	notDigit
-    848  1b1b
-    849  1b1b		       a5 dd		      lda	upk_column
-    850  1b1d		       f0 09		      beq	firstDig
-    851  1b1f
-    852  1b1f		       a5 dc		      lda	upk_length
-    853  1b21		       0a		      asl
-    854  1b22		       0a		      asl
-    855  1b23		       0a		      asl
-    856  1b24		       65 dc		      adc	upk_length
-    857  1b26		       65 dc		      adc	upk_length
-    858  1b28
-    859  1b28		       18	   firstDig   clc
-    860  1b29		       65 de		      adc	upk_temp
-    861  1b2b		       38		      sec
-    862  1b2c		       e9 30		      sbc	#"0"
-    863  1b2e		       85 dc		      sta	upk_length
-    864  1b30		       e6 dd		      inc	upk_column	; flag we have seen a digit
-    865  1b32		       4c fd f2 	      jmp	Get2
-    866  1b35
-    867  1b35		       c9 7c	   notDigit   cmp	#"|"	; newline
-    868  1b37		       d0 11		      bne	checkWall
+    752  1a9e		       20 c4 fd 	      jsr	CopyColoursToScreenLines
+    753  1aa1
+    754  1aa1		       a9 00		      lda	#$00
+    755  1aa3		       85 b6		      sta	BCD_moveCounter
+    756  1aa5		       85 b7		      sta	BCD_moveCounterHi
+    757  1aa7		       85 b8		      sta	takebackIndex
+    758  1aa9		       85 b9		      sta	takebackBaseIndex
+    759  1aab		       85 b5		      sta	BCD_targetsRequired	; # of targets that do NOT have boxes on them
+    760  1aad
+    761  1aad							;		ldx Platform
+    762  1aad							;		lda theThrottler,x
+    763  1aad							;		sta ThrottleSpeed
+    764  1aad
+    765  1aad							; first fill bg with character_soil
+    766  1aad							; then rle unpack level
+    767  1aad							; change level colours
+    768  1aad
+    769  1aad		       a9 00		      lda	#0
+    770  1aaf		       85 87		      sta	POS_X
+    771  1ab1		       85 88		      sta	POS_Y
+    772  1ab3		       85 94		      sta	BoardLimit_Width
+    773  1ab5		       85 95		      sta	BoardLimit_Height
+    774  1ab7
+    775  1ab7				   GetNextItem
+    776  1ab7
+    777  1ab7		       a9 01		      lda	#1
+    778  1ab9		       85 dc		      sta	upk_length
+    779  1abb		       a9 00		      lda	#0
+    780  1abd		       85 dd		      sta	upk_column	; reuse var - this flags a digit already
+    781  1abf
+    782  1abf		       e6 bb	   Get2       inc	Board_AddressR
+    783  1ac1		       d0 02		      bne	addrOK
+    784  1ac3		       e6 bc		      inc	Board_AddressR+1
+    785  1ac5				   addrOK
+    786  1ac5
+    787  1ac5		       a5 ab		      lda	LEVEL_bank
+    788  1ac7		       a0 00		      ldy	#0
+    789  1ac9		       20 0f f8 	      jsr	GetROMByte
+    790  1acc		       85 de		      sta	upk_temp	;scratch
+    791  1ace
+    792  1ace		       c9 00		      cmp	#0
+    793  1ad0		       d0 03		      bne	parse
+    794  1ad2		       4c 9b f1 	      jmp	finX
+    795  1ad5				   parse
+    796  1ad5		       c9 3a		      cmp	#"9"+1
+    797  1ad7		       b0 1e		      bcs	notDigit
+    798  1ad9		       c9 30		      cmp	#"0"
+    799  1adb		       90 1a		      bcc	notDigit
+    800  1add
+    801  1add		       a5 dd		      lda	upk_column
+    802  1adf		       f0 09		      beq	firstDig
+    803  1ae1
+    804  1ae1		       a5 dc		      lda	upk_length
+    805  1ae3		       0a		      asl
+    806  1ae4		       0a		      asl
+    807  1ae5		       0a		      asl
+    808  1ae6		       65 dc		      adc	upk_length
+    809  1ae8		       65 dc		      adc	upk_length
+    810  1aea
+    811  1aea		       18	   firstDig   clc
+    812  1aeb		       65 de		      adc	upk_temp
+    813  1aed		       38		      sec
+    814  1aee		       e9 30		      sbc	#"0"
+    815  1af0		       85 dc		      sta	upk_length
+    816  1af2		       e6 dd		      inc	upk_column	; flag we have seen a digit
+    817  1af4		       4c bf f2 	      jmp	Get2
+    818  1af7
+    819  1af7		       c9 7c	   notDigit   cmp	#"|"	; newline
+    820  1af9		       d0 11		      bne	checkWall
+    821  1afb
+    822  1afb							; Handle new-line
+    823  1afb		       a9 00		      lda	#0
+    824  1afd		       85 87		      sta	POS_X
+    825  1aff		       e6 88		      inc	POS_Y
+    826  1b01
+    827  1b01
+    828  1b01		       a5 88		      lda	POS_Y
+    829  1b03		       c5 95		      cmp	BoardLimit_Height
+    830  1b05		       90 02		      bcc	wOK2
+    831  1b07		       85 95		      sta	BoardLimit_Height	;???^^^
+    832  1b09				   wOK2
+    833  1b09
+    834  1b09		       4c b7 f2 	      jmp	GetNextItem
+    835  1b0c
+    836  1b0c		       c9 23	   checkWall  cmp	#"#"	; wall
+    837  1b0e		       d0 09		      bne	checkForGap
+    838  1b10							;		  NEXT_RANDOM
+    839  1b10		       a5 c8		      lda	rnd
+    840  1b12		       29 01		      and	#1
+    841  1b14		       18		      clc
+    842  1b15		       69 06		      adc	#CHARACTER_STEEL
+    843  1b17		       d0 62		      bne	WriteChars
+    844  1b19
+    845  1b19		       c9 20	   checkForGap cmp	#32
+    846  1b1b		       f0 08		      beq	writeGap
+    847  1b1d		       c9 2d		      cmp	#"-"
+    848  1b1f		       f0 04		      beq	writeGap
+    849  1b21		       c9 5f		      cmp	#"_"
+    850  1b23		       d0 05		      bne	checkForMan
+    851  1b25
+    852  1b25		       a9 00	   writeGap   lda	#CHARACTER_BLANK
+    853  1b27		       4c 7b f3 	      jmp	WriteChars
+    854  1b2a
+    855  1b2a				   checkForMan
+    856  1b2a		       c9 2b		      cmp	#"+"	; player on goal square
+    857  1b2c		       d0 07		      bne	notPlayerGoal
+    858  1b2e
+    859  1b2e		       20 1e fd 	      jsr	RegisterTarget
+    860  1b31
+    861  1b31							; put goal square, init player with POS_VAR = CHARACTER_TARGET
+    862  1b31
+    863  1b31		       a9 03		      lda	#CHARACTER_TARGET
+    864  1b33		       d0 06		      bne	genPlayer
+    865  1b35
+    866  1b35				   notPlayerGoal
+    867  1b35		       c9 40		      cmp	#"@"	; player on normal square
+    868  1b37		       d0 29		      bne	checkBox
     869  1b39
-    870  1b39							; Handle new-line
-    871  1b39		       a9 00		      lda	#0
-    872  1b3b		       85 87		      sta	POS_X
-    873  1b3d		       e6 88		      inc	POS_Y
-    874  1b3f
-    875  1b3f
-    876  1b3f		       a5 88		      lda	POS_Y
-    877  1b41		       c5 95		      cmp	BoardLimit_Height
-    878  1b43		       90 02		      bcc	wOK2
-    879  1b45		       85 95		      sta	BoardLimit_Height	;???^^^
-    880  1b47				   wOK2
-    881  1b47
-    882  1b47		       4c f5 f2 	      jmp	GetNextItem
-    883  1b4a
-    884  1b4a		       c9 23	   checkWall  cmp	#"#"	; wall
-    885  1b4c		       d0 09		      bne	checkForGap
-    886  1b4e							;		  NEXT_RANDOM
-    887  1b4e		       a5 c8		      lda	rnd
-    888  1b50		       29 01		      and	#1
-    889  1b52		       18		      clc
-    890  1b53		       69 06		      adc	#CHARACTER_STEEL
-    891  1b55		       d0 62		      bne	WriteChars
-    892  1b57
-    893  1b57		       c9 20	   checkForGap cmp	#32
-    894  1b59		       f0 08		      beq	writeGap
-    895  1b5b		       c9 2d		      cmp	#"-"
-    896  1b5d		       f0 04		      beq	writeGap
-    897  1b5f		       c9 5f		      cmp	#"_"
-    898  1b61		       d0 05		      bne	checkForMan
-    899  1b63
-    900  1b63		       a9 00	   writeGap   lda	#CHARACTER_BLANK
-    901  1b65		       4c b9 f3 	      jmp	WriteChars
-    902  1b68
-    903  1b68				   checkForMan
-    904  1b68		       c9 2b		      cmp	#"+"	; player on goal square
-    905  1b6a		       d0 07		      bne	notPlayerGoal
-    906  1b6c
-    907  1b6c		       20 1e fd 	      jsr	RegisterTarget
-    908  1b6f
-    909  1b6f							; put goal square, init player with POS_VAR = CHARACTER_TARGET
-    910  1b6f
-    911  1b6f		       a9 03		      lda	#CHARACTER_TARGET
-    912  1b71		       d0 06		      bne	genPlayer
-    913  1b73
-    914  1b73				   notPlayerGoal
-    915  1b73		       c9 40		      cmp	#"@"	; player on normal square
-    916  1b75		       d0 29		      bne	checkBox
-    917  1b77
-    918  1b77		       a9 00		      lda	#CHARACTER_BLANK
-    919  1b79
-    920  1b79				   genPlayer
-    921  1b79
-    922  1b79		       85 8c		      sta	POS_VAR	; character man is on
-    923  1b7b
-    924  1b7b		       18		      clc
-    925  1b7c		       a5 87		      lda	POS_X
-    926  1b7e		       48		      pha
-    927  1b7f		       65 da		      adc	base_x
-    928  1b81		       85 87		      sta	POS_X
-    929  1b83		       85 9d		      sta	ManX
-    930  1b85
-    931  1b85		       a5 88		      lda	POS_Y
-    932  1b87		       48		      pha
-    933  1b88		       65 db		      adc	base_y
-    934  1b8a		       85 88		      sta	POS_Y
-    935  1b8c		       85 9e		      sta	ManY
-    936  1b8e
-    937  1b8e							; POS_X     x position
-    938  1b8e							; POS_Y     y position
-    939  1b8e							; POS_VAR   CHARACTER UNDER MAN TO RESTORE
-    940  1b8e							; POS_Type  type of object
-    941  1b8e
-    942  1b8e		       a9 00		      lda	#TYPE_MAN
-    943  1b90		       85 8b		      sta	POS_Type	;	 creature TYPE
-    944  1b92		       20 fb f8 	      jsr	InsertObjectStackFromRAM	;6+94(B)
-    945  1b95
-    946  1b95		       68		      pla
-    947  1b96		       85 88		      sta	POS_Y
-    948  1b98		       68		      pla
-    949  1b99		       85 87		      sta	POS_X
-    950  1b9b
-    951  1b9b		       a9 05		      lda	#CHARACTER_MANOCCUPIED
-    952  1b9d		       4c b9 f3 	      jmp	WriteChars
-    953  1ba0
-    954  1ba0		       c9 24	   checkBox   cmp	#"$"
-    955  1ba2		       d0 04		      bne	checkBoxTarget
-    956  1ba4
-    957  1ba4		       a9 02		      lda	#CHARACTER_BOX
-    958  1ba6		       d0 11		      bne	WriteChars
-    959  1ba8
-    960  1ba8		       c9 2a	   checkBoxTarget cmp	#"*"
-    961  1baa		       d0 04		      bne	checkTarget
-    962  1bac
-    963  1bac		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
-    964  1bae		       d0 09		      bne	WriteChars
+    870  1b39		       a9 00		      lda	#CHARACTER_BLANK
+    871  1b3b
+    872  1b3b				   genPlayer
+    873  1b3b
+    874  1b3b		       85 8c		      sta	POS_VAR	; character man is on
+    875  1b3d
+    876  1b3d		       18		      clc
+    877  1b3e		       a5 87		      lda	POS_X
+    878  1b40		       48		      pha
+    879  1b41		       65 da		      adc	base_x
+    880  1b43		       85 87		      sta	POS_X
+    881  1b45		       85 9d		      sta	ManX
+    882  1b47
+    883  1b47		       a5 88		      lda	POS_Y
+    884  1b49		       48		      pha
+    885  1b4a		       65 db		      adc	base_y
+    886  1b4c		       85 88		      sta	POS_Y
+    887  1b4e		       85 9e		      sta	ManY
+    888  1b50
+    889  1b50							; POS_X     x position
+    890  1b50							; POS_Y     y position
+    891  1b50							; POS_VAR   CHARACTER UNDER MAN TO RESTORE
+    892  1b50							; POS_Type  type of object
+    893  1b50
+    894  1b50		       a9 00		      lda	#TYPE_MAN
+    895  1b52		       85 8b		      sta	POS_Type	;	 creature TYPE
+    896  1b54		       20 fb f8 	      jsr	InsertObjectStackFromRAM	;6+94(B)
+    897  1b57
+    898  1b57		       68		      pla
+    899  1b58		       85 88		      sta	POS_Y
+    900  1b5a		       68		      pla
+    901  1b5b		       85 87		      sta	POS_X
+    902  1b5d
+    903  1b5d		       a9 05		      lda	#CHARACTER_MANOCCUPIED
+    904  1b5f		       4c 7b f3 	      jmp	WriteChars
+    905  1b62
+    906  1b62		       c9 24	   checkBox   cmp	#"$"
+    907  1b64		       d0 04		      bne	checkBoxTarget
+    908  1b66
+    909  1b66		       a9 02		      lda	#CHARACTER_BOX
+    910  1b68		       d0 11		      bne	WriteChars
+    911  1b6a
+    912  1b6a		       c9 2a	   checkBoxTarget cmp	#"*"
+    913  1b6c		       d0 04		      bne	checkTarget
+    914  1b6e
+    915  1b6e		       a9 08		      lda	#CHARACTER_BOX_ON_TARGET
+    916  1b70		       d0 09		      bne	WriteChars
+    917  1b72
+    918  1b72		       c9 2e	   checkTarget cmp	#"."
+    919  1b74		       f0 03		      beq	targ
+    920  1b76		       4c b7 f2 	      jmp	GetNextItem
+    921  1b79				   targ
+    922  1b79
+    923  1b79		       a9 03		      lda	#CHARACTER_TARGET
+    924  1b7b
+    925  1b7b		       85 8b	   WriteChars sta	POS_Type
+    926  1b7d
+    927  1b7d		       18	   Wc2x       clc
+    928  1b7e		       a5 87		      lda	POS_X
+    929  1b80		       48		      pha
+    930  1b81		       65 da		      adc	base_x
+    931  1b83		       85 87		      sta	POS_X
+    932  1b85
+    933  1b85		       a5 88		      lda	POS_Y
+    934  1b87		       48		      pha
+    935  1b88		       65 db		      adc	base_y
+    936  1b8a		       85 88		      sta	POS_Y
+    937  1b8c
+    938  1b8c		       20 3a f8 	      jsr	PutBoardCharacterFromRAM
+    939  1b8f
+    940  1b8f		       a5 8b		      lda	POS_Type
+    941  1b91		       c9 03		      cmp	#CHARACTER_TARGET
+    942  1b93		       d0 03		      bne	notargdet
+    943  1b95		       20 1e fd 	      jsr	RegisterTarget
+    944  1b98				   notargdet
+    945  1b98
+    946  1b98		       68		      pla
+    947  1b99		       85 88		      sta	POS_Y
+    948  1b9b		       68		      pla
+    949  1b9c		       85 87		      sta	POS_X
+    950  1b9e
+    951  1b9e		       18		      clc
+    952  1b9f		       69 01		      adc	#1
+    953  1ba1		       85 87		      sta	POS_X
+    954  1ba3
+    955  1ba3		       c5 94		      cmp	BoardLimit_Width
+    956  1ba5		       90 02		      bcc	wOK
+    957  1ba7		       85 94		      sta	BoardLimit_Width
+    958  1ba9				   wOK
+    959  1ba9
+    960  1ba9		       c6 dc		      dec	upk_length
+    961  1bab		       d0 d0		      bne	Wc2x
+    962  1bad		       4c b7 f2 	      jmp	GetNextItem
+    963  1bb0
+    964  1bb0				   finishedUnpack
     965  1bb0
-    966  1bb0		       c9 2e	   checkTarget cmp	#"."
-    967  1bb2		       f0 03		      beq	targ
-    968  1bb4		       4c f5 f2 	      jmp	GetNextItem
-    969  1bb7				   targ
-    970  1bb7
-    971  1bb7		       a9 03		      lda	#CHARACTER_TARGET
-    972  1bb9
-    973  1bb9		       85 8b	   WriteChars sta	POS_Type
-    974  1bbb
-    975  1bbb		       18	   Wc2x       clc
-    976  1bbc		       a5 87		      lda	POS_X
-    977  1bbe		       48		      pha
-    978  1bbf		       65 da		      adc	base_x
-    979  1bc1		       85 87		      sta	POS_X
-    980  1bc3
-    981  1bc3		       a5 88		      lda	POS_Y
-    982  1bc5		       48		      pha
-    983  1bc6		       65 db		      adc	base_y
-    984  1bc8		       85 88		      sta	POS_Y
-    985  1bca
-    986  1bca		       20 3a f8 	      jsr	PutBoardCharacterFromRAM
-    987  1bcd
-    988  1bcd		       a5 8b		      lda	POS_Type
-    989  1bcf		       c9 03		      cmp	#CHARACTER_TARGET
-    990  1bd1		       d0 03		      bne	notargdet
-    991  1bd3		       20 1e fd 	      jsr	RegisterTarget
-    992  1bd6				   notargdet
-    993  1bd6
-    994  1bd6		       68		      pla
-    995  1bd7		       85 88		      sta	POS_Y
-    996  1bd9		       68		      pla
-    997  1bda		       85 87		      sta	POS_X
-    998  1bdc
-    999  1bdc		       18		      clc
-   1000  1bdd		       69 01		      adc	#1
-   1001  1bdf		       85 87		      sta	POS_X
-   1002  1be1
-   1003  1be1		       c5 94		      cmp	BoardLimit_Width
-   1004  1be3		       90 02		      bcc	wOK
-   1005  1be5		       85 94		      sta	BoardLimit_Width
-   1006  1be7				   wOK
-   1007  1be7
-   1008  1be7		       c6 dc		      dec	upk_length
-   1009  1be9		       d0 d0		      bne	Wc2x
-   1010  1beb		       4c f5 f2 	      jmp	GetNextItem
-   1011  1bee
-   1012  1bee				   finishedUnpack
-   1013  1bee
-   1014  1bee		       60		      rts
-   1015  1bee					      endif
+    966  1bb0		       60		      rts
+    967  1bb0					      endif
 ------- FILE BANK_GENERIC.asm
-     44  1bef
-      0  1bef					      CHECK_HALF_BANK_SIZE	"GENERIC_BANK_1 (DECODE_LEVEL)"
-      1  1bef
-      2  1bef
-      3  1bef		       03 ef	   .TEMP      =	* - BANK_START
- GENERIC_BANK_1 (DECODE_LEVEL) (1K) SIZE =  $3ef , FREE= $11
-      4  1bef					      ECHO	"GENERIC_BANK_1 (DECODE_LEVEL)", "(1K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE/2 - .TEMP
-      5  1bef				  -	      if	( .TEMP ) > ROM_BANK_SIZE/2
-      6  1bef				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
-      7  1bef				  -	      ERR
-      8  1bef					      endif
-     46  1bef
-     47  1bef							;------------------------------------------------------------------------------
-     48  1bef							; ... the above is a RAM-copied section -- the following is ROM-only.	Note that
-     49  1bef							; we do not configure a 1K boundary, as we con't really care when the above 'RAM'
-     50  1bef							; bank finishes.  Just continue on from where it left off...
-     51  1bef							;------------------------------------------------------------------------------
-     52  1bef
-      0  1bef					      DEFINE_SUBROUTINE	Cart_Init	; in GENERIC_BANK_1
-      1  1bef		       00 03	   BANK_Cart_Init =	_CURRENT_BANK
-      2  1bef					      SUBROUTINE
-      3  1bef				   Cart_Init
-     54  1bef
-     55  1bef							; Note the variables from the title selection are incredibly transient an can be stomped
-     56  1bef							; at any time.  So they need to be used immediately.
-     57  1bef
-     58  1bef
-     59  1bef							; odd usage below is to prevent any possibility of variable stomping/assumptions
-     60  1bef
-     61  1bef		       a9 01		      lda	#1
-     62  1bf1		       a2 00		      ldx	#0	;sLevel				      ; level # from title select
-     63  1bf3		       a0 00		      ldy	#0	;sJoysticks
-     64  1bf5		       84 aa		      sty	jtoggle
-     65  1bf7		       86 b3		      stx	level
-     66  1bf9		       a9 00		      lda	#0
-     67  1bfb							;sta levelX					    ; make an immediate copy to safe variables!
-     68  1bfb		       85 e0		      sta	startingLevel
-     69  1bfd
-     70  1bfd							; multiply with LEVEL_DEFINITION_SIZE (5):
-     71  1bfd		       0a		      asl
-     72  1bfe		       0a		      asl
-     73  1bff		       85 b2		      sta	levelX
-     74  1c01
-      0  1c01					      LOAD_ANIMATION	IDLE
-      1  1c01		       a9 44		      lda	#<Animation_IDLE
-      2  1c03		       85 9a		      sta	animation
-      3  1c05		       a9 f0		      lda	#>Animation_IDLE
-      4  1c07		       85 9b		      sta	animation+1
-      5  1c09		       a9 00		      lda	#0
-      6  1c0b		       85 9c		      sta	animation_delay
-      7  1c0d		       a9 02		      lda	#ANIMATION_IDLE_ID
-      8  1c0f		       85 a6		      sta	ManAnimationID
-     76  1c11
-     77  1c11		       a9 00		      lda	#0
-     78  1c13		       8d 83 02 	      sta	SWBCNT	; console I/O always set to INPUT
-     79  1c16		       8d 81 02 	      sta	SWACNT	; set controller I/O to INPUT
-     80  1c19		       85 6b		      sta	HMCLR
-     81  1c1b
-     82  1c1b							; cleanup remains of title screen
-     83  1c1b		       85 5b		      sta	GRP0
-     84  1c1d		       85 5c		      sta	GRP1
-     85  1c1f							;?		   sta GRP0
-     86  1c1f
-     87  1c1f		       a9 10		      lda	#%00010000	; 2	 double width missile, double width player
-     88  1c21		       85 44		      sta	NUSIZ0	; 3
-     89  1c23		       85 45		      sta	NUSIZ1
-     90  1c25
-     91  1c25		       85 86		      sta	ScreenDrawPhase	; sequences the sections of gameplay/screen drawing
-     92  1c27		       85 c5		      sta	ethnic
-     93  1c29
-     94  1c29		       a9 04		      lda	#%100	; players/missiles BEHIND BG
-     95  1c2b		       85 4a		      sta	CTRLPF
-     96  1c2d
-     97  1c2d		       a9 ff		      lda	#$FF
-     98  1c2f		       85 81		      sta	DrawStackPointer
-     99  1c31		       85 92		      sta	BufferedJoystick
-    100  1c33
-    101  1c33							;lda #DIRECTION_BITS		  ;???
-    102  1c33							;sta ManLastDirection
-    103  1c33
-    104  1c33							;lda #0
-    105  1c33							;		  sta ObjStackPtr		  ; object stack index of last entry
-    106  1c33							;		  sta ObjStackPtr+1
-    107  1c33							;		  sta ObjStackNum
-    108  1c33							;		  sta ObjIterator
-    109  1c33
-    110  1c33							;sta sortPtr
-    111  1c33							;lda #<(-1)
-    112  1c33							;sta sortRequired
-    113  1c33
-    114  1c33							; read high score from SaveKey and store in highScoreSK,
-    115  1c33							; which is transferred to high score variable in RAM by GeneralScoringSetups
-    116  1c33
-    117  1c33		       4c ca f5 	      jmp	ReadSaveKey
-    118  1c36
-    119  1c36							;------------------------------------------------------------------------------
-    120  1c36
-      0  1c36					      DEFINE_SUBROUTINE	SwapPlayersGeneric
-      1  1c36		       00 03	   BANK_SwapPlayersGeneric =	_CURRENT_BANK
-      2  1c36					      SUBROUTINE
-      3  1c36				   SwapPlayersGeneric
-    122  1c36
-    123  1c36							; at the start of a level (or player, doesn't matter) we grab the current state of the colour/B&W switch
-    124  1c36							; into the gameMode variable.
-    125  1c36
-    126  1c36							;		  lda gameMode
-    127  1c36							;		  and #~(BW_SWITCH|GAMEMODE_PAUSED)
-    128  1c36							;		  sta gameMode
-    129  1c36							;		  lda SWCHB
-    130  1c36							;		  and #BW_SWITCH
-    131  1c36							;		  ora gameMode			  ; COLOR/B&W @start of level stored in gameMode -- so now we just detect a CHANGE is pause
-    132  1c36							;		  sta gameMode			  ; also, BIT7=0 -- system is NOT paused
-    133  1c36
-    134  1c36
-    135  1c36							; restart level
-    136  1c36		       a5 c2		      lda	NextLevelTrigger
-    137  1c38		       29 bf		      and	#<(~BIT_NEXTLIFE)
-    138  1c3a		       85 c2		      sta	NextLevelTrigger
-    139  1c3c
-    140  1c3c							; if new high score was set by SwapPlayers, update it:
-    141  1c3c
-    142  1c3c		       4c f0 f5 	      jmp	WriteSaveKey
-    143  1c3f
-    144  1c3f
-    145  1c3f							;------------------------------------------------------------------------------
-    146  1c3f
-      0  1c3f					      DEFINE_SUBROUTINE	CreateCreatures
-      1  1c3f		       00 03	   BANK_CreateCreatures =	_CURRENT_BANK
-      2  1c3f					      SUBROUTINE
-      3  1c3f				   CreateCreatures
-    148  1c3f
-    149  1c3f							; Calculate rightmost value for scrolling edge.  .
-    150  1c3f
-    151  1c3f		       85 bf		      sta	ROM_Bank
-    152  1c41
-    153  1c41		       38		      sec
-    154  1c42		       a5 94		      lda	BoardLimit_Width
-    155  1c44		       e9 09		      sbc	#SCREEN_WIDTH-1
-    156  1c46		       85 94		      sta	BoardEdge_Right	; absolute rightmost scroll value
-    157  1c48
-    158  1c48							;		  sec			     already set
-    159  1c48		       a5 95		      lda	BoardLimit_Height
-    160  1c4a		       e9 07		      sbc	#SCREEN_LINES-1
-    161  1c4c		       85 95		      sta	BoardEdge_Bottom	; absolute bottommost scroll value
-    162  1c4e
-    163  1c4e							; kludge position scroll roughly at player
-    164  1c4e
-    165  1c4e							;		  sec			 already set
-    166  1c4e		       a5 9d		      lda	ManX
-    167  1c50		       e9 05		      sbc	#5
-    168  1c52		       b0 02		      bcs	notL0
-    169  1c54		       a9 00		      lda	#0
-    170  1c56		       85 97	   notL0      sta	BoardScrollX
-    171  1c58
-    172  1c58		       38		      sec
-    173  1c59		       a5 9e		      lda	ManY
-    174  1c5b		       e9 04		      sbc	#4
-    175  1c5d		       b0 02		      bcs	notU0
-    176  1c5f		       a9 00		      lda	#0
-    177  1c61		       85 96	   notU0      sta	BoardScrollY
-    178  1c63
-    179  1c63		       a9 00		      lda	#0
-    180  1c65		       85 a1		      sta	ManMode
-    181  1c67							;sta ManDelayCount
-    182  1c67		       85 ba		      sta	TakebackInhibit
-    183  1c69		       85 da		      sta	base_x
-    184  1c6b		       85 db		      sta	base_y
-    185  1c6d		       85 a4		      sta	ManPushCounter
-    186  1c6f
-    187  1c6f
-    188  1c6f		       a9 ff		      lda	#$FF
-    189  1c71		       85 af		      sta	LastSpriteY
-    190  1c73		       85 a6		      sta	ManAnimationID
-    191  1c75		       85 cc		      sta	FadeComplete	; start fading
-    192  1c77		       85 cd		      sta	FadeOutComplete	; flags "not fading out"
-    193  1c79
-    194  1c79		       a9 14		      lda	#20
-    195  1c7b		       85 ce		      sta	fadeslow
-    196  1c7d
-    197  1c7d							;lda #DIRECTION_BITS		  ;????
-    198  1c7d							;sta ManLastDirection		  ; duplicate?
-    199  1c7d
-    200  1c7d		       60		      rts
-    201  1c7e
-    202  1c7e							;-------------------------------------------------------------------------------------
-    203  1c7e
-      0  1c7e					      DEFINE_SUBROUTINE	LevelInit	; in GENERIC_BANK_1
-      1  1c7e		       00 03	   BANK_LevelInit =	_CURRENT_BANK
-      2  1c7e					      SUBROUTINE
-      3  1c7e				   LevelInit
-    205  1c7e
-    206  1c7e		       a9 00		      lda	#0
-    207  1c80		       85 83		      sta	ObjStackPtr
-    208  1c82		       85 84		      sta	ObjStackPtr+1	; kill all creatures
-    209  1c84		       85 82		      sta	ObjStackNum
-    210  1c86		       85 c3		      sta	ObjIterator
-    211  1c88
-    212  1c88		       85 98		      sta	scrollBits
-    213  1c8a		       85 86		      sta	ScreenDrawPhase
-    214  1c8c
-    215  1c8c		       85 b1		      sta	BGColour
-    216  1c8e		       85 c1		      sta	ColourTimer
-    217  1c90		       85 a5		      sta	LookingAround
-    218  1c92
-    219  1c92		       a9 ff		      lda	#255
-    220  1c94		       85 b4		      sta	Throttle
-    221  1c96		       85 92		      sta	BufferedJoystick
-    222  1c98
-    223  1c98		       a9 00		      lda	#0
-    224  1c9a		       85 59		      sta	AUDV0
-    225  1c9c		       85 5a		      sta	AUDV1	; turn off music while levels init
-    226  1c9e							;		  sta AUDC0
-    227  1c9e
-    228  1c9e							;		  sta VBLANK
-    229  1c9e
-    230  1c9e
-    231  1c9e		       85 81		      sta	DrawStackPointer
-    232  1ca0
-    233  1ca0							;lda #DISPLAY_TIME ;DISPLAY_SCORE
-    234  1ca0							;sta scoringFlags
-    235  1ca0							;lda #0 ;SCORING_TIMER_FIRST		      ; We want the first timer display to be long, to show level and lives
-    236  1ca0							;sta scoringTimer
-    237  1ca0
-    238  1ca0		       18		      clc
-    239  1ca1		       a5 c5		      lda	ethnic
-    240  1ca3		       69 10		      adc	#16
-    241  1ca5		       c9 40		      cmp	#4*16
-    242  1ca7		       90 02		      bcc	ethOK
-    243  1ca9		       a9 00		      lda	#0
-    244  1cab		       85 c5	   ethOK      sta	ethnic
-    245  1cad
-    246  1cad		       60		      rts
-    247  1cae
-    248  1cae							;-------------------------------------------------------------------------------------
-    249  1cae
-      0  1cae					      DEFINE_SUBROUTINE	Resync
-      1  1cae		       00 03	   BANK_Resync =	_CURRENT_BANK
-      2  1cae					      SUBROUTINE
-      3  1cae				   Resync
-      0  1cae					      RESYNC
-      1  1cae
-      2  1cae		       a9 02		      lda	#%10
-      3  1cb0		       85 41		      sta	VBLANK
-      4  1cb2
-      5  1cb2		       a2 08		      ldx	#8
-      6  1cb4				   .loopResync
-      0  1cb4					      VERTICAL_SYNC
-      1  1cb4		       a9 0e		      lda	#%1110
-      2  1cb6		       85 42	   .VSLP1     sta	WSYNC
-      3  1cb8		       85 40		      sta	VSYNC
-      4  1cba		       4a		      lsr
-      5  1cbb		       d0 f9		      bne	.VSLP1
-      8  1cbd
-      9  1cbd		       a0 88		      ldy	#SCANLINES_NTSC/2 - 2
-     10  1cbf		       a5 80		      lda	Platform
-     11  1cc1		       49 02		      eor	#PAL_50
-     12  1cc3		       d0 02		      bne	.ntsc
-     13  1cc5		       a0 9a		      ldy	#SCANLINES_PAL/2 - 2
-     14  1cc7				   .ntsc
-     15  1cc7				   .loopWait
-     16  1cc7		       85 42		      sta	WSYNC
-     17  1cc9		       85 42		      sta	WSYNC
-     18  1ccb		       88		      dey
-     19  1ccc		       d0 f9		      bne	.loopWait
-     20  1cce		       ca		      dex
-     21  1ccf		       d0 e3		      bne	.loopResync
-    252  1cd1		       60	   Ret	      rts
-    253  1cd2
-    254  1cd2							;---------------------------------------------------------------------------
-    255  1cd2
-      0  1cd2					      DEFINE_SUBROUTINE	TrackPlayer	; =76
-      1  1cd2		       00 03	   BANK_TrackPlayer =	_CURRENT_BANK
-      2  1cd2					      SUBROUTINE
-      3  1cd2				   TrackPlayer
-    257  1cd2
-    258  1cd2		       a5 a5		      lda	LookingAround	; 3
-    259  1cd4		       d0 36		      bne	EarlyAbortx	; 2/3	     don't track when looking around
-    260  1cd6
-    261  1cd6		       00 02	   .SCRL_START_LEFT =	2
-    262  1cd6		       00 08	   .SCRL_START_RIGHT =	SCREEN_WIDTH-.SCRL_START_LEFT
-    263  1cd6		       00 02	   .SCRL_START_UP =	2
-    264  1cd6		       00 06	   .SCRL_START_DOWN =	SCREEN_LINES-.SCRL_START_UP
-    265  1cd6
-    266  1cd6		       a5 9d		      lda	ManX	; 3
-    267  1cd8		       38		      sec		; 2
-    268  1cd9		       e5 97		      sbc	BoardScrollX	; 3
-    269  1cdb		       a8		      tay		; 2 = 10	  for later use
-    270  1cdc
-    271  1cdc		       a9 ff		      lda	#-1	; 2
-    272  1cde		       c0 02		      cpy	#.SCRL_START_LEFT	; 2
-    273  1ce0		       30 06		      bmi	.startXScroll	; 2/3
-    274  1ce2		       c0 08		      cpy	#.SCRL_START_RIGHT	; 2
-    275  1ce4		       30 0b		      bmi	.skipXScroll	; 2/3
-    276  1ce6		       a9 01		      lda	#1	; 2 = 12
-    277  1ce8
-    278  1ce8		       18	   .startXScroll clc		; 2
-    279  1ce9		       65 97		      adc	BoardScrollX	; 3
-    280  1ceb		       c5 94		      cmp	BoardEdge_Right	; 3
-    281  1ced		       b0 02		      bcs	.skipXScroll	; 2/3
-    282  1cef		       85 97		      sta	BoardScrollX	; 3 = 13
-    283  1cf1
-    284  1cf1				   .skipXScroll
-    285  1cf1
-    286  1cf1							; = 35 worst
-    287  1cf1
-    288  1cf1		       a5 9e		      lda	ManY	; 3
-    289  1cf3		       38		      sec		; 2
-    290  1cf4		       e5 96		      sbc	BoardScrollY	; 3
-    291  1cf6		       a8		      tay		; 2 = 10	  for later use
-    292  1cf7
-    293  1cf7		       a9 ff		      lda	#-1	; 2
-    294  1cf9		       c0 02		      cpy	#.SCRL_START_UP	; 2
-    295  1cfb		       30 06		      bmi	.startYScroll	; 2/3
-    296  1cfd		       c0 06		      cpy	#.SCRL_START_DOWN	; 2
-    297  1cff		       30 0b		      bmi	.skipYScroll	; 2/3
-    298  1d01		       a9 01		      lda	#1	; 2 = 12
-    299  1d03
-    300  1d03		       18	   .startYScroll clc		; 2
-    301  1d04		       65 96		      adc	BoardScrollY	; 3
-    302  1d06		       c5 95		      cmp	BoardEdge_Bottom	; 3
-    303  1d08		       b0 02		      bcs	.skipYScroll	; 2/3
-    304  1d0a		       85 96		      sta	BoardScrollY	; 3 = 13
-    305  1d0c
-    306  1d0c				   .skipYScroll
-    307  1d0c
-    308  1d0c							; = 35 worst
-    309  1d0c
-    310  1d0c		       60	   EarlyAbortx rts		; 6 =	6
-    311  1d0d
-    312  1d0d
-    313  1d0d							;------------------------------------------------------------------------------
-    314  1d0d
-    315  1d0d							; This is a GOOD home for these tables.
-    316  1d0d
-      0  1d0d					      DEFINE_SUBROUTINE	TS_PhaseVectorLO
-      1  1d0d		       00 03	   BANK_TS_PhaseVectorLO =	_CURRENT_BANK
-      2  1d0d					      SUBROUTINE
-      3  1d0d				   TS_PhaseVectorLO
-    318  1d0d
-    319  1d0d							; Gives LO byte of addresses of subroutines for timeslice processing
-    320  1d0d							; note +31✅ cycles at start of the function called
-    321  1d0d
-    322  1d0d		       58		      .byte.b	<ProcessObjStack	; abort = 46✅
-    323  1d0e		       fc		      .byte.b	<DrawFullScreen	; abort = 46✅
-    324  1d0f		       b0		      .byte.b	<BuildDrawStack	; abort = 54✅
-    325  1d10		       b7		      .byte.b	<DrawAIntoStack	; abort = 54✅
-    326  1d11		       91		      .byte.b	<SwitchObjects	; abort = 46✅
-    327  1d12
-    328  1d12				   TS_PhaseVectorHI
-    329  1d12
-    330  1d12							; Gives HI byte of addresses of subroutines for timeslice processing
-    331  1d12
-    332  1d12		       f8		      .byte.b	>ProcessObjStack
-    333  1d13		       f2		      .byte.b	>DrawFullScreen
-    334  1d14		       fb		      .byte.b	>BuildDrawStack
-    335  1d15		       fb		      .byte.b	>DrawAIntoStack
-    336  1d16		       f8		      .byte.b	>SwitchObjects
-    337  1d17
-    338  1d17				   TS_PhaseBank
-    339  1d17
-    340  1d17							; Gives bank of subroutines for timeslice processing
-    341  1d17
-    342  1d17		       0f		      .byte.b	BANK_ProcessObjStack
-    343  1d18		       0d		      .byte.b	BANK_DrawFullScreen
-    344  1d19		       08		      .byte.b	BANK_DRAW_BUFFERS	;BANK_BuildDrawStack
-    345  1d1a		       08		      .byte.b	BANK_DRAW_BUFFERS	;BANK_BuildDrawStack2
-    346  1d1b		       0f		      .byte.b	BANK_SwitchObjects
-    347  1d1c
-    348  1d1c							;------------------------------------------------------------------------------
-    349  1d1c
-    350  1d1c				   OverscanTime
-    351  1d1c		       23 23		      .byte.b	OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
-    352  1d1e		       29 23		      .byte.b	OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
-    353  1d20
-    354  1d20
-    355  1d20		       00 12	   THROT_BASE =	18
-    356  1d20				   theThrottler
-    357  1d20		       12 12 15 12	      .byte.b	THROT_BASE, THROT_BASE, THROT_BASE*60/50, THROT_BASE
-    358  1d24
-      0  1d24					      DEFINE_SUBROUTINE	PostScreenCleanup
-      1  1d24		       00 03	   BANK_PostScreenCleanup =	_CURRENT_BANK
-      2  1d24					      SUBROUTINE
-      3  1d24				   PostScreenCleanup
-    360  1d24
-    361  1d24		       c8		      iny		; --> 0
-    362  1d25
-    363  1d25		       84 49		      sty	COLUBK	; starts colour change bottom score area, wraps to top score area
-    364  1d27							; + moved here so we don't see a minor colour artefact bottom of screen when look-arounding
-    365  1d27
-    366  1d27		       84 4d		      sty	PF0	; why wasn't this here?  I saw colour glitching in score area!
-    367  1d29							; TJ: no idea why, but you had removed it in revision 758 ;)
-    368  1d29							; completely accidental -- one of our cats may have deleted it.
-    369  1d29		       84 4e		      sty	PF1
-    370  1d2b		       84 4f		      sty	PF2
-    371  1d2d		       84 5d		      sty	ENAM0
-    372  1d2f		       84 5b		      sty	GRP0	; when look-scrolling, we can see feet at the top if these aren't here
-    373  1d31		       84 5c		      sty	GRP1	; 30/12/2011 -- fix dots @ top!
-    374  1d33
-    375  1d33							; D1 VBLANK turns off beam
-    376  1d33
-    377  1d33		       a9 42		      lda	#%01000010	; bit6 is not required
-    378  1d35		       85 41		      sta	VBLANK	; end of screen - enter blanking
-    379  1d37
-    380  1d37							;------------------------------------------------------------------------------
-    381  1d37							; This is where the PAL system has a bit of extra time on a per-frame basis.
-    382  1d37
-    383  1d37		       a6 80		      ldx	Platform
-    384  1d39		       bd 1c f5 	      lda	OverscanTime,x
-    385  1d3c		       8d 96 02 	      sta	TIM64T
-    386  1d3f
-    387  1d3f							; Background colour priorities. Increasing order of priority...
-    388  1d3f							;	black -- nothing happening
-    389  1d3f							;	looking around			     lookingAround<0		     BLUE
-    390  1d3f							;	when paused			     gameMode... BIT7		     RED
-    391  1d3f							;	when the door opens (flash)	     ColourTimer>0		     WHITE
-    392  1d3f
-    393  1d3f		       a6 80		      ldx	Platform
-    394  1d41		       bd 20 f5 	      lda	theThrottler,x
-    395  1d44		       18		      clc
-    396  1d45		       65 b4		      adc	Throttle
-    397  1d47		       b0 02		      bcs	noVerflo
-    398  1d49		       85 b4		      sta	Throttle
-    399  1d4b				   noVerflo
-    400  1d4b
-    401  1d4b							;----------------------------------------------------------------------------------------------
-    402  1d4b
-    403  1d4b							; has to be done AFTER screen display, because it disables the effect!
-    404  1d4b							;SLEEP 6
-    405  1d4b							;lda rnd		      ; 3     randomly reposition the Cosmic Ark missile
-    406  1d4b							;sta HMM0		      ; 3     this assumes that HMOVE is called at least once/frame
-    407  1d4b
-    408  1d4b							; "Flash" has highest BG colour priority
-    409  1d4b
-    410  1d4b		       a5 c1		      lda	ColourTimer
-    411  1d4d		       f0 08		      beq	noFlashBG
-    412  1d4f		       c6 c1		      dec	ColourTimer
-    413  1d51		       d0 04		      bne	noFlashBG
-    414  1d53		       a9 00		      lda	#0
-    415  1d55		       85 b1		      sta	BGColour
-    416  1d57							;lda ColourFlash
-    417  1d57							;lda FlashColour,x
-    418  1d57				   noFlashBG
-    419  1d57							;	 sta BGColour
-    420  1d57
-    421  1d57							; Create a 'standardised' joystick with D4-D7 having bits CLEAR if the appropriate direction is chosen.
-    422  1d57
-    423  1d57		       ad 80 02 	      lda	SWCHA
-    424  1d5a		       25 92		      and	BufferedJoystick
-    425  1d5c		       85 92		      sta	BufferedJoystick
-    426  1d5e
-    427  1d5e		       60		      rts
-    428  1d5f
-    429  1d5f							;------------------------------------------------------------------------------
-    430  1d5f
+     44  1bb1
+      0  1bb1					      CHECK_HALF_BANK_SIZE	"GENERIC_BANK_1 (DECODE_LEVEL)"
+      1  1bb1
+      2  1bb1
+      3  1bb1		       03 b1	   .TEMP      =	* - BANK_START
+ GENERIC_BANK_1 (DECODE_LEVEL) (1K) SIZE =  $3b1 , FREE= $4f
+      4  1bb1					      ECHO	"GENERIC_BANK_1 (DECODE_LEVEL)", "(1K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE/2 - .TEMP
+      5  1bb1				  -	      if	( .TEMP ) > ROM_BANK_SIZE/2
+      6  1bb1				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
+      7  1bb1				  -	      ERR
+      8  1bb1					      endif
+     46  1bb1
+     47  1bb1							;------------------------------------------------------------------------------
+     48  1bb1							; ... the above is a RAM-copied section -- the following is ROM-only.	Note that
+     49  1bb1							; we do not configure a 1K boundary, as we con't really care when the above 'RAM'
+     50  1bb1							; bank finishes.  Just continue on from where it left off...
+     51  1bb1							;------------------------------------------------------------------------------
+     52  1bb1
+      0  1bb1					      DEFINE_SUBROUTINE	Cart_Init	; in GENERIC_BANK_1
+      1  1bb1		       00 03	   BANK_Cart_Init =	_CURRENT_BANK
+      2  1bb1					      SUBROUTINE
+      3  1bb1				   Cart_Init
+     54  1bb1
+     55  1bb1							; Note the variables from the title selection are incredibly transient an can be stomped
+     56  1bb1							; at any time.  So they need to be used immediately.
+     57  1bb1
+     58  1bb1
+     59  1bb1							; odd usage below is to prevent any possibility of variable stomping/assumptions
+     60  1bb1
+     61  1bb1		       a9 01		      lda	#1
+     62  1bb3		       a2 00		      ldx	#0	;sLevel				      ; level # from title select
+     63  1bb5		       a0 00		      ldy	#0	;sJoysticks
+     64  1bb7		       84 aa		      sty	jtoggle
+     65  1bb9		       86 b3		      stx	level
+     66  1bbb		       a9 00		      lda	#0
+     67  1bbd							;sta levelX					    ; make an immediate copy to safe variables!
+     68  1bbd		       85 e0		      sta	startingLevel
+     69  1bbf
+     70  1bbf							; multiply with LEVEL_DEFINITION_SIZE (5):
+     71  1bbf		       0a		      asl
+     72  1bc0		       0a		      asl
+     73  1bc1		       85 b2		      sta	levelX
+     74  1bc3
+      0  1bc3					      LOAD_ANIMATION	IDLE
+      1  1bc3		       a9 44		      lda	#<Animation_IDLE
+      2  1bc5		       85 9a		      sta	animation
+      3  1bc7		       a9 f0		      lda	#>Animation_IDLE
+      4  1bc9		       85 9b		      sta	animation+1
+      5  1bcb		       a9 00		      lda	#0
+      6  1bcd		       85 9c		      sta	animation_delay
+      7  1bcf		       a9 02		      lda	#ANIMATION_IDLE_ID
+      8  1bd1		       85 a6		      sta	ManAnimationID
+     76  1bd3
+     77  1bd3		       a9 00		      lda	#0
+     78  1bd5		       8d 83 02 	      sta	SWBCNT	; console I/O always set to INPUT
+     79  1bd8		       8d 81 02 	      sta	SWACNT	; set controller I/O to INPUT
+     80  1bdb		       85 6b		      sta	HMCLR
+     81  1bdd
+     82  1bdd							; cleanup remains of title screen
+     83  1bdd		       85 5b		      sta	GRP0
+     84  1bdf		       85 5c		      sta	GRP1
+     85  1be1							;?		   sta GRP0
+     86  1be1
+     87  1be1		       a9 10		      lda	#%00010000	; 2	 double width missile, double width player
+     88  1be3		       85 44		      sta	NUSIZ0	; 3
+     89  1be5		       85 45		      sta	NUSIZ1
+     90  1be7
+     91  1be7		       85 86		      sta	ScreenDrawPhase	; sequences the sections of gameplay/screen drawing
+     92  1be9		       85 c5		      sta	ethnic
+     93  1beb
+     94  1beb		       a9 04		      lda	#%100	; players/missiles BEHIND BG
+     95  1bed		       85 4a		      sta	CTRLPF
+     96  1bef
+     97  1bef		       a9 ff		      lda	#$FF
+     98  1bf1		       85 81		      sta	DrawStackPointer
+     99  1bf3		       85 92		      sta	BufferedJoystick
+    100  1bf5
+    101  1bf5							;lda #DIRECTION_BITS		  ;???
+    102  1bf5							;sta ManLastDirection
+    103  1bf5
+    104  1bf5							;lda #0
+    105  1bf5							;		  sta ObjStackPtr		  ; object stack index of last entry
+    106  1bf5							;		  sta ObjStackPtr+1
+    107  1bf5							;		  sta ObjStackNum
+    108  1bf5							;		  sta ObjIterator
+    109  1bf5
+    110  1bf5							;sta sortPtr
+    111  1bf5							;lda #<(-1)
+    112  1bf5							;sta sortRequired
+    113  1bf5
+    114  1bf5							; read high score from SaveKey and store in highScoreSK,
+    115  1bf5							; which is transferred to high score variable in RAM by GeneralScoringSetups
+    116  1bf5
+    117  1bf5		       4c 8c f5 	      jmp	ReadSaveKey
+    118  1bf8
+    119  1bf8							;------------------------------------------------------------------------------
+    120  1bf8
+      0  1bf8					      DEFINE_SUBROUTINE	SwapPlayersGeneric
+      1  1bf8		       00 03	   BANK_SwapPlayersGeneric =	_CURRENT_BANK
+      2  1bf8					      SUBROUTINE
+      3  1bf8				   SwapPlayersGeneric
+    122  1bf8
+    123  1bf8							; at the start of a level (or player, doesn't matter) we grab the current state of the colour/B&W switch
+    124  1bf8							; into the gameMode variable.
+    125  1bf8
+    126  1bf8							;		  lda gameMode
+    127  1bf8							;		  and #~(BW_SWITCH|GAMEMODE_PAUSED)
+    128  1bf8							;		  sta gameMode
+    129  1bf8							;		  lda SWCHB
+    130  1bf8							;		  and #BW_SWITCH
+    131  1bf8							;		  ora gameMode			  ; COLOR/B&W @start of level stored in gameMode -- so now we just detect a CHANGE is pause
+    132  1bf8							;		  sta gameMode			  ; also, BIT7=0 -- system is NOT paused
+    133  1bf8
+    134  1bf8
+    135  1bf8							; restart level
+    136  1bf8		       a5 c2		      lda	NextLevelTrigger
+    137  1bfa		       29 bf		      and	#<(~BIT_NEXTLIFE)
+    138  1bfc		       85 c2		      sta	NextLevelTrigger
+    139  1bfe
+    140  1bfe							; if new high score was set by SwapPlayers, update it:
+    141  1bfe
+    142  1bfe		       4c b2 f5 	      jmp	WriteSaveKey
+    143  1c01
+    144  1c01
+    145  1c01							;------------------------------------------------------------------------------
+    146  1c01
+      0  1c01					      DEFINE_SUBROUTINE	CreateCreatures
+      1  1c01		       00 03	   BANK_CreateCreatures =	_CURRENT_BANK
+      2  1c01					      SUBROUTINE
+      3  1c01				   CreateCreatures
+    148  1c01
+    149  1c01							; Calculate rightmost value for scrolling edge.  .
+    150  1c01
+    151  1c01		       85 bf		      sta	ROM_Bank
+    152  1c03
+    153  1c03		       38		      sec
+    154  1c04		       a5 94		      lda	BoardLimit_Width
+    155  1c06		       e9 09		      sbc	#SCREEN_WIDTH-1
+    156  1c08		       85 94		      sta	BoardEdge_Right	; absolute rightmost scroll value
+    157  1c0a
+    158  1c0a							;		  sec			     already set
+    159  1c0a		       a5 95		      lda	BoardLimit_Height
+    160  1c0c		       e9 07		      sbc	#SCREEN_LINES-1
+    161  1c0e		       85 95		      sta	BoardEdge_Bottom	; absolute bottommost scroll value
+    162  1c10
+    163  1c10							; kludge position scroll roughly at player
+    164  1c10
+    165  1c10							;		  sec			 already set
+    166  1c10		       a5 9d		      lda	ManX
+    167  1c12		       e9 05		      sbc	#5
+    168  1c14		       b0 02		      bcs	notL0
+    169  1c16		       a9 00		      lda	#0
+    170  1c18		       85 97	   notL0      sta	BoardScrollX
+    171  1c1a
+    172  1c1a		       38		      sec
+    173  1c1b		       a5 9e		      lda	ManY
+    174  1c1d		       e9 04		      sbc	#4
+    175  1c1f		       b0 02		      bcs	notU0
+    176  1c21		       a9 00		      lda	#0
+    177  1c23		       85 96	   notU0      sta	BoardScrollY
+    178  1c25
+    179  1c25		       a9 00		      lda	#0
+    180  1c27		       85 a1		      sta	ManMode
+    181  1c29							;sta ManDelayCount
+    182  1c29		       85 ba		      sta	TakebackInhibit
+    183  1c2b		       85 da		      sta	base_x
+    184  1c2d		       85 db		      sta	base_y
+    185  1c2f		       85 a4		      sta	ManPushCounter
+    186  1c31
+    187  1c31
+    188  1c31		       a9 ff		      lda	#$FF
+    189  1c33		       85 af		      sta	LastSpriteY
+    190  1c35		       85 a6		      sta	ManAnimationID
+    191  1c37		       85 cc		      sta	FadeComplete	; start fading
+    192  1c39		       85 cd		      sta	FadeOutComplete	; flags "not fading out"
+    193  1c3b
+    194  1c3b		       a9 14		      lda	#20
+    195  1c3d		       85 ce		      sta	fadeslow
+    196  1c3f
+    197  1c3f							;lda #DIRECTION_BITS		  ;????
+    198  1c3f							;sta ManLastDirection		  ; duplicate?
+    199  1c3f
+    200  1c3f		       60		      rts
+    201  1c40
+    202  1c40							;-------------------------------------------------------------------------------------
+    203  1c40
+      0  1c40					      DEFINE_SUBROUTINE	LevelInit	; in GENERIC_BANK_1
+      1  1c40		       00 03	   BANK_LevelInit =	_CURRENT_BANK
+      2  1c40					      SUBROUTINE
+      3  1c40				   LevelInit
+    205  1c40
+    206  1c40		       a9 00		      lda	#0
+    207  1c42		       85 83		      sta	ObjStackPtr
+    208  1c44		       85 84		      sta	ObjStackPtr+1	; kill all creatures
+    209  1c46		       85 82		      sta	ObjStackNum
+    210  1c48		       85 c3		      sta	ObjIterator
+    211  1c4a
+    212  1c4a		       85 98		      sta	scrollBits
+    213  1c4c		       85 86		      sta	ScreenDrawPhase
+    214  1c4e
+    215  1c4e		       85 b1		      sta	BGColour
+    216  1c50		       85 c1		      sta	ColourTimer
+    217  1c52		       85 a5		      sta	LookingAround
+    218  1c54
+    219  1c54		       a9 ff		      lda	#255
+    220  1c56		       85 b4		      sta	Throttle
+    221  1c58		       85 92		      sta	BufferedJoystick
+    222  1c5a
+    223  1c5a		       a9 00		      lda	#0
+    224  1c5c		       85 59		      sta	AUDV0
+    225  1c5e		       85 5a		      sta	AUDV1	; turn off music while levels init
+    226  1c60							;		  sta AUDC0
+    227  1c60
+    228  1c60							;		  sta VBLANK
+    229  1c60
+    230  1c60
+    231  1c60		       85 81		      sta	DrawStackPointer
+    232  1c62
+    233  1c62							;lda #DISPLAY_TIME ;DISPLAY_SCORE
+    234  1c62							;sta scoringFlags
+    235  1c62							;lda #0 ;SCORING_TIMER_FIRST		      ; We want the first timer display to be long, to show level and lives
+    236  1c62							;sta scoringTimer
+    237  1c62
+    238  1c62		       18		      clc
+    239  1c63		       a5 c5		      lda	ethnic
+    240  1c65		       69 10		      adc	#16
+    241  1c67		       c9 40		      cmp	#4*16
+    242  1c69		       90 02		      bcc	ethOK
+    243  1c6b		       a9 00		      lda	#0
+    244  1c6d		       85 c5	   ethOK      sta	ethnic
+    245  1c6f
+    246  1c6f		       60		      rts
+    247  1c70
+    248  1c70							;-------------------------------------------------------------------------------------
+    249  1c70
+      0  1c70					      DEFINE_SUBROUTINE	Resync
+      1  1c70		       00 03	   BANK_Resync =	_CURRENT_BANK
+      2  1c70					      SUBROUTINE
+      3  1c70				   Resync
+      0  1c70					      RESYNC
+      1  1c70
+      2  1c70		       a9 02		      lda	#%10
+      3  1c72		       85 41		      sta	VBLANK
+      4  1c74
+      5  1c74		       a2 08		      ldx	#8
+      6  1c76				   .loopResync
+      0  1c76					      VERTICAL_SYNC
+      1  1c76		       a9 0e		      lda	#%1110
+      2  1c78		       85 42	   .VSLP1     sta	WSYNC
+      3  1c7a		       85 40		      sta	VSYNC
+      4  1c7c		       4a		      lsr
+      5  1c7d		       d0 f9		      bne	.VSLP1
+      8  1c7f
+      9  1c7f		       a0 88		      ldy	#SCANLINES_NTSC/2 - 2
+     10  1c81		       a5 80		      lda	Platform
+     11  1c83		       49 02		      eor	#PAL_50
+     12  1c85		       d0 02		      bne	.ntsc
+     13  1c87		       a0 9a		      ldy	#SCANLINES_PAL/2 - 2
+     14  1c89				   .ntsc
+     15  1c89				   .loopWait
+     16  1c89		       85 42		      sta	WSYNC
+     17  1c8b		       85 42		      sta	WSYNC
+     18  1c8d		       88		      dey
+     19  1c8e		       d0 f9		      bne	.loopWait
+     20  1c90		       ca		      dex
+     21  1c91		       d0 e3		      bne	.loopResync
+    252  1c93		       60	   Ret	      rts
+    253  1c94
+    254  1c94							;---------------------------------------------------------------------------
+    255  1c94
+      0  1c94					      DEFINE_SUBROUTINE	TrackPlayer	; =76
+      1  1c94		       00 03	   BANK_TrackPlayer =	_CURRENT_BANK
+      2  1c94					      SUBROUTINE
+      3  1c94				   TrackPlayer
+    257  1c94
+    258  1c94		       a5 a5		      lda	LookingAround	; 3
+    259  1c96		       d0 36		      bne	EarlyAbortx	; 2/3	     don't track when looking around
+    260  1c98
+    261  1c98		       00 02	   .SCRL_START_LEFT =	2
+    262  1c98		       00 08	   .SCRL_START_RIGHT =	SCREEN_WIDTH-.SCRL_START_LEFT
+    263  1c98		       00 02	   .SCRL_START_UP =	2
+    264  1c98		       00 06	   .SCRL_START_DOWN =	SCREEN_LINES-.SCRL_START_UP
+    265  1c98
+    266  1c98		       a5 9d		      lda	ManX	; 3
+    267  1c9a		       38		      sec		; 2
+    268  1c9b		       e5 97		      sbc	BoardScrollX	; 3
+    269  1c9d		       a8		      tay		; 2 = 10	  for later use
+    270  1c9e
+    271  1c9e		       a9 ff		      lda	#-1	; 2
+    272  1ca0		       c0 02		      cpy	#.SCRL_START_LEFT	; 2
+    273  1ca2		       30 06		      bmi	.startXScroll	; 2/3
+    274  1ca4		       c0 08		      cpy	#.SCRL_START_RIGHT	; 2
+    275  1ca6		       30 0b		      bmi	.skipXScroll	; 2/3
+    276  1ca8		       a9 01		      lda	#1	; 2 = 12
+    277  1caa
+    278  1caa		       18	   .startXScroll clc		; 2
+    279  1cab		       65 97		      adc	BoardScrollX	; 3
+    280  1cad		       c5 94		      cmp	BoardEdge_Right	; 3
+    281  1caf		       b0 02		      bcs	.skipXScroll	; 2/3
+    282  1cb1		       85 97		      sta	BoardScrollX	; 3 = 13
+    283  1cb3
+    284  1cb3				   .skipXScroll
+    285  1cb3
+    286  1cb3							; = 35 worst
+    287  1cb3
+    288  1cb3		       a5 9e		      lda	ManY	; 3
+    289  1cb5		       38		      sec		; 2
+    290  1cb6		       e5 96		      sbc	BoardScrollY	; 3
+    291  1cb8		       a8		      tay		; 2 = 10	  for later use
+    292  1cb9
+    293  1cb9		       a9 ff		      lda	#-1	; 2
+    294  1cbb		       c0 02		      cpy	#.SCRL_START_UP	; 2
+    295  1cbd		       30 06		      bmi	.startYScroll	; 2/3
+    296  1cbf		       c0 06		      cpy	#.SCRL_START_DOWN	; 2
+    297  1cc1		       30 0b		      bmi	.skipYScroll	; 2/3
+    298  1cc3		       a9 01		      lda	#1	; 2 = 12
+    299  1cc5
+    300  1cc5		       18	   .startYScroll clc		; 2
+    301  1cc6		       65 96		      adc	BoardScrollY	; 3
+    302  1cc8		       c5 95		      cmp	BoardEdge_Bottom	; 3
+    303  1cca		       b0 02		      bcs	.skipYScroll	; 2/3
+    304  1ccc		       85 96		      sta	BoardScrollY	; 3 = 13
+    305  1cce
+    306  1cce				   .skipYScroll
+    307  1cce
+    308  1cce							; = 35 worst
+    309  1cce
+    310  1cce		       60	   EarlyAbortx rts		; 6 =	6
+    311  1ccf
+    312  1ccf
+    313  1ccf							;------------------------------------------------------------------------------
+    314  1ccf
+    315  1ccf							; This is a GOOD home for these tables.
+    316  1ccf
+      0  1ccf					      DEFINE_SUBROUTINE	TS_PhaseVectorLO
+      1  1ccf		       00 03	   BANK_TS_PhaseVectorLO =	_CURRENT_BANK
+      2  1ccf					      SUBROUTINE
+      3  1ccf				   TS_PhaseVectorLO
+    318  1ccf
+    319  1ccf							; Gives LO byte of addresses of subroutines for timeslice processing
+    320  1ccf							; note +31✅ cycles at start of the function called
+    321  1ccf
+    322  1ccf		       58		      .byte.b	<ProcessObjStack	; abort = 46✅
+    323  1cd0		       fc		      .byte.b	<DrawFullScreen	; abort = 46✅
+    324  1cd1		       b0		      .byte.b	<BuildDrawStack	; abort = 54✅
+    325  1cd2		       b7		      .byte.b	<DrawAIntoStack	; abort = 54✅
+    326  1cd3		       91		      .byte.b	<SwitchObjects	; abort = 46✅
+    327  1cd4
+    328  1cd4				   TS_PhaseVectorHI
+    329  1cd4
+    330  1cd4							; Gives HI byte of addresses of subroutines for timeslice processing
+    331  1cd4
+    332  1cd4		       f8		      .byte.b	>ProcessObjStack
+    333  1cd5		       f2		      .byte.b	>DrawFullScreen
+    334  1cd6		       fb		      .byte.b	>BuildDrawStack
+    335  1cd7		       fb		      .byte.b	>DrawAIntoStack
+    336  1cd8		       f8		      .byte.b	>SwitchObjects
+    337  1cd9
+    338  1cd9				   TS_PhaseBank
+    339  1cd9
+    340  1cd9							; Gives bank of subroutines for timeslice processing
+    341  1cd9
+    342  1cd9		       0f		      .byte.b	BANK_ProcessObjStack
+    343  1cda		       0d		      .byte.b	BANK_DrawFullScreen
+    344  1cdb		       08		      .byte.b	BANK_DRAW_BUFFERS	;BANK_BuildDrawStack
+    345  1cdc		       08		      .byte.b	BANK_DRAW_BUFFERS	;BANK_BuildDrawStack2
+    346  1cdd		       0f		      .byte.b	BANK_SwitchObjects
+    347  1cde
+    348  1cde							;------------------------------------------------------------------------------
+    349  1cde
+    350  1cde				   OverscanTime
+    351  1cde		       23 23		      .byte.b	OVERSCAN_TIM_NTSC, OVERSCAN_TIM_NTSC
+    352  1ce0		       29 23		      .byte.b	OVERSCAN_TIM_PAL, OVERSCAN_TIM_NTSC
+    353  1ce2
+    354  1ce2
+    355  1ce2		       00 12	   THROT_BASE =	18
+    356  1ce2				   theThrottler
+    357  1ce2		       12 12 15 12	      .byte.b	THROT_BASE, THROT_BASE, THROT_BASE*60/50, THROT_BASE
+    358  1ce6
+      0  1ce6					      DEFINE_SUBROUTINE	PostScreenCleanup
+      1  1ce6		       00 03	   BANK_PostScreenCleanup =	_CURRENT_BANK
+      2  1ce6					      SUBROUTINE
+      3  1ce6				   PostScreenCleanup
+    360  1ce6
+    361  1ce6		       c8		      iny		; --> 0
+    362  1ce7
+    363  1ce7		       84 49		      sty	COLUBK	; starts colour change bottom score area, wraps to top score area
+    364  1ce9							; + moved here so we don't see a minor colour artefact bottom of screen when look-arounding
+    365  1ce9
+    366  1ce9		       84 4d		      sty	PF0	; why wasn't this here?  I saw colour glitching in score area!
+    367  1ceb							; TJ: no idea why, but you had removed it in revision 758 ;)
+    368  1ceb							; completely accidental -- one of our cats may have deleted it.
+    369  1ceb		       84 4e		      sty	PF1
+    370  1ced		       84 4f		      sty	PF2
+    371  1cef		       84 5d		      sty	ENAM0
+    372  1cf1		       84 5b		      sty	GRP0	; when look-scrolling, we can see feet at the top if these aren't here
+    373  1cf3		       84 5c		      sty	GRP1	; 30/12/2011 -- fix dots @ top!
+    374  1cf5
+    375  1cf5							; D1 VBLANK turns off beam
+    376  1cf5
+    377  1cf5		       a9 42		      lda	#%01000010	; bit6 is not required
+    378  1cf7		       85 41		      sta	VBLANK	; end of screen - enter blanking
+    379  1cf9
+    380  1cf9							;------------------------------------------------------------------------------
+    381  1cf9							; This is where the PAL system has a bit of extra time on a per-frame basis.
+    382  1cf9
+    383  1cf9		       a6 80		      ldx	Platform
+    384  1cfb		       bd de f4 	      lda	OverscanTime,x
+    385  1cfe		       8d 96 02 	      sta	TIM64T
+    386  1d01
+    387  1d01							; Background colour priorities. Increasing order of priority...
+    388  1d01							;	black -- nothing happening
+    389  1d01							;	looking around			     lookingAround<0		     BLUE
+    390  1d01							;	when paused			     gameMode... BIT7		     RED
+    391  1d01							;	when the door opens (flash)	     ColourTimer>0		     WHITE
+    392  1d01
+    393  1d01		       a6 80		      ldx	Platform
+    394  1d03		       bd e2 f4 	      lda	theThrottler,x
+    395  1d06		       18		      clc
+    396  1d07		       65 b4		      adc	Throttle
+    397  1d09		       b0 02		      bcs	noVerflo
+    398  1d0b		       85 b4		      sta	Throttle
+    399  1d0d				   noVerflo
+    400  1d0d
+    401  1d0d							;----------------------------------------------------------------------------------------------
+    402  1d0d
+    403  1d0d							; has to be done AFTER screen display, because it disables the effect!
+    404  1d0d							;SLEEP 6
+    405  1d0d							;lda rnd		      ; 3     randomly reposition the Cosmic Ark missile
+    406  1d0d							;sta HMM0		      ; 3     this assumes that HMOVE is called at least once/frame
+    407  1d0d
+    408  1d0d							; "Flash" has highest BG colour priority
+    409  1d0d
+    410  1d0d		       a5 c1		      lda	ColourTimer
+    411  1d0f		       f0 08		      beq	noFlashBG
+    412  1d11		       c6 c1		      dec	ColourTimer
+    413  1d13		       d0 04		      bne	noFlashBG
+    414  1d15		       a9 00		      lda	#0
+    415  1d17		       85 b1		      sta	BGColour
+    416  1d19							;lda ColourFlash
+    417  1d19							;lda FlashColour,x
+    418  1d19				   noFlashBG
+    419  1d19							;	 sta BGColour
+    420  1d19
+    421  1d19							; Create a 'standardised' joystick with D4-D7 having bits CLEAR if the appropriate direction is chosen.
+    422  1d19
+    423  1d19		       ad 80 02 	      lda	SWCHA
+    424  1d1c		       25 92		      and	BufferedJoystick
+    425  1d1e		       85 92		      sta	BufferedJoystick
+    426  1d20
+    427  1d20		       60		      rts
+    428  1d21
+    429  1d21							;------------------------------------------------------------------------------
+    430  1d21
 ------- FILE i2c_v2.2.inc LEVEL 3 PASS 3
-      0  1d5f					      include	"i2c_v2.2.inc"
-      1  1d5f							;
-      2  1d5f							; i2c_v2.2.inc
-      3  1d5f							;
-      4  1d5f							;
-      5  1d5f							; AtariVox EEPROM Driver
-      6  1d5f							;
-      7  1d5f							; By Alex Herbert, 2004
-      8  1d5f							;
-      9  1d5f							; Optimisations by Thomas Jentzsch, 2006/2008
-     10  1d5f							;
-     11  1d5f
-     12  1d5f
-     13  1d5f							; I/O Constants
-     14  1d5f
-     15  1d5f		       00 04	   I2C_SDA_MASK equ	$04
-     16  1d5f		       00 08	   I2C_SCL_MASK equ	$08
-     17  1d5f
-     18  1d5f
-     19  1d5f							; Signalling Macros
-     20  1d5f
-     21  1d5f							;  MAC     I2C_SCL_0
-     22  1d5f							;    lda     #$00
-     23  1d5f							;    sta     SWCHA
-     24  1d5f							;  ENDM
-     25  1d5f
-     26  1d5f							;  MAC     I2C_SCL_1
-     27  1d5f							;    lda     #I2C_SCL_MASK
-     28  1d5f							;    sta     SWCHA
-     29  1d5f							;  ENDM
-     30  1d5f
-     31  1d5f							;  MAC     I2C_SDA_IN
-     32  1d5f							;    lda     #I2C_SCL_MASK
-     33  1d5f							;    sta     SWACNT
-     34  1d5f							;  ENDM
-     35  1d5f
-     36  1d5f							;  MAC     I2C_SDA_OUT
-     37  1d5f							;    lda     #I2C_SCL_MASK|I2C_SDA_MASK
-     38  1d5f							;    sta     SWACNT
-     39  1d5f							;  ENDM
-     40  1d5f
-     41  1d5f
-     42  1d5f					      MAC	i2c_start
-     43  1d5f							; I2C_SCL_1
-     44  1d5f					      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)*2	; 2	     I2C_SCL_MASK
-     45  1d5f					      sta	SWCHA	; 4
-     46  1d5f							; I2C_SDA_OUT
-     47  1d5f					      lsr		; 2	     I2C_SCL_MASK|I2C_SDA_MASK
-     48  1d5f					      sta	SWACNT	; 4
-     49  1d5f							; total: 12 cycles
-     50  1d5f					      ENDM
-     51  1d5f
-     52  1d5f
-     53  1d5f					      MAC	i2c_txbit
-     54  1d5f							; I2C_SCL_0
-     55  1d5f					      lda	#%0011	; 2
-     56  1d5f					      sta	SWCHA	; 4
-     57  1d5f							; set bit
-     58  1d5f					      adc	#%1000	; 2
-     59  1d5f					      sta	SWACNT	; 4	     SDA = !C (a = %1000 / %1100)
-     60  1d5f							; I2C_SCL_1
-     61  1d5f					      lda	#I2C_SCL_MASK	; 2
-     62  1d5f					      sta	SWCHA	; 4
-     63  1d5f							; total: 18 cycles
-     64  1d5f					      ENDM
-     65  1d5f
-     66  1d5f
-     67  1d5f					      MAC	i2c_txnack
-     68  1d5f							; I2C_SCL_0
-     69  1d5f					      lda	#I2C_SCL_MASK*2	; 2	     $00
-     70  1d5f					      sta	SWCHA	; 4
-     71  1d5f							; I2C_SDA_IN
-     72  1d5f					      lsr		; 2	     I2C_SCL_MASK
-     73  1d5f					      sta	SWACNT	; 4
-     74  1d5f							; I2C_SCL_1
-     75  1d5f					      nop		; 2	     required for timing!
-     76  1d5f					      sta	SWCHA	; 4	     I2C_SCL_MASK
-     77  1d5f							; total: 18 cycles
-     78  1d5f					      ENDM
-     79  1d5f
-     80  1d5f
-     81  1d5f							; Subroutine Macros
-     82  1d5f
-     83  1d5f					      MAC	i2c_subs
-     84  1d5f
-     85  1d5f				   i2c_startread
-     86  1d5f							; use V to flag if previous byte needs ACK
-     87  1d5f					      ldy	#%10100001	; 2	     eeprom read command
-     88  1d5f					      .byte	$2c	; 2
-     89  1d5f				   i2c_startwrite
-     90  1d5f					      ldy	#%10100000	; 2	     eeprom write command
-     91  1d5f					      I2C_START		;12	     start signal (clears V flag)
-     92  1d5f					      tya		; 2 = 16
-     93  1d5f				   i2c_txbyte
-     94  1d5f					      eor	#$ff	; 2	     invert data byte
-     95  1d5f					      sec		; 2
-     96  1d5f					      rol		; 2 =	6    shift loop bit into a
-     97  1d5f				   i2c_txbyteloop
-     98  1d5f					      tay		; 2
-     99  1d5f					      I2C_TXBIT		;18	     transmit
-    100  1d5f					      tya		; 2
-    101  1d5f					      asl		; 2	     shift next bit into C
-    102  1d5f					      bne	i2c_txbyteloop	; 2�= 26/27
-    103  1d5f
-    104  1d5f							; receive acknowledge bit
-    105  1d5f
-    106  1d5f					      beq	i2c_rxbit	;43 = 43
-    107  1d5f							; i2c_txbyte: 264 cycles
-    108  1d5f							;-------------------------------------------------------------------------------
-    109  1d5f
-    110  1d5f				   i2c_rxbyte
-    111  1d5f					      bvc	i2c_rxskipack	; 2�	     previous byte needs acknowledge?
-    112  1d5f					      jsr	i2c_txack	;24	     transmit acknowledge bit
-    113  1d5f
-    114  1d5f				   i2c_rxskipack
-    115  1d5f					      bit	i2c_rxbyte	; 4	     set V - next byte(s) require acknowledge
-    116  1d5f
-    117  1d5f					      lda	#1	; 2
-    118  1d5f				   i2c_rxbyteloop
-    119  1d5f					      tay		; 2 =	2
-    120  1d5f				   i2c_rxbit		;	     receive bit in C
-    121  1d5f					      I2C_TXNACK		;18 = 18
-    122  1d5f
-    123  1d5f					      lda	SWCHA	; 4
-    124  1d5f					      lsr		; 2
-    125  1d5f					      lsr		; 2
-    126  1d5f					      lsr		; 2 = 10    C = SDA
-    127  1d5f
-    128  1d5f					      tya		; 2
-    129  1d5f					      rol		; 2	     rotate into Y
-    130  1d5f					      bcc	i2c_rxbyteloop	; 2�=	6/7
-    131  1d5f
-    132  1d5f							; received byte in A
-    133  1d5f					      rts		; 6 =	6
-    134  1d5f							; i2c_rxbit:  40 cycles
-    135  1d5f							; i2c_rxbyte: 310/333 cycles
-    136  1d5f							;-------------------------------------------------------------------------------
-    137  1d5f
-    138  1d5f				   i2c_stopread
-    139  1d5f					      bvc	i2c_stopwrite	; 2�
-    140  1d5f					      ldy	#$80	; 2
-    141  1d5f					      jsr	i2c_rxbit	;46	     transmit no-acknowledge
-    142  1d5f
-    143  1d5f				   i2c_stopwrite
-    144  1d5f					      jsr	i2c_txack	;30
-    145  1d5f
-    146  1d5f							; return port to input mode
-    147  1d5f					      lda	#0	; 2	     0
-    148  1d5f					      sta	SWACNT	; 4
-    149  1d5f					      rts		; 6 = 12
-    150  1d5f							; i2c_stopread:  45/92
-    151  1d5f							; i2c_stopwrite: 42
-    152  1d5f							;-------------------------------------------------------------------------------
-    153  1d5f
-    154  1d5f				   i2c_txack
-    155  1d5f							; I2C_SCL_0
-    156  1d5f					      lda	#0	; 2	     $00
-    157  1d5f					      sta	SWCHA	; 4
-    158  1d5f							; I2C_SDA_OUT
-    159  1d5f					      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)	; 2	     I2C_SCL_MASK|I2C_SDA_MASK
-    160  1d5f					      sta	SWACNT	; 4
-    161  1d5f							; I2C_SCL_1
-    162  1d5f					      asl		; 2	     I2C_SCL_MASK
-    163  1d5f					      sta	SWCHA	; 4
-    164  1d5f
-    165  1d5f					      rts		; 6
-    166  1d5f							; total: 24 cycles
-    167  1d5f							;-------------------------------------------------------------------------------
-    168  1d5f
-    169  1d5f					      ENDM
-    170  1d5f
-    171  1d5f
-    172  1d5f
+      0  1d21					      include	"i2c_v2.2.inc"
+      1  1d21							;
+      2  1d21							; i2c_v2.2.inc
+      3  1d21							;
+      4  1d21							;
+      5  1d21							; AtariVox EEPROM Driver
+      6  1d21							;
+      7  1d21							; By Alex Herbert, 2004
+      8  1d21							;
+      9  1d21							; Optimisations by Thomas Jentzsch, 2006/2008
+     10  1d21							;
+     11  1d21
+     12  1d21
+     13  1d21							; I/O Constants
+     14  1d21
+     15  1d21		       00 04	   I2C_SDA_MASK equ	$04
+     16  1d21		       00 08	   I2C_SCL_MASK equ	$08
+     17  1d21
+     18  1d21
+     19  1d21							; Signalling Macros
+     20  1d21
+     21  1d21							;  MAC     I2C_SCL_0
+     22  1d21							;    lda     #$00
+     23  1d21							;    sta     SWCHA
+     24  1d21							;  ENDM
+     25  1d21
+     26  1d21							;  MAC     I2C_SCL_1
+     27  1d21							;    lda     #I2C_SCL_MASK
+     28  1d21							;    sta     SWCHA
+     29  1d21							;  ENDM
+     30  1d21
+     31  1d21							;  MAC     I2C_SDA_IN
+     32  1d21							;    lda     #I2C_SCL_MASK
+     33  1d21							;    sta     SWACNT
+     34  1d21							;  ENDM
+     35  1d21
+     36  1d21							;  MAC     I2C_SDA_OUT
+     37  1d21							;    lda     #I2C_SCL_MASK|I2C_SDA_MASK
+     38  1d21							;    sta     SWACNT
+     39  1d21							;  ENDM
+     40  1d21
+     41  1d21
+     42  1d21					      MAC	i2c_start
+     43  1d21							; I2C_SCL_1
+     44  1d21					      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)*2	; 2	     I2C_SCL_MASK
+     45  1d21					      sta	SWCHA	; 4
+     46  1d21							; I2C_SDA_OUT
+     47  1d21					      lsr		; 2	     I2C_SCL_MASK|I2C_SDA_MASK
+     48  1d21					      sta	SWACNT	; 4
+     49  1d21							; total: 12 cycles
+     50  1d21					      ENDM
+     51  1d21
+     52  1d21
+     53  1d21					      MAC	i2c_txbit
+     54  1d21							; I2C_SCL_0
+     55  1d21					      lda	#%0011	; 2
+     56  1d21					      sta	SWCHA	; 4
+     57  1d21							; set bit
+     58  1d21					      adc	#%1000	; 2
+     59  1d21					      sta	SWACNT	; 4	     SDA = !C (a = %1000 / %1100)
+     60  1d21							; I2C_SCL_1
+     61  1d21					      lda	#I2C_SCL_MASK	; 2
+     62  1d21					      sta	SWCHA	; 4
+     63  1d21							; total: 18 cycles
+     64  1d21					      ENDM
+     65  1d21
+     66  1d21
+     67  1d21					      MAC	i2c_txnack
+     68  1d21							; I2C_SCL_0
+     69  1d21					      lda	#I2C_SCL_MASK*2	; 2	     $00
+     70  1d21					      sta	SWCHA	; 4
+     71  1d21							; I2C_SDA_IN
+     72  1d21					      lsr		; 2	     I2C_SCL_MASK
+     73  1d21					      sta	SWACNT	; 4
+     74  1d21							; I2C_SCL_1
+     75  1d21					      nop		; 2	     required for timing!
+     76  1d21					      sta	SWCHA	; 4	     I2C_SCL_MASK
+     77  1d21							; total: 18 cycles
+     78  1d21					      ENDM
+     79  1d21
+     80  1d21
+     81  1d21							; Subroutine Macros
+     82  1d21
+     83  1d21					      MAC	i2c_subs
+     84  1d21
+     85  1d21				   i2c_startread
+     86  1d21							; use V to flag if previous byte needs ACK
+     87  1d21					      ldy	#%10100001	; 2	     eeprom read command
+     88  1d21					      .byte	$2c	; 2
+     89  1d21				   i2c_startwrite
+     90  1d21					      ldy	#%10100000	; 2	     eeprom write command
+     91  1d21					      I2C_START		;12	     start signal (clears V flag)
+     92  1d21					      tya		; 2 = 16
+     93  1d21				   i2c_txbyte
+     94  1d21					      eor	#$ff	; 2	     invert data byte
+     95  1d21					      sec		; 2
+     96  1d21					      rol		; 2 =	6    shift loop bit into a
+     97  1d21				   i2c_txbyteloop
+     98  1d21					      tay		; 2
+     99  1d21					      I2C_TXBIT		;18	     transmit
+    100  1d21					      tya		; 2
+    101  1d21					      asl		; 2	     shift next bit into C
+    102  1d21					      bne	i2c_txbyteloop	; 2�= 26/27
+    103  1d21
+    104  1d21							; receive acknowledge bit
+    105  1d21
+    106  1d21					      beq	i2c_rxbit	;43 = 43
+    107  1d21							; i2c_txbyte: 264 cycles
+    108  1d21							;-------------------------------------------------------------------------------
+    109  1d21
+    110  1d21				   i2c_rxbyte
+    111  1d21					      bvc	i2c_rxskipack	; 2�	     previous byte needs acknowledge?
+    112  1d21					      jsr	i2c_txack	;24	     transmit acknowledge bit
+    113  1d21
+    114  1d21				   i2c_rxskipack
+    115  1d21					      bit	i2c_rxbyte	; 4	     set V - next byte(s) require acknowledge
+    116  1d21
+    117  1d21					      lda	#1	; 2
+    118  1d21				   i2c_rxbyteloop
+    119  1d21					      tay		; 2 =	2
+    120  1d21				   i2c_rxbit		;	     receive bit in C
+    121  1d21					      I2C_TXNACK		;18 = 18
+    122  1d21
+    123  1d21					      lda	SWCHA	; 4
+    124  1d21					      lsr		; 2
+    125  1d21					      lsr		; 2
+    126  1d21					      lsr		; 2 = 10    C = SDA
+    127  1d21
+    128  1d21					      tya		; 2
+    129  1d21					      rol		; 2	     rotate into Y
+    130  1d21					      bcc	i2c_rxbyteloop	; 2�=	6/7
+    131  1d21
+    132  1d21							; received byte in A
+    133  1d21					      rts		; 6 =	6
+    134  1d21							; i2c_rxbit:  40 cycles
+    135  1d21							; i2c_rxbyte: 310/333 cycles
+    136  1d21							;-------------------------------------------------------------------------------
+    137  1d21
+    138  1d21				   i2c_stopread
+    139  1d21					      bvc	i2c_stopwrite	; 2�
+    140  1d21					      ldy	#$80	; 2
+    141  1d21					      jsr	i2c_rxbit	;46	     transmit no-acknowledge
+    142  1d21
+    143  1d21				   i2c_stopwrite
+    144  1d21					      jsr	i2c_txack	;30
+    145  1d21
+    146  1d21							; return port to input mode
+    147  1d21					      lda	#0	; 2	     0
+    148  1d21					      sta	SWACNT	; 4
+    149  1d21					      rts		; 6 = 12
+    150  1d21							; i2c_stopread:  45/92
+    151  1d21							; i2c_stopwrite: 42
+    152  1d21							;-------------------------------------------------------------------------------
+    153  1d21
+    154  1d21				   i2c_txack
+    155  1d21							; I2C_SCL_0
+    156  1d21					      lda	#0	; 2	     $00
+    157  1d21					      sta	SWCHA	; 4
+    158  1d21							; I2C_SDA_OUT
+    159  1d21					      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)	; 2	     I2C_SCL_MASK|I2C_SDA_MASK
+    160  1d21					      sta	SWACNT	; 4
+    161  1d21							; I2C_SCL_1
+    162  1d21					      asl		; 2	     I2C_SCL_MASK
+    163  1d21					      sta	SWCHA	; 4
+    164  1d21
+    165  1d21					      rts		; 6
+    166  1d21							; total: 24 cycles
+    167  1d21							;-------------------------------------------------------------------------------
+    168  1d21
+    169  1d21					      ENDM
+    170  1d21
+    171  1d21
+    172  1d21
 ------- FILE BANK_GENERIC.asm
-    432  1d5f
-      0  1d5f					      i2c_subs
-      1  1d5f
-      2  1d5f				   i2c_startread
-      3  1d5f
-      4  1d5f		       a0 a1		      ldy	#%10100001
-      5  1d61		       2c		      .byte.b	$2c
-      6  1d62				   i2c_startwrite
-      7  1d62		       a0 a0		      ldy	#%10100000
-      0  1d64					      I2C_START
-      1  1d64
-      2  1d64		       a9 18		      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)*2
-      3  1d66		       8d 80 02 	      sta	SWCHA
-      4  1d69
-      5  1d69		       4a		      lsr
-      6  1d6a		       8d 81 02 	      sta	SWACNT
-      7  1d6d
-      9  1d6d		       98		      tya
-     10  1d6e				   i2c_txbyte
-     11  1d6e		       49 ff		      eor	#$ff
-     12  1d70		       38		      sec
-     13  1d71		       2a		      rol
-     14  1d72				   i2c_txbyteloop
-     15  1d72		       a8		      tay
-      0  1d73					      I2C_TXBIT
-      1  1d73
-      2  1d73		       a9 03		      lda	#%0011
-      3  1d75		       8d 80 02 	      sta	SWCHA
-      4  1d78
-      5  1d78		       69 08		      adc	#%1000
-      6  1d7a		       8d 81 02 	      sta	SWACNT
-      7  1d7d
-      8  1d7d		       a9 08		      lda	#I2C_SCL_MASK
-      9  1d7f		       8d 80 02 	      sta	SWCHA
-     10  1d82
-     17  1d82		       98		      tya
-     18  1d83		       0a		      asl
-     19  1d84		       d0 ec		      bne	i2c_txbyteloop
-     20  1d86
-     21  1d86
-     22  1d86
-     23  1d86		       f0 0b		      beq	i2c_rxbit
-     24  1d88
-     25  1d88
-     26  1d88
-     27  1d88				   i2c_rxbyte
-     28  1d88		       50 03		      bvc	i2c_rxskipack
-     29  1d8a		       20 bb f5 	      jsr	i2c_txack
-     30  1d8d
-     31  1d8d				   i2c_rxskipack
-     32  1d8d		       2c 88 f5 	      bit	i2c_rxbyte
-     33  1d90
-     34  1d90		       a9 01		      lda	#1
-     35  1d92				   i2c_rxbyteloop
-     36  1d92		       a8		      tay
-     37  1d93				   i2c_rxbit
-      0  1d93					      I2C_TXNACK
-      1  1d93
-      2  1d93		       a9 10		      lda	#I2C_SCL_MASK*2
-      3  1d95		       8d 80 02 	      sta	SWCHA
-      4  1d98
-      5  1d98		       4a		      lsr
-      6  1d99		       8d 81 02 	      sta	SWACNT
-      7  1d9c
-      8  1d9c		       ea		      nop
-      9  1d9d		       8d 80 02 	      sta	SWCHA
-     10  1da0
-     39  1da0
-     40  1da0		       ad 80 02 	      lda	SWCHA
-     41  1da3		       4a		      lsr
-     42  1da4		       4a		      lsr
-     43  1da5		       4a		      lsr
-     44  1da6
-     45  1da6		       98		      tya
-     46  1da7		       2a		      rol
-     47  1da8		       90 e8		      bcc	i2c_rxbyteloop
-     48  1daa
-     49  1daa
-     50  1daa		       60		      rts
-     51  1dab
-     52  1dab
-     53  1dab
-     54  1dab
-     55  1dab				   i2c_stopread
-     56  1dab		       50 05		      bvc	i2c_stopwrite
-     57  1dad		       a0 80		      ldy	#$80
-     58  1daf		       20 93 f5 	      jsr	i2c_rxbit
-     59  1db2
-     60  1db2				   i2c_stopwrite
-     61  1db2		       20 bb f5 	      jsr	i2c_txack
-     62  1db5
-     63  1db5
-     64  1db5		       a9 00		      lda	#0
-     65  1db7		       8d 81 02 	      sta	SWACNT
-     66  1dba		       60		      rts
-     67  1dbb
-     68  1dbb
-     69  1dbb
-     70  1dbb
-     71  1dbb				   i2c_txack
-     72  1dbb
-     73  1dbb		       a9 00		      lda	#0
-     74  1dbd		       8d 80 02 	      sta	SWCHA
-     75  1dc0
-     76  1dc0		       a9 0c		      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)
-     77  1dc2		       8d 81 02 	      sta	SWACNT
-     78  1dc5
-     79  1dc5		       0a		      asl
-     80  1dc6		       8d 80 02 	      sta	SWCHA
-     81  1dc9
-     82  1dc9		       60		      rts
-     83  1dca
-     84  1dca
-     85  1dca
-    434  1dca
-    435  1dca				   HandleSaveKey SUBROUTINE
-    436  1dca
-    437  1dca		       2f 00	   SAVEKEY_ADR =	$2F00	;	     tentative address for Sokoban (64 bytes)
-    438  1dca
-    439  1dca							;------------------------------------------------------------------------------
-      0  1dca					      DEFINE_SUBROUTINE	ReadSaveKey	; = 2371
-      1  1dca		       00 03	   BANK_ReadSaveKey =	_CURRENT_BANK
-      2  1dca					      SUBROUTINE
-      3  1dca				   ReadSaveKey
-    441  1dca
-    442  1dca							; assume no SaveKey found:
-    443  1dca		       a9 ff		      lda	#$ff	; 2	     return $ff if no SaveKey found
-    444  1dcc		       85 df		      sta	highScoreSK+2	; 3
-    445  1dce
-    446  1dce							; setup SaveKey:
-    447  1dce		       a5 e0		      lda	startingLevel	; 3	     load start levelX*5 and level
-    448  1dd0		       a6 b3		      ldx	level	; 3
-    449  1dd2		       20 0b f6 	      jsr	SetupSaveKey	;6+853
-    450  1dd5		       90 52		      bcc	NoSKfound	; 2/3
-    451  1dd7
-    452  1dd7							;    lda     #$34
-    453  1dd7							;    sta     COLUBK
-    454  1dd7
-    455  1dd7							; start read
-    456  1dd7		       20 b2 f5 	      jsr	i2c_stopwrite	;6+42	     end of "fake" write
-    457  1dda		       20 5f f5 	      jsr	i2c_startread	;6+284      Start signal and $a1 command byte
-    458  1ddd
-    459  1ddd							; read high score:
-    460  1ddd		       a2 02		      ldx	#3-1	; 2 = 1187
-    461  1ddf				   .loopRead
-    462  1ddf		       20 88 f5 	      jsr	i2c_rxbyte	;6+333      read byte from EEPROM
-    463  1de2		       c9 ff		      cmp	#$ff	; 2	     EEPROM slot empty?
-    464  1de4		       d0 02		      bne	.skipEmpty	; 2/3	      no, skip clear
-    465  1de6		       a9 00		      lda	#0	; 2	     clear EEPROM slot
-    466  1de8				   .skipEmpty
-    467  1de8		       95 dd		      sta	highScoreSK,x	; 4
-    468  1dea		       ca		      dex		; 2
-    469  1deb		       10 f2		      bpl	.loopRead	; 2/3= 354
-    470  1ded
-    471  1ded							; stop read:
-    472  1ded		       4c ab f5 	      jmp	i2c_stopread	;3+92=95    terminate read
-    473  1df0
-    474  1df0							;------------------------------------------------------------------------------
-      0  1df0					      DEFINE_SUBROUTINE	WriteSaveKey	; = 1751
-      1  1df0		       00 03	   BANK_WriteSaveKey =	_CURRENT_BANK
-      2  1df0					      SUBROUTINE
-      3  1df0				   WriteSaveKey
-    476  1df0
-    477  1df0							; check if new high score:
-    478  1df0		       a6 dd		      ldx	highScoreSK	; 3
-    479  1df2		       e8		      inx		; 2
-    480  1df3		       f0 34		      beq	NoSKfound	; 2/3	     no new high score, abort
-    481  1df5
-    482  1df5							; setup SaveKey:
-    483  1df5		       a5 e0		      lda	startingLevel	; 3	     load start levelX*5 and level
-    484  1df7		       a6 e1		      ldx	startLevel	; 3
-    485  1df9		       20 0b f6 	      jsr	SetupSaveKey	; 6+853
-    486  1dfc		       90 2b		      bcc	NoSKfound	; 2/3
-    487  1dfe
-    488  1dfe							;    lda     #$64
-    489  1dfe							;    sta     COLUBK
-    490  1dfe
-    491  1dfe							; write high score:
-    492  1dfe		       a2 02		      ldx	#3-1	; 2 = 841
-    493  1e00				   .loopWrite
-    494  1e00		       b5 dd		      lda	highScoreSK,x	; 4
-    495  1e02		       20 6e f5 	      jsr	i2c_txbyte	;6+264      transmit to EEPROM
-    496  1e05		       ca		      dex		; 2
-    497  1e06		       10 f8		      bpl	.loopWrite	; 2/3= 837
-    498  1e08
-    499  1e08							; stop write:
-    500  1e08		       4c b2 f5 	      jmp	i2c_stopwrite	; 3+42= 45  terminate write and commit to memory
-    501  1e0b
-    502  1e0b
-    503  1e0b							;------------------------------------------------------------------------------
-    504  1e0b
-      0  1e0b					      DEFINE_SUBROUTINE	SetupSaveKey	; = 853
-      1  1e0b		       00 03	   BANK_SetupSaveKey =	_CURRENT_BANK
-      2  1e0b					      SUBROUTINE
-      3  1e0b				   SetupSaveKey
-    506  1e0b
-    507  1e0b							; calculate slot;
-    508  1e0b							; a = levelX
-    509  1e0b							; x = level (0..4)
-    510  1e0b		       85 e2		      sta	offsetSK	; 3
-    511  1e0d		       8a		      txa		; 2
-    512  1e0e		       18		      clc		; 2
-    513  1e0f		       65 e2		      adc	offsetSK	; 3
-    514  1e11		       85 e2		      sta	offsetSK	; 3
-    515  1e13		       0a		      asl		; 2	     multiply by 3
-    516  1e14		       65 e2		      adc	offsetSK	; 3
-    517  1e16		       69 00		      adc	#<SAVEKEY_ADR	; 2
-    518  1e18		       aa		      tax		; 2 = 22
-    519  1e19							; detect SaveKey:
-    520  1e19		       20 62 f5 	      jsr	i2c_startwrite	;6+280
-    521  1e1c		       d0 0a		      bne	.exitSK	; 2/3
-    522  1e1e
-    523  1e1e							; setup address:
-    524  1e1e		       b8		      clv		; 2
-    525  1e1f		       a9 2f		      lda	#>SAVEKEY_ADR	; 2	     upper byte of address
-    526  1e21		       20 6e f5 	      jsr	i2c_txbyte	;6+264
-    527  1e24		       8a		      txa		; 2	     x = lower byte offset
-    528  1e25		       4c 6e f5 	      jmp	i2c_txbyte	;3+264      returns C==1
-    529  1e28
-    530  1e28				   .exitSK
-    531  1e28		       18		      clc
-    532  1e29				   NoSKfound
-    533  1e29		       60		      rts
-    534  1e29					      ENDIF
-    535  1e2a
-    536  1e2a
-      0  1e2a					      CHECK_BANK_SIZE	"GENERIC_BANK_1 -- full 2K"
-      1  1e2a		       06 2a	   .TEMP      =	* - BANK_START
- GENERIC_BANK_1 -- full 2K (2K) SIZE =  $62a , FREE= $1d6
-      2  1e2a					      ECHO	"GENERIC_BANK_1 -- full 2K", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
-      3  1e2a				  -	      if	( .TEMP ) > ROM_BANK_SIZE
-      4  1e2a				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
-      5  1e2a				  -	      ERR
-      6  1e2a					      endif
+    432  1d21
+      0  1d21					      i2c_subs
+      1  1d21
+      2  1d21				   i2c_startread
+      3  1d21
+      4  1d21		       a0 a1		      ldy	#%10100001
+      5  1d23		       2c		      .byte.b	$2c
+      6  1d24				   i2c_startwrite
+      7  1d24		       a0 a0		      ldy	#%10100000
+      0  1d26					      I2C_START
+      1  1d26
+      2  1d26		       a9 18		      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)*2
+      3  1d28		       8d 80 02 	      sta	SWCHA
+      4  1d2b
+      5  1d2b		       4a		      lsr
+      6  1d2c		       8d 81 02 	      sta	SWACNT
+      7  1d2f
+      9  1d2f		       98		      tya
+     10  1d30				   i2c_txbyte
+     11  1d30		       49 ff		      eor	#$ff
+     12  1d32		       38		      sec
+     13  1d33		       2a		      rol
+     14  1d34				   i2c_txbyteloop
+     15  1d34		       a8		      tay
+      0  1d35					      I2C_TXBIT
+      1  1d35
+      2  1d35		       a9 03		      lda	#%0011
+      3  1d37		       8d 80 02 	      sta	SWCHA
+      4  1d3a
+      5  1d3a		       69 08		      adc	#%1000
+      6  1d3c		       8d 81 02 	      sta	SWACNT
+      7  1d3f
+      8  1d3f		       a9 08		      lda	#I2C_SCL_MASK
+      9  1d41		       8d 80 02 	      sta	SWCHA
+     10  1d44
+     17  1d44		       98		      tya
+     18  1d45		       0a		      asl
+     19  1d46		       d0 ec		      bne	i2c_txbyteloop
+     20  1d48
+     21  1d48
+     22  1d48
+     23  1d48		       f0 0b		      beq	i2c_rxbit
+     24  1d4a
+     25  1d4a
+     26  1d4a
+     27  1d4a				   i2c_rxbyte
+     28  1d4a		       50 03		      bvc	i2c_rxskipack
+     29  1d4c		       20 7d f5 	      jsr	i2c_txack
+     30  1d4f
+     31  1d4f				   i2c_rxskipack
+     32  1d4f		       2c 4a f5 	      bit	i2c_rxbyte
+     33  1d52
+     34  1d52		       a9 01		      lda	#1
+     35  1d54				   i2c_rxbyteloop
+     36  1d54		       a8		      tay
+     37  1d55				   i2c_rxbit
+      0  1d55					      I2C_TXNACK
+      1  1d55
+      2  1d55		       a9 10		      lda	#I2C_SCL_MASK*2
+      3  1d57		       8d 80 02 	      sta	SWCHA
+      4  1d5a
+      5  1d5a		       4a		      lsr
+      6  1d5b		       8d 81 02 	      sta	SWACNT
+      7  1d5e
+      8  1d5e		       ea		      nop
+      9  1d5f		       8d 80 02 	      sta	SWCHA
+     10  1d62
+     39  1d62
+     40  1d62		       ad 80 02 	      lda	SWCHA
+     41  1d65		       4a		      lsr
+     42  1d66		       4a		      lsr
+     43  1d67		       4a		      lsr
+     44  1d68
+     45  1d68		       98		      tya
+     46  1d69		       2a		      rol
+     47  1d6a		       90 e8		      bcc	i2c_rxbyteloop
+     48  1d6c
+     49  1d6c
+     50  1d6c		       60		      rts
+     51  1d6d
+     52  1d6d
+     53  1d6d
+     54  1d6d
+     55  1d6d				   i2c_stopread
+     56  1d6d		       50 05		      bvc	i2c_stopwrite
+     57  1d6f		       a0 80		      ldy	#$80
+     58  1d71		       20 55 f5 	      jsr	i2c_rxbit
+     59  1d74
+     60  1d74				   i2c_stopwrite
+     61  1d74		       20 7d f5 	      jsr	i2c_txack
+     62  1d77
+     63  1d77
+     64  1d77		       a9 00		      lda	#0
+     65  1d79		       8d 81 02 	      sta	SWACNT
+     66  1d7c		       60		      rts
+     67  1d7d
+     68  1d7d
+     69  1d7d
+     70  1d7d
+     71  1d7d				   i2c_txack
+     72  1d7d
+     73  1d7d		       a9 00		      lda	#0
+     74  1d7f		       8d 80 02 	      sta	SWCHA
+     75  1d82
+     76  1d82		       a9 0c		      lda	#(I2C_SCL_MASK|I2C_SDA_MASK)
+     77  1d84		       8d 81 02 	      sta	SWACNT
+     78  1d87
+     79  1d87		       0a		      asl
+     80  1d88		       8d 80 02 	      sta	SWCHA
+     81  1d8b
+     82  1d8b		       60		      rts
+     83  1d8c
+     84  1d8c
+     85  1d8c
+    434  1d8c
+    435  1d8c				   HandleSaveKey SUBROUTINE
+    436  1d8c
+    437  1d8c		       2f 00	   SAVEKEY_ADR =	$2F00	;	     tentative address for Sokoban (64 bytes)
+    438  1d8c
+    439  1d8c							;------------------------------------------------------------------------------
+      0  1d8c					      DEFINE_SUBROUTINE	ReadSaveKey	; = 2371
+      1  1d8c		       00 03	   BANK_ReadSaveKey =	_CURRENT_BANK
+      2  1d8c					      SUBROUTINE
+      3  1d8c				   ReadSaveKey
+    441  1d8c
+    442  1d8c							; assume no SaveKey found:
+    443  1d8c		       a9 ff		      lda	#$ff	; 2	     return $ff if no SaveKey found
+    444  1d8e		       85 df		      sta	highScoreSK+2	; 3
+    445  1d90
+    446  1d90							; setup SaveKey:
+    447  1d90		       a5 e0		      lda	startingLevel	; 3	     load start levelX*5 and level
+    448  1d92		       a6 b3		      ldx	level	; 3
+    449  1d94		       20 cd f5 	      jsr	SetupSaveKey	;6+853
+    450  1d97		       90 52		      bcc	NoSKfound	; 2/3
+    451  1d99
+    452  1d99							;    lda     #$34
+    453  1d99							;    sta     COLUBK
+    454  1d99
+    455  1d99							; start read
+    456  1d99		       20 74 f5 	      jsr	i2c_stopwrite	;6+42	     end of "fake" write
+    457  1d9c		       20 21 f5 	      jsr	i2c_startread	;6+284      Start signal and $a1 command byte
+    458  1d9f
+    459  1d9f							; read high score:
+    460  1d9f		       a2 02		      ldx	#3-1	; 2 = 1187
+    461  1da1				   .loopRead
+    462  1da1		       20 4a f5 	      jsr	i2c_rxbyte	;6+333      read byte from EEPROM
+    463  1da4		       c9 ff		      cmp	#$ff	; 2	     EEPROM slot empty?
+    464  1da6		       d0 02		      bne	.skipEmpty	; 2/3	      no, skip clear
+    465  1da8		       a9 00		      lda	#0	; 2	     clear EEPROM slot
+    466  1daa				   .skipEmpty
+    467  1daa		       95 dd		      sta	highScoreSK,x	; 4
+    468  1dac		       ca		      dex		; 2
+    469  1dad		       10 f2		      bpl	.loopRead	; 2/3= 354
+    470  1daf
+    471  1daf							; stop read:
+    472  1daf		       4c 6d f5 	      jmp	i2c_stopread	;3+92=95    terminate read
+    473  1db2
+    474  1db2							;------------------------------------------------------------------------------
+      0  1db2					      DEFINE_SUBROUTINE	WriteSaveKey	; = 1751
+      1  1db2		       00 03	   BANK_WriteSaveKey =	_CURRENT_BANK
+      2  1db2					      SUBROUTINE
+      3  1db2				   WriteSaveKey
+    476  1db2
+    477  1db2							; check if new high score:
+    478  1db2		       a6 dd		      ldx	highScoreSK	; 3
+    479  1db4		       e8		      inx		; 2
+    480  1db5		       f0 34		      beq	NoSKfound	; 2/3	     no new high score, abort
+    481  1db7
+    482  1db7							; setup SaveKey:
+    483  1db7		       a5 e0		      lda	startingLevel	; 3	     load start levelX*5 and level
+    484  1db9		       a6 e1		      ldx	startLevel	; 3
+    485  1dbb		       20 cd f5 	      jsr	SetupSaveKey	; 6+853
+    486  1dbe		       90 2b		      bcc	NoSKfound	; 2/3
+    487  1dc0
+    488  1dc0							;    lda     #$64
+    489  1dc0							;    sta     COLUBK
+    490  1dc0
+    491  1dc0							; write high score:
+    492  1dc0		       a2 02		      ldx	#3-1	; 2 = 841
+    493  1dc2				   .loopWrite
+    494  1dc2		       b5 dd		      lda	highScoreSK,x	; 4
+    495  1dc4		       20 30 f5 	      jsr	i2c_txbyte	;6+264      transmit to EEPROM
+    496  1dc7		       ca		      dex		; 2
+    497  1dc8		       10 f8		      bpl	.loopWrite	; 2/3= 837
+    498  1dca
+    499  1dca							; stop write:
+    500  1dca		       4c 74 f5 	      jmp	i2c_stopwrite	; 3+42= 45  terminate write and commit to memory
+    501  1dcd
+    502  1dcd
+    503  1dcd							;------------------------------------------------------------------------------
+    504  1dcd
+      0  1dcd					      DEFINE_SUBROUTINE	SetupSaveKey	; = 853
+      1  1dcd		       00 03	   BANK_SetupSaveKey =	_CURRENT_BANK
+      2  1dcd					      SUBROUTINE
+      3  1dcd				   SetupSaveKey
+    506  1dcd
+    507  1dcd							; calculate slot;
+    508  1dcd							; a = levelX
+    509  1dcd							; x = level (0..4)
+    510  1dcd		       85 e2		      sta	offsetSK	; 3
+    511  1dcf		       8a		      txa		; 2
+    512  1dd0		       18		      clc		; 2
+    513  1dd1		       65 e2		      adc	offsetSK	; 3
+    514  1dd3		       85 e2		      sta	offsetSK	; 3
+    515  1dd5		       0a		      asl		; 2	     multiply by 3
+    516  1dd6		       65 e2		      adc	offsetSK	; 3
+    517  1dd8		       69 00		      adc	#<SAVEKEY_ADR	; 2
+    518  1dda		       aa		      tax		; 2 = 22
+    519  1ddb							; detect SaveKey:
+    520  1ddb		       20 24 f5 	      jsr	i2c_startwrite	;6+280
+    521  1dde		       d0 0a		      bne	.exitSK	; 2/3
+    522  1de0
+    523  1de0							; setup address:
+    524  1de0		       b8		      clv		; 2
+    525  1de1		       a9 2f		      lda	#>SAVEKEY_ADR	; 2	     upper byte of address
+    526  1de3		       20 30 f5 	      jsr	i2c_txbyte	;6+264
+    527  1de6		       8a		      txa		; 2	     x = lower byte offset
+    528  1de7		       4c 30 f5 	      jmp	i2c_txbyte	;3+264      returns C==1
+    529  1dea
+    530  1dea				   .exitSK
+    531  1dea		       18		      clc
+    532  1deb				   NoSKfound
+    533  1deb		       60		      rts
+    534  1deb					      ENDIF
+    535  1dec
+    536  1dec
+      0  1dec					      CHECK_BANK_SIZE	"GENERIC_BANK_1 -- full 2K"
+      1  1dec		       05 ec	   .TEMP      =	* - BANK_START
+ GENERIC_BANK_1 -- full 2K (2K) SIZE =  $5ec , FREE= $214
+      2  1dec					      ECHO	"GENERIC_BANK_1 -- full 2K", "(2K) SIZE = ", .TEMP, ", FREE=", ROM_BANK_SIZE - .TEMP
+      3  1dec				  -	      if	( .TEMP ) > ROM_BANK_SIZE
+      4  1dec				  -	      ECHO	"BANK OVERFLOW @ ", * - ORIGIN
+      5  1dec				  -	      ERR
+      6  1dec					      endif
 ------- FILE ./sokoboo.asm
 ------- FILE BANK_LEVELS1.asm LEVEL 2 PASS 3
-      0  1e2a					      include	"BANK_LEVELS1.asm"
-      1  1e2a							;    Sokoboo - a Sokoban implementation
-      2  1e2a							;    using a generic tile-based display engine for the Atari 2600
-      3  1e2a							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
-      4  1e2a							;
-      5  1e2a							;    Code related to this Sokoban™ implementation was developed by Andrew Davie.
-      6  1e2a							;
-      7  1e2a							;    Code related to the generic tile-based display engine was developed by
-      8  1e2a							;    Andrew Davie and Thomas Jentzsch during 2003-2011 and is
-      9  1e2a							;    Copyright(C)2003-2019 Thomas Jentzsch and Andrew Davie - contacts details:
-     10  1e2a							;    Andrew Davie (andrew@taswegian.com), Thomas Jentzsch (tjentzsch@yahoo.de).
-     11  1e2a							;
-     12  1e2a							;    Code related to music and sound effects uses the TIATracker music player
-     13  1e2a							;    Copyright 2016 Andre "Kylearan" Wichmann - see source code in the "sound"
-     14  1e2a							;    directory for Apache licensing details.
-     15  1e2a							;
-     16  1e2a							;    Some level data incorporated in this program were created by Lee J Haywood.
-     17  1e2a							;    See the copyright notices in the License directory for a list of level
-     18  1e2a							;    contributors.
-     19  1e2a							;
-     20  1e2a							;    Except where otherwise indicated, this software is released under the
-     21  1e2a							;    following licensing arrangement...
-     22  1e2a							;
-     23  1e2a							;    This program is free software: you can redistribute it and/or modify
-     24  1e2a							;    it under the terms of the GNU General Public License as published by
-     25  1e2a							;    the Free Software Foundation, either version 3 of the License, or
-     26  1e2a							;    (at your option) any later version.
-     27  1e2a							;    see https://www.gnu.org/licenses/gpl-3.0.en.html
-     28  1e2a
-     29  1e2a							;    This program is distributed in the hope that it will be useful,
-     30  1e2a							;    but WITHOUT ANY WARRANTY; without even the implied warranty of
-     31  1e2a							;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     32  1e2a							;    GNU General Public License for more details.
-     33  1e2a
-      0  1e2a					      NEWBANK	LEVELS1
+      0  1dec					      include	"BANK_LEVELS1.asm"
+      1  1dec							;    Sokoboo - a Sokoban implementation
+      2  1dec							;    using a generic tile-based display engine for the Atari 2600
+      3  1dec							;    Sokoban (倉庫番)™ is © Falcon Co., Ltd.
+      4  1dec							;
+      5  1dec							;    Code related to this Sokoban™ implementation was developed by Andrew Davie.
+      6  1dec							;
+      7  1dec							;    Code related to the generic tile-based display engine was developed by
+      8  1dec							;    Andrew Davie and Thomas Jentzsch during 2003-2011 and is
+      9  1dec							;    Copyright(C)2003-2019 Thomas Jentzsch and Andrew Davie - contacts details:
+     10  1dec							;    Andrew Davie (andrew@taswegian.com), Thomas Jentzsch (tjentzsch@yahoo.de).
+     11  1dec							;
+     12  1dec							;    Code related to music and sound effects uses the TIATracker music player
+     13  1dec							;    Copyright 2016 Andre "Kylearan" Wichmann - see source code in the "sound"
+     14  1dec							;    directory for Apache licensing details.
+     15  1dec							;
+     16  1dec							;    Some level data incorporated in this program were created by Lee J Haywood.
+     17  1dec							;    See the copyright notices in the License directory for a list of level
+     18  1dec							;    contributors.
+     19  1dec							;
+     20  1dec							;    Except where otherwise indicated, this software is released under the
+     21  1dec							;    following licensing arrangement...
+     22  1dec							;
+     23  1dec							;    This program is free software: you can redistribute it and/or modify
+     24  1dec							;    it under the terms of the GNU General Public License as published by
+     25  1dec							;    the Free Software Foundation, either version 3 of the License, or
+     26  1dec							;    (at your option) any later version.
+     27  1dec							;    see https://www.gnu.org/licenses/gpl-3.0.en.html
+     28  1dec
+     29  1dec							;    This program is distributed in the hope that it will be useful,
+     30  1dec							;    but WITHOUT ANY WARRANTY; without even the implied warranty of
+     31  1dec							;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     32  1dec							;    GNU General Public License for more details.
+     33  1dec
+      0  1dec					      NEWBANK	LEVELS1
       1  27b5 ????				      SEG	LEVELS1
       2  2000					      ORG	ORIGIN
       3  2000					      RORG	$F000
@@ -15786,7 +15730,7 @@
       9  602d				   .skipEOR
      10  602d		       85 c8		      sta	rnd
      36  602f		       29 f0		      and	#$F0
-     37  6031		       85 f2		      sta	adjustColour
+     37  6031		       85 f1		      sta	adjustColour
      38  6033							;		  lda PlatformWallColour,x
       0  6033					      NEXT_RANDOM
       1  6033
@@ -15803,7 +15747,7 @@
      41  6040		       d0 02		      bne	n00
      42  6042		       a9 02		      lda	#2
      43  6044				   n00
-     44  6044		       85 f1		      sta	wallColour
+     44  6044		       85 f0		      sta	wallColour
      45  6046
      46  6046		       85 46		      sta	COLUP0
      47  6048		       85 47		      sta	COLUP1
@@ -15820,7 +15764,7 @@
       2  6053					      SUBROUTINE
       3  6053				   LevelScreen
      57  6053
-     58  6053		       85 ed		      sta	selector
+     58  6053		       85 ec		      sta	selector
      59  6055
      60  6055							;    lda #%10
      61  6055							;    sta VBLANK
@@ -15840,7 +15784,7 @@
      75  6066		       85 e2		      sta	digit
      76  6068		       85 e3		      sta	digit+1
      77  606a		       85 e4		      sta	digit+2
-     78  606c		       85 ee		      sta	walkSpeed
+     78  606c		       85 ed		      sta	walkSpeed
      79  606e
      80  606e							; convert to 3 digits decimal
      81  606e		       20 04 f3 	      jsr	dd3
@@ -15875,7 +15819,7 @@
      20  6094		       ca		      dex
      21  6095		       d0 e3		      bne	.loopResync
      86  6097
-     87  6097		       a5 ed		      lda	selector
+     87  6097		       a5 ec		      lda	selector
      88  6099		       f0 0c		      beq	RestartFrameX
      89  609b
      90  609b		       a5 e6		      lda	targetDigit
@@ -15919,9 +15863,9 @@
     128  60d0		       0a		      asl
     129  60d1		       aa		      tax
     130  60d2		       bd ee f3 	      lda	DIGITHUND,x
-    131  60d5		       85 eb		      sta	digitHundreds
+    131  60d5		       85 ea		      sta	digitHundreds
     132  60d7		       bd ef f3 	      lda	DIGITHUND+1,x
-    133  60da		       85 ec		      sta	digitHundreds+1
+    133  60da		       85 eb		      sta	digitHundreds+1
     134  60dc
     135  60dc		       a5 e3		      lda	digit+1	; tens
     136  60de		       0a		      asl
@@ -16066,7 +16010,7 @@
     193  6134		       98		      tya
     194  6135		       0a		      asl
     195  6136		       29 06		      and	#%110
-    196  6138		       05 f1		      ora	wallColour
+    196  6138		       05 f0		      ora	wallColour
     197  613a		       85 48		      sta	COLUPF
     198  613c		       b9 02 f4 	      lda	lid0,y	;#%11100000
     199  613f		       85 4d		      sta	PF0
@@ -16172,7 +16116,7 @@
     274  6188
     275  6188					      IF	.LOOP < DUPES-1
     276  6188		       b9 47 f3 	      lda	colbk,y	; 4
-    277  618b		       65 f2		      adc	adjustColour	; 3
+    277  618b		       65 f1		      adc	adjustColour	; 3
     278  618d		       85 48		      sta	COLUPF	; 3 = 10 @13
     279  618f				  -	      ELSE
     280  618f				  -	      lda	#0	;wallColour	      ; 3
@@ -16180,7 +16124,7 @@
     282  618f				  -	      SLEEP	5	; 4 = 10 @13
     283  618f				  -
     284  618f					      ENDIF
-    285  618f		       b1 eb		      lda	(digitHundreds),y	; 5
+    285  618f		       b1 ea		      lda	(digitHundreds),y	; 5
     286  6191		       85 4e		      sta	PF1	; 3 = 8 @21
     287  6193
     288  6193		       b1 dc		      lda	(digit1),y	; 5
@@ -16200,7 +16144,7 @@
     302  61a1		       b1 e0		      lda	(digitstar),y	; 5
     303  61a3		       85 4f		      sta	PF2	; 3 = 8 @56
     304  61a5
-    305  61a5		       b1 ef		      lda	(manc),y	; 5
+    305  61a5		       b1 ee		      lda	(manc),y	; 5
     306  61a7		       85 48		      sta	COLUPF	; 3 = 8 @64
     307  61a9
     308  61a9		       00 0c	   SPARE      =	12
@@ -16250,7 +16194,7 @@
     274  61b1
     275  61b1					      IF	.LOOP < DUPES-1
     276  61b1		       b9 47 f3 	      lda	colbk,y	; 4
-    277  61b4		       65 f2		      adc	adjustColour	; 3
+    277  61b4		       65 f1		      adc	adjustColour	; 3
     278  61b6		       85 48		      sta	COLUPF	; 3 = 10 @13
     279  61b8				  -	      ELSE
     280  61b8				  -	      lda	#0	;wallColour	      ; 3
@@ -16258,7 +16202,7 @@
     282  61b8				  -	      SLEEP	5	; 4 = 10 @13
     283  61b8				  -
     284  61b8					      ENDIF
-    285  61b8		       b1 eb		      lda	(digitHundreds),y	; 5
+    285  61b8		       b1 ea		      lda	(digitHundreds),y	; 5
     286  61ba		       85 4e		      sta	PF1	; 3 = 8 @21
     287  61bc
     288  61bc		       b1 dc		      lda	(digit1),y	; 5
@@ -16278,7 +16222,7 @@
     302  61ca		       b1 e0		      lda	(digitstar),y	; 5
     303  61cc		       85 4f		      sta	PF2	; 3 = 8 @56
     304  61ce
-    305  61ce		       b1 ef		      lda	(manc),y	; 5
+    305  61ce		       b1 ee		      lda	(manc),y	; 5
     306  61d0		       85 48		      sta	COLUPF	; 3 = 8 @64
     307  61d2
     308  61d2		       00 0c	   SPARE      =	12
@@ -16328,7 +16272,7 @@
     274  61da
     275  61da					      IF	.LOOP < DUPES-1
     276  61da		       b9 47 f3 	      lda	colbk,y	; 4
-    277  61dd		       65 f2		      adc	adjustColour	; 3
+    277  61dd		       65 f1		      adc	adjustColour	; 3
     278  61df		       85 48		      sta	COLUPF	; 3 = 10 @13
     279  61e1				  -	      ELSE
     280  61e1				  -	      lda	#0	;wallColour	      ; 3
@@ -16336,7 +16280,7 @@
     282  61e1				  -	      SLEEP	5	; 4 = 10 @13
     283  61e1				  -
     284  61e1					      ENDIF
-    285  61e1		       b1 eb		      lda	(digitHundreds),y	; 5
+    285  61e1		       b1 ea		      lda	(digitHundreds),y	; 5
     286  61e3		       85 4e		      sta	PF1	; 3 = 8 @21
     287  61e5
     288  61e5		       b1 dc		      lda	(digit1),y	; 5
@@ -16356,7 +16300,7 @@
     302  61f3		       b1 e0		      lda	(digitstar),y	; 5
     303  61f5		       85 4f		      sta	PF2	; 3 = 8 @56
     304  61f7
-    305  61f7		       b1 ef		      lda	(manc),y	; 5
+    305  61f7		       b1 ee		      lda	(manc),y	; 5
     306  61f9		       85 48		      sta	COLUPF	; 3 = 8 @64
     307  61fb
     308  61fb		       00 0c	   SPARE      =	12
@@ -16433,7 +16377,7 @@
      19  620a					      REPEND
     283  620a
     284  620a					      ENDIF
-    285  620a		       b1 eb		      lda	(digitHundreds),y	; 5
+    285  620a		       b1 ea		      lda	(digitHundreds),y	; 5
     286  620c		       85 4e		      sta	PF1	; 3 = 8 @21
     287  620e
     288  620e		       b1 dc		      lda	(digit1),y	; 5
@@ -16453,7 +16397,7 @@
     302  621c		       b1 e0		      lda	(digitstar),y	; 5
     303  621e		       85 4f		      sta	PF2	; 3 = 8 @56
     304  6220
-    305  6220		       b1 ef		      lda	(manc),y	; 5
+    305  6220		       b1 ee		      lda	(manc),y	; 5
     306  6222		       85 48		      sta	COLUPF	; 3 = 8 @64
     307  6224
     308  6224		       00 0c	   SPARE      =	12
@@ -16505,7 +16449,7 @@
     335  6231		       85 4e		      sta	PF1
     336  6233		       85 4f		      sta	PF2
     337  6235
-    338  6235		       a5 f1		      lda	wallColour
+    338  6235		       a5 f0		      lda	wallColour
     339  6237		       85 48		      sta	COLUPF
     340  6239
     341  6239		       a0 08		      ldy	#8
@@ -16601,7 +16545,7 @@
     406  629b		       ca	   scanOK     dex
     407  629c		       10 e9		      bpl	scanner
     408  629e
-    409  629e		       a5 ed		      lda	selector
+    409  629e		       a5 ec		      lda	selector
     410  62a0		       f0 38		      beq	donedig	; don't allow joystick selection
     411  62a2
     412  62a2		       a9 ff		      lda	#-1
@@ -16668,7 +16612,7 @@
     463  62f2		       85 40		      sta	VSYNC
     464  62f4
     465  62f4
-    466  62f4		       a5 ed		      lda	selector
+    466  62f4		       a5 ec		      lda	selector
     467  62f6		       d0 04		      bne	waitbutton
     468  62f8		       c6 e9		      dec	endwait
     469  62fa		       f0 07		      beq	retX
@@ -16715,13 +16659,13 @@
       3  631d				   fixWalkFrame
     508  631d
     509  631d
-    510  631d		       a5 ed		      lda	selector
+    510  631d		       a5 ec		      lda	selector
     511  631f		       f0 10		      beq	walk0
     512  6321
     513  6321		       18		      clc
-    514  6322		       a5 ee		      lda	walkSpeed
+    514  6322		       a5 ed		      lda	walkSpeed
     515  6324		       69 04		      adc	#4
-    516  6326		       85 ee		      sta	walkSpeed
+    516  6326		       85 ed		      sta	walkSpeed
     517  6328
     518  6328		       4a		      lsr
     519  6329		       4a		      lsr
@@ -16737,9 +16681,9 @@
     529  633c
     530  633c
     531  633c		       b9 73 f3 	      lda	walkColour,y
-    532  633f		       85 ef		      sta	manc
+    532  633f		       85 ee		      sta	manc
     533  6341		       b9 74 f3 	      lda	walkColour+1,y
-    534  6344		       85 f0		      sta	manc+1
+    534  6344		       85 ef		      sta	manc+1
     535  6346		       60		      rts
     536  6347
     537  6347
@@ -21841,7 +21785,7 @@
     896  6b3c		       a6 80		      ldx	Platform
     897  6b3e		       bd 5c f3 	      lda	FlashColour,x	;+4,x
     898  6b41		       85 b1		      sta	BGColour	;ColourFlash		      ; green
-    899  6b43		       a9 06		      lda	#6
+    899  6b43		       a9 08		      lda	#8
     900  6b45		       85 c1		      sta	ColourTimer
     901  6b47
     902  6b47
@@ -23024,7 +22968,7 @@
       3  78a9				   PROCESS_MAN
     259  78a9
     260  78a9		       ad 84 02 	      lda	INTIM	; 3
-    261  78ac		       c9 12		      cmp	#SEGTIME_MAN	; 2
+    261  78ac		       c9 16		      cmp	#SEGTIME_MAN	; 2
     262  78ae		       90 f8		      bcc	EarlyAbort4	; 2/3 = 7 + 6rts = 13✅ on abort
     263  78b0
     264  78b0		       a9 0d		      lda	#BANK_ManProcess
@@ -23050,7 +22994,7 @@
     284  78ce
     285  78ce		       a9 03		      lda	#BANK_TrackPlayer	;
     286  78d0		       85 3f		      sta	SET_BANK	;
-    287  78d2		       20 d2 f4 	      jsr	TrackPlayer	;11+145
+    287  78d2		       20 94 f4 	      jsr	TrackPlayer	;11+145
     288  78d5
     289  78d5		       a9 00		      lda	#TYPE_MAN	; 2
     290  78d7		       85 8b		      sta	POS_Type	; 3
@@ -23367,7 +23311,7 @@
     566  79f1		       a6 80	   noMovesToTake ldx	Platform
     567  79f3		       bd fd f9 	      lda	redColour,x
     568  79f6		       85 b1		      sta	BGColour
-    569  79f8		       a9 06		      lda	#6
+    569  79f8		       a9 08		      lda	#8
     570  79fa		       85 c1		      sta	ColourTimer
     571  79fc		       60		      rts
     572  79fd
@@ -23584,12 +23528,12 @@
     768  7ab1		       85 3f		      sta	SET_BANK	; 3 = 5
     769  7ab3
     770  7ab3		       a6 86		      ldx	ScreenDrawPhase	; 3		 current phase of drawing
-    771  7ab5		       bd 0d f5 	      lda	TS_PhaseVectorLO,x	; 4
+    771  7ab5		       bd cf f4 	      lda	TS_PhaseVectorLO,x	; 4
     772  7ab8		       85 da		      sta	TS_Vector	; 3
-    773  7aba		       bd 12 f5 	      lda	TS_PhaseVectorHI,x	; 4
+    773  7aba		       bd d4 f4 	      lda	TS_PhaseVectorHI,x	; 4
     774  7abd		       85 db		      sta	TS_Vector+1	; 3 = 17
     775  7abf
-    776  7abf		       bd 17 f5 	      lda	TS_PhaseBank,x	; 4
+    776  7abf		       bd d9 f4 	      lda	TS_PhaseBank,x	; 4
     777  7ac2		       85 3f		      sta	SET_BANK	; 3 = 7	 switch bank
     778  7ac4
     779  7ac4		       6c da 00 	      jmp	(TS_Vector)	; 5 = 31✅	  vector to timeslice handler
@@ -23885,7 +23829,7 @@
    1041  7bd3							; temporary vars from title screen are used to init level
    1042  7bd3		       a9 03		      lda	#BANK_Cart_Init	; 2
    1043  7bd5		       85 3f		      sta	SET_BANK	; 3
-   1044  7bd7		       20 ef f3 	      jsr	Cart_Init	; 6+x
+   1044  7bd7		       20 b1 f3 	      jsr	Cart_Init	; 6+x
    1045  7bda
    1046  7bda
    1047  7bda							;---------------------------------------------------------------------------
@@ -23977,7 +23921,7 @@
    1079  7c06
    1080  7c06		       a9 03		      lda	#BANK_SwapPlayersGeneric
    1081  7c08		       85 3f		      sta	SET_BANK
-   1082  7c0a		       20 36 f4 	      jsr	SwapPlayersGeneric
+   1082  7c0a		       20 f8 f3 	      jsr	SwapPlayersGeneric
    1083  7c0d
    1084  7c0d
    1085  7c0d		       a2 0c		      ldx	#BANK_LevelScreen
@@ -24003,7 +23947,7 @@
    1102  7c1e							; levels.
    1103  7c1e		       a9 03		      lda	#BANK_LevelInit	; 2
    1104  7c20		       85 3f		      sta	SET_BANK	; 3
-   1105  7c22		       20 7e f4 	      jsr	LevelInit	; 6+x
+   1105  7c22		       20 40 f4 	      jsr	LevelInit	; 6+x
    1106  7c25
    1107  7c25
    1108  7c25							; Setup the various digit and display pointers
@@ -24041,7 +23985,7 @@
    1140  7c4f
    1141  7c4f		       a9 03		      lda	#BANK_CreateCreatures	; 2
    1142  7c51		       85 3f		      sta	SET_BANK	; 3
-   1143  7c53		       20 3f f4 	      jsr	CreateCreatures	; 6+x
+   1143  7c53		       20 01 f4 	      jsr	CreateCreatures	; 6+x
    1144  7c56
    1145  7c56							;---------------------------------------------------------------------------
    1146  7c56
@@ -24052,7 +23996,7 @@
    1151  7c5a
    1152  7c5a		       a9 03		      lda	#BANK_Resync	; 2
    1153  7c5c		       85 3f		      sta	SET_BANK	; 3
-   1154  7c5e		       20 ae f4 	      jsr	Resync	; 6+x
+   1154  7c5e		       20 70 f4 	      jsr	Resync	; 6+x
    1155  7c61
    1156  7c61				   NewFrameStart
    1157  7c61
@@ -24098,7 +24042,7 @@
    1197  7c92							;	 @66
    1198  7c92		       a9 03		      lda	#BANK_PostScreenCleanup	; 2
    1199  7c94		       85 3f		      sta	SET_BANK	; 3
-   1200  7c96		       20 24 f5 	      jsr	PostScreenCleanup	; 6+x
+   1200  7c96		       20 e6 f4 	      jsr	PostScreenCleanup	; 6+x
    1201  7c99
    1202  7c99		       a9 00		      lda	#BANK_SelfModDrawPlayers	; 2
    1203  7c9b		       85 3f		      sta	SET_BANK	; 3
@@ -24123,150 +24067,151 @@
    1222  7cb9
    1223  7cb9		       a5 cc		      lda	FadeComplete
    1224  7cbb		       f0 0b		      beq	FadeNotRequired
-   1225  7cbd		       c6 ce		      dec	fadeslow
-   1226  7cbf		       10 07		      bpl	FadeNotRequired
-   1227  7cc1		       a9 02		      lda	#2
-   1228  7cc3		       85 ce		      sta	fadeslow
-   1229  7cc5		       20 80 fd 	      jsr	FadeIn
-   1230  7cc8				   FadeNotRequired
-   1231  7cc8
+   1225  7cbd
+   1226  7cbd		       c6 ce		      dec	fadeslow
+   1227  7cbf		       10 07		      bpl	FadeNotRequired
+   1228  7cc1		       a9 02		      lda	#2
+   1229  7cc3		       85 ce		      sta	fadeslow
+   1230  7cc5		       20 6a fd 	      jsr	FadeIn
+   1231  7cc8				   FadeNotRequired
    1232  7cc8
    1233  7cc8
-   1234  7cc8		       20 f2 fa 	      jsr	writePlayerFrame
-   1235  7ccb		       20 a0 fa 	      jsr	StealCharDraw	; 6
-   1236  7cce
-   1237  7cce		       ad 84 02    OverscanBD lda	INTIM	;4
-   1238  7cd1		       d0 fb		      bne	OverscanBD	;2/3
-   1239  7cd3
-   1240  7cd3		       4c 61 fc 	      jmp	NewFrameStart
-   1241  7cd6				   VBlankTime
-   1242  7cd6		       30 30		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
-   1243  7cd8		       55 55		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_PAL
-   1244  7cda
-   1245  7cda							;---------------------------------------------------------------------------
-   1246  7cda
+   1234  7cc8
+   1235  7cc8		       20 f2 fa 	      jsr	writePlayerFrame
+   1236  7ccb		       20 a0 fa 	      jsr	StealCharDraw	; 6
+   1237  7cce
+   1238  7cce		       ad 84 02    OverscanBD lda	INTIM	;4
+   1239  7cd1		       d0 fb		      bne	OverscanBD	;2/3
+   1240  7cd3
+   1241  7cd3		       4c 61 fc 	      jmp	NewFrameStart
+   1242  7cd6				   VBlankTime
+   1243  7cd6		       30 30		      .byte.b	VBLANK_TIM_NTSC, VBLANK_TIM_NTSC
+   1244  7cd8		       55 55		      .byte.b	VBLANK_TIM_PAL, VBLANK_TIM_PAL
+   1245  7cda
+   1246  7cda							;---------------------------------------------------------------------------
+   1247  7cda
       0  7cda					      DEFINE_SUBROUTINE	nextLevelMan
       1  7cda		       00 0f	   BANK_nextLevelMan =	_CURRENT_BANK
       2  7cda					      SUBROUTINE
       3  7cda				   nextLevelMan
-   1248  7cda
-   1249  7cda		       a9 0d		      lda	#BANK_EndOfLevel
-   1250  7cdc		       85 3f		      sta	SET_BANK
-   1251  7cde		       4c 38 f3 	      jmp	EndOfLevel
-   1252  7ce1
+   1249  7cda
+   1250  7cda		       a9 0d		      lda	#BANK_EndOfLevel
+   1251  7cdc		       85 3f		      sta	SET_BANK
+   1252  7cde		       4c 38 f3 	      jmp	EndOfLevel
    1253  7ce1
+   1254  7ce1
       0  7ce1					      DEFINE_SUBROUTINE	switchLevels2
       1  7ce1		       00 0f	   BANK_switchLevels2 =	_CURRENT_BANK
       2  7ce1					      SUBROUTINE
       3  7ce1				   switchLevels2
-   1255  7ce1
-   1256  7ce1							; SELECT used, so we want to get back to selection
-   1257  7ce1
-   1258  7ce1		       a5 c2		      lda	NextLevelTrigger
-   1259  7ce3		       09 40		      ora	#$40	; #<(~BIT_NEXTLEVEL)
-   1260  7ce5		       85 c2		      sta	NextLevelTrigger
-   1261  7ce7		       60		      rts
-   1262  7ce8
+   1256  7ce1
+   1257  7ce1							; SELECT used, so we want to get back to selection
+   1258  7ce1
+   1259  7ce1		       a5 c2		      lda	NextLevelTrigger
+   1260  7ce3		       09 40		      ora	#$40	; #<(~BIT_NEXTLEVEL)
+   1261  7ce5		       85 c2		      sta	NextLevelTrigger
+   1262  7ce7		       60		      rts
+   1263  7ce8
       0  7ce8					      DEFINE_SUBROUTINE	nextLevelMan2
       1  7ce8		       00 0f	   BANK_nextLevelMan2 =	_CURRENT_BANK
       2  7ce8					      SUBROUTINE
       3  7ce8				   nextLevelMan2
-   1264  7ce8
-   1265  7ce8		       c6 a9		      dec	DelayEndOfLevel
-   1266  7cea		       d0 3b		      bne	genericRTS
-   1267  7cec
-   1268  7cec		       a9 00		      lda	#0
-   1269  7cee		       85 cd		      sta	FadeOutComplete	; start fading OUT
-   1270  7cf0		       a9 00		      lda	#0
-   1271  7cf2		       85 cc		      sta	FadeComplete	; stop fade IN
-   1272  7cf4
-   1273  7cf4		       a9 05		      lda	#5
-   1274  7cf6		       85 a9		      sta	DelayEndOfLevel
-   1275  7cf8
-   1276  7cf8		       a9 0d		      lda	#MANMODE_NEXTLEVEL3
-   1277  7cfa		       85 a1		      sta	ManMode
-   1278  7cfc							;		  jmp nextLevelMan3
-   1279  7cfc							;		  rts
-   1280  7cfc
+   1265  7ce8
+   1266  7ce8		       c6 a9		      dec	DelayEndOfLevel
+   1267  7cea		       d0 3b		      bne	genericRTS
+   1268  7cec
+   1269  7cec		       a9 00		      lda	#0
+   1270  7cee		       85 cd		      sta	FadeOutComplete	; start fading OUT
+   1271  7cf0		       a9 00		      lda	#0
+   1272  7cf2		       85 cc		      sta	FadeComplete	; stop fade IN
+   1273  7cf4
+   1274  7cf4		       a9 05		      lda	#5
+   1275  7cf6		       85 a9		      sta	DelayEndOfLevel
+   1276  7cf8
+   1277  7cf8		       a9 0d		      lda	#MANMODE_NEXTLEVEL3
+   1278  7cfa		       85 a1		      sta	ManMode
+   1279  7cfc							;		  jmp nextLevelMan3
+   1280  7cfc							;		  rts
    1281  7cfc
+   1282  7cfc
       0  7cfc					      DEFINE_SUBROUTINE	nextLevelMan3
       1  7cfc		       00 0f	   BANK_nextLevelMan3 =	_CURRENT_BANK
       2  7cfc					      SUBROUTINE
       3  7cfc				   nextLevelMan3
-   1283  7cfc
-   1284  7cfc		       c6 a9		      dec	DelayEndOfLevel
-   1285  7cfe		       d0 27		      bne	genericRTS
-   1286  7d00
-   1287  7d00		       a9 09		      lda	#MANMODE_SWITCH
-   1288  7d02		       85 a1		      sta	ManMode
-   1289  7d04
+   1284  7cfc
+   1285  7cfc		       c6 a9		      dec	DelayEndOfLevel
+   1286  7cfe		       d0 27		      bne	genericRTS
+   1287  7d00
+   1288  7d00		       a9 09		      lda	#MANMODE_SWITCH
+   1289  7d02		       85 a1		      sta	ManMode
+   1290  7d04
       0  7d04					      DEFINE_SUBROUTINE	switchLevels
       1  7d04		       00 0f	   BANK_switchLevels =	_CURRENT_BANK
       2  7d04					      SUBROUTINE
       3  7d04				   switchLevels
-   1291  7d04
-   1292  7d04							; Now do the actual switching
-   1293  7d04
-   1294  7d04							;		 lda NextLevelTrigger
-   1295  7d04							;		 and #<(~BIT_NEXTLEVEL)
-   1296  7d04		       a9 00		      lda	#$00
-   1297  7d06		       85 c2		      sta	NextLevelTrigger
-   1298  7d08
-   1299  7d08							; Next level is due. Point to the next level, but if we're at the end of playable levels,
-   1300  7d08							; then increment the level number. This is completely circular, so we eventually wrap
-   1301  7d08							; the level back to 0 and start afresh.
-   1302  7d08
-   1303  7d08		       e6 b2		      inc	levelX
-   1304  7d0a		       a5 b2		      lda	levelX
-   1305  7d0c		       c9 8a		      cmp	#MAX_LEVEL_NUMBER
-   1306  7d0e		       90 02		      bcc	.level_ok
-   1307  7d10		       a9 00		      lda	#0
-   1308  7d12		       85 b2	   .level_ok  sta	levelX
-   1309  7d14		       60		      rts
-   1310  7d15
-   1311  7d15							;---------------------------------------------------------------------------
-   1312  7d15
+   1292  7d04
+   1293  7d04							; Now do the actual switching
+   1294  7d04
+   1295  7d04							;		 lda NextLevelTrigger
+   1296  7d04							;		 and #<(~BIT_NEXTLEVEL)
+   1297  7d04		       a9 00		      lda	#$00
+   1298  7d06		       85 c2		      sta	NextLevelTrigger
+   1299  7d08
+   1300  7d08							; Next level is due. Point to the next level, but if we're at the end of playable levels,
+   1301  7d08							; then increment the level number. This is completely circular, so we eventually wrap
+   1302  7d08							; the level back to 0 and start afresh.
+   1303  7d08
+   1304  7d08		       e6 b2		      inc	levelX
+   1305  7d0a		       a5 b2		      lda	levelX
+   1306  7d0c		       c9 8a		      cmp	#MAX_LEVEL_NUMBER
+   1307  7d0e		       90 02		      bcc	.level_ok
+   1308  7d10		       a9 00		      lda	#0
+   1309  7d12		       85 b2	   .level_ok  sta	levelX
+   1310  7d14		       60		      rts
+   1311  7d15
+   1312  7d15							;---------------------------------------------------------------------------
    1313  7d15
+   1314  7d15
       0  7d15					      DEFINE_SUBROUTINE	CopyROM2RAM_F000
       1  7d15		       00 0f	   BANK_CopyROM2RAM_F000 =	_CURRENT_BANK
       2  7d15					      SUBROUTINE
       3  7d15				   CopyROM2RAM_F000
-   1315  7d15
-   1316  7d15		       a9 0d		      lda	#BANK_CopyROMShadowToRAM
-   1317  7d17		       85 3f		      sta	SET_BANK
-   1318  7d19		       85 bf		      sta	ROM_Bank
-   1319  7d1b		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
-   1320  7d1e
+   1316  7d15
+   1317  7d15		       a9 0d		      lda	#BANK_CopyROMShadowToRAM
+   1318  7d17		       85 3f		      sta	SET_BANK
+   1319  7d19		       85 bf		      sta	ROM_Bank
+   1320  7d1b		       4c 43 f0 	      jmp	CopyROMShadowToRAM_F000
    1321  7d1e
-   1322  7d1e							;---------------------------------------------------------------------------
-   1323  7d1e
+   1322  7d1e
+   1323  7d1e							;---------------------------------------------------------------------------
+   1324  7d1e
       0  7d1e					      DEFINE_SUBROUTINE	RegisterTarget
       1  7d1e		       00 0f	   BANK_RegisterTarget =	_CURRENT_BANK
       2  7d1e					      SUBROUTINE
       3  7d1e				   RegisterTarget
-   1325  7d1e
-   1326  7d1e		       f8		      sed
-   1327  7d1f		       18		      clc
-   1328  7d20		       a5 b5		      lda	BCD_targetsRequired
-   1329  7d22		       69 01		      adc	#1
-   1330  7d24		       85 b5		      sta	BCD_targetsRequired
-   1331  7d26		       d8		      cld
-   1332  7d27		       60	   genericRTS rts
-   1333  7d28
+   1326  7d1e
+   1327  7d1e		       f8		      sed
+   1328  7d1f		       18		      clc
+   1329  7d20		       a5 b5		      lda	BCD_targetsRequired
+   1330  7d22		       69 01		      adc	#1
+   1331  7d24		       85 b5		      sta	BCD_targetsRequired
+   1332  7d26		       d8		      cld
+   1333  7d27		       60	   genericRTS rts
+   1334  7d28
       0  7d28					      DEFINE_SUBROUTINE	DeRegisterTarget
       1  7d28		       00 0f	   BANK_DeRegisterTarget =	_CURRENT_BANK
       2  7d28					      SUBROUTINE
       3  7d28				   DeRegisterTarget
-   1335  7d28
-   1336  7d28		       f8		      sed
-   1337  7d29		       38		      sec
-   1338  7d2a		       a5 b5		      lda	BCD_targetsRequired
-   1339  7d2c		       e9 01		      sbc	#1
-   1340  7d2e		       85 b5		      sta	BCD_targetsRequired
-   1341  7d30		       d8		      cld
-   1342  7d31		       60		      rts
-   1343  7d32
+   1336  7d28
+   1337  7d28		       f8		      sed
+   1338  7d29		       38		      sec
+   1339  7d2a		       a5 b5		      lda	BCD_targetsRequired
+   1340  7d2c		       e9 01		      sbc	#1
+   1341  7d2e		       85 b5		      sta	BCD_targetsRequired
+   1342  7d30		       d8		      cld
+   1343  7d31		       60		      rts
    1344  7d32
+   1345  7d32
       0  7d32					      DEFINE_SUBROUTINE	Random
       1  7d32		       00 0f	   BANK_Random =	_CURRENT_BANK
       2  7d32					      SUBROUTINE
@@ -24282,125 +24227,143 @@
       8  7d39		       49 b4		      eor	#RND_EOR_VAL
       9  7d3b				   .skipEOR
      10  7d3b		       85 c8		      sta	rnd
-   1347  7d3d		       60		      rts
-   1348  7d3e
+   1348  7d3d		       60		      rts
    1349  7d3e
+   1350  7d3e
       0  7d3e					      DEFINE_SUBROUTINE	FadeOut
       1  7d3e		       00 0f	   BANK_FadeOut =	_CURRENT_BANK
       2  7d3e					      SUBROUTINE
       3  7d3e				   FadeOut
-   1351  7d3e
-   1352  7d3e		       a9 00		      lda	#0
-   1353  7d40		       85 cd		      sta	FadeOutComplete
-   1354  7d42
-   1355  7d42		       a0 07		      ldy	#SCREEN_LINES-1
-   1356  7d44		       84 3e	   ZeroColours sty	SET_BANK_RAM
-   1357  7d46
-   1358  7d46		       ad 1d f0 	      lda	Colour_A_Actual
-   1359  7d49		       29 0f		      and	#$F
-   1360  7d4b		       f0 06		      beq	AisZero
-   1361  7d4d		       ad 1d f0 	      lda	Colour_A_Actual
-   1362  7d50		       38		      sec
-   1363  7d51		       e9 01		      sbc	#1
-   1364  7d53		       8d 1d f4    AisZero    sta	Colour_A_Actual+RAM_WRITE
-   1365  7d56		       e6 cd		      inc	FadeOutComplete	; NOT complete
-   1366  7d58
-   1367  7d58		       ad 86 f0 	      lda	Colour_B_Actual
-   1368  7d5b		       29 0f		      and	#$F
-   1369  7d5d		       f0 06		      beq	BisZero
-   1370  7d5f		       ad 86 f0 	      lda	Colour_B_Actual
-   1371  7d62		       38		      sec
-   1372  7d63		       e9 01		      sbc	#1
-   1373  7d65		       8d 86 f4    BisZero    sta	Colour_B_Actual+RAM_WRITE
-   1374  7d68		       e6 cd		      inc	FadeOutComplete	; NOT complete
-   1375  7d6a
-   1376  7d6a		       ad 53 f0 	      lda	Colour_C_Actual
-   1377  7d6d		       29 0f		      and	#$F
-   1378  7d6f		       f0 06		      beq	CisZero
-   1379  7d71		       ad 53 f0 	      lda	Colour_C_Actual
-   1380  7d74		       38		      sec
-   1381  7d75		       e9 01		      sbc	#1
-   1382  7d77		       8d 53 f4    CisZero    sta	Colour_C_Actual+RAM_WRITE
-   1383  7d7a		       e6 cd		      inc	FadeOutComplete	; NOT complete
-   1384  7d7c
-   1385  7d7c		       88		      dey
-   1386  7d7d		       10 c5		      bpl	ZeroColours
-   1387  7d7f		       60		      rts
-   1388  7d80
-   1389  7d80
-      0  7d80					      DEFINE_SUBROUTINE	FadeIn
-      1  7d80		       00 0f	   BANK_FadeIn =	_CURRENT_BANK
-      2  7d80					      SUBROUTINE
-      3  7d80				   FadeIn
-   1391  7d80
-   1392  7d80		       a9 00		      lda	#0
-   1393  7d82		       85 cc		      sta	FadeComplete
-   1394  7d84
-   1395  7d84		       a2 07		      ldx	#SCREEN_LINES-1
-   1396  7d86		       86 3e	   CopyAcols  stx	SET_BANK_RAM
-   1397  7d88
-   1398  7d88		       ad 1d f0 	      lda	Colour_A_Actual
-   1399  7d8b		       d0 09		      bne	notFirstA
-   1400  7d8d		       ad 6d f3 	      lda	Colour_A
-   1401  7d90		       29 f0		      and	#$F0
-   1402  7d92		       09 01		      ora	#1
-   1403  7d94		       d0 07		      bne	FirstA
-   1404  7d96		       cd 6d f3    notFirstA  cmp	Colour_A
-   1405  7d99		       f0 07		      beq	AOK
-   1406  7d9b		       69 01		      adc	#1
-   1407  7d9d		       8d 1d f4    FirstA     sta	Colour_A_Actual+RAM_WRITE
-   1408  7da0		       e6 cc		      inc	FadeComplete	; NOT complete
-   1409  7da2				   AOK
-   1410  7da2		       ad 86 f0 	      lda	Colour_B_Actual
-   1411  7da5		       d0 09		      bne	notFirstB
-   1412  7da7		       ad 6e f3 	      lda	Colour_B
-   1413  7daa		       29 f0		      and	#$F0
-   1414  7dac		       09 01		      ora	#1
-   1415  7dae		       d0 07		      bne	FirstB
-   1416  7db0		       cd 6e f3    notFirstB  cmp	Colour_B
-   1417  7db3		       f0 07		      beq	BOK
-   1418  7db5		       69 01		      adc	#1
-   1419  7db7				   FirstB
-   1420  7db7		       8d 86 f4 	      sta	Colour_B_Actual+RAM_WRITE
-   1421  7dba		       e6 cc		      inc	FadeComplete	; NOT complete
-   1422  7dbc				   BOK
-   1423  7dbc		       ad 53 f0 	      lda	Colour_C_Actual
-   1424  7dbf		       d0 09		      bne	notFirstC
-   1425  7dc1		       ad 6f f3 	      lda	Colour_C
-   1426  7dc4		       29 f0		      and	#$F0
-   1427  7dc6		       09 01		      ora	#1
-   1428  7dc8		       d0 07		      bne	FirstC
-   1429  7dca		       cd 6f f3    notFirstC  cmp	Colour_C
-   1430  7dcd		       f0 07		      beq	COK
-   1431  7dcf		       69 01		      adc	#1
-   1432  7dd1		       8d 53 f4    FirstC     sta	Colour_C_Actual+RAM_WRITE
-   1433  7dd4		       e6 cc		      inc	FadeComplete	; NOT complete
-   1434  7dd6				   COK
-   1435  7dd6
-   1436  7dd6							;lda FadeComplete
-   1437  7dd6							;cmp #3
-   1438  7dd6							;bcs exitfade
-   1439  7dd6							;bne exitfade
-   1440  7dd6
-   1441  7dd6		       ca		      dex
-   1442  7dd7		       10 ad		      bpl	CopyAcols
-   1443  7dd9				   exitfade
-   1444  7dd9		       60		      rts
-   1445  7dda
-   1446  7dda							;---------------------------------------------------------------------------
-   1447  7dda
+   1352  7d3e
+   1353  7d3e							;		  lda #0
+   1354  7d3e							;		  sta FadeOutComplete
+   1355  7d3e
+   1356  7d3e		       a0 07		      ldy	#SCREEN_LINES-1
+   1357  7d40		       84 3e	   ZeroColours sty	SET_BANK_RAM
+   1358  7d42
+   1359  7d42		       af 1d f0 	      lax	Colour_A_Actual
+   1360  7d45		       29 0f		      and	#$F
+   1361  7d47		       f0 02		      beq	AisZero
+   1362  7d49		       ca		      dex
+   1363  7d4a		       8a		      txa
+   1364  7d4b		       8d 1d f4    AisZero    sta	Colour_A_Actual+RAM_WRITE
+   1365  7d4e							;		  inc FadeOutComplete			 ; NOT complete
+   1366  7d4e
+   1367  7d4e		       af 86 f0 	      lax	Colour_B_Actual
+   1368  7d51		       29 0f		      and	#$F
+   1369  7d53		       f0 02		      beq	BisZero
+   1370  7d55		       ca		      dex
+   1371  7d56		       8a		      txa
+   1372  7d57		       8d 86 f4    BisZero    sta	Colour_B_Actual+RAM_WRITE
+   1373  7d5a							;		  inc FadeOutComplete			 ; NOT complete
+   1374  7d5a
+   1375  7d5a		       af 53 f0 	      lax	Colour_C_Actual
+   1376  7d5d		       29 0f		      and	#$F
+   1377  7d5f		       f0 02		      beq	CisZero
+   1378  7d61		       ca		      dex
+   1379  7d62		       8a		      txa
+   1380  7d63		       8d 53 f4    CisZero    sta	Colour_C_Actual+RAM_WRITE
+   1381  7d66							;		  inc FadeOutComplete			 ; NOT complete
+   1382  7d66
+   1383  7d66		       88		      dey
+   1384  7d67		       10 d7		      bpl	ZeroColours
+   1385  7d69		       60		      rts
+   1386  7d6a
+   1387  7d6a
+   1388  7d6a
+   1389  7d6a
+      0  7d6a					      DEFINE_SUBROUTINE	FadeIn
+      1  7d6a		       00 0f	   BANK_FadeIn =	_CURRENT_BANK
+      2  7d6a					      SUBROUTINE
+      3  7d6a				   FadeIn
+   1391  7d6a
+   1392  7d6a		       a9 00		      lda	#0
+   1393  7d6c		       85 cc		      sta	FadeComplete
+   1394  7d6e
+   1395  7d6e		       a0 07		      ldy	#SCREEN_LINES-1
+   1396  7d70		       84 3e	   CopyAcols  sty	SET_BANK_RAM
+   1397  7d72
+   1398  7d72		       af 1d f0 	      lax	Colour_A_Actual
+   1399  7d75		       d0 0a		      bne	notFirstA
+   1400  7d77		       ad 6d f3 	      lda	Colour_A
+   1401  7d7a		       29 f0		      and	#$F0
+   1402  7d7c		       aa		      tax
+   1403  7d7d		       e8		      inx
+   1404  7d7e		       4c 87 fd 	      jmp	FirstA
+   1405  7d81		       ec 6d f3    notFirstA  cpx	Colour_A
+   1406  7d84		       f0 06		      beq	AOK
+   1407  7d86		       e8		      inx
+   1408  7d87		       8e 1d f4    FirstA     stx	Colour_A_Actual+RAM_WRITE
+   1409  7d8a		       e6 cc		      inc	FadeComplete	; NOT complete
+   1410  7d8c				   AOK
+   1411  7d8c		       af 86 f0 	      lax	Colour_B_Actual
+   1412  7d8f		       d0 0a		      bne	notFirstB
+   1413  7d91		       ad 6e f3 	      lda	Colour_B
+   1414  7d94		       29 f0		      and	#$F0
+   1415  7d96		       aa		      tax
+   1416  7d97		       e8		      inx
+   1417  7d98		       4c a1 fd 	      jmp	FirstB
+   1418  7d9b		       ec 6e f3    notFirstB  cpx	Colour_B
+   1419  7d9e		       f0 06		      beq	BOK
+   1420  7da0		       e8		      inx
+   1421  7da1		       8e 86 f4    FirstB     stx	Colour_B_Actual+RAM_WRITE
+   1422  7da4		       e6 cc		      inc	FadeComplete	; NOT complete
+   1423  7da6				   BOK
+   1424  7da6		       af 53 f0 	      lax	Colour_C_Actual
+   1425  7da9		       d0 0a		      bne	notFirstC
+   1426  7dab		       ad 6f f3 	      lda	Colour_C
+   1427  7dae		       29 f0		      and	#$F0
+   1428  7db0		       aa		      tax
+   1429  7db1		       e8		      inx
+   1430  7db2		       4c bb fd 	      jmp	FirstC
+   1431  7db5		       ec 6f f3    notFirstC  cpx	Colour_C
+   1432  7db8		       f0 06		      beq	COK
+   1433  7dba		       e8		      inx
+   1434  7dbb		       8e 53 f4    FirstC     stx	Colour_C_Actual+RAM_WRITE
+   1435  7dbe		       e6 cc		      inc	FadeComplete	; NOT complete
+   1436  7dc0				   COK
+   1437  7dc0
+   1438  7dc0		       88		      dey
+   1439  7dc1		       10 ad		      bpl	CopyAcols
+   1440  7dc3		       60		      rts
+   1441  7dc4
+   1442  7dc4
+      0  7dc4					      DEFINE_SUBROUTINE	CopyColoursToScreenLines
+      1  7dc4		       00 0f	   BANK_CopyColoursToScreenLines =	_CURRENT_BANK
+      2  7dc4					      SUBROUTINE
+      3  7dc4				   CopyColoursToScreenLines
+   1444  7dc4
+   1445  7dc4		       a2 07		      ldx	#SCREEN_LINES-1
+   1446  7dc6		       86 3e	   setPlat    stx	SET_BANK_RAM
+   1447  7dc8
+   1448  7dc8		       a5 c9		      lda	icc_colour
+   1449  7dca		       8d 6d f7 	      sta	Colour_A + RAM_WRITE
+   1450  7dcd		       a5 cb		      lda	icc_colour+2	; note : screwy/backward because I goofed.
+   1451  7dcf		       8d 6e f7 	      sta	Colour_B + RAM_WRITE
+   1452  7dd2		       a5 ca		      lda	icc_colour+1
+   1453  7dd4		       8d 6f f7 	      sta	Colour_C + RAM_WRITE
+   1454  7dd7
+   1455  7dd7		       ca		      dex
+   1456  7dd8		       10 ec		      bpl	setPlat
+   1457  7dda
+   1458  7dda		       a5 bf		      lda	ROM_Bank
+   1459  7ddc		       85 3f		      sta	SET_BANK
+   1460  7dde		       60		      rts
+   1461  7ddf
+   1462  7ddf							;---------------------------------------------------------------------------
+   1463  7ddf
 ------- FILE charset/CHARACTERSHAPE_TARGET.asm LEVEL 3 PASS 3
-      0  7dda					      include	"charset/CHARACTERSHAPE_TARGET.asm"
-      0  7dda					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET", LINES_PER_CHAR
-     10  7dda					      LIST	ON
-      2  7dda				   CHARACTERSHAPE_TARGET
-      3  7dda		       00 00 66 66*	      .byte.b	0,0,102,102,102,0,0,0
-      4  7de2		       00 00 66 66*	      .byte.b	0,0,102,102,102,0,0,0
-      5  7dea		       00 00 66 66*	      .byte.b	0,0,102,102,102,0,0,0
-      0  7df2					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET_MIRRORED", LINES_PER_CHAR
+      0  7ddf					      include	"charset/CHARACTERSHAPE_TARGET.asm"
+      0  7ddf					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET", LINES_PER_CHAR
+     10  7ddf					      LIST	ON
+      2  7ddf				   CHARACTERSHAPE_TARGET
+      3  7ddf		       00 00 66 66*	      .byte.b	0,0,102,102,102,0,0,0
+      4  7de7		       00 00 66 66*	      .byte.b	0,0,102,102,102,0,0,0
+      5  7def		       00 00 66 66*	      .byte.b	0,0,102,102,102,0,0,0
+      0  7df7					      OPTIONAL_PAGEBREAK	"CHARACTERSHAPE_TARGET_MIRRORED", LINES_PER_CHAR
  PAGE BREAK INSERTED FOR  CHARACTERSHAPE_TARGET_MIRRORED
  REQUESTED SIZE =  $18
- WASTED SPACE =  $e
+ WASTED SPACE =  $9
  PAGEBREAK LOCATION =  $fe00
      10  7e00					      LIST	ON
       7  7e00				   CHARACTERSHAPE_TARGET_MIRRORED
@@ -24590,37 +24553,37 @@
       9  7fe0		       ee ee ee 00*	      .byte.b	238,238,238,0,187,187,187,0
      10  7fe8		       ff ff ff ff*	      .byte.b	255,255,255,255,255,255,255,255
 ------- FILE BANK_FIXED.asm
-   1459  7ff0
-   1460  7ff0				  -	      if	DIGITS
-   1461  7ff0				  -	      include	"characterset/character_9.asm"
-   1462  7ff0				  -	      include	"characterset/character_8.asm"
-   1463  7ff0				  -	      include	"characterset/character_7.asm"
-   1464  7ff0				  -	      include	"characterset/character_6.asm"
-   1465  7ff0				  -	      include	"characterset/character_5.asm"
-   1466  7ff0				  -	      include	"characterset/character_4.asm"
-   1467  7ff0				  -	      include	"characterset/character_3.asm"
-   1468  7ff0				  -	      include	"characterset/character_2.asm"
-   1469  7ff0				  -	      include	"characterset/character_1.asm"
-   1470  7ff0				  -	      include	"characterset/character_0.asm"
-   1471  7ff0					      endif
-   1472  7ff0
-   1473  7ff0
- FREE BYTES IN FIXED BANK =  $b
-   1474  7ff0					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
    1475  7ff0
-   1476  7ff0							;---------------------------------------------------------------------------
-   1477  7ff0							; The reset vectors
-   1478  7ff0							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
-   1479  7ff0
-   1480  8000 ????				      SEG	InterruptVectors
-   1481  7ffc					      ORG	FIXED_BANK + $7FC
-   1482  7ffc					      RORG	$7ffC
-   1483  7ffc
-   1484  7ffc							;		 .word Reset	       ; NMI	    (not used)
-   1485  7ffc		       be fb		      .word.w	Reset	; RESET
-   1486  7ffe		       be fb		      .word.w	Reset	; IRQ	      (not used)
-   1487  8000
-   1488  8000							;---------------------------------------------------------------------------
+   1476  7ff0				  -	      if	DIGITS
+   1477  7ff0				  -	      include	"characterset/character_9.asm"
+   1478  7ff0				  -	      include	"characterset/character_8.asm"
+   1479  7ff0				  -	      include	"characterset/character_7.asm"
+   1480  7ff0				  -	      include	"characterset/character_6.asm"
+   1481  7ff0				  -	      include	"characterset/character_5.asm"
+   1482  7ff0				  -	      include	"characterset/character_4.asm"
+   1483  7ff0				  -	      include	"characterset/character_3.asm"
+   1484  7ff0				  -	      include	"characterset/character_2.asm"
+   1485  7ff0				  -	      include	"characterset/character_1.asm"
+   1486  7ff0				  -	      include	"characterset/character_0.asm"
+   1487  7ff0					      endif
+   1488  7ff0
+   1489  7ff0
+ FREE BYTES IN FIXED BANK =  $b
+   1490  7ff0					      ECHO	"FREE BYTES IN FIXED BANK = ", $FFFB - *
+   1491  7ff0
+   1492  7ff0							;---------------------------------------------------------------------------
+   1493  7ff0							; The reset vectors
+   1494  7ff0							; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
+   1495  7ff0
+   1496  8000 ????				      SEG	InterruptVectors
+   1497  7ffc					      ORG	FIXED_BANK + $7FC
+   1498  7ffc					      RORG	$7ffC
+   1499  7ffc
+   1500  7ffc							;		 .word Reset	       ; NMI	    (not used)
+   1501  7ffc		       be fb		      .word.w	Reset	; RESET
+   1502  7ffe		       be fb		      .word.w	Reset	; IRQ	      (not used)
+   1503  8000
+   1504  8000							;---------------------------------------------------------------------------
 ------- FILE ./sokoboo.asm
     803  8000
     804  8000							;END

@@ -517,7 +517,6 @@ erased          ldx ManDrawY
 
 NoMod           rts
 
-    CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE (1K)"
 
    ;------------------------------------------------------------------------------
 
@@ -771,9 +770,9 @@ LastYScroll     .byte -1
 BandOffset      .byte 20
 PlatformBase    .byte 0
 
-Colour_A        .byte 0
-Colour_B        .byte 0
-Colour_C        .byte 0
+Colour_A        .byte $48
+Colour_B        .byte $58
+Colour_C        .byte $68
 
 
 
@@ -783,40 +782,41 @@ ColourBandsGreen
 
 ; NTSC...
 
-    ds 2,$16-0
-    ds 2,$28-0
-    ds 3,$36-0
-    ds 2,$48-0
-    ds 2,$58-0
-    ds 3,$68-0
-    ds 2,$7A-0
-    ds 3,$8C-0
-    ds 2,$9A-0
-    ds 2,$AA-0
-    ds 2,$B8-0
-    ds 2,$C8-0
-    ds 2,$D8-0
-    ds 3,$E8-0
+    ds 2,$16-2
+    ds 2,$26-2          ; brown
+    ds 3,$36-2
+    ds 2,$48-2
+    ds 2,$58-2
+    ds 3,$68-2
+    ds 2,$7A-2
+    ds 3,$8A-2          ; deep blue
+    ds 2,$98-2
+    ds 2,$A8-2
+    ds 2,$B8-2
+    ds 2,$C8-2
+    ds 2,$D8-2
+    ds 3,$E8-2
     ;ds 3,$F8
 
 ; PAL...
 
-    ds 3,$28-0
-    ds 2,$48-0
-    ds 3,$68-0
-    ds 2,$88-0
-    ds 3,$A8-0
-    ds 3,$C8-0
-    ds 2,$D8-0
-    ds 3,$B8-0
-    ds 3,$98-0
-    ds 2,$78-0
-    ds 3,$58-0
-    ds 3,$38-0
+    ds 3,$28-2
+    ds 2,$48-2
+    ds 3,$68-2
+    ds 2,$88-2
+    ds 3,$A8-2
+    ds 3,$C8-2
+    ds 2,$D8-2
+    ds 3,$B8-2
+    ds 3,$98-2
+    ds 2,$78-2
+    ds 3,$58-2
+    ds 3,$38-2
 
 
 
     DEFINE_SUBROUTINE FixColours
+
 
                 ldy BoardScrollY
                 cpy LastYScroll
@@ -865,6 +865,8 @@ writeActualCol  sta SELFMOD_GREEN+RAM_WRITE+1
                 bcc LoopBankLines
 
 BandsNotChanged rts
+
+
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 

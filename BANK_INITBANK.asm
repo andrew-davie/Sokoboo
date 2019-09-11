@@ -896,7 +896,7 @@ anim_direction   .byte 0,%1000,128,128,128
                 ldx Platform
                 lda FlashColour,x ;+4,x
                 sta BGColour ;ColourFlash                 ; green
-                lda #6
+                lda #8
                 sta ColourTimer
 
 
