@@ -1225,7 +1225,7 @@ FadeInPossible
 
                 dec fadeslow
                 bpl FadeNotRequired
-                lda #2
+                lda #3
                 sta fadeslow
                 jsr FadeIn
 FadeNotRequired
@@ -1350,9 +1350,6 @@ genericRTS      rts
 
     DEFINE_SUBROUTINE FadeOut
 
-;                lda #0
-;                sta FadeOutComplete
-
                 ldy #SCREEN_LINES-1
 ZeroColours     sty SET_BANK_RAM
 
@@ -1362,7 +1359,6 @@ ZeroColours     sty SET_BANK_RAM
                 dex
                 txa
 AisZero         sta Colour_A_Actual+RAM_WRITE
-;                inc FadeOutComplete                    ; NOT complete
 
                 lax Colour_B_Actual
                 and #$F
@@ -1370,7 +1366,6 @@ AisZero         sta Colour_A_Actual+RAM_WRITE
                 dex
                 txa
 BisZero         sta Colour_B_Actual+RAM_WRITE
-;                inc FadeOutComplete                    ; NOT complete
 
                 lax Colour_C_Actual
                 and #$F
@@ -1378,7 +1373,6 @@ BisZero         sta Colour_B_Actual+RAM_WRITE
                 dex
                 txa
 CisZero         sta Colour_C_Actual+RAM_WRITE
-;                inc FadeOutComplete                    ; NOT complete
 
                 dey
                 bpl ZeroColours
@@ -1447,9 +1441,9 @@ setPlat         stx SET_BANK_RAM
 
                 lda icc_colour
                 sta Colour_A + RAM_WRITE
-                lda icc_colour+2            ; note : screwy/backward because I goofed.
-                sta Colour_B + RAM_WRITE
                 lda icc_colour+1
+                sta Colour_B + RAM_WRITE
+                lda icc_colour+2
                 sta Colour_C + RAM_WRITE
 
                 dex
@@ -1467,6 +1461,7 @@ setPlat         stx SET_BANK_RAM
     include "charset/CHARACTERSHAPE_TARGET5.asm"
     include "charset/CHARACTERSHAPE_TARGET7.asm"
     include "charset/CHARACTERSHAPE_STEEL.asm"
+;    include "charset/CHARACTERSHAPE_RIVET.asm"
     include "characterset/character_SOIL.asm"
     include "charset/CHARACTERSHAPE_BOX.asm"
     include "charset/CHARACTERSHAPE_BOX_ON_TARGET.asm"

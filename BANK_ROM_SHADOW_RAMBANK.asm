@@ -545,31 +545,31 @@ EthnicityColourPalette
     MAC COLOUR_GROUP
     ; NTSC...
     .byte 0
-    .byte {1}+{2}
-    .byte {3}+{4}
-    .byte {5}+{6}
-    .byte {7}+{8}
-    .byte {9}+{10}
-    .byte {11}+{12}
+    .byte {1}+{2}-2
+    .byte {3}+{4}-2
+    .byte {5}+{6}-2
+    .byte {7}+{8}-2
+    .byte {9}+{10}-2
+    .byte {11}+{12}-2
     .byte 0
 
     ; PAL...
     .byte 0
-    NTSC_TO_PAL {1}, {2}
-    NTSC_TO_PAL {3}, {4}
-    NTSC_TO_PAL {5}, {6}
-    NTSC_TO_PAL {7}, {8}
-    NTSC_TO_PAL {9}, {10}
-    NTSC_TO_PAL {11}, {12}
+    NTSC_TO_PAL {1}, {2}-2
+    NTSC_TO_PAL {3}, {4}-2
+    NTSC_TO_PAL {5}, {6}-2
+    NTSC_TO_PAL {7}, {8}-2
+    NTSC_TO_PAL {9}, {10}-2
+    NTSC_TO_PAL {11}, {12}-2
     .byte 0
     ENDM
 
     ; USE NTSC COLOUR+INTENSITY. WILL AUTO-ADD PAL EQUIVALENT...
     ;               HAT     FACE    TRIM    JUMPER  PANTS  SHOES
-    COLOUR_GROUP    $10,$A, $40,$8, $00,$C, $80,$8, $90,6, $10,6   ; 0
-    COLOUR_GROUP    $10,$A, $F0,$8, $60,$C, $50,$4, $70,6, $40,6   ; 1
-    COLOUR_GROUP    $40,$6, $E0,$8, $00,$C, $C0,$4, $90,6, $20,6   ; 2
-    COLOUR_GROUP    $30,$A, $50,$8, $10,$C, $40,$4, $60,6, $E0,8   ; 3
+    COLOUR_GROUP    $10,$A, $40,$8, $00,$A, $80,$8, $90,6, $10,6   ; 0
+    COLOUR_GROUP    $10,$A, $F0,$8, $60,$A, $50,$4, $70,6, $40,6   ; 1
+    COLOUR_GROUP    $40,$6, $30,$8, $00,$A, $90,$4, $A0,6, $20,6   ; 2
+    COLOUR_GROUP    $30,$A, $50,$8, $00,$A, $40,$4, $60,6, $E0,8   ; 3
 
    ;------------------------------------------------------------------------------
 
@@ -768,11 +768,10 @@ PLAYER0_COLOUR
 ExistingFrame   .byte -1
 LastYScroll     .byte -1
 BandOffset      .byte 20
-PlatformBase    .byte 0
 
-Colour_A        .byte $48
-Colour_B        .byte $58
-Colour_C        .byte $68
+Colour_A        .byte 0
+Colour_B        .byte 0
+Colour_C        .byte 0
 
 
 
@@ -782,41 +781,43 @@ ColourBandsGreen
 
 ; NTSC...
 
-    ds 2,$16-2
-    ds 2,$26-2          ; brown
-    ds 3,$36-2
-    ds 2,$48-2
-    ds 2,$58-2
-    ds 3,$68-2
-    ds 2,$7A-2
-    ds 3,$8A-2          ; deep blue
-    ds 2,$98-2
-    ds 2,$A8-2
-    ds 2,$B8-2
-    ds 2,$C8-2
-    ds 2,$D8-2
-    ds 3,$E8-2
-    ;ds 3,$F8
+    ds 2,$16-4
+    ds 2,$F8-4
+    ds 2,$28-4          ; brown
+    ds 2,$38-4
+    ds 2,$48-4
+    ds 2,$58-4
+    ds 2,$6A-4
+    ds 2,$7A-4
+    ds 2,$8A-4          ; deep blue
+    ds 2,$98-4
+    ds 2,$A8-4
+    ds 2,$B8-4
+    ds 2,$C8-4
+    ds 2,$D8-4
+    ds 2,$E8-4
+
+MAX_BANDS = * - ColourBandsGreen
 
 ; PAL...
 
-    ds 3,$28-2
-    ds 2,$48-2
-    ds 3,$68-2
-    ds 2,$88-2
-    ds 3,$A8-2
-    ds 3,$C8-2
-    ds 2,$D8-2
-    ds 3,$B8-2
-    ds 3,$98-2
-    ds 2,$78-2
-    ds 3,$58-2
-    ds 3,$38-2
+    ds 3,$28-4
+    ds 2,$48-4
+    ds 3,$68-4
+    ds 2,$88-4
+    ds 2,$A8-4
+    ds 3,$C8-4
+    ds 2,$D8-4
+    ds 3,$B8-4
+    ds 3,$98-4
+    ds 2,$78-4
+    ds 2,$58-4
+    ds 3,$38-4
 
 
 
     DEFINE_SUBROUTINE FixColours
-
+    ; USES OVERLAY "ColourFixer"
 
                 ldy BoardScrollY
                 cpy LastYScroll
@@ -829,36 +830,32 @@ ColourBandsGreen
                 asl
                 asl
                 asl
-                sta PlatformBase+RAM_WRITE
+                sta PlatformBase
 
-                tya
-                clc
-                adc BandOffset
-                and #31
-                ora PlatformBase
-                tay
+                lda BandOffset
+                adc BoardScrollY
+                sta BandOffsetTemp
 
                 ldx #0
-LoopBankLines   lda PlatformBase
-                stx SET_BANK_RAM
-                sta PlatformBase+RAM_WRITE
+LoopBankLines   stx SET_BANK_RAM
+
+                txa
+                clc
+                adc BandOffsetTemp
+                cmp #MAX_BANDS
+                bcc inRange0
+                sbc #MAX_BANDS
+inRange0        clc
+                adc PlatformBase
+                tay
 
                 lda ColourBandsGreen,y
                 sta Colour_B + RAM_WRITE
 
-                lda FadeComplete
-                bne set0
-                lda ColourBandsGreen,y
-                bne writeActualCol
-
-set0            lda #0
+                ldy FadeComplete
+                beq writeActualCol
+                lda #0
 writeActualCol  sta SELFMOD_GREEN+RAM_WRITE+1
-
-                iny
-                tya
-                and #31
-                ora PlatformBase
-                tay
 
                 inx
                 cpx #SCREEN_LINES

@@ -370,6 +370,7 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
                 rol
                 and #%11
                 eor #PAL
+    lda #0 ;tmp
                 sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
     ENDM
 
@@ -417,6 +418,16 @@ DHS_Line                ds 1
 DHS_Stack               ds 1                ; for restoring SP
     ;ECHO "FREE BYTES IN OVERLAY_BuildDrawFlags = ", OVERLAY_SIZE - ( * - Overlay )
     VALIDATE_OVERLAY "BuildDrawFlags"
+
+;------------------------------------------------------------------------------
+
+    OVERLAY ColourFixer
+
+PlatformBase            ds 1
+BandOffsetTemp          ds 1
+
+    VALIDATE_OVERLAY "ColourFixer"
+
 
 ;------------------------------------------------------------------------------
 

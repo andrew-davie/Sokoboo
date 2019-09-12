@@ -197,7 +197,10 @@ CopyPage        sty O_Index
                 sta Board_AddressW+1
                 jsr Random
                 and #31
-                ldy #0              ; offset from address
+                cmp #MAX_BANDS
+                bcc rangeOK3
+                sbc #MAX_BANDS
+rangeOK3        ldy #0              ; offset from address
                 jsr PutBoardCharacter
 
 
@@ -622,6 +625,8 @@ waitingManPress
     ; to allow the action to be "cancelled". Meanwhile, a button press + direction triggers
     ; "look-around mode"
 
+                lda FadeComplete
+                bne noLook
                 lda INPT4
                 bmi noLook                      ; button?
 

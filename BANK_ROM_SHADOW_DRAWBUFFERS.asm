@@ -130,6 +130,7 @@ offsc
                 inc animate_char_index              ; 5
                 lda animate_char_index              ; 3
                 lsr                                 ; 2
+                lsr
                 and #3                              ; 2
                 tax                                 ; 2 = 14
 
@@ -335,10 +336,10 @@ ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
 
 
 targetReplaceChar
-    .byte CHARACTER_TARGET
     .byte CHARACTER_TARGET1
-    .byte CHARACTER_TARGET2
     .byte CHARACTER_TARGET3
+    .byte CHARACTER_TARGET5
+    .byte CHARACTER_TARGET7
 
 ;targetReplaceChar2
 ;    .byte CHARACTER_BOX

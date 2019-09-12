@@ -682,6 +682,44 @@ C3 ;
     NTSCPAL ORANGE,$8
 
 
+t16
+    .byte $00
+    .byte $20           ; don't use "10"!
+    .byte $20
+    .byte $30
+    .byte $40
+    .byte $50
+    .byte $60
+    .byte $70
+    .byte $80
+    .byte $90
+    .byte $A0
+    .byte $B0
+    .byte $C0
+    .byte $D0
+    .byte $E0
+    .byte $F0
+
+inten
+    .byte $04+4
+    .byte $06+4
+    .byte $06+4
+    .byte $04+4
+    .byte $04+4
+    .byte $04+4
+    .byte $08+4
+    .byte $08+4
+    .byte $0A+4             ; deep blue
+    .byte $06+4
+    .byte $04+4
+    .byte $04+4
+    .byte $04+4
+    .byte $04+4
+    .byte $06+4
+    .byte $06+4
+
+
+
   DEFINE_SUBROUTINE UnpackLevel
 
               sta RAM_Bank
@@ -724,27 +762,30 @@ xyClear         jsr PutBoardCharacterFromRAM
                 lda LevelInfoBANK,x
                 sta LEVEL_bank
 
-                lda #$02
-                sta icc_colour
-                sta icc_colour+2
-
-                lda #$F
-                sta icc_colour+1
-
-
                 jsr Random
-                and #$F0
-                ora #$8
+                and #$F
+                tax
+                lda t16,x
+                ora inten,x
                 sta icc_colour
 
 ranother        jsr Random
-                and #$F0
-                ora #$8
-                sta icc_colour+1
+                and #$F
+                tax
+                lda t16,x
+                ora inten,x
+                sec
+                sbc #2
+                sta icc_colour+2            ; mortar, lid
 
-                eor icc_colour
-                and #$F0
-                beq ranother            ; don't allow same colour
+                sec
+                sbc icc_colour
+                bcs posicc
+                eor #$FF
+                adc #1
+posicc          cmp #$41
+                bcc ranother                ; don't allow similar colours
+
 
 
     ; Update the level colours (self-modifying) in each of the character line banks
