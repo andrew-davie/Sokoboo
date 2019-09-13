@@ -545,22 +545,22 @@ EthnicityColourPalette
     MAC COLOUR_GROUP
     ; NTSC...
     .byte 0
-    .byte {1}+{2}-2
-    .byte {3}+{4}-2
-    .byte {5}+{6}-2
-    .byte {7}+{8}-2
-    .byte {9}+{10}-2
-    .byte {11}+{12}-2
+    .byte {1}+{2}-2+PALETTE_INTENSITY_ADJUST
+    .byte {3}+{4}-2+PALETTE_INTENSITY_ADJUST
+    .byte {5}+{6}-2+PALETTE_INTENSITY_ADJUST
+    .byte {7}+{8}-2+PALETTE_INTENSITY_ADJUST
+    .byte {9}+{10}-2+PALETTE_INTENSITY_ADJUST
+    .byte {11}+{12}-2+PALETTE_INTENSITY_ADJUST
     .byte 0
 
     ; PAL...
     .byte 0
-    NTSC_TO_PAL {1}, {2}-2
-    NTSC_TO_PAL {3}, {4}-2
-    NTSC_TO_PAL {5}, {6}-2
-    NTSC_TO_PAL {7}, {8}-2
-    NTSC_TO_PAL {9}, {10}-2
-    NTSC_TO_PAL {11}, {12}-2
+    NTSC_TO_PAL {1}, {2}-2+PALETTE_INTENSITY_ADJUST
+    NTSC_TO_PAL {3}, {4}-2+PALETTE_INTENSITY_ADJUST
+    NTSC_TO_PAL {5}, {6}-2+PALETTE_INTENSITY_ADJUST
+    NTSC_TO_PAL {7}, {8}-2+PALETTE_INTENSITY_ADJUST
+    NTSC_TO_PAL {9}, {10}-2+PALETTE_INTENSITY_ADJUST
+    NTSC_TO_PAL {11}, {12}-2+PALETTE_INTENSITY_ADJUST
     .byte 0
     ENDM
 
@@ -600,7 +600,7 @@ OBJTYPE    .SET OBJTYPE + 1
     DEFINE_CHARACTER STEEL
     DEFINE_CHARACTER WALL
     DEFINE_CHARACTER BOX_ON_TARGET
-    DEFINE_CHARACTER BOX_ON_TARGET2
+    ;DEFINE_CHARACTER BOX_ON_TARGET2
     DEFINE_CHARACTER NOGO
     DEFINE_CHARACTER TARGET1
     DEFINE_CHARACTER TARGET3
@@ -646,8 +646,8 @@ CharacterDataVecLO
   .byte <CHARACTERSHAPE_WALL_MIRRORED
   .byte <CHARACTERSHAPE_BOX_ON_TARGET
   .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-  .byte <CHARACTERSHAPE_BOX_ON_TARGET2
-  .byte <CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
+;  .byte <CHARACTERSHAPE_BOX_ON_TARGET2
+;  .byte <CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
   .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
   .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
   .byte <CHARACTERSHAPE_TARGET1
@@ -703,8 +703,8 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_WALL_MIRRORED
     .byte >CHARACTERSHAPE_BOX_ON_TARGET
     .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-    .byte >CHARACTERSHAPE_BOX_ON_TARGET2
-    .byte >CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
+;    .byte >CHARACTERSHAPE_BOX_ON_TARGET2
+;    .byte >CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
     .byte >CHARACTERSHAPE_BLANK                     ; unkillable man
     .byte >CHARACTERSHAPE_TARGET1
@@ -781,38 +781,36 @@ ColourBandsGreen
 
 ; NTSC...
 
-    ds 2,$16-4
-    ds 2,$F8-4
-    ds 2,$28-4          ; brown
-    ds 2,$38-4
-    ds 2,$48-4
-    ds 2,$58-4
-    ds 2,$6A-4
-    ds 2,$7A-4
-    ds 2,$8A-4          ; deep blue
-    ds 2,$98-4
-    ds 2,$A8-4
-    ds 2,$B8-4
-    ds 2,$C8-4
-    ds 2,$D8-4
-    ds 2,$E8-4
-
-MAX_BANDS = * - ColourBandsGreen
+    ds 2,$16-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$F8-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$28-4+PALETTE_INTENSITY_ADJUST          ; brown
+    ds 2,$38-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$48-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$58-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$6A-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$7A-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$8A-4+PALETTE_INTENSITY_ADJUST          ; deep blue
+    ds 3,$98-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$A8-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$B8-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$C8-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$D8-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$E8-4+PALETTE_INTENSITY_ADJUST
 
 ; PAL...
 
-    ds 3,$28-4
-    ds 2,$48-4
-    ds 3,$68-4
-    ds 2,$88-4
-    ds 2,$A8-4
-    ds 3,$C8-4
-    ds 2,$D8-4
-    ds 3,$B8-4
-    ds 3,$98-4
-    ds 2,$78-4
-    ds 2,$58-4
-    ds 3,$38-4
+    ds 3,$28-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$48-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$68-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$88-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$A8-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$C8-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$D8-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$B8-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$98-4+PALETTE_INTENSITY_ADJUST
+    ds 2,$78-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$58-4+PALETTE_INTENSITY_ADJUST
+    ds 3,$38-4+PALETTE_INTENSITY_ADJUST
 
 
 
@@ -842,10 +840,7 @@ LoopBankLines   stx SET_BANK_RAM
                 txa
                 clc
                 adc BandOffsetTemp
-                cmp #MAX_BANDS
-                bcc inRange0
-                sbc #MAX_BANDS
-inRange0        clc
+                and #31
                 adc PlatformBase
                 tay
 

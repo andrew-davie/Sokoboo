@@ -197,10 +197,7 @@ CopyPage        sty O_Index
                 sta Board_AddressW+1
                 jsr Random
                 and #31
-                cmp #MAX_BANDS
-                bcc rangeOK3
-                sbc #MAX_BANDS
-rangeOK3        ldy #0              ; offset from address
+                ldy #0              ; offset from address
                 jsr PutBoardCharacter
 
 
@@ -498,7 +495,8 @@ skipModeChange
                 sta actionVector+1
                 jmp (actionVector)
 
-DoNothing2      rts
+DoNothing2
+                rts
 
 newMode         .byte -1, MANMODE_SWITCH2, MANMODE_WAITING2, -1
 
@@ -1016,7 +1014,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte <MOVE_GENERIC ;steel
         .byte <MOVE_GENERIC ;wall
         .byte <MOVE_BOX_ON_TARGET ;box on target
-        .byte <MOVE_BOX_ON_TARGET ;box on target
+;        .byte <MOVE_BOX_ON_TARGET ;box on target
         .byte <MOVE_GENERIC ;nogo
         .byte <MOVE_TARGET ;1
         .byte <MOVE_TARGET ;3
@@ -1046,7 +1044,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte >MOVE_GENERIC ;steel
         .byte >MOVE_GENERIC ;wall
         .byte >MOVE_BOX_ON_TARGET ;box on target
-        .byte >MOVE_BOX_ON_TARGET ;box on target
+;        .byte >MOVE_BOX_ON_TARGET ;box on target
         .byte >MOVE_GENERIC ;nogo
         .byte >MOVE_TARGET ;1
         .byte >MOVE_TARGET ;3

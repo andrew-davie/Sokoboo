@@ -32,9 +32,28 @@ TitleSequence
 
       ;------------------------------------------------------------------
 
+
+
                 ldx Platform
                 ldy VBlankTime,x
                 sty TIM64T
+
+
+#if 0
+                lda SWCHB
+                rol
+                rol
+                rol
+                and #%11
+                eor #PAL
+                cmp Platform
+                beq platOK
+                sta Platform
+                jmp TitleSequence
+platOK
+#endif
+
+
 
 VerticalBlank   sta WSYNC
                 lda INTIM

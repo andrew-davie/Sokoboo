@@ -44,7 +44,7 @@ def process(out, n, inhibit=False):
         left.append(shape1)
         if inhibit == False:
             right.append(shape2)
-            if int(n) < 2:
+            if int(n) < 10:
                 hundpf1.append(shape3)
 
 

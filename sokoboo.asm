@@ -46,7 +46,8 @@ ORIGIN_RAM      SET 0
 
 ;FIXED_BANK             = 3 * 2048           ;-->  8K ROM tested OK
 ;FIXED_BANK              = 7 * 2048          ;-->  16K ROM tested OK
-FIXED_BANK             = 15 * 2048           ; ->> 32K
+;FIXED_BANK             = 15 * 2048           ; ->> 32K
+FIXED_BANK             = 31 * 2048           ; ->> 32K
 ;FIXED_BANK             = 239 * 2048         ;--> 480K ROM tested OK (KK/CC2 compatibility)
 ;FIXED_BANK             = 127 * 2048         ;--> 256K ROM tested OK
 ;FIXED_BANK             = 255 * 2048         ;--> 512K ROM tested OK (CC2 can't handle this)
@@ -73,7 +74,7 @@ L276                            SET YES         ; use 276 line display for NTSC
 COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
-
+PALETTE_INTENSITY_ADJUST        = 0
 PUSH_LIMIT                      = 6           ; slowdown when pushing on a BOX
 
 ; time bonus countdown constants:
@@ -370,7 +371,6 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
                 rol
                 and #%11
                 eor #PAL
-    lda #0 ;tmp
                 sta Platform                    ; P1 difficulty --> TV system (0=NTSC, 1=PAL)
     ENDM
 
@@ -428,6 +428,9 @@ BandOffsetTemp          ds 1
 
     VALIDATE_OVERLAY "ColourFixer"
 
+    OVERLAY LevelLookup
+levelTable              ds 2
+    VALIDATE_OVERLAY "LevelLookup"
 
 ;------------------------------------------------------------------------------
 
@@ -798,12 +801,16 @@ MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
             include "BANK_ROM_SHADOW_DRAWBUFFERS.asm"
             include "BANK_ROM_SHADOW_SCORING.asm"
             include "BANK_GENERIC.asm"
+            include "BANK_LEVELS_TABLES.asm"
             include "BANK_LEVELS1.asm"
             include "BANK_LEVELS2.asm"
             include "BANK_LEVELS3.asm"
             include "BANK_LEVELS4.asm"
             include "BANK_LEVELS5.asm"
             include "BANK_LEVELS6.asm"
+            include "BANK_LEVELS7.asm"
+            include "BANK_LEVELS8.asm"
+            include "BANK_LEVELS9.asm"
             include "BANK_PlayerFrames.asm"
             include "titleScreen.asm"
             include "levelScreen.asm"

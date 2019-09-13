@@ -200,4 +200,5 @@ Animation_PUSHUP
 
     include "sprites/spriteData.asm"
 
+
   CHECK_BANK_SIZE "PLAYER_FRAMES"

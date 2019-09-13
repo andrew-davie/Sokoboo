@@ -307,7 +307,7 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
                 .byte CHARACTER_STEEL       ;  6
                 .byte CHARACTER_WALL        ;  7
 ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
-                .byte CHARACTER_BOX_ON_TARGET2
+;                .byte CHARACTER_BOX_ON_TARGET2
                 .byte CHARACTER_BLANK       ;  9
                 .byte CHARACTER_TARGET1
                 .byte CHARACTER_TARGET3

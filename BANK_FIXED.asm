@@ -290,6 +290,10 @@ notComplete
                 sta POS_Type                    ; 3
 
                 jsr InsertObjectStack           ; 6+76(B)          re-insert man (POS X/Y DOESN'T MATTER)
+
+    lda #$FF
+    sta BufferedJoystick
+
 gnobj           jmp NextObject
 
     ;---------------------------------------------------------------------------
@@ -1126,6 +1130,17 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
                 jsr CopyROMShadowToRAM_F000
 
 
+                lda #BANK_LevelInfoLO
+                sta SET_BANK
+
+                ldx levelX
+                lda LevelInfoLO,x
+                sta Board_AddressR
+                lda LevelInfoHI,x
+                sta Board_AddressR+1
+                lda LevelInfoBANK,x
+                sta LEVEL_bank
+
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
                 jsr UnpackLevel
@@ -1465,7 +1480,7 @@ setPlat         stx SET_BANK_RAM
     include "characterset/character_SOIL.asm"
     include "charset/CHARACTERSHAPE_BOX.asm"
     include "charset/CHARACTERSHAPE_BOX_ON_TARGET.asm"
-    include "charset/CHARACTERSHAPE_BOX_ON_TARGET2.asm"
+    ;include "charset/CHARACTERSHAPE_BOX_ON_TARGET2.asm"
     include "charset/CHARACTERSHAPE_WALL.asm"
 
     #if DIGITS
