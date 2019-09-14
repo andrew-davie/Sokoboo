@@ -422,23 +422,50 @@ scanOK          dex
                 tax
 
                 lda xJoyMoveX,x
-                beq adjustLevelNum
+                beq noadjustLevelNum
 
     ; level is changing, so animate the man too
 
                 jsr fixWalkFrame
 
 
-adjustLevelNum  clc
+
+                lda xJoyMoveX,x
+                bmi downx
+
+                inc levelX
+                bne lxok
+                inc levelX+1
+lxok
+
+                lda levelX+1
+                cmp #>MAX_LEVEL
+                bcc lxok2
                 lda levelX
-                adc xJoyMoveX,x
-                cmp #255
-                bne nml1
-                lda #MAX_LEVEL-1
-nml1            cmp #MAX_LEVEL
-                bne nml2
+                cmp #<MAX_LEVEL
+                bcc lxok2
+
                 lda #0
-nml2            sta levelX
+                sta levelX
+                sta levelX+1
+                beq lxok2
+
+downx           sec
+                lda levelX
+                sbc #1
+                sta levelX
+                lda levelX+1
+                sbc #0
+                sta levelX+1
+                bcs lxok2
+
+                lda #<(MAX_LEVEL-1)
+                sta levelX
+                lda #>(MAX_LEVEL-1)
+                sta levelX+1
+
+lxok2
+noadjustLevelNum
 
                 jsr dd3
 
@@ -478,17 +505,27 @@ retX            rts
 
 
 dd3
+                ldx levelX+1
                 clc
                 lda levelX
                 adc #1
-                sec
+                bcc not100s
+                inx
+
+not100s         sec
 m100            sbc #100
                 inc targetDigit+2
                 bcs m100
+                dex
+                bpl not100s
+                inx
                 adc #100
+csets           sec
 m10             sbc #10
                 inc targetDigit+1
                 bcs m10
+                dex
+                bpl csets
                 adc #10
                 sta targetDigit
 
@@ -690,11 +727,11 @@ DIGITHUND
         .word HUNDPF1_2
         .word HUNDPF1_3
         .word HUNDPF1_4
-        .word HUNDPF1_5
-        .word HUNDPF1_6
-        .word HUNDPF1_7
-        .word HUNDPF1_8
-        .word HUNDPF1_9
+;        .word HUNDPF1_5
+;        .word HUNDPF1_6
+;        .word HUNDPF1_7
+;        .word HUNDPF1_8
+;        .word HUNDPF1_9
 ;        .word blankDig
 
 

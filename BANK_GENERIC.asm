@@ -64,13 +64,10 @@
                 sty jtoggle
                 stx level
                 lda #0
-                ;sta levelX                                        ; make an immediate copy to safe variables!
                 sta startingLevel
 
-    ; multiply with LEVEL_DEFINITION_SIZE (5):
-                asl
-                asl
                 sta levelX
+                sta levelX+1
 
                 LOAD_ANIMATION IDLE
 

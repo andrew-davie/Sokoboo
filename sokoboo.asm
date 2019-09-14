@@ -711,8 +711,14 @@ ObjStackType    ds OBJ_STACK_SIZE       ; type of object
 
 ; now fits into one single bank (if we don't reserve too much space for code)
 
-SIZE_BOARD_X    = 40 ;
-SIZE_BOARD_Y    = 22
+SIZE_BOARD_X    = 32 ;
+SIZE_BOARD_Y    = 32
+
+    IF SIZE_BOARD_X * SIZE_BOARD_Y > RAM_SIZE
+        ECHO "ERROR: Board too big for single bank usage"
+        ERR
+    ENDIF
+
 
 
   IF SIZE_BOARD > RAM_SIZE
@@ -811,6 +817,14 @@ MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
             include "BANK_LEVELS7.asm"
             include "BANK_LEVELS8.asm"
             include "BANK_LEVELS9.asm"
+            include "BANK_LEVELS10.asm"
+            include "BANK_LEVELS11.asm"
+            include "BANK_LEVELS12.asm"
+            include "BANK_LEVELS13.asm"
+            include "BANK_LEVELS14.asm"
+            include "BANK_LEVELS15.asm"
+            include "BANK_LEVELS16.asm"
+            include "BANK_LEVELS17.asm"
             include "BANK_PlayerFrames.asm"
             include "titleScreen.asm"
             include "levelScreen.asm"

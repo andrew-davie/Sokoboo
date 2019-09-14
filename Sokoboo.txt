@@ -1206,8 +1206,8 @@
      15 U00d7							; See the License for the specific language governing permissions and
      16 U00d7							; limitations under the License.
      17 U00d7
-     18 U00d7							; Song author: 
-     19 U00d7							; Song name: 
+     18 U00d7							; Song author:
+     19 U00d7							; Song name:
      20 U00d7
      21 U00d7							; @com.wudsn.ide.asm.hardware=ATARI2600
      22 U00d7
@@ -1777,7 +1777,7 @@
     769 U3400							; now fits into one single bank (if we don't reserve too much space for code)
     770 U3400
     771 U3400		       00 18	   SIZE_BOARD_X =	24	;
-    772 U3400		       00 14	   SIZE_BOARD_Y =	20	;22
+    772 U3400		       00 14	   SIZE_BOARD_Y =	32	;22
     773 U3400				  -	      if	0
     774 U3400				  -			; have to precalculate it here, else DASM freaks out:
     775 U3400				  -.BOARD_SIZE SET	0
@@ -14601,8 +14601,8 @@
      15  7b2c							; See the License for the specific language governing permissions and
      16  7b2c							; limitations under the License.
      17  7b2c
-     18  7b2c							; Song author: 
-     19  7b2c							; Song name: 
+     18  7b2c							; Song author:
+     19  7b2c							; Song name:
      20  7b2c
      21  7b2c							; @com.wudsn.ide.asm.hardware=ATARI2600
      22  7b2c
@@ -14762,8 +14762,8 @@
      15  7bae							; See the License for the specific language governing permissions and
      16  7bae							; limitations under the License.
      17  7bae
-     18  7bae							; Song author: 
-     19  7bae							; Song name: 
+     18  7bae							; Song author:
+     19  7bae							; Song name:
      20  7bae
      21  7bae							; @com.wudsn.ide.asm.hardware=ATARI2600
      22  7bae
@@ -15407,8 +15407,8 @@
      15  7d08							; See the License for the specific language governing permissions and
      16  7d08							; limitations under the License.
      17  7d08
-     18  7d08							; Song author: 
-     19  7d08							; Song name: 
+     18  7d08							; Song author:
+     19  7d08							; Song name:
      20  7d08
      21  7d08							; @com.wudsn.ide.asm.hardware=ATARI2600
      22  7d08
@@ -15422,7 +15422,7 @@
      30  7d08							; Melodic instrument definitions (up to 7). tt_envelope_index_c0/1 hold
      31  7d08							; the index values into these tables for the current instruments played
      32  7d08							; in channel 0 and 1.
-     33  7d08							; 
+     33  7d08							;
      34  7d08							; Each instrument is defined by:
      35  7d08							; - tt_InsCtrlTable: the AUDC value
      36  7d08							; - tt_InsADIndexes: the index of the start of the ADSR envelope as

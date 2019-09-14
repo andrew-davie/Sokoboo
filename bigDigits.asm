@@ -1,3 +1,5 @@
+
+    align 32
  OPTIONAL_PAGEBREAK "LEFT_0", 32
 LEFT_0
  .byte 0
@@ -134,7 +136,7 @@ LEFT_1
  .byte 48
  .byte 0
  .byte 0
- OPTIONAL_PAGEBREAK "RIGHT_1", 32
+; OPTIONAL_PAGEBREAK "RIGHT_1", 32
 RIGHT_1
  .byte 0
  .byte 0
@@ -407,6 +409,7 @@ HUNDPF1_3
  .byte 0
  .byte 0
  OPTIONAL_PAGEBREAK "LEFT_4", 32
+HUNDPF1_4
 LEFT_4
  .byte 0
  .byte 0
@@ -474,6 +477,7 @@ RIGHT_4
  .byte 6
  .byte 0
  .byte 0
+#if 0
  OPTIONAL_PAGEBREAK "HUNDPF1_4", 32
 HUNDPF1_4
  .byte 0
@@ -508,6 +512,7 @@ HUNDPF1_4
  .byte 6
  .byte 0
  .byte 0
+#endif
  OPTIONAL_PAGEBREAK "LEFT_5", 32
 LEFT_5
  .byte 0

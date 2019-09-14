@@ -175,9 +175,9 @@ xyClear         jsr PutBoardCharacterFromRAM
                 dec POS_Y
                 bpl xyLine
 
-                lda #12                ;todo - crashes @12 ... why?
+                lda #4
                 sta base_x
-                lda #6
+                lda #4
                 sta base_y
 
                 lda NextLevelTrigger
@@ -397,11 +397,14 @@ Wc2x              clc
               lda POS_Y
               pha
               adc base_y
+              cmp #SIZE_BOARD_Y
+              bcs whoops
               sta POS_Y
+
 
               jsr PutBoardCharacterFromRAM
 
-              lda POS_Type
+whoops        lda POS_Type
               cmp #CHARACTER_TARGET
               bne notargdet
               jsr RegisterTarget

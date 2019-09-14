@@ -41,6 +41,7 @@
 
 ; The ordering here corresponds to the ordering when playing...
 
+    align 256
     DEFINE_SUBROUTINE LevelInfoLO
      .byte <(LEVEL__001_L-1)
      .byte <(LEVEL__001_R-1)
@@ -309,11 +310,247 @@
     .byte <(LEVEL_Zone_26_83-1)
     .byte <(LEVEL_Zone_26_84-1)
     .byte <(LEVEL_Zone_26_85-1)
+    .byte <(LEVEL_Zone_26_86-1)
+    .byte <(LEVEL_Zone_26_87-1)
+    .byte <(LEVEL_Zone_26_88-1)
+    .byte <(LEVEL_Zone_26_89-1)
+
+    .byte <(LEVEL_Zone_26_90-1)
+    .byte <(LEVEL_Zone_26_91-1)
+    .byte <(LEVEL_Zone_26_92-1)
+    .byte <(LEVEL_Zone_26_93-1)
+    .byte <(LEVEL_Zone_26_94-1)
+    .byte <(LEVEL_Zone_26_95-1)
+    .byte <(LEVEL_Zone_26_96-1)
+    .byte <(LEVEL_Zone_26_97-1)
+    .byte <(LEVEL_Zone_26_98-1)
+    .byte <(LEVEL_Zone_26_99-1)
+
+    .byte <(LEVEL_Zone_26_100-1)
+    .byte <(LEVEL_Zone_26_101-1)
+    .byte <(LEVEL_Zone_26_102-1)
+    .byte <(LEVEL_Zone_26_103-1)
+    .byte <(LEVEL_Zone_26_104-1)
+    .byte <(LEVEL_Zone_26_105-1)
+    .byte <(LEVEL_Zone_26_106-1)
+    .byte <(LEVEL_Zone_26_107-1)
+    .byte <(LEVEL_Zone_26_108-1)
+    .byte <(LEVEL_Zone_26_109-1)
+
+    .byte <(LEVEL_Zone_26_110-1)
+    .byte <(LEVEL_Zone_26_111-1)
+    .byte <(LEVEL_Zone_26_112-1)
+    .byte <(LEVEL_Zone_26_113-1)
+    .byte <(LEVEL_Zone_26_114-1)
+    .byte <(LEVEL_Zone_26_115-1)
+    .byte <(LEVEL_Zone_26_116-1)
+
+    .byte <(LEVEL_Rectangled_0-1)
+    .byte <(LEVEL_Rectangled_1-1)
+    .byte <(LEVEL_Rectangled_2-1)
+    .byte <(LEVEL_Rectangled_3-1)
+    .byte <(LEVEL_Rectangled_4-1)
+    .byte <(LEVEL_Rectangled_5-1)
+    .byte <(LEVEL_Rectangled_6-1)
+    .byte <(LEVEL_Rectangled_7-1)
+    .byte <(LEVEL_Rectangled_8-1)
+    .byte <(LEVEL_Rectangled_9-1)
+    .byte <(LEVEL_Rectangled_10-1)
+
+    .byte <(LEVEL_Scoria_3_0-1)
+    .byte <(LEVEL_Scoria_3_1-1)
+    .byte <(LEVEL_Scoria_3_2-1)
+    .byte <(LEVEL_Scoria_3_3-1)
+    .byte <(LEVEL_Scoria_3_4-1)
+    .byte <(LEVEL_Scoria_3_5-1)
+    .byte <(LEVEL_Scoria_3_6-1)
+    .byte <(LEVEL_Scoria_3_7-1)
+    .byte <(LEVEL_Scoria_3_8-1)
+    .byte <(LEVEL_Scoria_3_9-1)
+    .byte <(LEVEL_Scoria_3_10-1)
+    .byte <(LEVEL_Scoria_3_11-1)
+    .byte <(LEVEL_Scoria_3_12-1)
+    .byte <(LEVEL_Scoria_3_13-1)
+    .byte <(LEVEL_Scoria_3_14-1)
+    .byte <(LEVEL_Scoria_3_15-1)
+    .byte <(LEVEL_Scoria_3_16-1)
+    .byte <(LEVEL_Scoria_3_17-1)
+    .byte <(LEVEL_Scoria_3_18-1)
+    .byte <(LEVEL_Scoria_3_19-1)
+
+ .byte <(LEVEL_Sokompact_0-1)
+ .byte <(LEVEL_Sokompact_1-1)
+ .byte <(LEVEL_Sokompact_2-1)
+ .byte <(LEVEL_Sokompact_3-1)
+ .byte <(LEVEL_Sokompact_4-1)
+ .byte <(LEVEL_Sokompact_5-1)
+ .byte <(LEVEL_Sokompact_6-1)
+ .byte <(LEVEL_Sokompact_7-1)
+ .byte <(LEVEL_Sokompact_8-1)
+ .byte <(LEVEL_Sokompact_9-1)
+ .byte <(LEVEL_Sokompact_10-1)
+ .byte <(LEVEL_Sokompact_11-1)
+ .byte <(LEVEL_Sokompact_12-1)
+ .byte <(LEVEL_Sokompact_13-1)
+ .byte <(LEVEL_Sokompact_14-1)
+ .byte <(LEVEL_Sokompact_15-1)
+ .byte <(LEVEL_Sokompact_16-1)
+ .byte <(LEVEL_Sokompact_17-1)
+ .byte <(LEVEL_Sokompact_18-1)
+ .byte <(LEVEL_Sokompact_19-1)
+ .byte <(LEVEL_Sokompact_20-1)
+ .byte <(LEVEL_Sokompact_21-1)
+ .byte <(LEVEL_Sokompact_22-1)
+ .byte <(LEVEL_Sokompact_23-1)
+ .byte <(LEVEL_Sokompact_24-1)
+ .byte <(LEVEL_Sokompact_25-1)
+ .byte <(LEVEL_Sokompact_26-1)
+ .byte <(LEVEL_Sokompact_27-1)
+ .byte <(LEVEL_Sokompact_28-1)
+ .byte <(LEVEL_Sokompact_29-1)
+ .byte <(LEVEL_Sokompact_30-1)
+ .byte <(LEVEL_Sokompact_31-1)
+ .byte <(LEVEL_Sokompact_32-1)
+ .byte <(LEVEL_Sokompact_33-1)
+ .byte <(LEVEL_Sokompact_34-1)
+ .byte <(LEVEL_Sokompact_35-1)
+ .byte <(LEVEL_Sokompact_36-1)
+ .byte <(LEVEL_Sokompact_37-1)
+ .byte <(LEVEL_Sokompact_38-1)
+ .byte <(LEVEL_Sokompact_39-1)
+ .byte <(LEVEL_Sokompact_40-1)
+ .byte <(LEVEL_Sokompact_41-1)
+ .byte <(LEVEL_Sokompact_42-1)
+ .byte <(LEVEL_Sokompact_43-1)
+ .byte <(LEVEL_Sokompact_44-1)
+ .byte <(LEVEL_Sokompact_45-1)
+ .byte <(LEVEL_Sokompact_46-1)
+ .byte <(LEVEL_Sokompact_47-1)
+ .byte <(LEVEL_Sokompact_48-1)
+ .byte <(LEVEL_Sokompact_49-1)
+ .byte <(LEVEL_Sokompact_50-1)
+
+
+ .byte <(LEVEL_SokoStation_0-1)
+ .byte <(LEVEL_SokoStation_1-1)
+ .byte <(LEVEL_SokoStation_2-1)
+ .byte <(LEVEL_SokoStation_3-1)
+ .byte <(LEVEL_SokoStation_4-1)
+ .byte <(LEVEL_SokoStation_5-1)
+ .byte <(LEVEL_SokoStation_6-1)
+ .byte <(LEVEL_SokoStation_7-1)
+ .byte <(LEVEL_SokoStation_8-1)
+ .byte <(LEVEL_SokoStation_9-1)
+ .byte <(LEVEL_SokoStation_10-1)
+ .byte <(LEVEL_SokoStation_11-1)
+ .byte <(LEVEL_SokoStation_12-1)
+ .byte <(LEVEL_SokoStation_13-1)
+ .byte <(LEVEL_SokoStation_14-1)
+ .byte <(LEVEL_SokoStation_15-1)
+ .byte <(LEVEL_SokoStation_16-1)
+ .byte <(LEVEL_SokoStation_17-1)
+ .byte <(LEVEL_SokoStation_18-1)
+ .byte <(LEVEL_SokoStation_19-1)
+ .byte <(LEVEL_SokoStation_20-1)
+ .byte <(LEVEL_SokoStation_21-1)
+ ;.byte <(LEVEL_SokoStation_22-1)
+ .byte <(LEVEL_SokoStation_23-1)
+ .byte <(LEVEL_SokoStation_24-1)
+ .byte <(LEVEL_SokoStation_25-1)
+ .byte <(LEVEL_SokoStation_26-1)
+ .byte <(LEVEL_SokoStation_27-1)
+ .byte <(LEVEL_SokoStation_28-1)
+ .byte <(LEVEL_SokoStation_29-1)
+ .byte <(LEVEL_SokoStation_30-1)
+ .byte <(LEVEL_SokoStation_31-1)
+ .byte <(LEVEL_SokoStation_32-1)
+ .byte <(LEVEL_SokoStation_33-1)
+ .byte <(LEVEL_SokoStation_34-1)
+ .byte <(LEVEL_SokoStation_35-1)
+ .byte <(LEVEL_SokoStation_36-1)
+ .byte <(LEVEL_SokoStation_37-1)
+ .byte <(LEVEL_SokoStation_38-1)
+ .byte <(LEVEL_SokoStation_39-1)
+ .byte <(LEVEL_SokoStation_40-1)
+ .byte <(LEVEL_SokoStation_41-1)
+ .byte <(LEVEL_SokoStation_42-1)
+ .byte <(LEVEL_SokoStation_43-1)
+ .byte <(LEVEL_SokoStation_44-1)
+ .byte <(LEVEL_SokoStation_45-1)
+ .byte <(LEVEL_SokoStation_46-1)
+ .byte <(LEVEL_SokoStation_47-1)
+ .byte <(LEVEL_SokoStation_48-1)
+ .byte <(LEVEL_SokoStation_49-1)
+ .byte <(LEVEL_SokoStation_50-1)
+ .byte <(LEVEL_SokoStation_51-1)
+ .byte <(LEVEL_SokoStation_52-1)
+ .byte <(LEVEL_SokoStation_53-1)
+ .byte <(LEVEL_SokoStation_54-1)
+ .byte <(LEVEL_SokoStation_55-1)
+ .byte <(LEVEL_SokoStation_56-1)
+ .byte <(LEVEL_SokoStation_57-1)
+ .byte <(LEVEL_SokoStation_58-1)
+ .byte <(LEVEL_SokoStation_59-1)
+ .byte <(LEVEL_SokoStation_60-1)
+ .byte <(LEVEL_SokoStation_61-1)
+ .byte <(LEVEL_SokoStation_62-1)
+ .byte <(LEVEL_SokoStation_63-1)
+ .byte <(LEVEL_SokoStation_64-1)
+ .byte <(LEVEL_SokoStation_65-1)
+ .byte <(LEVEL_SokoStation_66-1)
+ .byte <(LEVEL_SokoStation_67-1)
+ .byte <(LEVEL_SokoStation_68-1)
+ .byte <(LEVEL_SokoStation_69-1)
+ .byte <(LEVEL_SokoStation_70-1)
+ .byte <(LEVEL_SokoStation_71-1)
+ .byte <(LEVEL_SokoStation_72-1)
+ .byte <(LEVEL_SokoStation_73-1)
+ .byte <(LEVEL_SokoStation_74-1)
+ .byte <(LEVEL_SokoStation_75-1)
+ .byte <(LEVEL_SokoStation_76-1)
+ .byte <(LEVEL_SokoStation_77-1)
+ .byte <(LEVEL_SokoStation_78-1)
+ .byte <(LEVEL_SokoStation_79-1)
+ .byte <(LEVEL_SokoStation_80-1)
+ .byte <(LEVEL_SokoStation_81-1)
+ .byte <(LEVEL_SokoStation_82-1)
+ .byte <(LEVEL_SokoStation_83-1)
+ .byte <(LEVEL_SokoStation_84-1)
+ .byte <(LEVEL_SokoStation_85-1)
+ .byte <(LEVEL_SokoStation_86-1)
+ .byte <(LEVEL_SokoStation_87-1)
+ .byte <(LEVEL_SokoStation_88-1)
+ .byte <(LEVEL_SokoStation_89-1)
+ .byte <(LEVEL_SokoStation_90-1)
+ .byte <(LEVEL_SokoStation_91-1)
+
+ .byte <(LEVEL_SokoStation_92-1)
+ .byte <(LEVEL_SokoStation_93-1)
+ .byte <(LEVEL_SokoStation_94-1)
+ .byte <(LEVEL_SokoStation_95-1)
+ .byte <(LEVEL_SokoStation_96-1)
+ .byte <(LEVEL_SokoStation_97-1)
+ .byte <(LEVEL_SokoStation_98-1)
+ .byte <(LEVEL_SokoStation_99-1)
+; .byte <(LEVEL_SokoStation_100-1)
+; .byte <(LEVEL_SokoStation_101-1)
+; .byte <(LEVEL_SokoStation_102-1)
+ .byte <(LEVEL_SokoStation_103-1)
+ .byte <(LEVEL_SokoStation_104-1)
+#if 0
+ .byte <(LEVEL_SokoStation_105-1)
+ .byte <(LEVEL_SokoStation_106-1)
+ .byte <(LEVEL_SokoStation_107-1)
+ .byte <(LEVEL_SokoStation_108-1)
+ .byte <(LEVEL_SokoStation_109-1)
+#endif
 
 
 MAX_LEVEL = * - LevelInfoLO
     ECHO MAX_LEVEL, "LEVELS INSTALLED"
-LevelInfoHI
+
+    align 256
+    DEFINE_SUBROUTINE LevelInfoHI
 
      .byte >(LEVEL__001_L-1)
      .byte >(LEVEL__001_R-1)
@@ -580,13 +817,250 @@ LevelInfoHI
     .byte >(LEVEL_Zone_26_83-1)
     .byte >(LEVEL_Zone_26_84-1)
     .byte >(LEVEL_Zone_26_85-1)
+    .byte >(LEVEL_Zone_26_86-1)
+    .byte >(LEVEL_Zone_26_87-1)
+    .byte >(LEVEL_Zone_26_88-1)
+    .byte >(LEVEL_Zone_26_89-1)
+
+    .byte >(LEVEL_Zone_26_90-1)
+    .byte >(LEVEL_Zone_26_91-1)
+    .byte >(LEVEL_Zone_26_92-1)
+    .byte >(LEVEL_Zone_26_93-1)
+    .byte >(LEVEL_Zone_26_94-1)
+    .byte >(LEVEL_Zone_26_95-1)
+    .byte >(LEVEL_Zone_26_96-1)
+    .byte >(LEVEL_Zone_26_97-1)
+    .byte >(LEVEL_Zone_26_98-1)
+    .byte >(LEVEL_Zone_26_99-1)
+
+
+    .byte >(LEVEL_Zone_26_100-1)
+    .byte >(LEVEL_Zone_26_101-1)
+    .byte >(LEVEL_Zone_26_102-1)
+    .byte >(LEVEL_Zone_26_103-1)
+    .byte >(LEVEL_Zone_26_104-1)
+    .byte >(LEVEL_Zone_26_105-1)
+    .byte >(LEVEL_Zone_26_106-1)
+    .byte >(LEVEL_Zone_26_107-1)
+    .byte >(LEVEL_Zone_26_108-1)
+    .byte >(LEVEL_Zone_26_109-1)
+
+    .byte >(LEVEL_Zone_26_110-1)
+    .byte >(LEVEL_Zone_26_111-1)
+    .byte >(LEVEL_Zone_26_112-1)
+    .byte >(LEVEL_Zone_26_113-1)
+    .byte >(LEVEL_Zone_26_114-1)
+    .byte >(LEVEL_Zone_26_115-1)
+    .byte >(LEVEL_Zone_26_116-1)
+
+    .byte >(LEVEL_Rectangled_0-1)
+    .byte >(LEVEL_Rectangled_1-1)
+    .byte >(LEVEL_Rectangled_2-1)
+    .byte >(LEVEL_Rectangled_3-1)
+    .byte >(LEVEL_Rectangled_4-1)
+    .byte >(LEVEL_Rectangled_5-1)
+    .byte >(LEVEL_Rectangled_6-1)
+    .byte >(LEVEL_Rectangled_7-1)
+    .byte >(LEVEL_Rectangled_8-1)
+    .byte >(LEVEL_Rectangled_9-1)
+    .byte >(LEVEL_Rectangled_10-1)
+
+    .byte >(LEVEL_Scoria_3_0-1)
+    .byte >(LEVEL_Scoria_3_1-1)
+    .byte >(LEVEL_Scoria_3_2-1)
+    .byte >(LEVEL_Scoria_3_3-1)
+    .byte >(LEVEL_Scoria_3_4-1)
+    .byte >(LEVEL_Scoria_3_5-1)
+    .byte >(LEVEL_Scoria_3_6-1)
+    .byte >(LEVEL_Scoria_3_7-1)
+    .byte >(LEVEL_Scoria_3_8-1)
+    .byte >(LEVEL_Scoria_3_9-1)
+    .byte >(LEVEL_Scoria_3_10-1)
+    .byte >(LEVEL_Scoria_3_11-1)
+    .byte >(LEVEL_Scoria_3_12-1)
+    .byte >(LEVEL_Scoria_3_13-1)
+    .byte >(LEVEL_Scoria_3_14-1)
+    .byte >(LEVEL_Scoria_3_15-1)
+    .byte >(LEVEL_Scoria_3_16-1)
+    .byte >(LEVEL_Scoria_3_17-1)
+    .byte >(LEVEL_Scoria_3_18-1)
+    .byte >(LEVEL_Scoria_3_19-1)
+
+
+ .byte >(LEVEL_Sokompact_0-1)
+ .byte >(LEVEL_Sokompact_1-1)
+ .byte >(LEVEL_Sokompact_2-1)
+ .byte >(LEVEL_Sokompact_3-1)
+ .byte >(LEVEL_Sokompact_4-1)
+ .byte >(LEVEL_Sokompact_5-1)
+ .byte >(LEVEL_Sokompact_6-1)
+ .byte >(LEVEL_Sokompact_7-1)
+ .byte >(LEVEL_Sokompact_8-1)
+ .byte >(LEVEL_Sokompact_9-1)
+ .byte >(LEVEL_Sokompact_10-1)
+ .byte >(LEVEL_Sokompact_11-1)
+ .byte >(LEVEL_Sokompact_12-1)
+ .byte >(LEVEL_Sokompact_13-1)
+ .byte >(LEVEL_Sokompact_14-1)
+ .byte >(LEVEL_Sokompact_15-1)
+ .byte >(LEVEL_Sokompact_16-1)
+ .byte >(LEVEL_Sokompact_17-1)
+ .byte >(LEVEL_Sokompact_18-1)
+ .byte >(LEVEL_Sokompact_19-1)
+ .byte >(LEVEL_Sokompact_20-1)
+ .byte >(LEVEL_Sokompact_21-1)
+ .byte >(LEVEL_Sokompact_22-1)
+ .byte >(LEVEL_Sokompact_23-1)
+ .byte >(LEVEL_Sokompact_24-1)
+ .byte >(LEVEL_Sokompact_25-1)
+ .byte >(LEVEL_Sokompact_26-1)
+ .byte >(LEVEL_Sokompact_27-1)
+ .byte >(LEVEL_Sokompact_28-1)
+ .byte >(LEVEL_Sokompact_29-1)
+ .byte >(LEVEL_Sokompact_30-1)
+ .byte >(LEVEL_Sokompact_31-1)
+ .byte >(LEVEL_Sokompact_32-1)
+ .byte >(LEVEL_Sokompact_33-1)
+ .byte >(LEVEL_Sokompact_34-1)
+ .byte >(LEVEL_Sokompact_35-1)
+ .byte >(LEVEL_Sokompact_36-1)
+ .byte >(LEVEL_Sokompact_37-1)
+ .byte >(LEVEL_Sokompact_38-1)
+ .byte >(LEVEL_Sokompact_39-1)
+ .byte >(LEVEL_Sokompact_40-1)
+ .byte >(LEVEL_Sokompact_41-1)
+ .byte >(LEVEL_Sokompact_42-1)
+ .byte >(LEVEL_Sokompact_43-1)
+ .byte >(LEVEL_Sokompact_44-1)
+ .byte >(LEVEL_Sokompact_45-1)
+ .byte >(LEVEL_Sokompact_46-1)
+ .byte >(LEVEL_Sokompact_47-1)
+ .byte >(LEVEL_Sokompact_48-1)
+ .byte >(LEVEL_Sokompact_49-1)
+ .byte >(LEVEL_Sokompact_50-1)
+
+
+ .byte >(LEVEL_SokoStation_0-1)
+ .byte >(LEVEL_SokoStation_1-1)
+ .byte >(LEVEL_SokoStation_2-1)
+ .byte >(LEVEL_SokoStation_3-1)
+ .byte >(LEVEL_SokoStation_4-1)
+ .byte >(LEVEL_SokoStation_5-1)
+ .byte >(LEVEL_SokoStation_6-1)
+ .byte >(LEVEL_SokoStation_7-1)
+ .byte >(LEVEL_SokoStation_8-1)
+ .byte >(LEVEL_SokoStation_9-1)
+ .byte >(LEVEL_SokoStation_10-1)
+ .byte >(LEVEL_SokoStation_11-1)
+ .byte >(LEVEL_SokoStation_12-1)
+ .byte >(LEVEL_SokoStation_13-1)
+ .byte >(LEVEL_SokoStation_14-1)
+ .byte >(LEVEL_SokoStation_15-1)
+ .byte >(LEVEL_SokoStation_16-1)
+ .byte >(LEVEL_SokoStation_17-1)
+ .byte >(LEVEL_SokoStation_18-1)
+ .byte >(LEVEL_SokoStation_19-1)
+ .byte >(LEVEL_SokoStation_20-1)
+ .byte >(LEVEL_SokoStation_21-1)
+ ;.byte >(LEVEL_SokoStation_22-1)
+ .byte >(LEVEL_SokoStation_23-1)
+ .byte >(LEVEL_SokoStation_24-1)
+ .byte >(LEVEL_SokoStation_25-1)
+ .byte >(LEVEL_SokoStation_26-1)
+ .byte >(LEVEL_SokoStation_27-1)
+ .byte >(LEVEL_SokoStation_28-1)
+ .byte >(LEVEL_SokoStation_29-1)
+ .byte >(LEVEL_SokoStation_30-1)
+ .byte >(LEVEL_SokoStation_31-1)
+ .byte >(LEVEL_SokoStation_32-1)
+ .byte >(LEVEL_SokoStation_33-1)
+ .byte >(LEVEL_SokoStation_34-1)
+ .byte >(LEVEL_SokoStation_35-1)
+ .byte >(LEVEL_SokoStation_36-1)
+ .byte >(LEVEL_SokoStation_37-1)
+ .byte >(LEVEL_SokoStation_38-1)
+ .byte >(LEVEL_SokoStation_39-1)
+ .byte >(LEVEL_SokoStation_40-1)
+ .byte >(LEVEL_SokoStation_41-1)
+ .byte >(LEVEL_SokoStation_42-1)
+ .byte >(LEVEL_SokoStation_43-1)
+ .byte >(LEVEL_SokoStation_44-1)
+ .byte >(LEVEL_SokoStation_45-1)
+ .byte >(LEVEL_SokoStation_46-1)
+ .byte >(LEVEL_SokoStation_47-1)
+ .byte >(LEVEL_SokoStation_48-1)
+ .byte >(LEVEL_SokoStation_49-1)
+ .byte >(LEVEL_SokoStation_50-1)
+ .byte >(LEVEL_SokoStation_51-1)
+ .byte >(LEVEL_SokoStation_52-1)
+ .byte >(LEVEL_SokoStation_53-1)
+ .byte >(LEVEL_SokoStation_54-1)
+ .byte >(LEVEL_SokoStation_55-1)
+ .byte >(LEVEL_SokoStation_56-1)
+ .byte >(LEVEL_SokoStation_57-1)
+ .byte >(LEVEL_SokoStation_58-1)
+ .byte >(LEVEL_SokoStation_59-1)
+ .byte >(LEVEL_SokoStation_60-1)
+ .byte >(LEVEL_SokoStation_61-1)
+ .byte >(LEVEL_SokoStation_62-1)
+ .byte >(LEVEL_SokoStation_63-1)
+ .byte >(LEVEL_SokoStation_64-1)
+ .byte >(LEVEL_SokoStation_65-1)
+ .byte >(LEVEL_SokoStation_66-1)
+ .byte >(LEVEL_SokoStation_67-1)
+ .byte >(LEVEL_SokoStation_68-1)
+ .byte >(LEVEL_SokoStation_69-1)
+ .byte >(LEVEL_SokoStation_70-1)
+ .byte >(LEVEL_SokoStation_71-1)
+ .byte >(LEVEL_SokoStation_72-1)
+ .byte >(LEVEL_SokoStation_73-1)
+ .byte >(LEVEL_SokoStation_74-1)
+ .byte >(LEVEL_SokoStation_75-1)
+ .byte >(LEVEL_SokoStation_76-1)
+ .byte >(LEVEL_SokoStation_77-1)
+ .byte >(LEVEL_SokoStation_78-1)
+ .byte >(LEVEL_SokoStation_79-1)
+ .byte >(LEVEL_SokoStation_80-1)
+ .byte >(LEVEL_SokoStation_81-1)
+ .byte >(LEVEL_SokoStation_82-1)
+ .byte >(LEVEL_SokoStation_83-1)
+ .byte >(LEVEL_SokoStation_84-1)
+ .byte >(LEVEL_SokoStation_85-1)
+ .byte >(LEVEL_SokoStation_86-1)
+ .byte >(LEVEL_SokoStation_87-1)
+ .byte >(LEVEL_SokoStation_88-1)
+ .byte >(LEVEL_SokoStation_89-1)
+ .byte >(LEVEL_SokoStation_90-1)
+ .byte >(LEVEL_SokoStation_91-1)
+
+ .byte >(LEVEL_SokoStation_92-1)
+ .byte >(LEVEL_SokoStation_93-1)
+ .byte >(LEVEL_SokoStation_94-1)
+ .byte >(LEVEL_SokoStation_95-1)
+ .byte >(LEVEL_SokoStation_96-1)
+ .byte >(LEVEL_SokoStation_97-1)
+ .byte >(LEVEL_SokoStation_98-1)
+ .byte >(LEVEL_SokoStation_99-1)
+; .byte >(LEVEL_SokoStation_100-1)
+; .byte >(LEVEL_SokoStation_101-1)
+; .byte >(LEVEL_SokoStation_102-1)
+ .byte >(LEVEL_SokoStation_103-1)
+ .byte >(LEVEL_SokoStation_104-1)
+#if 0
+ .byte >(LEVEL_SokoStation_105-1)
+ .byte >(LEVEL_SokoStation_106-1)
+ .byte >(LEVEL_SokoStation_107-1)
+ .byte >(LEVEL_SokoStation_108-1)
+ .byte >(LEVEL_SokoStation_109-1)
+#endif
 
     IF (* - LevelInfoHI != MAX_LEVEL)
         ECHO "ERROR: Incorrect LevelInfoHI table!"
         ERR
     ENDIF
 
-LevelInfoBANK
+    align 256
+    DEFINE_SUBROUTINE LevelInfoBANK
 
     .byte BANK_LEVEL__001_L
     .byte BANK_LEVEL__001_R
@@ -854,11 +1328,278 @@ LevelInfoBANK
     .byte BANK_LEVEL_Zone_26_83
     .byte BANK_LEVEL_Zone_26_84
     .byte BANK_LEVEL_Zone_26_85
+    .byte BANK_LEVEL_Zone_26_86
+    .byte BANK_LEVEL_Zone_26_87
+    .byte BANK_LEVEL_Zone_26_88
+    .byte BANK_LEVEL_Zone_26_89
+
+    .byte BANK_LEVEL_Zone_26_90
+    .byte BANK_LEVEL_Zone_26_91
+    .byte BANK_LEVEL_Zone_26_92
+    .byte BANK_LEVEL_Zone_26_93
+    .byte BANK_LEVEL_Zone_26_94
+    .byte BANK_LEVEL_Zone_26_95
+    .byte BANK_LEVEL_Zone_26_96
+    .byte BANK_LEVEL_Zone_26_97
+    .byte BANK_LEVEL_Zone_26_98
+    .byte BANK_LEVEL_Zone_26_99
+
+    .byte BANK_LEVEL_Zone_26_100
+    .byte BANK_LEVEL_Zone_26_101
+    .byte BANK_LEVEL_Zone_26_102
+    .byte BANK_LEVEL_Zone_26_103
+    .byte BANK_LEVEL_Zone_26_104
+    .byte BANK_LEVEL_Zone_26_105
+    .byte BANK_LEVEL_Zone_26_106
+    .byte BANK_LEVEL_Zone_26_107
+    .byte BANK_LEVEL_Zone_26_108
+    .byte BANK_LEVEL_Zone_26_109
+
+    .byte BANK_LEVEL_Zone_26_110
+    .byte BANK_LEVEL_Zone_26_111
+    .byte BANK_LEVEL_Zone_26_112
+    .byte BANK_LEVEL_Zone_26_113
+    .byte BANK_LEVEL_Zone_26_114
+    .byte BANK_LEVEL_Zone_26_115
+    .byte BANK_LEVEL_Zone_26_116
+
+    .byte BANK_LEVEL_Rectangled_0
+    .byte BANK_LEVEL_Rectangled_1
+    .byte BANK_LEVEL_Rectangled_2
+    .byte BANK_LEVEL_Rectangled_3
+    .byte BANK_LEVEL_Rectangled_4
+    .byte BANK_LEVEL_Rectangled_5
+    .byte BANK_LEVEL_Rectangled_6
+    .byte BANK_LEVEL_Rectangled_7
+    .byte BANK_LEVEL_Rectangled_8
+    .byte BANK_LEVEL_Rectangled_9
+    .byte BANK_LEVEL_Rectangled_10
+
+    .byte BANK_LEVEL_Scoria_3_0
+    .byte BANK_LEVEL_Scoria_3_1
+    .byte BANK_LEVEL_Scoria_3_2
+    .byte BANK_LEVEL_Scoria_3_3
+    .byte BANK_LEVEL_Scoria_3_4
+    .byte BANK_LEVEL_Scoria_3_5
+    .byte BANK_LEVEL_Scoria_3_6
+    .byte BANK_LEVEL_Scoria_3_7
+    .byte BANK_LEVEL_Scoria_3_8
+    .byte BANK_LEVEL_Scoria_3_9
+    .byte BANK_LEVEL_Scoria_3_10
+    .byte BANK_LEVEL_Scoria_3_11
+    .byte BANK_LEVEL_Scoria_3_12
+    .byte BANK_LEVEL_Scoria_3_13
+    .byte BANK_LEVEL_Scoria_3_14
+    .byte BANK_LEVEL_Scoria_3_15
+    .byte BANK_LEVEL_Scoria_3_16
+    .byte BANK_LEVEL_Scoria_3_17
+    .byte BANK_LEVEL_Scoria_3_18
+    .byte BANK_LEVEL_Scoria_3_19
+
+ .byte BANK_LEVEL_Sokompact_0
+ .byte BANK_LEVEL_Sokompact_1
+ .byte BANK_LEVEL_Sokompact_2
+ .byte BANK_LEVEL_Sokompact_3
+ .byte BANK_LEVEL_Sokompact_4
+ .byte BANK_LEVEL_Sokompact_5
+ .byte BANK_LEVEL_Sokompact_6
+ .byte BANK_LEVEL_Sokompact_7
+ .byte BANK_LEVEL_Sokompact_8
+ .byte BANK_LEVEL_Sokompact_9
+ .byte BANK_LEVEL_Sokompact_10
+ .byte BANK_LEVEL_Sokompact_11
+ .byte BANK_LEVEL_Sokompact_12
+ .byte BANK_LEVEL_Sokompact_13
+ .byte BANK_LEVEL_Sokompact_14
+ .byte BANK_LEVEL_Sokompact_15
+ .byte BANK_LEVEL_Sokompact_16
+ .byte BANK_LEVEL_Sokompact_17
+ .byte BANK_LEVEL_Sokompact_18
+ .byte BANK_LEVEL_Sokompact_19
+ .byte BANK_LEVEL_Sokompact_20
+ .byte BANK_LEVEL_Sokompact_21
+ .byte BANK_LEVEL_Sokompact_22
+ .byte BANK_LEVEL_Sokompact_23
+ .byte BANK_LEVEL_Sokompact_24
+ .byte BANK_LEVEL_Sokompact_25
+ .byte BANK_LEVEL_Sokompact_26
+ .byte BANK_LEVEL_Sokompact_27
+ .byte BANK_LEVEL_Sokompact_28
+ .byte BANK_LEVEL_Sokompact_29
+ .byte BANK_LEVEL_Sokompact_30
+ .byte BANK_LEVEL_Sokompact_31
+ .byte BANK_LEVEL_Sokompact_32
+ .byte BANK_LEVEL_Sokompact_33
+ .byte BANK_LEVEL_Sokompact_34
+ .byte BANK_LEVEL_Sokompact_35
+ .byte BANK_LEVEL_Sokompact_36
+ .byte BANK_LEVEL_Sokompact_37
+ .byte BANK_LEVEL_Sokompact_38
+ .byte BANK_LEVEL_Sokompact_39
+ .byte BANK_LEVEL_Sokompact_40
+ .byte BANK_LEVEL_Sokompact_41
+ .byte BANK_LEVEL_Sokompact_42
+ .byte BANK_LEVEL_Sokompact_43
+ .byte BANK_LEVEL_Sokompact_44
+ .byte BANK_LEVEL_Sokompact_45
+ .byte BANK_LEVEL_Sokompact_46
+ .byte BANK_LEVEL_Sokompact_47
+ .byte BANK_LEVEL_Sokompact_48
+ .byte BANK_LEVEL_Sokompact_49
+ .byte BANK_LEVEL_Sokompact_50
+
+
+ .byte BANK_LEVEL_SokoStation_0
+ .byte BANK_LEVEL_SokoStation_1
+ .byte BANK_LEVEL_SokoStation_2
+ .byte BANK_LEVEL_SokoStation_3
+ .byte BANK_LEVEL_SokoStation_4
+ .byte BANK_LEVEL_SokoStation_5
+ .byte BANK_LEVEL_SokoStation_6
+ .byte BANK_LEVEL_SokoStation_7
+ .byte BANK_LEVEL_SokoStation_8
+ .byte BANK_LEVEL_SokoStation_9
+ .byte BANK_LEVEL_SokoStation_10
+ .byte BANK_LEVEL_SokoStation_11
+ .byte BANK_LEVEL_SokoStation_12
+ .byte BANK_LEVEL_SokoStation_13
+ .byte BANK_LEVEL_SokoStation_14
+ .byte BANK_LEVEL_SokoStation_15
+ .byte BANK_LEVEL_SokoStation_16
+ .byte BANK_LEVEL_SokoStation_17
+ .byte BANK_LEVEL_SokoStation_18
+ .byte BANK_LEVEL_SokoStation_19
+ .byte BANK_LEVEL_SokoStation_20
+ .byte BANK_LEVEL_SokoStation_21
+ ;.byte BANK_LEVEL_SokoStation_22
+ .byte BANK_LEVEL_SokoStation_23
+ .byte BANK_LEVEL_SokoStation_24
+ .byte BANK_LEVEL_SokoStation_25
+ .byte BANK_LEVEL_SokoStation_26
+ .byte BANK_LEVEL_SokoStation_27
+ .byte BANK_LEVEL_SokoStation_28
+ .byte BANK_LEVEL_SokoStation_29
+ .byte BANK_LEVEL_SokoStation_30
+ .byte BANK_LEVEL_SokoStation_31
+ .byte BANK_LEVEL_SokoStation_32
+ .byte BANK_LEVEL_SokoStation_33
+ .byte BANK_LEVEL_SokoStation_34
+ .byte BANK_LEVEL_SokoStation_35
+ .byte BANK_LEVEL_SokoStation_36
+ .byte BANK_LEVEL_SokoStation_37
+ .byte BANK_LEVEL_SokoStation_38
+ .byte BANK_LEVEL_SokoStation_39
+ .byte BANK_LEVEL_SokoStation_40
+ .byte BANK_LEVEL_SokoStation_41
+ .byte BANK_LEVEL_SokoStation_42
+ .byte BANK_LEVEL_SokoStation_43
+ .byte BANK_LEVEL_SokoStation_44
+ .byte BANK_LEVEL_SokoStation_45
+ .byte BANK_LEVEL_SokoStation_46
+ .byte BANK_LEVEL_SokoStation_47
+ .byte BANK_LEVEL_SokoStation_48
+ .byte BANK_LEVEL_SokoStation_49
+ .byte BANK_LEVEL_SokoStation_50
+ .byte BANK_LEVEL_SokoStation_51
+ .byte BANK_LEVEL_SokoStation_52
+ .byte BANK_LEVEL_SokoStation_53
+ .byte BANK_LEVEL_SokoStation_54
+ .byte BANK_LEVEL_SokoStation_55
+ .byte BANK_LEVEL_SokoStation_56
+ .byte BANK_LEVEL_SokoStation_57
+ .byte BANK_LEVEL_SokoStation_58
+ .byte BANK_LEVEL_SokoStation_59
+ .byte BANK_LEVEL_SokoStation_60
+ .byte BANK_LEVEL_SokoStation_61
+ .byte BANK_LEVEL_SokoStation_62
+ .byte BANK_LEVEL_SokoStation_63
+ .byte BANK_LEVEL_SokoStation_64
+ .byte BANK_LEVEL_SokoStation_65
+ .byte BANK_LEVEL_SokoStation_66
+ .byte BANK_LEVEL_SokoStation_67
+ .byte BANK_LEVEL_SokoStation_68
+ .byte BANK_LEVEL_SokoStation_69
+ .byte BANK_LEVEL_SokoStation_70
+ .byte BANK_LEVEL_SokoStation_71
+ .byte BANK_LEVEL_SokoStation_72
+ .byte BANK_LEVEL_SokoStation_73
+ .byte BANK_LEVEL_SokoStation_74
+ .byte BANK_LEVEL_SokoStation_75
+ .byte BANK_LEVEL_SokoStation_76
+ .byte BANK_LEVEL_SokoStation_77
+ .byte BANK_LEVEL_SokoStation_78
+ .byte BANK_LEVEL_SokoStation_79
+ .byte BANK_LEVEL_SokoStation_80
+ .byte BANK_LEVEL_SokoStation_81
+ .byte BANK_LEVEL_SokoStation_82
+ .byte BANK_LEVEL_SokoStation_83
+ .byte BANK_LEVEL_SokoStation_84
+ .byte BANK_LEVEL_SokoStation_85
+ .byte BANK_LEVEL_SokoStation_86
+ .byte BANK_LEVEL_SokoStation_87
+ .byte BANK_LEVEL_SokoStation_88
+ .byte BANK_LEVEL_SokoStation_89
+ .byte BANK_LEVEL_SokoStation_90
+ .byte BANK_LEVEL_SokoStation_91
+ .byte BANK_LEVEL_SokoStation_92
+ .byte BANK_LEVEL_SokoStation_93
+ .byte BANK_LEVEL_SokoStation_94
+ .byte BANK_LEVEL_SokoStation_95
+ .byte BANK_LEVEL_SokoStation_96
+ .byte BANK_LEVEL_SokoStation_97
+ .byte BANK_LEVEL_SokoStation_98
+ .byte BANK_LEVEL_SokoStation_99
+; .byte BANK_LEVEL_SokoStation_100
+; .byte BANK_LEVEL_SokoStation_101
+; .byte BANK_LEVEL_SokoStation_102
+ .byte BANK_LEVEL_SokoStation_103
+ .byte BANK_LEVEL_SokoStation_104
+#if 0
+ .byte BANK_LEVEL_SokoStation_105
+ .byte BANK_LEVEL_SokoStation_106
+ .byte BANK_LEVEL_SokoStation_107
+ .byte BANK_LEVEL_SokoStation_108
+ .byte BANK_LEVEL_SokoStation_109
+#endif
+
 
     IF (* - LevelInfoBANK != MAX_LEVEL)
         ECHO "ERROR: Incorrect LevelInfoBANK table!"
         ERR
     ENDIF
+
+
+    DEFINE_SUBROUTINE GetLevelAddress
+    ; returns address,bank of level #
+    ; Uses overlay LevelLookup
+    ; relies on tables being page-aligned
+
+                clc
+                lda levelX
+                sta levelTable
+                lda levelX+1
+                adc #>LevelInfoLO
+                sta levelTable+1
+
+                ldy #0
+                lda (levelTable),y
+                sta Board_AddressR
+
+                lda levelX+1
+                adc #>LevelInfoHI
+                sta levelTable+1
+
+                lda (levelTable),y
+                sta Board_AddressR+1
+
+                lda levelX+1
+                adc #>LevelInfoBANK
+                sta levelTable+1
+
+                lda (levelTable),y
+                sta LEVEL_bank
+
+                rts
 
 
    CHECK_BANK_SIZE "LEVELS_TABLES -- full 2K"

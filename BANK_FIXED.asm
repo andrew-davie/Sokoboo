@@ -1132,14 +1132,7 @@ CopyScreenBanks ldx #ROM_SHADOW_OF_RAMBANK_CODE
 
                 lda #BANK_LevelInfoLO
                 sta SET_BANK
-
-                ldx levelX
-                lda LevelInfoLO,x
-                sta Board_AddressR
-                lda LevelInfoHI,x
-                sta Board_AddressR+1
-                lda LevelInfoBANK,x
-                sta LEVEL_bank
+                jsr GetLevelAddress
 
                 lda #BANK_DECODE_LEVEL
                 sta SET_BANK_RAM
@@ -1317,11 +1310,20 @@ VBlankTime
    ; the level back to 0 and start afresh.
 
                 inc levelX
-                lda levelX
-                cmp #MAX_LEVEL_NUMBER
+                bne noHiLev
+                inc levelX+1
+noHiLev
+                lda levelX+1
+                cmp #>MAX_LEVEL_NUMBER
                 bcc .level_ok
+                lda levelX
+                cmp #<MAX_LEVEL_NUMBER
+                bcc .level_ok
+
                 lda #0
-.level_ok       sta levelX
+                sta levelX
+                sta levelX+1
+.level_ok
                 rts
 
     ;---------------------------------------------------------------------------
@@ -1495,6 +1497,46 @@ setPlat         stx SET_BANK_RAM
     include "characterset/character_1.asm"
     include "characterset/character_0.asm"
     #endif
+
+
+
+#if 1
+    MAC USEX
+.LY SET 0
+    .byte 1
+    .byte {1}
+    REPEAT 10
+    IF {1}=.LY
+        .byte .LY
+    ENDIF
+.LY SET .LY+1
+    REPEND
+    ENDM
+
+
+.LX SET 0
+    .byte 0
+    REPEAT
+    USEX 0
+.LX SET .LX+1
+    REPEND
+#endif
+
+
+    MAC TEST
+    .byte 0
+    ENDM
+
+    MAC Test
+    .byte 1
+    ENDM
+
+    MAC TEST
+    .byte 2
+    ENDM
+
+    TEST
+
 
 
     ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *
