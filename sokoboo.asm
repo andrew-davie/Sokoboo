@@ -74,7 +74,7 @@ L276                            SET YES         ; use 276 line display for NTSC
 COMPILE_ILLEGALOPCODES          = 1
 RESERVED_FOR_STACK              = 12            ; bytes guaranteed not overwritten by variable use
 
-PALETTE_INTENSITY_ADJUST        = 0
+PALETTE_INTENSITY_ADJUST        = 2
 PUSH_LIMIT                      = 6           ; slowdown when pushing on a BOX
 
 ; time bonus countdown constants:
@@ -477,6 +477,21 @@ wallColour              ds 1
 adjustColour            ds 1
     VALIDATE_OVERLAY "TitleScreen"
 
+
+
+    OVERLAY CodeScreen
+;xcolour_table           ds 2
+xdigit1                  ds 2
+xdigit2                  ds 2
+;xdigitstar               ds 2
+xdigit                   ds 3
+xdigitHundreds           ds 2
+xwallColour              ds 1
+xadjustColour            ds 1
+codeDigit              ds 9
+    VALIDATE_OVERLAY "CodeScreen"
+
+
 ;------------------------------------------------------------------------------
 
                 OVERLAY TimeSlice
@@ -828,6 +843,7 @@ MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
             include "BANK_PlayerFrames.asm"
             include "titleScreen.asm"
             include "levelScreen.asm"
+            include "coder.asm"
             include "BANK_INITBANK.asm"         ; MUST be after banks that include levels -- otherwise MAX_LEVELBANK is not calculated properly
 
     ; MUST BE LAST...

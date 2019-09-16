@@ -1094,6 +1094,10 @@ RestartLevelNextPlayer
 
     DEFINE_SUBROUTINE NextLevelLevel
 
+                ldx #BANK_xLevelScreen
+                stx SET_BANK
+                jsr xLevelScreen
+
 
                 ldx #BANK_LevelScreen
                 stx SET_BANK

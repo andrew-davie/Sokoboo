@@ -312,25 +312,25 @@ COLOURDATA_walk3
 
 FRAMEDATA_push_up_1
  .byte 0 ; 23
- .byte 32 ; 20
- .byte 32 ; 17
- .byte 32 ; 14
+ .byte 8 ; 20
+ .byte 40 ; 17
+ .byte 56 ; 14
  .byte 56 ; 11
  .byte 56 ; 8
  .byte 238 ; 5
  .byte 56 ; 2
- .byte 0 ; 22
+ .byte 32 ; 22
  .byte 32 ; 19
- .byte 40 ; 16
- .byte 56 ; 13
+ .byte 8 ; 16
+ .byte 16 ; 13
  .byte 56 ; 10
  .byte 56 ; 7
  .byte 130 ; 4
  .byte 56 ; 1
- .byte 0 ; 21
- .byte 8 ; 18
- .byte 8 ; 15
- .byte 16 ; 12
+ .byte 32 ; 21
+ .byte 40 ; 18
+ .byte 32 ; 15
+ .byte 56 ; 12
  .byte 56 ; 9
  .byte 124 ; 6
  .byte 170 ; 3
@@ -341,22 +341,22 @@ COLOURDATA_push_up_1
  .byte CL6 ; 20
  .byte CL5 ; 17
  .byte CL5 ; 14
- .byte CL6 ; 11
+ .byte CL2 ; 11
  .byte CL4 ; 8
  .byte CL4 ; 5
  .byte CL1 ; 2
- .byte CL0 ; 22
- .byte CL6 ; 19
+ .byte CL6 ; 22
+ .byte CL5 ; 19
  .byte CL5 ; 16
  .byte CL5 ; 13
  .byte CL3 ; 10
  .byte CL4 ; 7
  .byte CL3 ; 4
  .byte CL1 ; 1
- .byte CL0 ; 21
- .byte CL6 ; 18
+ .byte CL6 ; 21
+ .byte CL5 ; 18
  .byte CL5 ; 15
- .byte CL5 ; 12
+ .byte CL6 ; 12
  .byte CL4 ; 9
  .byte CL4 ; 6
  .byte CL2 ; 3
@@ -364,25 +364,25 @@ COLOURDATA_push_up_1
 
 FRAMEDATA_push_up_3
  .byte 0 ; 23
- .byte 8 ; 20
- .byte 8 ; 17
- .byte 8 ; 14
+ .byte 32 ; 20
+ .byte 40 ; 17
+ .byte 56 ; 14
  .byte 56 ; 11
  .byte 56 ; 8
  .byte 238 ; 5
  .byte 56 ; 2
- .byte 0 ; 22
+ .byte 8 ; 22
  .byte 8 ; 19
- .byte 40 ; 16
- .byte 56 ; 13
+ .byte 32 ; 16
+ .byte 16 ; 13
  .byte 56 ; 10
  .byte 56 ; 7
  .byte 130 ; 4
  .byte 56 ; 1
- .byte 0 ; 21
- .byte 32 ; 18
- .byte 32 ; 15
- .byte 16 ; 12
+ .byte 8 ; 21
+ .byte 40 ; 18
+ .byte 8 ; 15
+ .byte 56 ; 12
  .byte 56 ; 9
  .byte 124 ; 6
  .byte 170 ; 3
@@ -393,22 +393,22 @@ COLOURDATA_push_up_3
  .byte CL6 ; 20
  .byte CL5 ; 17
  .byte CL5 ; 14
- .byte CL1 ; 11
+ .byte CL2 ; 11
  .byte CL4 ; 8
  .byte CL4 ; 5
  .byte CL1 ; 2
- .byte CL0 ; 22
- .byte CL6 ; 19
+ .byte CL6 ; 22
+ .byte CL5 ; 19
  .byte CL5 ; 16
  .byte CL5 ; 13
  .byte CL3 ; 10
  .byte CL4 ; 7
  .byte CL3 ; 4
  .byte CL1 ; 1
- .byte CL0 ; 21
- .byte CL6 ; 18
+ .byte CL6 ; 21
+ .byte CL5 ; 18
  .byte CL5 ; 15
- .byte CL5 ; 12
+ .byte CL6 ; 12
  .byte CL4 ; 9
  .byte CL4 ; 6
  .byte CL2 ; 3
@@ -418,23 +418,23 @@ FRAMEDATA_push_up_2
  .byte 0 ; 23
  .byte 0 ; 20
  .byte 40 ; 17
- .byte 40 ; 14
+ .byte 56 ; 14
  .byte 56 ; 11
  .byte 56 ; 8
  .byte 238 ; 5
  .byte 56 ; 2
  .byte 0 ; 22
  .byte 40 ; 19
- .byte 40 ; 16
- .byte 56 ; 13
+ .byte 0 ; 16
+ .byte 16 ; 13
  .byte 56 ; 10
  .byte 56 ; 7
  .byte 130 ; 4
  .byte 56 ; 1
- .byte 0 ; 21
- .byte 0 ; 18
- .byte 0 ; 15
- .byte 16 ; 12
+ .byte 40 ; 21
+ .byte 40 ; 18
+ .byte 40 ; 15
+ .byte 56 ; 12
  .byte 56 ; 9
  .byte 124 ; 6
  .byte 170 ; 3
@@ -445,22 +445,22 @@ COLOURDATA_push_up_2
  .byte CL0 ; 20
  .byte CL5 ; 17
  .byte CL5 ; 14
- .byte CL6 ; 11
+ .byte CL2 ; 11
  .byte CL4 ; 8
  .byte CL4 ; 5
  .byte CL1 ; 2
  .byte CL0 ; 22
- .byte CL6 ; 19
- .byte CL5 ; 16
+ .byte CL5 ; 19
+ .byte CL0 ; 16
  .byte CL5 ; 13
  .byte CL3 ; 10
  .byte CL4 ; 7
  .byte CL3 ; 4
  .byte CL1 ; 1
- .byte CL0 ; 21
- .byte CL0 ; 18
- .byte CL0 ; 15
- .byte CL5 ; 12
+ .byte CL6 ; 21
+ .byte CL5 ; 18
+ .byte CL5 ; 15
+ .byte CL6 ; 12
  .byte CL4 ; 9
  .byte CL4 ; 6
  .byte CL2 ; 3

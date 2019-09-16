@@ -39,8 +39,7 @@ BIGDIG_SIZE = 32
     NEXT_RANDOM
     and #$F0
     bne n00
-    lda #2
-n00
+n00     ora #2
                 sta wallColour
 
                 sta COLUP0
@@ -273,7 +272,9 @@ LevelNumberDigits
                 stx PF0                 ; 3
 
     IF .LOOP < DUPES-1
-                lda colbk,y             ; 4
+                lda #4 ;!!!
+                nop
+                ;lda Level,y             ; 4
                 adc adjustColour        ; 3
                 sta COLUPF              ; 3 = 10 @13
     ELSE
@@ -573,6 +574,7 @@ walk0               tay
 
 
 
+#if 0
     OPTIONAL_PAGEBREAK "colbk @levelScreen.asm", BIGDIG_SIZE
 
 colbk   ; hardwired for 32 - will need manual changing
@@ -594,6 +596,7 @@ colbk   ; hardwired for 32 - will need manual changing
     .byte .CBK/256
 
     CHECKPAGEX colbk, "WARNING: colbk crosses page @levelScreen.asm"
+#endif
 
 
 
@@ -834,6 +837,7 @@ lidb4
     .byte %11111111
     .byte %11111111
 
+;    .byte |..XXX...|
 
     include "bigDigits.asm"
 

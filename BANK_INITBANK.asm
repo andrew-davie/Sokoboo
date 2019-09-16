@@ -280,6 +280,65 @@ QRet            rts                             ;6
 cannotPush      inc ManPushCounter
                 rts
 
+
+AnimationPusher
+    .byte 0
+    .byte ANIMATION_PUSHUP_ID ;1 UP
+    .byte ANIMATION_PUSH_ID ;2 DOWN
+    .byte 0
+    .byte ANIMATION_PUSH_ID ;4 LEFT
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte ANIMATION_PUSHUP_ID ;8 RIGHT
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+
+                lda #>Animation_PUSHUP
+
+AnimationPusherAddyLO
+    .byte 0
+    .byte <Animation_PUSHUP2 ;1 UP             ; or PUSHUP or PUSHUP2
+    .byte <Animation_PUSH ;2 DOWN
+    .byte 0
+    .byte <Animation_PUSH ;4 LEFT
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte <Animation_PUSH ;8 RIGHT
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+
+AnimationPusherAddyHI
+    .byte 0
+    .byte >Animation_PUSHUP ;1 UP
+    .byte >Animation_PUSH ;2 DOWN
+    .byte 0
+    .byte >Animation_PUSH ;4 LEFT
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte >Animation_PUSH ;8 RIGHT
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+    .byte 0
+
+
+
     DEFINE_SUBROUTINE PushBox
 
       ; X = restoration character for square we are moving TO
@@ -288,11 +347,34 @@ cannotPush      inc ManPushCounter
 
                 sta ROM_Bank
 
-                lda #ANIMATION_PUSH_ID
+                lda PreviousJoystick
+                eor #$FF
+                lsr
+                lsr
+                lsr
+                lsr
+                tay
+                lda AnimationPusher,y
+                beq alreadyAnimPush             ; well, hopefully
                 cmp ManAnimationID
                 beq alreadyAnimPush
 
-                LOAD_ANIMATION PUSH
+                sta ManAnimationID
+
+;               D7        right          P0  D4
+;               D6        left      P0  D3
+;               D5        down      P0  D2
+;               D4        up        P0  D1
+
+
+                lda AnimationPusherAddyLO,y
+                sta animation
+                lda AnimationPusherAddyHI,y
+                sta animation+1
+                lda #0
+                sta animation_delay
+
+                ;LOAD_ANIMATION PUSHUP
 
                 ;lda #0
                 ;sta idleCount
@@ -357,7 +439,8 @@ x0              tya
                 cpx #CHARACTER_TARGET
                 beq decreaseTargets
                 cpx #CHARACTER_TARGET2
-                bne cannotPush
+                beq decreaseTargets
+                rts
 
     ; Box is now on a target - so decrease the remaining targets
 
