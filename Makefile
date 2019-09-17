@@ -1,8 +1,8 @@
 all: sprites/spriteData.asm bigDigits.asm characters sokoboo.bin
 
-characters: charset/*.png
-	echo 'Building CHARACTER SET'
-	python tools/icc.py
+.PHONY: characters
+characters:
+	cd charset && python icc.py
 
 bigDigits.asm: bigDigits/*.gif
 	python tools/digits.py
@@ -14,6 +14,9 @@ sokoboo.bin: *.asm Makefile FORCE
 	tools/stella -rd A ./sokoboo.bin
 #	open -a tools/stella ./sokoboo.bin
 	exit 0
+
+force:
+	echo "force"
 
 sprites/spriteData.asm: sprites/*.png
 	echo 'Building SPRITE data'

@@ -303,8 +303,8 @@ AnimationPusher
 
 AnimationPusherAddyLO
     .byte 0
-    .byte <Animation_PUSHUP2 ;1 UP             ; or PUSHUP or PUSHUP2
-    .byte <Animation_PUSH ;2 DOWN
+    .byte <Animation_PUSH ;1 UP             ; or PUSHUP or PUSHUP2
+    .byte <Animation_PUSHDOWN ;2 DOWN
     .byte 0
     .byte <Animation_PUSH ;4 LEFT
     .byte 0
@@ -1095,6 +1095,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte <MOVE_TARGET
         .byte <MOVE_GENERIC ;man occupied
         .byte <MOVE_GENERIC ;steel
+        .byte <MOVE_GENERIC ;rivet
         .byte <MOVE_GENERIC ;wall
         .byte <MOVE_BOX_ON_TARGET ;box on target
 ;        .byte <MOVE_BOX_ON_TARGET ;box on target
@@ -1125,6 +1126,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte >MOVE_TARGET
         .byte >MOVE_GENERIC ;man occupied
         .byte >MOVE_GENERIC ;steel
+        .byte >MOVE_GENERIC ;rivet
         .byte >MOVE_GENERIC ;wall
         .byte >MOVE_BOX_ON_TARGET ;box on target
 ;        .byte >MOVE_BOX_ON_TARGET ;box on target

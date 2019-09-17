@@ -1454,19 +1454,14 @@ COK
                 bpl CopyAcols
                 rts
 
+    include "charset/CHARACTERSHAPE_STEEL.asm"
+
 
     DEFINE_SUBROUTINE CopyColoursToScreenLines
 
                 ldx #SCREEN_LINES-1
 setPlat         stx SET_BANK_RAM
-
-                lda icc_colour
-                sta Colour_A + RAM_WRITE
-                lda icc_colour+1
-                sta Colour_B + RAM_WRITE
-                lda icc_colour+2
-                sta Colour_C + RAM_WRITE
-
+                jsr DoColours
                 dex
                 bpl setPlat
 
@@ -1481,8 +1476,7 @@ setPlat         stx SET_BANK_RAM
     include "charset/CHARACTERSHAPE_TARGET3.asm"
     include "charset/CHARACTERSHAPE_TARGET5.asm"
     include "charset/CHARACTERSHAPE_TARGET7.asm"
-    include "charset/CHARACTERSHAPE_STEEL.asm"
-;    include "charset/CHARACTERSHAPE_RIVET.asm"
+    include "charset/CHARACTERSHAPE_RIVET.asm"
     include "characterset/character_SOIL.asm"
     include "charset/CHARACTERSHAPE_BOX.asm"
     include "charset/CHARACTERSHAPE_BOX_ON_TARGET.asm"

@@ -3,11 +3,27 @@
     DEFINE_SUBROUTINE EncodeGameStatistics
 
     ; create 3-byte code with
-    ; 1 bit     PAL/NTSC flag
-    ; 10 bits   Level Number (0-1023)
+    ; 8 bits   Level Number (0-255)
     ; 10 bits    # of moves (0-1023) - display shows 999 for > 999
     ; seconds count # frames/50(60)
+    ; max 1 hour.... -> 60*60 seconds = 3600 seconds --> 12 bits
+    ; 3 digits decimal x 3 = 9 digits = 999999999.
+    ; log(2)999999999 = 29.8 (thus, 29 bits available)
 
+    ; need 32 :(
+
+#if 0
+                lda #0
+                sta coded+2
+                sta coded+1
+                lda levelX
+                sta coded
+
+#endif
+
+
+
+                rts
 
 
 

@@ -479,6 +479,18 @@ ScreenBitmapBLUE    = ScreenBitmap + LINES_PER_CHAR/3*2
     CHECKPAGEX ScreenBitmap, "ScreenBitmap"
 
 
+    DEFINE_SUBROUTINE DoColours
+
+
+                lda icc_colour
+                sta Colour_A + RAM_WRITE
+                lda icc_colour+1
+                sta Colour_B + RAM_WRITE
+                lda icc_colour+2
+                sta Colour_C + RAM_WRITE
+
+                rts
+
 ;--------------------------------------------------------------------------
 
     DEFINE_SUBROUTINE SelfModDrawPlayers ; copied to ROW RAM BANKS
@@ -598,6 +610,7 @@ OBJTYPE    .SET OBJTYPE + 1
     DEFINE_CHARACTER TARGET2
     DEFINE_CHARACTER MANOCCUPIED
     DEFINE_CHARACTER STEEL
+    DEFINE_CHARACTER RIVET
     DEFINE_CHARACTER WALL
     DEFINE_CHARACTER BOX_ON_TARGET
     ;DEFINE_CHARACTER BOX_ON_TARGET2
@@ -642,6 +655,8 @@ CharacterDataVecLO
   .byte <CHARACTERSHAPE_BLANK
   .byte <CHARACTERSHAPE_STEEL
   .byte <CHARACTERSHAPE_STEEL_MIRRORED
+  .byte <CHARACTERSHAPE_RIVET
+  .byte <CHARACTERSHAPE_RIVET_MIRRORED
   .byte <CHARACTERSHAPE_WALL
   .byte <CHARACTERSHAPE_WALL_MIRRORED
   .byte <CHARACTERSHAPE_BOX_ON_TARGET
@@ -699,6 +714,8 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_BLANK
     .byte >CHARACTERSHAPE_STEEL
     .byte >CHARACTERSHAPE_STEEL_MIRRORED
+    .byte >CHARACTERSHAPE_RIVET
+    .byte >CHARACTERSHAPE_RIVET_MIRRORED
     .byte >CHARACTERSHAPE_WALL
     .byte >CHARACTERSHAPE_WALL_MIRRORED
     .byte >CHARACTERSHAPE_BOX_ON_TARGET
