@@ -1096,7 +1096,7 @@ RestartLevelNextPlayer
 
                 ldx #BANK_xLevelScreen
                 stx SET_BANK
-                jsr xLevelScreen
+;                jsr xLevelScreen
 
 
                 ldx #BANK_LevelScreen
@@ -1471,12 +1471,14 @@ setPlat         stx SET_BANK_RAM
 
     ;---------------------------------------------------------------------------
 
-    include "charset/CHARACTERSHAPE_TARGET.asm"
+    ;include "charset/CHARACTERSHAPE_TARGET.asm"
     include "charset/CHARACTERSHAPE_TARGET1.asm"
     include "charset/CHARACTERSHAPE_TARGET3.asm"
     include "charset/CHARACTERSHAPE_TARGET5.asm"
     include "charset/CHARACTERSHAPE_TARGET7.asm"
     include "charset/CHARACTERSHAPE_RIVET.asm"
+    include "charset/CHARACTERSHAPE_STRIPE.asm"
+    ;include "charset/CHARACTERSHAPE_SOIL.asm"
     include "characterset/character_SOIL.asm"
     include "charset/CHARACTERSHAPE_BOX.asm"
     include "charset/CHARACTERSHAPE_BOX_ON_TARGET.asm"

@@ -236,11 +236,6 @@ posicc          cmp #$31
                 sta BoardLimit_Width
                 sta BoardLimit_Height
 
-rechooose       jsr Random
-                and #3
-                cmp #3
-                bcs rechooose           ; weird, as we use 'rnd' later
-
 GetNextItem
 
                 lda #1

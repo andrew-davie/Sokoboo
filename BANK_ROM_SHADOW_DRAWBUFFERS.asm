@@ -293,7 +293,7 @@ SOFF    SET SOFF + SCREEN_WIDTH
     ; individual objects needing to do this.  Note, the draw-time replacement happens,
     ; not board-time.
 
-CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
+    DEFINE_SUBROUTINE CharReplacement ; in RAM -- BANK_DRAW_BUFFERS
 
     ; Converts a character # to an animated creature type
     ; The array is indexed by CHARACTER_...
@@ -307,6 +307,7 @@ ANIM_TARGET     .byte CHARACTER_TARGET      ;  3  XOR'd to give flashing target 
                 .byte CHARACTER_STEEL       ;  6
                 .byte CHARACTER_RIVET       ;  7
                 .byte CHARACTER_WALL        ;  8
+                .byte CHARACTER_STRIPE
 ANIM_TARGET2    .byte CHARACTER_BOX_ON_TARGET      ;  8    box on target
 ;                .byte CHARACTER_BOX_ON_TARGET2
                 .byte CHARACTER_BLANK       ;  9

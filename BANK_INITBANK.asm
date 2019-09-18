@@ -1097,6 +1097,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte <MOVE_GENERIC ;steel
         .byte <MOVE_GENERIC ;rivet
         .byte <MOVE_GENERIC ;wall
+        .byte <MOVE_GENERIC ;stripe
         .byte <MOVE_BOX_ON_TARGET ;box on target
 ;        .byte <MOVE_BOX_ON_TARGET ;box on target
         .byte <MOVE_GENERIC ;nogo
@@ -1128,6 +1129,7 @@ OBJTYPE    .SET OBJTYPE + 1
         .byte >MOVE_GENERIC ;steel
         .byte >MOVE_GENERIC ;rivet
         .byte >MOVE_GENERIC ;wall
+        .byte >MOVE_GENERIC ;stripe
         .byte >MOVE_BOX_ON_TARGET ;box on target
 ;        .byte >MOVE_BOX_ON_TARGET ;box on target
         .byte >MOVE_GENERIC ;nogo

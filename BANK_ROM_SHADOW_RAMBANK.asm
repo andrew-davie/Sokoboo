@@ -424,8 +424,7 @@ SM2STOREc       sta ScreenBitmap+RAM_WRITE,x    ; 5 = 33✅
 
    ;------------------------------------------------------------------------------
 
-
-CharAddressLO ;[abs char location % 10]
+    DEFINE_SUBROUTINE CharAddressLO ;[abs char location % 10]
 
     ; Gives the absolute screen buffer address of the first line of the given character
     ; Where character number is 0-9
@@ -438,10 +437,10 @@ CharAddressLO ;[abs char location % 10]
             .byte < ( ScreenBitmap + ( 2 * LINES_PER_CHAR ))  ; 7
             .byte < ( ScreenBitmap + ( 3 * LINES_PER_CHAR ))  ; 8
             .byte < ( ScreenBitmap + ( 3 * LINES_PER_CHAR ))  ; 9
-;            .byte < ( ScreenBitmap + ( 0 * LINES_PER_CHAR ))  ; 0 PF0
-;            .byte < ( ScreenBitmap + ( 3 * LINES_PER_CHAR ))  ; 5 PF0
 
-CharMask ; [abs char location % 10]
+    CHECKPAGEX CharAddressLO, "CharAddressLO crosses page"
+
+    DEFINE_SUBROUTINE CharMask ; [abs char location % 10]
 
     ; Gives the mask for any char of the screen (per row)
     ; Note, this is hardwired to the screen format of 6 bytes/line
@@ -457,6 +456,11 @@ CharMaskNeg:
             .byte $0F       ; 9/7
             .byte $0F       ; -/8
             .byte $F0       ; -/9
+
+    CHECKPAGEX CharMask, "CharMask crosses page"
+
+    DEFINE_SUBROUTINE MOD10
+
 MOD10
     REPEAT SCREEN_LINES
 ;        .byte (8*2), MIRROR+0*2, MIRROR+1*2, 2*2, 3*2
@@ -466,6 +470,8 @@ MOD10
         .byte DIRECT+SM_PF0_BLUEr-SM_PF0_BLUEl  ; works only if distances between PF= writes are identical!
         .byte MIRROR+4*2, MIRROR+5*2, 6*2, 7*2
     REPEND
+
+    ;CHECKPAGEX MOD10, "MOD10 crosses page"
 
     ;------------------------------------------------------------------------------
 
@@ -530,6 +536,123 @@ erased          ldx ManDrawY
 NoMod           rts
 
 
+
+   ;------------------------------------------------------------------------------
+
+    ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
+
+    ;------------------------------------------------------------------------------
+
+
+
+
+OBJTYPE    SET 0
+    MAC DEFINE_CHARACTER
+CHARACTER_{1}    = OBJTYPE
+OBJTYPE    .SET OBJTYPE + 1
+    ENDM
+
+; Modifications to character #/order must also ensure the following are correct...
+;   CharacterDataVecLO/HI         in this file
+;   MoveVecLO/HI                  in BANK_INITBANK
+;   CharReplacement               in BANK_ROM_SHADOW_DRAWBUFFERS
+
+    DEFINE_CHARACTER BLANK
+    DEFINE_CHARACTER SOIL
+    DEFINE_CHARACTER BOX
+    DEFINE_CHARACTER TARGET
+    DEFINE_CHARACTER TARGET2
+    DEFINE_CHARACTER MANOCCUPIED
+    DEFINE_CHARACTER STEEL
+    DEFINE_CHARACTER RIVET
+    DEFINE_CHARACTER WALL
+    DEFINE_CHARACTER STRIPE
+    DEFINE_CHARACTER BOX_ON_TARGET
+    ;DEFINE_CHARACTER BOX_ON_TARGET2
+    DEFINE_CHARACTER NOGO
+    DEFINE_CHARACTER TARGET1
+    DEFINE_CHARACTER TARGET3
+    DEFINE_CHARACTER TARGET5
+    DEFINE_CHARACTER TARGET7
+
+#if DIGITS
+    DEFINE_CHARACTER 0
+    DEFINE_CHARACTER 1
+    DEFINE_CHARACTER 2
+    DEFINE_CHARACTER 3
+    DEFINE_CHARACTER 4
+    DEFINE_CHARACTER 5
+    DEFINE_CHARACTER 6
+    DEFINE_CHARACTER 7
+    DEFINE_CHARACTER 8
+    DEFINE_CHARACTER 9
+#endif
+
+    DEFINE_CHARACTER MAXIMUM
+
+
+    DEFINE_SUBROUTINE CharacterDataVecLO
+
+; Two entries per character.  2nd is ptr to mirrored character
+; Characters don't have to be mirrored, obviously -- use the same pointer for both!
+
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_SOIL
+  .byte <CHARACTERSHAPE_SOIL_MIRRORED
+  .byte <CHARACTERSHAPE_BOX
+  .byte <CHARACTERSHAPE_BOX_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET1
+  .byte <CHARACTERSHAPE_TARGET1_MIRRORED
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_BLANK ; man occupied
+  .byte <CHARACTERSHAPE_BLANK
+  .byte <CHARACTERSHAPE_STEEL
+  .byte <CHARACTERSHAPE_STEEL_MIRRORED
+  .byte <CHARACTERSHAPE_RIVET
+  .byte <CHARACTERSHAPE_RIVET_MIRRORED
+  .byte <CHARACTERSHAPE_WALL
+  .byte <CHARACTERSHAPE_WALL_MIRRORED
+  .byte <CHARACTERSHAPE_STRIPE
+  .byte <CHARACTERSHAPE_STRIPE_MIRRORED
+  .byte <CHARACTERSHAPE_BOX_ON_TARGET
+  .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
+;  .byte <CHARACTERSHAPE_BOX_ON_TARGET2
+;  .byte <CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
+  .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
+  .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
+  .byte <CHARACTERSHAPE_TARGET1
+  .byte <CHARACTERSHAPE_TARGET1_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET3
+  .byte <CHARACTERSHAPE_TARGET3_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET5
+  .byte <CHARACTERSHAPE_TARGET5_MIRRORED
+  .byte <CHARACTERSHAPE_TARGET7
+  .byte <CHARACTERSHAPE_TARGET7_MIRRORED
+
+    #if DIGITS
+    .byte <CHARACTERSHAPE_0, <CHARACTERSHAPE_0_MIRRORED
+    .byte <CHARACTERSHAPE_1, <CHARACTERSHAPE_1_MIRRORED
+    .byte <CHARACTERSHAPE_2, <CHARACTERSHAPE_2_MIRRORED
+    .byte <CHARACTERSHAPE_3, <CHARACTERSHAPE_3_MIRRORED
+    .byte <CHARACTERSHAPE_4, <CHARACTERSHAPE_4_MIRRORED
+    .byte <CHARACTERSHAPE_5, <CHARACTERSHAPE_5_MIRRORED
+    .byte <CHARACTERSHAPE_6, <CHARACTERSHAPE_6_MIRRORED
+    .byte <CHARACTERSHAPE_7, <CHARACTERSHAPE_7_MIRRORED
+    .byte <CHARACTERSHAPE_8, <CHARACTERSHAPE_8_MIRRORED
+    .byte <CHARACTERSHAPE_9, <CHARACTERSHAPE_9_MIRRORED
+    #endif
+
+
+  IF * - CharacterDataVecLO != CHARACTER_MAXIMUM*2
+    ECHO "ERROR: Incorrect CharacterDataVecLO table!"
+    ERR
+  ENDIF
+
+    CHECKPAGEX CharacterDataVecLO, "CharacterDataVecLO crosses page"
+
+
    ;------------------------------------------------------------------------------
 
 ; The acutal colour palette to use for the player. The player may be any "ethnicity" which refers
@@ -583,122 +706,9 @@ EthnicityColourPalette
     COLOUR_GROUP    $40,$6, $30,$8, $00,$A, $90,$4, $A0,6, $20,6   ; 2
     COLOUR_GROUP    $30,$A, $50,$8, $00,$A, $40,$4, $60,6, $E0,8   ; 3
 
-   ;------------------------------------------------------------------------------
-
-    ;ECHO "TOTAL ROW-BANK CODE REQUIREMENT = ", * - BANK_START
-
-    ;------------------------------------------------------------------------------
-
-
-
-
-OBJTYPE    SET 0
-    MAC DEFINE_CHARACTER
-CHARACTER_{1}    = OBJTYPE
-OBJTYPE    .SET OBJTYPE + 1
-    ENDM
-
-; Modifications to character #/order must also ensure the following are correct...
-;   CharacterDataVecLO/HI         in this file
-;   MoveVecLO/HI                  in BANK_INITBANK
-;   CharReplacement               in BANK_ROM_SHADOW_DRAWBUFFERS
-
-    DEFINE_CHARACTER BLANK
-    DEFINE_CHARACTER SOIL
-    DEFINE_CHARACTER BOX
-    DEFINE_CHARACTER TARGET
-    DEFINE_CHARACTER TARGET2
-    DEFINE_CHARACTER MANOCCUPIED
-    DEFINE_CHARACTER STEEL
-    DEFINE_CHARACTER RIVET
-    DEFINE_CHARACTER WALL
-    DEFINE_CHARACTER BOX_ON_TARGET
-    ;DEFINE_CHARACTER BOX_ON_TARGET2
-    DEFINE_CHARACTER NOGO
-    DEFINE_CHARACTER TARGET1
-    DEFINE_CHARACTER TARGET3
-    DEFINE_CHARACTER TARGET5
-    DEFINE_CHARACTER TARGET7
-
-#if DIGITS
-    DEFINE_CHARACTER 0
-    DEFINE_CHARACTER 1
-    DEFINE_CHARACTER 2
-    DEFINE_CHARACTER 3
-    DEFINE_CHARACTER 4
-    DEFINE_CHARACTER 5
-    DEFINE_CHARACTER 6
-    DEFINE_CHARACTER 7
-    DEFINE_CHARACTER 8
-    DEFINE_CHARACTER 9
-#endif
-
-    DEFINE_CHARACTER MAXIMUM
-
-
-CharacterDataVecLO
-
-; Two entries per character.  2nd is ptr to mirrored character
-; Characters don't have to be mirrored, obviously -- use the same pointer for both!
-
-  .byte <CHARACTERSHAPE_BLANK
-  .byte <CHARACTERSHAPE_BLANK
-  .byte <CHARACTERSHAPE_SOIL
-  .byte <CHARACTERSHAPE_SOIL_MIRRORED
-  .byte <CHARACTERSHAPE_BOX
-  .byte <CHARACTERSHAPE_BOX_MIRRORED
-  .byte <CHARACTERSHAPE_TARGET
-  .byte <CHARACTERSHAPE_TARGET_MIRRORED
-  .byte <CHARACTERSHAPE_BLANK
-  .byte <CHARACTERSHAPE_BLANK
-  .byte <CHARACTERSHAPE_BLANK ; man occupied
-  .byte <CHARACTERSHAPE_BLANK
-  .byte <CHARACTERSHAPE_STEEL
-  .byte <CHARACTERSHAPE_STEEL_MIRRORED
-  .byte <CHARACTERSHAPE_RIVET
-  .byte <CHARACTERSHAPE_RIVET_MIRRORED
-  .byte <CHARACTERSHAPE_WALL
-  .byte <CHARACTERSHAPE_WALL_MIRRORED
-  .byte <CHARACTERSHAPE_BOX_ON_TARGET
-  .byte <CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
-;  .byte <CHARACTERSHAPE_BOX_ON_TARGET2
-;  .byte <CHARACTERSHAPE_BOX_ON_TARGET2_MIRRORED
-  .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
-  .byte <CHARACTERSHAPE_BLANK                     ; unkillable man
-  .byte <CHARACTERSHAPE_TARGET1
-  .byte <CHARACTERSHAPE_TARGET1_MIRRORED
-  .byte <CHARACTERSHAPE_TARGET3
-  .byte <CHARACTERSHAPE_TARGET3_MIRRORED
-  .byte <CHARACTERSHAPE_TARGET5
-  .byte <CHARACTERSHAPE_TARGET5_MIRRORED
-  .byte <CHARACTERSHAPE_TARGET7
-  .byte <CHARACTERSHAPE_TARGET7_MIRRORED
-
-    #if DIGITS
-    .byte <CHARACTERSHAPE_0, <CHARACTERSHAPE_0_MIRRORED
-    .byte <CHARACTERSHAPE_1, <CHARACTERSHAPE_1_MIRRORED
-    .byte <CHARACTERSHAPE_2, <CHARACTERSHAPE_2_MIRRORED
-    .byte <CHARACTERSHAPE_3, <CHARACTERSHAPE_3_MIRRORED
-    .byte <CHARACTERSHAPE_4, <CHARACTERSHAPE_4_MIRRORED
-    .byte <CHARACTERSHAPE_5, <CHARACTERSHAPE_5_MIRRORED
-    .byte <CHARACTERSHAPE_6, <CHARACTERSHAPE_6_MIRRORED
-    .byte <CHARACTERSHAPE_7, <CHARACTERSHAPE_7_MIRRORED
-    .byte <CHARACTERSHAPE_8, <CHARACTERSHAPE_8_MIRRORED
-    .byte <CHARACTERSHAPE_9, <CHARACTERSHAPE_9_MIRRORED
-    #endif
-
-
-  IF * - CharacterDataVecLO != CHARACTER_MAXIMUM*2
-    ECHO "ERROR: Incorrect CharacterDataVecLO table!"
-    ERR
-  ENDIF
-
-
- ;ds 20,0
-
 ;---------------------------------------------------------------------------
 
-CharacterDataVecHI
+    DEFINE_SUBROUTINE CharacterDataVecHI
 
     .byte >CHARACTERSHAPE_BLANK
     .byte >CHARACTERSHAPE_BLANK
@@ -706,8 +716,8 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_SOIL_MIRRORED
     .byte >CHARACTERSHAPE_BOX
     .byte >CHARACTERSHAPE_BOX_MIRRORED
-    .byte >CHARACTERSHAPE_TARGET
-    .byte >CHARACTERSHAPE_TARGET_MIRRORED
+    .byte >CHARACTERSHAPE_TARGET1
+    .byte >CHARACTERSHAPE_TARGET1_MIRRORED
     .byte >CHARACTERSHAPE_BLANK
     .byte >CHARACTERSHAPE_BLANK
     .byte >CHARACTERSHAPE_BLANK ; man occupied
@@ -718,6 +728,8 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_RIVET_MIRRORED
     .byte >CHARACTERSHAPE_WALL
     .byte >CHARACTERSHAPE_WALL_MIRRORED
+    .byte >CHARACTERSHAPE_STRIPE
+    .byte >CHARACTERSHAPE_STRIPE_MIRRORED
     .byte >CHARACTERSHAPE_BOX_ON_TARGET
     .byte >CHARACTERSHAPE_BOX_ON_TARGET_MIRRORED
 ;    .byte >CHARACTERSHAPE_BOX_ON_TARGET2
@@ -746,14 +758,15 @@ CharacterDataVecHI
     .byte >CHARACTERSHAPE_9, >CHARACTERSHAPE_9_MIRRORED
     #endif
 
-
     IF * - CharacterDataVecHI != CHARACTER_MAXIMUM*2
         ECHO "ERROR: Incorrect CharacterDataVecHI table!"
         ERR
     ENDIF
 
+    CHECKPAGEX CharacterDataVecHI, "CharacterDataVecHI crosses page"
 
-;     OPTIONAL_PAGEBREAK "PLAYER BLANK SHAPE", LINES_PER_CHAR
+
+     ;OPTIONAL_PAGEBREAK "PLAYER BLANK SHAPE", LINES_PER_CHAR
 
 ShapePlayer         = PLAYER0_SHAPE ;BLANK
 ShapePlayerBLUE     = ShapePlayer   ; low adresses patched
@@ -782,13 +795,6 @@ PLAYER0_COLOUR
     ds LINES_PER_CHAR,0
     CHECKPAGEX PLAYER0_COLOUR, "PLAYER0_COLOUR in BANK_ROM_SHADOW_RAMBANK.asm"
 
-ExistingFrame   .byte -1
-LastYScroll     .byte -1
-BandOffset      .byte 20
-
-Colour_A        .byte 0
-Colour_B        .byte 0
-Colour_C        .byte 0
 
 
 
@@ -831,6 +837,8 @@ ColourBandsGreen
 
 
 
+
+
     DEFINE_SUBROUTINE FixColours
     ; USES OVERLAY "ColourFixer"
 
@@ -851,7 +859,8 @@ ColourBandsGreen
                 adc BoardScrollY
                 sta BandOffsetTemp
 
-                ldx #0
+
+                ldx #SCREEN_LINES-1
 LoopBankLines   stx SET_BANK_RAM
 
                 txa
@@ -867,15 +876,24 @@ LoopBankLines   stx SET_BANK_RAM
                 ldy FadeComplete
                 beq writeActualCol
                 lda #0
-writeActualCol  sta SELFMOD_GREEN+RAM_WRITE+1
+writeActualCol  sta Colour_B_Actual + RAM_WRITE
 
-                inx
-                cpx #SCREEN_LINES
-                bcc LoopBankLines
-
+                dex
+                bpl LoopBankLines
 BandsNotChanged rts
 
+BandOffset      .byte 20
+ExistingFrame   .byte -1
+LastYScroll     .byte -1
 
+
+
+
+Colour_A        .byte 0
+Colour_B        .byte 0
+Colour_C        .byte 0
+
+    ; WARNING: DO NOT ALLOW A RTS AS LAST BYTE OF BANK, as it triggers a write at F400 access
 
     CHECK_HALF_BANK_SIZE "ROM_SHADOW_OF_RAMBANK_CODE -- 1K"
 
