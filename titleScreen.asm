@@ -53,6 +53,8 @@ TitleSequence
 platOK
 #endif
 
+k2              inc rnd
+                beq k2
 
 
 VerticalBlank   sta WSYNC

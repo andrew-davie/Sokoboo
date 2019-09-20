@@ -1077,7 +1077,7 @@ SEGMENT_DECODE_LEVEL_SHADOW = $F000      ; if not = $F000, this will cause an as
                 sta SET_BANK
                 jsr TitleSequence
 
-                jmp NextLevelLevel
+                jmp FirstLevel
 
 RestartLevelNextPlayer
 
@@ -1094,11 +1094,12 @@ RestartLevelNextPlayer
 
     DEFINE_SUBROUTINE NextLevelLevel
 
+
                 ldx #BANK_xLevelScreen
                 stx SET_BANK
-;                jsr xLevelScreen
+                jsr xLevelScreen
 
-
+FirstLevel
                 ldx #BANK_LevelScreen
                 stx SET_BANK
 

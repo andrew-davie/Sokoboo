@@ -480,15 +480,13 @@ adjustColour            ds 1
 
 
     OVERLAY CodeScreen
-;xcolour_table           ds 2
-xdigit1                  ds 2
-xdigit2                  ds 2
-;xdigitstar               ds 2
-xdigit                   ds 3
-xdigitHundreds           ds 2
-xwallColour              ds 1
-xadjustColour            ds 1
-codeDigit              ds 9
+bigdigit0       ds 2
+bigdigit1       ds 2
+bigdigit2       ds 2
+bigdigit3       ds 2
+codeDigit       ds 12
+codeTemp        ds 1
+codeDelay       ds 2
     VALIDATE_OVERLAY "CodeScreen"
 
 
