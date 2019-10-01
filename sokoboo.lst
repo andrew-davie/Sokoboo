@@ -5017,10 +5017,10 @@
      75  1027
      76  1027				   CharVectorLO
      77  1027		       37		      .byte.b	<BLANKL-1
-     78  1028		       ad ad ad ad	      .byte.b	<CharA-1, <CharB-1, <CharC-1, <CharD-1
-     79  102c		       ad ad ad ad	      .byte.b	<CharE-1, <CharF-1, <CharG-1, <CharH-1
-     80  1030		       ad ad ad ad	      .byte.b	<CharI-1, <CharJ-1, <CharK-1, <CharL-1
-     81  1034		       ad ad ad ad	      .byte.b	<CharM-1, <CharN-1, <CharO-1, <CharP-1
+     78  1028		       c2 c2 c2 c2	      .byte.b	<CharA-1, <CharB-1, <CharC-1, <CharD-1
+     79  102c		       c2 c2 c2 c2	      .byte.b	<CharE-1, <CharF-1, <CharG-1, <CharH-1
+     80  1030		       c2 c2 b4 ad	      .byte.b	<CharI-1, <CharJ-1, <CharK-1, <CharL-1
+     81  1034		       c2 c2 bb c2	      .byte.b	<CharM-1, <CharN-1, <CharO-1, <CharP-1
      82  1038							;    .byte   <OneL-1,	<TwoL-1,  <ThreeL-1,<FourL-1
      83  1038
      84  1038							; Digit shape definitions are at start of bank so that we don't have page boundary
@@ -5211,110 +5211,138 @@
     269  10ad		       7f		      .byte.b	%01111111
     270  10ae
     271  10ae
-    272  10ae							; level "name" characters (left only!):
-    273  10ae
-    274  10ae				   CharN
-    275  10ae				   CharK
-    276  10ae				   CharH
-    277  10ae				   CharA
-    278  10ae				   CharJ
-    279  10ae				   CharP
-    280  10ae				   CharB
-    281  10ae				   CharO
-    282  10ae				   CharC
-    283  10ae				   CharI
-    284  10ae				   CharD
-    285  10ae				   CharG
-    286  10ae				   CharE
-    287  10ae				   CharL
-    288  10ae				   CharF
-    289  10ae				   CharM
-    290  10ae		       00 00 00 00*	      ds	7,0
-    291  10b5
-    292  10b5				   charPlace
-    293  10b5		       0c		      .byte.b	%00001100
-    294  10b6		       0c		      .byte.b	%00001100
-    295  10b7		       0c		      .byte.b	%00001100
-    296  10b8		       0c		      .byte.b	%00001100
-    297  10b9		       0c		      .byte.b	%00001100
-    298  10ba		       00		      .byte.b	%00000000
-    299  10bb		       0c		      .byte.b	%00001100
-    300  10bc
-    301  10bc							;-------------------------------------------------------------------------------------
-    302  10bc				   PosTbl
-    303  10bc		       40		      .byte.b	$40
-    304  10bd		       31 22 13 04*	      .byte.b	$31, $22, $13, $04, $f5, $e6, $d7, $c8
-    305  10c5		       b9		      .byte.b	$b9
-    306  10c6
-    307  10c6
-    308  10c6							;------------------------------------------------------------------------------
-    309  10c6							; RAM-BASED SUBROUTINES...
-    310  10c6							; NOTE: When calling these routines, remember you are actually calling the ROM routine
-    311  10c6							; as it is the ROM bank that is switched in.  The first thing to do to access the RAM
-    312  10c6							; is to switch the appropriate RAM bank in.  It would be nicer to be able to direct-call
-    313  10c6							; the RAM-based routine.
-    314  10c6
-    315  1100		       00 00 00 00*	      ALIGN	256	; so SM code needs no HI table
-    316  1100
-    317  1100		       f1 00	   SM_BASE    =	.
-    318  1100
-    319  1100							;#IF 0 ;{
-    320  1100							;    DEFINE_SUBROUTINE Score3x3
-    321  1100							;
-    322  1100							;	  sta	  RESP0
-    323  1100							;	   sta	   RESP1
-    324  1100							;	   lda	   #$$000
-    325  1100							;	    sta     GRP0
-    326  1100							;	    lda     #$$009
-    327  1100							;	    sta     GRP1
-    328  1100							;	    lda     #$$202
-    329  1100							;	    sta     ENABL
-    330  1100							;	    nop
-    331  1100							;	    nop
-    332  1100							;	    nop
-    333  1100							;	    lda     #$$016
-    334  1100							;	    ldy     #$$100
-    335  1100							;	    ldx     #$$109
-    336  1100							;	    sta     GRP0    ; Critical time is right here
-    337  1100							;	    stx     GRP1
-    338  1100							;	    sty     GRP0
-    339  1100							;	    sta     RESP0
-    340  1100							;	    sta     RESP1
-    341  1100							;	    ldx     #$$116
-    342  1100							;	    lda     #$$209
-    343  1100							;	    stx     GRP0
-    344  1100							;	    sta     GRP1
-    345  1100							;	    lda     #$$200
-    346  1100							;	    sta     GRP0
-    347  1100							;	    sta     RESP0
-    348  1100							;	    sta     RESP1
-    349  1100							;	    lda     #$$216
-    350  1100							;	    nop
-    351  1100							;	    sta     GRP0
-    352  1100							;
-    353  1100							;	      rts
-    354  1100							;#ENDIF ;}
-    355  1100
-    356  1100
-    357  1100							;------------------------------------------------------------------------------
-    358  1100				   Score1x6Fix SUBROUTINE
+    272  10ae				   CharL
+    273  10ae		       7f		      .byte.b	%01111111
+    274  10af		       40		      .byte.b	%01000000
+    275  10b0		       41		      .byte.b	%01000001
+    276  10b1		       40		      .byte.b	%01000000
+    277  10b2		       40		      .byte.b	%01000000
+    278  10b3		       40		      .byte.b	%01000000
+    279  10b4		       40		      .byte.b	%01000000
+    280  10b5
+    281  10b5				   CharK
+    282  10b5		       41		      .byte.b	%01000001
+    283  10b6		       41		      .byte.b	%01000001
+    284  10b7		       41		      .byte.b	%01000001
+    285  10b8		       7f		      .byte.b	%01111111
+    286  10b9		       48		      .byte.b	%01001000
+    287  10ba		       48		      .byte.b	%01001000
+    288  10bb		       48		      .byte.b	%01001000
+    289  10bc
+    290  10bc				   CharO
+    291  10bc		       7f		      .byte.b	%01111111
+    292  10bd		       41		      .byte.b	%01000001
+    293  10be		       41		      .byte.b	%01000001
+    294  10bf		       41		      .byte.b	%01000001
+    295  10c0		       41		      .byte.b	%01000001
+    296  10c1		       41		      .byte.b	%01000001
+    297  10c2		       7f		      .byte.b	%01111111
+    298  10c3
+    299  10c3
+    300  10c3							; level "name" characters (left only!):
+    301  10c3
+    302  10c3				   CharN
+    303  10c3				   kCharK
+    304  10c3				   CharH
+    305  10c3				   CharA
+    306  10c3				   CharJ
+    307  10c3				   CharP
+    308  10c3				   CharB
+    309  10c3							;CharO
+    310  10c3				   CharC
+    311  10c3				   CharI
+    312  10c3				   CharD
+    313  10c3				   CharG
+    314  10c3				   CharE
+    315  10c3							;CharL:
+    316  10c3				   CharF
+    317  10c3				   CharM
+    318  10c3		       00 00 00 00*	      ds	7,0
+    319  10ca
+    320  10ca				   charPlace
+    321  10ca		       0c		      .byte.b	%00001100
+    322  10cb		       0c		      .byte.b	%00001100
+    323  10cc		       0c		      .byte.b	%00001100
+    324  10cd		       0c		      .byte.b	%00001100
+    325  10ce		       0c		      .byte.b	%00001100
+    326  10cf		       00		      .byte.b	%00000000
+    327  10d0		       0c		      .byte.b	%00001100
+    328  10d1
+    329  10d1							;-------------------------------------------------------------------------------------
+    330  10d1				   PosTbl
+    331  10d1		       40		      .byte.b	$40
+    332  10d2		       31 22 13 04*	      .byte.b	$31, $22, $13, $04, $f5, $e6, $d7, $c8
+    333  10da		       b9		      .byte.b	$b9
+    334  10db
+    335  10db
+    336  10db							;------------------------------------------------------------------------------
+    337  10db							; RAM-BASED SUBROUTINES...
+    338  10db							; NOTE: When calling these routines, remember you are actually calling the ROM routine
+    339  10db							; as it is the ROM bank that is switched in.  The first thing to do to access the RAM
+    340  10db							; is to switch the appropriate RAM bank in.  It would be nicer to be able to direct-call
+    341  10db							; the RAM-based routine.
+    342  10db
+    343  1100		       00 00 00 00*	      ALIGN	256	; so SM code needs no HI table
+    344  1100
+    345  1100		       f1 00	   SM_BASE    =	.
+    346  1100
+    347  1100							;#IF 0 ;{
+    348  1100							;    DEFINE_SUBROUTINE Score3x3
+    349  1100							;
+    350  1100							;	  sta	  RESP0
+    351  1100							;	   sta	   RESP1
+    352  1100							;	   lda	   #$$000
+    353  1100							;	    sta     GRP0
+    354  1100							;	    lda     #$$009
+    355  1100							;	    sta     GRP1
+    356  1100							;	    lda     #$$202
+    357  1100							;	    sta     ENABL
+    358  1100							;	    nop
+    359  1100							;	    nop
+    360  1100							;	    nop
+    361  1100							;	    lda     #$$016
+    362  1100							;	    ldy     #$$100
+    363  1100							;	    ldx     #$$109
+    364  1100							;	    sta     GRP0    ; Critical time is right here
+    365  1100							;	    stx     GRP1
+    366  1100							;	    sty     GRP0
+    367  1100							;	    sta     RESP0
+    368  1100							;	    sta     RESP1
+    369  1100							;	    ldx     #$$116
+    370  1100							;	    lda     #$$209
+    371  1100							;	    stx     GRP0
+    372  1100							;	    sta     GRP1
+    373  1100							;	    lda     #$$200
+    374  1100							;	    sta     GRP0
+    375  1100							;	    sta     RESP0
+    376  1100							;	    sta     RESP1
+    377  1100							;	    lda     #$$216
+    378  1100							;	    nop
+    379  1100							;	    sta     GRP0
+    380  1100							;
+    381  1100							;	      rts
+    382  1100							;#ENDIF ;}
+    383  1100
+    384  1100
+    385  1100							;------------------------------------------------------------------------------
+    386  1100				   Score1x6Fix SUBROUTINE
       0  1100					      DEFINE_SUBROUTINE	DrawDigits1x6
       1  1100		       00 02	   BANK_DrawDigits1x6 =	_CURRENT_BANK
       2  1100					      SUBROUTINE
       3  1100				   DrawDigits1x6
-    360  1100							;					     @07
-    361  1100		       ba		      tsx		; 2
-    362  1101
-    363  1101		       20 02 f2 	      jsr	PrepareDrawDigits	;56 = 58    @65
-    364  1104
-    365  1104		       86 db		      stx	tmpStack	; 3 =	3
-    366  1106
-    367  1106				   LoopDraw1x6		;
-    368  1106				   SMDIGIT0
-    369  1106		       b9 31 f3 	      lda	ZeroR-1,y	; 4
-    370  1109		       85 42		      sta	WSYNC	; 3
-    371  110b							;---------------------------------------------------------------
-    372  110b		       85 6a		      sta	HMOVE	; 3
+    388  1100							;					     @07
+    389  1100		       ba		      tsx		; 2
+    390  1101
+    391  1101		       20 02 f2 	      jsr	PrepareDrawDigits	;56 = 58    @65
+    392  1104
+    393  1104		       86 db		      stx	tmpStack	; 3 =	3
+    394  1106
+    395  1106				   LoopDraw1x6		;
+    396  1106				   SMDIGIT0
+    397  1106		       b9 31 f3 	      lda	ZeroR-1,y	; 4
+    398  1109		       85 42		      sta	WSYNC	; 3
+    399  110b							;---------------------------------------------------------------
+    400  110b		       85 6a		      sta	HMOVE	; 3
       0  110d					      SLEEP	3	; 3 =	6
       1  110d				   .CYCLES    SET	3
       2  110d
@@ -5335,36 +5363,36 @@
      17  110f				  -	      REPEAT	.CYCLES / 2
      18  110f				  -	      nop
      19  110f					      REPEND
-    374  110f		       85 5b		      sta	GRP0	; 3
-    375  1111				   SMDIGIT1
-    376  1111		       b9 53 f0 	      lda	ZeroL-1,y	; 4
-    377  1114		       85 5c		      sta	GRP1	; 3
-    378  1116				   SMDIGIT2
-    379  1116		       b9 31 f3 	      lda	ZeroR-1,y	; 4
-    380  1119		       85 5b		      sta	GRP0	; 3 = 17
-    381  111b				   SMDIGIT5
-    382  111b		       be 53 f0 	      ldx	ZeroL-1,y	; 4
-    383  111e		       9a		      txs		; 2
-    384  111f				   SMDIGIT3
-    385  111f		       be 53 f0 	      ldx	ZeroL-1,y	; 4
-    386  1122				   SMDIGIT4
-    387  1122		       b9 31 f3 	      lda	ZeroR-1,y	; 4
-    388  1125		       85 6b		      sta	HMCLR	; 3
-    389  1127		       86 5c		      stx	GRP1	; 3
-    390  1129		       85 5b		      sta	GRP0	; 3 = 23
-    391  112b
-    392  112b		       ba		      tsx		; 2
-    393  112c		       86 5c		      stx	GRP1	; 3
-    394  112e		       85 5b		      sta	GRP0	; 3 =	8
-    395  1130
-    396  1130		       88		      dey		; 2
+    402  110f		       85 5b		      sta	GRP0	; 3
+    403  1111				   SMDIGIT1
+    404  1111		       b9 53 f0 	      lda	ZeroL-1,y	; 4
+    405  1114		       85 5c		      sta	GRP1	; 3
+    406  1116				   SMDIGIT2
+    407  1116		       b9 31 f3 	      lda	ZeroR-1,y	; 4
+    408  1119		       85 5b		      sta	GRP0	; 3 = 17
+    409  111b				   SMDIGIT5
+    410  111b		       be 53 f0 	      ldx	ZeroL-1,y	; 4
+    411  111e		       9a		      txs		; 2
+    412  111f				   SMDIGIT3
+    413  111f		       be 53 f0 	      ldx	ZeroL-1,y	; 4
+    414  1122				   SMDIGIT4
+    415  1122		       b9 31 f3 	      lda	ZeroR-1,y	; 4
+    416  1125		       85 6b		      sta	HMCLR	; 3
+    417  1127		       86 5c		      stx	GRP1	; 3
+    418  1129		       85 5b		      sta	GRP0	; 3 = 23
+    419  112b
+    420  112b		       ba		      tsx		; 2
+    421  112c		       86 5c		      stx	GRP1	; 3
+    422  112e		       85 5b		      sta	GRP0	; 3 =	8
+    423  1130
+    424  1130		       88		      dey		; 2
       0  1131					      CHECKPAGE_BNE	LoopDraw1x6	;2/3= 5    @58/59
       8  1131					      LIST	ON
       9  1131		       d0 d3		      bne	LoopDraw1x6
-    398  1133
-    399  1133		       a6 db		      ldx	tmpStack	; 3
-    400  1135		       9a		      txs		; 2
-    401  1136				   ExitDigitKernel6
+    426  1133
+    427  1133		       a6 db		      ldx	tmpStack	; 3
+    428  1135		       9a		      txs		; 2
+    429  1136				   ExitDigitKernel6
       0  1136					      SLEEP	3	; 3
       1  1136				   .CYCLES    SET	3
       2  1136
@@ -5385,25 +5413,25 @@
      17  1138				  -	      REPEAT	.CYCLES / 2
      18  1138				  -	      nop
      19  1138					      REPEND
-    403  1138		       4c 77 f1 	      jmp	ExitDigitKernel	; 3 = 11    @69
-    404  113b
-    405  113b
-    406  113b							;------------------------------------------------------------------------------
-    407  113b				   Score2x4Fix SUBROUTINE
+    431  1138		       4c 77 f1 	      jmp	ExitDigitKernel	; 3 = 11    @69
+    432  113b
+    433  113b
+    434  113b							;------------------------------------------------------------------------------
+    435  113b				   Score2x4Fix SUBROUTINE
       0  113b					      DEFINE_SUBROUTINE	DrawDigits2x4
       1  113b		       00 02	   BANK_DrawDigits2x4 =	_CURRENT_BANK
       2  113b					      SUBROUTINE
       3  113b				   DrawDigits2x4
-    409  113b
-    410  113b
-    411  113b							; Subroutine by Thomas Jentzsch.  Magic!
-    412  113b							; This subroutine draws two 4-digit scores on the screen, side-by-side. Amazing!
-    413  113b
-    414  113b							;sta COLUBK
-    415  113b
-    416  113b		       20 02 f2 	      jsr	PrepareDrawDigits	;56 = 56    @63
-    417  113e
-    418  113e		       85 6a		      sta	HMOVE	; 3
+    437  113b
+    438  113b
+    439  113b							; Subroutine by Thomas Jentzsch.  Magic!
+    440  113b							; This subroutine draws two 4-digit scores on the screen, side-by-side. Amazing!
+    441  113b
+    442  113b							;sta COLUBK
+    443  113b
+    444  113b		       20 02 f2 	      jsr	PrepareDrawDigits	;56 = 56    @63
+    445  113e
+    446  113e		       85 6a		      sta	HMOVE	; 3
       0  1140					      SLEEP	4	; 4  =  7
       1  1140				   .CYCLES    SET	4
       2  1140
@@ -5426,78 +5454,78 @@
      17  1140					      REPEND
      18  1141		       ea		      nop
      19  1142					      REPEND
-    420  1142
-    421  1142				   LoopDraw2x4		;	     @70
-    422  1142				   SM_TARGET3
-    423  1142		       b9 07 f3 	      lda	DequalsR-1,y	; 4		     G
-    424  1145							;---------------------------------------------------------------
-    425  1145		       85 5b		      sta	GRP0	; 3
-    426  1147				   SM_TARGET2
-    427  1147		       b9 53 f0 	      lda	ZeroL-1,y	; 4		     A
-    428  114a		       85 5c		      sta	GRP1	; 3
-    429  114c				   SM_TARGET1
-    430  114c		       b9 31 f3 	      lda	ZeroR-1,y	; 4		     M
-    431  114f		       85 5b		      sta	GRP0	; 3
-    432  1151				   SM_TARGET0
-    433  1151		       be 53 f0 	      ldx	ZeroL-1,y	; 4		     E
-    434  1154		       85 50		      sta	RESP0	; 3 = 28    @22
-    435  1156		       85 51		      sta	RESP1	; 3 =	3    @25
-    436  1158				   SM_Time3
-    437  1158		       b9 15 f3 	      lda	ClockR-1,y	; 4		     O
-    438  115b		       86 5c		      stx	GRP1	; 3
-    439  115d		       85 5b		      sta	GRP0	; 3
-    440  115f				   SM_Time2
-    441  115f		       b9 53 f0 	      lda	ZeroL-1,y	; 4		     V
-    442  1162		       85 5c		      sta	GRP1	; 3
-    443  1164				   SM_Time1
-    444  1164		       b9 31 f3 	      lda	ZeroR-1,y	; 4		     E
-    445  1167		       85 5b		      sta	GRP0	; 3
-    446  1169		       85 50		      sta	RESP0	; 3 = 27    @52 (was 54)
-    447  116b		       85 51		      sta	RESP1	; 3 =	3    @55
-    448  116d				   SM_Time0
-    449  116d		       b9 53 f0 	      lda	ZeroL-1,y	; 4		     R
-    450  1170		       85 5c		      sta	GRP1	; 3
-    451  1172		       85 5b		      sta	GRP0	; 3
-    452  1174		       88		      dey		; 2
+    448  1142
+    449  1142				   LoopDraw2x4		;	     @70
+    450  1142				   SM_TARGET3
+    451  1142		       b9 07 f3 	      lda	DequalsR-1,y	; 4		     G
+    452  1145							;---------------------------------------------------------------
+    453  1145		       85 5b		      sta	GRP0	; 3
+    454  1147				   SM_TARGET2
+    455  1147		       b9 53 f0 	      lda	ZeroL-1,y	; 4		     A
+    456  114a		       85 5c		      sta	GRP1	; 3
+    457  114c				   SM_TARGET1
+    458  114c		       b9 31 f3 	      lda	ZeroR-1,y	; 4		     M
+    459  114f		       85 5b		      sta	GRP0	; 3
+    460  1151				   SM_TARGET0
+    461  1151		       be 53 f0 	      ldx	ZeroL-1,y	; 4		     E
+    462  1154		       85 50		      sta	RESP0	; 3 = 28    @22
+    463  1156		       85 51		      sta	RESP1	; 3 =	3    @25
+    464  1158				   SM_Time3
+    465  1158		       b9 15 f3 	      lda	ClockR-1,y	; 4		     O
+    466  115b		       86 5c		      stx	GRP1	; 3
+    467  115d		       85 5b		      sta	GRP0	; 3
+    468  115f				   SM_Time2
+    469  115f		       b9 53 f0 	      lda	ZeroL-1,y	; 4		     V
+    470  1162		       85 5c		      sta	GRP1	; 3
+    471  1164				   SM_Time1
+    472  1164		       b9 31 f3 	      lda	ZeroR-1,y	; 4		     E
+    473  1167		       85 5b		      sta	GRP0	; 3
+    474  1169		       85 50		      sta	RESP0	; 3 = 27    @52 (was 54)
+    475  116b		       85 51		      sta	RESP1	; 3 =	3    @55
+    476  116d				   SM_Time0
+    477  116d		       b9 53 f0 	      lda	ZeroL-1,y	; 4		     R
+    478  1170		       85 5c		      sta	GRP1	; 3
+    479  1172		       85 5b		      sta	GRP0	; 3
+    480  1174		       88		      dey		; 2
       0  1175					      CHECKPAGE_BNE	LoopDraw2x4	;2/3=15    @70
       8  1175					      LIST	ON
       9  1175		       d0 cb		      bne	LoopDraw2x4
-    454  1177
-    455  1177				   ExitDigitKernel		;	     @69
-    456  1177		       84 5b		      sty	GRP0	; 3
-    457  1179		       84 5c		      sty	GRP1	; 3
-    458  117b							;---------------------------------------------------------------
-    459  117b		       84 5b		      sty	GRP0	; 3	     @02
-    460  117d
-    461  117d							; Contribution by Thomas Jentzsch
-    462  117d							; Rewrite/Optimised for single sprite AD
-    463  117d
-    464  117d		       a6 9f		      ldx	ManDrawX	; 3
-    465  117f		       bd bc f0 	      lda	PosTbl,x	; 4
-    466  1182		       85 60		      sta	HMP0	; 3
-    467  1184		       29 0f		      and	#$0f	; 2
-    468  1186		       f0 04		      beq	.zeroPos	; 2/3=15
-    469  1188		       aa		      tax		; 2
-    470  1189				   .loopWait
-    471  1189		       ca		      dex		; 2
-    472  118a		       d0 fd		      bne	.loopWait	; 2/3= 6
-    473  118c				   .zeroPos
-    474  118c		       a2 70		      ldx	#$70	; 2	     magic value #1 for Cosmic Ark stars
-    475  118e		       85 50		      sta	RESP0	; 3 =	5    @22..67 (@look around!)
-    476  1190
-    477  1190		       85 42		      sta	WSYNC
-    478  1192		       85 6a		      sta	HMOVE	; 3
-    479  1194
-    480  1194		       a5 b1		      lda	BGColour	; 3
-    481  1196		       85 49		      sta	COLUBK	;3
-    482  1198
-    483  1198		       86 62		      stx	HMM0	; 3	     for extra life stars!
-    484  119a
-    485  119a		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
-    486  119c		       85 44		      sta	NUSIZ0	; 3
-    487  119e		       85 45		      sta	NUSIZ1
-    488  11a0		       84 65		      sty	VDELP0	; 3	 y = 0!
-    489  11a2
+    482  1177
+    483  1177				   ExitDigitKernel		;	     @69
+    484  1177		       84 5b		      sty	GRP0	; 3
+    485  1179		       84 5c		      sty	GRP1	; 3
+    486  117b							;---------------------------------------------------------------
+    487  117b		       84 5b		      sty	GRP0	; 3	     @02
+    488  117d
+    489  117d							; Contribution by Thomas Jentzsch
+    490  117d							; Rewrite/Optimised for single sprite AD
+    491  117d
+    492  117d		       a6 9f		      ldx	ManDrawX	; 3
+    493  117f		       bd d1 f0 	      lda	PosTbl,x	; 4
+    494  1182		       85 60		      sta	HMP0	; 3
+    495  1184		       29 0f		      and	#$0f	; 2
+    496  1186		       f0 04		      beq	.zeroPos	; 2/3=15
+    497  1188		       aa		      tax		; 2
+    498  1189				   .loopWait
+    499  1189		       ca		      dex		; 2
+    500  118a		       d0 fd		      bne	.loopWait	; 2/3= 6
+    501  118c				   .zeroPos
+    502  118c		       a2 70		      ldx	#$70	; 2	     magic value #1 for Cosmic Ark stars
+    503  118e		       85 50		      sta	RESP0	; 3 =	5    @22..67 (@look around!)
+    504  1190
+    505  1190		       85 42		      sta	WSYNC
+    506  1192		       85 6a		      sta	HMOVE	; 3
+    507  1194
+    508  1194		       a5 b1		      lda	BGColour	; 3
+    509  1196		       85 49		      sta	COLUBK	;3
+    510  1198
+    511  1198		       86 62		      stx	HMM0	; 3	     for extra life stars!
+    512  119a
+    513  119a		       a9 15		      lda	#%00010101	; 2	 double width missile, double width player
+    514  119c		       85 44		      sta	NUSIZ0	; 3
+    515  119e		       85 45		      sta	NUSIZ1
+    516  11a0		       84 65		      sty	VDELP0	; 3	 y = 0!
+    517  11a2
       0  11a2					      SLEEP	5
       1  11a2				   .CYCLES    SET	5
       2  11a2
@@ -5518,38 +5546,38 @@
      17  11a4					      REPEAT	.CYCLES / 2
      18  11a4		       ea		      nop
      19  11a5					      REPEND
-    491  11a5
-    492  11a5		       a5 a2		      lda	ManLastDirection	; 3
-    493  11a7		       85 4b		      sta	REFP0	; 3
-    494  11a9
-    495  11a9							;sta WSYNC		  ; 3
-    496  11a9		       60		      rts		; 6	     @21
-    497  11aa
-    498  11aa							;------------------------------------------------------------------------------
-    499  11aa				   Score3x2Fix SUBROUTINE
+    519  11a5
+    520  11a5		       a5 a2		      lda	ManLastDirection	; 3
+    521  11a7		       85 4b		      sta	REFP0	; 3
+    522  11a9
+    523  11a9							;sta WSYNC		  ; 3
+    524  11a9		       60		      rts		; 6	     @21
+    525  11aa
+    526  11aa							;------------------------------------------------------------------------------
+    527  11aa				   Score3x2Fix SUBROUTINE
       0  11aa					      DEFINE_SUBROUTINE	DrawDigits3x2
       1  11aa		       00 02	   BANK_DrawDigits3x2 =	_CURRENT_BANK
       2  11aa					      SUBROUTINE
       3  11aa				   DrawDigits3x2
-    501  11aa							;					     @07
-    502  11aa		       a9 16		      lda	#%010110	; 2
-    503  11ac		       a0 ef		      ldy	#$f0-1	; 2		     moved slightly out of center to match 1x6 display position
-    504  11ae		       20 08 f2 	      jsr	PrepareDrawDigits2	;49 = 53    @60
-    505  11b1
-    506  11b1		       a9 00		      lda	#0
-    507  11b3		       85 66		      sta	VDELP1
-    508  11b5				   LoopDraw3x2		;
-    509  11b5		       85 42		      sta	WSYNC	; 3
-    510  11b7							;---------------------------------------------------------------
-    511  11b7		       85 6a		      sta	HMOVE	; 3 =	3
-    512  11b9		       b9 ad f0 	      lda	CharP-1,y	; 4
-    513  11bc		       85 5b		      sta	GRP0	; 3
-    514  11be				   SMPLAYER
-    515  11be		       b9 3f f3 	      lda	OneR-1,y	; 4
-    516  11c1		       85 5c		      sta	GRP1	; 3 = 14    @17
-    517  11c3		       b9 b4 f0 	      lda	charPlace-1,y	; 4
-    518  11c6				   SMMEN
-    519  11c6		       be 38 f3 	      ldx	ThreeR-1,y	; 4 =	8
+    529  11aa							;					     @07
+    530  11aa		       a9 16		      lda	#%010110	; 2
+    531  11ac		       a0 ef		      ldy	#$f0-1	; 2		     moved slightly out of center to match 1x6 display position
+    532  11ae		       20 08 f2 	      jsr	PrepareDrawDigits2	;49 = 53    @60
+    533  11b1
+    534  11b1		       a9 00		      lda	#0
+    535  11b3		       85 66		      sta	VDELP1
+    536  11b5				   LoopDraw3x2		;
+    537  11b5		       85 42		      sta	WSYNC	; 3
+    538  11b7							;---------------------------------------------------------------
+    539  11b7		       85 6a		      sta	HMOVE	; 3 =	3
+    540  11b9		       b9 c2 f0 	      lda	CharP-1,y	; 4
+    541  11bc		       85 5b		      sta	GRP0	; 3
+    542  11be				   SMPLAYER
+    543  11be		       b9 3f f3 	      lda	OneR-1,y	; 4
+    544  11c1		       85 5c		      sta	GRP1	; 3 = 14    @17
+    545  11c3		       b9 c9 f0 	      lda	charPlace-1,y	; 4
+    546  11c6				   SMMEN
+    547  11c6		       be 38 f3 	      ldx	ThreeR-1,y	; 4 =	8
       0  11c9					      SLEEP	5	;   =	5
       1  11c9				   .CYCLES    SET	5
       2  11c9
@@ -5570,21 +5598,21 @@
      17  11cb					      REPEAT	.CYCLES / 2
      18  11cb		       ea		      nop
      19  11cc					      REPEND
-    521  11cc		       85 5b		      sta	GRP0	; 3
-    522  11ce				   SMLEVELX
-    523  11ce		       b9 ad f0 	      lda	CharA-1,y	; 4
-    524  11d1		       85 6b		      sta	HMCLR	; 3 = 10    @40
-    525  11d3		       86 5c		      stx	GRP1	; 3 =	3    @43
-    526  11d5		       85 5b		      sta	GRP0	; 3
-    527  11d7				   SMLEVEL
-    528  11d7		       b9 3f f3 	      lda	OneR-1,y	; 4
-    529  11da		       85 5c		      sta	GRP1	; 3 = 10    @53
-    530  11dc
-    531  11dc		       88		      dey		; 2
+    549  11cc		       85 5b		      sta	GRP0	; 3
+    550  11ce				   SMLEVELX
+    551  11ce		       b9 c2 f0 	      lda	CharA-1,y	; 4
+    552  11d1		       85 6b		      sta	HMCLR	; 3 = 10    @40
+    553  11d3		       86 5c		      stx	GRP1	; 3 =	3    @43
+    554  11d5		       85 5b		      sta	GRP0	; 3
+    555  11d7				   SMLEVEL
+    556  11d7		       b9 3f f3 	      lda	OneR-1,y	; 4
+    557  11da		       85 5c		      sta	GRP1	; 3 = 10    @53
+    558  11dc
+    559  11dc		       88		      dey		; 2
       0  11dd					      CHECKPAGE_BNE	LoopDraw3x2	;2/3= 5    @58
       8  11dd					      LIST	ON
       9  11dd		       d0 d6		      bne	LoopDraw3x2
-    533  11df							;					     @57
+    561  11df							;					     @57
       0  11df					      SLEEP	3	; 3
       1  11df				   .CYCLES    SET	3
       2  11df
@@ -5605,613 +5633,613 @@
      17  11e1				  -	      REPEAT	.CYCLES / 2
      18  11e1				  -	      nop
      19  11e1					      REPEND
-    535  11e1		       4c 36 f1 	      jmp	ExitDigitKernel6	; 9 = 12    @69  'BEQ' WAS A DANGEROUS ASSUMPTION OF STATUS FLAG!!
-    536  11e4
-    537  11e4
-    538  11e4							;------------------------------------------------------------------------------
-    539  11e4
-    540  11e4				   ScoreKernelLo
-    541  11e4		       3b		      .byte.b	<Score2x4Fix	; TARGETs, time
-    542  11e5		       00		      .byte.b	<Score1x6Fix	; score
-    543  11e6		       aa		      .byte.b	<Score3x2Fix	; player, lives, level
-    544  11e7		       00		      .byte.b	<Score1x6Fix	; high score
-    545  11e8
+    563  11e1		       4c 36 f1 	      jmp	ExitDigitKernel6	; 9 = 12    @69  'BEQ' WAS A DANGEROUS ASSUMPTION OF STATUS FLAG!!
+    564  11e4
+    565  11e4
+    566  11e4							;------------------------------------------------------------------------------
+    567  11e4
+    568  11e4				   ScoreKernelLo
+    569  11e4		       3b		      .byte.b	<Score2x4Fix	; TARGETs, time
+    570  11e5		       00		      .byte.b	<Score1x6Fix	; score
+    571  11e6		       aa		      .byte.b	<Score3x2Fix	; player, lives, level
+    572  11e7		       00		      .byte.b	<Score1x6Fix	; high score
+    573  11e8
       0  11e8					      CHECKPAGE	DrawDigits1x6	; AD: the jump requires all in the same page, so let's enforce that
       8  11e8					      LIST	ON
-    547  11e8
-    548  11e8							;------------------------------------------------------------------------------
-    549  11e8
+    575  11e8
+    576  11e8							;------------------------------------------------------------------------------
+    577  11e8
       0  11e8					      DEFINE_SUBROUTINE	DrawDigits
       1  11e8		       00 02	   BANK_DrawDigits =	_CURRENT_BANK
       2  11e8					      SUBROUTINE
       3  11e8				   DrawDigits
-    551  11e8
-    552  11e8				   VblankLoopGame
-    553  11e8		       ac 84 02 	      ldy	INTIM
-    554  11eb		       d0 fb		      bne	VblankLoopGame
-    555  11ed
-    556  11ed					      IF	WAIT_FOR_INITIAL_DRAW
-    557  11ed		       a4 ae		      ldy	blankState
-    558  11ef		       f0 02		      beq	state0
-    559  11f1		       a0 02		      ldy	#2
-    560  11f3				   state0
-    561  11f3					      ENDIF
-    562  11f3		       84 41		      sty	VBLANK	; 3	     <-- 0
-    563  11f5							;lda scoringFlags	  ; 3
-    564  11f5							;and #DISPLAY_FLAGS		    ; 2
-    565  11f5							;tax			  ; 2
-    566  11f5
-    567  11f5		       a2 00		      ldx	#0
-    568  11f7
-    569  11f7							;    DEFINE_SUBROUTINE DrawDigit2
-    570  11f7							;
-    571  11f7							;    ; Generic interface to scoring routine
-    572  11f7
-    573  11f7		       bd e4 f1 	      lda	ScoreKernelLo,x	; 4
-    574  11fa
-    575  11fa		       85 42		      sta	WSYNC	; 3
-    576  11fc		       8d 00 f6 	      sta	SMJUMP+1+RAM_WRITE	; 4
-    577  11ff				   SMJUMP
-    578  11ff		       4c 00 f1 	      jmp	DrawDigits1x6	; 3 =	7    @07
-    579  1202
-    580  1202							;---------------------------------------------------------------
-    581  1202
+    579  11e8
+    580  11e8				   VblankLoopGame
+    581  11e8		       ac 84 02 	      ldy	INTIM
+    582  11eb		       d0 fb		      bne	VblankLoopGame
+    583  11ed
+    584  11ed					      IF	WAIT_FOR_INITIAL_DRAW
+    585  11ed		       a4 ae		      ldy	blankState
+    586  11ef		       f0 02		      beq	state0
+    587  11f1		       a0 02		      ldy	#2
+    588  11f3				   state0
+    589  11f3					      ENDIF
+    590  11f3		       84 41		      sty	VBLANK	; 3	     <-- 0
+    591  11f5							;lda scoringFlags	  ; 3
+    592  11f5							;and #DISPLAY_FLAGS		    ; 2
+    593  11f5							;tax			  ; 2
+    594  11f5
+    595  11f5		       a2 00		      ldx	#0
+    596  11f7
+    597  11f7							;    DEFINE_SUBROUTINE DrawDigit2
+    598  11f7							;
+    599  11f7							;    ; Generic interface to scoring routine
+    600  11f7
+    601  11f7		       bd e4 f1 	      lda	ScoreKernelLo,x	; 4
+    602  11fa
+    603  11fa		       85 42		      sta	WSYNC	; 3
+    604  11fc		       8d 00 f6 	      sta	SMJUMP+1+RAM_WRITE	; 4
+    605  11ff				   SMJUMP
+    606  11ff		       4c 00 f1 	      jmp	DrawDigits1x6	; 3 =	7    @07
+    607  1202
+    608  1202							;---------------------------------------------------------------
+    609  1202
       0  1202					      DEFINE_SUBROUTINE	PrepareDrawDigits
       1  1202		       00 02	   BANK_PrepareDrawDigits =	_CURRENT_BANK
       2  1202					      SUBROUTINE
       3  1202				   PrepareDrawDigits
-    583  1202							;					     @13
-    584  1202		       a0 d1		      ldy	#$d1	; 2
-    585  1204		       a9 13		      lda	#%010011	; 2
-    586  1206		       85 66		      sta	VDELP1	; 3 =	7
-    587  1208				   PrepareDrawDigits2		;	    @17/20
-    588  1208		       84 65		      sty	VDELP0	; 3 =	3
-    589  120a
-    590  120a		       85 45		      sta	NUSIZ1	; 3
-    591  120c		       85 44		      sta	NUSIZ0	; 3 =	6
-    592  120e
-    593  120e		       8d 4b 00 	      sta.w	REFP0	; 4		     bit 3 is always clear
-    594  1211		       85 50		      sta	RESP0	; 3	     @33/36
-    595  1213		       85 51		      sta	RESP1	; 3 = 10    @36/39
-    596  1215
-    597  1215		       84 60		      sty	HMP0	; 3
-    598  1217		       c8		      iny		; 2
-    599  1218		       84 61		      sty	HMP1	; 3 =	8
-    600  121a				   SMCOLOR
-    601  121a		       a0 9a		      ldy	#SCORE_COL	; 2
-    602  121c		       84 46		      sty	COLUP0	; 3
-    603  121e		       84 47		      sty	COLUP1	; 3 =	8
-    604  1220
-    605  1220		       a0 07		      ldy	#DIGIT_H	; 2
-    606  1222		       60		      rts		; 6 =	8
-    607  1223							; total: 27
-    608  1223
-    609  1223
-    610  1223							;------------------------------------------------------------------------------
+    611  1202							;					     @13
+    612  1202		       a0 d1		      ldy	#$d1	; 2
+    613  1204		       a9 13		      lda	#%010011	; 2
+    614  1206		       85 66		      sta	VDELP1	; 3 =	7
+    615  1208				   PrepareDrawDigits2		;	    @17/20
+    616  1208		       84 65		      sty	VDELP0	; 3 =	3
+    617  120a
+    618  120a		       85 45		      sta	NUSIZ1	; 3
+    619  120c		       85 44		      sta	NUSIZ0	; 3 =	6
+    620  120e
+    621  120e		       8d 4b 00 	      sta.w	REFP0	; 4		     bit 3 is always clear
+    622  1211		       85 50		      sta	RESP0	; 3	     @33/36
+    623  1213		       85 51		      sta	RESP1	; 3 = 10    @36/39
+    624  1215
+    625  1215		       84 60		      sty	HMP0	; 3
+    626  1217		       c8		      iny		; 2
+    627  1218		       84 61		      sty	HMP1	; 3 =	8
+    628  121a				   SMCOLOR
+    629  121a		       a0 9a		      ldy	#SCORE_COL	; 2
+    630  121c		       84 46		      sty	COLUP0	; 3
+    631  121e		       84 47		      sty	COLUP1	; 3 =	8
+    632  1220
+    633  1220		       a0 07		      ldy	#DIGIT_H	; 2
+    634  1222		       60		      rts		; 6 =	8
+    635  1223							; total: 27
+    636  1223
+    637  1223
+    638  1223							;------------------------------------------------------------------------------
       0  1223					      DEFINE_SUBROUTINE	UpdateScore
       1  1223		       00 02	   BANK_UpdateScore =	_CURRENT_BANK
       2  1223					      SUBROUTINE
       3  1223				   UpdateScore
-    612  1223							; a = added score value
-    613  1223
-    614  1223							; initially switch to score:
-    615  1223		       a0 01		      ldy	#DISPLAY_SCORE
-    616  1225		       84 db		      sty	newDisplay
-    617  1227
-    618  1227		       18		      clc
-    619  1228		       f8		      sed
-    620  1229		       a0 04		      ldy	#SM_OFS_SCORE
-    621  122b				   .loopScore
-    622  122b		       79 8a f3 	      adc	ScoreCurrent-SM_OFS_SCORE,y
-    623  122e		       99 8a f7 	      sta	ScoreCurrent-SM_OFS_SCORE+RAM_WRITE,y
-    624  1231		       08		      php
-    625  1232							; *** bonus life every 500 points: ***
-    626  1232							;	  cpy #SM_OFS_SCORE+1
-    627  1232							;	  bne .skipBonusLife
-    628  1232							;	  tax
-    629  1232
-    630  1232							;	  and #$0f
-    631  1232							;	  beq .bonusLife		      ; 000?
-    632  1232							;	  cmp #$05
-    633  1232							;	  bne .noBonusLife		      ; 500?
-    634  1232							;.bonusLife:
-    635  1232							; add extra life, limited to 9
-    636  1232
-    637  1232							;	  lda ManCount
-    638  1232							;	  and #$0f
-    639  1232							;	  cmp #9
-    640  1232							;	  bcs .noBonusLife
-    641  1232							;	  inc ManCount
-    642  1232
-    643  1232							; bonus life has priority over score:
-    644  1232							;	  lda #DISPLAY_LIVES
-    645  1232							;	  sta newDisplay
-    646  1232							;lda #EXTRA_LIFE_TIMER
-    647  1232							;sta extraLifeTimer
-    648  1232
-    649  1232				   .noBonusLife
-    650  1232		       8a		      txa
-    651  1233				   .skipBonusLife
-    652  1233		       20 ae f2 	      jsr	SetupBCDPtr
-    653  1236		       28		      plp
-    654  1237		       a9 00		      lda	#0
-    655  1239		       b0 f0		      bcs	.loopScore
-    656  123b		       d8		      cld
-    657  123c
-    658  123c							; switch display
-    659  123c							;lda scoringFlags
-    660  123c							;and #DISPLAY_FLAGS
-    661  123c							;cmp newDisplay		      ; lower priority than current?
-    662  123c							;beq .restartTime
-    663  123c							;bcs .skipNew
-    664  123c							;eor scoringFlags		      ; remove existing score mode
-    665  123c							;ora newDisplay		      ; switch to new score mode
-    666  123c							;sta scoringFlags
-    667  123c				   .restartTime
-    668  123c							;lda #SCORING_TIMER		      ; maybe always restart timer?
-    669  123c							;sta scoringTimer
-    670  123c				   .skipNew
-    671  123c
-    672  123c		       60		      rts
-    673  123d
-    674  123d							;---------------------------------------------------------------------------
-    675  123d
+    640  1223							; a = added score value
+    641  1223
+    642  1223							; initially switch to score:
+    643  1223		       a0 01		      ldy	#DISPLAY_SCORE
+    644  1225		       84 db		      sty	newDisplay
+    645  1227
+    646  1227		       18		      clc
+    647  1228		       f8		      sed
+    648  1229		       a0 04		      ldy	#SM_OFS_SCORE
+    649  122b				   .loopScore
+    650  122b		       79 8a f3 	      adc	ScoreCurrent-SM_OFS_SCORE,y
+    651  122e		       99 8a f7 	      sta	ScoreCurrent-SM_OFS_SCORE+RAM_WRITE,y
+    652  1231		       08		      php
+    653  1232							; *** bonus life every 500 points: ***
+    654  1232							;	  cpy #SM_OFS_SCORE+1
+    655  1232							;	  bne .skipBonusLife
+    656  1232							;	  tax
+    657  1232
+    658  1232							;	  and #$0f
+    659  1232							;	  beq .bonusLife		      ; 000?
+    660  1232							;	  cmp #$05
+    661  1232							;	  bne .noBonusLife		      ; 500?
+    662  1232							;.bonusLife:
+    663  1232							; add extra life, limited to 9
+    664  1232
+    665  1232							;	  lda ManCount
+    666  1232							;	  and #$0f
+    667  1232							;	  cmp #9
+    668  1232							;	  bcs .noBonusLife
+    669  1232							;	  inc ManCount
+    670  1232
+    671  1232							; bonus life has priority over score:
+    672  1232							;	  lda #DISPLAY_LIVES
+    673  1232							;	  sta newDisplay
+    674  1232							;lda #EXTRA_LIFE_TIMER
+    675  1232							;sta extraLifeTimer
+    676  1232
+    677  1232				   .noBonusLife
+    678  1232		       8a		      txa
+    679  1233				   .skipBonusLife
+    680  1233		       20 ae f2 	      jsr	SetupBCDPtr
+    681  1236		       28		      plp
+    682  1237		       a9 00		      lda	#0
+    683  1239		       b0 f0		      bcs	.loopScore
+    684  123b		       d8		      cld
+    685  123c
+    686  123c							; switch display
+    687  123c							;lda scoringFlags
+    688  123c							;and #DISPLAY_FLAGS
+    689  123c							;cmp newDisplay		      ; lower priority than current?
+    690  123c							;beq .restartTime
+    691  123c							;bcs .skipNew
+    692  123c							;eor scoringFlags		      ; remove existing score mode
+    693  123c							;ora newDisplay		      ; switch to new score mode
+    694  123c							;sta scoringFlags
+    695  123c				   .restartTime
+    696  123c							;lda #SCORING_TIMER		      ; maybe always restart timer?
+    697  123c							;sta scoringTimer
+    698  123c				   .skipNew
+    699  123c
+    700  123c		       60		      rts
+    701  123d
+    702  123d							;---------------------------------------------------------------------------
+    703  123d
       0  123d					      DEFINE_SUBROUTINE	SwapPlayers
       1  123d		       00 02	   BANK_SwapPlayers =	_CURRENT_BANK
       2  123d					      SUBROUTINE
       3  123d				   SwapPlayers
-    677  123d
-    678  123d							; assume no new high score:
-    679  123d		       a0 ff		      ldy	#-1
-    680  123f		       84 de		      sty	highScoreSK
-    681  1241
-    682  1241							; update highscore after last live:
-    683  1241							;lda ManCount
-    684  1241							;and #$0f			      ; player has lives left?
-    685  1241							;bne .playerAlive		      ; YES, so we don't check high score
-    686  1241
-    687  1241							; check for a new high score:
-    688  1241							;	  ldy #-1
-    689  1241		       18		      clc		; score has to be at least 1 bigger!
-    690  1242				   .loopCheckHighScore
-    691  1242		       c8		      iny
-    692  1243		       b9 8e f3 	      lda	ScoreCurrent,y
-    693  1246		       f9 98 f3 	      sbc	HighScore,y
-    694  1249		       98		      tya
-    695  124a		       49 02		      eor	#2
-    696  124c		       d0 f4		      bne	.loopCheckHighScore
-    697  124e		       90 0d		      bcc	.noHighScore
-    698  1250
-    699  1250							; new high score, update:
-    700  1250		       a2 04		      ldx	#5-1
-    701  1252				   .loopSetHighScore
-    702  1252		       bd 8e f3 	      lda	ScoreCurrent,x
-    703  1255		       9d 98 f7 	      sta	HighScore+RAM_WRITE,x
-    704  1258		       95 de		      sta	highScoreSK,x
-    705  125a		       ca		      dex
-    706  125b		       10 f5		      bpl	.loopSetHighScore
-    707  125d				   .noHighScore
-    708  125d
-    709  125d				   .playerAlive
-    710  125d							;lda ManCount
-    711  125d							;and #$f0			      ; other player has lives left?
-    712  125d							;beq .otherPlayerDead		      ; NO, so we don't swap scores
-    713  125d
-    714  125d							; save the current player variables to the player's backup:
-    715  125d		       a0 02		      ldy	#3-1
-    716  125f				   .swapScore
-    717  125f		       be 93 f3 	      ldx	PlayerScores,y
-    718  1262		       b9 8e f3 	      lda	ScoreCurrent,y
-    719  1265		       99 93 f7 	      sta	PlayerScores+RAM_WRITE,y
-    720  1268		       8a		      txa
-    721  1269		       99 8e f7 	      sta	ScoreCurrent+RAM_WRITE,y
-    722  126c		       88		      dey
-    723  126d		       10 f0		      bpl	.swapScore
-    724  126f
-    725  126f							; swap levelx and level:
-    726  126f		       a2 01		      ldx	#1
-    727  1271				   .loopLevelXLevel
-    728  1271		       bc 96 f3 	      ldy	PlayerLevelX,x
-    729  1274		       b5 b2		      lda	levelX,x
-    730  1276		       9d 96 f7 	      sta	PlayerLevelX+RAM_WRITE,x
-    731  1279		       94 b2		      sty	levelX,x
-    732  127b		       ca		      dex
-    733  127c		       10 f3		      bpl	.loopLevelXLevel
-    734  127e
-    735  127e				   .otherPlayerDead
-    736  127e		       60		      rts
-    737  127f
-    738  127f							;---------------------------------------------------------------------------
-    739  127f
-    740  127f				   HighScoreColTbl
-    741  127f		       44 44		      .byte.b	SCORE_COL_HIGH_NTSC, SCORE_COL_HIGH_NTSC
-    742  1281		       66 66		      .byte.b	SCORE_COL_HIGH_PAL, SCORE_COL_HIGH_PAL
-    743  1283
+    705  123d
+    706  123d							; assume no new high score:
+    707  123d		       a0 ff		      ldy	#-1
+    708  123f		       84 de		      sty	highScoreSK
+    709  1241
+    710  1241							; update highscore after last live:
+    711  1241							;lda ManCount
+    712  1241							;and #$0f			      ; player has lives left?
+    713  1241							;bne .playerAlive		      ; YES, so we don't check high score
+    714  1241
+    715  1241							; check for a new high score:
+    716  1241							;	  ldy #-1
+    717  1241		       18		      clc		; score has to be at least 1 bigger!
+    718  1242				   .loopCheckHighScore
+    719  1242		       c8		      iny
+    720  1243		       b9 8e f3 	      lda	ScoreCurrent,y
+    721  1246		       f9 98 f3 	      sbc	HighScore,y
+    722  1249		       98		      tya
+    723  124a		       49 02		      eor	#2
+    724  124c		       d0 f4		      bne	.loopCheckHighScore
+    725  124e		       90 0d		      bcc	.noHighScore
+    726  1250
+    727  1250							; new high score, update:
+    728  1250		       a2 04		      ldx	#5-1
+    729  1252				   .loopSetHighScore
+    730  1252		       bd 8e f3 	      lda	ScoreCurrent,x
+    731  1255		       9d 98 f7 	      sta	HighScore+RAM_WRITE,x
+    732  1258		       95 de		      sta	highScoreSK,x
+    733  125a		       ca		      dex
+    734  125b		       10 f5		      bpl	.loopSetHighScore
+    735  125d				   .noHighScore
+    736  125d
+    737  125d				   .playerAlive
+    738  125d							;lda ManCount
+    739  125d							;and #$f0			      ; other player has lives left?
+    740  125d							;beq .otherPlayerDead		      ; NO, so we don't swap scores
+    741  125d
+    742  125d							; save the current player variables to the player's backup:
+    743  125d		       a0 02		      ldy	#3-1
+    744  125f				   .swapScore
+    745  125f		       be 93 f3 	      ldx	PlayerScores,y
+    746  1262		       b9 8e f3 	      lda	ScoreCurrent,y
+    747  1265		       99 93 f7 	      sta	PlayerScores+RAM_WRITE,y
+    748  1268		       8a		      txa
+    749  1269		       99 8e f7 	      sta	ScoreCurrent+RAM_WRITE,y
+    750  126c		       88		      dey
+    751  126d		       10 f0		      bpl	.swapScore
+    752  126f
+    753  126f							; swap levelx and level:
+    754  126f		       a2 01		      ldx	#1
+    755  1271				   .loopLevelXLevel
+    756  1271		       bc 96 f3 	      ldy	PlayerLevelX,x
+    757  1274		       b5 b2		      lda	levelX,x
+    758  1276		       9d 96 f7 	      sta	PlayerLevelX+RAM_WRITE,x
+    759  1279		       94 b2		      sty	levelX,x
+    760  127b		       ca		      dex
+    761  127c		       10 f3		      bpl	.loopLevelXLevel
+    762  127e
+    763  127e				   .otherPlayerDead
+    764  127e		       60		      rts
+    765  127f
+    766  127f							;---------------------------------------------------------------------------
+    767  127f
+    768  127f				   HighScoreColTbl
+    769  127f		       44 44		      .byte.b	SCORE_COL_HIGH_NTSC, SCORE_COL_HIGH_NTSC
+    770  1281		       66 66		      .byte.b	SCORE_COL_HIGH_PAL, SCORE_COL_HIGH_PAL
+    771  1283
       0  1283					      DEFINE_SUBROUTINE	GeneralScoringSetups
       1  1283		       00 02	   BANK_GeneralScoringSetups =	_CURRENT_BANK
       2  1283					      SUBROUTINE
       3  1283				   GeneralScoringSetups
-    745  1283
-    746  1283		       a0 04		      ldy	#SM_OFS_SCORE
-    747  1285				   .loopScore2
-    748  1285							;lda scoringFlags
-    749  1285							;and #DISPLAY_FLAGS
-    750  1285							;cmp #DISPLAY_HIGH
-    751  1285							;ldx Platform
-    752  1285							;lda HighScoreColTbl,x
-    753  1285							;tax
-    754  1285							;lda HighScore-SM_OFS_SCORE,y
-    755  1285							;bcs .showHighScore
-    756  1285		       a2 9a		      ldx	#SCORE_COL
-    757  1287		       b9 8a f3 	      lda	ScoreCurrent-SM_OFS_SCORE,y
-    758  128a				   .showHighScore
-    759  128a		       8e 1b f6 	      stx	SMCOLOR+1+RAM_WRITE
-    760  128d		       20 ae f2 	      jsr	SetupBCDPtr
-    761  1290		       c0 07		      cpy	#SM_OFS_SCORE+3
-    762  1292		       90 f1		      bcc	.loopScore2
-    763  1294
-    764  1294							; display number of lives in leftmost digit of middle score XX nX XX
-    765  1294
-    766  1294							;lda ManCount
-    767  1294							;and #$0f
-    768  1294							;tay
-    769  1294							;lda DigitVectorLOr,y
-    770  1294							;sta SMMEN+1+RAM_WRITE
-    771  1294
-    772  1294							; modify player number pointer (Xp XX XX)
-    773  1294
-    774  1294							;ldy whichPlayer
-    775  1294							;lda DigitVectorLOr+1,y
-    776  1294							;sta SMPLAYER+1+RAM_WRITE
-    777  1294
-    778  1294							; fall through
-    779  1294
-    780  1294							;    ;---------------------------------------------------------------------------
-    781  1294
-    782  1294							; modify levelx character pointer (XX XX cX)
-    783  1294
-    784  1294							;ldx #<charPlace-1
-    785  1294							;lda levelDisplay
-    786  1294							;cmp #$80
-    787  1294							;and #$1f
-    788  1294							;tay
-    789  1294							;bcs .intermission
-    790  1294							;ldx CharVectorLO,y
-    791  1294							;ldy level
-    792  1294							;.intermission
-    793  1294							;stx SMLEVELX+1+RAM_WRITE
-    794  1294
-    795  1294							; modify level number pointer (XX XX Xl)
-    796  1294
-    797  1294							;lda DigitVectorLOr+1,y
-    798  1294							;sta SMLEVEL+1+RAM_WRITE
+    773  1283
+    774  1283		       a0 04		      ldy	#SM_OFS_SCORE
+    775  1285				   .loopScore2
+    776  1285							;lda scoringFlags
+    777  1285							;and #DISPLAY_FLAGS
+    778  1285							;cmp #DISPLAY_HIGH
+    779  1285							;ldx Platform
+    780  1285							;lda HighScoreColTbl,x
+    781  1285							;tax
+    782  1285							;lda HighScore-SM_OFS_SCORE,y
+    783  1285							;bcs .showHighScore
+    784  1285		       a2 9a		      ldx	#SCORE_COL
+    785  1287		       b9 8a f3 	      lda	ScoreCurrent-SM_OFS_SCORE,y
+    786  128a				   .showHighScore
+    787  128a		       8e 1b f6 	      stx	SMCOLOR+1+RAM_WRITE
+    788  128d		       20 ae f2 	      jsr	SetupBCDPtr
+    789  1290		       c0 07		      cpy	#SM_OFS_SCORE+3
+    790  1292		       90 f1		      bcc	.loopScore2
+    791  1294
+    792  1294							; display number of lives in leftmost digit of middle score XX nX XX
+    793  1294
+    794  1294							;lda ManCount
+    795  1294							;and #$0f
+    796  1294							;tay
+    797  1294							;lda DigitVectorLOr,y
+    798  1294							;sta SMMEN+1+RAM_WRITE
     799  1294
-    800  1294							;---------------------------------------------------------------------------
+    800  1294							; modify player number pointer (Xp XX XX)
     801  1294
-    802  1294		       4c a5 f2 	      jmp	SetupTimePtr	; modify time pointers
-    803  1297
-    804  1297							;------------------------------------------------------------------------------
-    805  1297							;    DEFINE_SUBROUTINE SetupGameOverPtr
-    806  1297
-    807  1297							;		  ldy #8-1
-    808  1297							;.loopGameOver:
-    809  1297							;		  ldx SMGameOverOfs,y
-    810  1297							;		  lda SMGameOverPtr,y
-    811  1297							;		  sta SM_BASE+1+RAM_WRITE,x
-    812  1297							;		  dey
-    813  1297							;		  bpl .loopGameOver
-    814  1297
-    815  1297							;		  rts
-    816  1297
-    817  1297							;SMGameOverOfs:
-    818  1297							;		  .byte <SM_TARGET3-SM_BASE, <SM_TARGET2-SM_BASE
-    819  1297							;		  .byte <SM_TARGET1-SM_BASE, <SM_TARGET0-SM_BASE
-    820  1297							;		  .byte <SM_Time3-SM_BASE, <SM_Time2-SM_BASE
-    821  1297							;		  .byte <SM_Time1-SM_BASE, <SM_Time0-SM_BASE
-    822  1297							;SMGameOverPtr:
-    823  1297							;		  .byte <CharG-1, <CharAL-1, <CharM-1, <CharEL-1
-    824  1297							;		  .byte <CharO-1, <CharVL-1, <CharE-1, <CharRL-1
-    825  1297
-    826  1297							;------------------------------------------------------------------------------
-    827  1297
+    802  1294							;ldy whichPlayer
+    803  1294							;lda DigitVectorLOr+1,y
+    804  1294							;sta SMPLAYER+1+RAM_WRITE
+    805  1294
+    806  1294							; fall through
+    807  1294
+    808  1294							;    ;---------------------------------------------------------------------------
+    809  1294
+    810  1294							; modify levelx character pointer (XX XX cX)
+    811  1294
+    812  1294							;ldx #<charPlace-1
+    813  1294							;lda levelDisplay
+    814  1294							;cmp #$80
+    815  1294							;and #$1f
+    816  1294							;tay
+    817  1294							;bcs .intermission
+    818  1294							;ldx CharVectorLO,y
+    819  1294							;ldy level
+    820  1294							;.intermission
+    821  1294							;stx SMLEVELX+1+RAM_WRITE
+    822  1294
+    823  1294							; modify level number pointer (XX XX Xl)
+    824  1294
+    825  1294							;lda DigitVectorLOr+1,y
+    826  1294							;sta SMLEVEL+1+RAM_WRITE
+    827  1294
+    828  1294							;---------------------------------------------------------------------------
+    829  1294
+    830  1294		       4c a5 f2 	      jmp	SetupTimePtr	; modify time pointers
+    831  1297
+    832  1297							;------------------------------------------------------------------------------
+    833  1297							;    DEFINE_SUBROUTINE SetupGameOverPtr
+    834  1297
+    835  1297							;		  ldy #8-1
+    836  1297							;.loopGameOver:
+    837  1297							;		  ldx SMGameOverOfs,y
+    838  1297							;		  lda SMGameOverPtr,y
+    839  1297							;		  sta SM_BASE+1+RAM_WRITE,x
+    840  1297							;		  dey
+    841  1297							;		  bpl .loopGameOver
+    842  1297
+    843  1297							;		  rts
+    844  1297
+    845  1297							;SMGameOverOfs:
+    846  1297							;		  .byte <SM_TARGET3-SM_BASE, <SM_TARGET2-SM_BASE
+    847  1297							;		  .byte <SM_TARGET1-SM_BASE, <SM_TARGET0-SM_BASE
+    848  1297							;		  .byte <SM_Time3-SM_BASE, <SM_Time2-SM_BASE
+    849  1297							;		  .byte <SM_Time1-SM_BASE, <SM_Time0-SM_BASE
+    850  1297							;SMGameOverPtr:
+    851  1297							;		  .byte <CharG-1, <CharAL-1, <CharM-1, <CharEL-1
+    852  1297							;		  .byte <CharO-1, <CharVL-1, <CharE-1, <CharRL-1
+    853  1297
+    854  1297							;------------------------------------------------------------------------------
+    855  1297
       0  1297					      DEFINE_SUBROUTINE	DrawBCD_targetsRequired
       1  1297		       00 02	   BANK_DrawBCD_targetsRequired =	_CURRENT_BANK
       2  1297					      SUBROUTINE
       3  1297				   DrawBCD_targetsRequired
-    829  1297							; Show current TARGET counter in the top left
-    830  1297
-    831  1297		       a0 00		      ldy	#SM_OFS_TARGETS
-    832  1299		       a5 b6		      lda	BCD_targetsRequired
-    833  129b		       20 ae f2 	      jsr	SetupBCDPtr
-    834  129e
-    835  129e		       a9 b0		      lda	#ID_TARGET<<4	; if no extra targets, display the normal icon
-    836  12a0							;bit scoringFlags		      ;
-    837  12a0		       4c ae f2 	      jmp	SetupBCDPtr
-    838  12a3							;lda #ID_EXTRA<<4		      ; otherwise, display the extra icon
-    839  12a3							;bvc SetupBCDPtr
-    840  12a3							;ora #1			      ; display 1xx targets
-    841  12a3							;bne SetupBCDPtr		      ; unconditional
-    842  12a3
-    843  12a3							;------------------------------------------------------------------------------
+    857  1297							; Show current TARGET counter in the top left
+    858  1297
+    859  1297		       a0 00		      ldy	#SM_OFS_TARGETS
+    860  1299		       a5 b6		      lda	BCD_targetsRequired
+    861  129b		       20 ae f2 	      jsr	SetupBCDPtr
+    862  129e
+    863  129e		       a9 b0		      lda	#ID_TARGET<<4	; if no extra targets, display the normal icon
+    864  12a0							;bit scoringFlags		      ;
+    865  12a0		       4c ae f2 	      jmp	SetupBCDPtr
+    866  12a3							;lda #ID_EXTRA<<4		      ; otherwise, display the extra icon
+    867  12a3							;bvc SetupBCDPtr
+    868  12a3							;ora #1			      ; display 1xx targets
+    869  12a3							;bne SetupBCDPtr		      ; unconditional
+    870  12a3
+    871  12a3							;------------------------------------------------------------------------------
       0  12a3					      DEFINE_SUBROUTINE	DrawTime
       1  12a3		       00 02	   BANK_DrawTime =	_CURRENT_BANK
       2  12a3					      SUBROUTINE
       3  12a3				   DrawTime
-    845  12a3
-    846  12a3							; mid-digit-change, but we may be required to flash/display
-    847  12a3		       a0 02		      ldy	#SM_OFS_TIME
-    848  12a5							;------------------------------------------------------------------------------
+    873  12a3
+    874  12a3							; mid-digit-change, but we may be required to flash/display
+    875  12a3		       a0 02		      ldy	#SM_OFS_TIME
+    876  12a5							;------------------------------------------------------------------------------
       0  12a5					      DEFINE_SUBROUTINE	SetupTimePtr
       1  12a5		       00 02	   BANK_SetupTimePtr =	_CURRENT_BANK
       2  12a5					      SUBROUTINE
       3  12a5				   SetupTimePtr
-    850  12a5
-    851  12a5		       a5 b7		      lda	BCD_moveCounter
-    852  12a7		       20 ae f2 	      jsr	SetupBCDPtr
-    853  12aa		       a5 b8		      lda	BCD_moveCounter+1
-    854  12ac		       09 d0		      ora	#ID_CLOCK<<4
-    855  12ae
-    856  12ae							; fall through
-    857  12ae
-    858  12ae							;------------------------------------------------------------------------------
+    878  12a5
+    879  12a5		       a5 b7		      lda	BCD_moveCounter
+    880  12a7		       20 ae f2 	      jsr	SetupBCDPtr
+    881  12aa		       a5 b8		      lda	BCD_moveCounter+1
+    882  12ac		       09 d0		      ora	#ID_CLOCK<<4
+    883  12ae
+    884  12ae							; fall through
+    885  12ae
+    886  12ae							;------------------------------------------------------------------------------
       0  12ae					      DEFINE_SUBROUTINE	SetupBCDPtr
       1  12ae		       00 02	   BANK_SetupBCDPtr =	_CURRENT_BANK
       2  12ae					      SUBROUTINE
       3  12ae				   SetupBCDPtr
-    860  12ae
-    861  12ae							; a = BCD value
-    862  12ae							; y = SM table offset
-    863  12ae
-    864  12ae		       48		      pha
-    865  12af		       29 0f		      and	#$0f
-    866  12b1		       aa		      tax
-    867  12b2		       bd 0e f0 	      lda	DigitVectorLO,x	; low nibble: left aligned chars
-    868  12b5		       be 19 f0 	      ldx	SMTblLSB,y
-    869  12b8		       9d 00 f5 	      sta	SM_BASE+RAM_WRITE,x
-    870  12bb		       68		      pla
-    871  12bc		       4a		      lsr
-    872  12bd		       4a		      lsr
-    873  12be		       4a		      lsr
-    874  12bf		       4a		      lsr
-    875  12c0		       aa		      tax
-    876  12c1		       bd 00 f0 	      lda	DigitVectorLOr,x	; high nibble: right aligned chars
-    877  12c4		       be 20 f0 	      ldx	SMTblMSB,y
-    878  12c7		       9d 00 f5 	      sta	SM_BASE+RAM_WRITE,x
-    879  12ca
-    880  12ca		       c8		      iny
-    881  12cb
-    882  12cb		       a5 c0		      lda	ROM_Bank
-    883  12cd				   RTS
-    884  12cd		       60		      rts
-    885  12ce
+    888  12ae
+    889  12ae							; a = BCD value
+    890  12ae							; y = SM table offset
+    891  12ae
+    892  12ae		       48		      pha
+    893  12af		       29 0f		      and	#$0f
+    894  12b1		       aa		      tax
+    895  12b2		       bd 0e f0 	      lda	DigitVectorLO,x	; low nibble: left aligned chars
+    896  12b5		       be 19 f0 	      ldx	SMTblLSB,y
+    897  12b8		       9d 00 f5 	      sta	SM_BASE+RAM_WRITE,x
+    898  12bb		       68		      pla
+    899  12bc		       4a		      lsr
+    900  12bd		       4a		      lsr
+    901  12be		       4a		      lsr
+    902  12bf		       4a		      lsr
+    903  12c0		       aa		      tax
+    904  12c1		       bd 00 f0 	      lda	DigitVectorLOr,x	; high nibble: right aligned chars
+    905  12c4		       be 20 f0 	      ldx	SMTblMSB,y
+    906  12c7		       9d 00 f5 	      sta	SM_BASE+RAM_WRITE,x
+    907  12ca
+    908  12ca		       c8		      iny
+    909  12cb
+    910  12cb		       a5 c0		      lda	ROM_Bank
+    911  12cd				   RTS
+    912  12cd		       60		      rts
+    913  12ce
       0  12ce					      OPTIONAL_PAGEBREAK	"LeftDigits", (DIGIT_H*13)	; cannot index across page!
  PAGE BREAK INSERTED FOR  LeftDigits
  REQUESTED SIZE =  $5b
  WASTED SPACE =  $32
  PAGEBREAK LOCATION =  $f300
      10  1300					      LIST	ON
-    887  1300
-    888  1300					      IF	<. = 0
-    889  1300		       00		      .byte.b	0	; required!
-    890  1301					      ENDIF
-    891  1301
-    892  1301				   BLANKR
-    893  1301		       00 00 00 00*	      .ds	DIGIT_H, 0
-    894  1308
-    895  1308				   DequalsR
-    896  1308		       00		      .byte.b	%00000000
-    897  1309		       00		      .byte.b	%00000000
-    898  130a		       f0		      .byte.b	%11110000
-    899  130b		       00		      .byte.b	%00000000
-    900  130c		       f0		      .byte.b	%11110000
-    901  130d		       00		      .byte.b	%00000000
-    902  130e		       f0		      .byte.b	%11110000
-    903  130f				   DplusR
-    904  130f		       10		      .byte.b	%00010000
-    905  1310		       28		      .byte.b	%00101000
-    906  1311		       6c		      .byte.b	%01101100
-    907  1312		       c6		      .byte.b	%11000110
-    908  1313		       6c		      .byte.b	%01101100
-    909  1314		       28		      .byte.b	%00101000
-    910  1315		       10		      .byte.b	%00010000
-    911  1316
-    912  1316				   ClockR
-    913  1316		       00		      .byte.b	%00000000
-    914  1317		       48		      .byte.b	%01001000
-    915  1318		       fc		      .byte.b	%11111100
-    916  1319		       48		      .byte.b	%01001000
-    917  131a		       48		      .byte.b	%01001000
-    918  131b		       fc		      .byte.b	%11111100
-    919  131c		       48		      .byte.b	%01001000
-    920  131d				   NineR
-    921  131d		       0f		      .byte.b	%00001111
-    922  131e		       01		      .byte.b	%00000001
-    923  131f		       01		      .byte.b	%00000001
-    924  1320		       7f		      .byte.b	%01111111
-    925  1321		       41		      .byte.b	%01000001
-    926  1322		       41		      .byte.b	%01000001
-    927  1323		       7f		      .byte.b	%01111111
-    928  1324				   SixR
-    929  1324		       7f		      .byte.b	%01111111
-    930  1325		       41		      .byte.b	%01000001
-    931  1326		       41		      .byte.b	%01000001
-    932  1327		       7f		      .byte.b	%01111111
-    933  1328		       40		      .byte.b	%01000000
-    934  1329		       40		      .byte.b	%01000000
-    935  132a		       78		      .byte.b	%01111000
-    936  132b				   EightR
-    937  132b							;  .byte %00111110
-    938  132b							;  .byte %01000011
-    939  132b							;  .byte %01000011
-    940  132b							;  .byte %00111110
-    941  132b							;  .byte %00100011
-    942  132b							;  .byte %00100011
-    943  132b							;  .byte %00011110
-    944  132b
-    945  132b
-    946  132b		       7f		      .byte.b	%01111111
-    947  132c		       41		      .byte.b	%01000001
-    948  132d		       41		      .byte.b	%01000001
-    949  132e		       7f		      .byte.b	%01111111
-    950  132f		       41		      .byte.b	%01000001
-    951  1330		       41		      .byte.b	%01000001
-    952  1331		       7f		      .byte.b	%01111111
-    953  1332
-    954  1332				   ZeroR
-    955  1332		       7f		      .byte.b	%01111111
-    956  1333		       41		      .byte.b	%01000001
-    957  1334		       41		      .byte.b	%01000001
-    958  1335		       41		      .byte.b	%01000001
-    959  1336		       41		      .byte.b	%01000001
-    960  1337		       41		      .byte.b	%01000001
-    961  1338		       7f		      .byte.b	%01111111
-    962  1339
-    963  1339							;	  .byte %00111110
-    964  1339							;	  .byte %01000011
-    965  1339							;	  .byte %01000011
-    966  1339							;	  .byte %01000011
-    967  1339							;	  .byte %01000011
-    968  1339							;	  .byte %00100011
-    969  1339							;	  .byte %00011110
-    970  1339				   ThreeR
-    971  1339		       7f		      .byte.b	%01111111
-    972  133a		       01		      .byte.b	%00000001
-    973  133b		       01		      .byte.b	%00000001
-    974  133c		       0f		      .byte.b	%00001111
-    975  133d		       01		      .byte.b	%00000001
-    976  133e		       01		      .byte.b	%00000001
-    977  133f		       7f		      .byte.b	%01111111
-    978  1340				   OneR
-    979  1340		       08		      .byte.b	%00001000
-    980  1341		       08		      .byte.b	%00001000
-    981  1342		       08		      .byte.b	%00001000
-    982  1343		       08		      .byte.b	%00001000
-    983  1344		       08		      .byte.b	%00001000
-    984  1345		       08		      .byte.b	%00001000
-    985  1346		       08		      .byte.b	%00001000
-    986  1347
-    987  1347				   SevenR
-    988  1347		       08		      .byte.b	%00001000
-    989  1348		       08		      .byte.b	%00001000
-    990  1349		       08		      .byte.b	%00001000
-    991  134a		       0f		      .byte.b	%00001111
-    992  134b		       01		      .byte.b	%00000001
-    993  134c		       01		      .byte.b	%00000001
-    994  134d		       7f		      .byte.b	%01111111
-    995  134e
-    996  134e				   TwoR
-    997  134e		       7f		      .byte.b	%01111111
-    998  134f		       40		      .byte.b	%01000000
-    999  1350		       40		      .byte.b	%01000000
-   1000  1351		       7f		      .byte.b	%01111111
-   1001  1352		       01		      .byte.b	%00000001
-   1002  1353		       01		      .byte.b	%00000001
-   1003  1354		       7f		      .byte.b	%01111111
-   1004  1355				   FiveR
-   1005  1355		       7f		      .byte.b	%01111111
-   1006  1356		       01		      .byte.b	%00000001
-   1007  1357		       01		      .byte.b	%00000001
-   1008  1358		       7f		      .byte.b	%01111111
-   1009  1359		       40		      .byte.b	%01000000
-   1010  135a		       40		      .byte.b	%01000000
-   1011  135b		       78		      .byte.b	%01111000
-   1012  135c				   FourR
-   1013  135c		       08		      .byte.b	%00001000
-   1014  135d		       08		      .byte.b	%00001000
-   1015  135e		       08		      .byte.b	%00001000
-   1016  135f		       7f		      .byte.b	%01111111
-   1017  1360		       48		      .byte.b	%01001000
-   1018  1361		       48		      .byte.b	%01001000
-   1019  1362		       48		      .byte.b	%01001000
-   1020  1363
-   1021  1363							;CharAL:
-   1022  1363							;    .byte %11100110
-   1023  1363							;    .byte %11100110
-   1024  1363							;    .byte %11111110
-   1025  1363							;    .byte %11100110
-   1026  1363							;    .byte %11100110
-   1027  1363							;    .byte %01111100
-   1028  1363							;    .byte %00111000
-   1029  1363							;CharEL:
-   1030  1363							;    .byte %11111110
-   1031  1363							;    .byte %11111110
-   1032  1363							;    .byte %11100000
-   1033  1363							;    .byte %11100000
-   1034  1363							;    .byte %11111100
-   1035  1363							;    .byte %11100000
-   1036  1363							;    .byte %11111110
-   1037  1363							;CharRL:
-   1038  1363							;    .byte %11100110
-   1039  1363							;    .byte %11100110
-   1040  1363							;    .byte %11111100
-   1041  1363							;    .byte %11111100
-   1042  1363							;    .byte %11100110
-   1043  1363							;    .byte %11100110
-   1044  1363							;    .byte %11111100
-   1045  1363							;CharVL:
-   1046  1363							;    .byte %00111000
-   1047  1363							;    .byte %01111100
-   1048  1363							;    .byte %11100110
-   1049  1363							;    .byte %11100110
+    915  1300
+    916  1300					      IF	<. = 0
+    917  1300		       00		      .byte.b	0	; required!
+    918  1301					      ENDIF
+    919  1301
+    920  1301				   BLANKR
+    921  1301		       00 00 00 00*	      .ds	DIGIT_H, 0
+    922  1308
+    923  1308				   DequalsR
+    924  1308		       00		      .byte.b	%00000000
+    925  1309		       00		      .byte.b	%00000000
+    926  130a		       f0		      .byte.b	%11110000
+    927  130b		       00		      .byte.b	%00000000
+    928  130c		       f0		      .byte.b	%11110000
+    929  130d		       00		      .byte.b	%00000000
+    930  130e		       f0		      .byte.b	%11110000
+    931  130f				   DplusR
+    932  130f		       10		      .byte.b	%00010000
+    933  1310		       28		      .byte.b	%00101000
+    934  1311		       6c		      .byte.b	%01101100
+    935  1312		       c6		      .byte.b	%11000110
+    936  1313		       6c		      .byte.b	%01101100
+    937  1314		       28		      .byte.b	%00101000
+    938  1315		       10		      .byte.b	%00010000
+    939  1316
+    940  1316				   ClockR
+    941  1316		       00		      .byte.b	%00000000
+    942  1317		       48		      .byte.b	%01001000
+    943  1318		       fc		      .byte.b	%11111100
+    944  1319		       48		      .byte.b	%01001000
+    945  131a		       48		      .byte.b	%01001000
+    946  131b		       fc		      .byte.b	%11111100
+    947  131c		       48		      .byte.b	%01001000
+    948  131d				   NineR
+    949  131d		       0f		      .byte.b	%00001111
+    950  131e		       01		      .byte.b	%00000001
+    951  131f		       01		      .byte.b	%00000001
+    952  1320		       7f		      .byte.b	%01111111
+    953  1321		       41		      .byte.b	%01000001
+    954  1322		       41		      .byte.b	%01000001
+    955  1323		       7f		      .byte.b	%01111111
+    956  1324				   SixR
+    957  1324		       7f		      .byte.b	%01111111
+    958  1325		       41		      .byte.b	%01000001
+    959  1326		       41		      .byte.b	%01000001
+    960  1327		       7f		      .byte.b	%01111111
+    961  1328		       40		      .byte.b	%01000000
+    962  1329		       40		      .byte.b	%01000000
+    963  132a		       78		      .byte.b	%01111000
+    964  132b				   EightR
+    965  132b							;  .byte %00111110
+    966  132b							;  .byte %01000011
+    967  132b							;  .byte %01000011
+    968  132b							;  .byte %00111110
+    969  132b							;  .byte %00100011
+    970  132b							;  .byte %00100011
+    971  132b							;  .byte %00011110
+    972  132b
+    973  132b
+    974  132b		       7f		      .byte.b	%01111111
+    975  132c		       41		      .byte.b	%01000001
+    976  132d		       41		      .byte.b	%01000001
+    977  132e		       7f		      .byte.b	%01111111
+    978  132f		       41		      .byte.b	%01000001
+    979  1330		       41		      .byte.b	%01000001
+    980  1331		       7f		      .byte.b	%01111111
+    981  1332
+    982  1332				   ZeroR
+    983  1332		       7f		      .byte.b	%01111111
+    984  1333		       41		      .byte.b	%01000001
+    985  1334		       41		      .byte.b	%01000001
+    986  1335		       41		      .byte.b	%01000001
+    987  1336		       41		      .byte.b	%01000001
+    988  1337		       41		      .byte.b	%01000001
+    989  1338		       7f		      .byte.b	%01111111
+    990  1339
+    991  1339							;	  .byte %00111110
+    992  1339							;	  .byte %01000011
+    993  1339							;	  .byte %01000011
+    994  1339							;	  .byte %01000011
+    995  1339							;	  .byte %01000011
+    996  1339							;	  .byte %00100011
+    997  1339							;	  .byte %00011110
+    998  1339				   ThreeR
+    999  1339		       7f		      .byte.b	%01111111
+   1000  133a		       01		      .byte.b	%00000001
+   1001  133b		       01		      .byte.b	%00000001
+   1002  133c		       0f		      .byte.b	%00001111
+   1003  133d		       01		      .byte.b	%00000001
+   1004  133e		       01		      .byte.b	%00000001
+   1005  133f		       7f		      .byte.b	%01111111
+   1006  1340				   OneR
+   1007  1340		       08		      .byte.b	%00001000
+   1008  1341		       08		      .byte.b	%00001000
+   1009  1342		       08		      .byte.b	%00001000
+   1010  1343		       08		      .byte.b	%00001000
+   1011  1344		       08		      .byte.b	%00001000
+   1012  1345		       08		      .byte.b	%00001000
+   1013  1346		       08		      .byte.b	%00001000
+   1014  1347
+   1015  1347				   SevenR
+   1016  1347		       08		      .byte.b	%00001000
+   1017  1348		       08		      .byte.b	%00001000
+   1018  1349		       08		      .byte.b	%00001000
+   1019  134a		       0f		      .byte.b	%00001111
+   1020  134b		       01		      .byte.b	%00000001
+   1021  134c		       01		      .byte.b	%00000001
+   1022  134d		       7f		      .byte.b	%01111111
+   1023  134e
+   1024  134e				   TwoR
+   1025  134e		       7f		      .byte.b	%01111111
+   1026  134f		       40		      .byte.b	%01000000
+   1027  1350		       40		      .byte.b	%01000000
+   1028  1351		       7f		      .byte.b	%01111111
+   1029  1352		       01		      .byte.b	%00000001
+   1030  1353		       01		      .byte.b	%00000001
+   1031  1354		       7f		      .byte.b	%01111111
+   1032  1355				   FiveR
+   1033  1355		       7f		      .byte.b	%01111111
+   1034  1356		       01		      .byte.b	%00000001
+   1035  1357		       01		      .byte.b	%00000001
+   1036  1358		       7f		      .byte.b	%01111111
+   1037  1359		       40		      .byte.b	%01000000
+   1038  135a		       40		      .byte.b	%01000000
+   1039  135b		       78		      .byte.b	%01111000
+   1040  135c				   FourR
+   1041  135c		       08		      .byte.b	%00001000
+   1042  135d		       08		      .byte.b	%00001000
+   1043  135e		       08		      .byte.b	%00001000
+   1044  135f		       7f		      .byte.b	%01111111
+   1045  1360		       48		      .byte.b	%01001000
+   1046  1361		       48		      .byte.b	%01001000
+   1047  1362		       48		      .byte.b	%01001000
+   1048  1363
+   1049  1363							;CharAL:
    1050  1363							;    .byte %11100110
    1051  1363							;    .byte %11100110
-   1052  1363							;    .byte %11100110
-   1053  1363
+   1052  1363							;    .byte %11111110
+   1053  1363							;    .byte %11100110
+   1054  1363							;    .byte %11100110
+   1055  1363							;    .byte %01111100
+   1056  1363							;    .byte %00111000
+   1057  1363							;CharEL:
+   1058  1363							;    .byte %11111110
+   1059  1363							;    .byte %11111110
+   1060  1363							;    .byte %11100000
+   1061  1363							;    .byte %11100000
+   1062  1363							;    .byte %11111100
+   1063  1363							;    .byte %11100000
+   1064  1363							;    .byte %11111110
+   1065  1363							;CharRL:
+   1066  1363							;    .byte %11100110
+   1067  1363							;    .byte %11100110
+   1068  1363							;    .byte %11111100
+   1069  1363							;    .byte %11111100
+   1070  1363							;    .byte %11100110
+   1071  1363							;    .byte %11100110
+   1072  1363							;    .byte %11111100
+   1073  1363							;CharVL:
+   1074  1363							;    .byte %00111000
+   1075  1363							;    .byte %01111100
+   1076  1363							;    .byte %11100110
+   1077  1363							;    .byte %11100110
+   1078  1363							;    .byte %11100110
+   1079  1363							;    .byte %11100110
+   1080  1363							;    .byte %11100110
+   1081  1363
       0  1363					      CHECKPAGE	BLANKR
       8  1363					      LIST	ON
-   1055  1363
-   1056  1363							;---------------------------------------------------------------------------
-   1057  1363
+   1083  1363
+   1084  1363							;---------------------------------------------------------------------------
+   1085  1363
       0  1363					      DEFINE_SUBROUTINE	GameInitialise
       1  1363		       00 02	   BANK_GameInitialise =	_CURRENT_BANK
       2  1363					      SUBROUTINE
       3  1363				   GameInitialise
-   1059  1363
-   1060  1363							; copy loaded SK high score into scoring RAM:
-   1061  1363		       a2 02		      ldx	#3-1
-   1062  1365				   .loopCopyHighScore
-   1063  1365		       b5 de		      lda	highScoreSK,x
-   1064  1367		       c9 ff		      cmp	#$ff
-   1065  1369		       f0 06		      beq	.noSaveKey
-   1066  136b		       9d 98 f7 	      sta	HighScore+RAM_WRITE,x
-   1067  136e		       ca		      dex
-   1068  136f		       10 f4		      bpl	.loopCopyHighScore
-   1069  1371				   .noSaveKey
-   1070  1371
-   1071  1371							; clear both players scores
-   1072  1371		       a0 05		      ldy	#2*3-1
-   1073  1373		       a9 00		      lda	#0
-   1074  1375				   .loopClearScore
-   1075  1375		       99 8e f7 	      sta	ScoreCurrent+RAM_WRITE,y
-   1076  1378		       88		      dey
-   1077  1379		       10 fa		      bpl	.loopClearScore
-   1078  137b
-   1079  137b							; copy levelX and level for other player and SaveKey:
-   1080  137b		       a5 b2		      lda	levelX
-   1081  137d		       8d 96 f7 	      sta	PlayerLevelX+RAM_WRITE
-   1082  1380		       a5 e1		      lda	startingLevel
-   1083  1382		       8d 91 f7 	      sta	StartLevelX+RAM_WRITE
-   1084  1385		       a5 b4		      lda	level
-   1085  1387		       8d 97 f7 	      sta	PlayerLevel+RAM_WRITE
-   1086  138a		       8d 92 f7 	      sta	StartLevel+RAM_WRITE
-   1087  138d		       60		      rts
-   1088  138e
-   1089  138e							;---------------------------------------------------------------------------
-   1090  138e
-   1091  138e		       00 00 00    ScoreCurrent ds	3, 0
-   1092  1391							; start levelx and level have to be after ScoreCurrent!
-   1093  1391		       00	   StartLevelX .byte.b	0
-   1094  1392		       00	   StartLevel .byte.b	0
-   1095  1393		       00 00 00    PlayerScores ds	3, 0
-   1096  1396							; levelx and level have to be consecutive variables!
-   1097  1396		       00	   PlayerLevelX .byte.b	0
-   1098  1397		       00	   PlayerLevel .byte.b	0
-   1099  1398		       00 00 00 00*HighScore  ds	3+2, 0	; two extra bytes to save code
-   1100  139d
-   1101  139d
-   1102  139d
-   1103  139d							;------------------------------------------------------------------------------
-   1104  139d
+   1087  1363
+   1088  1363							; copy loaded SK high score into scoring RAM:
+   1089  1363		       a2 02		      ldx	#3-1
+   1090  1365				   .loopCopyHighScore
+   1091  1365		       b5 de		      lda	highScoreSK,x
+   1092  1367		       c9 ff		      cmp	#$ff
+   1093  1369		       f0 06		      beq	.noSaveKey
+   1094  136b		       9d 98 f7 	      sta	HighScore+RAM_WRITE,x
+   1095  136e		       ca		      dex
+   1096  136f		       10 f4		      bpl	.loopCopyHighScore
+   1097  1371				   .noSaveKey
+   1098  1371
+   1099  1371							; clear both players scores
+   1100  1371		       a0 05		      ldy	#2*3-1
+   1101  1373		       a9 00		      lda	#0
+   1102  1375				   .loopClearScore
+   1103  1375		       99 8e f7 	      sta	ScoreCurrent+RAM_WRITE,y
+   1104  1378		       88		      dey
+   1105  1379		       10 fa		      bpl	.loopClearScore
+   1106  137b
+   1107  137b							; copy levelX and level for other player and SaveKey:
+   1108  137b		       a5 b2		      lda	levelX
+   1109  137d		       8d 96 f7 	      sta	PlayerLevelX+RAM_WRITE
+   1110  1380		       a5 e1		      lda	startingLevel
+   1111  1382		       8d 91 f7 	      sta	StartLevelX+RAM_WRITE
+   1112  1385		       a5 b4		      lda	level
+   1113  1387		       8d 97 f7 	      sta	PlayerLevel+RAM_WRITE
+   1114  138a		       8d 92 f7 	      sta	StartLevel+RAM_WRITE
+   1115  138d		       60		      rts
+   1116  138e
+   1117  138e							;---------------------------------------------------------------------------
+   1118  138e
+   1119  138e		       00 00 00    ScoreCurrent ds	3, 0
+   1120  1391							; start levelx and level have to be after ScoreCurrent!
+   1121  1391		       00	   StartLevelX .byte.b	0
+   1122  1392		       00	   StartLevel .byte.b	0
+   1123  1393		       00 00 00    PlayerScores ds	3, 0
+   1124  1396							; levelx and level have to be consecutive variables!
+   1125  1396		       00	   PlayerLevelX .byte.b	0
+   1126  1397		       00	   PlayerLevel .byte.b	0
+   1127  1398		       00 00 00 00*HighScore  ds	3+2, 0	; two extra bytes to save code
+   1128  139d
+   1129  139d
+   1130  139d
+   1131  139d							;------------------------------------------------------------------------------
+   1132  139d
       0  139d					      CHECK_HALF_BANK_SIZE	"ROM_SHADOW_OF_BANK_SCORING"
       1  139d
       2  139d
@@ -6222,18 +6250,18 @@
       6  139d				  -	      ECHO	"HALF-BANK OVERFLOW @ ", * - ORIGIN
       7  139d				  -	      ERR
       8  139d					      endif
-   1106  139d
-   1107  139d							;------------------------------------------------------------------------------
-   1108  139d
-   1109  139d							; LEVEL DATA banks can go anywhere - *EXCEPT* for the same bank as the level
-   1110  139d							; decoder.  Ironic, isn't it?	They calculate a constant -- MAX_LEVEL_SIZE
-   1111  139d							; which is used as a buffer size inside UnpackLevel.  It's not important if
-   1112  139d							; this is defined before or after, as once the levels have processed it will be
-   1113  139d							; correct. Note, that levels should all be defined BEFORE *OR* AFTER the
-   1114  139d							; UnpackLevel code -- but that they should not be both, nor in the same bank.
-   1115  139d							; TODO: verify above is still valid
-   1116  139d
-   1117  139d
+   1134  139d
+   1135  139d							;------------------------------------------------------------------------------
+   1136  139d
+   1137  139d							; LEVEL DATA banks can go anywhere - *EXCEPT* for the same bank as the level
+   1138  139d							; decoder.  Ironic, isn't it?	They calculate a constant -- MAX_LEVEL_SIZE
+   1139  139d							; which is used as a buffer size inside UnpackLevel.  It's not important if
+   1140  139d							; this is defined before or after, as once the levels have processed it will be
+   1141  139d							; correct. Note, that levels should all be defined BEFORE *OR* AFTER the
+   1142  139d							; UnpackLevel code -- but that they should not be both, nor in the same bank.
+   1143  139d							; TODO: verify above is still valid
+   1144  139d
+   1145  139d
       0  139d					      CHECK_BANK_SIZE	"ROM_SHADOW_OF_BANK_SCORING -- full 2K"
       1  139d		       03 9d	   .TEMP      =	* - BANK_START
  ROM_SHADOW_OF_BANK_SCORING -- full 2K (2K) SIZE =  $39d , FREE= $463
@@ -26469,7 +26497,7 @@
     466  caa7		       38 38		      .byte.b	56,56
     467  caa9		       4e 4e		      .byte.b	78,78
     468  caab				   xOverscanTime2X
-    469  caab		       2b 2b		      .byte.b	43, 43
+    469  caab		       2a 2a		      .byte.b	42, 42
     470  caad		       40 40		      .byte.b	64, 64
     471  caaf
     472  caaf		       00 20	   xCOLOUR_LINES =	32

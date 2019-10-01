@@ -269,22 +269,50 @@ GL
   .byte %01111111
 
 
+CharL
+  .byte %01111111
+  .byte %01000000
+  .byte %01000001
+  .byte %01000000
+  .byte %01000000
+  .byte %01000000
+  .byte %01000000
+
+CharK
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+  .byte %01001000
+  .byte %01001000
+  .byte %01001000
+
+CharO
+  .byte %01111111
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01000001
+  .byte %01111111
+
+
 ; level "name" characters (left only!):
 
 CharN
-CharK:
+kCharK:
 CharH:
 CharA
 CharJ:
 CharP:
 CharB
-CharO
+;CharO
 CharC
 CharI:
 CharD
 CharG
 CharE
-CharL:
+;CharL:
 CharF
 CharM:
   ds 7,0

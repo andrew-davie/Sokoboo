@@ -466,7 +466,7 @@ xVBlankTime2x
     .byte 56,56
     .byte 78,78
 xOverscanTime2X
-    .byte 43, 43
+    .byte 42, 42
     .byte 64, 64
 
 xCOLOUR_LINES    = 32
