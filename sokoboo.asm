@@ -46,8 +46,8 @@ ORIGIN_RAM      SET 0
 
 ;FIXED_BANK             = 3 * 2048           ;-->  8K ROM tested OK
 ;FIXED_BANK              = 7 * 2048          ;-->  16K ROM tested OK
-;FIXED_BANK             = 15 * 2048           ; ->> 32K
-FIXED_BANK             = 31 * 2048           ; ->> 32K
+FIXED_BANK             = 15 * 2048           ; ->> 32K
+;FIXED_BANK             = 31 * 2048           ; ->> 64K
 ;FIXED_BANK             = 239 * 2048         ;--> 480K ROM tested OK (KK/CC2 compatibility)
 ;FIXED_BANK             = 127 * 2048         ;--> 256K ROM tested OK
 ;FIXED_BANK             = 255 * 2048         ;--> 512K ROM tested OK (CC2 can't handle this)
@@ -826,18 +826,18 @@ MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
             include "BANK_LEVELS3.asm"
             include "BANK_LEVELS4.asm"
             include "BANK_LEVELS5.asm"
-            include "BANK_LEVELS6.asm"
-            include "BANK_LEVELS7.asm"
-            include "BANK_LEVELS8.asm"
-            include "BANK_LEVELS9.asm"
-            include "BANK_LEVELS10.asm"
-            include "BANK_LEVELS11.asm"
-            include "BANK_LEVELS12.asm"
-            include "BANK_LEVELS13.asm"
-            include "BANK_LEVELS14.asm"
-            include "BANK_LEVELS15.asm"
-            include "BANK_LEVELS16.asm"
-            include "BANK_LEVELS17.asm"
+;            include "BANK_LEVELS6.asm"
+;            include "BANK_LEVELS7.asm"
+;            include "BANK_LEVELS8.asm"
+;            include "BANK_LEVELS9.asm"
+;            include "BANK_LEVELS10.asm"
+;            include "BANK_LEVELS11.asm"
+;            include "BANK_LEVELS12.asm"
+;            include "BANK_LEVELS13.asm"
+;            include "BANK_LEVELS14.asm"
+;            include "BANK_LEVELS15.asm"
+;            include "BANK_LEVELS16.asm"
+;            include "BANK_LEVELS17.asm"
             include "BANK_PlayerFrames.asm"
             include "titleScreen.asm"
             include "levelScreen.asm"

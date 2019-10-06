@@ -8,19 +8,68 @@
 0.next1                  f177              (R )
 0.notPaired0             f14d              (R )
 0.notPaired1             f16e              (R )
-1090.TEMP                07f7              (R )
-1220.TEMP                07d8              (R )
-1350.TEMP                078b              (R )
-1484.TEMP                07e4              (R )
-1610.TEMP                07c5              (R )
+1002.skipEOR             f02d              (R )
+1003.skipEOR             f03c              (R )
+1006.loopResync          f07a              (R )
+1006.loopWait            f08d              (R )
+1006.ntsc                f08d              (R )
+1007.VSLP1               f07c              (R )
+1008.CYCLES              000e              (R )
+1009.CYCLES              0022              (R )
+1010.CYCLES              0008              (R )
+1011.CYCLES              000c              (R )
+1012.CYCLES              000c              (R )
+1013.CYCLES              000c              (R )
+1014.CYCLES              0002              (R )
+1015.CYCLES              0002              (R )
+1016.CYCLES              0008              (R )
+1017.skipEOR             f305              (R )
+1101.TEMP                0800              (R )
+1105.CYCLES              0048              (R )
+1106.CYCLES              0002              (R )
+1107.CYCLES              0002              (R )
+1108.CYCLES              0002              (R )
+1109.CYCLES              0002              (R )
+1110.CYCLES              0002              (R )
+1122.loopResync          f194              (R )
+1122.loopWait            f1a7              (R )
+1122.ntsc                f1a7              (R )
+1123.VSLP1               f196              (R )
+1124.CYCLES              000a              (R )
+1125.CYCLES              0036              (R )
+1126.CYCLES              0042              (R )
+1171.TEMP                07d8              (R )
+1226.advanceLoop         f419              (R )
+1226.afterAudioUpdate    f4ed              (R )
+1226.endOfEnvelope       f4dd              (R )
+1226.endOfPercussion     f496              (R )
+1226.exitCopy            fbb1              (R )
+1226.finishedNewNote     f475              (R )
+1226.instrument          f4c4              (R )
+1226.level_ok            fd32              (R )
+1226.loopVSync           fc7b              (R )
+1226.LX                  0000                  
+1226.newNote             f45f              (R )
+1226.noEndOfSustain      f4d6              (R )
+1226.noNewNote           f485              (R )
+1226.noOddFrame          f483              (R )
+1226.pause               f422                  
+1226.sequencerNextChannel f477                  
+1226.startInstrument     f46b              (R )
+1226.storeADIndex        f473              (R )
+1226.updateLoop          f487              (R )
+1227.constructPatPtr     f42f              (R )
+1227.noEndOfPattern      f45e              (R )
+1227.noPatternGoto       f43c              (R )
+1227.notPrefetched       f453              (R )
+1228.TEMP                061c              (R )
+1289.CLEAR_STACK         fbc8              (R )
+1313.skipEOR             fd59              (R )
 168.TEMP                 03fe              (R )
 169.TEMP                 03fe              (R )
-1744.TEMP                07f3              (R )
-1842.TEMP                07a1              (R )
 185.TEMP                 0250              (R )
 186.TEMP                 0250              (R )
 191.CYCLES               0000              (R )
-1928.TEMP                07f3              (R )
 193.CYCLES               0000              (R )
 194.loopWait             f189              (R )
 194.zeroPos              f18c              (R )
@@ -51,94 +100,15 @@
 200.startXScroll         f2fb              (R )
 200.startYScroll         f316              (R )
 200.swapScore            f25f              (R )
-2026.TEMP                07c7              (R )
 203.CYCLES               0002              (R )
 205.CYCLES               0000              (R )
-2124.TEMP                07b0              (R )
-2166.TEMP                0463              (R )
 229.TEMP                 039d              (R )
 230.TEMP                 039d              (R )
-2307.TEMP                0594              (R )
-2311.loopResync          f01c              (R )
-2311.loopWait            f02f              (R )
-2311.ntsc                f02f              (R )
-2312.VSLP1               f01e              (R )
-2315.CYCLES              0002              (R )
-2316.CYCLES              0000              (R )
-2317.skipEOR             f0a3              (R )
-2318.LUM1                0bf0                  
-2318.LUM2                0de0                  
-2318.LUM3                0df0                  
-2318.STEP1               0026              (R )
-2318.STEP2               002c              (R )
-2318.STEP3               0026              (R )
-2319.LUM1                0be0                  
-2319.LUM2                0df8                  
-2319.LUM3                0de0                  
-2319.STEP1               002c              (R )
-2319.STEP2               0033              (R )
-2319.STEP3               002c              (R )
-2320.TEMP                074e              (R )
-2324.skipEOR             f02d              (R )
-2325.skipEOR             f03c              (R )
-2328.loopResync          f07a              (R )
-2328.loopWait            f08d              (R )
-2328.ntsc                f08d              (R )
-2329.VSLP1               f07c              (R )
-2330.CYCLES              000e              (R )
-2331.CYCLES              0022              (R )
-2332.CYCLES              0008              (R )
-2333.CYCLES              000c              (R )
-2334.CYCLES              000c              (R )
-2335.CYCLES              000c              (R )
-2336.CYCLES              0002              (R )
-2337.CYCLES              0002              (R )
-2338.CYCLES              0008              (R )
-2339.skipEOR             f305              (R )
 235.TEMP                 0202              (R )
-2423.TEMP                0800              (R )
-2427.CYCLES              0048              (R )
-2428.CYCLES              0002              (R )
-2429.CYCLES              0002              (R )
-2430.CYCLES              0002              (R )
-2431.CYCLES              0002              (R )
-2432.CYCLES              0002              (R )
-2444.loopResync          f194              (R )
-2444.loopWait            f1a7              (R )
-2444.ntsc                f1a7              (R )
-2445.VSLP1               f196              (R )
-2446.CYCLES              000a              (R )
-2447.CYCLES              0036              (R )
-2448.CYCLES              0042              (R )
 247.loopResync           f2c7              (R )
 247.loopWait             f2da              (R )
 247.ntsc                 f2da              (R )
 248.VSLP1                f2c9              (R )
-2493.TEMP                07d8              (R )
-2548.advanceLoop         f419              (R )
-2548.afterAudioUpdate    f4ed              (R )
-2548.endOfEnvelope       f4dd              (R )
-2548.endOfPercussion     f496              (R )
-2548.exitCopy            fbb1              (R )
-2548.finishedNewNote     f475              (R )
-2548.instrument          f4c4              (R )
-2548.level_ok            fd32              (R )
-2548.loopVSync           fc7b              (R )
-2548.LX                  0000                  
-2548.newNote             f45f              (R )
-2548.noEndOfSustain      f4d6              (R )
-2548.noNewNote           f485              (R )
-2548.noOddFrame          f483              (R )
-2548.pause               f422                  
-2548.sequencerNextChannel f477                  
-2548.startInstrument     f46b              (R )
-2548.storeADIndex        f473              (R )
-2548.updateLoop          f487              (R )
-2549.constructPatPtr     f42f              (R )
-2549.noEndOfPattern      f45e              (R )
-2549.noPatternGoto       f43c              (R )
-2549.notPrefetched       f453              (R )
-2550.TEMP                061c              (R )
 259.BOARD_LOCATION       0400                  
 259.dirFound             f2fe              (R )
 259.DRAW_LOCATION        f0a0                  
@@ -153,10 +123,8 @@
 259.skipEmpty            f3fb              (R )
 259.skipPatch            f0aa              (R )
 259.xloopVSync3          f1b3              (R )
-2611.CLEAR_STACK         fbc8              (R )
-2635.skipEOR             fd59              (R )
 266.TEMP                 043d              (R )
-276.TEMP                 05f6              (R )
+276.TEMP                 02af              (R )
 430.TEMP                 07b5              (R )
 51.DUMMY                 0001                  
 53.DUMMY                 0002                  
@@ -177,10 +145,30 @@
 87.CYCLES                0000              (R )
 88.CYCLES                0000              (R )
 89.CYCLES                0000              (R )
-956.TEMP                 07e0              (R )
+979.TEMP                 0594              (R )
+983.loopResync           f01c              (R )
+983.loopWait             f02f              (R )
+983.ntsc                 f02f              (R )
+984.VSLP1                f01e              (R )
+987.CYCLES               0002              (R )
+988.CYCLES               0000              (R )
+989.skipEOR              f0a3              (R )
+990.LUM1                 0808                  
+990.LUM2                 0dd0                  
+990.LUM3                 0818                  
+990.STEP1                fffffff9              (R )
+990.STEP2                002a              (R )
+990.STEP3                ffffffeb              (R )
+991.LUM1                 0808                  
+991.LUM2                 0be8                  
+991.LUM3                 0810                  
+991.STEP1                fffffff9              (R )
+991.STEP2                0015              (R )
+991.STEP3                fffffff2              (R )
+998.TEMP                 07d8              (R )
 __DASM__TOTAL_FREE_MEMORY 0000                  
 __FNUM                   0017                  
-_CURRENT_BANK            001f              (R )
+_CURRENT_BANK            000f              (R )
 AbandonX                 f2aa              (R )
 AbandonY                 f2b6              (R )
 actionVector             00db              (R )
@@ -245,55 +233,55 @@ BandsNotChanged          f3f7              (R )
 bank                     00df              (R )
 BANK_AnimateCharReplacements2 0001                  
 BANK_BOARD               000d              (R )
-BANK_BoardLineStartLO    001a                  
-BANK_BuildDrawStack      001f                  
+BANK_BoardLineStartLO    000e                  
+BANK_BuildDrawStack      000f                  
 BANK_Cart_Init           0003              (R )
 BANK_CharacterDataVecHI  0000                  
 BANK_CharacterDataVecLO  0000                  
 BANK_CharAddressLO       0000                  
 BANK_CharMask            0000                  
 BANK_CharReplacement     0001                  
-BANK_CopyColoursToScreenLines 001f                  
-BANK_CopyROM2RAM_F000    001f                  
-BANK_CopyROMShadowToRAM  001a              (R )
+BANK_CopyColoursToScreenLines 000f                  
+BANK_CopyROM2RAM_F000    000f                  
+BANK_CopyROMShadowToRAM  000e              (R )
 BANK_CreateCreatures     0003              (R )
 BANK_DECODE_LEVEL        000a              (R )
 BANK_DECODE_LEVEL_SHADOW 0003              (R )
-BANK_DeRegisterTarget    001f                  
+BANK_DeRegisterTarget    000f                  
 BANK_DoColours           0000                  
 BANK_DRAW_BUFFERS        0008              (R )
-BANK_DrawAIntoStack      001f                  
+BANK_DrawAIntoStack      000f                  
 BANK_DrawBCD_targetsRequired 0002                  
 BANK_DrawDigits          0002                  
 BANK_DrawDigits1x6       0002                  
 BANK_DrawDigits2x4       0002                  
 BANK_DrawDigits3x2       0002                  
-BANK_DrawFullScreen      001a                  
+BANK_DrawFullScreen      000e                  
 BANK_DrawIntoStack       0001                  
-BANK_DrawScreenRowPreparation 001a              (R )
+BANK_DrawScreenRowPreparation 000e              (R )
 BANK_DrawStackUpdate     0001                  
 BANK_DrawTheScreen       0000                  
 BANK_DrawTime            0002                  
-BANK_DrawTimeFromROM     001f                  
-BANK_EncodeGameStatistics 0019                  
-BANK_EndOfLevel          001a              (R )
-BANK_FadeIn              001f                  
-BANK_FadeOut             001f                  
+BANK_DrawTimeFromROM     000f                  
+BANK_EncodeGameStatistics 000d                  
+BANK_EndOfLevel          000e              (R )
+BANK_FadeIn              000f                  
+BANK_FadeOut             000f                  
 BANK_FixColours          0000                  
-BANK_fixWalkFrame        0018                  
+BANK_fixWalkFrame        000c                  
 BANK_GameInitialise      0002                  
 BANK_GeneralScoringSetups 0002                  
-BANK_GetBoardAddressR    001a              (R )
-BANK_GetBoardAddressRW   001a              (R )
-BANK_GetBoardAddressW    001a              (R )
-BANK_GetBoardCharacter   001f                  
-BANK_GetBoardCharacter__CALL_FROM_RAM__ 001f                  
+BANK_GetBoardAddressR    000e              (R )
+BANK_GetBoardAddressRW   000e              (R )
+BANK_GetBoardAddressW    000e              (R )
+BANK_GetBoardCharacter   000f                  
+BANK_GetBoardCharacter__CALL_FROM_RAM__ 000f                  
 BANK_GetLevelAddress     0004                  
-BANK_GetROMByte          001f                  
-BANK_IMC                 001a              (R )
-BANK_IncrementMoveCount  001f                  
-BANK_InsertObjectStack   001f                  
-BANK_InsertObjectStackFromRAM 001f                  
+BANK_GetROMByte          000f                  
+BANK_IMC                 000e              (R )
+BANK_IncrementMoveCount  000f                  
+BANK_InsertObjectStack   000f                  
+BANK_InsertObjectStackFromRAM 000f                  
 BANK_LEVEL__001_L        0005                  
 BANK_LEVEL__001_R        0005                  
 BANK_LEVEL__002_L        0005                  
@@ -431,412 +419,86 @@ BANK_LEVEL__068_L        0009
 BANK_LEVEL__068_R        0009                  
 BANK_LEVEL__069_L        0009                  
 BANK_LEVEL__069_R        0009                  
-BANK_LEVEL__0CNH_Alice   000a                  
-BANK_LEVEL__0IZ1_Sophia  000a                  
-BANK_LEVEL__0PAL_Jill_Leatherby 000a                  
-BANK_LEVEL__0VM5_Andrea_Wadd 000a                  
-BANK_LEVEL__102_Mirabel  000a                  
-BANK_LEVEL__102_Natalie  000a                  
-BANK_LEVEL__102_Oralia   000a                  
-BANK_LEVEL__102_Raven    000a                  
-BANK_LEVEL__103_Adin     000a                  
-BANK_LEVEL__103_Ajalae   000a                  
-BANK_LEVEL__103_Arielle  000a                  
 BANK_LEVEL__122_Maya     0009                  
-BANK_LEVEL__1EKT_Samantha_Gelson 000a                  
-BANK_LEVEL__1KWD_Cecile_Clayworth 000a                  
-BANK_LEVEL__1R7X_Alison  000a                  
-BANK_LEVEL__1XJH_Tara_Gelson 000a                  
-BANK_LEVEL__Hof_0        000a                  
-BANK_LEVEL__Hof_1        000a                  
-BANK_LEVEL__Hof_2        000a                  
-BANK_LEVEL__Hof_3        000a                  
-BANK_LEVEL__Hof_4        000a                  
-BANK_LEVEL__Hof_5        000a                  
-BANK_LEVEL__Hof_6        000a                  
-BANK_LEVEL__Hof_7        000a                  
-BANK_LEVEL__Hof_8        000a                  
-BANK_LEVEL__Hof_9        000a                  
-BANK_LEVEL_Rectangled_0  000e                  
-BANK_LEVEL_Rectangled_1  000e                  
-BANK_LEVEL_Rectangled_10 000e                  
-BANK_LEVEL_Rectangled_2  000e                  
-BANK_LEVEL_Rectangled_3  000e                  
-BANK_LEVEL_Rectangled_4  000e                  
-BANK_LEVEL_Rectangled_5  000e                  
-BANK_LEVEL_Rectangled_6  000e                  
-BANK_LEVEL_Rectangled_7  000e                  
-BANK_LEVEL_Rectangled_8  000e                  
-BANK_LEVEL_Rectangled_9  000e                  
-BANK_LEVEL_Scoria_3_0    000e                  
-BANK_LEVEL_Scoria_3_1    000e                  
-BANK_LEVEL_Scoria_3_10   000f                  
-BANK_LEVEL_Scoria_3_11   000f                  
-BANK_LEVEL_Scoria_3_12   000f                  
-BANK_LEVEL_Scoria_3_13   000f                  
-BANK_LEVEL_Scoria_3_14   000f                  
-BANK_LEVEL_Scoria_3_15   000f                  
-BANK_LEVEL_Scoria_3_16   000f                  
-BANK_LEVEL_Scoria_3_17   000f                  
-BANK_LEVEL_Scoria_3_18   000f                  
-BANK_LEVEL_Scoria_3_19   000f                  
-BANK_LEVEL_Scoria_3_2    000e                  
-BANK_LEVEL_Scoria_3_3    000e                  
-BANK_LEVEL_Scoria_3_4    000e                  
-BANK_LEVEL_Scoria_3_5    000f                  
-BANK_LEVEL_Scoria_3_6    000f                  
-BANK_LEVEL_Scoria_3_7    000f                  
-BANK_LEVEL_Scoria_3_8    000f                  
-BANK_LEVEL_Scoria_3_9    000f                  
-BANK_LEVEL_Sokompact_0   000f                  
-BANK_LEVEL_Sokompact_1   000f                  
-BANK_LEVEL_Sokompact_10  000f                  
-BANK_LEVEL_Sokompact_11  000f                  
-BANK_LEVEL_Sokompact_12  000f                  
-BANK_LEVEL_Sokompact_13  000f                  
-BANK_LEVEL_Sokompact_14  000f                  
-BANK_LEVEL_Sokompact_15  000f                  
-BANK_LEVEL_Sokompact_16  0010                  
-BANK_LEVEL_Sokompact_17  0010                  
-BANK_LEVEL_Sokompact_18  0010                  
-BANK_LEVEL_Sokompact_19  0010                  
-BANK_LEVEL_Sokompact_2   000f                  
-BANK_LEVEL_Sokompact_20  0010                  
-BANK_LEVEL_Sokompact_21  0010                  
-BANK_LEVEL_Sokompact_22  0010                  
-BANK_LEVEL_Sokompact_23  0010                  
-BANK_LEVEL_Sokompact_24  0010                  
-BANK_LEVEL_Sokompact_25  0010                  
-BANK_LEVEL_Sokompact_26  0010                  
-BANK_LEVEL_Sokompact_27  0010                  
-BANK_LEVEL_Sokompact_28  0010                  
-BANK_LEVEL_Sokompact_29  0010                  
-BANK_LEVEL_Sokompact_3   000f                  
-BANK_LEVEL_Sokompact_30  0010                  
-BANK_LEVEL_Sokompact_31  0010                  
-BANK_LEVEL_Sokompact_32  0010                  
-BANK_LEVEL_Sokompact_33  0010                  
-BANK_LEVEL_Sokompact_34  0010                  
-BANK_LEVEL_Sokompact_35  0010                  
-BANK_LEVEL_Sokompact_36  0010                  
-BANK_LEVEL_Sokompact_37  0010                  
-BANK_LEVEL_Sokompact_38  0010                  
-BANK_LEVEL_Sokompact_39  0010                  
-BANK_LEVEL_Sokompact_4   000f                  
-BANK_LEVEL_Sokompact_40  0010                  
-BANK_LEVEL_Sokompact_41  0010                  
-BANK_LEVEL_Sokompact_42  0010                  
-BANK_LEVEL_Sokompact_43  0010                  
-BANK_LEVEL_Sokompact_44  0010                  
-BANK_LEVEL_Sokompact_45  0010                  
-BANK_LEVEL_Sokompact_46  0010                  
-BANK_LEVEL_Sokompact_47  0010                  
-BANK_LEVEL_Sokompact_48  0010                  
-BANK_LEVEL_Sokompact_49  0011                  
-BANK_LEVEL_Sokompact_5   000f                  
-BANK_LEVEL_Sokompact_50  0011                  
-BANK_LEVEL_Sokompact_6   000f                  
-BANK_LEVEL_Sokompact_7   000f                  
-BANK_LEVEL_Sokompact_8   000f                  
-BANK_LEVEL_Sokompact_9   000f                  
-BANK_LEVEL_SokoStation_0 0011                  
-BANK_LEVEL_SokoStation_1 0011                  
-BANK_LEVEL_SokoStation_10 0011                  
-BANK_LEVEL_SokoStation_103 0015                  
-BANK_LEVEL_SokoStation_104 0015                  
-BANK_LEVEL_SokoStation_11 0011                  
-BANK_LEVEL_SokoStation_12 0011                  
-BANK_LEVEL_SokoStation_13 0011                  
-BANK_LEVEL_SokoStation_14 0011                  
-BANK_LEVEL_SokoStation_15 0011                  
-BANK_LEVEL_SokoStation_16 0011                  
-BANK_LEVEL_SokoStation_17 0011                  
-BANK_LEVEL_SokoStation_18 0011                  
-BANK_LEVEL_SokoStation_19 0011                  
-BANK_LEVEL_SokoStation_2 0011                  
-BANK_LEVEL_SokoStation_20 0011                  
-BANK_LEVEL_SokoStation_21 0011                  
-BANK_LEVEL_SokoStation_23 0012                  
-BANK_LEVEL_SokoStation_24 0012                  
-BANK_LEVEL_SokoStation_25 0012                  
-BANK_LEVEL_SokoStation_26 0012                  
-BANK_LEVEL_SokoStation_27 0012                  
-BANK_LEVEL_SokoStation_28 0012                  
-BANK_LEVEL_SokoStation_29 0012                  
-BANK_LEVEL_SokoStation_3 0011                  
-BANK_LEVEL_SokoStation_30 0012                  
-BANK_LEVEL_SokoStation_31 0012                  
-BANK_LEVEL_SokoStation_32 0012                  
-BANK_LEVEL_SokoStation_33 0012                  
-BANK_LEVEL_SokoStation_34 0012                  
-BANK_LEVEL_SokoStation_35 0012                  
-BANK_LEVEL_SokoStation_36 0012                  
-BANK_LEVEL_SokoStation_37 0012                  
-BANK_LEVEL_SokoStation_38 0012                  
-BANK_LEVEL_SokoStation_39 0012                  
-BANK_LEVEL_SokoStation_4 0011                  
-BANK_LEVEL_SokoStation_40 0012                  
-BANK_LEVEL_SokoStation_41 0012                  
-BANK_LEVEL_SokoStation_42 0012                  
-BANK_LEVEL_SokoStation_43 0012                  
-BANK_LEVEL_SokoStation_44 0013                  
-BANK_LEVEL_SokoStation_45 0013                  
-BANK_LEVEL_SokoStation_46 0013                  
-BANK_LEVEL_SokoStation_47 0013                  
-BANK_LEVEL_SokoStation_48 0013                  
-BANK_LEVEL_SokoStation_49 0013                  
-BANK_LEVEL_SokoStation_5 0011                  
-BANK_LEVEL_SokoStation_50 0013                  
-BANK_LEVEL_SokoStation_51 0013                  
-BANK_LEVEL_SokoStation_52 0013                  
-BANK_LEVEL_SokoStation_53 0013                  
-BANK_LEVEL_SokoStation_54 0013                  
-BANK_LEVEL_SokoStation_55 0013                  
-BANK_LEVEL_SokoStation_56 0013                  
-BANK_LEVEL_SokoStation_57 0013                  
-BANK_LEVEL_SokoStation_58 0013                  
-BANK_LEVEL_SokoStation_59 0013                  
-BANK_LEVEL_SokoStation_6 0011                  
-BANK_LEVEL_SokoStation_60 0013                  
-BANK_LEVEL_SokoStation_61 0013                  
-BANK_LEVEL_SokoStation_62 0013                  
-BANK_LEVEL_SokoStation_63 0013                  
-BANK_LEVEL_SokoStation_64 0013                  
-BANK_LEVEL_SokoStation_65 0013                  
-BANK_LEVEL_SokoStation_66 0013                  
-BANK_LEVEL_SokoStation_67 0013                  
-BANK_LEVEL_SokoStation_68 0014                  
-BANK_LEVEL_SokoStation_69 0014                  
-BANK_LEVEL_SokoStation_7 0011                  
-BANK_LEVEL_SokoStation_70 0014                  
-BANK_LEVEL_SokoStation_71 0014                  
-BANK_LEVEL_SokoStation_72 0014                  
-BANK_LEVEL_SokoStation_73 0014                  
-BANK_LEVEL_SokoStation_74 0014                  
-BANK_LEVEL_SokoStation_75 0014                  
-BANK_LEVEL_SokoStation_76 0014                  
-BANK_LEVEL_SokoStation_77 0014                  
-BANK_LEVEL_SokoStation_78 0014                  
-BANK_LEVEL_SokoStation_79 0014                  
-BANK_LEVEL_SokoStation_8 0011                  
-BANK_LEVEL_SokoStation_80 0014                  
-BANK_LEVEL_SokoStation_81 0014                  
-BANK_LEVEL_SokoStation_82 0014                  
-BANK_LEVEL_SokoStation_83 0014                  
-BANK_LEVEL_SokoStation_84 0014                  
-BANK_LEVEL_SokoStation_85 0014                  
-BANK_LEVEL_SokoStation_86 0014                  
-BANK_LEVEL_SokoStation_87 0014                  
-BANK_LEVEL_SokoStation_88 0014                  
-BANK_LEVEL_SokoStation_89 0014                  
-BANK_LEVEL_SokoStation_9 0011                  
-BANK_LEVEL_SokoStation_90 0014                  
-BANK_LEVEL_SokoStation_91 0014                  
-BANK_LEVEL_SokoStation_92 0015                  
-BANK_LEVEL_SokoStation_93 0015                  
-BANK_LEVEL_SokoStation_94 0015                  
-BANK_LEVEL_SokoStation_95 0015                  
-BANK_LEVEL_SokoStation_96 0015                  
-BANK_LEVEL_SokoStation_97 0015                  
-BANK_LEVEL_SokoStation_98 0015                  
-BANK_LEVEL_SokoStation_99 0015                  
-BANK_LEVEL_Thomas_Reinke16 000a                  
-BANK_LEVEL_Zone_26_0     000a                  
-BANK_LEVEL_Zone_26_1     000a                  
-BANK_LEVEL_Zone_26_10    000b                  
-BANK_LEVEL_Zone_26_100   000e                  
-BANK_LEVEL_Zone_26_101   000e                  
-BANK_LEVEL_Zone_26_102   000e                  
-BANK_LEVEL_Zone_26_103   000e                  
-BANK_LEVEL_Zone_26_104   000e                  
-BANK_LEVEL_Zone_26_105   000e                  
-BANK_LEVEL_Zone_26_106   000e                  
-BANK_LEVEL_Zone_26_107   000e                  
-BANK_LEVEL_Zone_26_108   000e                  
-BANK_LEVEL_Zone_26_109   000e                  
-BANK_LEVEL_Zone_26_11    000b                  
-BANK_LEVEL_Zone_26_110   000e                  
-BANK_LEVEL_Zone_26_111   000e                  
-BANK_LEVEL_Zone_26_112   000e                  
-BANK_LEVEL_Zone_26_113   000e                  
-BANK_LEVEL_Zone_26_114   000e                  
-BANK_LEVEL_Zone_26_115   000e                  
-BANK_LEVEL_Zone_26_116   000e                  
-BANK_LEVEL_Zone_26_12    000b                  
-BANK_LEVEL_Zone_26_13    000b                  
-BANK_LEVEL_Zone_26_14    000b                  
-BANK_LEVEL_Zone_26_15    000b                  
-BANK_LEVEL_Zone_26_16    000b                  
-BANK_LEVEL_Zone_26_17    000b                  
-BANK_LEVEL_Zone_26_18    000b                  
-BANK_LEVEL_Zone_26_19    000b                  
-BANK_LEVEL_Zone_26_2     000a                  
-BANK_LEVEL_Zone_26_20    000b                  
-BANK_LEVEL_Zone_26_21    000b                  
-BANK_LEVEL_Zone_26_22    000b                  
-BANK_LEVEL_Zone_26_23    000b                  
-BANK_LEVEL_Zone_26_24    000b                  
-BANK_LEVEL_Zone_26_25    000b                  
-BANK_LEVEL_Zone_26_26    000b                  
-BANK_LEVEL_Zone_26_27    000b                  
-BANK_LEVEL_Zone_26_28    000b                  
-BANK_LEVEL_Zone_26_29    000b                  
-BANK_LEVEL_Zone_26_3     000b                  
-BANK_LEVEL_Zone_26_30    000b                  
-BANK_LEVEL_Zone_26_31    000b                  
-BANK_LEVEL_Zone_26_32    000b                  
-BANK_LEVEL_Zone_26_33    000b                  
-BANK_LEVEL_Zone_26_34    000b                  
-BANK_LEVEL_Zone_26_35    000b                  
-BANK_LEVEL_Zone_26_36    000c                  
-BANK_LEVEL_Zone_26_37    000c                  
-BANK_LEVEL_Zone_26_38    000c                  
-BANK_LEVEL_Zone_26_39    000c                  
-BANK_LEVEL_Zone_26_4     000b                  
-BANK_LEVEL_Zone_26_40    000c                  
-BANK_LEVEL_Zone_26_41    000c                  
-BANK_LEVEL_Zone_26_42    000c                  
-BANK_LEVEL_Zone_26_43    000c                  
-BANK_LEVEL_Zone_26_44    000c                  
-BANK_LEVEL_Zone_26_45    000c                  
-BANK_LEVEL_Zone_26_46    000c                  
-BANK_LEVEL_Zone_26_47    000c                  
-BANK_LEVEL_Zone_26_48    000c                  
-BANK_LEVEL_Zone_26_49    000c                  
-BANK_LEVEL_Zone_26_5     000b                  
-BANK_LEVEL_Zone_26_50    000c                  
-BANK_LEVEL_Zone_26_51    000c                  
-BANK_LEVEL_Zone_26_52    000c                  
-BANK_LEVEL_Zone_26_53    000c                  
-BANK_LEVEL_Zone_26_54    000c                  
-BANK_LEVEL_Zone_26_55    000c                  
-BANK_LEVEL_Zone_26_56    000c                  
-BANK_LEVEL_Zone_26_57    000c                  
-BANK_LEVEL_Zone_26_58    000c                  
-BANK_LEVEL_Zone_26_59    000c                  
-BANK_LEVEL_Zone_26_6     000b                  
-BANK_LEVEL_Zone_26_60    000c                  
-BANK_LEVEL_Zone_26_61    000c                  
-BANK_LEVEL_Zone_26_62    000c                  
-BANK_LEVEL_Zone_26_63    000c                  
-BANK_LEVEL_Zone_26_64    000c                  
-BANK_LEVEL_Zone_26_65    000c                  
-BANK_LEVEL_Zone_26_66    000c                  
-BANK_LEVEL_Zone_26_67    000c                  
-BANK_LEVEL_Zone_26_68    000d                  
-BANK_LEVEL_Zone_26_69    000d                  
-BANK_LEVEL_Zone_26_7     000b                  
-BANK_LEVEL_Zone_26_70    000d                  
-BANK_LEVEL_Zone_26_71    000d                  
-BANK_LEVEL_Zone_26_72    000d                  
-BANK_LEVEL_Zone_26_73    000d                  
-BANK_LEVEL_Zone_26_74    000d                  
-BANK_LEVEL_Zone_26_75    000d                  
-BANK_LEVEL_Zone_26_76    000d                  
-BANK_LEVEL_Zone_26_77    000d                  
-BANK_LEVEL_Zone_26_78    000d                  
-BANK_LEVEL_Zone_26_79    000d                  
-BANK_LEVEL_Zone_26_8     000b                  
-BANK_LEVEL_Zone_26_80    000d                  
-BANK_LEVEL_Zone_26_81    000d                  
-BANK_LEVEL_Zone_26_82    000d                  
-BANK_LEVEL_Zone_26_83    000d                  
-BANK_LEVEL_Zone_26_84    000d                  
-BANK_LEVEL_Zone_26_85    000d                  
-BANK_LEVEL_Zone_26_86    000d                  
-BANK_LEVEL_Zone_26_87    000d                  
-BANK_LEVEL_Zone_26_88    000d                  
-BANK_LEVEL_Zone_26_89    000d                  
-BANK_LEVEL_Zone_26_9     000b                  
-BANK_LEVEL_Zone_26_90    000d                  
-BANK_LEVEL_Zone_26_91    000d                  
-BANK_LEVEL_Zone_26_92    000d                  
-BANK_LEVEL_Zone_26_93    000d                  
-BANK_LEVEL_Zone_26_94    000d                  
-BANK_LEVEL_Zone_26_95    000d                  
-BANK_LEVEL_Zone_26_96    000d                  
-BANK_LEVEL_Zone_26_97    000d                  
-BANK_LEVEL_Zone_26_98    000d                  
-BANK_LEVEL_Zone_26_99    000d                  
 BANK_LevelInfoBANK       0004                  
 BANK_LevelInfoHI         0004                  
 BANK_LevelInfoLO         0004              (R )
 BANK_LevelInit           0003              (R )
-BANK_LevelScreen         0018              (R )
-BANK_ManProcess          001a              (R )
-BANK_manStartup          001a                  
+BANK_LevelScreen         000c              (R )
+BANK_ManProcess          000e              (R )
+BANK_manStartup          000e                  
 BANK_MOD10               0000                  
-BANK_MOVE_BLANK          001f                  
-BANK_MOVE_BOX            001f                  
-BANK_MOVE_BOX_ON_TARGET  001f                  
-BANK_MOVE_SOIL           001f                  
-BANK_MOVE_TARGET         001f                  
-BANK_MovePlayer          001f                  
-BANK_MoveVecHI           001a                  
-BANK_MoveVecLO           001a              (R )
-BANK_NextLevelLevel      001f                  
-BANK_nextLevelMan        001f                  
-BANK_nextLevelMan2       001f                  
-BANK_nextLevelMan3       001f                  
-BANK_normalMan           001a                  
+BANK_MOVE_BLANK          000f                  
+BANK_MOVE_BOX            000f                  
+BANK_MOVE_BOX_ON_TARGET  000f                  
+BANK_MOVE_SOIL           000f                  
+BANK_MOVE_TARGET         000f                  
+BANK_MovePlayer          000f                  
+BANK_MoveVecHI           000e                  
+BANK_MoveVecLO           000e              (R )
+BANK_NextLevelLevel      000f                  
+BANK_nextLevelMan        000f                  
+BANK_nextLevelMan2       000f                  
+BANK_nextLevelMan3       000f                  
+BANK_normalMan           000e                  
 BANK_OBJSTACK            000b              (R )
 BANK_OBJSTACK2           000c              (R )
-BANK_OSPointerHI         001a                  
-BANK_OSPointerLO         001a                  
+BANK_OSPointerHI         000e                  
+BANK_OSPointerLO         000e                  
 BANK_PostScreenCleanup   0003              (R )
 BANK_PrepareDrawDigits   0002                  
-BANK_PROCESS_MAN         001f                  
-BANK_ProcessObjStack     001f                  
-BANK_PushBox             001a              (R )
-BANK_PutBoardCharacter   001f                  
-BANK_PutBoardCharacterFromRAM 001f                  
-BANK_PutBoardCharacterFromROM 001f                  
-BANK_PutCharacterAtXY    001f                  
-BANK_Random              001f                  
+BANK_PROCESS_MAN         000f                  
+BANK_ProcessObjStack     000f                  
+BANK_PushBox             000e              (R )
+BANK_PutBoardCharacter   000f                  
+BANK_PutBoardCharacterFromRAM 000f                  
+BANK_PutBoardCharacterFromROM 000f                  
+BANK_PutCharacterAtXY    000f                  
+BANK_Random              000f                  
 BANK_ReadSaveKey         0003                  
-BANK_RecordTakeBackPosition 001f                  
-BANK_RegisterTarget      001f                  
-BANK_Reset               001f                  
-BANK_RestartFrame        0017                  
+BANK_RecordTakeBackPosition 000f                  
+BANK_RegisterTarget      000f                  
+BANK_Reset               000f                  
+BANK_RestartFrame        000b                  
 BANK_Resync              0003              (R )
-BANK_rollBits            0019                  
+BANK_rollBits            000d                  
 BANK_ROW_BankChar        0001                  
 BANK_ScanRED             0000                  
 BANK_SCORING             0009              (R )
 BANK_SCREENMARKII1       0000              (R )
-BANK_SelectionScreenInit 0018                  
+BANK_SelectionScreenInit 000c                  
 BANK_SelfModDrawPlayers  0000              (R )
-BANK_setCodeDigits       0019                  
-BANK_SetPlatformColours  001a                  
+BANK_setCodeDigits       000d                  
+BANK_SetPlatformColours  000e                  
 BANK_SetupBCDPtr         0002                  
 BANK_SetupSaveKey        0003                  
 BANK_SetupTimePtr        0002                  
-BANK_SoundFX             001a              (R )
+BANK_SoundFX             000e              (R )
 BANK_START               f000                  
-BANK_StealCharDraw       001f                  
+BANK_StealCharDraw       000f                  
 BANK_StealPart3          0000                  
 BANK_SwapPlayers         0002                  
 BANK_SwapPlayersGeneric  0003              (R )
-BANK_switchLevels        001f                  
-BANK_switchLevels2       001f                  
-BANK_SwitchObjects       001f                  
+BANK_switchLevels        000f                  
+BANK_switchLevels2       000f                  
+BANK_SwitchObjects       000f                  
 BANK_TAKEBACK            000e              (R )
-BANK_takebackRestoreEarlierPosition 001f                  
-BANK_TimeSlice           001f                  
-BANK_Title               001f                  
-BANK_TitleScreen         0017              (R )
+BANK_takebackRestoreEarlierPosition 000f                  
+BANK_TimeSlice           000f                  
+BANK_Title               000f                  
+BANK_TitleScreen         000b              (R )
 BANK_TrackPlayer         0003              (R )
 BANK_TS_PhaseVectorLO    0003              (R )
-BANK_TurnAround          001a                  
-BANK_TurnAround2         001a                  
+BANK_TurnAround          000e                  
+BANK_TurnAround2         000e                  
 BANK_UnpackLevel         0003              (R )
 BANK_UpdateScore         0002                  
-BANK_VectorProcess       001a              (R )
-BANK_writePlayerFrame    001f                  
+BANK_VectorProcess       000e              (R )
+BANK_writePlayerFrame    000f                  
 BANK_WriteSaveKey        0003                  
-BANK_xdigitBlock         0019                  
-BANK_xLevelScreen        0019              (R )
-BANK_xSelectionScreenInit 0019                  
+BANK_xdigitBlock         000d                  
+BANK_xLevelScreen        000d              (R )
+BANK_xSelectionScreenInit 000d                  
 BankObjStack             f935              (R )
 base_x                   00db              (R )
 base_y                   00dc              (R )
@@ -1019,15 +681,15 @@ CODE_DIGIT3_Q            f7bd
 codeBinary               00e3              (R )
 codeDelay                00f0              (R )
 codeDigit                00e3              (R )
-CODER                    0019              (R )
+CODER                    000d              (R )
 codeTemp                 00ef              (R )
 COK                      fdde              (R )
-COL_0                    f1ae              (R )
-COL_1                    f29e              (R )
-COL_2                    f38e              (R )
-COL_3                    f47e              (R )
-COL_4                    f56e              (R )
-COL_5                    f65e              (R )
+COL_0                    f26e              (R )
+COL_1                    f346              (R )
+COL_2                    f41e              (R )
+COL_3                    f500              (R )
+COL_4                    f600              (R )
+COL_5                    f700              (R )
 Colour_A                 f3fb              (R )
 Colour_A_Actual          f01d              (R )
 Colour_B                 f3fc              (R )
@@ -1064,8 +726,8 @@ COLOURDATA_walk2         f160              (R )
 COLOURDATA_walk3         f1f0              (R )
 COLOURDATA_yell          f400              (R )
 ColourTimer              00c2              (R )
-colr_ntsc                f136              (R )
-colr_pal                 f0be              (R )
+colr_ntsc                f0be              (R )
+colr_pal                 f196              (R )
 COLUBK                   0049              (R )
 COLUP0                   0046              (R )
 COLUP1                   0047              (R )
@@ -1207,7 +869,7 @@ FirstLevel               fc20              (R )
 FiveL                    f076              (R )
 FiveR                    f355              (R )
 FixColours               f3bd              (R )
-FIXED_BANK               f800              (R )
+FIXED_BANK               7800              (R )
 fixWalkFrame             f34c              (R )
 FlashColour              f3bd              (R )
 FLIP                     00fe              (R )
@@ -1275,7 +937,7 @@ GetBoardCharacter        f814              (R )
 GetBoardCharacter2       f816              (R )
 GetBoardCharacter__CALL_FROM_RAM__ f826              (R )
 getDelay                 fb17              (R )
-GetLevelAddress          f5d0              (R )
+GetLevelAddress          f289              (R )
 GetNextItem              f104              (R )
 GetROMByte               f80f              (R )
 GL                       f0a7                  
@@ -1328,7 +990,7 @@ idleCount                00a8              (R )
 IMC                      f3c1              (R )
 immediate                f9aa              (R )
 IncrementMoveCount       f982                  
-INITBANK                 001a              (R )
+INITBANK                 000e              (R )
 INPT0                    0048                  
 INPT1                    0049                  
 INPT2                    004a                  
@@ -1509,64 +1171,8 @@ LEVEL__068_L             f4d3              (R )
 LEVEL__068_R             f527              (R )
 LEVEL__069_L             f57d              (R )
 LEVEL__069_R             f5cb              (R )
-LEVEL__0CNH_Alice        f38f              (R )
-LEVEL__0IZ1_Sophia       f364              (R )
-LEVEL__0PAL_Jill_Leatherby f33a              (R )
-LEVEL__0VM5_Andrea_Wadd  f30d              (R )
-LEVEL__102_Mirabel       f046              (R )
-LEVEL__102_Natalie       f000              (R )
-LEVEL__102_Oralia        f0a5              (R )
-LEVEL__102_Raven         f0e9              (R )
-LEVEL__103_Adin          f157              (R )
-LEVEL__103_Ajalae        f1a2              (R )
-LEVEL__103_Arielle       f1e9              (R )
-LEVEL__122_Maya          f619              (R )
-LEVEL__1EKT_Samantha_Gelson f2d4              (R )
-LEVEL__1KWD_Cecile_Clayworth f2a0              (R )
-LEVEL__1R7X_Alison       f273              (R )
-LEVEL__1XJH_Tara_Gelson  f239              (R )
-LEVEL__Hof_0             f400              (R )
-LEVEL__Hof_1             f468              (R )
-LEVEL__Hof_2             f4d4              (R )
-LEVEL__Hof_3             f54a              (R )
-LEVEL__Hof_4             f57d              (R )
-LEVEL__Hof_5             f5a4              (R )
-LEVEL__Hof_6             f5e3              (R )
-LEVEL__Hof_7             f61c              (R )
-LEVEL__Hof_8             f689              (R )
-LEVEL__Hof_9             f6cf              (R )
+LEVEL__122_Maya          f619                  
 LEVEL_bank               00ab              (R )
-LEVEL_Rectangled_0       f432              (R )
-LEVEL_Rectangled_1       f467              (R )
-LEVEL_Rectangled_10      f655              (R )
-LEVEL_Rectangled_2       f49d              (R )
-LEVEL_Rectangled_3       f4d3              (R )
-LEVEL_Rectangled_4       f50b              (R )
-LEVEL_Rectangled_5       f541              (R )
-LEVEL_Rectangled_6       f579              (R )
-LEVEL_Rectangled_7       f5ad              (R )
-LEVEL_Rectangled_8       f5e5              (R )
-LEVEL_Rectangled_9       f61d              (R )
-LEVEL_Scoria_3_0         f68c              (R )
-LEVEL_Scoria_3_1         f6c9              (R )
-LEVEL_Scoria_3_10        f17c              (R )
-LEVEL_Scoria_3_11        f1bc              (R )
-LEVEL_Scoria_3_12        f1fc              (R )
-LEVEL_Scoria_3_13        f246              (R )
-LEVEL_Scoria_3_14        f288              (R )
-LEVEL_Scoria_3_15        f2c9              (R )
-LEVEL_Scoria_3_16        f30c              (R )
-LEVEL_Scoria_3_17        f34c              (R )
-LEVEL_Scoria_3_18        f394              (R )
-LEVEL_Scoria_3_19        f3e8              (R )
-LEVEL_Scoria_3_2         f70b              (R )
-LEVEL_Scoria_3_3         f756              (R )
-LEVEL_Scoria_3_4         f795              (R )
-LEVEL_Scoria_3_5         f000              (R )
-LEVEL_Scoria_3_6         f048              (R )
-LEVEL_Scoria_3_7         f0a3              (R )
-LEVEL_Scoria_3_8         f0e8              (R )
-LEVEL_Scoria_3_9         f12b              (R )
 LEVEL_SIZE__001_L        0012              (R )
 LEVEL_SIZE__001_R        000c              (R )
 LEVEL_SIZE__002_L        0019              (R )
@@ -1704,630 +1310,22 @@ LEVEL_SIZE__068_L        0054              (R )
 LEVEL_SIZE__068_R        0056              (R )
 LEVEL_SIZE__069_L        004e              (R )
 LEVEL_SIZE__069_R        004e              (R )
-LEVEL_SIZE__0CNH_Alice   002c              (R )
-LEVEL_SIZE__0IZ1_Sophia  002b              (R )
-LEVEL_SIZE__0PAL_Jill_Leatherby 002a              (R )
-LEVEL_SIZE__0VM5_Andrea_Wadd 002d              (R )
-LEVEL_SIZE__102_Mirabel  005f              (R )
-LEVEL_SIZE__102_Natalie  0046              (R )
-LEVEL_SIZE__102_Oralia   0044              (R )
-LEVEL_SIZE__102_Raven    006e              (R )
-LEVEL_SIZE__103_Adin     004b              (R )
-LEVEL_SIZE__103_Ajalae   0047              (R )
-LEVEL_SIZE__103_Arielle  0050              (R )
 LEVEL_SIZE__122_Maya     005c              (R )
-LEVEL_SIZE__1EKT_Samantha_Gelson 0039              (R )
-LEVEL_SIZE__1KWD_Cecile_Clayworth 0034              (R )
-LEVEL_SIZE__1R7X_Alison  002d              (R )
-LEVEL_SIZE__1XJH_Tara_Gelson 003a              (R )
-LEVEL_SIZE__Hof_0        0068              (R )
-LEVEL_SIZE__Hof_1        006c              (R )
-LEVEL_SIZE__Hof_2        0076              (R )
-LEVEL_SIZE__Hof_3        0033              (R )
-LEVEL_SIZE__Hof_4        0027              (R )
-LEVEL_SIZE__Hof_5        003f              (R )
-LEVEL_SIZE__Hof_6        0039              (R )
-LEVEL_SIZE__Hof_7        006d              (R )
-LEVEL_SIZE__Hof_8        0046              (R )
-LEVEL_SIZE__Hof_9        004e              (R )
-LEVEL_SIZE_Rectangled_0  0035              (R )
-LEVEL_SIZE_Rectangled_1  0036              (R )
-LEVEL_SIZE_Rectangled_10 0037              (R )
-LEVEL_SIZE_Rectangled_2  0036              (R )
-LEVEL_SIZE_Rectangled_3  0038              (R )
-LEVEL_SIZE_Rectangled_4  0036              (R )
-LEVEL_SIZE_Rectangled_5  0038              (R )
-LEVEL_SIZE_Rectangled_6  0034              (R )
-LEVEL_SIZE_Rectangled_7  0038              (R )
-LEVEL_SIZE_Rectangled_8  0038              (R )
-LEVEL_SIZE_Rectangled_9  0038              (R )
-LEVEL_SIZE_Scoria_3_0    003d              (R )
-LEVEL_SIZE_Scoria_3_1    0042              (R )
-LEVEL_SIZE_Scoria_3_10   0040              (R )
-LEVEL_SIZE_Scoria_3_11   0040              (R )
-LEVEL_SIZE_Scoria_3_12   004a              (R )
-LEVEL_SIZE_Scoria_3_13   0042              (R )
-LEVEL_SIZE_Scoria_3_14   0041              (R )
-LEVEL_SIZE_Scoria_3_15   0043              (R )
-LEVEL_SIZE_Scoria_3_16   0040              (R )
-LEVEL_SIZE_Scoria_3_17   0048              (R )
-LEVEL_SIZE_Scoria_3_18   0054              (R )
-LEVEL_SIZE_Scoria_3_19   003d              (R )
-LEVEL_SIZE_Scoria_3_2    004b              (R )
-LEVEL_SIZE_Scoria_3_3    003f              (R )
-LEVEL_SIZE_Scoria_3_4    004f              (R )
-LEVEL_SIZE_Scoria_3_5    0048              (R )
-LEVEL_SIZE_Scoria_3_6    005b              (R )
-LEVEL_SIZE_Scoria_3_7    0045              (R )
-LEVEL_SIZE_Scoria_3_8    0043              (R )
-LEVEL_SIZE_Scoria_3_9    0051              (R )
-LEVEL_SIZE_Sokompact_0   0034              (R )
-LEVEL_SIZE_Sokompact_1   0039              (R )
-LEVEL_SIZE_Sokompact_10  003b              (R )
-LEVEL_SIZE_Sokompact_11  0037              (R )
-LEVEL_SIZE_Sokompact_12  004a              (R )
-LEVEL_SIZE_Sokompact_13  0039              (R )
-LEVEL_SIZE_Sokompact_14  0036              (R )
-LEVEL_SIZE_Sokompact_15  0031              (R )
-LEVEL_SIZE_Sokompact_16  0043              (R )
-LEVEL_SIZE_Sokompact_17  0047              (R )
-LEVEL_SIZE_Sokompact_18  0037              (R )
-LEVEL_SIZE_Sokompact_19  0047              (R )
-LEVEL_SIZE_Sokompact_2   0043              (R )
-LEVEL_SIZE_Sokompact_20  0040              (R )
-LEVEL_SIZE_Sokompact_21  0032              (R )
-LEVEL_SIZE_Sokompact_22  003b              (R )
-LEVEL_SIZE_Sokompact_23  0040              (R )
-LEVEL_SIZE_Sokompact_24  003e              (R )
-LEVEL_SIZE_Sokompact_25  0047              (R )
-LEVEL_SIZE_Sokompact_26  0039              (R )
-LEVEL_SIZE_Sokompact_27  0041              (R )
-LEVEL_SIZE_Sokompact_28  003b              (R )
-LEVEL_SIZE_Sokompact_29  003d              (R )
-LEVEL_SIZE_Sokompact_3   0039              (R )
-LEVEL_SIZE_Sokompact_30  0039              (R )
-LEVEL_SIZE_Sokompact_31  0047              (R )
-LEVEL_SIZE_Sokompact_32  0038              (R )
-LEVEL_SIZE_Sokompact_33  0040              (R )
-LEVEL_SIZE_Sokompact_34  003a              (R )
-LEVEL_SIZE_Sokompact_35  0033              (R )
-LEVEL_SIZE_Sokompact_36  0030              (R )
-LEVEL_SIZE_Sokompact_37  003e              (R )
-LEVEL_SIZE_Sokompact_38  0044              (R )
-LEVEL_SIZE_Sokompact_39  0040              (R )
-LEVEL_SIZE_Sokompact_4   003f              (R )
-LEVEL_SIZE_Sokompact_40  0040              (R )
-LEVEL_SIZE_Sokompact_41  0047              (R )
-LEVEL_SIZE_Sokompact_42  003d              (R )
-LEVEL_SIZE_Sokompact_43  0033              (R )
-LEVEL_SIZE_Sokompact_44  002c              (R )
-LEVEL_SIZE_Sokompact_45  003f              (R )
-LEVEL_SIZE_Sokompact_46  0044              (R )
-LEVEL_SIZE_Sokompact_47  0045              (R )
-LEVEL_SIZE_Sokompact_48  0045              (R )
-LEVEL_SIZE_Sokompact_49  0047              (R )
-LEVEL_SIZE_Sokompact_5   0033              (R )
-LEVEL_SIZE_Sokompact_50  0047              (R )
-LEVEL_SIZE_Sokompact_6   0035              (R )
-LEVEL_SIZE_Sokompact_7   003b              (R )
-LEVEL_SIZE_Sokompact_8   003d              (R )
-LEVEL_SIZE_Sokompact_9   003c              (R )
-LEVEL_SIZE_SokoStation_0 0028              (R )
-LEVEL_SIZE_SokoStation_1 002d              (R )
-LEVEL_SIZE_SokoStation_10 0047              (R )
-LEVEL_SIZE_SokoStation_103 0053              (R )
-LEVEL_SIZE_SokoStation_104 004d              (R )
-LEVEL_SIZE_SokoStation_11 0079              (R )
-LEVEL_SIZE_SokoStation_12 003f              (R )
-LEVEL_SIZE_SokoStation_13 007f              (R )
-LEVEL_SIZE_SokoStation_14 003f              (R )
-LEVEL_SIZE_SokoStation_15 009d              (R )
-LEVEL_SIZE_SokoStation_16 0046              (R )
-LEVEL_SIZE_SokoStation_17 0051              (R )
-LEVEL_SIZE_SokoStation_18 004f              (R )
-LEVEL_SIZE_SokoStation_19 0062              (R )
-LEVEL_SIZE_SokoStation_2 002b              (R )
-LEVEL_SIZE_SokoStation_20 0071              (R )
-LEVEL_SIZE_SokoStation_21 005a              (R )
-LEVEL_SIZE_SokoStation_23 006f              (R )
-LEVEL_SIZE_SokoStation_24 0047              (R )
-LEVEL_SIZE_SokoStation_25 0087              (R )
-LEVEL_SIZE_SokoStation_26 008f              (R )
-LEVEL_SIZE_SokoStation_27 00cf              (R )
-LEVEL_SIZE_SokoStation_28 0074              (R )
-LEVEL_SIZE_SokoStation_29 0089              (R )
-LEVEL_SIZE_SokoStation_3 002e              (R )
-LEVEL_SIZE_SokoStation_30 002f              (R )
-LEVEL_SIZE_SokoStation_31 002e              (R )
-LEVEL_SIZE_SokoStation_32 003d              (R )
-LEVEL_SIZE_SokoStation_33 0033              (R )
-LEVEL_SIZE_SokoStation_34 004f              (R )
-LEVEL_SIZE_SokoStation_35 004c              (R )
-LEVEL_SIZE_SokoStation_36 004a              (R )
-LEVEL_SIZE_SokoStation_37 0085              (R )
-LEVEL_SIZE_SokoStation_38 0087              (R )
-LEVEL_SIZE_SokoStation_39 004f              (R )
-LEVEL_SIZE_SokoStation_4 002c              (R )
-LEVEL_SIZE_SokoStation_40 0029              (R )
-LEVEL_SIZE_SokoStation_41 002c              (R )
-LEVEL_SIZE_SokoStation_42 007c              (R )
-LEVEL_SIZE_SokoStation_43 007d              (R )
-LEVEL_SIZE_SokoStation_44 0089              (R )
-LEVEL_SIZE_SokoStation_45 0033              (R )
-LEVEL_SIZE_SokoStation_46 005a              (R )
-LEVEL_SIZE_SokoStation_47 005b              (R )
-LEVEL_SIZE_SokoStation_48 006e              (R )
-LEVEL_SIZE_SokoStation_49 0059              (R )
-LEVEL_SIZE_SokoStation_5 005e              (R )
-LEVEL_SIZE_SokoStation_50 003f              (R )
-LEVEL_SIZE_SokoStation_51 0037              (R )
-LEVEL_SIZE_SokoStation_52 0037              (R )
-LEVEL_SIZE_SokoStation_53 0045              (R )
-LEVEL_SIZE_SokoStation_54 004e              (R )
-LEVEL_SIZE_SokoStation_55 005c              (R )
-LEVEL_SIZE_SokoStation_56 0029              (R )
-LEVEL_SIZE_SokoStation_57 006b              (R )
-LEVEL_SIZE_SokoStation_58 0085              (R )
-LEVEL_SIZE_SokoStation_59 007f              (R )
-LEVEL_SIZE_SokoStation_6 0040              (R )
-LEVEL_SIZE_SokoStation_60 0046              (R )
-LEVEL_SIZE_SokoStation_61 004c              (R )
-LEVEL_SIZE_SokoStation_62 004c              (R )
-LEVEL_SIZE_SokoStation_63 0042              (R )
-LEVEL_SIZE_SokoStation_64 007d              (R )
-LEVEL_SIZE_SokoStation_65 0046              (R )
-LEVEL_SIZE_SokoStation_66 0021              (R )
-LEVEL_SIZE_SokoStation_67 0057              (R )
-LEVEL_SIZE_SokoStation_68 004d              (R )
-LEVEL_SIZE_SokoStation_69 0049              (R )
-LEVEL_SIZE_SokoStation_7 00a4              (R )
-LEVEL_SIZE_SokoStation_70 0037              (R )
-LEVEL_SIZE_SokoStation_71 006b              (R )
-LEVEL_SIZE_SokoStation_72 0055              (R )
-LEVEL_SIZE_SokoStation_73 004e              (R )
-LEVEL_SIZE_SokoStation_74 0046              (R )
-LEVEL_SIZE_SokoStation_75 0047              (R )
-LEVEL_SIZE_SokoStation_76 007c              (R )
-LEVEL_SIZE_SokoStation_77 004d              (R )
-LEVEL_SIZE_SokoStation_78 0067              (R )
-LEVEL_SIZE_SokoStation_79 006b              (R )
-LEVEL_SIZE_SokoStation_8 0043              (R )
-LEVEL_SIZE_SokoStation_80 0052              (R )
-LEVEL_SIZE_SokoStation_81 007c              (R )
-LEVEL_SIZE_SokoStation_82 0037              (R )
-LEVEL_SIZE_SokoStation_83 0051              (R )
-LEVEL_SIZE_SokoStation_84 0045              (R )
-LEVEL_SIZE_SokoStation_85 0043              (R )
-LEVEL_SIZE_SokoStation_86 0047              (R )
-LEVEL_SIZE_SokoStation_87 0053              (R )
-LEVEL_SIZE_SokoStation_88 0043              (R )
-LEVEL_SIZE_SokoStation_89 004b              (R )
-LEVEL_SIZE_SokoStation_9 0047              (R )
-LEVEL_SIZE_SokoStation_90 0048              (R )
-LEVEL_SIZE_SokoStation_91 005f              (R )
-LEVEL_SIZE_SokoStation_92 005a              (R )
-LEVEL_SIZE_SokoStation_93 006c              (R )
-LEVEL_SIZE_SokoStation_94 007b              (R )
-LEVEL_SIZE_SokoStation_95 007b              (R )
-LEVEL_SIZE_SokoStation_96 002f              (R )
-LEVEL_SIZE_SokoStation_97 00c3              (R )
-LEVEL_SIZE_SokoStation_98 00b8              (R )
-LEVEL_SIZE_SokoStation_99 005d              (R )
-LEVEL_SIZE_Thomas_Reinke16 0045              (R )
-LEVEL_SIZE_Zone_26_0     0040              (R )
-LEVEL_SIZE_Zone_26_1     0042              (R )
-LEVEL_SIZE_Zone_26_10    003b              (R )
-LEVEL_SIZE_Zone_26_100   0045              (R )
-LEVEL_SIZE_Zone_26_101   003f              (R )
-LEVEL_SIZE_Zone_26_102   0041              (R )
-LEVEL_SIZE_Zone_26_103   003e              (R )
-LEVEL_SIZE_Zone_26_104   003f              (R )
-LEVEL_SIZE_Zone_26_105   0041              (R )
-LEVEL_SIZE_Zone_26_106   0040              (R )
-LEVEL_SIZE_Zone_26_107   0040              (R )
-LEVEL_SIZE_Zone_26_108   003d              (R )
-LEVEL_SIZE_Zone_26_109   003b              (R )
-LEVEL_SIZE_Zone_26_11    0039              (R )
-LEVEL_SIZE_Zone_26_110   0043              (R )
-LEVEL_SIZE_Zone_26_111   0042              (R )
-LEVEL_SIZE_Zone_26_112   0042              (R )
-LEVEL_SIZE_Zone_26_113   003c              (R )
-LEVEL_SIZE_Zone_26_114   0040              (R )
-LEVEL_SIZE_Zone_26_115   003f              (R )
-LEVEL_SIZE_Zone_26_116   0035              (R )
-LEVEL_SIZE_Zone_26_12    003c              (R )
-LEVEL_SIZE_Zone_26_13    0033              (R )
-LEVEL_SIZE_Zone_26_14    0041              (R )
-LEVEL_SIZE_Zone_26_15    003c              (R )
-LEVEL_SIZE_Zone_26_16    003b              (R )
-LEVEL_SIZE_Zone_26_17    0042              (R )
-LEVEL_SIZE_Zone_26_18    0038              (R )
-LEVEL_SIZE_Zone_26_19    003b              (R )
-LEVEL_SIZE_Zone_26_2     0041              (R )
-LEVEL_SIZE_Zone_26_20    0034              (R )
-LEVEL_SIZE_Zone_26_21    003a              (R )
-LEVEL_SIZE_Zone_26_22    003a              (R )
-LEVEL_SIZE_Zone_26_23    003e              (R )
-LEVEL_SIZE_Zone_26_24    0042              (R )
-LEVEL_SIZE_Zone_26_25    003e              (R )
-LEVEL_SIZE_Zone_26_26    0041              (R )
-LEVEL_SIZE_Zone_26_27    0035              (R )
-LEVEL_SIZE_Zone_26_28    0042              (R )
-LEVEL_SIZE_Zone_26_29    0042              (R )
-LEVEL_SIZE_Zone_26_3     0045              (R )
-LEVEL_SIZE_Zone_26_30    0043              (R )
-LEVEL_SIZE_Zone_26_31    0045              (R )
-LEVEL_SIZE_Zone_26_32    003e              (R )
-LEVEL_SIZE_Zone_26_33    003f              (R )
-LEVEL_SIZE_Zone_26_34    003e              (R )
-LEVEL_SIZE_Zone_26_35    0042              (R )
-LEVEL_SIZE_Zone_26_36    0041              (R )
-LEVEL_SIZE_Zone_26_37    003f              (R )
-LEVEL_SIZE_Zone_26_38    0036              (R )
-LEVEL_SIZE_Zone_26_39    0040              (R )
-LEVEL_SIZE_Zone_26_4     003f              (R )
-LEVEL_SIZE_Zone_26_40    003c              (R )
-LEVEL_SIZE_Zone_26_41    0035              (R )
-LEVEL_SIZE_Zone_26_42    0043              (R )
-LEVEL_SIZE_Zone_26_43    0045              (R )
-LEVEL_SIZE_Zone_26_44    003a              (R )
-LEVEL_SIZE_Zone_26_45    0042              (R )
-LEVEL_SIZE_Zone_26_46    0044              (R )
-LEVEL_SIZE_Zone_26_47    0041              (R )
-LEVEL_SIZE_Zone_26_48    0042              (R )
-LEVEL_SIZE_Zone_26_49    0042              (R )
-LEVEL_SIZE_Zone_26_5     0043              (R )
-LEVEL_SIZE_Zone_26_50    0042              (R )
-LEVEL_SIZE_Zone_26_51    0042              (R )
-LEVEL_SIZE_Zone_26_52    003f              (R )
-LEVEL_SIZE_Zone_26_53    0045              (R )
-LEVEL_SIZE_Zone_26_54    0045              (R )
-LEVEL_SIZE_Zone_26_55    003d              (R )
-LEVEL_SIZE_Zone_26_56    0041              (R )
-LEVEL_SIZE_Zone_26_57    0041              (R )
-LEVEL_SIZE_Zone_26_58    0041              (R )
-LEVEL_SIZE_Zone_26_59    003d              (R )
-LEVEL_SIZE_Zone_26_6     0042              (R )
-LEVEL_SIZE_Zone_26_60    0043              (R )
-LEVEL_SIZE_Zone_26_61    003e              (R )
-LEVEL_SIZE_Zone_26_62    003e              (R )
-LEVEL_SIZE_Zone_26_63    0038              (R )
-LEVEL_SIZE_Zone_26_64    003a              (R )
-LEVEL_SIZE_Zone_26_65    0034              (R )
-LEVEL_SIZE_Zone_26_66    003d              (R )
-LEVEL_SIZE_Zone_26_67    0038              (R )
-LEVEL_SIZE_Zone_26_68    003b              (R )
-LEVEL_SIZE_Zone_26_69    0037              (R )
-LEVEL_SIZE_Zone_26_7     0042              (R )
-LEVEL_SIZE_Zone_26_70    0041              (R )
-LEVEL_SIZE_Zone_26_71    0042              (R )
-LEVEL_SIZE_Zone_26_72    003a              (R )
-LEVEL_SIZE_Zone_26_73    003c              (R )
-LEVEL_SIZE_Zone_26_74    003c              (R )
-LEVEL_SIZE_Zone_26_75    003d              (R )
-LEVEL_SIZE_Zone_26_76    0039              (R )
-LEVEL_SIZE_Zone_26_77    003f              (R )
-LEVEL_SIZE_Zone_26_78    003b              (R )
-LEVEL_SIZE_Zone_26_79    003d              (R )
-LEVEL_SIZE_Zone_26_8     003a              (R )
-LEVEL_SIZE_Zone_26_80    003a              (R )
-LEVEL_SIZE_Zone_26_81    003c              (R )
-LEVEL_SIZE_Zone_26_82    0038              (R )
-LEVEL_SIZE_Zone_26_83    003c              (R )
-LEVEL_SIZE_Zone_26_84    0039              (R )
-LEVEL_SIZE_Zone_26_85    0039              (R )
-LEVEL_SIZE_Zone_26_86    003c              (R )
-LEVEL_SIZE_Zone_26_87    0037              (R )
-LEVEL_SIZE_Zone_26_88    0039              (R )
-LEVEL_SIZE_Zone_26_89    003f              (R )
-LEVEL_SIZE_Zone_26_9     003d              (R )
-LEVEL_SIZE_Zone_26_90    0045              (R )
-LEVEL_SIZE_Zone_26_91    003c              (R )
-LEVEL_SIZE_Zone_26_92    0039              (R )
-LEVEL_SIZE_Zone_26_93    0036              (R )
-LEVEL_SIZE_Zone_26_94    003f              (R )
-LEVEL_SIZE_Zone_26_95    0042              (R )
-LEVEL_SIZE_Zone_26_96    0039              (R )
-LEVEL_SIZE_Zone_26_97    0044              (R )
-LEVEL_SIZE_Zone_26_98    0043              (R )
-LEVEL_SIZE_Zone_26_99    003f              (R )
-LEVEL_Sokompact_0        f425              (R )
-LEVEL_Sokompact_1        f459              (R )
-LEVEL_Sokompact_10       f669              (R )
-LEVEL_Sokompact_11       f6a4              (R )
-LEVEL_Sokompact_12       f6db              (R )
-LEVEL_Sokompact_13       f725              (R )
-LEVEL_Sokompact_14       f75e              (R )
-LEVEL_Sokompact_15       f794              (R )
-LEVEL_Sokompact_16       f000              (R )
-LEVEL_Sokompact_17       f043              (R )
-LEVEL_Sokompact_18       f08a              (R )
-LEVEL_Sokompact_19       f0c1              (R )
-LEVEL_Sokompact_2        f492              (R )
-LEVEL_Sokompact_20       f108              (R )
-LEVEL_Sokompact_21       f148              (R )
-LEVEL_Sokompact_22       f17a              (R )
-LEVEL_Sokompact_23       f1b5              (R )
-LEVEL_Sokompact_24       f1f5              (R )
-LEVEL_Sokompact_25       f233              (R )
-LEVEL_Sokompact_26       f27a              (R )
-LEVEL_Sokompact_27       f2b3              (R )
-LEVEL_Sokompact_28       f2f4              (R )
-LEVEL_Sokompact_29       f32f              (R )
-LEVEL_Sokompact_3        f4d5              (R )
-LEVEL_Sokompact_30       f36c              (R )
-LEVEL_Sokompact_31       f3a5              (R )
-LEVEL_Sokompact_32       f3ec              (R )
-LEVEL_Sokompact_33       f424              (R )
-LEVEL_Sokompact_34       f464              (R )
-LEVEL_Sokompact_35       f49e              (R )
-LEVEL_Sokompact_36       f4d1              (R )
-LEVEL_Sokompact_37       f501              (R )
-LEVEL_Sokompact_38       f53f              (R )
-LEVEL_Sokompact_39       f583              (R )
-LEVEL_Sokompact_4        f50e              (R )
-LEVEL_Sokompact_40       f5c3              (R )
-LEVEL_Sokompact_41       f603              (R )
-LEVEL_Sokompact_42       f64a              (R )
-LEVEL_Sokompact_43       f687              (R )
-LEVEL_Sokompact_44       f6ba              (R )
-LEVEL_Sokompact_45       f6e6              (R )
-LEVEL_Sokompact_46       f725              (R )
-LEVEL_Sokompact_47       f769              (R )
-LEVEL_Sokompact_48       f7ae              (R )
-LEVEL_Sokompact_49       f000              (R )
-LEVEL_Sokompact_5        f54d              (R )
-LEVEL_Sokompact_50       f047              (R )
-LEVEL_Sokompact_6        f580              (R )
-LEVEL_Sokompact_7        f5b5              (R )
-LEVEL_Sokompact_8        f5f0              (R )
-LEVEL_Sokompact_9        f62d              (R )
-LEVEL_SokoStation_0      f08e              (R )
-LEVEL_SokoStation_1      f0b6              (R )
-LEVEL_SokoStation_10     f334              (R )
-LEVEL_SokoStation_103    f3c3              (R )
-LEVEL_SokoStation_104    f416              (R )
-LEVEL_SokoStation_11     f37b              (R )
-LEVEL_SokoStation_12     f3f4              (R )
-LEVEL_SokoStation_13     f433              (R )
-LEVEL_SokoStation_14     f4b2              (R )
-LEVEL_SokoStation_15     f4f1              (R )
-LEVEL_SokoStation_16     f58e              (R )
-LEVEL_SokoStation_17     f5d4              (R )
-LEVEL_SokoStation_18     f625              (R )
-LEVEL_SokoStation_19     f674              (R )
-LEVEL_SokoStation_2      f0e3              (R )
-LEVEL_SokoStation_20     f6d6              (R )
-LEVEL_SokoStation_21     f747              (R )
-LEVEL_SokoStation_23     f000              (R )
-LEVEL_SokoStation_24     f06f              (R )
-LEVEL_SokoStation_25     f0b6              (R )
-LEVEL_SokoStation_26     f13d              (R )
-LEVEL_SokoStation_27     f1cc              (R )
-LEVEL_SokoStation_28     f29b              (R )
-LEVEL_SokoStation_29     f30f              (R )
-LEVEL_SokoStation_3      f10e              (R )
-LEVEL_SokoStation_30     f398              (R )
-LEVEL_SokoStation_31     f3c7              (R )
-LEVEL_SokoStation_32     f3f5              (R )
-LEVEL_SokoStation_33     f432              (R )
-LEVEL_SokoStation_34     f465              (R )
-LEVEL_SokoStation_35     f4b4              (R )
-LEVEL_SokoStation_36     f500              (R )
-LEVEL_SokoStation_37     f54a              (R )
-LEVEL_SokoStation_38     f5cf              (R )
-LEVEL_SokoStation_39     f656              (R )
-LEVEL_SokoStation_4      f13c              (R )
-LEVEL_SokoStation_40     f6a5              (R )
-LEVEL_SokoStation_41     f6ce              (R )
-LEVEL_SokoStation_42     f6fa              (R )
-LEVEL_SokoStation_43     f776              (R )
-LEVEL_SokoStation_44     f000              (R )
-LEVEL_SokoStation_45     f089              (R )
-LEVEL_SokoStation_46     f0bc              (R )
-LEVEL_SokoStation_47     f116              (R )
-LEVEL_SokoStation_48     f171              (R )
-LEVEL_SokoStation_49     f1df              (R )
-LEVEL_SokoStation_5      f168              (R )
-LEVEL_SokoStation_50     f238              (R )
-LEVEL_SokoStation_51     f277              (R )
-LEVEL_SokoStation_52     f2ae              (R )
-LEVEL_SokoStation_53     f2e5              (R )
-LEVEL_SokoStation_54     f32a              (R )
-LEVEL_SokoStation_55     f378              (R )
-LEVEL_SokoStation_56     f3d4              (R )
-LEVEL_SokoStation_57     f3fd              (R )
-LEVEL_SokoStation_58     f468              (R )
-LEVEL_SokoStation_59     f4ed              (R )
-LEVEL_SokoStation_6      f1c6              (R )
-LEVEL_SokoStation_60     f56c              (R )
-LEVEL_SokoStation_61     f5b2              (R )
-LEVEL_SokoStation_62     f5fe              (R )
-LEVEL_SokoStation_63     f64a              (R )
-LEVEL_SokoStation_64     f68c              (R )
-LEVEL_SokoStation_65     f709              (R )
-LEVEL_SokoStation_66     f74f              (R )
-LEVEL_SokoStation_67     f770              (R )
-LEVEL_SokoStation_68     f000              (R )
-LEVEL_SokoStation_69     f04d              (R )
-LEVEL_SokoStation_7      f206              (R )
-LEVEL_SokoStation_70     f096              (R )
-LEVEL_SokoStation_71     f0cd              (R )
-LEVEL_SokoStation_72     f138              (R )
-LEVEL_SokoStation_73     f18d              (R )
-LEVEL_SokoStation_74     f1db              (R )
-LEVEL_SokoStation_75     f221              (R )
-LEVEL_SokoStation_76     f268              (R )
-LEVEL_SokoStation_77     f2e4              (R )
-LEVEL_SokoStation_78     f331              (R )
-LEVEL_SokoStation_79     f398              (R )
-LEVEL_SokoStation_8      f2aa              (R )
-LEVEL_SokoStation_80     f403              (R )
-LEVEL_SokoStation_81     f455              (R )
-LEVEL_SokoStation_82     f4d1              (R )
-LEVEL_SokoStation_83     f508              (R )
-LEVEL_SokoStation_84     f559              (R )
-LEVEL_SokoStation_85     f59e              (R )
-LEVEL_SokoStation_86     f5e1              (R )
-LEVEL_SokoStation_87     f628              (R )
-LEVEL_SokoStation_88     f67b              (R )
-LEVEL_SokoStation_89     f6be              (R )
-LEVEL_SokoStation_9      f2ed              (R )
-LEVEL_SokoStation_90     f709              (R )
-LEVEL_SokoStation_91     f751              (R )
-LEVEL_SokoStation_92     f000              (R )
-LEVEL_SokoStation_93     f05a              (R )
-LEVEL_SokoStation_94     f0c6              (R )
-LEVEL_SokoStation_95     f141              (R )
-LEVEL_SokoStation_96     f1bc              (R )
-LEVEL_SokoStation_97     f1eb              (R )
-LEVEL_SokoStation_98     f2ae              (R )
-LEVEL_SokoStation_99     f366              (R )
-LEVEL_START              f416              (R )
-LEVEL_Thomas_Reinke16    f3bb              (R )
-LEVEL_Zone_26_0          f71d              (R )
-LEVEL_Zone_26_1          f75d              (R )
-LEVEL_Zone_26_10         f1c2              (R )
-LEVEL_Zone_26_100        f000              (R )
-LEVEL_Zone_26_101        f045              (R )
-LEVEL_Zone_26_102        f084              (R )
-LEVEL_Zone_26_103        f0c5              (R )
-LEVEL_Zone_26_104        f103              (R )
-LEVEL_Zone_26_105        f142              (R )
-LEVEL_Zone_26_106        f183              (R )
-LEVEL_Zone_26_107        f1c3              (R )
-LEVEL_Zone_26_108        f203              (R )
-LEVEL_Zone_26_109        f240              (R )
-LEVEL_Zone_26_11         f1fd              (R )
-LEVEL_Zone_26_110        f27b              (R )
-LEVEL_Zone_26_111        f2be              (R )
-LEVEL_Zone_26_112        f300              (R )
-LEVEL_Zone_26_113        f342              (R )
-LEVEL_Zone_26_114        f37e              (R )
-LEVEL_Zone_26_115        f3be              (R )
-LEVEL_Zone_26_116        f3fd              (R )
-LEVEL_Zone_26_12         f236              (R )
-LEVEL_Zone_26_13         f272              (R )
-LEVEL_Zone_26_14         f2a5              (R )
-LEVEL_Zone_26_15         f2e6              (R )
-LEVEL_Zone_26_16         f322              (R )
-LEVEL_Zone_26_17         f35d              (R )
-LEVEL_Zone_26_18         f39f              (R )
-LEVEL_Zone_26_19         f3d7              (R )
-LEVEL_Zone_26_2          f79f              (R )
-LEVEL_Zone_26_20         f412              (R )
-LEVEL_Zone_26_21         f446              (R )
-LEVEL_Zone_26_22         f480              (R )
-LEVEL_Zone_26_23         f4ba              (R )
-LEVEL_Zone_26_24         f4f8              (R )
-LEVEL_Zone_26_25         f53a              (R )
-LEVEL_Zone_26_26         f578              (R )
-LEVEL_Zone_26_27         f5b9              (R )
-LEVEL_Zone_26_28         f5ee              (R )
-LEVEL_Zone_26_29         f630              (R )
-LEVEL_Zone_26_3          f000              (R )
-LEVEL_Zone_26_30         f672              (R )
-LEVEL_Zone_26_31         f6b5              (R )
-LEVEL_Zone_26_32         f6fa              (R )
-LEVEL_Zone_26_33         f738              (R )
-LEVEL_Zone_26_34         f777              (R )
-LEVEL_Zone_26_35         f7b5              (R )
-LEVEL_Zone_26_36         f000              (R )
-LEVEL_Zone_26_37         f041              (R )
-LEVEL_Zone_26_38         f080              (R )
-LEVEL_Zone_26_39         f0b6              (R )
-LEVEL_Zone_26_4          f045              (R )
-LEVEL_Zone_26_40         f0f6              (R )
-LEVEL_Zone_26_41         f132              (R )
-LEVEL_Zone_26_42         f167              (R )
-LEVEL_Zone_26_43         f1aa              (R )
-LEVEL_Zone_26_44         f1ef              (R )
-LEVEL_Zone_26_45         f229              (R )
-LEVEL_Zone_26_46         f26b              (R )
-LEVEL_Zone_26_47         f2af              (R )
-LEVEL_Zone_26_48         f2f0              (R )
-LEVEL_Zone_26_49         f332              (R )
-LEVEL_Zone_26_5          f084              (R )
-LEVEL_Zone_26_50         f374              (R )
-LEVEL_Zone_26_51         f3b6              (R )
-LEVEL_Zone_26_52         f3f8              (R )
-LEVEL_Zone_26_53         f437              (R )
-LEVEL_Zone_26_54         f47c              (R )
-LEVEL_Zone_26_55         f4c1              (R )
-LEVEL_Zone_26_56         f4fe              (R )
-LEVEL_Zone_26_57         f53f              (R )
-LEVEL_Zone_26_58         f580              (R )
-LEVEL_Zone_26_59         f5c1              (R )
-LEVEL_Zone_26_6          f0c7              (R )
-LEVEL_Zone_26_60         f5fe              (R )
-LEVEL_Zone_26_61         f641              (R )
-LEVEL_Zone_26_62         f67f              (R )
-LEVEL_Zone_26_63         f6bd              (R )
-LEVEL_Zone_26_64         f6f5              (R )
-LEVEL_Zone_26_65         f72f              (R )
-LEVEL_Zone_26_66         f763              (R )
-LEVEL_Zone_26_67         f7a0              (R )
-LEVEL_Zone_26_68         f000              (R )
-LEVEL_Zone_26_69         f03b              (R )
-LEVEL_Zone_26_7          f109              (R )
-LEVEL_Zone_26_70         f072              (R )
-LEVEL_Zone_26_71         f0b3              (R )
-LEVEL_Zone_26_72         f0f5              (R )
-LEVEL_Zone_26_73         f12f              (R )
-LEVEL_Zone_26_74         f16b              (R )
-LEVEL_Zone_26_75         f1a7              (R )
-LEVEL_Zone_26_76         f1e4              (R )
-LEVEL_Zone_26_77         f21d              (R )
-LEVEL_Zone_26_78         f25c              (R )
-LEVEL_Zone_26_79         f297              (R )
-LEVEL_Zone_26_8          f14b              (R )
-LEVEL_Zone_26_80         f2d4              (R )
-LEVEL_Zone_26_81         f30e              (R )
-LEVEL_Zone_26_82         f34a              (R )
-LEVEL_Zone_26_83         f382              (R )
-LEVEL_Zone_26_84         f3be              (R )
-LEVEL_Zone_26_85         f3f7              (R )
-LEVEL_Zone_26_86         f430              (R )
-LEVEL_Zone_26_87         f46c              (R )
-LEVEL_Zone_26_88         f4a3              (R )
-LEVEL_Zone_26_89         f4dc              (R )
-LEVEL_Zone_26_9          f185              (R )
-LEVEL_Zone_26_90         f51b              (R )
-LEVEL_Zone_26_91         f560              (R )
-LEVEL_Zone_26_92         f59c              (R )
-LEVEL_Zone_26_93         f5d5              (R )
-LEVEL_Zone_26_94         f60b              (R )
-LEVEL_Zone_26_95         f64a              (R )
-LEVEL_Zone_26_96         f68c              (R )
-LEVEL_Zone_26_97         f6c5              (R )
-LEVEL_Zone_26_98         f709              (R )
-LEVEL_Zone_26_99         f74c              (R )
-LevelInfoBANK            f400              (R )
-LevelInfoHI              f200              (R )
+LEVEL_START              f619              (R )
+LevelInfoBANK            f200              (R )
+LevelInfoHI              f100              (R )
 LevelInfoLO              f000              (R )
 LevelInit                f291              (R )
 LevelNumberDigits        f186              (R )
 levelPtr                 00ac                  
 LEVELS1                  0005              (R )
-LEVELS10                 000e              (R )
-LEVELS11                 000f              (R )
-LEVELS12                 0010              (R )
-LEVELS13                 0011              (R )
-LEVELS14                 0012              (R )
-LEVELS15                 0013              (R )
-LEVELS16                 0014              (R )
-LEVELS17                 0015              (R )
 LEVELS2                  0006              (R )
 LEVELS3                  0007              (R )
 LEVELS4                  0008              (R )
 LEVELS5                  0009              (R )
-LEVELS6                  000a              (R )
-LEVELS7                  000b              (R )
-LEVELS8                  000c              (R )
-LEVELS9                  000d              (R )
 LEVELS_TABLES            0004              (R )
+LEVELSCREEN              000c              (R )
 LevelScreen              f053              (R )
-LEVELSCREEN              0018              (R )
 levelTable               00db              (R )
 levelX                   00b2              (R )
 lid0                     f407              (R )
@@ -2386,9 +1384,9 @@ manStartup               f240              (R )
 ManTurnStart             00a3              (R )
 ManX                     009d              (R )
 ManY                     009e              (R )
-MAX_LEVEL                01d0              (R )
-MAX_LEVEL_NUMBER         01d0              (R )
-MAX_LEVEL_SIZE           00cf              (R )
+MAX_LEVEL                0089              (R )
+MAX_LEVEL_NUMBER         008a              (R )
+MAX_LEVEL_SIZE           0065              (R )
 MAX_THROTTLE             00a0              (R )
 midDraw                  f248              (R )
 MINIMUM_SEGTIME          0003              (R )
@@ -2472,7 +1470,7 @@ OneL                     f062              (R )
 onepass                  f292              (R )
 OneR                     f340              (R )
 onsc                     f111              (R )
-ORIGIN                   10000                  
+ORIGIN                   8000                  
 ORIGIN_RAM               3c00                  
 oscan                    f0a5              (R )
 oscanX                   f307              (R )
@@ -2504,7 +1502,7 @@ PlatformWallColour       f04b
 PLAYER0_COLOUR           f365              (R )
 PLAYER0_SHAPE            f34d              (R )
 PLAYER_BLANK             f335              (R )
-PLAYER_FRAMES            0016              (R )
+PLAYER_FRAMES            000a              (R )
 PlayerLevel              f397              (R )
 PlayerLevelX             f396              (R )
 PlayerScores             f393              (R )
@@ -2740,8 +1738,8 @@ SoundFX                  f413              (R )
 SPARE                    000c              (R )
 sreg                     00e8                  
 startingLevel            00e1              (R )
-StartLevel               f392              (R )
 startLevel               00e2              (R )
+StartLevel               f392              (R )
 StartLevelX              f391              (R )
 state0                   f1f3              (R )
 StealCharDraw            faa4              (R )
@@ -2787,7 +1785,7 @@ TEST_SEGTIME_SCD_PF0     0000
 TEST_SEGTIME_SCD_QUICK   0000                  
 TEST_SEGTIME_SCD_SLOW    0000                  
 TEST_SEGTIME_SWITCHOBJECTS 0000                  
-THE_FIXED_BANK           001f              (R )
+THE_FIXED_BANK           000f              (R )
 theThrottler             f333              (R )
 ThreeL                   f05b              (R )
 ThreeR                   f339              (R )
@@ -2804,8 +1802,8 @@ timer                    00b0
 TimeSlice                faac                  
 TIMINT                   0285                  
 Title                    fbd4                  
+TITLESCREEN              000b              (R )
 TitleScreen              f000                  
-TITLESCREEN              0017              (R )
 TitleSequence            f000              (R )
 tmpSound                 00db                  
 tmpStack                 00db              (R )

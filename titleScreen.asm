@@ -62,12 +62,13 @@ VerticalBlank   sta WSYNC
                 bne VerticalBlank
                 sta VBLANK
 
+                ;sta COLUBK
 
       ;------------------------------------------------------------------
 
       ; Do X scanlines of color-changing (our picture)
 
-                ldy #119   ; this counts our scanline number
+                ldy #210-1  ; this counts our scanline number
 SokoLogo        ldx #3
 triplet         lda (colour_table),y
                 sta WSYNC
@@ -152,8 +153,8 @@ oscan
 ret             rts
 
 OverscanTime2
-    .byte 133, 133
-    .byte 139, 139
+    .byte 26, 26
+    .byte 33, 33
 
 colvec
     .word colr_ntsc, colr_pal
@@ -168,11 +169,11 @@ colvec
 .LUM2     SET {5}*256
 .LUM3     SET {6}*256
 
-.STEP1 = (256*({7}-{4}))/40
-.STEP2 = (256*({8}-{5}))/40
-.STEP3 = (256*({9}-{6}))/40
+.STEP1 = (256*({7}-{4}))/72
+.STEP2 = (256*({8}-{5}))/72
+.STEP3 = (256*({9}-{6}))/72
 
-    REPEAT 40
+    REPEAT 72
             .byte {1}+(.LUM1/256)
             .byte {2}+(.LUM2/256)
             .byte {3}+(.LUM3/256)
@@ -183,8 +184,12 @@ colvec
     ENDM
 
 ;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
-colr_pal        LUMTABLE $b0, $70, $40, 6,7,8, $C,$E,$E
-colr_ntsc   LUMTABLE $90,$B0,$20,5,6,7,$C,$E,$E
+;    OPTIONAL_PAGEBREAK "colr_ntsc", 72*3
+colr_ntsc   LUMTABLE $A0,$50,$30,$A,$2,$E,$8,$E,$8
+
+
+;    OPTIONAL_PAGEBREAK "colr_pal", 72*3
+colr_pal        LUMTABLE $b0, $60, $20, $A,$6,$C,$8,$C,$8
 
     include "titleData.asm"
 ;    include "pizza.asm"

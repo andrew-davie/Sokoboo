@@ -2,3 +2,8 @@
 *.lst
 *.sym
 *.txt
+gfx/sokoboo.xcf
+gfx/sokoboo2.xcf
+sokoboo.lst
+Sokoboo.sym
+sokoboo.bin

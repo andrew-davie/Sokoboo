@@ -184,7 +184,7 @@
      .byte <(LEVEL__069_R-1)
      .byte <(LEVEL__069_L-1)
 
-        #if 1
+        #if 0
         .byte <(LEVEL__103_Arielle-1)
      .byte <(LEVEL__103_Ajalae-1)
      .byte <(LEVEL__103_Adin-1)
@@ -202,6 +202,7 @@
      .byte <(LEVEL__0CNH_Alice-1)
         .byte <(LEVEL__122_Maya-1)
     #endif
+    #if 0
 
     .byte <(LEVEL_Thomas_Reinke16-1)
 
@@ -255,6 +256,8 @@
     .byte <(LEVEL_Zone_26_33-1)
     .byte <(LEVEL_Zone_26_34-1)
     .byte <(LEVEL_Zone_26_35-1)
+#endif
+#if 0
     .byte <(LEVEL_Zone_26_36-1)
     .byte <(LEVEL_Zone_26_37-1)
     .byte <(LEVEL_Zone_26_38-1)
@@ -290,6 +293,8 @@
     .byte <(LEVEL_Zone_26_65-1)
     .byte <(LEVEL_Zone_26_66-1)
     .byte <(LEVEL_Zone_26_67-1)
+#endif
+#if 0
     .byte <(LEVEL_Zone_26_68-1)
     .byte <(LEVEL_Zone_26_69-1)
 
@@ -325,7 +330,8 @@
     .byte <(LEVEL_Zone_26_97-1)
     .byte <(LEVEL_Zone_26_98-1)
     .byte <(LEVEL_Zone_26_99-1)
-
+#endif
+#if 0
     .byte <(LEVEL_Zone_26_100-1)
     .byte <(LEVEL_Zone_26_101-1)
     .byte <(LEVEL_Zone_26_102-1)
@@ -537,6 +543,7 @@
 ; .byte <(LEVEL_SokoStation_102-1)
  .byte <(LEVEL_SokoStation_103-1)
  .byte <(LEVEL_SokoStation_104-1)
+#endif
 #if 0
  .byte <(LEVEL_SokoStation_105-1)
  .byte <(LEVEL_SokoStation_106-1)
@@ -693,6 +700,7 @@ MAX_LEVEL = * - LevelInfoLO
     .byte >(LEVEL__069_R-1)
     .byte >(LEVEL__069_L-1)
 
+#if 0
     .byte >(LEVEL__103_Arielle-1)
     .byte >(LEVEL__103_Ajalae-1)
     .byte >(LEVEL__103_Adin-1)
@@ -762,6 +770,10 @@ MAX_LEVEL = * - LevelInfoLO
     .byte >(LEVEL_Zone_26_33-1)
     .byte >(LEVEL_Zone_26_34-1)
     .byte >(LEVEL_Zone_26_35-1)
+#endif
+
+#if 0
+
     .byte >(LEVEL_Zone_26_36-1)
     .byte >(LEVEL_Zone_26_37-1)
     .byte >(LEVEL_Zone_26_38-1)
@@ -797,6 +809,8 @@ MAX_LEVEL = * - LevelInfoLO
     .byte >(LEVEL_Zone_26_65-1)
     .byte >(LEVEL_Zone_26_66-1)
     .byte >(LEVEL_Zone_26_67-1)
+#endif
+#if 0
     .byte >(LEVEL_Zone_26_68-1)
     .byte >(LEVEL_Zone_26_69-1)
 
@@ -832,8 +846,8 @@ MAX_LEVEL = * - LevelInfoLO
     .byte >(LEVEL_Zone_26_97-1)
     .byte >(LEVEL_Zone_26_98-1)
     .byte >(LEVEL_Zone_26_99-1)
-
-
+#endif
+#if 0
     .byte >(LEVEL_Zone_26_100-1)
     .byte >(LEVEL_Zone_26_101-1)
     .byte >(LEVEL_Zone_26_102-1)
@@ -1046,6 +1060,7 @@ MAX_LEVEL = * - LevelInfoLO
 ; .byte >(LEVEL_SokoStation_102-1)
  .byte >(LEVEL_SokoStation_103-1)
  .byte >(LEVEL_SokoStation_104-1)
+#endif
 #if 0
  .byte >(LEVEL_SokoStation_105-1)
  .byte >(LEVEL_SokoStation_106-1)
@@ -1203,6 +1218,7 @@ MAX_LEVEL = * - LevelInfoLO
     .byte BANK_LEVEL__069_R
     .byte BANK_LEVEL__069_L
 
+#if 0
     .byte BANK_LEVEL__103_Arielle
     .byte BANK_LEVEL__103_Ajalae
     .byte BANK_LEVEL__103_Adin
@@ -1273,6 +1289,8 @@ MAX_LEVEL = * - LevelInfoLO
     .byte BANK_LEVEL_Zone_26_33
     .byte BANK_LEVEL_Zone_26_34
     .byte BANK_LEVEL_Zone_26_35
+#endif
+#if 0
     .byte BANK_LEVEL_Zone_26_36
     .byte BANK_LEVEL_Zone_26_37
     .byte BANK_LEVEL_Zone_26_38
@@ -1308,6 +1326,8 @@ MAX_LEVEL = * - LevelInfoLO
     .byte BANK_LEVEL_Zone_26_65
     .byte BANK_LEVEL_Zone_26_66
     .byte BANK_LEVEL_Zone_26_67
+#endif
+#if 0
     .byte BANK_LEVEL_Zone_26_68
     .byte BANK_LEVEL_Zone_26_69
 
@@ -1343,7 +1363,8 @@ MAX_LEVEL = * - LevelInfoLO
     .byte BANK_LEVEL_Zone_26_97
     .byte BANK_LEVEL_Zone_26_98
     .byte BANK_LEVEL_Zone_26_99
-
+#endif
+#if 0
     .byte BANK_LEVEL_Zone_26_100
     .byte BANK_LEVEL_Zone_26_101
     .byte BANK_LEVEL_Zone_26_102
@@ -1554,6 +1575,7 @@ MAX_LEVEL = * - LevelInfoLO
 ; .byte BANK_LEVEL_SokoStation_102
  .byte BANK_LEVEL_SokoStation_103
  .byte BANK_LEVEL_SokoStation_104
+#endif
 #if 0
  .byte BANK_LEVEL_SokoStation_105
  .byte BANK_LEVEL_SokoStation_106
