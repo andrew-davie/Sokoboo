@@ -138,6 +138,7 @@
      .byte <(LEVEL__046_R-1)
      .byte <(LEVEL__047_L-1)
      .byte <(LEVEL__047_R-1)
+#if 0
      .byte <(LEVEL__048_L-1)
      .byte <(LEVEL__048_R-1)
      .byte <(LEVEL__049_L-1)
@@ -177,6 +178,7 @@
      .byte <(LEVEL__065_L-1)
      .byte <(LEVEL__066_R-1)
      .byte <(LEVEL__066_L-1)
+#endif
      .byte <(LEVEL__067_R-1)
      .byte <(LEVEL__067_L-1)
      .byte <(LEVEL__068_R-1)
@@ -654,6 +656,8 @@ MAX_LEVEL = * - LevelInfoLO
     .byte >(LEVEL__046_R-1)
     .byte >(LEVEL__047_L-1)
     .byte >(LEVEL__047_R-1)
+
+#if 0
     .byte >(LEVEL__048_L-1)
     .byte >(LEVEL__048_R-1)
     .byte >(LEVEL__049_L-1)
@@ -693,13 +697,13 @@ MAX_LEVEL = * - LevelInfoLO
     .byte >(LEVEL__065_L-1)
     .byte >(LEVEL__066_R-1)
     .byte >(LEVEL__066_L-1)
+#endif
     .byte >(LEVEL__067_R-1)
     .byte >(LEVEL__067_L-1)
     .byte >(LEVEL__068_R-1)
     .byte >(LEVEL__068_L-1)
     .byte >(LEVEL__069_R-1)
     .byte >(LEVEL__069_L-1)
-
 #if 0
     .byte >(LEVEL__103_Arielle-1)
     .byte >(LEVEL__103_Ajalae-1)
@@ -1172,6 +1176,7 @@ MAX_LEVEL = * - LevelInfoLO
     .byte BANK_LEVEL__046_R
     .byte BANK_LEVEL__047_L
     .byte BANK_LEVEL__047_R
+#if 0
     .byte BANK_LEVEL__048_L
     .byte BANK_LEVEL__048_R
     .byte BANK_LEVEL__049_L
@@ -1211,6 +1216,7 @@ MAX_LEVEL = * - LevelInfoLO
     .byte BANK_LEVEL__065_L
     .byte BANK_LEVEL__066_R
     .byte BANK_LEVEL__066_L
+#endif
     .byte BANK_LEVEL__067_R
     .byte BANK_LEVEL__067_L
     .byte BANK_LEVEL__068_R
@@ -1599,23 +1605,23 @@ MAX_LEVEL = * - LevelInfoLO
                 clc
                 lda levelX
                 sta levelTable
-                lda levelX+1
-                adc #>LevelInfoLO
+;                lda levelX+1
+                lda #>LevelInfoLO
                 sta levelTable+1
 
                 ldy #0
                 lda (levelTable),y
                 sta Board_AddressR
 
-                lda levelX+1
-                adc #>LevelInfoHI
+;                lda levelX+1
+                lda #>LevelInfoHI
                 sta levelTable+1
 
                 lda (levelTable),y
                 sta Board_AddressR+1
 
-                lda levelX+1
-                adc #>LevelInfoBANK
+                ;lda levelX+1
+                lda #>LevelInfoBANK
                 sta levelTable+1
 
                 lda (levelTable),y

@@ -1,5 +1,6 @@
   NEWBANK CODER
 
+
         DEFINE_SUBROUTINE xdigitBlock
 
                 ldy #26            ; #lines in characters-1
@@ -157,87 +158,6 @@ correct3a         and #%11111110
 
                 rts
 
-    DEFINE_SUBROUTINE rollBits
-
-codeBinary = codeDigit
-
-                ldx #8
-roller          asl
-                rol codeBinary
-                rol codeBinary+1
-                rol codeBinary+2
-                rol codeBinary+3
-                rol codeBinary+4
-                dex
-                bne roller
-                rts
-
-
-    DEFINE_SUBROUTINE EncodeGameStatistics
-
-    ; 8 bits   Level Number (0-255)
-    ; 12 bits    # of moves (0-4095) - display shows 999 for > 999 (why not fix this proper?)
-    ; seconds count # frames/50(60)
-    ; max 2 hours.... -> 2*60*60 seconds = 7200 seconds --> 13 bits use max 8191 secs
-
-    ; = 33 bits
-    ; leaving 6 bits as an xor encoder
-    ; 6 bit checksum?
-
-
-    ; we have 12 "codeDigit" values, each 0-9
-    ; that's log(2)999999999999 = 39.8 (=39) bits
-    ; BUT represent as dec. digits
-
-    ; first just treat as 39 bit binary? (=5 bytes)
-    ; then convert to decimal?
-
-
-
-                lda levelX
-                jsr rollBits
-
-                ; CONVERT 4 DIGIT BCD TO BINARY
-
-                lda BCD_moveCounter
-                and #$F
-                sta codeBinary+5
-                lda BCD_moveCounter
-                lsr
-                lsr
-                lsr
-                lsr
-                beq nonbcd0
-                tax
-addtens         clc
-                lda codeBinary+5
-                adc #10
-                sta codeBinary+5
-
-
-
-
-nonbcd0
-
-
-
-
-
-
-#if 0
-                lda #0
-                sta coded+2
-                sta coded+1
-                lda levelX
-                sta coded
-
-#endif
-
-
-
-                rts
-
-
 
     DEFINE_SUBROUTINE xSelectionScreenInit
 
@@ -268,15 +188,23 @@ nonbcd0
                 sta codeDelay+1
 
                 ldx #11
-randomdig       jsr Random
-                and #15
-                cmp #10
-                bcs randomdig
+xferdigits      lda codeDigit,x         ; == decimal,x
                 asl
-                ora #1                  ; NOT locked!
+                ora #1                  ; NOT locked
                 sta codeDigit,x
                 dex
-                bpl randomdig
+                bpl xferdigits
+
+;                ldx #11
+;randomdig       jsr Random
+;                and #15
+;                cmp #10
+;                bcs randomdig
+;                asl
+;                ora #1                  ; NOT locked!
+;                sta codeDigit,x
+;                dex
+;                bpl randomdig
 
                 rts
 

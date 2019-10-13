@@ -596,7 +596,6 @@ redColour       .byte $32, $32, $62, $62
 
     DEFINE_SUBROUTINE takebackRestoreEarlierPosition
 
-                inc TakebackInhibit         ; non-zero
 
         ; on reverting a move
         ; IF BCD_moveCounter > 0
@@ -614,6 +613,8 @@ redColour       .byte $32, $32, $62, $62
                 ldx takebackIndex
                 cpx takebackBaseIndex
                 beq noMovesToTake
+
+                inc TakebackInhibit         ; non-zero
 
                 dex
                 txa
@@ -1094,6 +1095,9 @@ RestartLevelNextPlayer
 
     DEFINE_SUBROUTINE NextLevelLevel
 
+                ldx #BANK_GenerateHighScoreCode
+                stx SET_BANK
+                jsr GenerateHighScoreCode
 
                 ldx #BANK_xLevelScreen
                 stx SET_BANK
@@ -1243,9 +1247,12 @@ FadeInPossible
                 jsr FadeIn
 FadeNotRequired
 
-
-
                 jsr writePlayerFrame
+
+                lda #BANK_SCORING
+                sta SET_BANK_RAM
+                jsr NotchTime
+
                 jsr StealCharDraw           ; 6
 
 OverscanBD      lda INTIM                   ;4
@@ -1315,19 +1322,20 @@ VBlankTime
    ; the level back to 0 and start afresh.
 
                 inc levelX
-                bne noHiLev
-                inc levelX+1
-noHiLev
-                lda levelX+1
-                cmp #>MAX_LEVEL_NUMBER
-                bcc .level_ok
+;                bne noHiLev
+;                inc levelX+1
+;noHiLev
+;                lda levelX+1
+;                cmp #>MAX_LEVEL_NUMBER
+;                bcc .level_ok
+
                 lda levelX
                 cmp #<MAX_LEVEL_NUMBER
                 bcc .level_ok
 
                 lda #0
                 sta levelX
-                sta levelX+1
+;                sta levelX+1
 .level_ok
                 rts
 

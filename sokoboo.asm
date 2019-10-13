@@ -403,6 +403,15 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
 ; TOTAL SPACE USED BY ANY OVERLAY GROUP SHOULD BE <= SIZE OF 'Overlay'
 
 
+;------------------------------------------------------------------------------
+    OVERLAY GenerateHighScoreCode
+
+decimal         ds 12                   ; MUST be 1st - same var as codeDigit
+binMoves        ds 2
+encoding         ds 5
+randomiser      ds 1
+
+    VALIDATE_OVERLAY "GenerateHighScoreCode"
 
 ;------------------------------------------------------------------------------
     OVERLAY BuildDrawFlags
@@ -480,11 +489,11 @@ adjustColour            ds 1
 
 
     OVERLAY CodeScreen
+codeDigit       ds 12               ; MUST be 1st - same var as decimal
 bigdigit0       ds 2
 bigdigit1       ds 2
 bigdigit2       ds 2
 bigdigit3       ds 2
-codeDigit       ds 12
 codeTemp        ds 1
 codeDelay       ds 2
     VALIDATE_OVERLAY "CodeScreen"

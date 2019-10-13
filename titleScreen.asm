@@ -186,10 +186,12 @@ colvec
 ;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
 ;    OPTIONAL_PAGEBREAK "colr_ntsc", 72*3
 colr_ntsc   LUMTABLE $A0,$50,$30,$A,$2,$E,$8,$E,$8
+;colr_ntsc   LUMTABLE $70,$40,$a0,$A,$2,$E,$8,$E,$8
 
 
 ;    OPTIONAL_PAGEBREAK "colr_pal", 72*3
-colr_pal        LUMTABLE $b0, $60, $20, $A,$6,$C,$8,$C,$8
+;colr_pal        LUMTABLE $b0, $60, $20, $A,$6,$C,$8,$C,$8
+colr_pal        LUMTABLE $90, $b0, $60, $6,$8,$a,$6,$a,$a
 
     include "titleData.asm"
 ;    include "pizza.asm"

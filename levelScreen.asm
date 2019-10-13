@@ -435,35 +435,35 @@ scanOK          dex
                 bmi downx
 
                 inc levelX
-                bne lxok
-                inc levelX+1
-lxok
+;                bne lxok
+;                inc levelX+1
+;lxok
 
-                lda levelX+1
-                cmp #>MAX_LEVEL
-                bcc lxok2
+;                lda levelX+1
+;                cmp #>MAX_LEVEL
+;                bcc lxok2
                 lda levelX
                 cmp #<MAX_LEVEL
                 bcc lxok2
 
                 lda #0
                 sta levelX
-                sta levelX+1
+;                sta levelX+1
                 beq lxok2
 
 downx           sec
                 lda levelX
                 sbc #1
                 sta levelX
-                lda levelX+1
-                sbc #0
-                sta levelX+1
+;                lda levelX+1
+;                sbc #0
+;                sta levelX+1
                 bcs lxok2
 
                 lda #<(MAX_LEVEL-1)
                 sta levelX
-                lda #>(MAX_LEVEL-1)
-                sta levelX+1
+;                lda #>(MAX_LEVEL-1)
+;                sta levelX+1
 
 lxok2
 noadjustLevelNum
@@ -506,7 +506,7 @@ retX            rts
 
 
 dd3
-                ldx levelX+1
+                ldx #0 ;levelX+1
                 clc
                 lda levelX
                 adc #1

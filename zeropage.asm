@@ -102,12 +102,12 @@ blankState          ds 1
 
 LastSpriteY                     ds 1
 
-timer                           ds 1
+;timer                           ds 1
 
 BGColour                        ds 1
 
 ; levelx and level have to be consecutive variables!
-levelX                            ds 2            ; current player's level (other in scoring bank)
+levelX                            ds 1            ; current player's level (other in scoring bank)
 level                           ds 1            ; current player's level (other in scoring bank)
 ;levelDisplay                     ds 1            ; what to display as the level ID
 Throttle                        ds 1            ; frame throttle to prevent super-speeds
@@ -166,6 +166,8 @@ icc_colour                      ds 3
 FadeComplete                    ds 1
 FadeOutComplete                 ds 1
 fadeslow                        ds 1
+
+seconds                         ds 2
 
  #include "sound/intro1_variables.asm"
 

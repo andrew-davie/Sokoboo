@@ -1112,6 +1112,11 @@ FourR
                 lda level
                 sta PlayerLevel+RAM_WRITE
                 sta StartLevel+RAM_WRITE
+
+
+                lda #0
+                sta SecondFrac
+
                 rts
 
     ;---------------------------------------------------------------------------
@@ -1127,6 +1132,28 @@ PlayerLevel     .byte 0
 HighScore       ds 3+2, 0 ; two extra bytes to save code
 
 
+SecondFrac      ds 1
+
+    DEFINE_SUBROUTINE NotchTime
+
+                ldx Platform
+
+                clc
+                lda SecondFrac
+                adc #1
+                cmp Notch,x
+                bcc notched
+
+                lda #0
+
+                inc seconds
+                bne notched
+                inc seconds+1
+
+notched         sta SecondFrac + RAM_WRITE
+                rts
+
+Notch           .byte 57, 57, 57, 50
 
     ;------------------------------------------------------------------------------
 
