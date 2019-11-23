@@ -38,6 +38,12 @@
             NEWBANK GENERIC_BANK_1
 
     DEFINE_1K_SEGMENT DECODE_LEVEL_SHADOW
+
+    IF PLUSCART = YES
+            .byte "SokobooAPI.php", #0
+	        .byte "pluscart.firmaplus.de", #0
+    ENDIF
+
             include "DecodeLevel.asm"
 
             CHECK_HALF_BANK_SIZE "GENERIC_BANK_1 (DECODE_LEVEL)"
@@ -217,7 +223,13 @@ notU0           sta BoardScrollY
 
                 lda #0
                 sta AUDV0
+
                 sta AUDV1                           ; turn off music while levels init
+
+                sta seconds
+                sta seconds+1
+
+
 ;                sta AUDC0
 
 ;                sta VBLANK
@@ -534,7 +546,7 @@ NoSKfound
     DEFINE_SUBROUTINE GenerateHighScoreCode
 
 ;rdm = random.randint(1,3)
-;encoding = [
+;__encoding = [
 ;    (rdm << 5) | (seconds >> 8),
 ;    seconds & 0xFF,
 ;    level,
@@ -565,19 +577,19 @@ rerandom        jsr Random
                 and #%11
                 beq rerandom
 
-;randomiser = (rdm << 6) | (rdm << 4) | (rdm << 2) | rdm
+;__randomiser = (rdm << 6) | (rdm << 4) | (rdm << 2) | rdm
 
                 tax
                 lda RandomMaskByte,x
-                sta randomiser
+                sta __randomiser
 
                 lda seconds+1
-                sta encoding+0                ;    (rdm << 5) | (seconds >> 8),
+                sta __encoding+0                ;    (rdm << 5) | (seconds >> 8),
                 lda seconds
-                sta encoding+1                ;    seconds & 0xFF,
+                sta __encoding+1                ;    seconds & 0xFF,
 
                 lda levelX
-                sta encoding+2                ;    level, should be < 128
+                sta __encoding+2                ;    level, should be < 128
 
     ; f'n ugly convert 2 byte (4-digit) BCD into 2 byte binary...
 
@@ -589,30 +601,30 @@ rangedOK        lda BCD_moveCounter+1
                 asl
                 tax
                 lda Times1000,x
-                sta binMoves
+                sta __binMoves
                 lda Times1000+1,x
-                sta binMoves+1
+                sta __binMoves+1
 
                 lda BCD_moveCounter+1
                 and #$F                     ; HUNDREDS 0-9
                 asl
                 tax
 
-                lda binMoves
+                lda __binMoves
                 adc Times100,x
-                sta binMoves
-                lda binMoves+1
+                sta __binMoves
+                lda __binMoves+1
                 adc Times100+1,x
-                sta binMoves+1
+                sta __binMoves+1
 
                 lda BCD_moveCounter
                 and #$F                     ;   UNITS 0-9
                 clc
-                adc binMoves
-                sta binMoves
-                lda binMoves+1
+                adc __binMoves
+                sta __binMoves
+                lda __binMoves+1
                 adc #0
-                sta binMoves+1
+                sta __binMoves+1
 
                 lda BCD_moveCounter
                 lsr
@@ -621,121 +633,153 @@ rangedOK        lda BCD_moveCounter+1
                 lsr                         ; tens
                 tax
                 clc
-                lda binMoves
+                lda __binMoves
                 adc Times10,x
-                sta binMoves
-                lda binMoves+1
+                sta __binMoves
+                lda __binMoves+1
                 adc #0
-                sta binMoves+1
+                sta __binMoves+1
 
 MAX_MOVE_COUNT = $FFF
 
-                lda binMoves+1
+                lda __binMoves+1
                 cmp #>MAX_MOVE_COUNT
                 bcc movRangeOK
                 bne movAdjust
-                lda binMoves
+                lda __binMoves
                 cmp #<MAX_MOVE_COUNT
                 bcc movRangeOK
 
 movAdjust       lda #<MAX_MOVE_COUNT
-                sta binMoves
+                sta __binMoves
                 lda #>MAX_MOVE_COUNT
-                sta binMoves+1
+                sta __binMoves+1
 
 movRangeOK
 
-                lda binMoves
-                sta encoding+4
-                lda binMoves+1
-                sta encoding+3
+                lda __binMoves
+                sta __encoding+4
+                lda __binMoves+1
+                sta __encoding+3
 
     ; generate a checksum
 
                 clc
-                lda encoding
-                adc encoding+1
+                lda __encoding
+                adc __encoding+1
                 clc
-                adc encoding+2
+                adc __encoding+2
                 clc
-                adc encoding+3
+                adc __encoding+3
                 clc
-                adc encoding+4              ;checksum = sum(encoding) & 0xF
+                adc __encoding+4              ;checksum = sum(__encoding) & 0xF
                 asl
                 asl
                 asl
                 asl
-                ora encoding+3
-                sta encoding+3                ;encoding[3] |= (checksum << 4)
+                ora __encoding+3
+                sta __encoding+3                ;__encoding[3] |= (checksum << 4)
 
 CompletedPlainEncode
 
-;for i in range(len(encoding)):
-;    encoding[i] ^= randomiser
+;for i in range(len(__encoding)):
+;    __encoding[i] ^= __randomiser
 
                 ldx #4
-xorencode       lda encoding,x
-                eor randomiser
-                sta encoding,x
+xorencode       lda __encoding,x
+                eor __randomiser
+                sta __encoding,x
                 dex
                 bpl xorencode
 
-    ; put randomiser in D6,D5 of encoding[0]
+    ; put __randomiser in D6,D5 of __encoding[0]
 
-                lda randomiser
+                lda __randomiser
                 lsr
                 and #%01100000
-                sta randomiser
+                sta __randomiser
 
-                lda encoding
+                lda __encoding
                 and #%00011111
-                ora randomiser
-                sta encoding
+                ora __randomiser
+                sta __encoding
 
 
-    ; because they were 0, and have now been xor'd with randomiser...
-    ; for top 3 bits, D7D6 now hold the relevant randomiser value. D5 is same as D7 for what it's worth
+    ; because they were 0, and have now been xor'd with __randomiser...
+    ; for top 3 bits, D7D6 now hold the relevant __randomiser value. D5 is same as D7 for what it's worth
     ; write the encoded bytes for 6502.ts emulator to intercept for web triggering
 
                 ldx #0
-emulNotify      lda encoding,x
-                ;tmp sta INPT0               ; for web interface triggering
+emulNotify      lda __encoding,x
+                sta INPT0               ; for web interface triggering
                 inx
                 cpx #5
                 bcc emulNotify
-                ;tmp stx INPT1               ; for web interface triggering
+                stx INPT1               ; for web interface triggering
 
-    ; we now have a binary version of the encoding.
+    IF PLUSCART = YES
+    ; write the digits for the PlusCart
+
+                lda PLUSCART_IO
+                cmp #PLUS0
+                bne isplus
+                lda PLUSCART_IO+1
+                cmp #PLUS1
+                bne isplus
+                lda PLUSCART_IO+2
+                cmp #PLUS2
+                bne isplus
+                lda PLUSCART_IO+3
+                cmp #PLUS3
+                beq noPlusCart
+isplus
+
+
+                ldx #0
+sendCodeToPlus  lda __encoding,x
+            	;sta $1ff0				; write to request buffer
+                inx
+                cpx #4
+                bcc sendCodeToPlus
+                lda __encoding,x
+            	;sta $1ff1				; send request buffer to Backend..
+
+noPlusCart
+
+    ENDIF
+
+
+    ; we now have a binary version of the __encoding.
     ; Convert this into 12 decimal digits
 
                 ldy #55                     ; --> high byte of 10^11
                 ldx #0
 decimalise
                 lda #0
-                sta decimal,x
+                sta __decimal,x
 
                 sec
 subonedecdigit
 .OFFSET         SET 4
                 REPEAT 5
-                lda encoding + .OFFSET
+                lda __encoding + .OFFSET
                 sbc DecimalDigit + .OFFSET,y
-                sta encoding + .OFFSET
+                sta __encoding + .OFFSET
 .OFFSET         SET .OFFSET - 1
                 REPEND
-                inc decimal,x
+                inc __decimal,x
                 bcs subonedecdigit
 
     ; add back on the 'overshoot'
 .OFFSET         SET 4
                 REPEAT 5
-                lda encoding + .OFFSET
+                lda __encoding + .OFFSET
                 adc DecimalDigit + .OFFSET,y
-                sta encoding + .OFFSET
+                sta __encoding + .OFFSET
 .OFFSET         SET .OFFSET - 1
                 REPEND
 
-                dec decimal,x
+                dec __decimal,x
 
                 inx
 
@@ -747,9 +791,9 @@ subonedecdigit
 
                 bpl decimalise
 
-    ; on exit, the 12 decimal digits are in 'decimal'
+    ; on exit, the 12 decimal digits are in '__decimal'
 
-CheckDecimal                rts
+                rts
 
 DecimalDigit    .byte %00000000,%00000000,%00000000,%00000000,%00000001     ; 10^0
                 .byte %00000000,%00000000,%00000000,%00000000,%00001010     ; 10^1
@@ -771,5 +815,13 @@ RandomMaskByte  .byte 0, %01010101, %10101010, %11111111
 Times10         .byte 0, 10, 20, 30, 40, 50, 60, 70, 80, 90
 Times100        .word 0, 100, 200, 300, 400, 500, 600, 700, 800, 900
 Times1000       .word 0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000
+
+
+
+
+
+
+
+
 
             CHECK_BANK_SIZE "GENERIC_BANK_1 -- full 2K"
