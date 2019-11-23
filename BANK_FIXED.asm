@@ -1509,50 +1509,23 @@ setPlat         stx SET_BANK_RAM
 
 
 
-#if 1
-    MAC USEX
-.LY SET 0
-    .byte 1
-    .byte {1}
-    REPEAT 10
-    IF {1}=.LY
-        .byte .LY
-    ENDIF
-.LY SET .LY+1
-    REPEND
-    ENDM
 
 
-.LX SET 0
-    .byte 0
-    REPEAT
-    USEX 0
-.LX SET .LX+1
-    REPEND
-#endif
-
-
-    MAC TEST
-    .byte 0
-    ENDM
-
-    MAC Test
-    .byte 1
-    ENDM
-
-    MAC TEST
-    .byte 2
-    ENDM
-
-    TEST
-
-
-
-    ECHO "FREE BYTES IN FIXED BANK = ", $FFFB - *
+    ECHO "FREE BYTES IN FIXED BANK = ", $FFF0 - *
 
     ;---------------------------------------------------------------------------
     ; The reset vectors
     ; these must live in the fixed bank (last 2K of any ROM image in TigerVision)
+
+                SEG PlusCart
+                ORG FIXED_BANK + $7F0
+                RORG $7FF0
+PLUSCART_IO = *
+PLUS0 = %10101010
+PLUS1 = %00011001
+PLUS2 = %10101111
+PLUS3 = %00110110
+                .byte PLUS0,PLUS1,PLUS2,PLUS3
 
                 SEG InterruptVectors
                 ORG FIXED_BANK + $7FC
