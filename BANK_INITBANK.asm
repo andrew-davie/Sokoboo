@@ -683,7 +683,7 @@ waitingManPress
                 ;lda NextLevelTrigger
                 ;ora #BIT_NEXTLIFE
 
-                lda #0
+                lda #32
                 sta NextLevelTrigger
                 rts
 
@@ -1158,5 +1158,8 @@ OBJTYPE    .SET OBJTYPE + 1
     include "sound/intro1_trackdata.asm"
 
 ;------------------------------------------------------------------------------
+
+
+
 
     CHECK_BANK_SIZE "INITBANK"

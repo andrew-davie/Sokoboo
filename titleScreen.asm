@@ -1,4 +1,12 @@
   NEWBANK TITLESCREEN
+
+OverscanTime2
+    .byte 26, 26
+    .byte 32, 32
+
+colvec
+    .word colr_ntsc, colr_pal
+
   DEFINE_SUBROUTINE TitleScreen
 
   ; Start of new frame
@@ -13,17 +21,42 @@ TitleSequence
 
                 ldx Platform
                 lda colvec,x
-                sta colour_table
+                sta title_colour_table
                 lda colvec+1,x
-                sta colour_table+1
+                sta title_colour_table+1
 
-                sta rndHi
-                sta rnd
+;                sta rndHi
+;                sta rnd
+
+
+                lda #0
+                sta digit
+                lda #$10
+                sta digit+1
+                lda #$20
+                sta digit+2
+
+
 
 
                 RESYNC
 
+RestartFrame0
+
+#if 0
+                ldx #2
+rollcols        clc
+                lda digit+2
+                adc #$10
+                sta digit+2
+                bcc finxc
+                dex
+                bpl rollcols
+finxc
+#endif
+
     DEFINE_SUBROUTINE RestartFrame
+                LDA #0
                 lda #%1110                       ; VSYNC ON
 .loopVSync2     sta WSYNC
                 sta VSYNC
@@ -31,8 +64,6 @@ TitleSequence
                 bne .loopVSync2                  ; branch until VYSNC has been reset
 
       ;------------------------------------------------------------------
-
-
 
                 ldx Platform
                 ldy VBlankTime,x
@@ -71,6 +102,7 @@ VerticalBlank   sta WSYNC
                 ldy #210-1  ; this counts our scanline number
 SokoLogo        ldx #3
 triplet         lda (colour_table),y
+;    eor digit-1,x
                 sta WSYNC
                 sta COLUPF         ; 3
 
@@ -97,10 +129,10 @@ triplet         lda (colour_table),y
                 cpy #-1      ; 2
                 bne SokoLogo ; 2(3)
 
-                lda #0
-                sta PF0
-                sta PF1
-                sta PF2
+                ;lda #0
+                ;sta PF0
+                ;sta PF1
+                ;sta PF2
 
                 ldx Platform
                 lda OverscanTime2,x
@@ -127,10 +159,10 @@ triplet         lda (colour_table),y
 
       ;--------------------------------------------------------------------------
 
-;              lda #0
-;              sta PF0
-;              sta PF1
-;              sta PF2
+              lda #0
+              sta PF0
+              sta PF1
+              sta PF2
 
 
                 NEXT_RANDOM
@@ -145,19 +177,38 @@ oscan
                 lda #%01000010                  ; bit6 is not required
                 sta VBLANK                      ; end of screen - enter blanking
 
+#if 0
+    inc rnd
+    bne rdd
+    inc rndHi
+rdd
+
+    dec digitick
+    bpl ret2
+    lda #40
+    sta digitick
+
+    jsr Random
+    and #3
+    beq ret2
+    tax
+    jsr Random
+    and #$F0
+    sta digit-1,x
+    jmp RestartFrame0
+
+ret2
+#endif
+
+
                 lda INPT4
                 bpl ret
 
                 jmp RestartFrame
 
-ret             rts
+ret
+             rts
 
-OverscanTime2
-    .byte 26, 26
-    .byte 33, 33
-
-colvec
-    .word colr_ntsc, colr_pal
 
 
     MAC LUMTABLE ;{1}{2}{3} base colours
@@ -177,6 +228,11 @@ colvec
             .byte {1}+(.LUM1/256)
             .byte {2}+(.LUM2/256)
             .byte {3}+(.LUM3/256)
+
+;    ECHO {1}+(.LUM1/256)
+;    ECHO {2}+(.LUM1/256)
+;    ECHO {3}+(.LUM1/256)
+
 .LUM1     SET .LUM1 + .STEP1
 .LUM2     SET .LUM2 + .STEP2
 .LUM3     SET .LUM3 + .STEP3
@@ -185,13 +241,16 @@ colvec
 
 ;colr_pal    LUMTABLE $B0,$30,$A0,0,8,4 ;2,4,6
 ;    OPTIONAL_PAGEBREAK "colr_ntsc", 72*3
-colr_ntsc   LUMTABLE $A0,$50,$30,$A,$2,$E,$8,$E,$8
+
+;    ECHO "NTSC LUMS"
+colr_ntsc
+   LUMTABLE $A0,$10,$30,$4,$8,$A,$C,$2,$8
 ;colr_ntsc   LUMTABLE $70,$40,$a0,$A,$2,$E,$8,$E,$8
 
-
+;    ECHO "PAL LUMS"
 ;    OPTIONAL_PAGEBREAK "colr_pal", 72*3
 ;colr_pal        LUMTABLE $b0, $60, $20, $A,$6,$C,$8,$C,$8
-colr_pal        LUMTABLE $90, $b0, $60, $6,$8,$a,$6,$a,$a
+colr_pal        LUMTABLE $90, $20, $60, $6,$A,$a,$C,$6,$8
 
     include "titleData.asm"
 ;    include "pizza.asm"

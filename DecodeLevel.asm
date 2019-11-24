@@ -152,15 +152,10 @@ inten
 
   DEFINE_SUBROUTINE UnpackLevel
 
-              sta RAM_Bank
-
-  ; has to be done before decoding the level to have the platform right:
-    ;          SET_PLATFORM
+                sta RAM_Bank
 
                 lda #BANK_UnpackLevel               ; the *ROM* bank of this routine (NOT RAM)
                 sta ROM_Bank                        ; GetROMByte returns to this bank
-
-
 
                 lda #CHARACTER_SOIL
                 sta POS_Type
@@ -222,21 +217,103 @@ posicc          cmp #$31
                 sta takebackBaseIndex
                 sta BCD_targetsRequired           ; # of targets that do NOT have boxes on them
 
-;              ldx Platform
-;              lda theThrottler,x
-;              sta ThrottleSpeed
-
-  ; first fill bg with character_soil
-  ; then rle unpack level
-  ; change level colours
-
-                lda #0
                 sta POS_X
                 sta POS_Y
                 sta BoardLimit_Width
                 sta BoardLimit_Height
 
+    ; Copy the ROM definition to the RAM buffer, and then use the RAM buffer for unpacking
+    ; This facilitates downloading PlusCart levels into the RAM buffer in the future
+
+                ldx #0
+                stx UnpackIndex
+
+CopyLevelDefinition
+
+                inc Board_AddressR
+                bne NoPageX
+                inc Board_AddressR+1
+NoPageX
+
+                lda LEVEL_bank
+                ldy #0
+                jsr GetROMByte
+
+                ldx #BANK_DECODE_LEVEL
+                stx SET_BANK_RAM
+                ldx UnpackIndex
+                sta LevelDecodeBuffer + RAM_WRITE,x
+
+                inc UnpackIndex
+
+                cmp #0                  ; the fetched byte
+                bne CopyLevelDefinition
+
+
+    IF PLUSCART = YES
+
+                lda #$44
+                sta COLUBK
+
+                lda PLUSCART_IO
+                cmp #PLUS0
+                bne isplus0
+                lda PLUSCART_IO+1
+                cmp #PLUS1
+                bne isplus0
+                lda PLUSCART_IO+2
+                cmp #PLUS2
+                bne isplus0
+                lda PLUSCART_IO+3
+                cmp #PLUS3
+                beq noPlusCart0
+isplus0
+
+
+    ; Request level 0
+            	lda #0		               ; the level id from DB you want to download
+            	sta $1ff0	               ; first byte for send buffer
+            	sta $1ff1                  ; last byte (should be used for function select at backend)
+
+    ; A kludged "long wait" for $1FF3 to be zero
+
+
+startAgain      ldx #0
+                ldy #0
+Cdtimer         lda $1ff3
+                beq startAgain          ; zero means we restart the wait
+                inx
+                bne Cdtimer
+                iny
+                bne Cdtimer             ; we exit when it's been non-zero for quite a while
+
+    ; 1FF3 has been non-zero for some time, so... grab the level data to the buffer
+
+FillBufferFromInternet
+                lda $1FF2
+                sta LevelDecodeBuffer + RAM_WRITE,x
+                inx
+                lda $1FF3
+                bne FillBufferFromInternet
+                sta LevelDecodeBuffer + RAM_WRITE,x         ; zero terminate
+
+noPlusCart0
+                lda #0
+                sta COLUBK
+
+    ENDIF
+
+
+                lda #<(LevelDecodeBuffer-1)
+                sta Board_AddressR
+                lda #>(LevelDecodeBuffer-1)
+                sta Board_AddressR+1
+
+
 GetNextItem
+
+    ; At this point we are proceeding with the unpack
+    ; We have the level stored in the RAM buffer "LevelDecodeBuffer"
 
                 lda #1
                 sta upk_length
@@ -248,12 +325,13 @@ Get2            inc Board_AddressR
                 inc Board_AddressR+1
 addrOK
 
-                lda LEVEL_bank
+                ;lda LEVEL_bank
                 ldy #0
-                jsr GetROMByte
+                lda (Board_AddressR),y
+                ;jsr GetROMByte
                 sta upk_temp       ;scratch
 
-                cmp #0
+                ;cmp #0
                 bne parse
                 jmp  finX
 parse
@@ -306,75 +384,75 @@ checkWall       cmp #"#"          ; wall
                 adc #CHARACTER_STEEL
                 bne WriteChars
 
-checkForGap   cmp #32
-              beq writeGap
-              cmp #"-"
-              beq writeGap
-              cmp #"_"
-              bne checkForMan
+checkForGap     cmp #32
+                beq writeGap
+                cmp #"-"
+                beq writeGap
+                cmp #"_"
+                bne checkForMan
 
-writeGap      lda #CHARACTER_BLANK
-              jmp WriteChars
+writeGap        lda #CHARACTER_BLANK
+                jmp WriteChars
 
 checkForMan
-              cmp #"+"            ; player on goal square
-              bne notPlayerGoal
+                cmp #"+"            ; player on goal square
+                bne notPlayerGoal
 
-              jsr RegisterTarget
+                jsr RegisterTarget
 
               ; put goal square, init player with POS_VAR = CHARACTER_TARGET
 
-              lda #CHARACTER_TARGET
-              bne genPlayer
+                lda #CHARACTER_TARGET
+                bne genPlayer
 
 notPlayerGoal
-               cmp #"@"            ; player on normal square
-               bne checkBox
+                cmp #"@"            ; player on normal square
+                bne checkBox
 
-              lda #CHARACTER_BLANK
+                lda #CHARACTER_BLANK
 
 genPlayer
 
-              sta POS_VAR                     ; character man is on
+                sta POS_VAR                     ; character man is on
 
-              clc
-              lda POS_X
-              pha
-              adc base_x
-              sta POS_X
-              sta ManX
+                clc
+                lda POS_X
+                pha
+                adc base_x
+                sta POS_X
+                sta ManX
 
-              lda POS_Y
-              pha
-              adc base_y
-              sta POS_Y
-              sta ManY
+                lda POS_Y
+                pha
+                adc base_y
+                sta POS_Y
+                sta ManY
 
               ; POS_X     x position
               ; POS_Y     y position
               ; POS_VAR   CHARACTER UNDER MAN TO RESTORE
               ; POS_Type  type of object
 
-              lda #TYPE_MAN
-              sta POS_Type                    ;       creature TYPE
-              jsr InsertObjectStackFromRAM    ;6+94(B)
+                lda #TYPE_MAN
+                sta POS_Type                    ;       creature TYPE
+                jsr InsertObjectStackFromRAM    ;6+94(B)
 
-              pla
-              sta POS_Y
-              pla
-              sta POS_X
+                pla
+                sta POS_Y
+                pla
+                sta POS_X
 
-              lda #CHARACTER_MANOCCUPIED
-              jmp WriteChars
+                lda #CHARACTER_MANOCCUPIED
+                jmp WriteChars
 
-checkBox      cmp #"$"
-              bne checkBoxTarget
+checkBox        cmp #"$"
+                bne checkBoxTarget
 
-              lda #CHARACTER_BOX
-              bne WriteChars
+                lda #CHARACTER_BOX
+                bne WriteChars
 
 checkBoxTarget  cmp #"*"
-              bne checkTarget
+                bne checkTarget
 
               lda #CHARACTER_BOX_ON_TARGET
               bne WriteChars
@@ -432,3 +510,7 @@ finishedUnpack
 
               rts
 #endif
+
+
+
+LevelDecodeBuffer   ds 256

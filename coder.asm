@@ -188,7 +188,7 @@ correct3a         and #%11111110
                 sta codeDelay+1
 
                 ldx #11
-xferdigits      lda codeDigit,x         ; == decimal,x
+xferdigits      lda codeDigit,x         ; == __decimal,x
                 asl
                 ora #1                  ; NOT locked
                 sta codeDigit,x
@@ -217,6 +217,13 @@ xferdigits      lda codeDigit,x         ; == decimal,x
 
 
   DEFINE_SUBROUTINE xLevelScreen
+
+                lda NextLevelTrigger
+                and #32
+                beq allGood
+                rts
+allGood
+
 
                 jsr xSelectionScreenInit
 

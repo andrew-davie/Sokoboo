@@ -151,6 +151,7 @@ ColourTimer                     ds 1            ; colour of BG in scoring area t
 NextLevelTrigger                ds 1            ; d7 -- next level.  d6 -- loss of life
 BIT_NEXTLEVEL                   = 128
 BIT_NEXTLIFE                    = 64
+BIT_NEXTRESET                   = 32            ; reset-triggered next level
 
 ;------------------------------------------------------------------------------
 

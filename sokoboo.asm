@@ -97,6 +97,7 @@ DISPLAY_HIGH                = %11
 
 DIGITS = NO
 WAIT_FOR_INITIAL_DRAW = YES             ; blank until all initial tiles drawn
+PLUSCART = YES
 
 ;------------------------------------------------------------------------------
 
@@ -406,10 +407,10 @@ ORIGIN_RAM      SET ORIGIN_RAM + RAM_SIZE
 ;------------------------------------------------------------------------------
     OVERLAY GenerateHighScoreCode
 
-decimal         ds 12                   ; MUST be 1st - same var as codeDigit
-binMoves        ds 2
-encoding         ds 5
-randomiser      ds 1
+__decimal         ds 12                   ; MUST be 1st - same var as codeDigit
+__binMoves        ds 2
+__encoding         ds 5
+__randomiser      ds 1
 
     VALIDATE_OVERLAY "GenerateHighScoreCode"
 
@@ -468,7 +469,7 @@ halftimer           ds 1
 
 ;------------------------------------------------------------------------------
 
-    OVERLAY TitleScreen
+    OVERLAY LevelScreen
 colour_table           ds 2
 digit1                  ds 2
 digit2                  ds 2
@@ -484,6 +485,11 @@ walkSpeed               ds 1
 manc                    ds 2
 wallColour              ds 1
 adjustColour            ds 1
+    VALIDATE_OVERLAY "LevelScreen"
+
+
+    OVERLAY TitleScreen
+title_colour_table           ds 2
     VALIDATE_OVERLAY "TitleScreen"
 
 
@@ -585,6 +591,8 @@ base_y                  ds 1
 upk_length              ds 1
 upk_column              ds 1
 upk_temp                ds 1
+UnpackIndex             ds 1
+
 ;icc_colour              ds 3
 
     ;ECHO "FREE BYTES IN UnpackLevelOverlay = ", OVERLAY_SIZE - ( * - Overlay )
@@ -825,10 +833,10 @@ MAX_LEVEL_SIZE SET LEVEL_SIZE_{1}
 
 ;ORIGIN      SET 0
 
+            include "BANK_GENERIC.asm"
             include "BANK_ROM_SHADOW_RAMBANK.asm"
             include "BANK_ROM_SHADOW_DRAWBUFFERS.asm"
             include "BANK_ROM_SHADOW_SCORING.asm"
-            include "BANK_GENERIC.asm"
             include "BANK_LEVELS_TABLES.asm"
             include "BANK_LEVELS1.asm"
             include "BANK_LEVELS2.asm"
